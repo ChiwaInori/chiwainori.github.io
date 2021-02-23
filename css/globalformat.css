@@ -7,7 +7,7 @@ body {
     background-repeat: no-repeat;
 }
 
-h3, h4, h6, .content p, .links p, .copyright p, input, .content img {
+h3, h4, h6, .content p, .links p, .copyright p, input, .content img, video source, audio source {
     margin: 0px 0px 10px 40px;
 }
 
