@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Puremilk 三周目入服登记查询 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <script>
+        <!--
+        function search() {
+            var search = document.getElementById('ipt').value;
+            var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer'];
+            var waiting = ['LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT',"Viller_Fan"];
+            var denied = ['Alpha_X_'];
+            if (accepted.indexOf(search) > -1) {
+                document.getElementById('res1163').style = 'color: #00dd00;';
+                document.getElementById("res1163").innerHTML = "该玩家的申请入服请求已被接受。";
+            }
+
+            if (waiting.indexOf(search) > -1) {
+                document.getElementById('res1163').style = 'color: #dda800;';
+                document.getElementById("res1163").innerHTML = "该玩家已申请入服，正在等待结果。";
+            }
+
+            if (denied.indexOf(search) > -1) {
+                document.getElementById('res1163').style = 'color: #dd0000;';
+                document.getElementById("res1163").innerHTML = "该玩家的申请入服请求已被拒绝。";
+            }
+
+            if (accepted.indexOf(search) == -1) {
+                if (waiting.indexOf(search) == -1) {
+                    if (denied.indexOf(search) == -1) {
+                        document.getElementById('res1163').style = 'color: #dd0000;';
+                        document.getElementById("res1163").innerHTML = "该玩家尚未申请入服。";
+                    }
+                }
+            }
+
+            document.getElementById("restitle").innerHTML = search + " 的查询结果";
+        }
+        //-->
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">Puremilk 三周目入服登记查询</h1>
+    </div>
+    <div class="content">
+        <p>
+            点击前往
+            <a href="https://docs.qq.com/form/page/DS0FWRWtvYkdrdXhK?_w_tencentdocx_form=1" target="_blank">入服登记收集表</a>
+            。
+        </p>
+        <br />
+        <p>在下面的框中输入要查询的玩家ID (区分大小写)，然后点击"查询"按钮即可查询。</p>
+        <input id="ipt" type="text" />
+        <button id="searchbutton" onclick="search()">查询</button>
+        <br />
+        <br />
+        <noscript>
+            <p style="color: #ff0000"><strong>您的浏览器不支持或已禁用JavaScript。请启用JavaScript以进行三周目入服登记查询。</strong></p><br /><br />
+        </noscript>
+        <h3 id="restitle">查询结果</h3>
+        <p id="res1163" style="color: #aaaaaa;">查询结果将会在此处显示</p>
+        <br />
+        <p><strong>通知: 本网站并不会实时更新，仅用作参考。</strong></p>
+    </div>
+</body>
+
+</html>
