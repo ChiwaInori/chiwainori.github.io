@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
     <script>
         <!--
+        function button() {
+            var ipt = document.getElementById('ipt').value;
+            if (ipt.toString().length < 1) {
+                document.getElementById("searchbutton").disabled = true;
+                document.getElementById("searchbutton").innerHTML = "无效";
+            }
+
+            if (ipt.toString().length >= 1) {
+                document.getElementById("searchbutton").disabled = false;
+                document.getElementById("searchbutton").innerHTML = "查询";
+            }
+        }
+
         function search() {
             var search = document.getElementById('ipt').value;
             var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641'];
@@ -47,8 +60,8 @@
         </p>
         <br />
         <p>在下面的框中输入要查询的玩家ID (区分大小写)，然后点击"查询"按钮即可查询。</p>
-        <input id="ipt" type="text" />
-        <button id="searchbutton" onclick="search()">查询</button>
+        <input id="ipt" type="text" onkeyup="button()" />
+        <button id="searchbutton" onclick="search()" disabled="disabled">无效</button>
         <br />
         <br />
         <noscript>

@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
     <script>
         <!--
+        function button() {
+            var ipt = document.getElementById('ipt').value;
+            if (ipt.toString().length < 1) {
+                document.getElementById("searchbutton").disabled = true;
+                document.getElementById("searchbutton").innerHTML = "无效";
+            }
+
+            if (ipt.toString().length >= 1) {
+                document.getElementById("searchbutton").disabled = false;
+                document.getElementById("searchbutton").innerHTML = "查询";
+            }
+        }
+
         function search() {
             var search = document.getElementById('ipt').value;
             var reg1163 = ['blue_hair030','breezecanyve123','Coifin_seryn','Drakenel1','DarkShadow4890','Empty_City_404','FYB_0202','harryxuhd','heifeng234','HidekiShiro','himtu','ironman1257_9','kisin_123','kw_0w0','lao_die','Lea_Cnaa','liang_abab','Lirmn_craf','LuBenWeiNoHaxxx','Mangguo_CAT','Miracle_Ae','modepipiyu','Oitr','oliver4030','papyrus233','SarashJump','shi14','sky_bow_chrs','Sunyuxin','Viller_Fan','wang133ooo','Water_le','WhiteDreamSnow','Wu_Qi_A','xjrl','xtsdcb69','zhizhang520','zhi_hu23','zhuang_jia'];
@@ -48,8 +61,8 @@
     </div>
     <div class="content">
         <p>在下面的框中输入要查询的玩家ID (区分大小写)，然后点击"查询"按钮即可查询。</p>
-        <input id="ipt" type="text" />
-        <button id="searchbutton" onclick="search()">查询</button>
+        <input id="ipt" type="text" onkeyup="button()" />
+        <button id="searchbutton" onclick="search()" disabled="disabled">无效</button>
         <br />
         <br />
         <noscript><p style="color: #ff0000"><strong>您的浏览器不支持或已禁用JavaScript。请启用JavaScript以进行人口普查登记查询。</strong></p><br /><br /></noscript>
