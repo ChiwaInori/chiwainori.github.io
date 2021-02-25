@@ -25,18 +25,21 @@
             var search = document.getElementById('ipt').value;
             var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641','TaKimiao_sauce'];
             var denied1 /* 无效ID */ = ['Ice aurum'];
-            var denied2_0 /* 无粉丝牌 */ = ['Alpha_X_','fxxker_doge'];
-            var denied2_1 /* 1级粉丝牌 */ = [];
-            var denied3 /* 被封禁 */ = [];
+            var denied2 /* 无效正版账号 (无效ID除外) */ = ['fxxker_doge','CN_YH'];
+            var denied3_0 /* 无粉丝牌 */ = ['Alpha_X_','fxxker_doge'];
+            var denied3_1 /* 1级粉丝牌 */ = [];
+            var denied4 /* 被封禁 */ = [];
             if (accepted.indexOf(search) > -1) {
                 document.getElementById('result').style = 'color: #00dd00;';
                 document.getElementById("result").innerHTML = "该玩家的申请入服请求已被接受。";
                 document.getElementById('req1').style = 'color: #00dd00;';
                 document.getElementById("req1").innerHTML = '✓ 有效ID';
                 document.getElementById('req2').style = 'color: #00dd00;';
-                document.getElementById("req2").innerHTML = '✓ 2级或更高级粉丝牌';
+                document.getElementById("req2").innerHTML = '✓ 正版账号';
                 document.getElementById('req3').style = 'color: #00dd00;';
-                document.getElementById("req3").innerHTML = '✓ 未被封禁';
+                document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+                document.getElementById('req4').style = 'color: #00dd00;';
+                document.getElementById("req4").innerHTML = '✓ 未被封禁';
             }
 
             if (denied1.indexOf(search) > -1) {
@@ -49,47 +52,63 @@
                 document.getElementById("req1").innerHTML = '✓ 有效ID';
             }
 
-            if (denied2_0.indexOf(search) > -1) {
-                document.getElementById('result').style = 'color: #dd0000;';
-                document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
-                document.getElementById('req2').style = 'color: #dd0000;';
-                document.getElementById("req2").innerHTML = '✘ 无粉丝牌';
-            } else if (denied2_1.indexOf(search) == -1) {
-                document.getElementById('req2').style = 'color: #00dd00;';
-                document.getElementById("req2").innerHTML = '✓ 2级或更高级粉丝牌';
+            if (denied1.indexOf(search) == -1) {
+                if (denied2.indexOf(search) > -1) {
+                    document.getElementById('result').style = 'color: #dd0000;';
+                    document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
+                    document.getElementById('req2').style = 'color: #dd0000;';
+                    document.getElementById("req2").innerHTML = '✘ 无效正版账号';
+                } else {
+                    document.getElementById('req2').style = 'color: #00dd00;';
+                    document.getElementById("req2").innerHTML = '✓ 正版账号';
+                }
             }
 
-            if (denied2_1.indexOf(search) > -1) {
-                document.getElementById('result').style = 'color: #dd0000;';
-                document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
-                document.getElementById('req2').style = 'color: #dd0000;';
-                document.getElementById("req2").innerHTML = '✘ 1级粉丝牌';
-            } else if (denied2_0.indexOf(search) == -1) {
-                document.getElementById('req2').style = 'color: #00dd00;';
-                document.getElementById("req2").innerHTML = '✓ 2级或更高级粉丝牌';
-            }
-
-            if (denied3.indexOf(search) > -1) {
+            if (denied3_0.indexOf(search) > -1) {
                 document.getElementById('result').style = 'color: #dd0000;';
                 document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
                 document.getElementById('req3').style = 'color: #dd0000;';
-                document.getElementById("req3").innerHTML = '✘ 被封禁';
-            } else {
+                document.getElementById("req3").innerHTML = '✘ 无粉丝牌';
+            } else if (denied3_1.indexOf(search) == -1) {
                 document.getElementById('req3').style = 'color: #00dd00;';
-                document.getElementById("req3").innerHTML = '✓ 未被封禁';
+                document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+            }
+
+            if (denied3_1.indexOf(search) > -1) {
+                document.getElementById('result').style = 'color: #dd0000;';
+                document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
+                document.getElementById('req3').style = 'color: #dd0000;';
+                document.getElementById("req3").innerHTML = '✘ 1级粉丝牌';
+            } else if (denied3_0.indexOf(search) == -1) {
+                document.getElementById('req3').style = 'color: #00dd00;';
+                document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+            }
+
+            if (denied4.indexOf(search) > -1) {
+                document.getElementById('result').style = 'color: #dd0000;';
+                document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
+                document.getElementById('req4').style = 'color: #dd0000;';
+                document.getElementById("req4").innerHTML = '✘ 被封禁';
+            } else {
+                document.getElementById('req4').style = 'color: #00dd00;';
+                document.getElementById("req4").innerHTML = '✓ 未被封禁';
             }
 
             if (accepted.indexOf(search) == -1) {
                 if (denied1.indexOf(search) == -1) {
-                    if (denied2_0.indexOf(search) == -1) {
-                        if (denied2_1.indexOf(search) == -1) {
-                            if (denied3.indexOf(search) == -1) {
-                                document.getElementById('result').style = 'color: #dda800;';
-                                document.getElementById("result").innerHTML = "该玩家尚未申请入服或正在等待结果。";
-                                document.getElementById('req1').style = 'color: #666666;';
-                                document.getElementById("req1").innerHTML = '● 有效ID';
-                                document.getElementById('req2').style = 'color: #666666;';
-                                document.getElementById("req2").innerHTML = '● 2级粉丝牌';
+                    if (denied2.indexOf(search) == -1) {
+                        if (denied3_0.indexOf(search) == -1) {
+                            if (denied3_1.indexOf(search) == -1) {
+                                if (denied4.indexOf(search) == -1) {
+                                    document.getElementById('result').style = 'color: #dda800;';
+                                    document.getElementById("result").innerHTML = "该玩家尚未申请入服或正在等待结果。";
+                                    document.getElementById('req1').style = 'color: #666666;';
+                                    document.getElementById("req1").innerHTML = '● 有效ID';
+                                    document.getElementById('req2').style = 'color: #666666;';
+                                    document.getElementById("req2").innerHTML = '● 正版账号';
+                                    document.getElementById('req3').style = 'color: #666666;';
+                                    document.getElementById("req3").innerHTML = '● 2级粉丝牌';
+                                }
                             }
                         }
                     }
@@ -125,11 +144,12 @@
         <p id="result" style="color: #aaaaaa;">查询结果将会在此处显示</p>
         <br />
         <p id="req1">● 有效ID</p>
-        <p id="req2">● 2级粉丝牌</p>
-        <p id="req3">● 未被封禁</p>
+        <p id="req2">● 正版账号</p>
+        <p id="req3">● 2级粉丝牌</p>
+        <p id="req4">● 未被封禁</p>
         <br />
         <p><strong>通知: 本网站并不会实时更新，仅用作参考。</strong></p>
-        <p>上次更新: 2021.2.25 11:51</p>
+        <p>上次更新: 2021.2.25 13:40</p>
     </div>
 </body>
 
