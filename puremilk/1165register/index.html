@@ -25,7 +25,7 @@
             var search = document.getElementById('ipt').value;
             var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641','TaKimiao_sauce'];
             var denied1 /* 无效ID */ = ['Ice aurum'];
-            var denied2 /* 无效正版账号 (无效ID除外) */ = ['fxxker_doge','CN_YH'];
+            var denied2 /* 无效正版账号 (无效ID除外) */ = ['fxxker_doge','CN_YH','FLAG_emmm','thestorm36582'];
             var denied3_0 /* 无粉丝牌 */ = ['Alpha_X_','fxxker_doge'];
             var denied3_1 /* 1级粉丝牌 */ = [];
             var denied4 /* 被封禁 */ = [];
@@ -47,6 +47,8 @@
                 document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。";
                 document.getElementById('req1').style = 'color: #dd0000;';
                 document.getElementById("req1").innerHTML = '✘ 无效ID';
+                document.getElementById('req2').style = 'color: #666666;';
+                document.getElementById("req2").innerHTML = '● 正版账号';
             } else {
                 document.getElementById('req1').style = 'color: #00dd00;';
                 document.getElementById("req1").innerHTML = '✓ 有效ID';
