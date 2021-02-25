@@ -23,22 +23,30 @@
 
         function search() {
             var search = document.getElementById('ipt').value;
-            var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641'];
-            var denied = ['Alpha_X_','fxxker_doge'];
+            var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641','TaKimiao_sauce'];
+            var denied1 = ['Alpha_X_','fxxker_doge'];
+            var denied2 = ['Ice aurum']
             if (accepted.indexOf(search) > -1) {
                 document.getElementById('result').style = 'color: #00dd00;';
                 document.getElementById("result").innerHTML = "该玩家的申请入服请求已被接受。";
             }
 
-            if (denied.indexOf(search) > -1) {
+            if (denied1.indexOf(search) > -1) {
                 document.getElementById('result').style = 'color: #dd0000;';
                 document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。原因: 提供的照片无法证明该用户拥有牛奶2级粉丝牌。";
             }
 
+            if (denied2.indexOf(search) > -1) {
+                document.getElementById('result').style = 'color: #dd0000;';
+                document.getElementById("result").innerHTML = "该玩家的申请入服请求已被拒绝。原因: 无效玩家ID。";
+            }
+
             if (accepted.indexOf(search) == -1) {
-                if (denied.indexOf(search) == -1) {
-                    document.getElementById('result').style = 'color: #dda800;';
-                    document.getElementById("result").innerHTML = "该玩家尚未申请入服或正在等待结果。";
+                if (denied1.indexOf(search) == -1) {
+                    if (denied2.indexOf(search) == -1) {
+                        document.getElementById('result').style = 'color: #dda800;';
+                        document.getElementById("result").innerHTML = "该玩家尚未申请入服或正在等待结果。";
+                    }
                 }
             }
 
@@ -71,7 +79,7 @@
         <p id="result" style="color: #aaaaaa;">查询结果将会在此处显示</p>
         <br />
         <p><strong>通知: 本网站并不会实时更新，仅用作参考。</strong></p>
-        <p>上次更新: 2021.2.25 11:42</p>
+        <p>上次更新: 2021.2.25 11:51</p>
     </div>
 </body>
 
