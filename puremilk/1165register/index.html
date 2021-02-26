@@ -23,13 +23,14 @@
 
         function search() {
             var search = document.getElementById('ipt').value;
-            var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641','TaKimiao_sauce','vowtodie','tian_wan','Re6','cfzoo','xQuiiCkz','Hewwoy','KennieCCC','ItsSh1ro','Oitr','CyanLemon','VAN6587','Lake_YT','FYanLn1','ymnbygl','WRCSGUJ','Jinenze','Skull_ah','TrainKingNoe','CY_wl','kyi_kyi','ruama','Chenghouyu','LzYoRHa','tian_wan','the_xiaoxiang','DFMY2537','Wolf_Tcoyote','cmd_xy','ycyc233','MUZE_QAQ','Wu_Qi_Bz','tsaracex','HeiSpirit','BADNULL','k3Ep','PyriasNL','Small_snowflack','TaPFaTE__','Zaid_J','wu__xv','wang133ooo','Negai_Oliver','LRainChan','xiaogui_','Purple_Zimu_','FLAG_emmm','thestorm36582','PsyOpsSans','NIC555','Misaka11425','dozxc','Threecatsiii','Rain_Qiu','sorakadoame','MickCAP7','OLG_fastfood','tinas_dada','YeZhiYing','grand_ptys','Lingfong0','Liamtp','oldeight666','AxiFK','peterkl','EBXXIV','Docin_9527','kagurameavov','MickCAP7','Ice_aurum','userl107','Hacker_no_mum','Big__Cake','xiaoshen580','samassembly','BFXF666','xiao_fia','Dawn_LightTIH','Mighty_Breaker_X','qqppqp','luo_jiang','bilibili_danmuji','Alpha_X_'];
+            var accepted = ['xtsdcb69','sky_bow_chrs','modepipiyu','Wi_Sgr','sgw19221','Wu_Qi_A','Jie_Xia','_Superfish','wkj_','Yuyuyu_Ganer','LogicUniverse','HaNa_AO','tuffkotte','G_ming_110','Muirseth','Coifin_seryn','zhangbeihai6','Yan_Feng4002','jiu_dian','bo_ki_QAQ','Flappy_Boy_','minecraftxixi472','Reaksol','LuBenWeiNoHaxxx','_81_','Mangguo_CAT','Viller_Fan','kamibaiwei','zhuang_jia','NIUNAI_milk','1461130641','TaKimiao_sauce','vowtodie','tian_wan','Re6','cfzoo','xQuiiCkz','Hewwoy','KennieCCC','ItsSh1ro','Oitr','CyanLemon','VAN6587','Lake_YT','FYanLn1','ymnbygl','WRCSGUJ','Jinenze','Skull_ah','TrainKingNoe','CY_wl','kyi_kyi','ruama','Chenghouyu','LzYoRHa','tian_wan','the_xiaoxiang','DFMY2537','Wolf_Tcoyote','cmd_xy','ycyc233','MUZE_QAQ','Wu_Qi_Bz','tsaracex','HeiSpirit','BADNULL','k3Ep','PyriasNL','Small_snowflack','TaPFaTE__','Zaid_J','wu__xv','wang133ooo','Negai_Oliver','LRainChan','xiaogui_','Purple_Zimu_','FLAG_emmm','thestorm36582','PsyOpsSans','NIC555','Misaka11425','dozxc','Threecatsiii','Rain_Qiu','sorakadoame','MickCAP7','OLG_fastfood','tinas_dada','YeZhiYing','grand_ptys','Lingfong0','Liamtp','oldeight666','AxiFK','peterkl','EBXXIV','Docin_9527','kagurameavov','MickCAP7','Ice_aurum','userl107','Hacker_no_mum','Big__Cake','xiaoshen580','samassembly','BFXF666','xiao_fia','Dawn_LightTIH','Mighty_Breaker_X','qqppqp','luo_jiang','bilibili_danmuji','Alpha_X_','hm_error'];
             var waiting = [];
             var denied1 /* 无效ID */ = ['Mustard _Boop'];
             var denied2 /* 无效正版账号 (无效ID除外) */ = ['fxxker_doge','CN_YH','FLAG_emmm','thestorm36582'];
             var denied3_0 /* 无粉丝牌 */ = ['fxxker_doge','dawuran'];
             var denied3_1 /* 1级粉丝牌 */ = [];
             var denied4 /* 被封禁 */ = ['NMSLAndy'];
+            var unknownfans /* 未知是否有粉丝牌 (常用于未填表直接封禁的玩家) */ = ['NMSLAndy'];
             if (accepted.indexOf(search) > -1) {
                 document.getElementById('result').style = 'color: #00dd00;';
                 document.getElementById("result").innerHTML = "该玩家的入服请求已被接受。";
@@ -73,8 +74,13 @@
                 document.getElementById('req3').style = 'color: #dd0000;';
                 document.getElementById("req3").innerHTML = '✘ 无粉丝牌';
             } else if (denied3_1.indexOf(search) == -1) {
-                document.getElementById('req3').style = 'color: #00dd00;';
-                document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+                if (unknownfans.indexOf(search) == -1) {
+                    document.getElementById('req3').style = 'color: #00dd00;';
+                    document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+                } else {
+                    document.getElementById('req3').style = 'color: #666666;';
+                    document.getElementById("req3").innerHTML = '● 2级粉丝牌';
+                }
             }
 
             if (denied3_1.indexOf(search) > -1) {
@@ -83,8 +89,13 @@
                 document.getElementById('req3').style = 'color: #dd0000;';
                 document.getElementById("req3").innerHTML = '✘ 1级粉丝牌';
             } else if (denied3_0.indexOf(search) == -1) {
-                document.getElementById('req3').style = 'color: #00dd00;';
-                document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+                if (unknownfans.indexOf(search) == -1) {
+                    document.getElementById('req3').style = 'color: #00dd00;';
+                    document.getElementById("req3").innerHTML = '✓ 2级或更高级粉丝牌';
+                } else {
+                    document.getElementById('req3').style = 'color: #666666;';
+                    document.getElementById("req3").innerHTML = '● 2级粉丝牌';
+                }
             }
 
             if (denied4.indexOf(search) > -1) {
@@ -165,7 +176,7 @@
         <p id="req4">● 未被封禁</p>
         <br />
         <p><strong>通知: 本网站并不会实时更新，仅用作参考。</strong></p>
-        <p>上次更新: 2021.2.25 18:07</p>
+        <p>上次更新: 2021.2.26 21:01</p>
     </div>
 </body>
 
