@@ -35,15 +35,6 @@
             var abandoned /* 本人提出取消账号过审 */ =  ['kicobian'];
             var force1 /* 管理强制通过 */ = ['NIUNAI_milk','xtsdcb69','zhuang_jia','wkj_','dawuran'];
 
-            document.getElementById('result').style = 'color: #dd0000;';
-            document.getElementById("result").innerHTML = "该玩家尚未申请入服、等待审核或不存在。";
-            document.getElementById('req1').style = 'color: #666666;';
-            document.getElementById("req1").innerHTML = '● 有效ID';
-            document.getElementById('req2').style = 'color: #666666;';
-            document.getElementById("req2").innerHTML = '● 正版账号';
-            document.getElementById('req3').style = 'color: #666666;';
-            document.getElementById("req3").innerHTML = '● 2级粉丝牌';
-
             if (accepted.indexOf(search) > -1) {
                 document.getElementById('result').style = 'color: #00dd00;';
                 document.getElementById("result").innerHTML = "该玩家的入服请求已被接受。";
@@ -126,6 +117,37 @@
             } else {
                 document.getElementById('req4').style = 'color: #00dd00;';
                 document.getElementById("req4").innerHTML = '✓ 未被封禁';
+            }
+
+            if (accepted.indexOf(search) == -1) {
+                if (waiting.indexOf(search) == -1) {
+                    if (denied1.indexOf(search) == -1) {
+                        if (denied2.indexOf(search) == -1) {
+                            if (denied3_0.indexOf(search) == -1) {
+                                if (denied3_1.indexOf(search) == -1) {
+                                    if (denied4.indexOf(search) == -1) {
+                                        if (unknownfans.indexOf(search) == -1) {
+                                            if (nopic.indexOf(search) == -1) {
+                                                if (abandoned.indexOf(search) == -1) {
+                                                    if (force1.indexOf(search) == -1) {
+                                                        document.getElementById('result').style = 'color: #dd0000;';
+                                                        document.getElementById("result").innerHTML = "该玩家尚未申请入服、等待审核或不存在。";
+                                                        document.getElementById('req1').style = 'color: #666666;';
+                                                        document.getElementById("req1").innerHTML = '● 有效ID';
+                                                        document.getElementById('req2').style = 'color: #666666;';
+                                                        document.getElementById("req2").innerHTML = '● 正版账号';
+                                                        document.getElementById('req3').style = 'color: #666666;';
+                                                        document.getElementById("req3").innerHTML = '● 2级粉丝牌';
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             if (waiting.indexOf(search) > -1) {
