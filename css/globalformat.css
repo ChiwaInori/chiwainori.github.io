@@ -7,7 +7,7 @@ body {
     background-repeat: no-repeat;
 }
 
-h3, h4, h6, .content p, .links p, .copyright p, input, .content img, video, audio {
+h1, h2, h3, h4, h5, h6, .content p, .links p, .copyright p, input, .content img, video, audio {
     margin: 0px 0px 10px 40px;
 }
 
@@ -16,7 +16,7 @@ ul li {
     margin: 0px 0px 0px 10px;
 }
 
-p, h1, h3, h4, h6, span {
+p, h1, h2, h3, h4, h5, h6, span {
     color: #666666;
 }
 
