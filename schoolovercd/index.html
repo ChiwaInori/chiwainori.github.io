@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>放学回家倒计时 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <style>
+        body {
+            background-color: #FFFFDD;
+            background-repeat: no-repeat;
+        }
+
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        span {
+            color: #666666;
+        }
+
+        a:link,
+        a:visited {
+            color: #0000FF;
+        }
+
+        a:hover {
+            color: #0000AA;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        * {
+            text-align: center;
+        }
+
+        #hourdisplay {
+            display: inline-block;
+        }
+
+        #notes p, #notes span {
+            color: #aaaaaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">放学回家倒计时</h1>
+    </div>
+    <div class="content">
+        <h1 style="font-size: 50px;">距离放学回家还有</h1>
+        <div id="countdown">
+            <h1 style="font-size: 100px;">
+                <span id="hourdisplay">
+                    <span id="cd_h"></span>
+                    <span id="cd_h_dot">•</span>
+                </span>
+                <span id="cd_m"></span>
+                •
+                <span id="cd_s"></span>
+            </h1>
+        </div>
+        <div id="beta_warning">
+            <br />
+            <br />
+            <h2 style="color: #dd0000;"><strong>警告: 该倒计时仍处于Beta阶段，可能会出现bug.</strong></h2>
+        </div>
+        <div id="notes">
+            <br />
+            <br />
+            <p style="font-size: 20px;">免责声明</p>
+            <p>该倒计时指向的终点是 星期五 17时5分</p>
+            <p>本倒计时使用的当前时间是 <strong><span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒</strong></p>
+            <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
+            <br />
+            <br />
+            <p>Copyright &copy; Guigang HCZX 2013 XZY (xtsdcb69). All Rights Reserved.</p>
+        </div>
+        <script>
+            timeUpdate();
+            function timeUpdate() {
+                var date = new Date();
+                var d = date.getDay();
+                var h = date.getHours();
+                var m = date.getMinutes();
+                var s = date.getSeconds();
+                document.getElementById("h").innerHTML = h;
+                document.getElementById("m").innerHTML = m;
+                document.getElementById("s").innerHTML = s;
+
+                if (d == 1) {
+                    document.getElementById("weekday").innerHTML = "星期一";
+                }
+                if (d == 2) {
+                    document.getElementById("weekday").innerHTML = "星期二";
+                }
+                if (d == 3) {
+                    document.getElementById("weekday").innerHTML = "星期三";
+                }
+                if (d == 4) {
+                    document.getElementById("weekday").innerHTML = "星期四";
+                }
+                if (d == 5) {
+                    document.getElementById("weekday").innerHTML = "星期五";
+                }
+                if (d == 6) {
+                    document.getElementById("weekday").innerHTML = "星期六";
+                }
+                if (d == 7) {
+                    document.getElementById("weekday").innerHTML = "星期日";
+                }
+
+                if (s == 0) {
+                    var s = 60;
+                    var m = m - 1;
+                }
+
+                if (d <= 5) {
+                    var cd_r_d = 5 - d;
+                }
+                if (d == 6 || d == 5 && h >= 17 && m >= 5) {
+                    var cd_r_d = 7;
+                }
+                if (d == 7) {
+                    var cd_r_d = 6;
+                }
+                var cd_r_h_1 = cd_r_d * 24;
+                var cd_r_h_2 = 17 - h;
+                var cd_r_h = cd_r_h_1 + cd_r_h_2;
+
+                if (m <= 5) {
+                    var cd_r_m = 5 - m;
+                } else {
+                    var cd_r_m = 65 - m;
+                    var cd_r_h = cd_r_h - 1;
+                }
+
+                var cd_r_s = 60 - s;
+
+                if (d == 5) {
+                    if (h == 16) {
+                        if (m >= 5) {
+                            document.getElementById("cd_h").innerHTML = "";
+                            document.getElementById("cd_h_dot").innerHTML = "";
+                        }
+                    }
+                    if (h >= 17) {
+                        if (m >= 5) {
+                            document.getElementById("cd_h").innerHTML = cd_r_h;
+                            document.getElementById("cd_h_dot").innerHTML = "•";
+                        }
+                    }
+                }
+
+                document.getElementById("cd_m").innerHTML = cd_r_m;
+                document.getElementById("cd_s").innerHTML = cd_r_s;
+            }
+            setInterval("timeUpdate()", "100");
+        </script>
+    </div>
+</body>
+
+</html>
