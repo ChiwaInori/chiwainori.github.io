@@ -69,22 +69,13 @@
                 </h1>
             </div>
         </div>
-        <!--
-        <div id="beta_warning">
-            <br />
-            <br />
-            <h2 style="color: #dd0000;"><strong>警告: 该倒计时仍处于Beta阶段，可能会出现bug.</strong></h2>
-        </div>
-        -->
         <div id="notes">
             <br />
             <br />
             <p style="font-size: 20px;"><strong>- 免责声明 -</strong></p>
             <p>该倒计时指向的终点是 <span id="targettime"></span></p>
-            <p>本倒计时使用的当前时间是 <strong><span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span
-                        id="s"></span>秒</strong></p>
+            <p>本倒计时使用的当前时间是 <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒</p>
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
-            <p id="1234"></p>
             <br />
             <br />
             <p>Copyright &copy; Guigang HCZX 2013 XZY (xtsdcb69). All Rights Reserved.</p>
@@ -92,12 +83,46 @@
         <script>
             timeUpdate();
             function timeUpdate() {
-                getDistanceSpecifiedTime('2021.04.02 17:05');
+                var date = new Date();
+                var today = date.getTime();
+                var today_w = date.getDay();
+                var today_h = date.getHours();
+                var today_m = date.getMinutes();
+                if (today_w == 5 && today_h < 17 || today_w == 5 && today_h == 17 && today_m <= 5) {
+                    var today = today;
+                }
+                if (today_w == 5 && today_h >= 17 && today_m >= 5) {
+                    var today = today + 604800000;
+                }
+                if (today_w == 6) {
+                    var today = today + 518400000;
+                }
+                if (today_w == 7) {
+                    var today = today + 432000000;
+                }
+                if (today_w == 1) {
+                    var today = today + 345600000;
+                }
+                if (today_w == 2) {
+                    var today = today + 259200000;
+                }
+                if (today_w == 3) {
+                    var today = today + 172800000;
+                }
+                if (today_w == 4) {
+                    var today = today + 86400000;
+                }
+                var target = new Date(today);
+                var target_y = target.getFullYear();
+                var target_m = target.getMonth();
+                var target_d = target.getDate();
+                var target_m = target_m + 1;
+                var target_word = target_y + "." + target_m + "." + target_d + " 17:05";
+                getDistanceSpecifiedTime(target_word);
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
                     var t = EndTime.getTime() - NowTime.getTime();
-                    var weekday1 = NowTime.getDay();
                     var d = Math.floor(t / 1000 / 60 / 60 / 24);
                     var h = Math.floor(t / 1000 / 60 / 60 % 24);
                     var m = Math.floor(t / 1000 / 60 % 60);
@@ -109,10 +134,11 @@
                     document.getElementById("cd_s").innerHTML = s;
 
                     if (totalsecs < 3600) {
+                        document.getElementById("countdown").style = "margin-left: -30px;";
                         document.getElementById("hourdisplay").innerHTML = "";
                     } else {
+                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\"></span><span id=\"cd_h_dot\"> •</span>";
                         document.getElementById("cd_h").innerHTML = totalhours;
-                        document.getElementById("cd_h_dot").innerHTML = "•";
                     }
                     
 
@@ -153,93 +179,7 @@
                     if (now_d == 7) {
                         document.getElementById("weekday").innerHTML = "星期日";
                     }
-
-                    if (totalsecs < 0) {
-                        document.getElementById("countdownblock").innerHTML = "<h1 style=\"font-size: 50px;\">倒计时已结束</h1>";
-                    }
                 }
-                /*
-                var date = new Date();
-                var d = date.getDay();
-                var h = date.getHours();
-                var m = date.getMinutes();
-                var s = date.getSeconds();
-                document.getElementById("h").innerHTML = h;
-                document.getElementById("m").innerHTML = m;
-                document.getElementById("s").innerHTML = s;
-
-                if (d == 1) {
-                    document.getElementById("weekday").innerHTML = "星期一";
-                }
-                if (d == 2) {
-                    document.getElementById("weekday").innerHTML = "星期二";
-                }
-                if (d == 3) {
-                    document.getElementById("weekday").innerHTML = "星期三";
-                }
-                if (d == 4) {
-                    document.getElementById("weekday").innerHTML = "星期四";
-                }
-                if (d == 5) {
-                    document.getElementById("weekday").innerHTML = "星期五";
-                }
-                if (d == 6) {
-                    document.getElementById("weekday").innerHTML = "星期六";
-                }
-                if (d == 7) {
-                    document.getElementById("weekday").innerHTML = "星期日";
-                }
-
-                if (s == 0) {
-                    var s = 60;
-                    var m = m - 1;
-                }
-
-                if (d <= 5) {
-                    var cd_r_d = 5 - d;
-                }
-                if (d == 6 || d == 5 && h >= 17 && m >= 5) {
-                    var cd_r_d = 6;
-                }
-                if (d == 7 && h < 17 || m < 5) {
-                    var cd_r_d = 5;
-                }
-                var cd_r_h_1 = cd_r_d * 24;
-                var cd_r_h_2 = 17 - h;
-                var cd_r_h = cd_r_h_1 + cd_r_h_2;
-
-                if (m <= 5) {
-                    var cd_r_m = 5 - m;
-                } else {
-                    var cd_r_m = 65 - m;
-                    var cd_r_h = cd_r_h - 1;
-                }
-
-                var cd_r_s = 60 - s;
-
-                if (d == 5) {
-                    if (h == 16) {
-                        if (m >= 5) {
-                            document.getElementById("cd_h").innerHTML = "";
-                            document.getElementById("cd_h_dot").innerHTML = "";
-                        }
-                    }
-                    if (h >= 17) {
-                        if (m >= 5) {
-                            document.getElementById("cd_h").innerHTML = cd_r_h;
-                            document.getElementById("cd_h_dot").innerHTML = "•";
-                        }
-                    }
-                }
-
-                if (d != 5) {
-                    document.getElementById("cd_h").innerHTML = cd_r_h;
-                    document.getElementById("cd_h_dot").innerHTML = "•";
-                }
-
-                document.getElementById("cd_m").innerHTML = cd_r_m;
-                document.getElementById("cd_s").innerHTML = cd_r_s;
-                */
             }
             setInterval("timeUpdate()", "100");
         </script>
