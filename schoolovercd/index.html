@@ -74,7 +74,7 @@
             <br />
             <p style="font-size: 20px;"><strong>- 免责声明 -</strong></p>
             <p>该倒计时指向的终点是 <span id="targettime"></span></p>
-            <p>本倒计时使用的当前时间是 <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒</p>
+            <p>本倒计时使用的当前时间是 <span id="date"></span> <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒<span id="calibration"></span></p>
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
             <br />
             <p>Copyright &copy; Guigang HCZX 2013 XZY (xtsdcb69). All Rights Reserved.</p>
@@ -84,13 +84,18 @@
             function timeUpdate() {
                 var date = new Date();
                 var today = date.getTime();
+                var today_y = date.getFullYear();
+                var today_m = date.getMonth();
+                var today_m = today_m + 1;
+                var today_d = date.getDate();
+                document.getElementById("date").innerHTML = today_y + "." + today_m + "." + today_d;
                 var today_w = date.getDay();
                 var today_h = date.getHours();
                 var today_m = date.getMinutes();
                 if (today_w == 5 && today_h < 17 || today_w == 5 && today_h == 17 && today_m <= 5) {
                     var today = today;
                 }
-                if (today_w == 5 && today_h >= 17 && today_m >= 5) {
+                if (today_w == 5 && today_h >= 17 && today_m >= 5 || today_w == 5 && today_h >= 18) {
                     var today = today + 604800000;
                 }
                 if (today_w == 6) {
@@ -122,10 +127,20 @@
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
                     var t = EndTime.getTime() - NowTime.getTime();
-                    var d = Math.floor(t / 1000 / 60 / 60 / 24);
-                    var h = Math.floor(t / 1000 / 60 / 60 % 24);
-                    var m = Math.floor(t / 1000 / 60 % 60);
-                    var s = Math.floor(t / 1000 % 60);
+                    var calibration = 0; /* 倒计时校准 （秒) 倒计时比学校铃声快多少秒 */
+                    var calibration_rev = 0 - calibration;
+                    var calibration_ms = calibration * 1000;
+                    if (calibration > 0) {
+                        document.getElementById("calibration").innerHTML = " (校准 +" + calibration + " 秒)";
+                    }
+                    if (calibration < 0) {
+                        document.getElementById("calibration").innerHTML = " (校准 " + calibration + " 秒)";
+                    }
+                    var t_ca = t + calibration_ms;
+                    var d = Math.floor(t_ca / 1000 / 60 / 60 / 24);
+                    var h = Math.floor(t_ca / 1000 / 60 / 60 % 24);
+                    var m = Math.floor(t_ca / 1000 / 60 % 60);
+                    var s = Math.floor(t_ca / 1000 % 60);
                     var totalsecs = d * 86400 + h * 3600 + m * 60 + s;
                     var totalhours = d * 24 + h;
                     document.getElementById("targettime").innerHTML = dateTime;
@@ -139,7 +154,6 @@
                         document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\"></span><span id=\"cd_h_dot\"> •</span>";
                         document.getElementById("cd_h").innerHTML = totalhours;
                     }
-                    
 
                     var date = new Date();
                     var now_d = date.getDay();
@@ -155,7 +169,6 @@
                     }
                     document.getElementById("h").innerHTML = now_h;
                     document.getElementById("m").innerHTML = now_m;
-                    
 
                     if (now_d == 1) {
                         document.getElementById("weekday").innerHTML = "星期一";
