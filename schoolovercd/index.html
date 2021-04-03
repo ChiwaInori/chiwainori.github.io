@@ -194,6 +194,10 @@
                     if (now_d == 7) {
                         document.getElementById("weekday").innerHTML = "星期日";
                     }
+
+                    if (totalsecs < 0) {
+                        document.getElementById("countdownblock").innerHTML = "<h1 style=\"font-size: 80px;\">指定性倒计时已结束</h1>";
+                    }
                 }
                 getDistanceSpecifiedTimeSV();
                 function getDistanceSpecifiedTimeSV() {
