@@ -71,6 +71,7 @@
         </div>
         <div id="summervacation">
             <h6>距离暑假还有 <span id="sv_t"></span> 小时</h6>
+            <h6>(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
         </div>
         <div id="notes">
             <br />
@@ -104,7 +105,7 @@
                 if (today_w == 6) {
                     var today = today + 518400000;
                 }
-                if (today_w == 7) {
+                if (today_w == 0) {
                     var today = today + 432000000;
                 }
                 if (today_w == 1) {
@@ -203,11 +204,21 @@
                 function getDistanceSpecifiedTimeSV() {
                     var EndTimeSV = new Date('2021.6.30 17:05');
                     var NowTimeSV = new Date();
+                    var StartTimeSV = new Date('2021.2.28 17:05');
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
                     var totalhours_SV = d_SV * 24 + h_SV;
                     document.getElementById("sv_t").innerHTML = totalhours_SV;
+
+                    var t_SV_total = EndTimeSV.getTime() - StartTimeSV.getTime();
+                    var d_SV_total = Math.floor(t_SV_total / 1000 / 60 / 60 / 24);
+                    var h_SV_total = Math.floor(t_SV_total / 1000 / 60 / 60 % 24);
+                    var totalhours_SV_total = d_SV_total * 24 + h_SV_total;
+                    document.getElementById("sv_t_total").innerHTML = totalhours_SV_total;
+
+                    var totalhours_SV_past = totalhours_SV_total - totalhours_SV;
+                    document.getElementById("sv_t_past").innerHTML = totalhours_SV_past;
                 }
             }
             setInterval("timeUpdate()", "100");
