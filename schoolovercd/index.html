@@ -56,7 +56,7 @@
     </div>
     <div class="content">
         <div id="countdownblock">
-            <h1 style="font-size: 50px;">距离放学回家还有</h1>
+            <h1 style="font-size: 50px;">距离三月三放假回家还有</h1>
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
@@ -77,11 +77,11 @@
             <br />
             <br />
             <p style="font-size: 20px;"><strong>- 免责声明 -</strong></p>
-            <p>该倒计时指向的终点是 <span id="targettime"></span></p>
+            <p>该倒计时指向的终点是 <span id="targettime"></span> (三月三)</p>
             <p>本倒计时使用的当前时间是 <span id="date"></span> <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒<span id="calibration"></span></p>
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
             <br />
-            <p>Copyright &copy; Guigang HCZX 2013 XZY (xtsdcb69). All Rights Reserved.</p>
+            <p>Copyright &copy; Guigang HCZX 2013 XuZY (xtsdcb69). All Rights Reserved.</p>
         </div>
         <script>
             timeUpdate();
@@ -126,11 +126,10 @@
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
                 var target_word = target_y + "." + target_m + "." + target_d + " 17:05";
-                getDistanceSpecifiedTime(target_word);
+                getDistanceSpecifiedTime('2021.4.13 17:05');
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
-                    var t = EndTime.getTime() - NowTime.getTime();
                     var calibration = 0; /* 倒计时校准 （秒) 倒计时比学校铃声快多少秒 */
                     var calibration_rev = 0 - calibration;
                     var calibration_ms = calibration * 1000;
@@ -140,7 +139,10 @@
                     if (calibration < 0) {
                         document.getElementById("calibration").innerHTML = " (校准 " + calibration + " 秒)";
                     }
-                    var t_ca = t + calibration_ms;
+                    var NowTime_timestamp = NowTime.getTime();
+                    var t = NowTime_timestamp + calibration_ms;
+                    var NowTime_format = new Date(t);
+                    var t_ca = EndTime.getTime() - NowTime_format.getTime();
                     var d = Math.floor(t_ca / 1000 / 60 / 60 / 24);
                     var h = Math.floor(t_ca / 1000 / 60 / 60 % 24);
                     var m = Math.floor(t_ca / 1000 / 60 % 60);
