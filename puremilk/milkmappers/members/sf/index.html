@@ -41,6 +41,9 @@
 
 
 <body>
+    <div class="happybirthday">
+        <h1 id="hb"></h1>
+    </div>
     <div class="title">
         <h1 style="margin-bottom: 20px;">Im_SwordFish</h1>
     </div>
@@ -127,15 +130,15 @@
                             <h4>生日</h4>
                         </td>
                         <td align="center">
-                            <h4>?.3.2</h4>
+                            <h4 id="birthday-text">?.3.2</h4>
                         </td>
                     </tr>
                     <tr id="age">
                         <td align="center">
-                            <h4>大致年龄</h4>
+                            <h4>年龄</h4>
                         </td>
                         <td align="center">
-                            <h4>14</h4>
+                            <h4 id="agenum"></h4>
                         </td>
                     </tr>
                     <tr id="sex">
@@ -216,6 +219,27 @@
             <p>从<a href="./maps/2">Milkの闯关</a>的制作来看，他基本上只会用say来与玩家进行对话。在某次XTS开他几年前做的跑酷图时，XTS发现他几年前也是只会用say. 不过SF至少比当年的XTS好在会通过改命令方块的名字来修改say前面的那个@.</p>
         </div>
     </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 3 && day == 2) {
+            document.getElementById("hb").innerHTML = "生日快乐!";
+            document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #990000;";
+            document.getElementById("birthday-text").style = "color: #990000;";
+            document.getElementById("agenum").style = "color: #990000;";
+        }
+        if (month == 3 && day >= 2) {
+            var year = date.getFullYear();
+            var age = year - 2006;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2007;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
 </body>
 
 </html>

@@ -10,6 +10,9 @@
 
 
 <body>
+    <div class="happybirthday">
+        <h1 id="hb"></h1>
+    </div>
     <div class="title">
         <h1 style="margin-bottom: 20px;">xtsdcb69</h1>
     </div>
@@ -95,15 +98,15 @@
                             <h4>生日</h4>
                         </td>
                         <td align="center">
-                            <h4>2007.12.12</h4>
+                            <h4 id="birthday-text">2007.12.12</h4>
                         </td>
                     </tr>
                     <tr id="age">
                         <td align="center">
-                            <h4>大致年龄</h4>
+                            <h4>年龄</h4>
                         </td>
                         <td align="center">
-                            <h4>13</h4>
+                            <h4 id="agenum"></h4>
                         </td>
                     </tr>
                     <tr id="sex">
@@ -183,6 +186,27 @@
             <p>XTS (曾经) 明恋/暗恋过一些其他Puremilk玩家，目前已公开的有TUFF和SF.</p>
         </div>
     </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 12 && day == 12) {
+            document.getElementById("hb").innerHTML = "生日快乐!";
+            document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #00a8ff;";
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 12 && day >= 12) {
+            var year = date.getFullYear();
+            var age = year - 2007;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2008;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
 </body>
 
 </html>

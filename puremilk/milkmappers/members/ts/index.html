@@ -10,6 +10,9 @@
 
 
 <body>
+    <div class="happybirthday">
+        <h1 id="hb"></h1>
+    </div>
     <div class="title">
         <h1 style="margin-bottom: 20px;">Taste_Steak</h1>
     </div>
@@ -95,15 +98,15 @@
                             <h4>生日</h4>
                         </td>
                         <td align="center">
-                            <h4>?.10.30</h4>
+                            <h4 id="birthday-text">?.10.30</h4>
                         </td>
                     </tr>
                     <tr id="age">
                         <td align="center">
-                            <h4>大致年龄</h4>
+                            <h4>年龄</h4>
                         </td>
                         <td align="center">
-                            <h4>16</h4>
+                            <h4 id="agenum"></h4>
                         </td>
                     </tr>
                     <tr id="sex">
@@ -167,6 +170,27 @@
                     href="https://www.bilibili.com/video/BV1rt4y1U7Nn" target="_blank">视频</a>。</p>
         </div>
     </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 10 && day == 30) {
+            document.getElementById("hb").innerHTML = "生日快乐!";
+            document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #666666;";
+            document.getElementById("birthday-text").style = "color: #666666;";
+            document.getElementById("agenum").style = "color: #666666;";
+        }
+        if (month == 10 && day >= 30) {
+            var year = date.getFullYear();
+            var age = year - 2004;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2005;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
 </body>
 
 </html>

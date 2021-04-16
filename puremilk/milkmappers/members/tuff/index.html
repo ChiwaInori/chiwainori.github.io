@@ -16,6 +16,9 @@
 
 
 <body>
+    <div class="happybirthday">
+        <h1 id="hb"></h1>
+    </div>
     <div class="title">
         <h1 style="margin-bottom: 20px;">tuffkotte</h1>
     </div>
@@ -101,15 +104,15 @@
                             <h4>生日</h4>
                         </td>
                         <td align="center">
-                            <h4>2008.9.27</h4>
+                            <h4 id="birthday-text">2008.9.27</h4>
                         </td>
                     </tr>
                     <tr id="age">
                         <td align="center">
-                            <h4>大致年龄</h4>
+                            <h4>年龄</h4>
                         </td>
                         <td align="center">
-                            <h4>12</h4>
+                            <h4 id="agenum"></h4>
                         </td>
                     </tr>
                     <tr id="sex">
@@ -171,7 +174,7 @@
             </blockquote>
             <br />
             <div id="oldervoice">
-            <button onclick="showoldervoice()">显示以前的声音...</button>
+                <button onclick="showoldervoice()"  style="margin: 0px 0px 10px 40px;">显示以前的声音...</button>
             </div>
         </div>
         <br />
@@ -194,10 +197,30 @@
             <h3>你知道吗</h3>
             <p>他在Milkmappers中是PvP技术最高的一个人，只要去玩Hypixel，基本上不是玩Bed Wars就是Sky Wars. 他也经常叫XTS开PvP游戏。</p>
             <p>TUFF虽然是Milkmappers中PvP最厉害的，但他也是Milkmappers中年龄最低的。</p>
-            <p>他还是Milkmappers成员中唯一一个没有公开开过麦的，目前仅有一段他在与xtsdcb69私聊时开麦的<a href="../../../tuffvoice"
-                    target="_blank">珍贵影像</a>。</p>
+            <p>他还是Milkmappers成员中唯一一个没有公开开过麦的，目前仅有一段他在与xtsdcb69私聊时开麦的<a href="../../../tuffvoice" target="_blank">珍贵影像</a>。</p>
         </div>
     </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 9 && day == 27) {
+            document.getElementById("hb").innerHTML = "生日快乐!";
+            document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #003399;";
+            document.getElementById("birthday-text").style = "color: #003399;";
+            document.getElementById("agenum").style = "color: #003399;";
+        }
+        if (month == 9 && day >= 27) {
+            var year = date.getFullYear();
+            var age = year - 2008;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2009;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
 </body>
 
 </html>
