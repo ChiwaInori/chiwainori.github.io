@@ -6,6 +6,12 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <script>
+        function showoldervoice() {
+            document.getElementById("voicetitle").innerHTML = "<h3>声音</h3><h4>2021.4</h4>";
+            document.getElementById("oldervoice").innerHTML = "<h4>2020.5</h4><audio controls="controls"><source src="voice.mp3" type="audio/mp3" /></audio><blockquote><p class="quote">&quot;WDNMD&quot;</p></blockquote>";
+        }
+    </script>
 </head>
 
 
@@ -154,8 +160,9 @@
         </div>
         <br />
         <div id="voice">
-            <h3>声音</h3>
-            <h4>2021.4<h4>
+            <div id="voicetitle">
+                <h3>声音 (2021.4)</h3>
+            </div>
             <audio controls="controls">
                 <source src="voice_1.mp3" type="audio/mp3" />
             </audio>
@@ -163,13 +170,9 @@
                 <p class="quote">&quot;就这呀&quot;</p>
             </blockquote>
             <br />
-            <h4>2020.5</h4>
-            <audio controls="controls">
-                <source src="voice.mp3" type="audio/mp3" />
-            </audio>
-            <blockquote>
-                <p class="quote">&quot;WDNMD&quot;</p>
-            </blockquote>
+            <div id="oldervoice">
+            <button onclick="showoldervoice()">显示以前的声音...</button>
+            </div>
         </div>
         <br />
         <div id="stories">
