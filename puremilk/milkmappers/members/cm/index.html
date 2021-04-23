@@ -173,6 +173,7 @@
         <br />
         <div id="maps">
             <h3>参与制作的Milkmappers地图</h3>
+            <p>· <a href="../../maps/qyflower/">泉源之花</a> - 剧情组 - 2021.4.9 (2021.4.3) - </p>
             <p>· <a href="../../maps/2/">Milkの闯关</a> - 内饰组 - 2021.2.13 (2021.2.6) - 2021.2.16</p>
         </div>
         <br />
@@ -181,6 +182,12 @@
             <p>他在B站发过几个视频，然后就鸽了很久。</p>
             <p>他的表情包基本上都和二次元女孩纸有关。</p>
             <p>剑鱼曾经拒绝过他加入<a href="./maps/2">Milkの闯关</a>造图组，原因是人太多了。不过最后还是同意他加入了。</p>
+        </div>
+        <br />
+        <div id="timeline">
+            <h3>时间线</h3>
+            <p>2021.2.16 - <a href="./maps/2">Milkの闯关</a> 完成创作</p>
+            <p>2021.2.13 - 加入 <a href="./maps/2">Milkの闯关</a>造图组 并参与制作 <a href="./maps/2">Milkの闯关</a></p>
         </div>
     </div>
     <script>
@@ -194,7 +201,7 @@
             document.getElementById("birthday-text").style = "color: #ff86c3;";
             document.getElementById("agenum").style = "color: #ff86c3;";
         }
-        if (month == 10 && day >= 2) {
+        if (month == 10 && day >= 2 || month >= 10) {
             var year = date.getFullYear();
             var age = year - 2004;
             document.getElementById("agenum").innerHTML = age;

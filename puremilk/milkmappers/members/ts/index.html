@@ -166,8 +166,12 @@
         <br />
         <div id="doyouknow">
             <h3>你知道吗</h3>
-            <p>他和XTS, SF, TUFF, CM等，也是X个屑造图组 (几个屑记不住了) 中的一员，Mr_牛奶也拍过这个造图组的唯一一个地图的<a
-                    href="https://www.bilibili.com/video/BV1rt4y1U7Nn" target="_blank">视频</a>。</p>
+            <p>他和XTS, SF, TUFF, CM等，也是X个屑造图组 (几个屑记不住了) 中的一员，Mr_牛奶也拍过这个造图组的唯一一个地图的<a href="https://www.bilibili.com/video/BV1rt4y1U7Nn" target="_blank">视频</a>。</p>
+        </div>
+        <br />
+        <div id="timeline">
+            <h3>时间线</h3>
+            <p>2021.3.28 - 加入Milkmappers</p>
         </div>
     </div>
     <script>
@@ -181,7 +185,7 @@
             document.getElementById("birthday-text").style = "color: #666666;";
             document.getElementById("agenum").style = "color: #666666;";
         }
-        if (month == 10 && day >= 30) {
+        if (month == 10 && day >= 30 || month > 10) {
             var year = date.getFullYear();
             var age = year - 2004;
             document.getElementById("agenum").innerHTML = age;
