@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>泉源之花 部分搜素 示例 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <script>
+        function check() {
+            var input = document.getElementById('input').value;
+            var available = ['01','02','03','04'];
+            if (available.indexOf(input) == -1) {
+                document.getElementById('link').href = "#";
+                document.getElementById('link').innerHTML = "无效部分ID";
+                document.getElementById('link').style = "color: #aaaaaa;";
+            }
+            if (input == "01") {
+                document.getElementById('link').href = "./01/";
+                document.getElementById('link').innerHTML = "单项选择 A&B";
+                document.getElementById('link').style = "color: #0000ff;";
+            }
+            if (input == "02") {
+                document.getElementById('link').href = "./02/";
+                document.getElementById('link').innerHTML = "读亚洲略图，完成下列各题。";
+                document.getElementById('link').style = "color: #0000ff;";
+            }
+            if (input == "03") {
+                document.getElementById('link').href = "./03/";
+                document.getElementById('link').innerHTML = "作文";
+                document.getElementById('link').style = "color: #0000ff;";
+            }
+            if (input == "04") {
+                document.getElementById('link').href = "./04/";
+                document.getElementById('link').innerHTML = "已知关于 x, y 的方程组 x+3y=4-a, x-5y=3a, 给出以下结论:";
+                document.getElementById('link').style = "color: #0000ff;";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">泉源之花 部分搜素 示例</h1>
+    </div>
+    <div class="content">
+        <p>在下方输入你要搜索的PARTID, 然后按下文字即可进行搜索。</p>
+        <p style="margin-left: 0px;"><input onkeyup="check()" id="input" />&nbsp;&nbsp;&nbsp;<a href="./" id="link" style="color: #aaaaaa;">无效部分ID</a></p>
+    </div>
+</body>
+
+</html>
