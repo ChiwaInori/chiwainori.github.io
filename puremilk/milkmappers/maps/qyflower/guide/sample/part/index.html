@@ -17,7 +17,7 @@
             }
             if (input == "01") {
                 document.getElementById('link').href = "./01/";
-                document.getElementById('link').innerHTML = "单项选择 A&B";
+                document.getElementById('link').innerHTML = "单项选择 A&amp;B";
                 document.getElementById('link').style = "color: #0000ff;";
             }
             if (input == "02") {
@@ -44,7 +44,7 @@
         <h1 style="margin-bottom: 20px;">泉源之花 部分搜素 示例</h1>
     </div>
     <div class="content">
-        <p>在下方输入你要搜索的PARTID, 然后按下文字即可进行搜索。</p>
+        <p>在下方输入你要搜索的部分ID, 然后按下文字即可进行搜索。</p>
         <p style="margin-left: 0px;"><input onkeyup="check()" id="input" />&nbsp;&nbsp;&nbsp;<a href="./" id="link" style="color: #aaaaaa;">无效部分ID</a></p>
     </div>
 </body>
