@@ -11,24 +11,16 @@
             var input = document.getElementById('input').value;
             var available = ['1','2','3'];
             if (available.indexOf(input) == -1) {
-                document.getElementById('link').href = "#";
                 document.getElementById('link').innerHTML = "无效结局ID";
-                document.getElementById('link').style = "color: #aaaaaa;";
             }
             if (input == 1) {
-                document.getElementById('link').href = "./1/";
-                document.getElementById('link').innerHTML = "跳转至 结局1";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./1/\">跳转至 结局1</a>";
             }
             if (input == 2) {
-                document.getElementById('link').href = "./2/";
-                document.getElementById('link').innerHTML = "跳转至 结局2";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./2/\">跳转至 结局2</a>";
             }
             if (input == 3) {
-                document.getElementById('link').href = "./3/";
-                document.getElementById('link').innerHTML = "跳转至 结局3";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./3/\">跳转至 结局3</a>";
             }
         }
     </script>
@@ -40,7 +32,7 @@
     </div>
     <div class="content">
         <p>在下方输入你要搜索的结局ID, 然后按下文字即可进行搜索。</p>
-        <p style="margin-left: 0px;"><input onkeyup="check()" id="input" />&nbsp;&nbsp;&nbsp;<a href="./" id="link" style="color: #aaaaaa;">无效结局ID</a></p>
+        <p style="margin-left: 0px;"><input onkeyup="check()" id="input" />&nbsp;&nbsp;&nbsp;<span id="link" style="color: #aaaaaa;">无效结局ID</span></p>
     </div>
 </body>
 

@@ -11,29 +11,20 @@
             var input = document.getElementById('input').value;
             var available = ['01','02','03','04'];
             if (available.indexOf(input) == -1) {
-                document.getElementById('link').href = "#";
                 document.getElementById('link').innerHTML = "无效部分ID";
                 document.getElementById('link').style = "color: #aaaaaa;";
             }
             if (input == "01") {
-                document.getElementById('link').href = "./01/";
-                document.getElementById('link').innerHTML = "单项选择 A&amp;B";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./01/\">单项选择 A&amp;B</a>";
             }
             if (input == "02") {
-                document.getElementById('link').href = "./02/";
-                document.getElementById('link').innerHTML = "读亚洲略图，完成下列各题。";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./02/\">读亚洲略图，完成下列各题。</a>";
             }
             if (input == "03") {
-                document.getElementById('link').href = "./03/";
-                document.getElementById('link').innerHTML = "作文";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./03/\">作文</a>";
             }
             if (input == "04") {
-                document.getElementById('link').href = "./04/";
-                document.getElementById('link').innerHTML = "已知关于 x, y 的方程组 x+3y=4-a, x-5y=3a, 给出以下结论:";
-                document.getElementById('link').style = "color: #0000ff;";
+                document.getElementById('link').innerHTML = "<a href=\"./04/\">已知关于 x, y 的方程组 x+3y=4-a, x-5y=3a, 给出以下结论:</a>";
             }
         }
     </script>
@@ -45,7 +36,7 @@
     </div>
     <div class="content">
         <p>在下方输入你要搜索的部分ID, 然后按下文字即可进行搜索。</p>
-        <p style="margin-left: 0px;"><input onkeyup="check()" id="input" />&nbsp;&nbsp;&nbsp;<a href="./" id="link" style="color: #aaaaaa;">无效部分ID</a></p>
+        <p style="margin-left: 0px;"><input onkeyup="check()" id="input" />&nbsp;&nbsp;&nbsp;<span id="link" style="color: #aaaaaa;">无效部分ID</span></p>
     </div>
 </body>
 
