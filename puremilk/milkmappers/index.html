@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <script>
+        function sfother() {
+            document.getElementById('sfother').innerHTML = "<h5>Dead_SwordFish</h5><img src=\"./wallpapers/dsf_wallpaper.png\" height=\"200\" /><img src=\"./wallpapers/dsf_wallpaper_pc.png\" height=\"200\" /><h5>Re6</h5><img src=\"./wallpapers/re6_wallpaper.png\" height=\"200\" /><img src=\"./wallpapers/re6_wallpaper_pc.png\" height=\"200\" />";
+        }
+    </script>
 </head>
 
 <body>
@@ -13,13 +18,194 @@
         <h1 style="margin-bottom: 20px;">Milkmappers</h1>
     </div>
     <div class="content">
-        <br />
+        <div id="infobox" style="float: right; margin-right: 10%;">
+            <h4 style="text-align: center;">Milkmappers</h4>
+            <div id="details">
+                <table>
+                    <tr id="time">
+                        <td align="center">
+                            <h4>成立时间</h4>
+                        </td>
+                        <td align="center">
+                            <h4>2021.2.15</h4>
+                        </td>
+                    </tr>
+                    <tr id="creator">
+                        <td align="center">
+                            <h4>创立者</h4>
+                        </td>
+                        <td align="center">
+                            <h4><a href="./members/xts/">xtsdcb69</a></h4>
+                        </td>
+                    </tr>
+                    <tr id="maps">
+                        <td align="center">
+                            <h4>制图数量</h4>
+                        </td>
+                        <td align="center">
+                            <h4>2</h4>
+                        </td>
+                    </tr>
+                    <tr class="br">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                    </tr>
+                    <tr id="members1">
+                        <td align="center">
+                            <h4>成员</h4>
+                        </td>
+                        <td align="center">
+                            <h4>xtsdcb69</h4>
+                        </td>
+                    </tr>
+                    <tr id="members2">
+                        <td align="center">
+                            <h4>(按加入时间排序)</h4>
+                        </td>
+                        <td align="center">
+                            <h4>Im_SwordFish</h4>
+                        </td>
+                    </tr>
+                    <tr id="members3">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>tuffkotte</h4>
+                        </td>
+                    </tr>
+                    <tr id="members4">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>sky_bow_chrs</h4>
+                        </td>
+                    </tr>
+                    <tr id="members5">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>CY_wl</h4>
+                        </td>
+                    </tr>
+                    <tr id="members6">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>Chen_Mo_cht</h4>
+                        </td>
+                    </tr>
+                    <tr id="members7">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>Taste_Steak</h4>
+                        </td>
+                    </tr>
+                    <tr class="br">
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                        <td align="center">
+                            <h4>&nbsp;</h4>
+                        </td>
+                    </tr>
+                </table>
+                <h4 style="text-align: center;">平均信息</h4>
+                <table>
+                    <tr id="puremilk">
+                        <td align="center">
+                            <h4>加入Puremilk时间</h4>
+                        </td>
+                        <td align="center">
+                            <h4>一周目 中后期</h4>
+                        </td>
+                    </tr>
+                    <tr id="age">
+                        <td align="center">
+                            <h4><abbr title="本项数据CY不参与统计">年龄</abbr></h4>
+                        </td>
+                        <td align="center">
+                            <h4 id="agenum"></h4>
+                        </td>
+                    </tr>
+                    <script>
+                        var date = new Date();
+                        var month = date.getMonth();
+                        var month = month + 1;
+                        var day = date.getDate();
+                        if (month == 12 && day >= 12 || month > 12) {
+                            var year = date.getFullYear();
+                            var age_x = year - 2007;
+                        } else {
+                            var year = date.getFullYear();
+                            var age_x = year - 2008;
+                        }
+                        if (month == 3 && day >= 2 || month > 3) {
+                            var year = date.getFullYear();
+                            var age_s = year - 2006;
+                        } else {
+                            var year = date.getFullYear();
+                            var age_s = year - 2007;
+                        }
+                        if (month == 9 && day >= 27 || month > 9) {
+                            var year = date.getFullYear();
+                            var age_t = year - 2008;
+                        } else {
+                            var year = date.getFullYear();
+                            var age_t = year - 2009;
+                        }
+                        if (month == 4 && day >= 20 || month > 4) {
+                            var year = date.getFullYear();
+                            var age_k = year - 2005;
+                        } else {
+                            var year = date.getFullYear();
+                            var age_k = year - 2006;
+                        }
+                        if (month == 10 && day >= 2 || month > 10) {
+                            var year = date.getFullYear();
+                            var age_c = year - 2004;
+                        } else {
+                            var year = date.getFullYear();
+                            var age_c = year - 2005;
+                        }
+                        if (month == 10 && day >= 30 || month > 10) {
+                            var year = date.getFullYear();
+                            var age_a = year - 2004;
+                        } else {
+                            var year = date.getFullYear();
+                            var age_a = year - 2005;
+                        }
+                        var agetotal = age_x + age_s + age_t + age_k + age_c + age_a;
+                        var ageavg_1 = agetotal % 6;
+                        var ageavg_2 = agetotal - ageavg_1;
+                        if (ageavg_1 > 3) {
+                            var ageavg_2 = ageavg_2 + 6;
+                        }
+                        var ageavg = ageavg_2 / 6;
+                        document.getElementById('agenum').innerHTML = ageavg;
+                    </script>
+                    <tr id="height">
+                        <td align="center">
+                            <h4><abbr title="本项数据SF, CY, CM, TS不参与统计">身高</abbr></h4>
+                        </td>
+                        <td align="center">
+                            <h4>170.3 cm</h4>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <h3><a href="./maps/">Milkmappers 地图下载</a></h3>
         <br />
-        <h3 id="info">基本信息</h3>
-        <p>创立者: xtsdcb69</p>
-        <p>成立日期: 2021.2.15</p>
-        <p>累计成员 (7): xtsdcb69, Im_SwordFish, tuffkotte, sky_bow_chrs, CY_wl, Chen_Mo_cht, Taste_Steak</p>
         <br />
         <h3 id="members">成员</h3>
         <p><strong><a href="./members/xts/">xtsdcb69 [XTS]</a></strong></p>
@@ -30,12 +216,10 @@
         <h5>Im_SwordFish</h5>
         <img src="./wallpapers/sf_wallpaper.png" height="200" />
         <img src="./wallpapers/sf_wallpaper_pc.png" height="200" />
-        <h5>Dead_SwordFish</h5>
-        <img src="./wallpapers/dsf_wallpaper.png" height="200" />
-        <img src="./wallpapers/dsf_wallpaper_pc.png" height="200" />
-        <h5>Re6</h5>
-        <img src="./wallpapers/re6_wallpaper.png" height="200" />
-        <img src="./wallpapers/re6_wallpaper_pc.png" height="200" />
+        <br />
+        <div id="sfother">
+            <button style="margin-left: 40px;" onclick="sfother()">显示 Dead_SwordFish / Re6</button>
+        </div>
         <br /><br />
         <p><strong><a href="./members/tuff/">tuffkotte [TUFF]</a></strong></p>
         <img src="./wallpapers/tuff_wallpaper.png" height="200" />
@@ -54,11 +238,297 @@
         <img src="./wallpapers/cm_wallpaper_pc.png" height="200" />
         <br /><br />
         <p><strong><a href="./members/ts/">Taste_Steak [TS]</a></strong></p>
-        <p>(XTS尚未制作TS的壁纸)</p>
+        <br />
+        <h3>成员信息表</h3>
+        <table>
+            <tr>
+                <td align="center">
+                    <h4>成员</h4>
+                </td>
+                <td align="center">
+                    <h4>B站UID</h4>
+                </td>
+                <td align="center">
+                    <h4>生日</h4>
+                </td>
+                <td align="center">
+                    <h4>年龄</h4>
+                </td>
+                <td align="center">
+                    <h4>身高</h4>
+                </td>
+                <td align="center">
+                    <h4>地区</h4>
+                </td>
+                <td align="center">
+                    <h4>壁纸</h4>
+                </td>
+                <td align="center">
+                    <h4>签名</h4>
+                </td>
+                <td align="center">
+                    <h4><abbr title="在条件允许的情况下，该信息将会隔几个月更新一次">声音</abbr></h4>
+                </td>
+                <td align="center">
+                    <h4>成员故事</h4>
+                </td>
+                <td align="center">
+                    <h4>你知道吗</h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/xts/">XTS</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">2021.4</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/sf/">SF</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="仅月份与日期">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="大致范围">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="2019年的数据">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">2021.2</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/tuff/">TUFF</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">2021.4</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/skb/">SKB</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">2021.2</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/cy/">CY</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="大致范围">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">2021.4</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/cm/">CM</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="仅月份与日期">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="大致范围">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">2021.3</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <h4><a href="../../members/ts/">TS</a></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="仅月份与日期">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #ffa800;"><abbr title="大致范围">!</abbr></span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #dd0000;">✘</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+                <td align="center">
+                    <h4><span style="color: #00dd00;">✓</span></h4>
+                </td>
+            </tr>
+        </table>
+        <blockquote>
+            <p class="quote">* 如需添加/删除某条个人隐私内容或其他信息，请私聊XTS. 只要您的意见与您在xtsgames.top上的自己的个人页面有关，您的意见将会被尽快处理。</p>
+        </blockquote>
         <br />
         <h3 id="history">Milkmappers 历史</h3>
         <p>2021.4.18 - <strong>CY_wl</strong> 重新加入Milkmappers</p>
-        <p>2021.4.3 - <a href="./maps/unnamed_20210403">(未定名地图)</a> 开始定稿</p>
+        <p>2021.4.3 - <a href="./maps/qyflower">泉源之花</a> 开始定稿</p>
         <p>2021.3.28 - <strong>Taste_Steak</strong> 加入Milkmappers</p>
         <p>2021.3.26 - <strong>CY_wl</strong> 退群超1个月，视为退出Milkmappers</p>
         <p>2021.3.1 - <strong>Im_SwordFish</strong> 开学</p>
@@ -67,7 +537,7 @@
         <p>2021.2.26 - <strong>CY_wl</strong> 退群 (也是第4次退牛奶一群)</p>
         <p>2021.2.21 - <strong>tuffkotte</strong> 开学</p>
         <p>2021.2.20 - <a href="./maps/2">Milkの闯关</a> 第2次发布</p>
-        <p>2021.2.17 - <a href="./maps/unnamed_20210403">(未定名地图)</a> 制作计划已提出</p>
+        <p>2021.2.17 - <a href="./maps/qyflower">泉源之花</a> 制作计划已提出</p>
         <p>2021.2.16 - <a href="./maps/2">Milkの闯关</a> 完成创作</p>
         <p>2021.2.15 - <strong>Milkmappers</strong> 正式成立</p>
         <p>2021.2.13 - <strong>Chen_Mo_cht</strong> 加入 <a href="./maps/2">Milkの闯关</a>造图组</p>
