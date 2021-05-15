@@ -20,20 +20,16 @@ p, h1, h2, h3, h4, h5, h6, span {
     color: #666666;
 }
 
-a:link, a:visited {
+a:link, a:visited, .link {
     color: #0000FF;
 }
 
-a:hover {
+a:hover, .link:hover {
     color: #0000AA;
 }
 
 a {
     text-decoration: none;
-}
-
-.link {
-    margin: 0px;
 }
 
 .quote {

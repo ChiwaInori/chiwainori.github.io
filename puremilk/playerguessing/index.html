@@ -13,7 +13,7 @@
         <h1 style="margin-bottom: 20px;">Puremilk猜玩家游戏</h1>
     </div>
     <div class="content">
-        <p>请通过提示信息来猜出一位Puremilk玩家。可以猜到的玩家会在网站更新时逐步添加。</p>
+        <p>请通过提示信息来猜出一位Puremilk玩家。<span onclick="playerlist()">可以猜到的玩家</span>会在网站更新时逐步添加。</p>
         <input id="ipt" type="text" onkeyup="button()" />
         <button id="searchbutton" onclick="submit()" disabled="disabled">无效</button>
         <p id="final">&nbsp;</p>
@@ -26,6 +26,12 @@
         <br />
         <p>注: 同样的信息可能会有多个玩家，请多试几次。</p>
         <p id="player" style="display: none;"></p>
+        <br />
+        <div id="submitinformation">
+            <p onclick="submitinformation()" class="link">关于玩家信息投稿方式...</p>
+        </div>
+        <br />
+        <p id="playerlist"></p>
     </div>
     <script>
         function button() {
@@ -72,7 +78,7 @@
         function hintselect() {
             var player = document.getElementById('player').innerHTML;
             if (player == "xtsdcb69") {
-                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
                 var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
@@ -117,6 +123,9 @@
                 if (hint1 == 12) {
                     document.getElementById("hint1").innerHTML = "* TA曾向多名Puremilk玩家表白";
                 }
+                if (hint1 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA发过Minecraft视频";
+                }
                 if (hint2 == 1) {
                     document.getElementById("hint2").innerHTML = "* TA是男的";
                 }
@@ -153,6 +162,9 @@
                 if (hint2 == 12) {
                     document.getElementById("hint2").innerHTML = "* TA曾向多名Puremilk玩家表白";
                 }
+                if (hint2 == 13) {
+                    document.getElementById("hint2").innerHTML = "* TA发过Minecraft视频";
+                }
                 if (hint3 == 1) {
                     document.getElementById("hint3").innerHTML = "* TA是男的";
                 }
@@ -188,6 +200,9 @@
                 }
                 if (hint3 == 12) {
                     document.getElementById("hint3").innerHTML = "* TA曾向多名Puremilk玩家表白";
+                }
+                if (hint3 == 13) {
+                    document.getElementById("hint3").innerHTML = "* TA发过Minecraft视频";
                 }
             }
             if (player == "Im_SwordFish") {
@@ -429,7 +444,7 @@
                 }
             }
             if (player == "sky_bow_chrs") {
-                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
                 var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
@@ -474,6 +489,12 @@
                 if (hint1 == 12) {
                     document.getElementById("hint1").innerHTML = "* TA所在的城市被很多外地人读错";
                 }
+                if (hint1 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA有多种迫害方式";
+                }
+                if (hint1 == 14) {
+                    document.getElementById("hint1").innerHTML = "* TA发过Minecraft视频";
+                }
                 if (hint2 == 1) {
                     document.getElementById("hint2").innerHTML = "* TA是男的";
                 }
@@ -510,6 +531,12 @@
                 if (hint2 == 12) {
                     document.getElementById("hint2").innerHTML = "* TA所在的城市被很多外地人读错";
                 }
+                if (hint2 == 13) {
+                    document.getElementById("hint2").innerHTML = "* TA有多种迫害方式";
+                }
+                if (hint2 == 14) {
+                    document.getElementById("hint2").innerHTML = "* TA发过Minecraft视频";
+                }
                 if (hint3 == 1) {
                     document.getElementById("hint3").innerHTML = "* TA是男的";
                 }
@@ -545,6 +572,12 @@
                 }
                 if (hint3 == 12) {
                     document.getElementById("hint3").innerHTML = "* TA所在的城市被很多外地人读错";
+                }
+                if (hint3 == 13) {
+                    document.getElementById("hint3").innerHTML = "* TA有多种迫害方式";
+                }
+                if (hint3 == 14) {
+                    document.getElementById("hint3").innerHTML = "* TA发过Minecraft视频";
                 }
             }
             if (player == "CY_wl") {
@@ -667,7 +700,7 @@
                 }
             }
             if (player == "Chen_Mo_cht") {
-                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
                 var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
@@ -712,6 +745,9 @@
                 if (hint1 == 12) {
                     document.getElementById("hint1").innerHTML = "* TA的表情包的风格比较接近";
                 }
+                if (hint1 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA发过Minecraft视频";
+                }
                 if (hint2 == 1) {
                     document.getElementById("hint2").innerHTML = "* TA是男的";
                 }
@@ -748,6 +784,9 @@
                 if (hint2 == 12) {
                     document.getElementById("hint2").innerHTML = "* TA的表情包的风格比较接近";
                 }
+                if (hint2 == 13) {
+                    document.getElementById("hint2").innerHTML = "* TA发过Minecraft视频";
+                }
                 if (hint3 == 1) {
                     document.getElementById("hint3").innerHTML = "* TA是男的";
                 }
@@ -783,6 +822,9 @@
                 }
                 if (hint3 == 12) {
                     document.getElementById("hint3").innerHTML = "* TA的表情包的风格比较接近";
+                }
+                if (hint3 == 13) {
+                    document.getElementById("hint3").innerHTML = "* TA发过Minecraft视频";
                 }
             }
             if (player == "Taste_Steak") {
@@ -916,6 +958,14 @@
                 document.getElementById("final").innerHTML = "<span style=\"color: #dd0000\"><strong>✘ 回答错误</strong></span>";
                 document.getElementById("finalsub").innerHTML = "<span style=\"color: #dd0000\"><strong>不是 " + answer + "</strong></span>";
             }
+        }
+
+        function submitinformation() {
+            document.getElementById("submitinformation").innerHTML = "<p>如需要在本页面上投稿玩家信息，请将以下信息在QQ发给 <strong>xtsdcb69 (2862400190)</strong> 或发送邮件至 <strong>xtsdcb69@qq.com</strong> :</p><p>1. 你的玩家ID <span style='color: #dd0000'><strong>(必填)</strong></span></p><p>2. 你的性别</p><p>3. 你加入Puremilk时处于第几周目</p><p>4. 你加入Puremilk时的学历</p><p>5. 你的所在地区 (省、市)</p><p>6. 你玩的部分游戏</p><p>7. 其他你在Puremilk中的信息 (如归属城镇、身份等)</p><p>8. 其他关于你的梗";
+        }
+
+        function playerlist() {
+            document.getElementById("playerlist").innerHTML = "<strong>可以猜到的玩家列表</strong><span style='font-size: 10px;'><br />Chen_Mo_cht<br />CY_wl<br />Im_SwordFish<br />sky_bow_chrs<br />Taste_Steak<br />tuffkotte<br />xtsdcb69</span>";
         }
     </script>
 </body>
