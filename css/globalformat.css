@@ -32,7 +32,7 @@ a {
     text-decoration: none;
 }
 
-.quote {
+blockquote p {
     font-style: italic;
     color: #AAAAAA;
 }
