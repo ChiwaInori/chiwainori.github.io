@@ -36,3 +36,12 @@ blockquote p {
     font-style: italic;
     color: #AAAAAA;
 }
+
+.list {
+    font-size: 10px;
+}
+
+.table {
+    color: #666666;
+    margin: 0px 0px 10px 40px;
+}
