@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <style>
+    </style>
 </head>
 
 <body>
@@ -13,19 +15,94 @@
         <h1 style="margin-bottom: 20px;">Puremilk比赛</h1>
     </div>
     <div class="content">
-        <h3>第一届障碍跑大赛</h3>
-        <h4>已计划</h4>
+        <h3><a href="./build-1/">第一届障碍跑大赛</a></h3>
+        <h4 id="run_1_text"><span id="run_1_type"></span> | 2021.7.13 15:00 - 2021.7.20 21:30</h4>
         <br />
-        <h3>第一届旗帜投稿大赛</h3>
-        <h4>已计划</h4>
+        <h3><a href="./build-1/">第一届旗帜投稿大赛</a></h3>
+        <h4 id="flag_2_text"><span id="flag_2_type"></span> | 2021.7.5 18:00 - 2021.7.11 22:10</h4>
         <br />
         <h3><a href="./build-1/">七夕建筑大赛</a></h3>
         <h6>aka. 第一届建筑大赛</h6>
-        <h4>已结束 | 2020.8.26 - 2020.8.26</h4>
+        <h4 id="build_1_text"><span id="build_1_type"></span> | 2020.8.26 - 2020.8.26</h4>
         <br />
         <h3><a href="./flag-1/">第一届旗帜投稿大赛</a></h3>
-        <h4>已结束 | ? - 2020.4.18</h4>
+        <h4 id="flag_1_text"><span id="flag_1_type"></span> | ? - 2020.4.18</h4>
     </div>
+    <script>
+        var now = new Date();
+
+        var run_1_start = new Date("2021.7.13 15:00");
+        var run_1_end = new Date("2021.7.20 21:30");
+        if (now < run_1_start) {
+            document.getElementById("run_1_type").innerHTML = "已计划";
+        }
+        if (now >= run_1_start) {
+            if (now < run_1_end) {
+                document.getElementById("run_1_type").innerHTML = "进行中";
+                document.getElementById("run_1_text").style = "color: #00dd00;";
+                document.getElementById("run_1_type").style = "color: #00dd00;";
+            }
+        }
+        if (now >= run_1_end) {
+            document.getElementById("run_1_type").innerHTML = "已结束";
+            document.getElementById("run_1_text").style = "color: #aaaaaa;";
+            document.getElementById("run_1_type").style = "color: #aaaaaa;";
+        }
+
+        var flag_2_start = new Date("2021.7.5 18:00");
+        var flag_2_end = new Date("2021.7.11 22:10");
+        if (now < flag_2_start) {
+            document.getElementById("flag_2_type").innerHTML = "已计划";
+        }
+        if (now >= flag_2_start) {
+            if (now < flag_2_end) {
+                document.getElementById("flag_2_type").innerHTML = "进行中";
+                document.getElementById("flag_2_text").style = "color: #00dd00;";
+                document.getElementById("flag_2_type").style = "color: #00dd00;";
+            }
+        }
+        if (now >= flag_2_end) {
+            document.getElementById("flag_2_type").innerHTML = "已结束";
+            document.getElementById("flag_2_text").style = "color: #aaaaaa;";
+            document.getElementById("flag_2_type").style = "color: #aaaaaa;";
+        }
+
+        var build_1_start = new Date("2020.8.26 0:00");
+        var build_1_end = new Date("2020.8.26 23:59");
+        if (now < build_1_start) {
+            document.getElementById("build_1_type").innerHTML = "已计划";
+        }
+        if (now >= build_1_start) {
+            if (now < build_1_end) {
+                document.getElementById("build_1_type").innerHTML = "进行中";
+                document.getElementById("build_1_text").style = "color: #00dd00;";
+                document.getElementById("build_1_type").style = "color: #00dd00;";
+            }
+        }
+        if (now >= build_1_end) {
+            document.getElementById("build_1_type").innerHTML = "已结束";
+            document.getElementById("build_1_text").style = "color: #aaaaaa;";
+            document.getElementById("build_1_type").style = "color: #aaaaaa;";
+        }
+
+        var flag_1_start = new Date("2020.4.18 0:00");
+        var flag_1_end = new Date("2020.4.18 23:59");
+        if (now < flag_1_start) {
+            document.getElementById("flag_1_type").innerHTML = "已计划";
+        }
+        if (now >= flag_1_start) {
+            if (now < flag_1_end) {
+                document.getElementById("flag_1_type").innerHTML = "进行中";
+                document.getElementById("flag_1_text").style = "color: #00dd00;";
+                document.getElementById("flag_1_type").style = "color: #00dd00;";
+            }
+        }
+        if (now >= flag_1_end) {
+            document.getElementById("flag_1_type").innerHTML = "已结束";
+            document.getElementById("flag_1_text").style = "color: #aaaaaa;";
+            document.getElementById("flag_1_type").style = "color: #aaaaaa;";
+        }
+    </script>
 </body>
 
 </html>

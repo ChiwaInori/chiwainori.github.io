@@ -14,8 +14,28 @@
     </div>
     <div class="content">
         <div id="status">
-            <h3>已计划</h3>
-            <!-- <h6>? - 2020.4.18</h6> -->
+            <h3 id="status_text"></h3>
+            <h6 id="status_time">2021.7.5 18:00 - 2021.7.11 22:10</h6>
+            <script>
+                var now = new Date();
+                var activity_start = new Date("2021.7.5 18:00");
+                var activity_end = new Date("2021.7.11 22:10");
+                if (now < activity_start) {
+                    document.getElementById("status_text").innerHTML = "已计划";
+                }
+                if (now >= activity_start) {
+                    if (now < activity_end) {
+                        document.getElementById("status_text").innerHTML = "进行中";
+                        document.getElementById("status_text").style = "color: #00dd00;";
+                        document.getElementById("status_time").style = "color: #00dd00;";
+                    }
+                }
+                if (now >= activity_end) {
+                    document.getElementById("status_text").innerHTML = "已结束";
+                    document.getElementById("status_text").style = "color: #aaaaaa;";
+                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                }
+            </script>
             <br />
             <h6>上一届 - <a href="../flag-1/">第一届旗帜投稿大赛</a></h6>
         </div>
@@ -34,10 +54,53 @@
         <p>待定。</p>
         <br />
         <h3>时间线</h3>
-        <p>报名时间: 待定</p>
-        <p>参赛时间: 待定</p>
-        <p>评分时间: 待定</p>
-        <p>颁奖时间: 待定</p>
+        <p id="a1">报名时间: 2021.7.5 18:00 - 2021.7.11 18:00</p>
+        <p id="a2">参赛时间: 2021.7.5 18:00 - 2021.7.11 18:00</p>
+        <p id="a3">评分时间: 2021.7.11 21:00 - 2021.7.11 21:30</p>
+        <p id="a4">颁奖时间: 2021.7.11 22:00 - 2021.7.11 22:10</p>
+        <script>
+            var a1_start = new Date("2021.7.5 18:00");
+            var a1_end = new Date("2021.7.11 18:00");
+            var a2_start = new Date("2021.7.5 18:00");
+            var a2_end = new Date("2021.7.11 18:00");
+            var a3_start = new Date("2021.7.11 21:00");
+            var a3_end = new Date("2021.7.11 21:30");
+            var a4_start = new Date("2021.7.11 22:00");
+            var a4_end = new Date("2021.7.11 22:10");
+
+            if (now >= a1_start) {
+                if (now < a1_end) {
+                    document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a1_end) {
+                document.getElementById("a1").style = "color: #aaaaaa;";
+            }
+            if (now >= a2_start) {
+                if (now < a2_end) {
+                    document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a2_end) {
+                document.getElementById("a2").style = "color: #aaaaaa;";
+            }
+            if (now >= a3_start) {
+                if (now < a3_end) {
+                    document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a3_end) {
+                document.getElementById("a3").style = "color: #aaaaaa;";
+            }
+            if (now >= a4_start) {
+                if (now < a4_end) {
+                    document.getElementById("a4").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a4_end) {
+                document.getElementById("a4").style = "color: #aaaaaa;";
+            }
+        </script>
         <br />
         <h3>奖品</h3>
         <p style="color: #ffc800;"><strong>冠军: 待定</strong></p>
@@ -46,36 +109,22 @@
         <br />
         <p>参与奖: 待定</p>
         <br />
-        <!-- <h3>参赛者名单</h3>
+        <h3>参赛者名单</h3>
         <h6>按报名顺序排序</h6>
         <h4>玩家</h4>
         <div class="list">
-            <p>tuffkotte</p>
-            <p>yocrunch</p>
-            <p>emmm</p>
-            <p>捕捉一只靓仔啊</p>
-            <p>mu_yang_ren</p>
-            <p>1461130641</p>
-            <p>lihaozi</p>
-            <p>qiaozhiTAT</p>
-            <p>wang133ooo</p>
-            <p>QAQorange_TAT</p>
-            <p>you_shou</p>
-            <p>HelloMyHeartChen</p>
-            <p>Wu_Ming</p>
-            <p>xiao_muao</p>
-            <p>sky.yan</p>
-            <p>Wu_Qi_A</p>
+            <blockquote>
+                <p>报名尚未开始。</p>
+            </blockquote>
         </div>
         <br />
         <h4>评委</h4>
         <div class="list">
-            <p>xtsdcb69</p>
-            <p>Hewwoy</p>
-            <p>kolcn</p>
-            <p>qyn3813</p>
+            <blockquote>
+                <p>报名尚未开始。</p>
+            </blockquote>
         </div>
-        <br /> -->
+        <br />
         <h3>评分信息</h3>
         <p>评委可从 0 ~ 10 分中为玩家所做的旗帜打分，分值可以有两位小数。将评委打出的分数中去掉一个最高分，去掉一个最低分，再计算平均分，最终排名按计算出的平均分进行排名。当玩家并列排名时，后续排名不顺延。</p>
         <br />

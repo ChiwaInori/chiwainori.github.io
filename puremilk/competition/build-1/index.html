@@ -16,8 +16,28 @@
     </div>
     <div class="content">
         <div id="status">
-            <h3>已结束</h3>
-            <h6>2020.8.26 - 2020.8.26</h6>
+            <h3 id="status_text"></h3>
+            <h6 id="status_time">2020.8.26 - 2020.8.26</h6>
+            <script>
+                var now = new Date();
+                var activity_start = new Date("2020.8.26 0:00");
+                var activity_end = new Date("2020.8.26 23:59");
+                if (now < activity_start) {
+                    document.getElementById("status_text").innerHTML = "已计划";
+                }
+                if (now >= activity_start) {
+                    if (now < activity_end) {
+                        document.getElementById("status_text").innerHTML = "进行中";
+                        document.getElementById("status_text").style = "color: #00dd00;";
+                        document.getElementById("status_time").style = "color: #00dd00;";
+                    }
+                }
+                if (now >= activity_end) {
+                    document.getElementById("status_text").innerHTML = "已结束";
+                    document.getElementById("status_text").style = "color: #aaaaaa;";
+                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                }
+            </script>
         </div>
         <br />
         <br />
@@ -38,10 +58,10 @@
         <p>评分开始前自愿报名，已报名建造的玩家可报名评委，但不能给自己和其他评委的建筑评分。</p>
         <br />
         <h3>时间线</h3>
-        <p>报名时间: 2020.8.26</p>
-        <p>参赛时间: 2020.8.26</p>
-        <p>评分时间: 2020.8.26</p>
-        <p>颁奖时间: 2020.8.26</p>
+        <p style="color: #aaaaaa;">报名时间: 2020.8.26</p>
+        <p style="color: #aaaaaa;">参赛时间: 2020.8.26</p>
+        <p style="color: #aaaaaa;">评分时间: 2020.8.26</p>
+        <p style="color: #aaaaaa;">颁奖时间: 2020.8.26</p>
         <br />
         <h3>奖品</h3>
         <p style="color: #ffc800;"><strong>冠军: ?</strong></p>

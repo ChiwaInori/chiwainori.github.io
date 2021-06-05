@@ -14,8 +14,28 @@
     </div>
     <div class="content">
         <div id="status">
-            <h3>已计划</h3>
-            <!-- <h6>? - 2020.4.18</h6> -->
+            <h3 id="status_text"></h3>
+            <h6 id="status_time">2021.7.13 15:00 - 2021.7.20 21:30</h6>
+            <script>
+                var now = new Date();
+                var activity_start = new Date("2021.7.13 15:00");
+                var activity_end = new Date("2021.7.20 21:30");
+                if (now < activity_start) {
+                    document.getElementById("status_text").innerHTML = "已计划";
+                }
+                if (now >= activity_start) {
+                    if (now < activity_end) {
+                        document.getElementById("status_text").innerHTML = "进行中";
+                        document.getElementById("status_text").style = "color: #00dd00;";
+                        document.getElementById("status_time").style = "color: #00dd00;";
+                    }
+                }
+                if (now >= activity_end) {
+                    document.getElementById("status_text").innerHTML = "已结束";
+                    document.getElementById("status_text").style = "color: #aaaaaa;";
+                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                }
+            </script>
         </div>
         <br />
         <br />
@@ -30,10 +50,42 @@
         <p>待定。</p>
         <br />
         <h3>时间线</h3>
-        <p>报名时间: 待定</p>
-        <p>参赛时间: 待定</p>
-        <p>评分时间: 待定</p>
-        <p>颁奖时间: 待定</p>
+        <p id="a1">报名时间: 2021.7.13 15:00 - 2021.7.20 15:00</p>
+        <p id="a2">参赛时间: 2021.7.20 20:00 - 2021.7.20 21:00</p>
+        <p id="a3">颁奖时间: 2021.7.20 21:20 - 2021.7.20 21:30</p>
+        <script>
+            var a1_start = new Date("2021.7.13 15:00");
+            var a1_end = new Date("2021.7.20 15:00");
+            var a2_start = new Date("2021.7.20 20:00");
+            var a2_end = new Date("2021.7.20 21:00");
+            var a3_start = new Date("2021.7.20 21:20");
+            var a3_end = new Date("2021.7.20 21:30");
+
+            if (now >= a1_start) {
+                if (now < a1_end) {
+                    document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a1_end) {
+                document.getElementById("a1").style = "color: #aaaaaa;";
+            }
+            if (now >= a2_start) {
+                if (now < a2_end) {
+                    document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a2_end) {
+                document.getElementById("a2").style = "color: #aaaaaa;";
+            }
+            if (now >= a3_start) {
+                if (now < a3_end) {
+                    document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a3_end) {
+                document.getElementById("a3").style = "color: #aaaaaa;";
+            }
+        </script>
         <br />
         <h3>奖品</h3>
         <p style="color: #ffc800;"><strong>冠军: 待定</strong></p>
@@ -42,36 +94,22 @@
         <br />
         <p>参与奖: 待定</p>
         <br />
-        <!-- <h3>参赛者名单</h3>
+        <h3>参赛者名单</h3>
         <h6>按报名顺序排序</h6>
         <h4>玩家</h4>
         <div class="list">
-            <p>tuffkotte</p>
-            <p>yocrunch</p>
-            <p>emmm</p>
-            <p>捕捉一只靓仔啊</p>
-            <p>mu_yang_ren</p>
-            <p>1461130641</p>
-            <p>lihaozi</p>
-            <p>qiaozhiTAT</p>
-            <p>wang133ooo</p>
-            <p>QAQorange_TAT</p>
-            <p>you_shou</p>
-            <p>HelloMyHeartChen</p>
-            <p>Wu_Ming</p>
-            <p>xiao_muao</p>
-            <p>sky.yan</p>
-            <p>Wu_Qi_A</p>
+            <blockquote>
+                <p>报名尚未开始。</p>
+            </blockquote>
         </div>
         <br />
         <h4>评委</h4>
         <div class="list">
-            <p>xtsdcb69</p>
-            <p>Hewwoy</p>
-            <p>kolcn</p>
-            <p>qyn3813</p>
+            <blockquote>
+                <p>报名尚未开始。</p>
+            </blockquote>
         </div>
-        <br /> -->
+        <br />
         <h3>成绩</h3>
         <blockquote>
             <p>成绩尚未公布。</p>
