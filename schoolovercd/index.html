@@ -77,9 +77,9 @@
                 var date1 = new Date();
                 var thisyear = date1.getFullYear();
                 if (thisyear == 2021) {
-                    document.getElementById('thisyear').innerHTML = thisyear;
+                    document.getElementById("thisyear").innerHTML = thisyear;
                 } else {
-                    document.getElementById('thisyear').innerHTML = "2021-" + thisyear;
+                    document.getElementById("thisyear").innerHTML = "2021-" + thisyear;
                 }
             </script>
         </div>
@@ -204,9 +204,9 @@
                 }
                 getDistanceSpecifiedTimeSV();
                 function getDistanceSpecifiedTimeSV() {
-                    var EndTimeSV = new Date('2021.6.30 10:40');
+                    var EndTimeSV = new Date("2021.6.30 10:40");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date('2021.2.28 17:10');
+                    var StartTimeSV = new Date("2021.2.28 17:10");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);

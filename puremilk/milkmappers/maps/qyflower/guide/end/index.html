@@ -8,16 +8,16 @@
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
     <script>
         function check() {
-            var input = document.getElementById('input').value;
-            var available = ['1','2'];
+            var input = document.getElementById("input").value;
+            var available = ["1","2"];
             if (available.indexOf(input) == -1) {
-                document.getElementById('link').innerHTML = "无效结局ID";
+                document.getElementById("link").innerHTML = "无效结局ID";
             }
             if (input == 1) {
-                document.getElementById('link').innerHTML = "<a href=\"./1/\">跳转至 结局1</a>";
+                document.getElementById("link").innerHTML = "<a href=\"./1/\">跳转至 结局1</a>";
             }
             if (input == 2) {
-                document.getElementById('link').innerHTML = "<a href=\"./2/\">跳转至 结局2</a>";
+                document.getElementById("link").innerHTML = "<a href=\"./2/\">跳转至 结局2</a>";
             }
         }
     </script>

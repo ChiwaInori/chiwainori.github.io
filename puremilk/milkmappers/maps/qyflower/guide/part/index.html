@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
     <script>
         function check() {
-            var input = document.getElementById('input').value;
-            var available = ['01','02'];
+            var input = document.getElementById("input").value;
+            var available = ["01","02"];
             if (available.indexOf(input) == -1) {
-                document.getElementById('link').innerHTML = "无效PARTID";
-                document.getElementById('link').style = "color: #aaaaaa;";
+                document.getElementById("link").innerHTML = "无效PARTID";
+                document.getElementById("link").style = "color: #aaaaaa;";
             }
             if (input == "01") {
-                document.getElementById('link').innerHTML = "<a href=\"./01/\">MilK的家</a>";
+                document.getElementById("link").innerHTML = "<a href=\"./01/\">MilK的家</a>";
             }
             if (input == "02") {
-                document.getElementById('link').innerHTML = "<a href=\"./02/\">零时差报社打卡</a>";
+                document.getElementById("link").innerHTML = "<a href=\"./02/\">零时差报社打卡</a>";
             }
         }
     </script>

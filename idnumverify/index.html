@@ -7,9 +7,8 @@
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
     <script>
-        <!--
         function button() {
-            var number = document.getElementById('ipt').value;
+            var number = document.getElementById("ipt").value;
             if (number.toString().length < 17) {
                 document.getElementById("button").disabled = true;
                 document.getElementById("button").innerHTML = "无效";
@@ -29,20 +28,20 @@
         }
 
         function chk(obj){
-            var val = obj.value, num = val.replace(/^(\d{0,17}).*$/,'$1');
-            num<17 ? obj.value = num : obj.value = num + val.slice(17,val.length).replace(/^((?:\d|[X])*).*$/,'$1');
+            var val = obj.value, num = val.replace(/^(\d{0,17}).*$/,"$1");
+            num<17 ? obj.value = num : obj.value = num + val.slice(17,val.length).replace(/^((?:\d|[X])*).*$/,"$1");
         }
 
         function verify() {
-            var number = document.getElementById('ipt').value;
+            var number = document.getElementById("ipt").value;
 
             if (number.toString().length < 17) {
-                document.getElementById('result').style = 'color: #dd0000;';
+                document.getElementById("result").style = "color: #dd0000;";
                 document.getElementById("result").innerHTML = "无效身份证号";
             }
 
             if (number.toString().length >= 17) {
-                var arr = number.split('');
+                var arr = number.split("");
                 var in1 = -1; in1 < arr.length; in1++;
                 var in1_2 = arr[in1] * 7;
                 var in2 = 0; in2 < arr.length; in2++;
@@ -84,7 +83,7 @@
             }
 
             if (number.toString().length == 17) {
-                document.getElementById('result').style = 'color: #00dd00;';
+                document.getElementById("result").style = "color: #00dd00;";
                 if (int_c3 < 10) {
                     document.getElementById("id").innerHTML = number + "<span style=\"color: #00dd00\">" + int_c3 + "</span>";
                     document.getElementById("result").innerHTML = "该身份证号的最后一位应该是: " + int_c3;
@@ -103,15 +102,14 @@
                     var in18_2 = 10;
                 }
                 if (int_c3 == in18_2) {
-                    document.getElementById('result').style = 'color: #00dd00;';
+                    document.getElementById("result").style = "color: #00dd00;";
                     document.getElementById("result").innerHTML = "身份证号校验成功";
                 } else {
-                    document.getElementById('result').style = 'color: #dd0000;';
+                    document.getElementById("result").style = "color: #dd0000;";
                     document.getElementById("result").innerHTML = "身份证号校验失败";
                 }
             }
         }
-        //-->
     </script>
 </head>
 

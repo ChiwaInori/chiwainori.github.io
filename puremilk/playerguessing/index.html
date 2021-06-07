@@ -33,7 +33,7 @@
         <br />
         <p id="playerlist" style="display: none;">
             <strong>可以猜到的玩家列表</strong>
-            <span style='font-size: 10px;'>
+            <span style="font-size: 10px;">
                 <br />1461130641
                 <br />Chen_Mo_cht
                 <br />CY_wl
@@ -48,7 +48,7 @@
     </div>
     <script>
         function button() {
-            var ipt = document.getElementById('ipt').value;
+            var ipt = document.getElementById("ipt").value;
             if (ipt.toString().length < 1) {
                 document.getElementById("searchbutton").disabled = true;
                 document.getElementById("searchbutton").innerHTML = "无效";
@@ -95,7 +95,7 @@
         }
 
         function hintselect() {
-            var player = document.getElementById('player').innerHTML;
+            var player = document.getElementById("player").innerHTML;
             if (player == "xtsdcb69") {
                 var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
                 hint.sort(function () { return 0.5 - Math.random(); });
@@ -1215,8 +1215,8 @@
         }
 
         function submit() {
-            var player = document.getElementById('player').innerHTML;
-            var answer = document.getElementById('ipt').value;
+            var player = document.getElementById("player").innerHTML;
+            var answer = document.getElementById("ipt").value;
             if (player == answer) {
                 document.getElementById("final").innerHTML = "<span style=\"color: #00dd00\"><strong>✓ 回答正确</strong></span>";
                 document.getElementById("finalsub").innerHTML = "<span style=\"color: #00dd00\"><strong>是 " + answer + "</strong></span>";
@@ -1227,7 +1227,7 @@
         }
 
         function submitinformation() {
-            document.getElementById("submitinformation").innerHTML = "<p>如需要在本页面上投稿玩家信息，请将以下信息在QQ发给 <strong>xtsdcb69 (2862400190)</strong> 或发送邮件至 <strong>xtsdcb69@qq.com</strong> :</p><p>1. 你的玩家ID <span style='color: #dd0000'><strong>(必填)</strong></span></p><p>2. 你的性别</p><p>3. 你加入Puremilk时处于第几周目</p><p>4. 你加入Puremilk时的学历</p><p>5. 你的所在地区 (省、市)</p><p>6. 你玩的部分游戏</p><p>7. 其他你在Puremilk中的信息 (如归属城镇、身份等)</p><p>8. 其他关于你的梗";
+            document.getElementById("submitinformation").innerHTML = "<p>如需要在本页面上投稿玩家信息，请将以下信息在QQ发给 <strong>xtsdcb69 (2862400190)</strong> 或发送邮件至 <strong>xtsdcb69@qq.com</strong> :</p><p>1. 你的玩家ID <span style="color: #dd0000"><strong>(必填)</strong></span></p><p>2. 你的性别</p><p>3. 你加入Puremilk时处于第几周目</p><p>4. 你加入Puremilk时的学历</p><p>5. 你的所在地区 (省、市)</p><p>6. 你玩的部分游戏</p><p>7. 其他你在Puremilk中的信息 (如归属城镇、身份等)</p><p>8. 其他关于你的梗";
         }
 
         function playerlist() {
