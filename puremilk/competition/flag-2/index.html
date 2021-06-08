@@ -18,19 +18,27 @@
             <h6 id="status_time">2021.7.5 18:00 - 2021.7.11 22:10</h6>
             <script>
                 var now = new Date();
-                var activity_start = new Date("2021.7.5 18:00");
-                var activity_end = new Date("2021.7.11 22:10");
-                if (now < activity_start) {
+                var now_y = now.getFullYear();
+                var now_mo = now.getMonth();
+                var now_mo = now_mo + 1;
+                var now_d = now.getDate();
+                var now_h = now.getHours();
+                var now_m = now.getMinutes();
+
+                if (now_y < 2021 || now_y == 2021 && now_mo < 7 || now_y == 2021 && now_mo == 7 && now_d < 5 || now_y == 2021 && now_mo == 7 && now_d == 5 && now_h < 18) {
                     document.getElementById("status_text").innerHTML = "已计划";
                 }
-                if (now >= activity_start) {
-                    if (now < activity_end) {
-                        document.getElementById("status_text").innerHTML = "进行中";
-                        document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
-                        document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
+
+                if (now_y == 2021) {
+                    if (now_mo == 7) {
+                        if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
+                            document.getElementById("status_text").innerHTML = "进行中";
+                            document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
+                            document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
+                        }
                     }
                 }
-                if (now >= activity_end) {
+                if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 22 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 22 && now_m > 10) {
                     document.getElementById("status_text").innerHTML = "已结束";
                     document.getElementById("status_text").style = "color: #aaaaaa;";
                     document.getElementById("status_time").style = "color: #aaaaaa;";
@@ -61,45 +69,55 @@
         <p id="a3">评分时间: 2021.7.11 21:00 - 2021.7.11 21:30</p>
         <p id="a4">颁奖时间: 2021.7.11 22:00 - 2021.7.11 22:10</p>
         <script>
-            var a1_start = new Date("2021.7.5 18:00");
-            var a1_end = new Date("2021.7.11 18:00");
-            var a2_start = new Date("2021.7.5 18:00");
-            var a2_end = new Date("2021.7.11 18:00");
-            var a3_start = new Date("2021.7.11 21:00");
-            var a3_end = new Date("2021.7.11 21:30");
-            var a4_start = new Date("2021.7.11 22:00");
-            var a4_end = new Date("2021.7.11 22:10");
-
-            if (now >= a1_start) {
-                if (now < a1_end) {
-                    document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
+            if (now_y == 2021) {
+                if (now_mo == 7) {
+                    if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
+                        document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
+                    }
                 }
             }
-            if (now >= a1_end) {
+            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 18 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 18 && now_m > 0) {
                 document.getElementById("a1").style = "color: #aaaaaa;";
             }
-            if (now >= a2_start) {
-                if (now < a2_end) {
-                    document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
+
+            if (now_y == 2021) {
+                if (now_mo == 7) {
+                    if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
+                        document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
+                    }
                 }
             }
-            if (now >= a2_end) {
+            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 18 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 18 && now_m > 0) {
                 document.getElementById("a2").style = "color: #aaaaaa;";
             }
-            if (now >= a3_start) {
-                if (now < a3_end) {
-                    document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
+
+            if (now_y == 2021) {
+                if (now_mo == 7) {
+                    if (now_d == 11) {
+                        if (now_h == 21) {
+                            if (now_m >= 0 && now_m <= 30) {
+                                document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
+                            }
+                        }
+                    }
                 }
             }
-            if (now >= a3_end) {
+            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 21 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 21 && now_m > 30) {
                 document.getElementById("a3").style = "color: #aaaaaa;";
             }
-            if (now >= a4_start) {
-                if (now < a4_end) {
-                    document.getElementById("a4").style = "color: #00dd00; font-weight:bold;";
+
+            if (now_y == 2021) {
+                if (now_mo == 7) {
+                    if (now_d == 11) {
+                        if (now_h == 22) {
+                            if (now_m >= 0 && now_m <= 10) {
+                                document.getElementById("a4").style = "color: #00dd00; font-weight:bold;";
+                            }
+                        }
+                    }
                 }
             }
-            if (now >= a4_end) {
+            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 22 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 22 && now_m > 10) {
                 document.getElementById("a4").style = "color: #aaaaaa;";
             }
         </script>

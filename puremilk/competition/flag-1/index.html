@@ -14,28 +14,8 @@
     </div>
     <div class="content">
         <div id="status">
-            <h3 id="status_text"></h3>
-            <h6 id="status_time">? - 2020.4.18</h6>
-            <script>
-                var now = new Date();
-                var activity_start = new Date("2020.4.18 0:00");
-                var activity_end = new Date("2020.4.18 23:59");
-                if (now < activity_start) {
-                    document.getElementById("status_text").innerHTML = "已计划";
-                }
-                if (now >= activity_start) {
-                    if (now < activity_end) {
-                        document.getElementById("status_text").innerHTML = "进行中";
-                        document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
-                        document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
-                    }
-                }
-                if (now >= activity_end) {
-                    document.getElementById("status_text").innerHTML = "已结束";
-                    document.getElementById("status_text").style = "color: #aaaaaa;";
-                    document.getElementById("status_time").style = "color: #aaaaaa;";
-                }
-            </script>
+            <h3 id="status_text" style="color: #aaaaaa;">已结束</h3>
+            <h6 id="status_time" style="color: #aaaaaa;">2020.8.26 - 2020.8.26</h6>
             <br />
             <h6>下一届 - <a href="../flag-2/">第二届旗帜投稿大赛</a></h6>
         </div>
