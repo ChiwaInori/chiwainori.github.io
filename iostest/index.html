@@ -6,12 +6,6 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
-    <script>
-        var now = new Date();
-        var run_1_start = new Date("2021.7.13 15:00");
-        var run_1_end = new Date("2021.7.20 21:30");
-        document.getElementById("text").innerHTML = now;
-    </script>
 </head>
 
 <body>
@@ -19,8 +13,17 @@
         <h1 style="margin-bottom: 20px;">iOS Test</h1>
     </div>
     <div class="content">
-        <p id="text"></p>
+        <p id="t1"></p>
+        <p id="t2"></p>
     </div>
+    <script>
+        var now = new Date();
+        var run_1_start = new Date("2021.7.13 15:00");
+        var run_1_end = new Date("2021.7.20 21:30");
+        document.getElementById("t1").innerHTML = now;
+        var time = now.getTime();
+        document.getElementById("t2").innerHTML = time;
+    </script>
 </body>
 
 </html>
