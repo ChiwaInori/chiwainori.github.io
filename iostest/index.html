@@ -24,10 +24,10 @@
         document.getElementById("t1").innerHTML = now;
         var time = now.getTime();
         document.getElementById("t2").innerHTML = time;
-        var a = run_1_start.getTime();
-        var num1 = a;
-        var num2 = time;
-        if (num1 > num2) {
+        var run_1_start_time = run_1_start.getTime();
+        var a = Math.floor(run_1_start_time / 1000);
+        var b = Math.floor(time / 1000);
+        if (a > b) {
             document.getElementById("t3").innerHTML = "Yes";
         } else {
             document.getElementById("t3").innerHTML = "No";
