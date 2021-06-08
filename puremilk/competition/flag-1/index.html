@@ -17,7 +17,27 @@
             <h3 id="status_text" style="color: #aaaaaa;">已结束</h3>
             <h6 id="status_time" style="color: #aaaaaa;">2020.8.26 - 2020.8.26</h6>
             <br />
-            <h6>下一届 - <a href="../flag-2/">第二届旗帜投稿大赛</a></h6>
+            <h6 id="next">下一届 - <a href="../flag-2/">第二届旗帜投稿大赛</a></h6>
+            <script>
+                var now = new Date();
+                var now_y = now.getFullYear();
+                var now_mo = now.getMonth();
+                var now_mo = now_mo + 1;
+                var now_d = now.getDate();
+                var now_h = now.getHours();
+                var now_m = now.getMinutes();
+
+                if (now_y == 2021) {
+                    if (now_mo == 7) {
+                        if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
+                            document.getElementById("next").style = "color: #00dd00; font-weight:bold;";
+                        }
+                    }
+                }
+                if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 22 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 22 && now_m > 10) {
+                    document.getElementById("next").style = "color: #aaaaaa;";
+                }
+            </script>
         </div>
         <br />
         <br />
