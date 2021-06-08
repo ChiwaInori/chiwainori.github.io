@@ -15,6 +15,7 @@
     <div class="content">
         <p id="t1"></p>
         <p id="t2"></p>
+        <p id="t3"></p>
     </div>
     <script>
         var now = new Date();
@@ -23,6 +24,13 @@
         document.getElementById("t1").innerHTML = now;
         var time = now.getTime();
         document.getElementById("t2").innerHTML = time;
+        var num1 = 123;
+        var num2 = 456;
+        if (num1 < num2) {
+            document.getElementById("t3").innerHTML = "Yes";
+        } else {
+            document.getElementById("t3").innerHTML = "No";
+        }
     </script>
 </body>
 
