@@ -14,6 +14,93 @@
     <div class="title">
         <h1 style="margin-bottom: 20px;">Puremilk比赛</h1>
         <blockquote>
+            <p style="font-size: 10px;">* 使用手机查看其子界面可能会出现问题，稍后将会修复。</p><br />
+        </blockquote>
+    </div>
+    <div class="content">
+        <h3><a href="./run-1/">第一届障碍跑大赛</a></h3>
+        <h4 id="run_1_text"><span id="run_1_type"></span> | 2021.7.13 15:00 - 2021.7.20 21:30</h4>
+        <br />
+        <h3><a href="./flag-2/">第二届旗帜投稿大赛</a></h3>
+        <h4 id="flag_2_text"><span id="flag_2_type"></span> | 2021.7.5 18:00 - 2021.7.11 22:10</h4>
+        <br />
+        <h3><a href="./build-1/">七夕建筑大赛</a></h3>
+        <h6>aka. 第一届建筑大赛</h6>
+        <h4 id="build_1_text" style="color: #aaaaaa;"><span id="build_1_type" style="color: #aaaaaa;">已结束</span> | 2020.8.26 - 2020.8.26</h4>
+        <br />
+        <h3><a href="./flag-1/">第一届旗帜投稿大赛</a></h3>
+        <h4 id="flag_1_text" style="color: #aaaaaa;"><span id="flag_1_type" style="color: #aaaaaa;">已结束</span> | ? - 2020.4.18</h4>
+    </div>
+    <script>
+        var now = new Date();
+        var now_y = now.getFullYear();
+        var now_mo = now.getMonth();
+        var now_mo = now_mo + 1;
+        var now_d = now.getDate();
+        var now_h = now.getHours();
+        var now_m = now.getMinutes();
+
+        /* RUN-1 */
+
+        if (now_y < 2021 || now_y == 2021 && now_mo < 7 || now_y == 2021 && now_mo == 7 && now_d < 13 || now_y == 2021 && now_mo == 7 && now_d == 13 && now_h < 15) {
+            document.getElementById("run_1_type").innerHTML = "已计划";
+        }
+
+        if (now_y == 2021) {
+            if (now_mo == 7) {
+                if (now_d == 13 && now_h >= 15 || now_d == 14 || now_d == 15 || now_d == 16 || now_d == 17 || now_d == 18 || now_d == 19 || now_d == 20 && now_h <= 21 || now_d == 20 && now_h == 21 && now_m <= 30) {
+                    document.getElementById("run_1_type").innerHTML = "进行中";
+                    document.getElementById("run_1_text").style = "color: #00dd00; font-weight:bold;";
+                    document.getElementById("run_1_type").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+        }
+        if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 20 || now_y == 2021 && now_mo == 7 && now_d == 20 && now_h > 21 || now_y == 2021 && now_mo == 7 && now_d == 20 && now_h == 21 && now_m > 30) {
+            document.getElementById("run_1_type").innerHTML = "已结束";
+            document.getElementById("run_1_text").style = "color: #aaaaaa;";
+            document.getElementById("run_1_type").style = "color: #aaaaaa;";
+        }
+
+        /* FLAG-2 */
+
+        if (now_y < 2021 || now_y == 2021 && now_mo < 7 || now_y == 2021 && now_mo == 7 && now_d < 5 || now_y == 2021 && now_mo == 7 && now_d == 5 && now_h < 18) {
+            document.getElementById("flag_2_type").innerHTML = "已计划";
+        }
+
+        if (now_y == 2021) {
+            if (now_mo == 7) {
+                if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
+                    document.getElementById("flag_2_type").innerHTML = "进行中";
+                    document.getElementById("flag_2_text").style = "color: #00dd00; font-weight:bold;";
+                    document.getElementById("flag_2_type").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+        }
+        if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 22 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 22 && now_m > 10) {
+            document.getElementById("flag_2_type").innerHTML = "已结束";
+            document.getElementById("flag_2_text").style = "color: #aaaaaa;";
+            document.getElementById("flag_2_type").style = "color: #aaaaaa;";
+        }
+    </script>
+</body>
+
+</html>
+<!-- <!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Puremilk比赛 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">Puremilk比赛</h1>
+        <blockquote>
             <p style="font-size: 10px;">* 使用 iOS 设备查看此界面及其子界面可能会出现问题，目前正在想办法修复。</p><br />
         </blockquote>
     </div>
@@ -111,4 +198,4 @@
     </script>
 </body>
 
-</html>
+</html> -->
