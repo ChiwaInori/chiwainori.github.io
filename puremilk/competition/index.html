@@ -33,20 +33,23 @@
     </div>
     <script>
         var now = new Date();
+        var now_time = now.getTime();
 
         var run_1_start = new Date("2021.7.13 15:00");
         var run_1_end = new Date("2021.7.20 21:30");
-        if (now < run_1_start) {
+        var run_1_start_time = run_1_start.getTime();
+        var run_1_end_time = run_1_end.getTime();
+        if (now_time < run_1_start_time) {
             document.getElementById("run_1_type").innerHTML = "已计划";
         }
-        if (now >= run_1_start) {
-            if (now < run_1_end) {
+        if (now_time >= run_1_start_time) {
+            if (now_time < run_1_end_time) {
                 document.getElementById("run_1_type").innerHTML = "进行中";
                 document.getElementById("run_1_text").style = "color: #00dd00; font-weight:bold;";
                 document.getElementById("run_1_type").style = "color: #00dd00; font-weight:bold;";
             }
         }
-        if (now >= run_1_end) {
+        if (now_time >= run_1_end_time) {
             document.getElementById("run_1_type").innerHTML = "已结束";
             document.getElementById("run_1_text").style = "color: #aaaaaa;";
             document.getElementById("run_1_type").style = "color: #aaaaaa;";
