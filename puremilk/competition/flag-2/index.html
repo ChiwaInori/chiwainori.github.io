@@ -31,7 +31,7 @@
 
                 if (now_y == 2021) {
                     if (now_mo == 7) {
-                        if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
+                        if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
                             document.getElementById("status_text").innerHTML = "进行中";
                             document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
                             document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
@@ -71,7 +71,7 @@
         <script>
             if (now_y == 2021) {
                 if (now_mo == 7) {
-                    if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
+                    if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
                         document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
                     }
                 }
@@ -82,7 +82,7 @@
 
             if (now_y == 2021) {
                 if (now_mo == 7) {
-                    if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
+                    if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
                         document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
                     }
                 }
@@ -147,7 +147,7 @@
         <br />
         <h3>评分信息</h3>
         <p>评委可从 0 ~ 10 分中为玩家所做的旗帜打分，分值可以有两位小数，不可弃权。将评委打出的分数中去掉一个最高分，去掉一个最低分，再计算平均分，最终排名按计算出的平均分进行排名。当玩家并列排名时，后续排名不顺延。</p>
-        <p>为确保评委评分不受其他评委打出的分数影响，所有评委需在给定的书与笔中在玩家ID后打出分数，评分结束后交给xtsdcb69进行统分。在聊天栏中打出分数一律无效。</p>
+        <p>为确保评委评分不受其他评委打出的分数影响，所有评委需在给定的书与笔中在玩家ID后 (示例: Player: 5.5) 打出分数，评分结束后交给xtsdcb69进行统分。在聊天栏中打出分数一律无效。</p>
         <br />
         <h3>成绩</h3>
         <blockquote>

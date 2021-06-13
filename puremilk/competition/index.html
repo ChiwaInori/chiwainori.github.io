@@ -47,7 +47,7 @@
         }
         if (now_y == 2021) {
             if (now_mo == 7) {
-                if (now_d == 13 && now_h >= 15 || now_d == 14 || now_d == 15 || now_d == 16 || now_d == 17 || now_d == 18 || now_d == 19 || now_d == 20 && now_h <= 21 || now_d == 20 && now_h == 21 && now_m <= 30) {
+                if (now_d == 13 && now_h >= 15 || now_d >= 14 && now_d <= 19 || now_d == 20 && now_h <= 21 || now_d == 20 && now_h == 21 && now_m <= 30) {
                     document.getElementById("run_1_type").innerHTML = "进行中";
                     document.getElementById("run_1_text").style = "color: #00dd00; font-weight:bold;";
                     document.getElementById("run_1_type").style = "color: #00dd00; font-weight:bold;";
@@ -67,7 +67,7 @@
         }
         if (now_y == 2021) {
             if (now_mo == 7) {
-                if (now_d == 5 && now_h >= 18 || now_d == 6 || now_d == 7 || now_d == 8 || now_d == 9 || now_d == 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
+                if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
                     document.getElementById("flag_2_type").innerHTML = "进行中";
                     document.getElementById("flag_2_text").style = "color: #00dd00; font-weight:bold;";
                     document.getElementById("flag_2_type").style = "color: #00dd00; font-weight:bold;";
