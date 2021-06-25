@@ -14,38 +14,30 @@
     </div>
     <div class="content">
         <div id="status">
-            <h3 id="status_text"></h3>
+            <h3 id="status_text">该设备暂不支持获取活动状态</h3>
             <h6 id="status_time">2021.7.5 18:00 - 2021.7.11 22:10</h6>
             <script>
                 var now = new Date();
-                var now_y = now.getFullYear();
-                var now_mo = now.getMonth();
-                var now_mo = now_mo + 1;
-                var now_d = now.getDate();
-                var now_h = now.getHours();
-                var now_m = now.getMinutes();
-
-                if (now_y < 2021 || now_y == 2021 && now_mo < 7 || now_y == 2021 && now_mo == 7 && now_d < 5 || now_y == 2021 && now_mo == 7 && now_d == 5 && now_h < 18) {
+                var activity_start = new Date("2021.7.5 18:00");
+                var activity_end = new Date("2021.7.11 22:10");
+                if (now < activity_start) {
                     document.getElementById("status_text").innerHTML = "已计划";
                 }
-
-                if (now_y == 2021) {
-                    if (now_mo == 7) {
-                        if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 22 || now_d == 11 && now_h == 22 && now_m <= 10) {
-                            document.getElementById("status_text").innerHTML = "进行中";
-                            document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
-                            document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
-                        }
+                if (now >= activity_start) {
+                    if (now < activity_end) {
+                        document.getElementById("status_text").innerHTML = "进行中";
+                        document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
+                        document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
                     }
                 }
-                if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 22 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 22 && now_m > 10) {
+                if (now >= activity_end) {
                     document.getElementById("status_text").innerHTML = "已结束";
                     document.getElementById("status_text").style = "color: #aaaaaa;";
                     document.getElementById("status_time").style = "color: #aaaaaa;";
                 }
             </script>
             <br />
-            <h6 style="color: #aaaaaa">上一届 - <a href="../flag-1/">第一届旗帜投稿大赛</a></h6>
+            <h6>上一届 - <a href="../flag-1/">第一届旗帜投稿大赛</a></h6>
             <br />
             <p><strong><a href="./flag-2.ics">添加到日历 &gt;</a></strong></p>
         </div>
@@ -61,7 +53,7 @@
         <br />
         <h4>评委</h4>
         <h6>入场费: 无</h6>
-        <p>评分开始前在聊天栏内报名，已投稿旗帜的玩家可以报名评委，但不能给任何一个评委的旗帜评分，并且至少要有4名评委没有投稿旗帜。</p>
+        <p>评分开始前在聊天栏内报名，已投稿旗帜的玩家可以报名评委，但不能给任何一个评委的旗帜评分。</p>
         <br />
         <h3>时间线</h3>
         <p id="a1">报名时间: 2021.7.5 18:00 - 2021.7.11 18:00</p>
@@ -69,55 +61,45 @@
         <p id="a3">评分时间: 2021.7.11 21:00 - 2021.7.11 21:30</p>
         <p id="a4">颁奖时间: 2021.7.11 22:00 - 2021.7.11 22:10</p>
         <script>
-            if (now_y == 2021) {
-                if (now_mo == 7) {
-                    if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
-                        document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
-                    }
+            var a1_start = new Date("2021.7.5 18:00");
+            var a1_end = new Date("2021.7.11 18:00");
+            var a2_start = new Date("2021.7.5 18:00");
+            var a2_end = new Date("2021.7.11 18:00");
+            var a3_start = new Date("2021.7.11 21:00");
+            var a3_end = new Date("2021.7.11 21:30");
+            var a4_start = new Date("2021.7.11 22:00");
+            var a4_end = new Date("2021.7.11 22:10");
+
+            if (now >= a1_start) {
+                if (now < a1_end) {
+                    document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
                 }
             }
-            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 18 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 18 && now_m > 0) {
+            if (now >= a1_end) {
                 document.getElementById("a1").style = "color: #aaaaaa;";
             }
-
-            if (now_y == 2021) {
-                if (now_mo == 7) {
-                    if (now_d == 5 && now_h >= 18 || now_d >= 6 && now_d <= 10 || now_d == 11 && now_h <= 18 || now_d == 11 && now_h == 18 && now_m <= 0) {
-                        document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
-                    }
+            if (now >= a2_start) {
+                if (now < a2_end) {
+                    document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
                 }
             }
-            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 18 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 18 && now_m > 0) {
+            if (now >= a2_end) {
                 document.getElementById("a2").style = "color: #aaaaaa;";
             }
-
-            if (now_y == 2021) {
-                if (now_mo == 7) {
-                    if (now_d == 11) {
-                        if (now_h == 21) {
-                            if (now_m >= 0 && now_m <= 30) {
-                                document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
-                            }
-                        }
-                    }
+            if (now >= a3_start) {
+                if (now < a3_end) {
+                    document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
                 }
             }
-            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 21 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 21 && now_m > 30) {
+            if (now >= a3_end) {
                 document.getElementById("a3").style = "color: #aaaaaa;";
             }
-
-            if (now_y == 2021) {
-                if (now_mo == 7) {
-                    if (now_d == 11) {
-                        if (now_h == 22) {
-                            if (now_m >= 0 && now_m <= 10) {
-                                document.getElementById("a4").style = "color: #00dd00; font-weight:bold;";
-                            }
-                        }
-                    }
+            if (now >= a4_start) {
+                if (now < a4_end) {
+                    document.getElementById("a4").style = "color: #00dd00; font-weight:bold;";
                 }
             }
-            if (now_y > 2021 || now_y == 2021 && now_mo > 7 || now_y == 2021 && now_mo == 7 && now_d > 11 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h > 22 || now_y == 2021 && now_mo == 7 && now_d == 11 && now_h == 22 && now_m > 10) {
+            if (now >= a4_end) {
                 document.getElementById("a4").style = "color: #aaaaaa;";
             }
         </script>
@@ -146,8 +128,8 @@
         </div>
         <br />
         <h3>评分信息</h3>
-        <p>评委可从 0 ~ 10 分中为玩家所做的旗帜打分，分值可以有两位小数，不可弃权。将评委打出的分数中去掉一个最高分，去掉一个最低分，再计算平均分，最终排名按计算出的平均分进行排名。当玩家并列排名时，后续排名不顺延。</p>
-        <p>为确保评委评分不受其他评委打出的分数影响，所有评委需在给定的书与笔中在玩家ID后 (示例: Player: 5.5) 打出分数，评分结束后交给xtsdcb69进行统分。在聊天栏中打出分数一律无效。</p>
+        <p>评委可从 0 ~ 10 分中为玩家所做的旗帜打分，分值可以有两位小数。将评委打出的分数中去掉一个最高分，去掉一个最低分，再计算平均分，最终排名按计算出的平均分进行排名。当玩家并列排名时，后续排名不顺延。</p>
+        <p>为确保评委评分不受其他评委打出的分数影响，所有评委需在给定的书与笔中在玩家ID后打出分数，评分结束后交给xtsdcb69进行统分。在聊天栏中打出分数一律无效。</p>
         <br />
         <h3>成绩</h3>
         <blockquote>
