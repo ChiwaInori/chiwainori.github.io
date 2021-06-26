@@ -51,7 +51,7 @@
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
-                        <span id="cd_h" style="color: #dd0000;"></span>
+                        <strong><span id="cd_h" style="color: #dd0000;"></span></strong>
                         <span id="cd_h_dot">•</span>
                     </span>
                     <span id="cd_m"></span>
@@ -160,7 +160,7 @@
                         document.getElementById("countdown").style = "margin-left: -30px;";
                         document.getElementById("hourdisplay").innerHTML = "";
                     } else {
-                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\"></span><span id=\"cd_h_dot\"> •</span>";
+                        document.getElementById("hourdisplay").innerHTML = "<strong><span id=\"cd_h\" style=\"color: #dd0000;\"></span></strong><span id=\"cd_h_dot\"> •</span>";
                         document.getElementById("cd_h").innerHTML = totalhours;
                     }
 
