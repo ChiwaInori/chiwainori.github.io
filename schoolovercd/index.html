@@ -51,7 +51,7 @@
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
-                        <strong><span id="cd_h" style="color: #dd0000;"></span></strong>
+                        <span id="cd_h" style="color: #dd0000;"></span>
                         <span id="cd_h_dot">•</span>
                     </span>
                     <span id="cd_m"></span>
@@ -60,12 +60,10 @@
                 </h1>
             </div>
         </div>
-        <!--
         <div id="summervacation">
-            <h6>距离暑假还有 <span id="sv_t"></span> 小时</h6>
+            <!-- <h6>距离暑假还有 <span id="sv_t"></span> 小时</h6> -->
             <h6>(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
         </div>
-        -->
         <div id="notes">
             <br />
             <br />
@@ -160,7 +158,7 @@
                         document.getElementById("countdown").style = "margin-left: -30px;";
                         document.getElementById("hourdisplay").innerHTML = "";
                     } else {
-                        document.getElementById("hourdisplay").innerHTML = "<strong><span id=\"cd_h\" style=\"color: #dd0000;\"></span></strong><span id=\"cd_h_dot\"> •</span>";
+                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\" style=\"color: #dd0000;\"></span><span id=\"cd_h_dot\"> •</span>";
                         document.getElementById("cd_h").innerHTML = totalhours;
                     }
 
