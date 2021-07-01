@@ -47,7 +47,7 @@
     </div>
     <div class="content">
         <div id="countdownblock">
-            <h1 style="font-size: 50px;">距离暑假还有</h1>
+            <h1 style="font-size: 50px;">距离开学回校还有</h1>
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
@@ -60,12 +60,10 @@
                 </h1>
             </div>
         </div>
-        <!--
-        <div id="summervacation">
+        <div id="summervacation" style="display: none;">
             <h6>距离暑假还有 <span id="sv_t"></span> 小时</h6>
             <h6>(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
         </div>
-        -->
         <div id="notes">
             <br />
             <br />
@@ -129,7 +127,7 @@
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
                 var target_word = target_y + "." + target_m + "." + target_d + " 17:10";
-                getDistanceSpecifiedTime('2021.6.30 11:30');
+                getDistanceSpecifiedTime('2021.8.30 18:00');
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();

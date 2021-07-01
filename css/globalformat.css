@@ -45,3 +45,7 @@ blockquote p {
     color: #666666;
     margin: 0px 0px 10px 40px;
 }
+
+.navigation {
+    margin: -10px 0px 40px 0px;
+}
