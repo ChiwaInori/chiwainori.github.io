@@ -37,35 +37,35 @@
         var run_1_start_time = run_1_start.getTime();
         var run_1_end_time = run_1_end.getTime();
         if (now_time < run_1_start_time) {
-            document.getElementById("run_1_type").innerHTML = "已计划";
+            document.getElementById("run_1_type").innerHTML = "已计划 | ";
         }
         if (now_time >= run_1_start_time) {
             if (now_time < run_1_end_time) {
-                document.getElementById("run_1_type").innerHTML = "进行中";
+                document.getElementById("run_1_type").innerHTML = "进行中 | ";
                 document.getElementById("run_1_text").style = "color: #00dd00; font-weight:bold;";
                 document.getElementById("run_1_type").style = "color: #00dd00; font-weight:bold;";
             }
         }
         if (now_time >= run_1_end_time) {
-            document.getElementById("run_1_type").innerHTML = "已结束";
+            document.getElementById("run_1_type").innerHTML = "已结束 | ";
             document.getElementById("run_1_text").style = "color: #aaaaaa;";
             document.getElementById("run_1_type").style = "color: #aaaaaa;";
         }
 
-        var flag_2_start = new Date("2021.7.5 18:00");
-        var flag_2_end = new Date("2021.7.11 22:10");
+        var flag_2_start = new Date("2021.7.8 18:00");
+        var flag_2_end = new Date("2021.7.14 22:10");
         if (now < flag_2_start) {
-            document.getElementById("flag_2_type").innerHTML = "已计划";
+            document.getElementById("flag_2_type").innerHTML = "已计划 | ";
         }
         if (now >= flag_2_start) {
             if (now < flag_2_end) {
-                document.getElementById("flag_2_type").innerHTML = "进行中";
+                document.getElementById("flag_2_type").innerHTML = "进行中 | ";
                 document.getElementById("flag_2_text").style = "color: #00dd00; font-weight:bold;";
                 document.getElementById("flag_2_type").style = "color: #00dd00; font-weight:bold;";
             }
         }
         if (now >= flag_2_end) {
-            document.getElementById("flag_2_type").innerHTML = "已结束";
+            document.getElementById("flag_2_type").innerHTML = "已结束 | ";
             document.getElementById("flag_2_text").style = "color: #aaaaaa;";
             document.getElementById("flag_2_type").style = "color: #aaaaaa;";
         }
@@ -73,17 +73,17 @@
         var build_1_start = new Date("2020.8.26 0:00");
         var build_1_end = new Date("2020.8.26 23:59");
         if (now < build_1_start) {
-            document.getElementById("build_1_type").innerHTML = "已计划";
+            document.getElementById("build_1_type").innerHTML = "已计划 | ";
         }
         if (now >= build_1_start) {
             if (now < build_1_end) {
-                document.getElementById("build_1_type").innerHTML = "进行中";
+                document.getElementById("build_1_type").innerHTML = "进行中 | ";
                 document.getElementById("build_1_text").style = "color: #00dd00; font-weight:bold;";
                 document.getElementById("build_1_type").style = "color: #00dd00; font-weight:bold;";
             }
         }
         if (now >= build_1_end) {
-            document.getElementById("build_1_type").innerHTML = "已结束";
+            document.getElementById("build_1_type").innerHTML = "已结束 | ";
             document.getElementById("build_1_text").style = "color: #aaaaaa;";
             document.getElementById("build_1_type").style = "color: #aaaaaa;";
         }
@@ -91,17 +91,17 @@
         var flag_1_start = new Date("2020.4.18 0:00");
         var flag_1_end = new Date("2020.4.18 23:59");
         if (now < flag_1_start) {
-            document.getElementById("flag_1_type").innerHTML = "已计划";
+            document.getElementById("flag_1_type").innerHTML = "已计划 | ";
         }
         if (now >= flag_1_start) {
             if (now < flag_1_end) {
-                document.getElementById("flag_1_type").innerHTML = "进行中";
+                document.getElementById("flag_1_type").innerHTML = "进行中 | ";
                 document.getElementById("flag_1_text").style = "color: #00dd00; font-weight:bold;";
                 document.getElementById("flag_1_type").style = "color: #00dd00; font-weight:bold;";
             }
         }
         if (now >= flag_1_end) {
-            document.getElementById("flag_1_type").innerHTML = "已结束";
+            document.getElementById("flag_1_type").innerHTML = "已结束 | ";
             document.getElementById("flag_1_text").style = "color: #aaaaaa;";
             document.getElementById("flag_1_type").style = "color: #aaaaaa;";
         }
