@@ -49,3 +49,9 @@ blockquote p {
 .navigation {
     margin: -10px 0px 40px 0px;
 }
+
+.sticky_header {
+    background-color: #ffffdd;
+    position: sticky;
+    top: 0;
+}
