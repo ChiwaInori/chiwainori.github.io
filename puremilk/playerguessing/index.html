@@ -45,7 +45,9 @@
                 <br />sky_bow_chrs
                 <br />Taste_Steak
                 <br />tuffkotte
+                <br /><strong>Wu_Qi_Bz</strong>
                 <br />xtsdcb69
+                <br /><br />* 加粗的玩家ID表示TA主动申请
             </span>
         </p>
     </div>
@@ -67,7 +69,7 @@
         hintselect();
 
         function playerselect() {
-            var seed_a = Math.floor(Math.random() * 9) + 1;
+            var seed_a = Math.floor(Math.random() * 10) + 1;
             if (seed_a == 1) {
                 document.getElementById("player").innerHTML = "xtsdcb69";
             }
@@ -94,6 +96,9 @@
             }
             if (seed_a == 9) {
                 document.getElementById("player").innerHTML = "1461130641";
+            }
+            if (seed_a == 10) {
+                document.getElementById("player").innerHTML = "Wu_Qi_Bz";
             }
         }
 
@@ -356,7 +361,7 @@
                 }
             }
             if (player == "tuffkotte") {
-                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
                 var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
@@ -401,6 +406,9 @@
                 if (hint1 == 12) {
                     document.getElementById("hint1").innerHTML = "* TA是第一个被XTS表白的玩家";
                 }
+                if (hint1 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA在老东西俱乐部里";
+                }
                 if (hint2 == 1) {
                     document.getElementById("hint2").innerHTML = "* TA是男的";
                 }
@@ -436,6 +444,9 @@
                 }
                 if (hint2 == 12) {
                     document.getElementById("hint2").innerHTML = "* TA是第一个被XTS表白的玩家";
+                }
+                if (hint2 == 13) {
+                    document.getElementById("hint2").innerHTML = "* TA在老东西俱乐部里";
                 }
                 if (hint3 == 1) {
                     document.getElementById("hint3").innerHTML = "* TA是男的";
@@ -473,9 +484,12 @@
                 if (hint3 == 12) {
                     document.getElementById("hint3").innerHTML = "* TA是第一个被XTS表白的玩家";
                 }
+                if (hint3 == 13) {
+                    document.getElementById("hint3").innerHTML = "* TA在老东西俱乐部里";
+                }
             }
             if (player == "sky_bow_chrs") {
-                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
                 var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
@@ -526,6 +540,9 @@
                 if (hint1 == 14) {
                     document.getElementById("hint1").innerHTML = "* TA发过Minecraft视频";
                 }
+                if (hint1 == 15) {
+                    document.getElementById("hint1").innerHTML = "* TA在老东西俱乐部里";
+                }
                 if (hint2 == 1) {
                     document.getElementById("hint2").innerHTML = "* TA是男的";
                 }
@@ -568,6 +585,9 @@
                 if (hint2 == 14) {
                     document.getElementById("hint2").innerHTML = "* TA发过Minecraft视频";
                 }
+                if (hint2 == 15) {
+                    document.getElementById("hint2").innerHTML = "* TA在老东西俱乐部里";
+                }
                 if (hint3 == 1) {
                     document.getElementById("hint3").innerHTML = "* TA是男的";
                 }
@@ -609,6 +629,9 @@
                 }
                 if (hint3 == 14) {
                     document.getElementById("hint3").innerHTML = "* TA发过Minecraft视频";
+                }
+                if (hint3 == 15) {
+                    document.getElementById("hint3").innerHTML = "* TA在老东西俱乐部里";
                 }
             }
             if (player == "CY_wl") {
@@ -1213,6 +1236,125 @@
                 }
                 if (hint3 == 12) {
                     document.getElementById("hint3").innerHTML = "* TA的声音比较特别";
+                }
+            }
+            if (player == "Wu_Qi_Bz") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 3);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint1 = hint3d[hint1_p];
+                var hint2_p = 0; hint2_p < hint3d.length; hint2_p++;
+                var hint2 = hint3d[hint2_p];
+                var hint3_p = 1; hint3_p < hint3d.length; hint3_p++;
+                var hint3 = hint3d[hint3_p];
+                if (hint1 == 1) {
+                    document.getElementById("hint1").innerHTML = "* TA是男的";
+                }
+                if (hint1 == 2) {
+                    document.getElementById("hint1").innerHTML = "* TA没当过Puremilk管理员";
+                }
+                if (hint1 == 3) {
+                    document.getElementById("hint1").innerHTML = "* TA不是Milkmappers";
+                }
+                if (hint1 == 4) {
+                    document.getElementById("hint1").innerHTML = "* TA";
+                }
+                if (hint1 == 5) {
+                    document.getElementById("hint1").innerHTML = "* TA在一周目时加入了Puremilk";
+                }
+                if (hint1 == 6) {
+                    document.getElementById("hint1").innerHTML = "* TA被称为本子";
+                }
+                if (hint1 == 7) {
+                    document.getElementById("hint1").innerHTML = "* TA在老东西俱乐部里";
+                }
+                if (hint1 == 8) {
+                    document.getElementById("hint1").innerHTML = "* TA的ID由拼音组成";
+                }
+                if (hint1 == 9) {
+                    document.getElementById("hint1").innerHTML = "* TA改过ID";
+                }
+                if (hint1 == 10) {
+                    document.getElementById("hint1").innerHTML = "* TA的ID有下划线";
+                }
+                if (hint1 == 11) {
+                    document.getElementById("hint1").innerHTML = "* TA所在的省份黄梅戏比较出名";
+                }
+                if (hint1 == 12) {
+                    document.getElementById("hint1").innerHTML = "* TA加入Puremilk时还没上初中";
+                }
+                if (hint2 == 1) {
+                    document.getElementById("hint2").innerHTML = "* TA是男的";
+                }
+                if (hint2 == 2) {
+                    document.getElementById("hint2").innerHTML = "* TA没当过Puremilk管理员";
+                }
+                if (hint2 == 3) {
+                    document.getElementById("hint2").innerHTML = "* TA不是Milkmappers";
+                }
+                if (hint2 == 4) {
+                    document.getElementById("hint2").innerHTML = "* TA";
+                }
+                if (hint2 == 5) {
+                    document.getElementById("hint2").innerHTML = "* TA在一周目时加入了Puremilk";
+                }
+                if (hint2 == 6) {
+                    document.getElementById("hint2").innerHTML = "* TA被称为本子";
+                }
+                if (hint2 == 7) {
+                    document.getElementById("hint2").innerHTML = "* TA在老东西俱乐部里";
+                }
+                if (hint2 == 8) {
+                    document.getElementById("hint2").innerHTML = "* TA的ID由拼音组成";
+                }
+                if (hint2 == 9) {
+                    document.getElementById("hint2").innerHTML = "* TA改过ID";
+                }
+                if (hint2 == 10) {
+                    document.getElementById("hint2").innerHTML = "* TA的ID有下划线";
+                }
+                if (hint2 == 11) {
+                    document.getElementById("hint2").innerHTML = "* TA所在的省份黄梅戏比较出名";
+                }
+                if (hint2 == 12) {
+                    document.getElementById("hint2").innerHTML = "* TA加入Puremilk时还没上初中";
+                }
+                if (hint3 == 1) {
+                    document.getElementById("hint3").innerHTML = "* TA是男的";
+                }
+                if (hint3 == 2) {
+                    document.getElementById("hint3").innerHTML = "* TA没当过Puremilk管理员";
+                }
+                if (hint3 == 3) {
+                    document.getElementById("hint3").innerHTML = "* TA不是Milkmappers";
+                }
+                if (hint3 == 4) {
+                    document.getElementById("hint3").innerHTML = "* TA";
+                }
+                if (hint3 == 5) {
+                    document.getElementById("hint3").innerHTML = "* TA在一周目时加入了Puremilk";
+                }
+                if (hint3 == 6) {
+                    document.getElementById("hint3").innerHTML = "* TA被称为本子";
+                }
+                if (hint3 == 7) {
+                    document.getElementById("hint3").innerHTML = "* TA在老东西俱乐部里";
+                }
+                if (hint3 == 8) {
+                    document.getElementById("hint3").innerHTML = "* TA的ID由拼音组成";
+                }
+                if (hint3 == 9) {
+                    document.getElementById("hint3").innerHTML = "* TA改过ID";
+                }
+                if (hint3 == 10) {
+                    document.getElementById("hint3").innerHTML = "* TA的ID有下划线";
+                }
+                if (hint3 == 11) {
+                    document.getElementById("hint3").innerHTML = "* TA所在的省份黄梅戏比较出名";
+                }
+                if (hint3 == 12) {
+                    document.getElementById("hint3").innerHTML = "* TA加入Puremilk时还没上初中";
                 }
             }
         }
