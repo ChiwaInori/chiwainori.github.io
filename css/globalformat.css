@@ -32,7 +32,7 @@ a {
     text-decoration: none;
 }
 
-blockquote p {
+blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockquote h5, blockquote h6 {
     font-style: italic;
     color: #AAAAAA;
 }
