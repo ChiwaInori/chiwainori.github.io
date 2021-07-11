@@ -10,31 +10,73 @@
         function skin_dsf() {
             document.getElementById("skin").src = "../../wallpapers/dsf_wallpaper_pc.png";
             document.getElementById("skin_modify").innerHTML = "<a id=\"skin_modify_left\" href=\"#\" onclick=\"skin_sf()\">&lt;</a> Dead_SwordFish <a id=\"skin_modify_right\" href=\"#\" onclick=\"skin_re6_1()\">&gt;</a>";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_dsf()\">电脑壁纸</a>";
         }
 
         function skin_dsf_1() {
             document.getElementById("skin").src = "../../wallpapers/dsf_wallpaper_pc.png";
             document.getElementById("skin_modify").innerHTML = "<a id=\"skin_modify_left\" href=\"#\" onclick=\"skin_sf()\">&lt;</a> Dead_SwordFish <a id=\"skin_modify_right\" href=\"#\" onclick=\"skin_re6_1()\">&gt;</a>";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_dsf()\">电脑壁纸</a>";
         }
 
         function skin_re6() {
             document.getElementById("skin").src = "../../wallpapers/re6_wallpaper_pc.png";
             document.getElementById("skin_modify").innerHTML = "<a id=\"skin_modify_left\" href=\"#\" onclick=\"skin_dsf()\">&lt;</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Re6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a id=\"skin_modify_right\" href=\"#\" onclick=\"skin_sf_1()\">&gt;</a>";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_re6()\">电脑壁纸</a>";
         }
 
         function skin_re6_1() {
             document.getElementById("skin").src = "../../wallpapers/re6_wallpaper_pc.png";
             document.getElementById("skin_modify").innerHTML = "<a id=\"skin_modify_left\" href=\"#\" onclick=\"skin_dsf()\">&lt;</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Re6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a id=\"skin_modify_right\" href=\"#\" onclick=\"skin_sf_1()\">&gt;</a>";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_re6()\">电脑壁纸</a>";
         }
 
         function skin_sf() {
             document.getElementById("skin").src = "../../wallpapers/sf_wallpaper_pc.png";
             document.getElementById("skin_modify").innerHTML = "<a id=\"skin_modify_left\" href=\"#\" onclick=\"skin_re6()\">&lt;</a> &nbsp;&nbsp;Im_SwordFish&nbsp;&nbsp; <a id=\"skin_modify_right\" href=\"#\" onclick=\"skin_dsf_1()\">&gt;</a>";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_sf()\">电脑壁纸</a>";
         }
 
         function skin_sf_1() {
             document.getElementById("skin").src = "../../wallpapers/sf_wallpaper_pc.png";
             document.getElementById("skin_modify").innerHTML = "<a id=\"skin_modify_left\" href=\"#\" onclick=\"skin_re6()\">&lt;</a> &nbsp;&nbsp;Im_SwordFish&nbsp;&nbsp; <a id=\"skin_modify_right\" href=\"#\" onclick=\"skin_dsf_1()\">&gt;</a>";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_sf()\">电脑壁纸</a>";
+        }
+
+        function wallpaper_mobile_dsf() {
+            document.getElementById("skin").src = "../../wallpapers/dsf_wallpaper.png";
+            document.getElementById("skin").style="margin-left: 159px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_pc_dsf()\">手机壁纸</a>";
+        }
+
+        function wallpaper_pc_dsf() {
+            document.getElementById("skin").src = "../../wallpapers/dsf_wallpaper_pc.png";
+            document.getElementById("skin").style="margin-left: 40px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_dsf()\">电脑壁纸</a>";
+        }
+
+        function wallpaper_mobile_re6() {
+            document.getElementById("skin").src = "../../wallpapers/re6_wallpaper.png";
+            document.getElementById("skin").style="margin-left: 159px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_pc_re6()\">手机壁纸</a>";
+        }
+
+        function wallpaper_pc_re6() {
+            document.getElementById("skin").src = "../../wallpapers/re6_wallpaper_pc.png";
+            document.getElementById("skin").style="margin-left: 40px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_re6()\">电脑壁纸</a>";
+        }
+
+        function wallpaper_mobile_sf() {
+            document.getElementById("skin").src = "../../wallpapers/sf_wallpaper.png";
+            document.getElementById("skin").style="margin-left: 159px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_pc_sf()\">手机壁纸</a>";
+        }
+
+        function wallpaper_pc_sf() {
+            document.getElementById("skin").src = "../../wallpapers/sf_wallpaper_pc.png";
+            document.getElementById("skin").style="margin-left: 40px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile_sf()\">电脑壁纸</a>";
         }
     </script>
 </head>
@@ -52,8 +94,9 @@
     </div>
     <div class="content">
         <div id="infobox" style="float: right; margin-right: 10%;">
-            <img id="skin" src="../../wallpapers/sf_wallpaper_pc.png" width="320" />
+            <img id="skin" src="../../wallpapers/sf_wallpaper_pc.png" height="180" />
             <h5 style="text-align: center;" id="skin_modify"><a id="skin_modify_left" href="#" onclick="skin_re6()">&lt;</a> &nbsp;&nbsp;Im_SwordFish&nbsp;&nbsp; <a id="skin_modify_right" href="#" onclick="skin_dsf_1()">&gt;</a></h5>
+            <h6 style="text-align: center;" id="wallpaper_modify"><a id="wallpaper_modify" href="#" onclick="wallpaper_mobile_sf()">电脑壁纸</a></h6>
             <div id="details">
                 <table>
                     <tr id="id">
