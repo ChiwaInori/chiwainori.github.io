@@ -6,6 +6,19 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <script>
+        function wallpaper_mobile() {
+            document.getElementById("wallpaper").src = "../wallpapers/mg_wallpaper.png";
+            document.getElementById("wallpaper").style="margin-left: 159px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_pc()\">手机壁纸</a>";
+        }
+
+        function wallpaper_pc() {
+            document.getElementById("wallpaper").src = "../wallpapers/mg_wallpaper_pc.png";
+            document.getElementById("wallpaper").style="margin-left: 40px;";
+            document.getElementById("wallpaper_modify").innerHTML = "<a id=\"wallpaper_modify\" href=\"#\" onclick=\"wallpaper_mobile()\">电脑壁纸</a>";
+        }
+    </script>
 </head>
 
 
@@ -21,7 +34,8 @@
     </div>
     <div class="content">
         <div id="infobox" style="float: right; margin-right: 200px;">
-            <img src="../wallpapers/mg_wallpaper_pc.png" width="320" />
+            <img id="wallpaper" src="../wallpapers/mg_wallpaper_pc.png" height="180" />
+            <h6 style="text-align: center;" id="wallpaper_modify"><a id="wallpaper_modify" href="#" onclick="wallpaper_mobile()">电脑壁纸</a></h6>
             <div id="details">
                 <table>
                     <tr id="id">
