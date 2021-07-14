@@ -18,13 +18,13 @@
     <div class="content">
         <div id="status">
             <h3 id="status_text">该设备不支持获取活动状态</h3>
-            <h6 id="status_time">2021.7.8 15:00 - 2021.7.14 22:10</h6>
+            <h6 id="status_time">2021.7.8 15:00 - 待定</h6>
             <br />
             <h6 id="last">上一届 - <a href="../flag-1/">第一届旗帜投稿大赛</a></h6>
             <script>
                 var now = new Date();
                 var activity_start = new Date("2021.7.8 15:00");
-                var activity_end = new Date("2021.7.14 22:10");
+                var activity_end = new Date("2022.7.14 22:10");
                 if (now < activity_start) {
                     document.getElementById("status_text").innerHTML = "已计划";
                 }
