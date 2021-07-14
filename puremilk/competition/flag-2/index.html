@@ -73,6 +73,7 @@
         <p id="a1">报名时间: 2021.7.8 15:00 - 2021.7.14 18:00</p>
         <p id="a2">参赛时间: 2021.7.8 15:00 - 2021.7.14 18:00</p>
         <p id="a3">评分时间: 2021.7.14 21:00 - 2021.7.14 21:30, 后半阶段待定</p>
+        <h6 id="a3_a">(实际评分时间: 2021.7.14 21:00 - 2021.7.14 21:41)</h6>
         <p id="a4">颁奖时间: 待定</p>
         <br />
         <blockquote>
@@ -111,6 +112,7 @@
             }
             if (now >= a3_end) {
                 document.getElementById("a3").style = "color: #aaaaaa;";
+                document.getElementById("a3_a").style = "color: #aaaaaa;";
             }
             if (now >= a4_start) {
                 if (now < a4_end) {
