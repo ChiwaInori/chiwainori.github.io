@@ -18,13 +18,13 @@
     <div class="content">
         <div id="status">
             <h3 id="status_text">该设备不支持获取活动状态</h3>
-            <h6 id="status_time">2021.7.8 15:00 - 待定</h6>
+            <h6 id="status_time">2021.7.8 15:00 - 2021.7.15 11:30</h6>
             <br />
             <h6 id="last">上一届 - <a href="../flag-1/">第一届旗帜投稿大赛</a></h6>
             <script>
                 var now = new Date();
                 var activity_start = new Date("2021.7.8 15:00");
-                var activity_end = new Date("2022.7.14 22:10");
+                var activity_end = new Date("2021.7.15 11:30");
                 if (now < activity_start) {
                     document.getElementById("status_text").innerHTML = "已计划";
                 }
@@ -75,7 +75,7 @@
         <p id="a3">评分时间: 2021.7.14 21:00 - 2021.7.14 21:30, 2021.7.15 10:10 - 2021.7.15 10:30</p>
         <p id="a3">评分时间: 2021.7.14 21:00 - 2021.7.14 21:30, 后半阶段待定</p>
         <h6 id="a3_a">(实际评分时间: 2021.7.14 21:00 - 2021.7.14 21:41)</h6>
-        <p id="a4">颁奖时间: 待定</p>
+        <p id="a4">颁奖时间: 2021.7.15 11:20 - 2021.7.15 11:30</p>
         <blockquote>
             <p>* 2021.7.14 21:41, 牛奶所在的城市全城停电, 评分&amp;颁奖阶段延期。</p>
             <p>** 由于技术问题, 2/21需要在后半段评分时间进行重评。2, 15-21期间，有4位评委 (JustXiaoZhu, JianZhuJZ, MC_shutiao_a, NIUNAI_milk) 未到场，xtsdcb69联系qq进行评分。最后，只有JustXiaoZhu及时回复。</p>
@@ -87,8 +87,8 @@
             var a2_end = new Date("2021.7.14 18:00");
             var a3_start = new Date("2021.7.14 21:00");
             var a3_end = new Date("2021.7.14 21:30");
-            var a4_start = new Date("2022.7.14 22:00");
-            var a4_end = new Date("2022.7.14 22:10");
+            var a4_start = new Date("2021.7.15 11:20");
+            var a4_end = new Date("2021.7.15 11:30");
 
             if (now >= a1_start) {
                 if (now < a1_end) {
