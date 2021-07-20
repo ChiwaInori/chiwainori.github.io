@@ -18,7 +18,7 @@
     <div class="content">
         <div id="status">
             <h3 id="status_text">该设备不支持获取活动状态</h3>
-            <h6 id="status_time">2021.7.13 15:00 - 2021.7.20 21:30</h6>
+            <h6 id="status_time">2021.7.13 15:00 - 待定</h6>
             <script>
                 var now = new Date();
                 var activity_start = new Date("2021.7.13 15:00");
@@ -48,6 +48,9 @@
         <p>参赛者入场后将会在等待区域等待2分钟。</p>
         <p>在等待区域时，参赛者会获得一些装备，附魔书，炼药原料，以及一些经验值。玩家可以利用这些东西组成不同的装备，以应对后面的不同障碍。所有参赛者的障碍相同。</p>
         <p>跑道总长500米，分为5部分，每部分长100米，不同的部分的主题以及考验的方面不同。所有参赛者共用一条跑道，一名参赛者跑完后，即轮到下一名参赛者进行。</p>
+        <blockquote>
+            <p>* 感谢 tuffkotte 和 sky_bow_chrs 为后续玩家的参赛打开了思路 (鞘翅飞) 。</p>
+        </blockquote>
         <br />
         <h3>报名方式</h3>
         <h4>玩家</h4>
@@ -56,15 +59,16 @@
         <br />
         <h3>时间线</h3>
         <p id="a1">报名时间: 2021.7.13 15:00 - 2021.7.20 15:00</p>
-        <p id="a2">参赛时间: 2021.7.20 20:00 - 2021.7.20 21:00</p>
-        <p id="a3">颁奖时间: 2021.7.20 21:20 - 2021.7.20 21:30</p>
+        <p id="a2">参赛时间: 2021.7.20 20:00 - 2021.7.20 21:00, 下半场待定</p>
+        <h6 id="a2_a">(实际评分时间: 2021.7.20 20:00 - 2021.7.20 22:33)</h6>
+        <p id="a3">颁奖时间: 待定</p>
         <script>
             var a1_start = new Date("2021.7.13 15:00");
             var a1_end = new Date("2021.7.20 15:00");
             var a2_start = new Date("2021.7.20 20:00");
             var a2_end = new Date("2021.7.20 21:00");
-            var a3_start = new Date("2021.7.20 21:20");
-            var a3_end = new Date("2021.7.20 21:30");
+            var a3_start = new Date("2022.7.20 21:20");
+            var a3_end = new Date("2022.7.20 21:30");
 
             if (now >= a1_start) {
                 if (now < a1_end) {
@@ -81,6 +85,7 @@
             }
             if (now >= a2_end) {
                 document.getElementById("a2").style = "color: #aaaaaa;";
+                document.getElementById("a2_a").style = "color: #aaaaaa;";
             }
             if (now >= a3_start) {
                 if (now < a3_end) {
@@ -113,11 +118,11 @@
             <p>JieShen_</p>
             <p>BLQwQ</p>
             <p>mhh312</p>
-            <p>WtDoCTa</p>
+            <p>WtDoCTa <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
             <p>X_JunMou</p>
             <p>Starky_c</p>
             <p>Viller_Fan</p>
-            <p>DogeEgg_QAQ</p>
+            <p>DogeEgg_QAQ <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
             <p>Bilibili_danmuji</p>
             <p>YUXIA_233</p>
             <p>shabi_awa</p>
@@ -126,13 +131,13 @@
             <p>X_ShenMo</p>
             <p>MC_shutiao_a</p>
             <p>xtsdcb69</p>
-            <p>Li_Ziming</p>
+            <p>Li_Ziming <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
             <p>sscount</p>
             <p>YoiCoi</p>
             <p>Minecraft_Kissve</p>
             <p>kevinspeshul</p>
             <p>MorryMo</p>
-            <p>xiaozhao720</p>
+            <p>xiaozhao720 <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
             <p>SakurGu</p>
             <p>CyanLemon</p>
             <p>Lazy_Chara</p>
@@ -145,7 +150,7 @@
         <br />
         <h3>成绩</h3>
         <blockquote>
-            <p>成绩尚未公布。</p>
+            <p>* 这一届除了前面两个人老实跑外，后面的都是用鞘翅飞的，下一届不给鞘翅了 qwq</p>
         </blockquote>
     </div>
 </body>
