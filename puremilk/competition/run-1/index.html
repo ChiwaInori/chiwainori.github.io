@@ -18,11 +18,11 @@
     <div class="content">
         <div id="status">
             <h3 id="status_text">该设备不支持获取活动状态</h3>
-            <h6 id="status_time">2021.7.13 15:00 - 待定</h6>
+            <h6 id="status_time">2021.7.13 15:00 - 2021.7.21 21:50</h6>
             <script>
                 var now = new Date();
                 var activity_start = new Date("2021.7.13 15:00");
-                var activity_end = new Date("2022.7.20 21:30");
+                var activity_end = new Date("2021.7.21 21:50");
                 if (now < activity_start) {
                     document.getElementById("status_text").innerHTML = "已计划";
                 }
@@ -72,16 +72,16 @@
         <br />
         <h3>时间线</h3>
         <p id="a1">报名时间: 2021.7.13 15:00 - 2021.7.20 15:00</p>
-        <p id="a2">参赛时间: 2021.7.20 20:00 - 2021.7.20 21:00, 下半场待定</p>
+        <p id="a2">参赛时间: 2021.7.20 20:00 - 2021.7.20 21:00, 2021.7.21 20:00 - 2021.7.21 21:00</p>
         <h6 id="a2_a">(实际评分时间: 2021.7.20 20:00 - 2021.7.20 22:33)</h6>
-        <p id="a3">颁奖时间: 待定</p>
+        <p id="a3">颁奖时间: 2021.7.21 21:40 - 21:50</p>
         <script>
             var a1_start = new Date("2021.7.13 15:00");
             var a1_end = new Date("2021.7.20 15:00");
             var a2_start = new Date("2021.7.20 20:00");
             var a2_end = new Date("2021.7.20 21:00");
-            var a3_start = new Date("2022.7.20 21:20");
-            var a3_end = new Date("2022.7.20 21:30");
+            var a3_start = new Date("2021.7.21 21:40");
+            var a3_end = new Date("2021.7.21 21:50");
 
             if (now >= a1_start) {
                 if (now < a1_end) {
