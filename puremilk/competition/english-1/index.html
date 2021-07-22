@@ -18,11 +18,11 @@
     <div class="content">
         <div id="status">
             <h3 id="status_text">该设备不支持获取活动状态</h3>
-            <h6 id="status_time">2021.7.23 15:00 - 2021.7.25 10:10</h6>
+            <h6 id="status_time">2021.7.23 15:00 - 2021.7.26 10:10</h6>
             <script>
                 var now = new Date();
                 var activity_start = new Date("2021.7.23 15:00");
-                var activity_end = new Date("2021.7.25 10:10");
+                var activity_end = new Date("2021.7.26 10:10");
                 if (now < activity_start) {
                     document.getElementById("status_text").innerHTML = "已计划";
                 }
@@ -55,16 +55,16 @@
         <p>填写<a href="https://docs.qq.com/form/page/DQUJ5ek5RemlWYURY?_w_tencentdocx_form=1">报名申请表</a>来进行报名。</p>
         <br />
         <h3>时间线</h3>
-        <p id="a1">报名时间: 2021.7.22 15:00 - 2021.7.23 19:30</p>
-        <p id="a2">参赛时间: 2021.7.23 20:00 - 2021.7.23 21:00</p>
-        <p id="a3">颁奖时间: 2021.7.24 10:00 - 2021.7.24 10:10</p>
+        <p id="a1">报名时间: 2021.7.22 15:00 - 2021.7.25 19:30</p>
+        <p id="a2">参赛时间: 2021.7.25 20:00 - 2021.7.25 21:00</p>
+        <p id="a3">颁奖时间: 2021.7.26 10:00 - 2021.7.26 10:10</p>
         <script>
             var a1_start = new Date("2021.7.22 15:00");
-            var a1_end = new Date("2021.7.23 19:30");
-            var a2_start = new Date("2021.7.23 20:00");
-            var a2_end = new Date("2021.7.23 21:00");
-            var a3_start = new Date("2021.7.24 10:00");
-            var a3_end = new Date("2021.7.24 10:10");
+            var a1_end = new Date("2021.7.25 19:30");
+            var a2_start = new Date("2021.7.25 20:00");
+            var a2_end = new Date("2021.7.25 21:00");
+            var a3_start = new Date("2021.7.26 10:00");
+            var a3_end = new Date("2021.7.26 10:10");
 
             if (now >= a1_start) {
                 if (now < a1_end) {
