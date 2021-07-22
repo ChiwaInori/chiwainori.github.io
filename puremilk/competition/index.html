@@ -22,6 +22,9 @@
             <p style="color: #dd0000;"><strong>* 该设备不支持获取活动状态</strong></p>
             <br />
         </div>
+        <h3><a href="./english-1/">第一届障碍跑大赛</a></h3>
+        <h4 id="english_1_text"><span id="english_1_type"></span>2021.7.23 15:00 - 2021.7.25 10:10</h4>
+        <br />
         <h3><a href="./run-1/">第一届障碍跑大赛</a></h3>
         <h4 id="run_1_text"><span id="run_1_type"></span>2021.7.13 15:00 - 2021.7.22 10:30</h4>
         <br />
@@ -46,6 +49,24 @@
         var verify = new Date("2007.3.2");
         if (now > verify || now == verify || now < verify) {
             document.getElementById("notsupported").style = "display: none;";
+        }
+
+        var english_1_start = new Date("2021.7.23 15:00");
+        var english_1_end = new Date("2021.7.25 10:10");
+        if (now < english_1_start) {
+            document.getElementById("english_1_type").innerHTML = "已计划 | ";
+        }
+        if (now >= english_1_start) {
+            if (now < english_1_end) {
+                document.getElementById("english_1_type").innerHTML = "进行中 | ";
+                document.getElementById("english_1_text").style = "color: #00dd00; font-weight:bold;";
+                document.getElementById("english_1_type").style = "color: #00dd00; font-weight:bold;";
+            }
+        }
+        if (now >= english_1_end) {
+            document.getElementById("english_1_type").innerHTML = "已结束 | ";
+            document.getElementById("english_1_text").style = "color: #aaaaaa;";
+            document.getElementById("english_1_type").style = "color: #aaaaaa;";
         }
 
         var run_1_start = new Date("2021.7.13 15:00");
