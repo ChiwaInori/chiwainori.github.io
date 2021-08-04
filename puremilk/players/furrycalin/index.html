@@ -235,13 +235,13 @@
         var month = date.getMonth();
         var month = month + 1;
         var day = date.getDate();
-        if (month == 5 && day == 5) {
+        if (month == 10 && day == 12) {
             document.getElementById("hb").innerHTML = "生日快乐!";
             document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #edac15;";
             document.getElementById("birthday-text").style = "color: #63c9cd;";
             document.getElementById("agenum").style = "color: #63c9cd;";
         }
-        if (month == 5 && day >= 5 || month > 5) {
+        if (month == 10 && day >= 12 || month > 10) {
             var year = date.getFullYear();
             var age = year - 2004;
             document.getElementById("agenum").innerHTML = age;
