@@ -1124,7 +1124,7 @@
                 }
             }
             if (player == "1461130641") {
-                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
                 var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
@@ -1169,6 +1169,9 @@
                 if (hint1 == 12) {
                     document.getElementById("hint1").innerHTML = "* TA的声音比较特别";
                 }
+                if (hint1 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA所在的省份黄梅戏比较出名";
+                }
                 if (hint2 == 1) {
                     document.getElementById("hint2").innerHTML = "* TA是男的";
                 }
@@ -1205,6 +1208,9 @@
                 if (hint2 == 12) {
                     document.getElementById("hint2").innerHTML = "* TA的声音比较特别";
                 }
+                if (hint2 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA所在的省份黄梅戏比较出名";
+                }
                 if (hint3 == 1) {
                     document.getElementById("hint3").innerHTML = "* TA是男的";
                 }
@@ -1240,6 +1246,9 @@
                 }
                 if (hint3 == 12) {
                     document.getElementById("hint3").innerHTML = "* TA的声音比较特别";
+                }
+                if (hint3 == 13) {
+                    document.getElementById("hint1").innerHTML = "* TA所在的省份黄梅戏比较出名";
                 }
             }
             if (player == "RAYFA_Bz") {
