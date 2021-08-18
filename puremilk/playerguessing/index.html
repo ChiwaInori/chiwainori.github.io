@@ -28,7 +28,6 @@
         <p id="hint3">&nbsp;</p>
         <br />
         <p>注: 同样的信息可能会有多个玩家，请多试几次。</p>
-        <p id="player" style="display: none;"></p>
         <br />
         <div id="submitinformation">
             <p onclick="submitinformation()" class="link">关于玩家信息投稿方式...</p>
@@ -46,12 +45,13 @@
                 <br /><strong>RAYFA_Bz</strong>
                 <br />sky_bow_chrs
                 <br />Taste_Steak
-                <br />tuffkotte
+                <br />tuffcute_WDNMD
                 <br />xtsdcb69
                 <br /><br />* 加粗的玩家ID表示TA主动申请
             </span>
         </p>
     </div>
+    <p id="player" style="display: none;"></p>
     <script>
         function button() {
             var ipt = document.getElementById("ipt").value;
@@ -78,7 +78,7 @@
                 document.getElementById("player").innerHTML = "Im_SwordFish";
             }
             if (seed_a == 3) {
-                document.getElementById("player").innerHTML = "tuffkotte";
+                document.getElementById("player").innerHTML = "tuffcute_WDNMD";
             }
             if (seed_a == 4) {
                 document.getElementById("player").innerHTML = "sky_bow_chrs";
@@ -364,7 +364,7 @@
                     document.getElementById("hint3").innerHTML = "* TA曾多次退群";
                 }
             }
-            if (player == "tuffkotte") {
+            if (player == "tuffcute_WDNMD") {
                 var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
                 hint.sort(function () { return 0.5 - Math.random(); });
                 var hint3d = hint.slice(0, 3);
@@ -1396,7 +1396,7 @@
                     document.getElementById("hint1").innerHTML = "* TA在一周目时加入了Puremilk";
                 }
                 if (hint1 == 6) {
-                    document.getElementById("hint1").innerHTML = "* TA在零时差里";
+                    document.getElementById("hint1").innerHTML = "* TA的ID没有数字";
                 }
                 if (hint1 == 7) {
                     document.getElementById("hint1").innerHTML = "* TA是FURRY控";
@@ -1432,7 +1432,7 @@
                     document.getElementById("hint2").innerHTML = "* TA在一周目时加入了Puremilk";
                 }
                 if (hint2 == 6) {
-                    document.getElementById("hint2").innerHTML = "* TA在零时差里";
+                    document.getElementById("hint2").innerHTML = "* TA的ID没有数字";
                 }
                 if (hint2 == 7) {
                     document.getElementById("hint2").innerHTML = "* TA是FURRY控";
@@ -1468,7 +1468,7 @@
                     document.getElementById("hint3").innerHTML = "* TA在一周目时加入了Puremilk";
                 }
                 if (hint3 == 6) {
-                    document.getElementById("hint3").innerHTML = "* TA在零时差里";
+                    document.getElementById("hint3").innerHTML = "* TA的ID没有数字";
                 }
                 if (hint3 == 7) {
                     document.getElementById("hint3").innerHTML = "* TA是FURRY控";
