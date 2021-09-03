@@ -47,11 +47,11 @@
     </div>
     <div class="content">
         <div id="countdownblock">
-            <h1 style="font-size: 50px;">距离开学回校还有</h1>
+            <h1 style="font-size: 50px;">距离放学回家还有</h1>
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
-                        <span id="cd_h" style="color: #dd0000;"></span>
+                        <span id="cd_h"></span>
                         <span id="cd_h_dot">•</span>
                     </span>
                     <span id="cd_m"></span>
@@ -60,7 +60,7 @@
                 </h1>
             </div>
         </div>
-        <div id="summervacation" style="display: none;">
+        <div id="summervacation">
             <h6>距离暑假还有 <span id="sv_t"></span> 小时</h6>
             <h6>(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
         </div>
@@ -73,7 +73,7 @@
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
             <p>使用移动设备查看此界面及其子界面可能会出现问题。</p>
             <br />
-            <p>Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2013 XuZY (xtsdcb69). All Rights Reserved.</p>
+            <p>Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY (xtsdcb69). All Rights Reserved.</p>
             <script>
                 var date1 = new Date();
                 var thisyear = date1.getFullYear();
@@ -126,8 +126,8 @@
                 var target_m = target.getMonth();
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
-                var target_word = target_y + "." + target_m + "." + target_d + " 17:10";
-                getDistanceSpecifiedTime('2021.8.30 18:00');
+                var target_word = target_y + "." + target_m + "." + target_d + " 17:15";
+                getDistanceSpecifiedTime(target_word);
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
@@ -158,7 +158,7 @@
                         document.getElementById("countdown").style = "margin-left: -30px;";
                         document.getElementById("hourdisplay").innerHTML = "";
                     } else {
-                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\" style=\"color: #dd0000;\"></span><span id=\"cd_h_dot\"> •</span>";
+                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\"></span><span id=\"cd_h_dot\"> •</span>";
                         document.getElementById("cd_h").innerHTML = totalhours;
                     }
 
@@ -205,9 +205,9 @@
                 }
                 getDistanceSpecifiedTimeSV();
                 function getDistanceSpecifiedTimeSV() {
-                    var EndTimeSV = new Date("2021.6.30 10:40");
+                    var EndTimeSV = new Date("2022.1.21 10:40");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2021.2.28 17:10");
+                    var StartTimeSV = new Date("2021.8.30 17:15");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
