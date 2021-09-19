@@ -55,3 +55,11 @@ blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockq
     position: sticky;
     top: 0;
 }
+
+.hiddenlink:link, .hiddenlink:visited, .hiddenlink {
+    color: #666666;
+}
+
+.hiddenlink:hover, .hiddenlink:hover {
+    color: #666666;
+}
