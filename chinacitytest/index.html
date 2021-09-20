@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>中国地级市猜省份测试 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">中国地级市猜省份测试</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>中国地级市猜省份测试</strong></h6>
+    </div>
+    <div class="content">
+        <p id="hint">&nbsp;</p>
+        <input id="ipt" type="text" onkeyup="button()" />
+        <button id="searchbutton" onclick="submit()" disabled="disabled">无效</button>
+        <p id="final">&nbsp;</p>
+        <h5 id="finalsub">&nbsp;</h5>
+        <br />
+        <p>注: 此测试根据 2021 年中国地级市列表制作。回答均填写全称，除自治区外的回答需要包括 &quot;省&quot; 字。此测试不包括 4 个直辖市 (2021): 北京市、天津市、上海市、重庆市，以及 2 个特别行政区 (2021): 香港特别行政区、澳门特别行政区。</p>
+    </div>
+    <p id="case" style="display: none;"></p>
+    <p id="ans" style="display: none;"></p>
+    <script>
+        function button() {
+            var ipt = document.getElementById("ipt").value;
+            if (ipt.toString().length < 1) {
+                document.getElementById("searchbutton").disabled = true;
+                document.getElementById("searchbutton").innerHTML = "无效";
+            }
+
+            if (ipt.toString().length >= 1) {
+                document.getElementById("searchbutton").disabled = false;
+                document.getElementById("searchbutton").innerHTML = "提交";
+            }
+        }
+
+        caseselect();
+        hintselect();
+
+        function caseselect() {
+            var seed_case = Math.floor(Math.random() * 28) + 1;
+            if (seed_case == 1) {
+                document.getElementById("case").innerHTML = "hebei";
+            }
+            if (seed_case == 2) {
+                document.getElementById("case").innerHTML = "shanxi";
+            }
+            if (seed_case == 3) {
+                document.getElementById("case").innerHTML = "inner-mongolia";
+            }
+            if (seed_case == 4) {
+                document.getElementById("case").innerHTML = "liaoning";
+            }
+            if (seed_case == 5) {
+                document.getElementById("case").innerHTML = "jilin";
+            }
+            if (seed_case == 6) {
+                document.getElementById("case").innerHTML = "heilongjiang";
+            }
+            if (seed_case == 7) {
+                document.getElementById("case").innerHTML = "jiangsu";
+            }
+            if (seed_case == 8) {
+                document.getElementById("case").innerHTML = "zhejiang";
+            }
+            if (seed_case == 9) {
+                document.getElementById("case").innerHTML = "anhui";
+            }
+            if (seed_case == 10) {
+                document.getElementById("case").innerHTML = "fujian";
+            }
+            if (seed_case == 11) {
+                document.getElementById("case").innerHTML = "jiangxi";
+            }
+            if (seed_case == 12) {
+                document.getElementById("case").innerHTML = "shandong";
+            }
+            if (seed_case == 13) {
+                document.getElementById("case").innerHTML = "henan";
+            }
+            if (seed_case == 14) {
+                document.getElementById("case").innerHTML = "hubei";
+            }
+            if (seed_case == 15) {
+                document.getElementById("case").innerHTML = "hunan";
+            }
+            if (seed_case == 16) {
+                document.getElementById("case").innerHTML = "guangdong";
+            }
+            if (seed_case == 17) {
+                document.getElementById("case").innerHTML = "guangxi";
+            }
+            if (seed_case == 18) {
+                document.getElementById("case").innerHTML = "hainan";
+            }
+            if (seed_case == 19) {
+                document.getElementById("case").innerHTML = "sichuan";
+            }
+            if (seed_case == 20) {
+                document.getElementById("case").innerHTML = "guizhou";
+            }
+            if (seed_case == 21) {
+                document.getElementById("case").innerHTML = "yunnan";
+            }
+            if (seed_case == 22) {
+                document.getElementById("case").innerHTML = "xizang";
+            }
+            if (seed_case == 23) {
+                document.getElementById("case").innerHTML = "shaanxi";
+            }
+            if (seed_case == 24) {
+                document.getElementById("case").innerHTML = "gansu";
+            }
+            if (seed_case == 25) {
+                document.getElementById("case").innerHTML = "qinghai";
+            }
+            if (seed_case == 26) {
+                document.getElementById("case").innerHTML = "ningxia";
+            }
+            if (seed_case == 27) {
+                document.getElementById("case").innerHTML = "xinjiang";
+            }
+            if (seed_case == 28) {
+                document.getElementById("case").innerHTML = "taiwan";
+            }
+        }
+
+        function hintselect() {
+            var caseid = document.getElementById("case").innerHTML;
+            // 排序按照 商务型球版八年级上册地理 P9 表1-1-1 排序。
+            if (caseid == "hebei") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>石家庄市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>唐山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>秦皇岛市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>邯郸市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>邢台市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>保定市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>张家口市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>承德市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>沧州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>廊坊市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>衡水市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "河北省";
+            }
+            if (caseid == "shanxi") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>太原市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>大同市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>阳泉市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>长治市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>晋城市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>朔州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>晋中市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>运城市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>忻州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>临汾市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>吕梁市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "山西省";
+            }
+            if (caseid == "inner-mongolia") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>呼和浩特市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>包头市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>乌海市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>赤峰市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>通辽市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>鄂尔多斯市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>呼伦贝尔市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>巴彦淖尔市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>乌兰察布市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "内蒙古自治区";
+            }
+            if (caseid == "liaoning") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>沈阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>大连市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>鞍山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>抚顺市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>本溪市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>丹东市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>锦州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>营口市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>阜新市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>辽阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>盘锦市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>铁岭市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>朝阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>葫芦岛市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "辽宁省";
+            }
+            if (caseid == "jilin") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>长春市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>吉林市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>四平市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>辽源市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>通化市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>白山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>松原市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>白城市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "吉林省";
+            }
+            if (caseid == "heilongjiang") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>哈尔滨市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>齐齐哈尔市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>鸡西市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>鹤岗市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>双鸭山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>大庆市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>伊春市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>佳木斯市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>七台河市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>牡丹江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>黑河市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>绥化市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "黑龙江省";
+            }
+            if (caseid == "jiangsu") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>南京市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>无锡市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>徐州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>常州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>苏州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>南通市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>连云港市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>淮安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>盐城市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>扬州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>镇江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>泰州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>宿迁市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "江苏省";
+            }
+            if (caseid == "zhejiang") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>杭州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>宁波市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>温州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>嘉兴市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>湖州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>绍兴市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>金华市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>衢州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>舟山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>台州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>丽水市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "浙江省";
+            }
+            if (caseid == "anhui") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>合肥市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>芜湖市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>蚌埠市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>淮南市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>马鞍山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>淮北市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>铜陵市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>安庆市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>黄山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>阜阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>宿州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>滁州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>六安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>宣城市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 15) {
+                    document.getElementById("hint").innerHTML = "<strong>池州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 16) {
+                    document.getElementById("hint").innerHTML = "<strong>亳州市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "安徽省";
+            }
+            if (caseid == "fujian") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>福州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>厦门市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>莆田市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>三明市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>泉州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>漳州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>南平市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>龙岩市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>宁德市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "福建省";
+            }
+            if (caseid == "anhui") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>南昌市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>景德镇市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>萍乡市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>九江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>抚州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>鹰潭市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>赣州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>吉安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>宜春市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>新余市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>上饶市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "江西省";
+            }
+            if (caseid == "shandong") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>济南市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>青岛市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>淄博市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>枣庄市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>东营市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>烟台市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>潍坊市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>济宁市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>泰安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>威海市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>日照市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>临沂市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>德州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>聊城市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 15) {
+                    document.getElementById("hint").innerHTML = "<strong>滨州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 16) {
+                    document.getElementById("hint").innerHTML = "<strong>菏泽市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "山东省";
+            }
+            if (caseid == "henan") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>郑州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>开封市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>洛阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>平顶山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>安阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>鹤壁市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>新乡市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>焦作市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>濮阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>许昌市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>漯河市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>三门峡市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>南阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>商丘市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 15) {
+                    document.getElementById("hint").innerHTML = "<strong>信阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 16) {
+                    document.getElementById("hint").innerHTML = "<strong>周口市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 17) {
+                    document.getElementById("hint").innerHTML = "<strong>驻马店市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "河南省";
+            }
+            if (caseid == "hubei") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>武汉市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>黄石市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>十堰市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>宜昌市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>襄阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>鄂州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>荆门市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>孝感市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>荆州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>黄冈市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>咸宁市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>随州市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "湖北省";
+            }
+            if (caseid == "hunan") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>长沙市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>株洲市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>湘潭市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>衡阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>邵阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>岳阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>常德市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>张家界市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>益阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>郴州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>永州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>怀化市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>娄底市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "湖南省";
+            }
+            if (caseid == "guangdong") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>广州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>韶关市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>深圳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>珠海市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>汕头市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>佛山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>江门市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>湛江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>茂名市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>肇庆市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>惠州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>梅州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>汕尾市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>河源市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 15) {
+                    document.getElementById("hint").innerHTML = "<strong>阳江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 16) {
+                    document.getElementById("hint").innerHTML = "<strong>清远市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 17) {
+                    document.getElementById("hint").innerHTML = "<strong>东莞市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 18) {
+                    document.getElementById("hint").innerHTML = "<strong>中山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 19) {
+                    document.getElementById("hint").innerHTML = "<strong>潮州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 20) {
+                    document.getElementById("hint").innerHTML = "<strong>揭阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 21) {
+                    document.getElementById("hint").innerHTML = "<strong>云浮市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "广东省";
+            }
+            if (caseid == "guangxi") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>南宁市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>柳州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>桂林市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>梧州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>北海市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>防城港市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>钦州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>贵港市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>玉林市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>百色市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>贺州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>河池市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>来宾市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>崇左市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "广西壮族自治区";
+            }
+            if (caseid == "hainan") {
+                var hint = [1, 2, 3, 4];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>海口市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>三亚市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>三沙市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>儋州市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "海南省";
+            }
+            if (caseid == "sichuan") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>成都市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>自贡市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>攀枝花市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>泸州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>德阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>绵阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>广元市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>遂宁市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>内江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>乐山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>南充市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>眉山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 13) {
+                    document.getElementById("hint").innerHTML = "<strong>宜宾市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 14) {
+                    document.getElementById("hint").innerHTML = "<strong>广安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 15) {
+                    document.getElementById("hint").innerHTML = "<strong>达州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 16) {
+                    document.getElementById("hint").innerHTML = "<strong>雅安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 17) {
+                    document.getElementById("hint").innerHTML = "<strong>巴中市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 18) {
+                    document.getElementById("hint").innerHTML = "<strong>资阳市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "四川省";
+            }
+            if (caseid == "guizhou") {
+                var hint = [1, 2, 3, 4, 5, 6];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>贵阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>六盘水市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>遵义市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>安顺市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>毕节市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>铜仁市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "贵州省";
+            }
+            if (caseid == "yunnan") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>昆明市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>曲靖市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>玉溪市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>保山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>昭通市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>丽江市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>普洱市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>临沧市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "云南省";
+            }
+            if (caseid == "xizang") {
+                var hint = [1, 2, 3, 4, 5, 6];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>拉萨市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>日喀则市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>昌都市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>林芝市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>山南市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>那曲市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "西藏自治区";
+            }
+            if (caseid == "shaanxi") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>西安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>铜川市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>宝鸡市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>咸阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>渭南市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>延安市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>汉中市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>榆林市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>安康市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>商洛市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "陕西省";
+            }
+            if (caseid == "gansu") {
+                var hint = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>兰州市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>嘉峪关市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>金昌市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>白银市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>天水市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>武威市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 7) {
+                    document.getElementById("hint").innerHTML = "<strong>张掖市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 8) {
+                    document.getElementById("hint").innerHTML = "<strong>平凉市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 9) {
+                    document.getElementById("hint").innerHTML = "<strong>酒泉市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 10) {
+                    document.getElementById("hint").innerHTML = "<strong>庆阳市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 11) {
+                    document.getElementById("hint").innerHTML = "<strong>定西市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 12) {
+                    document.getElementById("hint").innerHTML = "<strong>陇南市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "甘肃省";
+            }
+            if (caseid == "qinghai") {
+                var hint = [1, 2];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>西宁市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>海东市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "青海省";
+            }
+            if (caseid == "ningxia") {
+                var hint = [1, 2, 3, 4, 5];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>银川市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>石嘴山市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>吴忠市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>固原市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>中卫市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "宁夏回族自治区";
+            }
+            if (caseid == "xinjiang") {
+                var hint = [1, 2, 3, 4];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>乌鲁木齐市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>克拉玛依市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>吐鲁番市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>哈密市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "新疆维吾尔自治区";
+            }
+            if (caseid == "台湾") {
+                var hint = [1, 2, 3, 4, 5, 6];
+                hint.sort(function () { return 0.5 - Math.random(); });
+                var hint3d = hint.slice(0, 1);
+                var hint1_p = -1; hint1_p < hint3d.length; hint1_p++;
+                var hint = hint3d[hint1_p];
+                if (hint == 1) {
+                    document.getElementById("hint").innerHTML = "<strong>台北市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 2) {
+                    document.getElementById("hint").innerHTML = "<strong>台南市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 3) {
+                    document.getElementById("hint").innerHTML = "<strong>高雄市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 4) {
+                    document.getElementById("hint").innerHTML = "<strong>桃园市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 5) {
+                    document.getElementById("hint").innerHTML = "<strong>台中市</strong> 所在的省级行政区域是?";
+                }
+                if (hint == 6) {
+                    document.getElementById("hint").innerHTML = "<strong>新北市</strong> 所在的省级行政区域是?";
+                }
+                document.getElementById("ans").innerHTML = "台湾省";
+            }
+        }
+
+        function submit() {
+            var ans = document.getElementById("ans").innerHTML;
+            var answer = document.getElementById("ipt").value;
+            if (ans == answer) {
+                document.getElementById("final").innerHTML = "<span style=\"color: #00dd00\"><strong>✓ 回答正确</strong></span>";
+                document.getElementById("finalsub").innerHTML = "<span style=\"color: #00dd00\"><strong>是 " + answer + "</strong></span>";
+            } else {
+                document.getElementById("final").innerHTML = "<span style=\"color: #dd0000\"><strong>✘ 回答错误</strong></span>";
+                document.getElementById("finalsub").innerHTML = "<span style=\"color: #dd0000\"><strong>不是 " + answer + "</strong></span>";
+            }
+        }
+    </script>
+</body>
+
+</html>
