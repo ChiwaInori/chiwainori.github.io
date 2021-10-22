@@ -166,19 +166,19 @@
         var month = date.getMonth();
         var month = month + 1;
         var day = date.getDate();
-        if (month == 4 && day == 11) {
+        if (month == 2 && day == 1) {
             document.getElementById("hb").innerHTML = "生日快乐!";
             document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #c7da1c;";
             document.getElementById("birthday-text").style = "color: #c7da1c;";
             document.getElementById("agenum").style = "color: #c7da1c;";
         }
-        if (month == 4 && day >= 11 || month > 4) {
+        if (month == 2 && day >= 1 || month > 2) {
             var year = date.getFullYear();
-            var age = year - 2007;
+            var age = year - 2008;
             document.getElementById("agenum").innerHTML = age;
         } else {
             var year = date.getFullYear();
-            var age = year - 2008;
+            var age = year - 2009;
             document.getElementById("agenum").innerHTML = age;
         }
     </script>
