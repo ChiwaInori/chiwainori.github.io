@@ -42,17 +42,7 @@
                 document.getElementById("req2").innerHTML = "✓ 正版账号";
                 document.getElementById("req3").style = "color: #00dd00;";
                 document.getElementById("req3").innerHTML = "✓ 2级或更高级粉丝牌";
-            }
-
-            if (denied1.indexOf(search) > -1) {
-                document.getElementById("result").style = "color: #dd0000;";
-                document.getElementById("result").innerHTML = "该玩家的入服请求已被拒绝。";
-                document.getElementById("req1").style = "color: #dd0000;";
-                document.getElementById("req1").innerHTML = "✘ 无效ID";
-            } else {
-                document.getElementById("req1").style = "color: #00dd00;";
-                document.getElementById("req1").innerHTML = "✓ 有效ID";
-            }
+            } 
 
             if (denied2.indexOf(search) > -1) {
                 document.getElementById("result").style = "color: #dd0000;";
@@ -62,6 +52,18 @@
             } else {
                 document.getElementById("req2").style = "color: #00dd00;";
                 document.getElementById("req2").innerHTML = "✓ 正版账号";
+            }
+
+            if (denied1.indexOf(search) > -1) {
+                document.getElementById("result").style = "color: #dd0000;";
+                document.getElementById("result").innerHTML = "该玩家的入服请求已被拒绝。";
+                document.getElementById("req1").style = "color: #dd0000;";
+                document.getElementById("req1").innerHTML = "✘ 无效ID";
+                document.getElementById("req2").style = "color: #dd0000;";
+                document.getElementById("req2").innerHTML = "✘ 无效正版账号";
+            } else {
+                document.getElementById("req1").style = "color: #00dd00;";
+                document.getElementById("req1").innerHTML = "✓ 有效ID";
             }
 
             if (denied3_0.indexOf(search) > -1) {
