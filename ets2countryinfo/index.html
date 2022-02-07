@@ -19,6 +19,7 @@
         <select style="margin-left: 40px;" id="list">
             <option value="select" id="select">选择一个国家...</option>
             <option value="n" id="n">挪威 / Norway / Norge / N</option>
+            <option value="s" id="s">瑞典 / Sweden / Sverige / S</option>
             <option value="more" id="more">更多国家将会在以后上线</option>
         </select>
         <button id="button" onclick="find()">查询</button>
@@ -81,6 +82,31 @@
                 document.getElementById("res12").innerHTML = "海底隧道: 无";
                 document.getElementById("res13").innerHTML = "边境检查站: 无";
                 document.getElementById("res14").innerHTML = "油价: <span style='color: #ffbb00;'>€1.41</span> / L";
+                document.getElementById("res15").innerHTML = "观光点: 无";
+                document.getElementById("res16").innerHTML = "红绿灯: <span style='color: #00dd00;'>●</span> > <span style='color: #ffdd00;'>●</span> > <span style='color: #dd0000;'>●</span> > <span style='color: #dd0000;'>●</span><span style='color: #ffdd00;'>●</span>";
+            }
+            if (targetvalue == "s")
+            {
+                document.getElementById("res").style = "display: block;";
+                document.getElementById("pleaseselect").style = "color: #dd0000; display: none;";
+                document.getElementById("res0").innerHTML = "国家基本信息";
+                document.getElementById("res1").innerHTML = "汉化国家名: 瑞典";
+                document.getElementById("res2").innerHTML = "英文国家名: Sweden";
+                document.getElementById("res3").innerHTML = "本地国家名: Sverige";
+                document.getElementById("res4").innerHTML = "国家简称: S";
+                document.getElementById("res4a").innerHTML = "首都: 斯德哥尔摩 / Stockholm";
+                document.getElementById("res5").innerHTML = "所需DLC: Scandinavia";
+                document.getElementById("res6").innerHTML = "高速公路信息";
+                document.getElementById("res7").innerHTML = "标识: <span style='color: #ffffff; background-color: rgb(0, 168, 98); border: 2px solid #ffffff;'>&nbsp;E 4&nbsp;</span>";
+                document.getElementById("res8").innerHTML = "常规限速: <span style='color: #dd0000;'>110</span> km/h (<span style='color: #dd0000;'>68</span> mph)";
+                document.getElementById("res9").innerHTML = "收费站: 部分 / 过站 - <span style='color: #ffffff; background-color: #004499; border: 2px solid #ffffff;'>&nbsp;Auto PASS&nbsp;</span> <span style='color: #00dd00;'>常规收费</span>";
+                document.getElementById("res10").innerHTML = "交通信息";
+                document.getElementById("res10a").innerHTML = "城市数量: 16";
+                document.getElementById("res10b").innerHTML = "国道标识: <span style='color: #ffffff; background-color: rgb(0, 168, 98); border: 2px solid #ffffff;'>&nbsp;E 18&nbsp;</span>";
+                document.getElementById("res11").innerHTML = "港口: <span style='color: #00a8ff;'>Kapellskär</span> (-> Naantali, Finland / Paldiski, Estonia), <span style='color: #00a8ff;'>Karlskrona</span> (-> Gdańsk, Poland), <span style='color: #00a8ff;'>Nynäshamn</span> (-> Gdańsk, Poland / Ventsplis, Latvia), <span style='color: #00a8ff;'>Trelleborg</span> (-> Rostock, Germany)";
+                document.getElementById("res12").innerHTML = "海底隧道: 无";
+                document.getElementById("res13").innerHTML = "边境检查站: 无";
+                document.getElementById("res14").innerHTML = "油价: <span style='color: #ffbb00;'>€1.49</span> / L";
                 document.getElementById("res15").innerHTML = "观光点: 无";
                 document.getElementById("res16").innerHTML = "红绿灯: <span style='color: #00dd00;'>●</span> > <span style='color: #ffdd00;'>●</span> > <span style='color: #dd0000;'>●</span> > <span style='color: #dd0000;'>●</span><span style='color: #ffdd00;'>●</span>";
             }
