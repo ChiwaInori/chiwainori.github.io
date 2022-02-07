@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>欧洲卡车模拟2 国家部分信息查询 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">欧洲卡车模拟2 国家部分信息查询</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>欧洲卡车模拟2 国家部分信息查询</strong></h6>
+    </div>
+    <div class="content">
+        <select style="margin-left: 40px;" id="list">
+            <option value="select" id="select">选择一个国家...</option>
+            <option value="n" id="n">挪威 / Norway / Norge / N</option>
+            <option value="more" id="more">更多国家将会在以后上线</option>
+        </select>
+        <button id="button" onclick="find()">查询</button>
+        <br /><br />
+        <h3>查询结果</h3>
+        <h5 style="color: #dd0000; display:none;" id="pleaseselect">请选择一个国家</h4>
+        <div id="res">
+            <h4 id="res0"></h4>
+            <h5 id="res1">在上方选择一个国家, 然后开始查询</h5>
+            <h5 id="res2"></h5>
+            <h5 id="res3"></h5>
+            <h5 id="res4"></h5>
+            <h5 id="res4a"></h5>
+            <h5 id="res5"></h5>
+            <br />
+            <h4 id="res6"></h4>
+            <h5 id="res7"></h5>
+            <h5 id="res8"></h5>
+            <h5 id="res9"></h5>
+            <br />
+            <h4 id="res10"></h4>
+            <h5 id="res10a"></h5>
+            <h5 id="res10b"></h5>
+            <h5 id="res11"></h5>
+            <h5 id="res12"></h5>
+            <h5 id="res13"></h5>
+            <h5 id="res14"></h5>
+            <h5 id="res15"></h5>
+            <h5 id="res16"></h5>
+        </div>
+    </div>
+    <script>
+        function find() {
+            var myselect = document.getElementById("list");
+            var targetvalue = myselect.options[myselect.selectedIndex].value;
+            if (targetvalue == "select" || targetvalue == "more")
+            {
+                document.getElementById("res").style = "display: none;";
+                document.getElementById("pleaseselect").style = "color: #dd0000; display: block;";
+            }
+            if (targetvalue == "n")
+            {
+                document.getElementById("res").style = "display: block;";
+                document.getElementById("pleaseselect").style = "color: #dd0000; display: none;";
+                document.getElementById("res0").innerHTML = "国家基本信息";
+                document.getElementById("res1").innerHTML = "汉化国家名: 挪威";
+                document.getElementById("res2").innerHTML = "英文国家名: Norway";
+                document.getElementById("res3").innerHTML = "本地国家名: Norge";
+                document.getElementById("res4").innerHTML = "国家简称: N";
+                document.getElementById("res4a").innerHTML = "首都: 奥斯陆 / Oslo";
+                document.getElementById("res5").innerHTML = "所需DLC: Scandinavia";
+                document.getElementById("res6").innerHTML = "高速公路信息";
+                document.getElementById("res7").innerHTML = "标识: <span style='color: #ffffff; background-color: rgb(0, 168, 98); border: 2px solid #ffffff;'>&nbsp;E 6&nbsp;</span>";
+                document.getElementById("res8").innerHTML = "常规限速: <span style='color: #dd0000;'>100</span> km/h (<span style='color: #dd0000;'>62</span> mph)";
+                document.getElementById("res9").innerHTML = "收费站: 部分 / 过站 - <span style='color: #00dd00;'>常规收费</span> <span style='color: #ffffff; background-color: #004499; border: 2px solid #ffffff;'>&nbsp;Auto PASS&nbsp;</span>";
+                document.getElementById("res10").innerHTML = "交通信息";
+                document.getElementById("res10a").innerHTML = "城市数量: 4";
+                document.getElementById("res10b").innerHTML = "国道标识: <span style='color: #ffffff; background-color: rgb(0, 168, 98); border: 2px solid #ffffff;'>&nbsp;13&nbsp;</span>";
+                document.getElementById("res11").innerHTML = "港口: <span style='color: #00a8ff;'>Bergen</span> (-> Hirtshals, Danmark), <span style='color: #00a8ff;'>Kirstiansand</span> (-> Hirtshals, Danmark), <span style='color: #00a8ff;'>Oslo</span> (-> Frederikshavn, Danmark), <span style='color: #00a8ff;'>Stavanger</span> (-> Hirtshals, Danmark)";
+                document.getElementById("res12").innerHTML = "海底隧道: 无";
+                document.getElementById("res13").innerHTML = "边境检查站: 无";
+                document.getElementById("res14").innerHTML = "油价: <span style='color: #ffbb00;'>€1.41</span> / L";
+                document.getElementById("res15").innerHTML = "观光点: 无";
+                document.getElementById("res16").innerHTML = "红绿灯: <span style='color: #00dd00;'>●</span> > <span style='color: #ffdd00;'>●</span> > <span style='color: #dd0000;'>●</span> > <span style='color: #dd0000;'>●</span><span style='color: #ffdd00;'>●</span>";
+            }
+        }
+    </script>
+</body>
+
+</html>

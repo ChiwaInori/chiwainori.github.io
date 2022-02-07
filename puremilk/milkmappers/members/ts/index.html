@@ -103,7 +103,7 @@
                             <h4>生日</h4>
                         </td>
                         <td align="center">
-                            <h4 id="birthday-text">?.10.30</h4>
+                            <h4 id="birthday-text">2005.11.1</h4>
                         </td>
                     </tr>
                     <tr id="age">
@@ -188,19 +188,19 @@
         var month = date.getMonth();
         var month = month + 1;
         var day = date.getDate();
-        if (month == 10 && day == 30) {
+        if (month == 11 && day == 1) {
             document.getElementById("hb").innerHTML = "生日快乐!";
             document.getElementById("hb").style = "text-align: center; font-size: 50px; color: #666666;";
             document.getElementById("birthday-text").style = "color: #666666;";
             document.getElementById("agenum").style = "color: #666666;";
         }
-        if (month == 10 && day >= 30 || month > 10) {
+        if (month == 11 && day >= 1 || month > 11) {
             var year = date.getFullYear();
-            var age = year - 2004;
+            var age = year - 2005;
             document.getElementById("agenum").innerHTML = age;
         } else {
             var year = date.getFullYear();
-            var age = year - 2005;
+            var age = year - 2006;
             document.getElementById("agenum").innerHTML = age;
         }
     </script>
