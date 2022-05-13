@@ -73,6 +73,8 @@
             <p>本倒计时使用的当前时间是 <span id="date"></span> <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒<span id="calibration"></span></p>
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
             <p>使用移动设备查看此界面及其子界面可能会出现问题。</p>
+            <p id="cal1">辅助校准系统 <span onclick="cal()">&gt;&gt;&gt;</span></p>
+            <p id="cal2" style="display: none;">辅助校准系统 | <input id="cali1" type="text" style="width: 30px;" />&nbsp;<input id="cali2" type="text" style="width: 30px;" /> <button id="subcal" onclick="submitcal()">确认</button> | <strong><span id="calresult"></span></strong></p>
             <br />
             <p>Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY (xtsdcb69). All Rights Reserved.</p>
             <script>
@@ -250,6 +252,29 @@
                 }
             }
             setInterval("timeUpdate()", "100");
+
+            function cal() {
+                document.getElementById("cal1").style = "display: none;";
+                document.getElementById("cal2").style = "display: block;";
+            }
+            
+            function submitcal() {
+                var target_h = document.getElementById("cali1").value;
+                var target_m = document.getElementById("cali2").value;
+                var a_h = target_h * 60 * 60 * 1000;
+                var a_m = target_m * 60 * 1000;
+                var target_timestamp = a_h + a_m;
+                var cal_EndTime = new Date(document.getElementById("targettime").innerText);
+                var cal_NowTime = new Date();
+                var cal_NowTime_timestamp = cal_NowTime.getTime();
+                var cal_t = cal_NowTime_timestamp;
+                var cal_NowTime_format = new Date(cal_t);
+                var cal_t_ca = cal_EndTime.getTime() - cal_NowTime_format.getTime();
+                var diff = cal_t_ca - target_timestamp;
+                var diffsecs = diff / 1000;
+                var diffsecs = diffsecs.toFixed(1);
+                document.getElementById("calresult").innerHTML = diffsecs;
+            }
         </script>
     </div>
 </body>
