@@ -47,11 +47,11 @@
     </div>
     <div class="content">
         <div id="countdownblock">
-            <h1 style="font-size: 50px;">距离暑假还有</h1>
+            <h1 style="font-size: 50px;">距离放学回家还有</h1>
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
-                        <span id="cd_h" style="color: #dd0000"></span>
+                        <span id="cd_h"></span>
                         <span id="cd_h_dot">•</span>
                     </span>
                     <span id="cd_m"></span>
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div id="summervacation">
-            <h6 style="margin: 10px auto 10px auto; display: none;">距离暑假还有 <span id="sv_t"></span> 小时</h6>
+            <h6 style="margin: 10px auto 10px auto;">距离暑假还有 <span id="sv_t"></span> 小时</h6>
             <h6 style="margin: 10px auto 10px auto;">(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
             <h6 style="margin: 10px auto 10px auto;">距离中考还有 <span id="me_t"></span> 小时 (<span id="me_t_day"></span> 天), 距离高考还有 <span id="he_t"></span> 小时 (<span id="he_t_day"></span> 天)</h6>
         </div>
@@ -130,7 +130,7 @@
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
                 var target_word = target_y + "." + target_m + "." + target_d + " 17:15";
-                getDistanceSpecifiedTime("2022.6.30 17:15");
+                getDistanceSpecifiedTime(target_word);
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
@@ -161,7 +161,7 @@
                         document.getElementById("countdown").style = "margin-left: -30px;";
                         document.getElementById("hourdisplay").innerHTML = "";
                     } else {
-                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\"  style=\"color: #dd0000\"></span><span id=\"cd_h_dot\"> •</span>";
+                        document.getElementById("hourdisplay").innerHTML = "<span id=\"cd_h\"></span><span id=\"cd_h_dot\"> •</span>";
                         document.getElementById("cd_h").innerHTML = totalhours;
                     }
 
@@ -210,8 +210,7 @@
                 function getDistanceSpecifiedTimeSV() {
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
-                    // var EndTimeSV = new Date("2022.6.30 16:30");
-                    var EndTimeSV = new Date("2022.6.30 17:15");
+                    var EndTimeSV = new Date("2022.6.30 16:30");
                     var NowTimeSV = new Date();
                     var StartTimeSV = new Date("2022.2.20 16:30");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
