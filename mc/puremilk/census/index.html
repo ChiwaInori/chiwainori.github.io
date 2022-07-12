@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Puremilk人口普查登记查询 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+    <script>
+        function button() {
+            var ipt = document.getElementById("ipt").value;
+            if (ipt.toString().length < 1) {
+                document.getElementById("searchbutton").disabled = true;
+                document.getElementById("searchbutton").innerHTML = "无效";
+            }
+
+            if (ipt.toString().length >= 1) {
+                document.getElementById("searchbutton").disabled = false;
+                document.getElementById("searchbutton").innerHTML = "查询";
+            }
+        }
+
+        function search() {
+            var search = document.getElementById("ipt").value;
+            var reg4 = ["120649","1461130641","AaronShi5277","ABCwewe","anqingling12138","arghd233","AS_13","aznqz","bilibili_CYM0403","BiliBili_jiangqi","Boofdemon","BurningCoals571","bzezd","Chen_Mo_cht","CkooP","CN_XiuYan","CrabSnell","CY_wl","CyanLemon","Datpoipat","Docin_9527","Eanceo","exiled_soul_awa","Feng298","Fu__Sheng","Garbage_kc","Goodqingzhu","GrassChicken","GRPitz","Honda_917","Huer_shaRk","IamSGZhenYun","Jun_Peng_China","kevinspeshul","Kuuhakuchyan","LangHu666","loverlie","Mangguo_CAT","MC_shutiao_a","Mothen_da","Mu_Ji_Chicken","nbdhgp","NiDeQinglin","Oitr","Penabili","QiaozhiTAT","Sadoseus","SirCereal225","sky_bow_chrs","sscount","Starky_c","Sweet_Tea","TartChannel","TheMrDok","tjj594","tuffkotte","Viller_Fan","White_Yong","Wi_Sgr","XfalleX","xiaokaNq","XKD114514","xtsdcb69","yigexie54188","you_shou","YouMing","Yu_Shang","YUXIA233"];
+            var reg3 = ["1461130641","BigDogAhaha","Bilibili_danmuji","CuteLoLo","FYanLn1","G_ming_110","Hacker_no_mum","ItsSh1ro","Jie_Xia","KennieCCC","Lirmn_craf","LuBenWeiNoHaxxx","Mangguo_CAT","Muirseth","sgw19221","sky_bow_chrs","Taichi_xxx","TaPFaTE__","TheUnrestSoul","tian_wan","vowtodie","wkj_","Wolf_Tcoyote","Wu__xv","xQuiiCkz","xtsdcb69","zhangbeihai6","zhuang_jia"];
+            var reg1163 = ["blue_hair030","breezecanyve123","Coifin_seryn","Drakenel1","DarkShadow4890","Empty_City_404","FYB_0202","harryxuhd","heifeng234","HidekiShiro","himtu","ironman1257_9","kisin_123","kw_0w0","lao_die","Lea_Cnaa","liang_abab","Lirmn_craf","LuBenWeiNoHaxxx","Mangguo_CAT","Miracle_Ae","modepipiyu","Oitr","oliver4030","papyrus233","SarashJump","shi14","sky_bow_chrs","Sunyuxin","Viller_Fan","wang133ooo","Water_le","WhiteDreamSnow","Wu_Qi_A","xjrl","xtsdcb69","zhizhang520","zhi_hu23","zhuang_jia"];
+            var reg1152 = ["1461130641","ACG_Blank","ACG_Hpi","Agentfrost42","bingjinyilong","bino41","BLOCKBUTTERS3K","breezecanyve123","caigiao","Chen_Mo_cht","china_xingchen","Coifin_seryn","DanielAlanMossy","Dawn_LightTIH","Dumbness_WuYan","EBXXIV","EnderLittleBlack","Fluide","Freshlnk","FubukiFox_Not","heiheihaha","ifwest","Jian_Yv","kaine2004","Kind_wolf","kekejun_004","Kyumee","liang_abab","Linchen","Long_Jintian","Miracle_Ae","menyan5566","Morekear","NysReadtime","obrjfxinwcyvtf72","Re6","RosieBeach","Ruch_B","Sakuya233","samassembly","sky_bow_chrs","SnakeBite1200","Sugar233XD","TaKimiao_sauce","tuffkotte","Uni_HakiDo","v_CatCat_v","Wu_Qi_A","Wu_Qi_Bz","wu_qi_e","Wsixsix","xiaopao2333","xtsdcb69","Yohoboman","you_shou","zhi_hu23","zhuang_jia"];
+            var reg1 = ["109056116","1461130641","alfie_zh","chen_changping","ChickenCXK","Chi_Meng","creeper","Cszjsk","CY_wl","EBXXIV","emmm","Etinction","Gary","ggs","HelloMyHeartChen","Hewwoy","hongxin","Hua_Chu","HydraJ","Jahck","KawehiKupihea","keep","kevin73919","lihaozi","ling_yan369","LiuHua","LJZ","lon_xiao","luo","Miracle-Ae","Mr_Hamster","mu_yang_ren","my114514","NIUNAI_milk","qiaozhi_TAT","Qing_Ling","ququcat","sheng","shuai_nan_hai","skills","Steve_BrenUP","suantouwangba","Tang_Do","Taste_Steak","Tenderness_DC","tuffkotte","wang133ooo","watermelom","weiai","Wu_Ming","Wu_Qi_A","XIANYU","xiaoxiaor","xiaozhao720","xinshouqiushuai","xingyefu","xtsdcb69","Yao_Yao_Ling","yocrunch","you_shou","yuban18832","yushies","捕捉一只靓仔啊","天生帅气"];
+            
+            if (reg4.indexOf(search) > -1) {
+                document.getElementById("res4").style = "color: #00dd00;";
+                document.getElementById("res4").innerHTML = "该玩家已在四周目中被登记";
+            } else {
+                document.getElementById("res4").style = "color: #dd0000;";
+                document.getElementById("res4").innerHTML = "该玩家未在四周目中被登记";
+            }
+
+            if (reg3.indexOf(search) > -1) {
+                document.getElementById("res3").style = "color: #00dd00;";
+                document.getElementById("res3").innerHTML = "该玩家已在三周目中被登记";
+            } else {
+                document.getElementById("res3").style = "color: #dd0000;";
+                document.getElementById("res3").innerHTML = "该玩家未在三周目中被登记";
+            }
+
+            if (reg1163.indexOf(search) > -1) {
+                document.getElementById("res1163").style = "color: #00dd00;";
+                document.getElementById("res1163").innerHTML = "该玩家已在1.16.3服中被登记";
+            } else {
+                document.getElementById("res1163").style = "color: #dd0000;";
+                document.getElementById("res1163").innerHTML = "该玩家未在1.16.3服中被登记";
+            }
+            
+            if (reg1152.indexOf(search) > -1) {
+                document.getElementById("res1152").style = "color: #00dd00;";
+                document.getElementById("res1152").innerHTML = "该玩家已在1.15.2服中被登记";
+            } else {
+                document.getElementById("res1152").style = "color: #dd0000;";
+                document.getElementById("res1152").innerHTML = "该玩家未在1.15.2服中被登记";
+            }
+            
+            if (reg1.indexOf(search) > -1) {
+                document.getElementById("res1").style = "color: #00dd00;";
+                document.getElementById("res1").innerHTML = "该玩家已在一周目中被登记";
+            } else {
+                document.getElementById("res1").style = "color: #dd0000;";
+                document.getElementById("res1").innerHTML = "该玩家未在一周目中被登记";
+            }
+            document.getElementById("restitle").innerHTML = search + " 的查询结果";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">Puremilk人口普查登记查询</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Puremilk</a> &gt; <strong>人口普查登记查询</strong></h6>
+    </div>
+    <div class="content">
+        <p>在下面的框中输入要查询的玩家ID (区分大小写)，然后点击"查询"按钮即可查询。</p>
+        <input id="ipt" type="text" onkeyup="button()" />
+        <button id="searchbutton" onclick="search()" disabled="disabled">无效</button>
+        <br />
+        <br />
+        <noscript><p style="color: #ff0000"><strong>您的浏览器不支持或已禁用JavaScript。请启用JavaScript以进行人口普查登记查询。</strong></p><br /><br /></noscript>
+        <h3 id="restitle">查询结果</h3>
+        <p id="res4" style="color: #aaaaaa;">四周目的查询结果将会在此处显示</p>
+        <p id="res3" style="color: #aaaaaa;">三周目的查询结果将会在此处显示</p>
+        <p id="res1163" style="color: #aaaaaa;">1.16.3服的查询结果将会在此处显示</p>
+        <p id="res1152" style="color: #aaaaaa;">1.15.2服的查询结果将会在此处显示</p>
+        <p id="res1" style="color: #aaaaaa;">一周目的查询结果将会在此处显示</p>
+        <br />
+        <p style="color: #dd0000"><strong>五周目及以后的周目暂不计划进行人口普查。</strong></p>
+        <br />
+        <h3>常见问题Q&amp;A</h3>
+        <h4>什么是人口普查?</h4>
+        <p>人口普查是xtsdcb69进行的一项例行检查，记录玩家们的住址位置。</p>
+        <br />
+        <h4>我应该主动申请人口普查吗?</h4>
+        <p>你可以根据你的喜好进行选择，但主动申请人口普查依然是明智的选择，你可以通过QQ私信等方式附上你家的坐标。但由于开学的问题，XTS可能不会马上回复并处理。</p>
+        <br />
+        <h4>我会被强迫进行人口普查吗?</h4>
+        <p>很大程度上会，你甚至不会收到通知被人口普查了。</p>
+        <br />
+        <h4>人口普查的作用是什么?</h4>
+        <p>使管理能够更好地统计每位玩家的住处，在有需要时进行上门采访。</p>
+        <br />
+        <h4>我没有被人口普查，会有什么影响吗?</h4>
+        <p>你不需要过于担心，因为这个事情并非十分重要，但我们依然推荐每一位玩家进行人口普查。</p>
+        <br />
+        <h4>我的家庭住址会被公开吗?</h4>
+        <p>不会，除非一些特殊情况，例如举办某些活动等，或者某玩家跑图找到了你家，然后在群里公开。这种行为可能导致该玩家被封禁。</p>
+        <br />
+        <h4>如果有玩家向管理出很多钱以获取某个已被人口普查的玩家的住址位置，管理会同意吗?</h4>
+        <p>不会，坚决不会，除非经过本人同意。那既然都经过本人同意了，为什么不直接问他? 还是他忘了? 因此，你不用担心自己的住址位置被该检查在未经允许的情况下泄露。</p>
+        <br />
+        <h4>我如果忘了自己家的位置，我可以找管理问吗?</h4>
+        <p>可以，但最好还是记一记你家在哪。</p>
+        <br />
+        <h4>为什么不能查MOD服的人口普查?</h4>
+        <p>MOD服的人口普查数据已丢失。</p>
+        <br />
+        <h4>为什么五周目不进行人口普查?</h4>
+        <p>详情请见 <a href="../">Puremilk 主页</a>下的 &quot;显示以前的管理员...&quot;.</p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>iOS Test - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">iOS Test</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>iOS Test</strong></h6>
+    </div>
+    <div class="content">
+        <p id="t1"></p>
+        <p id="t2"></p>
+        <p id="t3"></p>
+    </div>
+    <script>
+        var now = new Date();
+        var run_1_start = new Date("2021.7.13 15:00");
+        var run_1_end = new Date("2021.7.20 21:30");
+        document.getElementById("t1").innerHTML = now;
+        var time = now.getTime();
+        document.getElementById("t2").innerHTML = time;
+        var run_1_start_time = run_1_start.getTime();
+        var a = Math.floor(run_1_start_time / 1000);
+        var b = Math.floor(time / 1000);
+        if (a > b) {
+            document.getElementById("t3").innerHTML = "Yes";
+        } else {
+            document.getElementById("t3").innerHTML = "No";
+        }
+    </script>
+</body>
+
+</html>

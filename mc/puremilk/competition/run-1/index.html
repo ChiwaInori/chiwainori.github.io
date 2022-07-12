@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>第一届障碍跑大赛 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">第一届障碍跑大赛</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../../../../">XTSGAMES.TOP</a> &gt; <a href="../../../">Minecraft</a> &gt; <a href="../../">Puremilk</a> &gt; <a href="../">比赛</a> &gt; <strong>第一届障碍跑大赛</strong></h6>
+    </div>
+    <div class="content">
+        <div id="status">
+            <h3 id="status_text">该设备不支持获取活动状态</h3>
+            <h6 id="status_time">2021.7.13 15:00 - 2021.7.22 10:30</h6>
+            <script>
+                var now = new Date();
+                var activity_start = new Date("2021.7.13 15:00");
+                var activity_end = new Date("2021.7.22 10:30");
+                if (now < activity_start) {
+                    document.getElementById("status_text").innerHTML = "已计划";
+                }
+                if (now >= activity_start) {
+                    if (now < activity_end) {
+                        document.getElementById("status_text").innerHTML = "进行中";
+                        document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
+                        document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
+                    }
+                }
+                if (now >= activity_end) {
+                    document.getElementById("status_text").innerHTML = "已结束";
+                    document.getElementById("status_text").style = "color: #aaaaaa;";
+                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                }
+            </script>
+            <br />
+            <p><strong><a href="./run-1.ics">添加到日历 &gt;</a></strong></p>
+        </div>
+        <br />
+        <br />
+        <h3>比赛详情</h3>
+        <p>参赛者入场后将会在等待区域等待2分钟。</p>
+        <p>在等待区域时，参赛者会获得一些装备，附魔书，炼药原料，以及一些经验值。玩家可以利用这些东西组成不同的装备，以应对后面的不同障碍。所有参赛者的障碍相同。</p>
+        <p>跑道总长500米，分为5部分，每部分长100米，不同的部分的主题以及考验的方面不同。所有参赛者共用一条跑道，一名参赛者跑完后，即轮到下一名参赛者进行。</p>
+        <blockquote>
+            <p>* 感谢 tuffkotte 和 sky_bow_chrs 为后续玩家的参赛打开了思路 (鞘翅飞) 。</p>
+        </blockquote>
+        <img src="./gallary/part1.png" /><br />
+        <img src="./gallary/part2.png" /><br />
+        <img src="./gallary/part3.png" /><br />
+        <img src="./gallary/part4.png" /><br />
+        <img src="./gallary/part5.png" />
+        <blockquote>
+            <p>* 由于视角高低不同，图片的长度不一样，但实际上每个部分都是100米。</p>
+        </blockquote>
+        <br />
+        <img src="./gallary/props.png" />
+        <blockquote>
+            <p>* 附魔书: 灵魂疾行 III, 保护 II, 深海探索者 III, 冰霜行者 II, 耐久 III</p>
+        </blockquote>
+        <p>想线下玩这个赛道? <a href="./run-1-raceway" download="Run-1 Raceway by xtsdcb69.zip">点此下载</a>!</p>
+        <br />
+        <h3>报名方式</h3>
+        <h4>玩家</h4>
+        <h6>入场费: 无</h6>
+        <p>填写<a href="https://docs.qq.com/form/page/DQWNWVWFsRk9WVFVo?_w_tencentdocx_form=1">报名申请表</a>来进行报名。</p>
+        <br />
+        <h3>时间线</h3>
+        <p id="a1">报名时间: 2021.7.13 15:00 - 2021.7.20 15:00</p>
+        <p id="a2">参赛时间: 2021.7.20 20:00 - 2021.7.20 21:00, 2021.7.21 20:00 - 2021.7.21 21:00</p>
+        <h6 id="a2_a">(实际评分时间: 2021.7.20 20:00 - 2021.7.20 22:33)</h6>
+        <p id="a3">颁奖时间: 2021.7.22 10:20 - 2021.7.22 10:30</p>
+        <script>
+            var a1_start = new Date("2021.7.13 15:00");
+            var a1_end = new Date("2021.7.20 15:00");
+            var a2_start = new Date("2021.7.20 20:00");
+            var a2_end = new Date("2021.7.20 21:00");
+            var a3_start = new Date("2021.7.22 10:20");
+            var a3_end = new Date("2021.7.22 10:30");
+
+            if (now >= a1_start) {
+                if (now < a1_end) {
+                    document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a1_end) {
+                document.getElementById("a1").style = "color: #aaaaaa;";
+            }
+            if (now >= a2_start) {
+                if (now < a2_end) {
+                    document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a2_end) {
+                document.getElementById("a2").style = "color: #aaaaaa;";
+                document.getElementById("a2_a").style = "color: #aaaaaa;";
+            }
+            if (now >= a3_start) {
+                if (now < a3_end) {
+                    document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a3_end) {
+                document.getElementById("a3").style = "color: #aaaaaa;";
+            }
+        </script>
+        <br />
+        <h3>奖品</h3>
+        <p style="color: #ffc800;"><strong>冠军: 三叉戟 (激流5, 经验修补), 钻石镐 (效率8), 5 速度5药水 (5分钟), 15 下界合金锭, 48 钻石, 3 附魔金苹果</strong></p>
+        <p style="color: #aaaaaa;"><strong>亚军: 3 速度5药水 (5分钟), 10 下界合金锭, 32 钻石, 1 附魔金苹果</strong></p>
+        <p style="color: #ff8800;"><strong>季军: 2 速度5药水 (5分钟), 5 下界合金锭, 20 钻石</strong></p>
+        <br />
+        <p>参与奖: 1 速度5药水 (5分钟), 10 钻石, 1 牛奶桶</p>
+        <br />
+        <p><strong>特殊奖: 2 下界合金锭, 1 速度5药水 (5分钟), 1 附魔金苹果, 第一届障碍跑大赛特殊奖纪念品</strong></p>
+        <h6>特殊奖获取方式: 在赛道中不滥用鞘翅</h6>
+        <h6>特殊奖获得者: X_JunMou, mhh312, CY_wl</h6>
+        <blockquote>
+            <p>* 奖金由xtsdcb69发放，支持支付宝和微信。如获得奖金的玩家无法领取奖金，则把奖金让给下一名玩家，如下一名也无法领取则继续往下。如所有参赛者都无法领取奖金，则不发放；如有多名并列排名的玩家，则随机抽签选择，如抽到的玩家无法领取，则再次抽签。</p>
+            <p>** 部分玩家为本次比赛的奖品提出了建议。<a href="../suggestions-20210702/">点击此处</a>查看所有玩家的建议。</p>
+        </blockquote>
+        <br />
+        <h3>参赛者名单</h3>
+        <h6>按报名顺序排序</h6>
+        <h4>玩家</h4>
+        <div class="list">
+            <p>sky_bow_chrs</p>
+            <p>mc_yuqi520</p>
+            <p>tuffkotte</p>
+            <p>JieShen_</p>
+            <p>BLQwQ</p>
+            <p>mhh312</p>
+            <p>WtDoCTa <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
+            <p>X_JunMou</p>
+            <p>Starky_c</p>
+            <p>Viller_Fan</p>
+            <p>DogeEgg_QAQ <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
+            <p>Bilibili_danmuji</p>
+            <p>YUXIA_233</p>
+            <p>shabi_awa <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
+            <p>LangHu666</p>
+            <p>Oitr</p>
+            <p>X_ShenMo</p>
+            <p>MC_shutiao_a</p>
+            <p>xtsdcb69</p>
+            <p>Li_Ziming <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
+            <p>sscount</p>
+            <p>YoiCoi</p>
+            <p>Minecraft_Kissve <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
+            <p>kevinspeshul</p>
+            <p>MorryMo</p>
+            <p>xiaozhao720 <span style="color: #dd0000;"><strong>(缺席)</strong></span></p>
+            <p>SakurGu</p>
+            <p>CyanLemon</p>
+            <p>Lazy_Chara</p>
+            <p>tzhhhh233</p>
+            <p>Mangguo_CAT</p>
+            <p>1461130641</p>
+            <p>Taste_Steak</p>
+            <p>CY_wl</p>
+        </div>
+        <br />
+        <h3>成绩</h3>
+        <blockquote>
+            <p>由于本次比赛的成绩争议较大，成绩不公布。</p>
+        </blockquote>
+    </div>
+</body>
+
+</html>

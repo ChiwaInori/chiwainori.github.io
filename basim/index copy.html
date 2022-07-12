@@ -1,0 +1,3132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>ブルーアーカイブ 抽卡模拟器 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <!-- <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css"> -->
+    <link rel="stylesheet" href="..//css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">ブルーアーカイブ 抽卡模拟器</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>ブルーアーカイブ 抽卡模拟器</strong></h6>
+    </div>
+    <div class="content">
+        <p>版本: 150816 (ミサキ + ヒヨリ)</p>
+        <select style="margin-left: 40px;" id="list">
+            <option id="normal" value="normal">通常募集</option>
+            <option id="hoshino" value="hoshino">積み重ねる誓いの翼 (ホシノ)</option>
+            <option id="hina" value="hina">積み上げる尽力の翼 (ヒナ)</option>
+        </select>
+        <br /><br />
+        <img src="f1.png" onclick="f1()" height="40" />
+        <img src="f10.png" onclick="f10()" height="40" />
+        <br /><br />
+        <p id="summary1" style="display: none;"><strong>- 统计 -</strong></p>
+        <p id="summary2" style="display: none;">已用青辉石: <span id="usedstones">0</span></p>
+        <p id="summary3" style="display: none;">抽卡小计: <span id="star3out"
+                style="color: #e050f0;">0</span>&nbsp;&nbsp;<span id="star2out"
+                style="color: #ffc800;">0</span>&nbsp;&nbsp;<span id="star1out" style="color: #00a8ff;">0</span></p>
+        <p id="summary4" style="display: none;">概率统计: <span id="star3outchance" style="color: #e050f0;">0</span><span
+                style="color: #e050f0;">%</span>&nbsp;&nbsp;<span id="star2outchance"
+                style="color: #ffc800;">0</span><span style="color: #ffc800;">%</span>&nbsp;&nbsp;<span
+                id="star1outchance" style="color: #00a8ff;">0</span><span style="color: #00a8ff;">%</span> (参考值: 2.5% /
+            18.5% / 79%)</p>
+        <p id="summary5" style="display: none;">PICK UP 统计: <span id="pickup" style="color: #e050f0;"></span> (<span id="pickupout" style="color: #e050f0;">0</span>, <span id="pickupoutchance" style="color: #e050f0;"></span>) (参考值: 0.7%)</p>
+        <br />
+        <p id="result1">&nbsp;</p>
+        <p id="result2">&nbsp;</p>
+        <p id="result3">&nbsp;</p>
+        <p id="result4">&nbsp;</p>
+        <p id="result5">&nbsp;</p>
+        <p id="result6">&nbsp;</p>
+        <p id="result7">&nbsp;</p>
+        <p id="result8">&nbsp;</p>
+        <p id="result9">&nbsp;</p>
+        <p id="result10">&nbsp;</p>
+        <script>
+            function f1() {
+                var myselect = document.getElementById("list");
+                var targetvalue = myselect.options[myselect.selectedIndex].value;
+                if (targetvalue == "normal") {
+                    document.getElementById("summary1").style = "display: block;";
+                    document.getElementById("summary2").style = "display: block;";
+                    document.getElementById("summary3").style = "display: block;";
+                    document.getElementById("summary4").style = "display: block;";
+                    var stone = Number(document.getElementById("usedstones").innerText) + 120;
+                    document.getElementById("usedstones").innerHTML = stone;
+                    document.getElementById("result2").innerHTML = "&nbsp;";
+                    document.getElementById("result3").innerHTML = "&nbsp;";
+                    document.getElementById("result4").innerHTML = "&nbsp;";
+                    document.getElementById("result5").innerHTML = "&nbsp;";
+                    document.getElementById("result6").innerHTML = "&nbsp;";
+                    document.getElementById("result7").innerHTML = "&nbsp;";
+                    document.getElementById("result8").innerHTML = "&nbsp;";
+                    document.getElementById("result9").innerHTML = "&nbsp;";
+                    document.getElementById("result10").innerHTML = "&nbsp;";
+                    var f1_type = Math.floor(Math.random() * 1000) + 1;
+                    if (f1_type <= 25) {
+                        var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                        document.getElementById("star3out").innerHTML = s3;
+                        var f1 = Math.floor(Math.random() * 53) + 1;
+                        document.getElementById("result1").style = "color: #e050f0;"
+                        if (f1 == 1) {
+                            document.getElementById("result1").innerHTML = "ヒナ";
+                        }
+                        if (f1 == 2) {
+                            document.getElementById("result1").innerHTML = "イオリ";
+                        }
+                        if (f1 == 3) {
+                            document.getElementById("result1").innerHTML = "ハルナ";
+                        }
+                        if (f1 == 4) {
+                            document.getElementById("result1").innerHTML = "イズミ";
+                        }
+                        if (f1 == 5) {
+                            document.getElementById("result1").innerHTML = "アル";
+                        }
+                        if (f1 == 6) {
+                            document.getElementById("result1").innerHTML = "スミレ";
+                        }
+                        if (f1 == 7) {
+                            document.getElementById("result1").innerHTML = "エイミ";
+                        }
+                        if (f1 == 8) {
+                            document.getElementById("result1").innerHTML = "カリン";
+                        }
+                        if (f1 == 9) {
+                            document.getElementById("result1").innerHTML = "ネル";
+                        }
+                        if (f1 == 10) {
+                            document.getElementById("result1").innerHTML = "マキ";
+                        }
+                        if (f1 == 11) {
+                            document.getElementById("result1").innerHTML = "ヒビキ";
+                        }
+                        if (f1 == 12) {
+                            document.getElementById("result1").innerHTML = "サヤ";
+                        }
+                        if (f1 == 13) {
+                            document.getElementById("result1").innerHTML = "シュン";
+                        }
+                        if (f1 == 14) {
+                            document.getElementById("result1").innerHTML = "シロコ";
+                        }
+                        if (f1 == 15) {
+                            document.getElementById("result1").innerHTML = "ホシノ";
+                        }
+                        if (f1 == 16) {
+                            document.getElementById("result1").innerHTML = "ヒフミ";
+                        }
+                        if (f1 == 17) {
+                            document.getElementById("result1").innerHTML = "ツルギ";
+                        }
+                        if (f1 == 18) {
+                            document.getElementById("result1").innerHTML = "マシロ";
+                        }
+                        if (f1 == 19) {
+                            document.getElementById("result1").innerHTML = "イズナ";
+                        }
+                        if (f1 == 20) {
+                            document.getElementById("result1").innerHTML = "アリス";
+                        }
+                        if (f1 == 21) {
+                            document.getElementById("result1").innerHTML = "ミドリ";
+                        }
+                        if (f1 == 22) {
+                            document.getElementById("result1").innerHTML = "チェリノ";
+                        }
+                        if (f1 == 23) {
+                            document.getElementById("result1").innerHTML = "ユズ";
+                        }
+                        if (f1 == 24) {
+                            document.getElementById("result1").innerHTML = "アズサ";
+                        }
+                        if (f1 == 25) {
+                            document.getElementById("result1").innerHTML = "コハル";
+                        }
+                        if (f1 == 26) {
+                            document.getElementById("result1").innerHTML = "ヒフミ (水着)";
+                        }
+                        if (f1 == 27) {
+                            document.getElementById("result1").innerHTML = "シロコ (ライディング)";
+                        }
+                        if (f1 == 28) {
+                            document.getElementById("result1").innerHTML = "シュン (幼女)";
+                        }
+                        if (f1 == 29) {
+                            document.getElementById("result1").innerHTML = "サヤ (私服)";
+                        }
+                        if (f1 == 30) {
+                            document.getElementById("result1").innerHTML = "アスナ (パニーガール)";
+                        }
+                        if (f1 == 31) {
+                            document.getElementById("result1").innerHTML = "ナツ";
+                        }
+                        if (f1 == 32) {
+                            document.getElementById("result1").innerHTML = "アコ";
+                        }
+                        if (f1 == 33) {
+                            document.getElementById("result1").innerHTML = "チェリノ (温泉)";
+                        }
+                        if (f1 == 34) {
+                            document.getElementById("result1").innerHTML = "チナツ (温泉)";
+                        }
+                        if (f1 == 35) {
+                            document.getElementById("result1").innerHTML = "ノドカ (温泉)";
+                        }
+                        if (f1 == 36) {
+                            document.getElementById("result1").innerHTML = "セリカ (正月)";
+                        }
+                        if (f1 == 37) {
+                            document.getElementById("result1").innerHTML = "セナ";
+                        }
+                        if (f1 == 38) {
+                            document.getElementById("result1").innerHTML = "チヒコ";
+                        }
+                        if (f1 == 39) {
+                            document.getElementById("result1").innerHTML = "ミモリ";
+                        }
+                        if (f1 == 40) {
+                            document.getElementById("result1").innerHTML = "ウイ";
+                        }
+                        if (f1 == 41) {
+                            document.getElementById("result1").innerHTML = "ヒナタ";
+                        }
+                        if (f1 == 42) {
+                            document.getElementById("result1").innerHTML = "マリナ";
+                        }
+                        if (f1 == 43) {
+                            document.getElementById("result1").innerHTML = "ミヤコ";
+                        }
+                        if (f1 == 44) {
+                            document.getElementById("result1").innerHTML = "サキ";
+                        }
+                        if (f1 == 45) {
+                            document.getElementById("result1").innerHTML = "ミユ";
+                        }
+                        if (f1 == 46) {
+                            document.getElementById("result1").innerHTML = "カエデ";
+                        }
+                        if (f1 == 47) {
+                            document.getElementById("result1").innerHTML = "イロハ";
+                        }
+                        if (f1 == 48) {
+                            document.getElementById("result1").innerHTML = "ツクヨ";
+                        }
+                        if (f1 == 49) {
+                            document.getElementById("result1").innerHTML = "ミサキ";
+                        }
+                        if (f1 == 50) {
+                            document.getElementById("result1").innerHTML = "ヒヨリ";
+                        }
+                        if (f1 == 51) {
+                            document.getElementById("result1").innerHTML = "アツコ";
+                        }
+                        if (f1 == 52) {
+                            document.getElementById("result1").innerHTML = "ウカモ (水着)";
+                        }
+                        if (f1 == 53) {
+                            document.getElementById("result1").innerHTML = "ノノミ (水着)";
+                        }
+                    }
+                    if (f1_type > 25 && f1_type <= 210) {
+                        var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                        document.getElementById("star2out").innerHTML = s2;
+                        var f1 = Math.floor(Math.random() * 21) + 1;
+                        document.getElementById("result1").style = "color: #ffc800;"
+                        if (f1 == 1) {
+                            document.getElementById("result1").innerHTML = "アカリ";
+                        }
+                        if (f1 == 2) {
+                            document.getElementById("result1").innerHTML = "ジュンコ";
+                        }
+                        if (f1 == 3) {
+                            document.getElementById("result1").innerHTML = "ムツキ";
+                        }
+                        if (f1 == 4) {
+                            document.getElementById("result1").innerHTML = "カヨコ";
+                        }
+                        if (f1 == 5) {
+                            document.getElementById("result1").innerHTML = "フウカ";
+                        }
+                        if (f1 == 6) {
+                            document.getElementById("result1").innerHTML = "ユウカ";
+                        }
+                        if (f1 == 7) {
+                            document.getElementById("result1").innerHTML = "アカネ";
+                        }
+                        if (f1 == 8) {
+                            document.getElementById("result1").innerHTML = "ハレ";
+                        }
+                        if (f1 == 9) {
+                            document.getElementById("result1").innerHTML = "ウタハ";
+                        }
+                        if (f1 == 10) {
+                            document.getElementById("result1").innerHTML = "チセ";
+                        }
+                        if (f1 == 11) {
+                            document.getElementById("result1").innerHTML = "ツバキ";
+                        }
+                        if (f1 == 12) {
+                            document.getElementById("result1").innerHTML = "セリカ";
+                        }
+                        if (f1 == 13) {
+                            document.getElementById("result1").innerHTML = "アヤネ";
+                        }
+                        if (f1 == 14) {
+                            document.getElementById("result1").innerHTML = "ハスミ";
+                        }
+                        if (f1 == 15) {
+                            document.getElementById("result1").innerHTML = "ハナエ";
+                        }
+                        if (f1 == 16) {
+                            document.getElementById("result1").innerHTML = "アイリ";
+                        }
+                        if (f1 == 17) {
+                            document.getElementById("result1").innerHTML = "シズコ";
+                        }
+                        if (f1 == 18) {
+                            document.getElementById("result1").innerHTML = "モモイ";
+                        }
+                        if (f1 == 19) {
+                            document.getElementById("result1").innerHTML = "ハナコ";
+                        }
+                        if (f1 == 20) {
+                            document.getElementById("result1").innerHTML = "キリノ";
+                        }
+                        if (f1 == 21) {
+                            document.getElementById("result1").innerHTML = "マリー";
+                        }
+                    }
+                    if (f1_type > 210) {
+                        var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                        document.getElementById("star1out").innerHTML = s1;
+                        var f1 = Math.floor(Math.random() * 11) + 1;
+                        document.getElementById("result1").style = "color: #00a8ff;"
+                        if (f1 == 1) {
+                            document.getElementById("result1").innerHTML = "チナツ";
+                        }
+                        if (f1 == 2) {
+                            document.getElementById("result1").innerHTML = "ハルカ";
+                        }
+                        if (f1 == 3) {
+                            document.getElementById("result1").innerHTML = "ジュリ";
+                        }
+                        if (f1 == 4) {
+                            document.getElementById("result1").innerHTML = "コタマ";
+                        }
+                        if (f1 == 5) {
+                            document.getElementById("result1").innerHTML = "アスナ";
+                        }
+                        if (f1 == 6) {
+                            document.getElementById("result1").innerHTML = "コトリ";
+                        }
+                        if (f1 == 7) {
+                            document.getElementById("result1").innerHTML = "フィーナ";
+                        }
+                        if (f1 == 8) {
+                            document.getElementById("result1").innerHTML = "スズミ";
+                        }
+                        if (f1 == 9) {
+                            document.getElementById("result1").innerHTML = "シミコ";
+                        }
+                        if (f1 == 10) {
+                            document.getElementById("result1").innerHTML = "セリナ";
+                        }
+                        if (f1 == 11) {
+                            document.getElementById("result1").innerHTML = "ヨシミ";
+                        }
+                    }
+                }
+                var times = Number(document.getElementById("usedstones").innerText) / 120;
+                var s3chance = Number(document.getElementById("star3out").innerText) / times;
+                var s3chance_1 = s3chance * 100;
+                var s3chance_2 = s3chance_1.toFixed(2);
+                var s2chance = Number(document.getElementById("star2out").innerText) / times;
+                var s2chance_1 = s2chance * 100;
+                var s2chance_2 = s2chance_1.toFixed(2);
+                var s1chance = Number(document.getElementById("star1out").innerText) / times;
+                var s1chance_1 = s1chance * 100;
+                var s1chance_2 = s1chance_1.toFixed(2);
+                document.getElementById("star3outchance").innerHTML = s3chance_2;
+                document.getElementById("star2outchance").innerHTML = s2chance_2;
+                document.getElementById("star1outchance").innerHTML = s1chance_2;
+                
+            }
+
+            function f10() {
+                document.getElementById("summary1").style = "display: block;";
+                document.getElementById("summary2").style = "display: block;";
+                document.getElementById("summary3").style = "display: block;";
+                document.getElementById("summary4").style = "display: block;";
+                var stone = Number(document.getElementById("usedstones").innerText) + 1200;
+                document.getElementById("usedstones").innerHTML = stone;
+                var f1_type = Math.floor(Math.random() * 1000) + 1;
+                if (f1_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f1 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result1").style = "color: #e050f0;"
+                    if (f1 == 1) {
+                        document.getElementById("result1").innerHTML = "ヒナ";
+                    }
+                    if (f1 == 2) {
+                        document.getElementById("result1").innerHTML = "イオリ";
+                    }
+                    if (f1 == 3) {
+                        document.getElementById("result1").innerHTML = "ハルナ";
+                    }
+                    if (f1 == 4) {
+                        document.getElementById("result1").innerHTML = "イズミ";
+                    }
+                    if (f1 == 5) {
+                        document.getElementById("result1").innerHTML = "アル";
+                    }
+                    if (f1 == 6) {
+                        document.getElementById("result1").innerHTML = "スミレ";
+                    }
+                    if (f1 == 7) {
+                        document.getElementById("result1").innerHTML = "エイミ";
+                    }
+                    if (f1 == 8) {
+                        document.getElementById("result1").innerHTML = "カリン";
+                    }
+                    if (f1 == 9) {
+                        document.getElementById("result1").innerHTML = "ネル";
+                    }
+                    if (f1 == 10) {
+                        document.getElementById("result1").innerHTML = "マキ";
+                    }
+                    if (f1 == 11) {
+                        document.getElementById("result1").innerHTML = "ヒビキ";
+                    }
+                    if (f1 == 12) {
+                        document.getElementById("result1").innerHTML = "サヤ";
+                    }
+                    if (f1 == 13) {
+                        document.getElementById("result1").innerHTML = "シュン";
+                    }
+                    if (f1 == 14) {
+                        document.getElementById("result1").innerHTML = "シロコ";
+                    }
+                    if (f1 == 15) {
+                        document.getElementById("result1").innerHTML = "ホシノ";
+                    }
+                    if (f1 == 16) {
+                        document.getElementById("result1").innerHTML = "ヒフミ";
+                    }
+                    if (f1 == 17) {
+                        document.getElementById("result1").innerHTML = "ツルギ";
+                    }
+                    if (f1 == 18) {
+                        document.getElementById("result1").innerHTML = "マシロ";
+                    }
+                    if (f1 == 19) {
+                        document.getElementById("result1").innerHTML = "イズナ";
+                    }
+                    if (f1 == 20) {
+                        document.getElementById("result1").innerHTML = "アリス";
+                    }
+                    if (f1 == 21) {
+                        document.getElementById("result1").innerHTML = "ミドリ";
+                    }
+                    if (f1 == 22) {
+                        document.getElementById("result1").innerHTML = "チェリノ";
+                    }
+                    if (f1 == 23) {
+                        document.getElementById("result1").innerHTML = "ユズ";
+                    }
+                    if (f1 == 24) {
+                        document.getElementById("result1").innerHTML = "アズサ";
+                    }
+                    if (f1 == 25) {
+                        document.getElementById("result1").innerHTML = "コハル";
+                    }
+                    if (f1 == 26) {
+                        document.getElementById("result1").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f1 == 27) {
+                        document.getElementById("result1").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f1 == 28) {
+                        document.getElementById("result1").innerHTML = "シュン (幼女)";
+                    }
+                    if (f1 == 29) {
+                        document.getElementById("result1").innerHTML = "サヤ (私服)";
+                    }
+                    if (f1 == 30) {
+                        document.getElementById("result1").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f1 == 31) {
+                        document.getElementById("result1").innerHTML = "ナツ";
+                    }
+                    if (f1 == 32) {
+                        document.getElementById("result1").innerHTML = "アコ";
+                    }
+                    if (f1 == 33) {
+                        document.getElementById("result1").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f1 == 34) {
+                        document.getElementById("result1").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f1 == 35) {
+                        document.getElementById("result1").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f1 == 36) {
+                        document.getElementById("result1").innerHTML = "セリカ (正月)";
+                    }
+                    if (f1 == 37) {
+                        document.getElementById("result1").innerHTML = "セナ";
+                    }
+                    if (f1 == 38) {
+                        document.getElementById("result1").innerHTML = "チヒコ";
+                    }
+                    if (f1 == 39) {
+                        document.getElementById("result1").innerHTML = "ミモリ";
+                    }
+                    if (f1 == 40) {
+                        document.getElementById("result1").innerHTML = "ウイ";
+                    }
+                    if (f1 == 41) {
+                        document.getElementById("result1").innerHTML = "ヒナタ";
+                    }
+                    if (f1 == 42) {
+                        document.getElementById("result1").innerHTML = "マリナ";
+                    }
+                    if (f1 == 43) {
+                        document.getElementById("result1").innerHTML = "ミヤコ";
+                    }
+                    if (f1 == 44) {
+                        document.getElementById("result1").innerHTML = "サキ";
+                    }
+                    if (f1 == 45) {
+                        document.getElementById("result1").innerHTML = "ミユ";
+                    }
+                    if (f1 == 46) {
+                        document.getElementById("result1").innerHTML = "カエデ";
+                    }
+                    if (f1 == 47) {
+                        document.getElementById("result1").innerHTML = "イロハ";
+                    }
+                    if (f1 == 48) {
+                        document.getElementById("result1").innerHTML = "ツクヨ";
+                    }
+                    if (f1 == 49) {
+                        document.getElementById("result1").innerHTML = "ミサキ";
+                    }
+                    if (f1 == 50) {
+                        document.getElementById("result1").innerHTML = "ヒヨリ";
+                    }
+                    if (f1 == 51) {
+                        document.getElementById("result1").innerHTML = "アツコ";
+                    }
+                    if (f1 == 52) {
+                        document.getElementById("result1").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f1 == 53) {
+                        document.getElementById("result1").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f1_type > 25 && f1_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f1 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result1").style = "color: #ffc800;"
+                    if (f1 == 1) {
+                        document.getElementById("result1").innerHTML = "アカリ";
+                    }
+                    if (f1 == 2) {
+                        document.getElementById("result1").innerHTML = "ジュンコ";
+                    }
+                    if (f1 == 3) {
+                        document.getElementById("result1").innerHTML = "ムツキ";
+                    }
+                    if (f1 == 4) {
+                        document.getElementById("result1").innerHTML = "カヨコ";
+                    }
+                    if (f1 == 5) {
+                        document.getElementById("result1").innerHTML = "フウカ";
+                    }
+                    if (f1 == 6) {
+                        document.getElementById("result1").innerHTML = "ユウカ";
+                    }
+                    if (f1 == 7) {
+                        document.getElementById("result1").innerHTML = "アカネ";
+                    }
+                    if (f1 == 8) {
+                        document.getElementById("result1").innerHTML = "ハレ";
+                    }
+                    if (f1 == 9) {
+                        document.getElementById("result1").innerHTML = "ウタハ";
+                    }
+                    if (f1 == 10) {
+                        document.getElementById("result1").innerHTML = "チセ";
+                    }
+                    if (f1 == 11) {
+                        document.getElementById("result1").innerHTML = "ツバキ";
+                    }
+                    if (f1 == 12) {
+                        document.getElementById("result1").innerHTML = "セリカ";
+                    }
+                    if (f1 == 13) {
+                        document.getElementById("result1").innerHTML = "アヤネ";
+                    }
+                    if (f1 == 14) {
+                        document.getElementById("result1").innerHTML = "ハスミ";
+                    }
+                    if (f1 == 15) {
+                        document.getElementById("result1").innerHTML = "ハナエ";
+                    }
+                    if (f1 == 16) {
+                        document.getElementById("result1").innerHTML = "アイリ";
+                    }
+                    if (f1 == 17) {
+                        document.getElementById("result1").innerHTML = "シズコ";
+                    }
+                    if (f1 == 18) {
+                        document.getElementById("result1").innerHTML = "モモイ";
+                    }
+                    if (f1 == 19) {
+                        document.getElementById("result1").innerHTML = "ハナコ";
+                    }
+                    if (f1 == 20) {
+                        document.getElementById("result1").innerHTML = "キリノ";
+                    }
+                    if (f1 == 21) {
+                        document.getElementById("result1").innerHTML = "マリー";
+                    }
+                }
+                if (f1_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f1 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result1").style = "color: #00a8ff;"
+                    if (f1 == 1) {
+                        document.getElementById("result1").innerHTML = "チナツ";
+                    }
+                    if (f1 == 2) {
+                        document.getElementById("result1").innerHTML = "ハルカ";
+                    }
+                    if (f1 == 3) {
+                        document.getElementById("result1").innerHTML = "ジュリ";
+                    }
+                    if (f1 == 4) {
+                        document.getElementById("result1").innerHTML = "コタマ";
+                    }
+                    if (f1 == 5) {
+                        document.getElementById("result1").innerHTML = "アスナ";
+                    }
+                    if (f1 == 6) {
+                        document.getElementById("result1").innerHTML = "コトリ";
+                    }
+                    if (f1 == 7) {
+                        document.getElementById("result1").innerHTML = "フィーナ";
+                    }
+                    if (f1 == 8) {
+                        document.getElementById("result1").innerHTML = "スズミ";
+                    }
+                    if (f1 == 9) {
+                        document.getElementById("result1").innerHTML = "シミコ";
+                    }
+                    if (f1 == 10) {
+                        document.getElementById("result1").innerHTML = "セリナ";
+                    }
+                    if (f1 == 11) {
+                        document.getElementById("result1").innerHTML = "ヨシミ";
+                    }
+                }
+                var f2_type = Math.floor(Math.random() * 1000) + 1;
+                if (f2_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f2 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result2").style = "color: #e050f0;"
+                    if (f2 == 1) {
+                        document.getElementById("result2").innerHTML = "ヒナ";
+                    }
+                    if (f2 == 2) {
+                        document.getElementById("result2").innerHTML = "イオリ";
+                    }
+                    if (f2 == 3) {
+                        document.getElementById("result2").innerHTML = "ハルナ";
+                    }
+                    if (f2 == 4) {
+                        document.getElementById("result2").innerHTML = "イズミ";
+                    }
+                    if (f2 == 5) {
+                        document.getElementById("result2").innerHTML = "アル";
+                    }
+                    if (f2 == 6) {
+                        document.getElementById("result2").innerHTML = "スミレ";
+                    }
+                    if (f2 == 7) {
+                        document.getElementById("result2").innerHTML = "エイミ";
+                    }
+                    if (f2 == 8) {
+                        document.getElementById("result2").innerHTML = "カリン";
+                    }
+                    if (f2 == 9) {
+                        document.getElementById("result2").innerHTML = "ネル";
+                    }
+                    if (f2 == 10) {
+                        document.getElementById("result2").innerHTML = "マキ";
+                    }
+                    if (f2 == 11) {
+                        document.getElementById("result2").innerHTML = "ヒビキ";
+                    }
+                    if (f2 == 12) {
+                        document.getElementById("result2").innerHTML = "サヤ";
+                    }
+                    if (f2 == 13) {
+                        document.getElementById("result2").innerHTML = "シュン";
+                    }
+                    if (f2 == 14) {
+                        document.getElementById("result2").innerHTML = "シロコ";
+                    }
+                    if (f2 == 15) {
+                        document.getElementById("result2").innerHTML = "ホシノ";
+                    }
+                    if (f2 == 16) {
+                        document.getElementById("result2").innerHTML = "ヒフミ";
+                    }
+                    if (f2 == 17) {
+                        document.getElementById("result2").innerHTML = "ツルギ";
+                    }
+                    if (f2 == 18) {
+                        document.getElementById("result2").innerHTML = "マシロ";
+                    }
+                    if (f2 == 19) {
+                        document.getElementById("result2").innerHTML = "イズナ";
+                    }
+                    if (f2 == 20) {
+                        document.getElementById("result2").innerHTML = "アリス";
+                    }
+                    if (f2 == 21) {
+                        document.getElementById("result2").innerHTML = "ミドリ";
+                    }
+                    if (f2 == 22) {
+                        document.getElementById("result2").innerHTML = "チェリノ";
+                    }
+                    if (f2 == 23) {
+                        document.getElementById("result2").innerHTML = "ユズ";
+                    }
+                    if (f2 == 24) {
+                        document.getElementById("result2").innerHTML = "アズサ";
+                    }
+                    if (f2 == 25) {
+                        document.getElementById("result2").innerHTML = "コハル";
+                    }
+                    if (f2 == 26) {
+                        document.getElementById("result2").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f2 == 27) {
+                        document.getElementById("result2").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f2 == 28) {
+                        document.getElementById("result2").innerHTML = "シュン (幼女)";
+                    }
+                    if (f2 == 29) {
+                        document.getElementById("result2").innerHTML = "サヤ (私服)";
+                    }
+                    if (f2 == 30) {
+                        document.getElementById("result2").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f2 == 31) {
+                        document.getElementById("result2").innerHTML = "ナツ";
+                    }
+                    if (f2 == 32) {
+                        document.getElementById("result2").innerHTML = "アコ";
+                    }
+                    if (f2 == 33) {
+                        document.getElementById("result2").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f2 == 34) {
+                        document.getElementById("result2").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f2 == 35) {
+                        document.getElementById("result2").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f2 == 36) {
+                        document.getElementById("result2").innerHTML = "セリカ (正月)";
+                    }
+                    if (f2 == 37) {
+                        document.getElementById("result2").innerHTML = "セナ";
+                    }
+                    if (f2 == 38) {
+                        document.getElementById("result2").innerHTML = "チヒコ";
+                    }
+                    if (f2 == 39) {
+                        document.getElementById("result2").innerHTML = "ミモリ";
+                    }
+                    if (f2 == 40) {
+                        document.getElementById("result2").innerHTML = "ウイ";
+                    }
+                    if (f2 == 41) {
+                        document.getElementById("result2").innerHTML = "ヒナタ";
+                    }
+                    if (f2 == 42) {
+                        document.getElementById("result2").innerHTML = "マリナ";
+                    }
+                    if (f2 == 43) {
+                        document.getElementById("result2").innerHTML = "ミヤコ";
+                    }
+                    if (f2 == 44) {
+                        document.getElementById("result2").innerHTML = "サキ";
+                    }
+                    if (f2 == 45) {
+                        document.getElementById("result2").innerHTML = "ミユ";
+                    }
+                    if (f2 == 46) {
+                        document.getElementById("result2").innerHTML = "カエデ";
+                    }
+                    if (f2 == 47) {
+                        document.getElementById("result2").innerHTML = "イロハ";
+                    }
+                    if (f2 == 48) {
+                        document.getElementById("result2").innerHTML = "ツクヨ";
+                    }
+                    if (f2 == 49) {
+                        document.getElementById("result2").innerHTML = "ミサキ";
+                    }
+                    if (f2 == 50) {
+                        document.getElementById("result2").innerHTML = "ヒヨリ";
+                    }
+                    if (f2 == 51) {
+                        document.getElementById("result2").innerHTML = "アツコ";
+                    }
+                    if (f2 == 52) {
+                        document.getElementById("result2").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f2 == 53) {
+                        document.getElementById("result2").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f2_type > 25 && f2_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f2 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result2").style = "color: #ffc800;"
+                    if (f2 == 1) {
+                        document.getElementById("result2").innerHTML = "アカリ";
+                    }
+                    if (f2 == 2) {
+                        document.getElementById("result2").innerHTML = "ジュンコ";
+                    }
+                    if (f2 == 3) {
+                        document.getElementById("result2").innerHTML = "ムツキ";
+                    }
+                    if (f2 == 4) {
+                        document.getElementById("result2").innerHTML = "カヨコ";
+                    }
+                    if (f2 == 5) {
+                        document.getElementById("result2").innerHTML = "フウカ";
+                    }
+                    if (f2 == 6) {
+                        document.getElementById("result2").innerHTML = "ユウカ";
+                    }
+                    if (f2 == 7) {
+                        document.getElementById("result2").innerHTML = "アカネ";
+                    }
+                    if (f2 == 8) {
+                        document.getElementById("result2").innerHTML = "ハレ";
+                    }
+                    if (f2 == 9) {
+                        document.getElementById("result2").innerHTML = "ウタハ";
+                    }
+                    if (f2 == 10) {
+                        document.getElementById("result2").innerHTML = "チセ";
+                    }
+                    if (f2 == 11) {
+                        document.getElementById("result2").innerHTML = "ツバキ";
+                    }
+                    if (f2 == 12) {
+                        document.getElementById("result2").innerHTML = "セリカ";
+                    }
+                    if (f2 == 13) {
+                        document.getElementById("result2").innerHTML = "アヤネ";
+                    }
+                    if (f2 == 14) {
+                        document.getElementById("result2").innerHTML = "ハスミ";
+                    }
+                    if (f2 == 15) {
+                        document.getElementById("result2").innerHTML = "ハナエ";
+                    }
+                    if (f2 == 16) {
+                        document.getElementById("result2").innerHTML = "アイリ";
+                    }
+                    if (f2 == 17) {
+                        document.getElementById("result2").innerHTML = "シズコ";
+                    }
+                    if (f2 == 18) {
+                        document.getElementById("result2").innerHTML = "モモイ";
+                    }
+                    if (f2 == 19) {
+                        document.getElementById("result2").innerHTML = "ハナコ";
+                    }
+                    if (f2 == 20) {
+                        document.getElementById("result2").innerHTML = "キリノ";
+                    }
+                    if (f2 == 21) {
+                        document.getElementById("result2").innerHTML = "マリー";
+                    }
+                }
+                if (f2_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f2 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result2").style = "color: #00a8ff;"
+                    if (f2 == 1) {
+                        document.getElementById("result2").innerHTML = "チナツ";
+                    }
+                    if (f2 == 2) {
+                        document.getElementById("result2").innerHTML = "ハルカ";
+                    }
+                    if (f2 == 3) {
+                        document.getElementById("result2").innerHTML = "ジュリ";
+                    }
+                    if (f2 == 4) {
+                        document.getElementById("result2").innerHTML = "コタマ";
+                    }
+                    if (f2 == 5) {
+                        document.getElementById("result2").innerHTML = "アスナ";
+                    }
+                    if (f2 == 6) {
+                        document.getElementById("result2").innerHTML = "コトリ";
+                    }
+                    if (f2 == 7) {
+                        document.getElementById("result2").innerHTML = "フィーナ";
+                    }
+                    if (f2 == 8) {
+                        document.getElementById("result2").innerHTML = "スズミ";
+                    }
+                    if (f2 == 9) {
+                        document.getElementById("result2").innerHTML = "シミコ";
+                    }
+                    if (f2 == 10) {
+                        document.getElementById("result2").innerHTML = "セリナ";
+                    }
+                    if (f2 == 11) {
+                        document.getElementById("result2").innerHTML = "ヨシミ";
+                    }
+                }
+                var f3_type = Math.floor(Math.random() * 1000) + 1;
+                if (f3_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f3 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result3").style = "color: #e050f0;"
+                    if (f3 == 1) {
+                        document.getElementById("result3").innerHTML = "ヒナ";
+                    }
+                    if (f3 == 2) {
+                        document.getElementById("result3").innerHTML = "イオリ";
+                    }
+                    if (f3 == 3) {
+                        document.getElementById("result3").innerHTML = "ハルナ";
+                    }
+                    if (f3 == 4) {
+                        document.getElementById("result3").innerHTML = "イズミ";
+                    }
+                    if (f3 == 5) {
+                        document.getElementById("result3").innerHTML = "アル";
+                    }
+                    if (f3 == 6) {
+                        document.getElementById("result3").innerHTML = "スミレ";
+                    }
+                    if (f3 == 7) {
+                        document.getElementById("result3").innerHTML = "エイミ";
+                    }
+                    if (f3 == 8) {
+                        document.getElementById("result3").innerHTML = "カリン";
+                    }
+                    if (f3 == 9) {
+                        document.getElementById("result3").innerHTML = "ネル";
+                    }
+                    if (f3 == 10) {
+                        document.getElementById("result3").innerHTML = "マキ";
+                    }
+                    if (f3 == 11) {
+                        document.getElementById("result3").innerHTML = "ヒビキ";
+                    }
+                    if (f3 == 12) {
+                        document.getElementById("result3").innerHTML = "サヤ";
+                    }
+                    if (f3 == 13) {
+                        document.getElementById("result3").innerHTML = "シュン";
+                    }
+                    if (f3 == 14) {
+                        document.getElementById("result3").innerHTML = "シロコ";
+                    }
+                    if (f3 == 15) {
+                        document.getElementById("result3").innerHTML = "ホシノ";
+                    }
+                    if (f3 == 16) {
+                        document.getElementById("result3").innerHTML = "ヒフミ";
+                    }
+                    if (f3 == 17) {
+                        document.getElementById("result3").innerHTML = "ツルギ";
+                    }
+                    if (f3 == 18) {
+                        document.getElementById("result3").innerHTML = "マシロ";
+                    }
+                    if (f3 == 19) {
+                        document.getElementById("result3").innerHTML = "イズナ";
+                    }
+                    if (f3 == 20) {
+                        document.getElementById("result3").innerHTML = "アリス";
+                    }
+                    if (f3 == 21) {
+                        document.getElementById("result3").innerHTML = "ミドリ";
+                    }
+                    if (f3 == 22) {
+                        document.getElementById("result3").innerHTML = "チェリノ";
+                    }
+                    if (f3 == 23) {
+                        document.getElementById("result3").innerHTML = "ユズ";
+                    }
+                    if (f3 == 24) {
+                        document.getElementById("result3").innerHTML = "アズサ";
+                    }
+                    if (f3 == 25) {
+                        document.getElementById("result3").innerHTML = "コハル";
+                    }
+                    if (f3 == 26) {
+                        document.getElementById("result3").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f3 == 27) {
+                        document.getElementById("result3").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f3 == 28) {
+                        document.getElementById("result3").innerHTML = "シュン (幼女)";
+                    }
+                    if (f3 == 29) {
+                        document.getElementById("result3").innerHTML = "サヤ (私服)";
+                    }
+                    if (f3 == 30) {
+                        document.getElementById("result3").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f3 == 31) {
+                        document.getElementById("result3").innerHTML = "ナツ";
+                    }
+                    if (f3 == 32) {
+                        document.getElementById("result3").innerHTML = "アコ";
+                    }
+                    if (f3 == 33) {
+                        document.getElementById("result3").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f3 == 34) {
+                        document.getElementById("result3").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f3 == 35) {
+                        document.getElementById("result3").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f3 == 36) {
+                        document.getElementById("result3").innerHTML = "セリカ (正月)";
+                    }
+                    if (f3 == 37) {
+                        document.getElementById("result3").innerHTML = "セナ";
+                    }
+                    if (f3 == 38) {
+                        document.getElementById("result3").innerHTML = "チヒコ";
+                    }
+                    if (f3 == 39) {
+                        document.getElementById("result3").innerHTML = "ミモリ";
+                    }
+                    if (f3 == 40) {
+                        document.getElementById("result3").innerHTML = "ウイ";
+                    }
+                    if (f3 == 41) {
+                        document.getElementById("result3").innerHTML = "ヒナタ";
+                    }
+                    if (f3 == 42) {
+                        document.getElementById("result3").innerHTML = "マリナ";
+                    }
+                    if (f3 == 43) {
+                        document.getElementById("result3").innerHTML = "ミヤコ";
+                    }
+                    if (f3 == 44) {
+                        document.getElementById("result3").innerHTML = "サキ";
+                    }
+                    if (f3 == 45) {
+                        document.getElementById("result3").innerHTML = "ミユ";
+                    }
+                    if (f3 == 46) {
+                        document.getElementById("result3").innerHTML = "カエデ";
+                    }
+                    if (f3 == 47) {
+                        document.getElementById("result3").innerHTML = "イロハ";
+                    }
+                    if (f3 == 48) {
+                        document.getElementById("result3").innerHTML = "ツクヨ";
+                    }
+                    if (f3 == 49) {
+                        document.getElementById("result3").innerHTML = "ミサキ";
+                    }
+                    if (f3 == 50) {
+                        document.getElementById("result3").innerHTML = "ヒヨリ";
+                    }
+                    if (f3 == 51) {
+                        document.getElementById("result3").innerHTML = "アツコ";
+                    }
+                    if (f3 == 52) {
+                        document.getElementById("result3").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f3 == 53) {
+                        document.getElementById("result3").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f3_type > 25 && f3_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f3 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result3").style = "color: #ffc800;"
+                    if (f3 == 1) {
+                        document.getElementById("result3").innerHTML = "アカリ";
+                    }
+                    if (f3 == 2) {
+                        document.getElementById("result3").innerHTML = "ジュンコ";
+                    }
+                    if (f3 == 3) {
+                        document.getElementById("result3").innerHTML = "ムツキ";
+                    }
+                    if (f3 == 4) {
+                        document.getElementById("result3").innerHTML = "カヨコ";
+                    }
+                    if (f3 == 5) {
+                        document.getElementById("result3").innerHTML = "フウカ";
+                    }
+                    if (f3 == 6) {
+                        document.getElementById("result3").innerHTML = "ユウカ";
+                    }
+                    if (f3 == 7) {
+                        document.getElementById("result3").innerHTML = "アカネ";
+                    }
+                    if (f3 == 8) {
+                        document.getElementById("result3").innerHTML = "ハレ";
+                    }
+                    if (f3 == 9) {
+                        document.getElementById("result3").innerHTML = "ウタハ";
+                    }
+                    if (f3 == 10) {
+                        document.getElementById("result3").innerHTML = "チセ";
+                    }
+                    if (f3 == 11) {
+                        document.getElementById("result3").innerHTML = "ツバキ";
+                    }
+                    if (f3 == 12) {
+                        document.getElementById("result3").innerHTML = "セリカ";
+                    }
+                    if (f3 == 13) {
+                        document.getElementById("result3").innerHTML = "アヤネ";
+                    }
+                    if (f3 == 14) {
+                        document.getElementById("result3").innerHTML = "ハスミ";
+                    }
+                    if (f3 == 15) {
+                        document.getElementById("result3").innerHTML = "ハナエ";
+                    }
+                    if (f3 == 16) {
+                        document.getElementById("result3").innerHTML = "アイリ";
+                    }
+                    if (f3 == 17) {
+                        document.getElementById("result3").innerHTML = "シズコ";
+                    }
+                    if (f3 == 18) {
+                        document.getElementById("result3").innerHTML = "モモイ";
+                    }
+                    if (f3 == 19) {
+                        document.getElementById("result3").innerHTML = "ハナコ";
+                    }
+                    if (f3 == 20) {
+                        document.getElementById("result3").innerHTML = "キリノ";
+                    }
+                    if (f3 == 21) {
+                        document.getElementById("result3").innerHTML = "マリー";
+                    }
+                }
+                if (f3_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f3 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result3").style = "color: #00a8ff;"
+                    if (f3 == 1) {
+                        document.getElementById("result3").innerHTML = "チナツ";
+                    }
+                    if (f3 == 2) {
+                        document.getElementById("result3").innerHTML = "ハルカ";
+                    }
+                    if (f3 == 3) {
+                        document.getElementById("result3").innerHTML = "ジュリ";
+                    }
+                    if (f3 == 4) {
+                        document.getElementById("result3").innerHTML = "コタマ";
+                    }
+                    if (f3 == 5) {
+                        document.getElementById("result3").innerHTML = "アスナ";
+                    }
+                    if (f3 == 6) {
+                        document.getElementById("result3").innerHTML = "コトリ";
+                    }
+                    if (f3 == 7) {
+                        document.getElementById("result3").innerHTML = "フィーナ";
+                    }
+                    if (f3 == 8) {
+                        document.getElementById("result3").innerHTML = "スズミ";
+                    }
+                    if (f3 == 9) {
+                        document.getElementById("result3").innerHTML = "シミコ";
+                    }
+                    if (f3 == 10) {
+                        document.getElementById("result3").innerHTML = "セリナ";
+                    }
+                    if (f3 == 11) {
+                        document.getElementById("result3").innerHTML = "ヨシミ";
+                    }
+                }
+                var f4_type = Math.floor(Math.random() * 1000) + 1;
+                if (f4_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f4 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result4").style = "color: #e050f0;"
+                    if (f4 == 1) {
+                        document.getElementById("result4").innerHTML = "ヒナ";
+                    }
+                    if (f4 == 2) {
+                        document.getElementById("result4").innerHTML = "イオリ";
+                    }
+                    if (f4 == 3) {
+                        document.getElementById("result4").innerHTML = "ハルナ";
+                    }
+                    if (f4 == 4) {
+                        document.getElementById("result4").innerHTML = "イズミ";
+                    }
+                    if (f4 == 5) {
+                        document.getElementById("result4").innerHTML = "アル";
+                    }
+                    if (f4 == 6) {
+                        document.getElementById("result4").innerHTML = "スミレ";
+                    }
+                    if (f4 == 7) {
+                        document.getElementById("result4").innerHTML = "エイミ";
+                    }
+                    if (f4 == 8) {
+                        document.getElementById("result4").innerHTML = "カリン";
+                    }
+                    if (f4 == 9) {
+                        document.getElementById("result4").innerHTML = "ネル";
+                    }
+                    if (f4 == 10) {
+                        document.getElementById("result4").innerHTML = "マキ";
+                    }
+                    if (f4 == 11) {
+                        document.getElementById("result4").innerHTML = "ヒビキ";
+                    }
+                    if (f4 == 12) {
+                        document.getElementById("result4").innerHTML = "サヤ";
+                    }
+                    if (f4 == 13) {
+                        document.getElementById("result4").innerHTML = "シュン";
+                    }
+                    if (f4 == 14) {
+                        document.getElementById("result4").innerHTML = "シロコ";
+                    }
+                    if (f4 == 15) {
+                        document.getElementById("result4").innerHTML = "ホシノ";
+                    }
+                    if (f4 == 16) {
+                        document.getElementById("result4").innerHTML = "ヒフミ";
+                    }
+                    if (f4 == 17) {
+                        document.getElementById("result4").innerHTML = "ツルギ";
+                    }
+                    if (f4 == 18) {
+                        document.getElementById("result4").innerHTML = "マシロ";
+                    }
+                    if (f4 == 19) {
+                        document.getElementById("result4").innerHTML = "イズナ";
+                    }
+                    if (f4 == 20) {
+                        document.getElementById("result4").innerHTML = "アリス";
+                    }
+                    if (f4 == 21) {
+                        document.getElementById("result4").innerHTML = "ミドリ";
+                    }
+                    if (f4 == 22) {
+                        document.getElementById("result4").innerHTML = "チェリノ";
+                    }
+                    if (f4 == 23) {
+                        document.getElementById("result4").innerHTML = "ユズ";
+                    }
+                    if (f4 == 24) {
+                        document.getElementById("result4").innerHTML = "アズサ";
+                    }
+                    if (f4 == 25) {
+                        document.getElementById("result4").innerHTML = "コハル";
+                    }
+                    if (f4 == 26) {
+                        document.getElementById("result4").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f4 == 27) {
+                        document.getElementById("result4").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f4 == 28) {
+                        document.getElementById("result4").innerHTML = "シュン (幼女)";
+                    }
+                    if (f4 == 29) {
+                        document.getElementById("result4").innerHTML = "サヤ (私服)";
+                    }
+                    if (f4 == 30) {
+                        document.getElementById("result4").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f4 == 31) {
+                        document.getElementById("result4").innerHTML = "ナツ";
+                    }
+                    if (f4 == 32) {
+                        document.getElementById("result4").innerHTML = "アコ";
+                    }
+                    if (f4 == 33) {
+                        document.getElementById("result4").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f4 == 34) {
+                        document.getElementById("result4").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f4 == 35) {
+                        document.getElementById("result4").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f4 == 36) {
+                        document.getElementById("result4").innerHTML = "セリカ (正月)";
+                    }
+                    if (f4 == 37) {
+                        document.getElementById("result4").innerHTML = "セナ";
+                    }
+                    if (f4 == 38) {
+                        document.getElementById("result4").innerHTML = "チヒコ";
+                    }
+                    if (f4 == 39) {
+                        document.getElementById("result4").innerHTML = "ミモリ";
+                    }
+                    if (f4 == 40) {
+                        document.getElementById("result4").innerHTML = "ウイ";
+                    }
+                    if (f4 == 41) {
+                        document.getElementById("result4").innerHTML = "ヒナタ";
+                    }
+                    if (f4 == 42) {
+                        document.getElementById("result4").innerHTML = "マリナ";
+                    }
+                    if (f4 == 43) {
+                        document.getElementById("result4").innerHTML = "ミヤコ";
+                    }
+                    if (f4 == 44) {
+                        document.getElementById("result4").innerHTML = "サキ";
+                    }
+                    if (f4 == 45) {
+                        document.getElementById("result4").innerHTML = "ミユ";
+                    }
+                    if (f4 == 46) {
+                        document.getElementById("result4").innerHTML = "カエデ";
+                    }
+                    if (f4 == 47) {
+                        document.getElementById("result4").innerHTML = "イロハ";
+                    }
+                    if (f4 == 48) {
+                        document.getElementById("result4").innerHTML = "ツクヨ";
+                    }
+                    if (f4 == 49) {
+                        document.getElementById("result4").innerHTML = "ミサキ";
+                    }
+                    if (f4 == 50) {
+                        document.getElementById("result4").innerHTML = "ヒヨリ";
+                    }
+                    if (f4 == 51) {
+                        document.getElementById("result4").innerHTML = "アツコ";
+                    }
+                    if (f4 == 52) {
+                        document.getElementById("result4").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f4 == 53) {
+                        document.getElementById("result4").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f4_type > 25 && f4_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f4 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result4").style = "color: #ffc800;"
+                    if (f4 == 1) {
+                        document.getElementById("result4").innerHTML = "アカリ";
+                    }
+                    if (f4 == 2) {
+                        document.getElementById("result4").innerHTML = "ジュンコ";
+                    }
+                    if (f4 == 3) {
+                        document.getElementById("result4").innerHTML = "ムツキ";
+                    }
+                    if (f4 == 4) {
+                        document.getElementById("result4").innerHTML = "カヨコ";
+                    }
+                    if (f4 == 5) {
+                        document.getElementById("result4").innerHTML = "フウカ";
+                    }
+                    if (f4 == 6) {
+                        document.getElementById("result4").innerHTML = "ユウカ";
+                    }
+                    if (f4 == 7) {
+                        document.getElementById("result4").innerHTML = "アカネ";
+                    }
+                    if (f4 == 8) {
+                        document.getElementById("result4").innerHTML = "ハレ";
+                    }
+                    if (f4 == 9) {
+                        document.getElementById("result4").innerHTML = "ウタハ";
+                    }
+                    if (f4 == 10) {
+                        document.getElementById("result4").innerHTML = "チセ";
+                    }
+                    if (f4 == 11) {
+                        document.getElementById("result4").innerHTML = "ツバキ";
+                    }
+                    if (f4 == 12) {
+                        document.getElementById("result4").innerHTML = "セリカ";
+                    }
+                    if (f4 == 13) {
+                        document.getElementById("result4").innerHTML = "アヤネ";
+                    }
+                    if (f4 == 14) {
+                        document.getElementById("result4").innerHTML = "ハスミ";
+                    }
+                    if (f4 == 15) {
+                        document.getElementById("result4").innerHTML = "ハナエ";
+                    }
+                    if (f4 == 16) {
+                        document.getElementById("result4").innerHTML = "アイリ";
+                    }
+                    if (f4 == 17) {
+                        document.getElementById("result4").innerHTML = "シズコ";
+                    }
+                    if (f4 == 18) {
+                        document.getElementById("result4").innerHTML = "モモイ";
+                    }
+                    if (f4 == 19) {
+                        document.getElementById("result4").innerHTML = "ハナコ";
+                    }
+                    if (f4 == 20) {
+                        document.getElementById("result4").innerHTML = "キリノ";
+                    }
+                    if (f4 == 21) {
+                        document.getElementById("result4").innerHTML = "マリー";
+                    }
+                }
+                if (f4_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f4 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result4").style = "color: #00a8ff;"
+                    if (f4 == 1) {
+                        document.getElementById("result4").innerHTML = "チナツ";
+                    }
+                    if (f4 == 2) {
+                        document.getElementById("result4").innerHTML = "ハルカ";
+                    }
+                    if (f4 == 3) {
+                        document.getElementById("result4").innerHTML = "ジュリ";
+                    }
+                    if (f4 == 4) {
+                        document.getElementById("result4").innerHTML = "コタマ";
+                    }
+                    if (f4 == 5) {
+                        document.getElementById("result4").innerHTML = "アスナ";
+                    }
+                    if (f4 == 6) {
+                        document.getElementById("result4").innerHTML = "コトリ";
+                    }
+                    if (f4 == 7) {
+                        document.getElementById("result4").innerHTML = "フィーナ";
+                    }
+                    if (f4 == 8) {
+                        document.getElementById("result4").innerHTML = "スズミ";
+                    }
+                    if (f4 == 9) {
+                        document.getElementById("result4").innerHTML = "シミコ";
+                    }
+                    if (f4 == 10) {
+                        document.getElementById("result4").innerHTML = "セリナ";
+                    }
+                    if (f4 == 11) {
+                        document.getElementById("result4").innerHTML = "ヨシミ";
+                    }
+                }
+                var f5_type = Math.floor(Math.random() * 1000) + 1;
+                if (f5_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f5 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result5").style = "color: #e050f0;"
+                    if (f5 == 1) {
+                        document.getElementById("result5").innerHTML = "ヒナ";
+                    }
+                    if (f5 == 2) {
+                        document.getElementById("result5").innerHTML = "イオリ";
+                    }
+                    if (f5 == 3) {
+                        document.getElementById("result5").innerHTML = "ハルナ";
+                    }
+                    if (f5 == 4) {
+                        document.getElementById("result5").innerHTML = "イズミ";
+                    }
+                    if (f5 == 5) {
+                        document.getElementById("result5").innerHTML = "アル";
+                    }
+                    if (f5 == 6) {
+                        document.getElementById("result5").innerHTML = "スミレ";
+                    }
+                    if (f5 == 7) {
+                        document.getElementById("result5").innerHTML = "エイミ";
+                    }
+                    if (f5 == 8) {
+                        document.getElementById("result5").innerHTML = "カリン";
+                    }
+                    if (f5 == 9) {
+                        document.getElementById("result5").innerHTML = "ネル";
+                    }
+                    if (f5 == 10) {
+                        document.getElementById("result5").innerHTML = "マキ";
+                    }
+                    if (f5 == 11) {
+                        document.getElementById("result5").innerHTML = "ヒビキ";
+                    }
+                    if (f5 == 12) {
+                        document.getElementById("result5").innerHTML = "サヤ";
+                    }
+                    if (f5 == 13) {
+                        document.getElementById("result5").innerHTML = "シュン";
+                    }
+                    if (f5 == 14) {
+                        document.getElementById("result5").innerHTML = "シロコ";
+                    }
+                    if (f5 == 15) {
+                        document.getElementById("result5").innerHTML = "ホシノ";
+                    }
+                    if (f5 == 16) {
+                        document.getElementById("result5").innerHTML = "ヒフミ";
+                    }
+                    if (f5 == 17) {
+                        document.getElementById("result5").innerHTML = "ツルギ";
+                    }
+                    if (f5 == 18) {
+                        document.getElementById("result5").innerHTML = "マシロ";
+                    }
+                    if (f5 == 19) {
+                        document.getElementById("result5").innerHTML = "イズナ";
+                    }
+                    if (f5 == 20) {
+                        document.getElementById("result5").innerHTML = "アリス";
+                    }
+                    if (f5 == 21) {
+                        document.getElementById("result5").innerHTML = "ミドリ";
+                    }
+                    if (f5 == 22) {
+                        document.getElementById("result5").innerHTML = "チェリノ";
+                    }
+                    if (f5 == 23) {
+                        document.getElementById("result5").innerHTML = "ユズ";
+                    }
+                    if (f5 == 24) {
+                        document.getElementById("result5").innerHTML = "アズサ";
+                    }
+                    if (f5 == 25) {
+                        document.getElementById("result5").innerHTML = "コハル";
+                    }
+                    if (f5 == 26) {
+                        document.getElementById("result5").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f5 == 27) {
+                        document.getElementById("result5").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f5 == 28) {
+                        document.getElementById("result5").innerHTML = "シュン (幼女)";
+                    }
+                    if (f5 == 29) {
+                        document.getElementById("result5").innerHTML = "サヤ (私服)";
+                    }
+                    if (f5 == 30) {
+                        document.getElementById("result5").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f5 == 31) {
+                        document.getElementById("result5").innerHTML = "ナツ";
+                    }
+                    if (f5 == 32) {
+                        document.getElementById("result5").innerHTML = "アコ";
+                    }
+                    if (f5 == 33) {
+                        document.getElementById("result5").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f5 == 34) {
+                        document.getElementById("result5").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f5 == 35) {
+                        document.getElementById("result5").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f5 == 36) {
+                        document.getElementById("result5").innerHTML = "セリカ (正月)";
+                    }
+                    if (f5 == 37) {
+                        document.getElementById("result5").innerHTML = "セナ";
+                    }
+                    if (f5 == 38) {
+                        document.getElementById("result5").innerHTML = "チヒコ";
+                    }
+                    if (f5 == 39) {
+                        document.getElementById("result5").innerHTML = "ミモリ";
+                    }
+                    if (f5 == 40) {
+                        document.getElementById("result5").innerHTML = "ウイ";
+                    }
+                    if (f5 == 41) {
+                        document.getElementById("result5").innerHTML = "ヒナタ";
+                    }
+                    if (f5 == 42) {
+                        document.getElementById("result5").innerHTML = "マリナ";
+                    }
+                    if (f5 == 43) {
+                        document.getElementById("result5").innerHTML = "ミヤコ";
+                    }
+                    if (f5 == 44) {
+                        document.getElementById("result5").innerHTML = "サキ";
+                    }
+                    if (f5 == 45) {
+                        document.getElementById("result5").innerHTML = "ミユ";
+                    }
+                    if (f5 == 46) {
+                        document.getElementById("result5").innerHTML = "カエデ";
+                    }
+                    if (f5 == 47) {
+                        document.getElementById("result5").innerHTML = "イロハ";
+                    }
+                    if (f5 == 48) {
+                        document.getElementById("result5").innerHTML = "ツクヨ";
+                    }
+                    if (f5 == 49) {
+                        document.getElementById("result5").innerHTML = "ミサキ";
+                    }
+                    if (f5 == 50) {
+                        document.getElementById("result5").innerHTML = "ヒヨリ";
+                    }
+                    if (f5 == 51) {
+                        document.getElementById("result5").innerHTML = "アツコ";
+                    }
+                    if (f5 == 52) {
+                        document.getElementById("result5").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f5 == 53) {
+                        document.getElementById("result5").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f5_type > 25 && f5_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f5 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result5").style = "color: #ffc800;"
+                    if (f5 == 1) {
+                        document.getElementById("result5").innerHTML = "アカリ";
+                    }
+                    if (f5 == 2) {
+                        document.getElementById("result5").innerHTML = "ジュンコ";
+                    }
+                    if (f5 == 3) {
+                        document.getElementById("result5").innerHTML = "ムツキ";
+                    }
+                    if (f5 == 4) {
+                        document.getElementById("result5").innerHTML = "カヨコ";
+                    }
+                    if (f5 == 5) {
+                        document.getElementById("result5").innerHTML = "フウカ";
+                    }
+                    if (f5 == 6) {
+                        document.getElementById("result5").innerHTML = "ユウカ";
+                    }
+                    if (f5 == 7) {
+                        document.getElementById("result5").innerHTML = "アカネ";
+                    }
+                    if (f5 == 8) {
+                        document.getElementById("result5").innerHTML = "ハレ";
+                    }
+                    if (f5 == 9) {
+                        document.getElementById("result5").innerHTML = "ウタハ";
+                    }
+                    if (f5 == 10) {
+                        document.getElementById("result5").innerHTML = "チセ";
+                    }
+                    if (f5 == 11) {
+                        document.getElementById("result5").innerHTML = "ツバキ";
+                    }
+                    if (f5 == 12) {
+                        document.getElementById("result5").innerHTML = "セリカ";
+                    }
+                    if (f5 == 13) {
+                        document.getElementById("result5").innerHTML = "アヤネ";
+                    }
+                    if (f5 == 14) {
+                        document.getElementById("result5").innerHTML = "ハスミ";
+                    }
+                    if (f5 == 15) {
+                        document.getElementById("result5").innerHTML = "ハナエ";
+                    }
+                    if (f5 == 16) {
+                        document.getElementById("result5").innerHTML = "アイリ";
+                    }
+                    if (f5 == 17) {
+                        document.getElementById("result5").innerHTML = "シズコ";
+                    }
+                    if (f5 == 18) {
+                        document.getElementById("result5").innerHTML = "モモイ";
+                    }
+                    if (f5 == 19) {
+                        document.getElementById("result5").innerHTML = "ハナコ";
+                    }
+                    if (f5 == 20) {
+                        document.getElementById("result5").innerHTML = "キリノ";
+                    }
+                    if (f5 == 21) {
+                        document.getElementById("result5").innerHTML = "マリー";
+                    }
+                }
+                if (f5_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f5 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result5").style = "color: #00a8ff;"
+                    if (f5 == 1) {
+                        document.getElementById("result5").innerHTML = "チナツ";
+                    }
+                    if (f5 == 2) {
+                        document.getElementById("result5").innerHTML = "ハルカ";
+                    }
+                    if (f5 == 3) {
+                        document.getElementById("result5").innerHTML = "ジュリ";
+                    }
+                    if (f5 == 4) {
+                        document.getElementById("result5").innerHTML = "コタマ";
+                    }
+                    if (f5 == 5) {
+                        document.getElementById("result5").innerHTML = "アスナ";
+                    }
+                    if (f5 == 6) {
+                        document.getElementById("result5").innerHTML = "コトリ";
+                    }
+                    if (f5 == 7) {
+                        document.getElementById("result5").innerHTML = "フィーナ";
+                    }
+                    if (f5 == 8) {
+                        document.getElementById("result5").innerHTML = "スズミ";
+                    }
+                    if (f5 == 9) {
+                        document.getElementById("result5").innerHTML = "シミコ";
+                    }
+                    if (f5 == 10) {
+                        document.getElementById("result5").innerHTML = "セリナ";
+                    }
+                    if (f5 == 11) {
+                        document.getElementById("result5").innerHTML = "ヨシミ";
+                    }
+                }
+                var f6_type = Math.floor(Math.random() * 1000) + 1;
+                if (f6_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f6 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result6").style = "color: #e050f0;"
+                    if (f6 == 1) {
+                        document.getElementById("result6").innerHTML = "ヒナ";
+                    }
+                    if (f6 == 2) {
+                        document.getElementById("result6").innerHTML = "イオリ";
+                    }
+                    if (f6 == 3) {
+                        document.getElementById("result6").innerHTML = "ハルナ";
+                    }
+                    if (f6 == 4) {
+                        document.getElementById("result6").innerHTML = "イズミ";
+                    }
+                    if (f6 == 5) {
+                        document.getElementById("result6").innerHTML = "アル";
+                    }
+                    if (f6 == 6) {
+                        document.getElementById("result6").innerHTML = "スミレ";
+                    }
+                    if (f6 == 7) {
+                        document.getElementById("result6").innerHTML = "エイミ";
+                    }
+                    if (f6 == 8) {
+                        document.getElementById("result6").innerHTML = "カリン";
+                    }
+                    if (f6 == 9) {
+                        document.getElementById("result6").innerHTML = "ネル";
+                    }
+                    if (f6 == 10) {
+                        document.getElementById("result6").innerHTML = "マキ";
+                    }
+                    if (f6 == 11) {
+                        document.getElementById("result6").innerHTML = "ヒビキ";
+                    }
+                    if (f6 == 12) {
+                        document.getElementById("result6").innerHTML = "サヤ";
+                    }
+                    if (f6 == 13) {
+                        document.getElementById("result6").innerHTML = "シュン";
+                    }
+                    if (f6 == 14) {
+                        document.getElementById("result6").innerHTML = "シロコ";
+                    }
+                    if (f6 == 15) {
+                        document.getElementById("result6").innerHTML = "ホシノ";
+                    }
+                    if (f6 == 16) {
+                        document.getElementById("result6").innerHTML = "ヒフミ";
+                    }
+                    if (f6 == 17) {
+                        document.getElementById("result6").innerHTML = "ツルギ";
+                    }
+                    if (f6 == 18) {
+                        document.getElementById("result6").innerHTML = "マシロ";
+                    }
+                    if (f6 == 19) {
+                        document.getElementById("result6").innerHTML = "イズナ";
+                    }
+                    if (f6 == 20) {
+                        document.getElementById("result6").innerHTML = "アリス";
+                    }
+                    if (f6 == 21) {
+                        document.getElementById("result6").innerHTML = "ミドリ";
+                    }
+                    if (f6 == 22) {
+                        document.getElementById("result6").innerHTML = "チェリノ";
+                    }
+                    if (f6 == 23) {
+                        document.getElementById("result6").innerHTML = "ユズ";
+                    }
+                    if (f6 == 24) {
+                        document.getElementById("result6").innerHTML = "アズサ";
+                    }
+                    if (f6 == 25) {
+                        document.getElementById("result6").innerHTML = "コハル";
+                    }
+                    if (f6 == 26) {
+                        document.getElementById("result6").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f6 == 27) {
+                        document.getElementById("result6").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f6 == 28) {
+                        document.getElementById("result6").innerHTML = "シュン (幼女)";
+                    }
+                    if (f6 == 29) {
+                        document.getElementById("result6").innerHTML = "サヤ (私服)";
+                    }
+                    if (f6 == 30) {
+                        document.getElementById("result6").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f6 == 31) {
+                        document.getElementById("result6").innerHTML = "ナツ";
+                    }
+                    if (f6 == 32) {
+                        document.getElementById("result6").innerHTML = "アコ";
+                    }
+                    if (f6 == 33) {
+                        document.getElementById("result6").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f6 == 34) {
+                        document.getElementById("result6").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f6 == 35) {
+                        document.getElementById("result6").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f6 == 36) {
+                        document.getElementById("result6").innerHTML = "セリカ (正月)";
+                    }
+                    if (f6 == 37) {
+                        document.getElementById("result6").innerHTML = "セナ";
+                    }
+                    if (f6 == 38) {
+                        document.getElementById("result6").innerHTML = "チヒコ";
+                    }
+                    if (f6 == 39) {
+                        document.getElementById("result6").innerHTML = "ミモリ";
+                    }
+                    if (f6 == 40) {
+                        document.getElementById("result6").innerHTML = "ウイ";
+                    }
+                    if (f6 == 41) {
+                        document.getElementById("result6").innerHTML = "ヒナタ";
+                    }
+                    if (f6 == 42) {
+                        document.getElementById("result6").innerHTML = "マリナ";
+                    }
+                    if (f6 == 43) {
+                        document.getElementById("result6").innerHTML = "ミヤコ";
+                    }
+                    if (f6 == 44) {
+                        document.getElementById("result6").innerHTML = "サキ";
+                    }
+                    if (f6 == 45) {
+                        document.getElementById("result6").innerHTML = "ミユ";
+                    }
+                    if (f6 == 46) {
+                        document.getElementById("result6").innerHTML = "カエデ";
+                    }
+                    if (f6 == 47) {
+                        document.getElementById("result6").innerHTML = "イロハ";
+                    }
+                    if (f6 == 48) {
+                        document.getElementById("result6").innerHTML = "ツクヨ";
+                    }
+                    if (f6 == 49) {
+                        document.getElementById("result6").innerHTML = "ミサキ";
+                    }
+                    if (f6 == 50) {
+                        document.getElementById("result6").innerHTML = "ヒヨリ";
+                    }
+                    if (f6 == 51) {
+                        document.getElementById("result6").innerHTML = "アツコ";
+                    }
+                    if (f6 == 52) {
+                        document.getElementById("result6").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f6 == 53) {
+                        document.getElementById("result6").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f6_type > 25 && f6_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f6 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result6").style = "color: #ffc800;"
+                    if (f6 == 1) {
+                        document.getElementById("result6").innerHTML = "アカリ";
+                    }
+                    if (f6 == 2) {
+                        document.getElementById("result6").innerHTML = "ジュンコ";
+                    }
+                    if (f6 == 3) {
+                        document.getElementById("result6").innerHTML = "ムツキ";
+                    }
+                    if (f6 == 4) {
+                        document.getElementById("result6").innerHTML = "カヨコ";
+                    }
+                    if (f6 == 5) {
+                        document.getElementById("result6").innerHTML = "フウカ";
+                    }
+                    if (f6 == 6) {
+                        document.getElementById("result6").innerHTML = "ユウカ";
+                    }
+                    if (f6 == 7) {
+                        document.getElementById("result6").innerHTML = "アカネ";
+                    }
+                    if (f6 == 8) {
+                        document.getElementById("result6").innerHTML = "ハレ";
+                    }
+                    if (f6 == 9) {
+                        document.getElementById("result6").innerHTML = "ウタハ";
+                    }
+                    if (f6 == 10) {
+                        document.getElementById("result6").innerHTML = "チセ";
+                    }
+                    if (f6 == 11) {
+                        document.getElementById("result6").innerHTML = "ツバキ";
+                    }
+                    if (f6 == 12) {
+                        document.getElementById("result6").innerHTML = "セリカ";
+                    }
+                    if (f6 == 13) {
+                        document.getElementById("result6").innerHTML = "アヤネ";
+                    }
+                    if (f6 == 14) {
+                        document.getElementById("result6").innerHTML = "ハスミ";
+                    }
+                    if (f6 == 15) {
+                        document.getElementById("result6").innerHTML = "ハナエ";
+                    }
+                    if (f6 == 16) {
+                        document.getElementById("result6").innerHTML = "アイリ";
+                    }
+                    if (f6 == 17) {
+                        document.getElementById("result6").innerHTML = "シズコ";
+                    }
+                    if (f6 == 18) {
+                        document.getElementById("result6").innerHTML = "モモイ";
+                    }
+                    if (f6 == 19) {
+                        document.getElementById("result6").innerHTML = "ハナコ";
+                    }
+                    if (f6 == 20) {
+                        document.getElementById("result6").innerHTML = "キリノ";
+                    }
+                    if (f6 == 21) {
+                        document.getElementById("result6").innerHTML = "マリー";
+                    }
+                }
+                if (f6_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f6 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result6").style = "color: #00a8ff;"
+                    if (f6 == 1) {
+                        document.getElementById("result6").innerHTML = "チナツ";
+                    }
+                    if (f6 == 2) {
+                        document.getElementById("result6").innerHTML = "ハルカ";
+                    }
+                    if (f6 == 3) {
+                        document.getElementById("result6").innerHTML = "ジュリ";
+                    }
+                    if (f6 == 4) {
+                        document.getElementById("result6").innerHTML = "コタマ";
+                    }
+                    if (f6 == 5) {
+                        document.getElementById("result6").innerHTML = "アスナ";
+                    }
+                    if (f6 == 6) {
+                        document.getElementById("result6").innerHTML = "コトリ";
+                    }
+                    if (f6 == 7) {
+                        document.getElementById("result6").innerHTML = "フィーナ";
+                    }
+                    if (f6 == 8) {
+                        document.getElementById("result6").innerHTML = "スズミ";
+                    }
+                    if (f6 == 9) {
+                        document.getElementById("result6").innerHTML = "シミコ";
+                    }
+                    if (f6 == 10) {
+                        document.getElementById("result6").innerHTML = "セリナ";
+                    }
+                    if (f6 == 11) {
+                        document.getElementById("result6").innerHTML = "ヨシミ";
+                    }
+                }
+                var f7_type = Math.floor(Math.random() * 1000) + 1;
+                if (f7_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f7 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result7").style = "color: #e050f0;"
+                    if (f7 == 1) {
+                        document.getElementById("result7").innerHTML = "ヒナ";
+                    }
+                    if (f7 == 2) {
+                        document.getElementById("result7").innerHTML = "イオリ";
+                    }
+                    if (f7 == 3) {
+                        document.getElementById("result7").innerHTML = "ハルナ";
+                    }
+                    if (f7 == 4) {
+                        document.getElementById("result7").innerHTML = "イズミ";
+                    }
+                    if (f7 == 5) {
+                        document.getElementById("result7").innerHTML = "アル";
+                    }
+                    if (f7 == 6) {
+                        document.getElementById("result7").innerHTML = "スミレ";
+                    }
+                    if (f7 == 7) {
+                        document.getElementById("result7").innerHTML = "エイミ";
+                    }
+                    if (f7 == 8) {
+                        document.getElementById("result7").innerHTML = "カリン";
+                    }
+                    if (f7 == 9) {
+                        document.getElementById("result7").innerHTML = "ネル";
+                    }
+                    if (f7 == 10) {
+                        document.getElementById("result7").innerHTML = "マキ";
+                    }
+                    if (f7 == 11) {
+                        document.getElementById("result7").innerHTML = "ヒビキ";
+                    }
+                    if (f7 == 12) {
+                        document.getElementById("result7").innerHTML = "サヤ";
+                    }
+                    if (f7 == 13) {
+                        document.getElementById("result7").innerHTML = "シュン";
+                    }
+                    if (f7 == 14) {
+                        document.getElementById("result7").innerHTML = "シロコ";
+                    }
+                    if (f7 == 15) {
+                        document.getElementById("result7").innerHTML = "ホシノ";
+                    }
+                    if (f7 == 16) {
+                        document.getElementById("result7").innerHTML = "ヒフミ";
+                    }
+                    if (f7 == 17) {
+                        document.getElementById("result7").innerHTML = "ツルギ";
+                    }
+                    if (f7 == 18) {
+                        document.getElementById("result7").innerHTML = "マシロ";
+                    }
+                    if (f7 == 19) {
+                        document.getElementById("result7").innerHTML = "イズナ";
+                    }
+                    if (f7 == 20) {
+                        document.getElementById("result7").innerHTML = "アリス";
+                    }
+                    if (f7 == 21) {
+                        document.getElementById("result7").innerHTML = "ミドリ";
+                    }
+                    if (f7 == 22) {
+                        document.getElementById("result7").innerHTML = "チェリノ";
+                    }
+                    if (f7 == 23) {
+                        document.getElementById("result7").innerHTML = "ユズ";
+                    }
+                    if (f7 == 24) {
+                        document.getElementById("result7").innerHTML = "アズサ";
+                    }
+                    if (f7 == 25) {
+                        document.getElementById("result7").innerHTML = "コハル";
+                    }
+                    if (f7 == 26) {
+                        document.getElementById("result7").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f7 == 27) {
+                        document.getElementById("result7").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f7 == 28) {
+                        document.getElementById("result7").innerHTML = "シュン (幼女)";
+                    }
+                    if (f7 == 29) {
+                        document.getElementById("result7").innerHTML = "サヤ (私服)";
+                    }
+                    if (f7 == 30) {
+                        document.getElementById("result7").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f7 == 31) {
+                        document.getElementById("result7").innerHTML = "ナツ";
+                    }
+                    if (f7 == 32) {
+                        document.getElementById("result7").innerHTML = "アコ";
+                    }
+                    if (f7 == 33) {
+                        document.getElementById("result7").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f7 == 34) {
+                        document.getElementById("result7").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f7 == 35) {
+                        document.getElementById("result7").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f7 == 36) {
+                        document.getElementById("result7").innerHTML = "セリカ (正月)";
+                    }
+                    if (f7 == 37) {
+                        document.getElementById("result7").innerHTML = "セナ";
+                    }
+                    if (f7 == 38) {
+                        document.getElementById("result7").innerHTML = "チヒコ";
+                    }
+                    if (f7 == 39) {
+                        document.getElementById("result7").innerHTML = "ミモリ";
+                    }
+                    if (f7 == 40) {
+                        document.getElementById("result7").innerHTML = "ウイ";
+                    }
+                    if (f7 == 41) {
+                        document.getElementById("result7").innerHTML = "ヒナタ";
+                    }
+                    if (f7 == 42) {
+                        document.getElementById("result7").innerHTML = "マリナ";
+                    }
+                    if (f7 == 43) {
+                        document.getElementById("result7").innerHTML = "ミヤコ";
+                    }
+                    if (f7 == 44) {
+                        document.getElementById("result7").innerHTML = "サキ";
+                    }
+                    if (f7 == 45) {
+                        document.getElementById("result7").innerHTML = "ミユ";
+                    }
+                    if (f7 == 46) {
+                        document.getElementById("result7").innerHTML = "カエデ";
+                    }
+                    if (f7 == 47) {
+                        document.getElementById("result7").innerHTML = "イロハ";
+                    }
+                    if (f7 == 48) {
+                        document.getElementById("result7").innerHTML = "ツクヨ";
+                    }
+                    if (f7 == 49) {
+                        document.getElementById("result7").innerHTML = "ミサキ";
+                    }
+                    if (f7 == 50) {
+                        document.getElementById("result7").innerHTML = "ヒヨリ";
+                    }
+                    if (f7 == 51) {
+                        document.getElementById("result7").innerHTML = "アツコ";
+                    }
+                    if (f7 == 52) {
+                        document.getElementById("result7").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f7 == 53) {
+                        document.getElementById("result7").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f7_type > 25 && f7_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f7 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result7").style = "color: #ffc800;"
+                    if (f7 == 1) {
+                        document.getElementById("result7").innerHTML = "アカリ";
+                    }
+                    if (f7 == 2) {
+                        document.getElementById("result7").innerHTML = "ジュンコ";
+                    }
+                    if (f7 == 3) {
+                        document.getElementById("result7").innerHTML = "ムツキ";
+                    }
+                    if (f7 == 4) {
+                        document.getElementById("result7").innerHTML = "カヨコ";
+                    }
+                    if (f7 == 5) {
+                        document.getElementById("result7").innerHTML = "フウカ";
+                    }
+                    if (f7 == 6) {
+                        document.getElementById("result7").innerHTML = "ユウカ";
+                    }
+                    if (f7 == 7) {
+                        document.getElementById("result7").innerHTML = "アカネ";
+                    }
+                    if (f7 == 8) {
+                        document.getElementById("result7").innerHTML = "ハレ";
+                    }
+                    if (f7 == 9) {
+                        document.getElementById("result7").innerHTML = "ウタハ";
+                    }
+                    if (f7 == 10) {
+                        document.getElementById("result7").innerHTML = "チセ";
+                    }
+                    if (f7 == 11) {
+                        document.getElementById("result7").innerHTML = "ツバキ";
+                    }
+                    if (f7 == 12) {
+                        document.getElementById("result7").innerHTML = "セリカ";
+                    }
+                    if (f7 == 13) {
+                        document.getElementById("result7").innerHTML = "アヤネ";
+                    }
+                    if (f7 == 14) {
+                        document.getElementById("result7").innerHTML = "ハスミ";
+                    }
+                    if (f7 == 15) {
+                        document.getElementById("result7").innerHTML = "ハナエ";
+                    }
+                    if (f7 == 16) {
+                        document.getElementById("result7").innerHTML = "アイリ";
+                    }
+                    if (f7 == 17) {
+                        document.getElementById("result7").innerHTML = "シズコ";
+                    }
+                    if (f7 == 18) {
+                        document.getElementById("result7").innerHTML = "モモイ";
+                    }
+                    if (f7 == 19) {
+                        document.getElementById("result7").innerHTML = "ハナコ";
+                    }
+                    if (f7 == 20) {
+                        document.getElementById("result7").innerHTML = "キリノ";
+                    }
+                    if (f7 == 21) {
+                        document.getElementById("result7").innerHTML = "マリー";
+                    }
+                }
+                if (f7_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f7 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result7").style = "color: #00a8ff;"
+                    if (f7 == 1) {
+                        document.getElementById("result7").innerHTML = "チナツ";
+                    }
+                    if (f7 == 2) {
+                        document.getElementById("result7").innerHTML = "ハルカ";
+                    }
+                    if (f7 == 3) {
+                        document.getElementById("result7").innerHTML = "ジュリ";
+                    }
+                    if (f7 == 4) {
+                        document.getElementById("result7").innerHTML = "コタマ";
+                    }
+                    if (f7 == 5) {
+                        document.getElementById("result7").innerHTML = "アスナ";
+                    }
+                    if (f7 == 6) {
+                        document.getElementById("result7").innerHTML = "コトリ";
+                    }
+                    if (f7 == 7) {
+                        document.getElementById("result7").innerHTML = "フィーナ";
+                    }
+                    if (f7 == 8) {
+                        document.getElementById("result7").innerHTML = "スズミ";
+                    }
+                    if (f7 == 9) {
+                        document.getElementById("result7").innerHTML = "シミコ";
+                    }
+                    if (f7 == 10) {
+                        document.getElementById("result7").innerHTML = "セリナ";
+                    }
+                    if (f7 == 11) {
+                        document.getElementById("result7").innerHTML = "ヨシミ";
+                    }
+                }
+                var f8_type = Math.floor(Math.random() * 1000) + 1;
+                if (f8_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f8 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result8").style = "color: #e050f0;"
+                    if (f8 == 1) {
+                        document.getElementById("result8").innerHTML = "ヒナ";
+                    }
+                    if (f8 == 2) {
+                        document.getElementById("result8").innerHTML = "イオリ";
+                    }
+                    if (f8 == 3) {
+                        document.getElementById("result8").innerHTML = "ハルナ";
+                    }
+                    if (f8 == 4) {
+                        document.getElementById("result8").innerHTML = "イズミ";
+                    }
+                    if (f8 == 5) {
+                        document.getElementById("result8").innerHTML = "アル";
+                    }
+                    if (f8 == 6) {
+                        document.getElementById("result8").innerHTML = "スミレ";
+                    }
+                    if (f8 == 7) {
+                        document.getElementById("result8").innerHTML = "エイミ";
+                    }
+                    if (f8 == 8) {
+                        document.getElementById("result8").innerHTML = "カリン";
+                    }
+                    if (f8 == 9) {
+                        document.getElementById("result8").innerHTML = "ネル";
+                    }
+                    if (f8 == 10) {
+                        document.getElementById("result8").innerHTML = "マキ";
+                    }
+                    if (f8 == 11) {
+                        document.getElementById("result8").innerHTML = "ヒビキ";
+                    }
+                    if (f8 == 12) {
+                        document.getElementById("result8").innerHTML = "サヤ";
+                    }
+                    if (f8 == 13) {
+                        document.getElementById("result8").innerHTML = "シュン";
+                    }
+                    if (f8 == 14) {
+                        document.getElementById("result8").innerHTML = "シロコ";
+                    }
+                    if (f8 == 15) {
+                        document.getElementById("result8").innerHTML = "ホシノ";
+                    }
+                    if (f8 == 16) {
+                        document.getElementById("result8").innerHTML = "ヒフミ";
+                    }
+                    if (f8 == 17) {
+                        document.getElementById("result8").innerHTML = "ツルギ";
+                    }
+                    if (f8 == 18) {
+                        document.getElementById("result8").innerHTML = "マシロ";
+                    }
+                    if (f8 == 19) {
+                        document.getElementById("result8").innerHTML = "イズナ";
+                    }
+                    if (f8 == 20) {
+                        document.getElementById("result8").innerHTML = "アリス";
+                    }
+                    if (f8 == 21) {
+                        document.getElementById("result8").innerHTML = "ミドリ";
+                    }
+                    if (f8 == 22) {
+                        document.getElementById("result8").innerHTML = "チェリノ";
+                    }
+                    if (f8 == 23) {
+                        document.getElementById("result8").innerHTML = "ユズ";
+                    }
+                    if (f8 == 24) {
+                        document.getElementById("result8").innerHTML = "アズサ";
+                    }
+                    if (f8 == 25) {
+                        document.getElementById("result8").innerHTML = "コハル";
+                    }
+                    if (f8 == 26) {
+                        document.getElementById("result8").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f8 == 27) {
+                        document.getElementById("result8").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f8 == 28) {
+                        document.getElementById("result8").innerHTML = "シュン (幼女)";
+                    }
+                    if (f8 == 29) {
+                        document.getElementById("result8").innerHTML = "サヤ (私服)";
+                    }
+                    if (f8 == 30) {
+                        document.getElementById("result8").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f8 == 31) {
+                        document.getElementById("result8").innerHTML = "ナツ";
+                    }
+                    if (f8 == 32) {
+                        document.getElementById("result8").innerHTML = "アコ";
+                    }
+                    if (f8 == 33) {
+                        document.getElementById("result8").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f8 == 34) {
+                        document.getElementById("result8").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f8 == 35) {
+                        document.getElementById("result8").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f8 == 36) {
+                        document.getElementById("result8").innerHTML = "セリカ (正月)";
+                    }
+                    if (f8 == 37) {
+                        document.getElementById("result8").innerHTML = "セナ";
+                    }
+                    if (f8 == 38) {
+                        document.getElementById("result8").innerHTML = "チヒコ";
+                    }
+                    if (f8 == 39) {
+                        document.getElementById("result8").innerHTML = "ミモリ";
+                    }
+                    if (f8 == 40) {
+                        document.getElementById("result8").innerHTML = "ウイ";
+                    }
+                    if (f8 == 41) {
+                        document.getElementById("result8").innerHTML = "ヒナタ";
+                    }
+                    if (f8 == 42) {
+                        document.getElementById("result8").innerHTML = "マリナ";
+                    }
+                    if (f8 == 43) {
+                        document.getElementById("result8").innerHTML = "ミヤコ";
+                    }
+                    if (f8 == 44) {
+                        document.getElementById("result8").innerHTML = "サキ";
+                    }
+                    if (f8 == 45) {
+                        document.getElementById("result8").innerHTML = "ミユ";
+                    }
+                    if (f8 == 46) {
+                        document.getElementById("result8").innerHTML = "カエデ";
+                    }
+                    if (f8 == 47) {
+                        document.getElementById("result8").innerHTML = "イロハ";
+                    }
+                    if (f8 == 48) {
+                        document.getElementById("result8").innerHTML = "ツクヨ";
+                    }
+                    if (f8 == 49) {
+                        document.getElementById("result8").innerHTML = "ミサキ";
+                    }
+                    if (f8 == 50) {
+                        document.getElementById("result8").innerHTML = "ヒヨリ";
+                    }
+                    if (f8 == 51) {
+                        document.getElementById("result8").innerHTML = "アツコ";
+                    }
+                    if (f8 == 52) {
+                        document.getElementById("result8").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f8 == 53) {
+                        document.getElementById("result8").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f8_type > 25 && f8_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f8 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result8").style = "color: #ffc800;"
+                    if (f8 == 1) {
+                        document.getElementById("result8").innerHTML = "アカリ";
+                    }
+                    if (f8 == 2) {
+                        document.getElementById("result8").innerHTML = "ジュンコ";
+                    }
+                    if (f8 == 3) {
+                        document.getElementById("result8").innerHTML = "ムツキ";
+                    }
+                    if (f8 == 4) {
+                        document.getElementById("result8").innerHTML = "カヨコ";
+                    }
+                    if (f8 == 5) {
+                        document.getElementById("result8").innerHTML = "フウカ";
+                    }
+                    if (f8 == 6) {
+                        document.getElementById("result8").innerHTML = "ユウカ";
+                    }
+                    if (f8 == 7) {
+                        document.getElementById("result8").innerHTML = "アカネ";
+                    }
+                    if (f8 == 8) {
+                        document.getElementById("result8").innerHTML = "ハレ";
+                    }
+                    if (f8 == 9) {
+                        document.getElementById("result8").innerHTML = "ウタハ";
+                    }
+                    if (f8 == 10) {
+                        document.getElementById("result8").innerHTML = "チセ";
+                    }
+                    if (f8 == 11) {
+                        document.getElementById("result8").innerHTML = "ツバキ";
+                    }
+                    if (f8 == 12) {
+                        document.getElementById("result8").innerHTML = "セリカ";
+                    }
+                    if (f8 == 13) {
+                        document.getElementById("result8").innerHTML = "アヤネ";
+                    }
+                    if (f8 == 14) {
+                        document.getElementById("result8").innerHTML = "ハスミ";
+                    }
+                    if (f8 == 15) {
+                        document.getElementById("result8").innerHTML = "ハナエ";
+                    }
+                    if (f8 == 16) {
+                        document.getElementById("result8").innerHTML = "アイリ";
+                    }
+                    if (f8 == 17) {
+                        document.getElementById("result8").innerHTML = "シズコ";
+                    }
+                    if (f8 == 18) {
+                        document.getElementById("result8").innerHTML = "モモイ";
+                    }
+                    if (f8 == 19) {
+                        document.getElementById("result8").innerHTML = "ハナコ";
+                    }
+                    if (f8 == 20) {
+                        document.getElementById("result8").innerHTML = "キリノ";
+                    }
+                    if (f8 == 21) {
+                        document.getElementById("result8").innerHTML = "マリー";
+                    }
+                }
+                if (f8_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f8 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result8").style = "color: #00a8ff;"
+                    if (f8 == 1) {
+                        document.getElementById("result8").innerHTML = "チナツ";
+                    }
+                    if (f8 == 2) {
+                        document.getElementById("result8").innerHTML = "ハルカ";
+                    }
+                    if (f8 == 3) {
+                        document.getElementById("result8").innerHTML = "ジュリ";
+                    }
+                    if (f8 == 4) {
+                        document.getElementById("result8").innerHTML = "コタマ";
+                    }
+                    if (f8 == 5) {
+                        document.getElementById("result8").innerHTML = "アスナ";
+                    }
+                    if (f8 == 6) {
+                        document.getElementById("result8").innerHTML = "コトリ";
+                    }
+                    if (f8 == 7) {
+                        document.getElementById("result8").innerHTML = "フィーナ";
+                    }
+                    if (f8 == 8) {
+                        document.getElementById("result8").innerHTML = "スズミ";
+                    }
+                    if (f8 == 9) {
+                        document.getElementById("result8").innerHTML = "シミコ";
+                    }
+                    if (f8 == 10) {
+                        document.getElementById("result8").innerHTML = "セリナ";
+                    }
+                    if (f8 == 11) {
+                        document.getElementById("result8").innerHTML = "ヨシミ";
+                    }
+                }
+                var f9_type = Math.floor(Math.random() * 1000) + 1;
+                if (f9_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f9 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result9").style = "color: #e050f0;"
+                    if (f9 == 1) {
+                        document.getElementById("result9").innerHTML = "ヒナ";
+                    }
+                    if (f9 == 2) {
+                        document.getElementById("result9").innerHTML = "イオリ";
+                    }
+                    if (f9 == 3) {
+                        document.getElementById("result9").innerHTML = "ハルナ";
+                    }
+                    if (f9 == 4) {
+                        document.getElementById("result9").innerHTML = "イズミ";
+                    }
+                    if (f9 == 5) {
+                        document.getElementById("result9").innerHTML = "アル";
+                    }
+                    if (f9 == 6) {
+                        document.getElementById("result9").innerHTML = "スミレ";
+                    }
+                    if (f9 == 7) {
+                        document.getElementById("result9").innerHTML = "エイミ";
+                    }
+                    if (f9 == 8) {
+                        document.getElementById("result9").innerHTML = "カリン";
+                    }
+                    if (f9 == 9) {
+                        document.getElementById("result9").innerHTML = "ネル";
+                    }
+                    if (f9 == 10) {
+                        document.getElementById("result9").innerHTML = "マキ";
+                    }
+                    if (f9 == 11) {
+                        document.getElementById("result9").innerHTML = "ヒビキ";
+                    }
+                    if (f9 == 12) {
+                        document.getElementById("result9").innerHTML = "サヤ";
+                    }
+                    if (f9 == 13) {
+                        document.getElementById("result9").innerHTML = "シュン";
+                    }
+                    if (f9 == 14) {
+                        document.getElementById("result9").innerHTML = "シロコ";
+                    }
+                    if (f9 == 15) {
+                        document.getElementById("result9").innerHTML = "ホシノ";
+                    }
+                    if (f9 == 16) {
+                        document.getElementById("result9").innerHTML = "ヒフミ";
+                    }
+                    if (f9 == 17) {
+                        document.getElementById("result9").innerHTML = "ツルギ";
+                    }
+                    if (f9 == 18) {
+                        document.getElementById("result9").innerHTML = "マシロ";
+                    }
+                    if (f9 == 19) {
+                        document.getElementById("result9").innerHTML = "イズナ";
+                    }
+                    if (f9 == 20) {
+                        document.getElementById("result9").innerHTML = "アリス";
+                    }
+                    if (f9 == 21) {
+                        document.getElementById("result9").innerHTML = "ミドリ";
+                    }
+                    if (f9 == 22) {
+                        document.getElementById("result9").innerHTML = "チェリノ";
+                    }
+                    if (f9 == 23) {
+                        document.getElementById("result9").innerHTML = "ユズ";
+                    }
+                    if (f9 == 24) {
+                        document.getElementById("result9").innerHTML = "アズサ";
+                    }
+                    if (f9 == 25) {
+                        document.getElementById("result9").innerHTML = "コハル";
+                    }
+                    if (f9 == 26) {
+                        document.getElementById("result9").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f9 == 27) {
+                        document.getElementById("result9").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f9 == 28) {
+                        document.getElementById("result9").innerHTML = "シュン (幼女)";
+                    }
+                    if (f9 == 29) {
+                        document.getElementById("result9").innerHTML = "サヤ (私服)";
+                    }
+                    if (f9 == 30) {
+                        document.getElementById("result9").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f9 == 31) {
+                        document.getElementById("result9").innerHTML = "ナツ";
+                    }
+                    if (f9 == 32) {
+                        document.getElementById("result9").innerHTML = "アコ";
+                    }
+                    if (f9 == 33) {
+                        document.getElementById("result9").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f9 == 34) {
+                        document.getElementById("result9").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f9 == 35) {
+                        document.getElementById("result9").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f9 == 36) {
+                        document.getElementById("result9").innerHTML = "セリカ (正月)";
+                    }
+                    if (f9 == 37) {
+                        document.getElementById("result9").innerHTML = "セナ";
+                    }
+                    if (f9 == 38) {
+                        document.getElementById("result9").innerHTML = "チヒコ";
+                    }
+                    if (f9 == 39) {
+                        document.getElementById("result9").innerHTML = "ミモリ";
+                    }
+                    if (f9 == 40) {
+                        document.getElementById("result9").innerHTML = "ウイ";
+                    }
+                    if (f9 == 41) {
+                        document.getElementById("result9").innerHTML = "ヒナタ";
+                    }
+                    if (f9 == 42) {
+                        document.getElementById("result9").innerHTML = "マリナ";
+                    }
+                    if (f9 == 43) {
+                        document.getElementById("result9").innerHTML = "ミヤコ";
+                    }
+                    if (f9 == 44) {
+                        document.getElementById("result9").innerHTML = "サキ";
+                    }
+                    if (f9 == 45) {
+                        document.getElementById("result9").innerHTML = "ミユ";
+                    }
+                    if (f9 == 46) {
+                        document.getElementById("result9").innerHTML = "カエデ";
+                    }
+                    if (f9 == 47) {
+                        document.getElementById("result9").innerHTML = "イロハ";
+                    }
+                    if (f9 == 48) {
+                        document.getElementById("result9").innerHTML = "ツクヨ";
+                    }
+                    if (f9 == 49) {
+                        document.getElementById("result9").innerHTML = "ミサキ";
+                    }
+                    if (f9 == 50) {
+                        document.getElementById("result9").innerHTML = "ヒヨリ";
+                    }
+                    if (f9 == 51) {
+                        document.getElementById("result9").innerHTML = "アツコ";
+                    }
+                    if (f9 == 52) {
+                        document.getElementById("result9").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f9 == 53) {
+                        document.getElementById("result9").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f9_type > 25 && f9_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f9 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result9").style = "color: #ffc800;"
+                    if (f9 == 1) {
+                        document.getElementById("result9").innerHTML = "アカリ";
+                    }
+                    if (f9 == 2) {
+                        document.getElementById("result9").innerHTML = "ジュンコ";
+                    }
+                    if (f9 == 3) {
+                        document.getElementById("result9").innerHTML = "ムツキ";
+                    }
+                    if (f9 == 4) {
+                        document.getElementById("result9").innerHTML = "カヨコ";
+                    }
+                    if (f9 == 5) {
+                        document.getElementById("result9").innerHTML = "フウカ";
+                    }
+                    if (f9 == 6) {
+                        document.getElementById("result9").innerHTML = "ユウカ";
+                    }
+                    if (f9 == 7) {
+                        document.getElementById("result9").innerHTML = "アカネ";
+                    }
+                    if (f9 == 8) {
+                        document.getElementById("result9").innerHTML = "ハレ";
+                    }
+                    if (f9 == 9) {
+                        document.getElementById("result9").innerHTML = "ウタハ";
+                    }
+                    if (f9 == 10) {
+                        document.getElementById("result9").innerHTML = "チセ";
+                    }
+                    if (f9 == 11) {
+                        document.getElementById("result9").innerHTML = "ツバキ";
+                    }
+                    if (f9 == 12) {
+                        document.getElementById("result9").innerHTML = "セリカ";
+                    }
+                    if (f9 == 13) {
+                        document.getElementById("result9").innerHTML = "アヤネ";
+                    }
+                    if (f9 == 14) {
+                        document.getElementById("result9").innerHTML = "ハスミ";
+                    }
+                    if (f9 == 15) {
+                        document.getElementById("result9").innerHTML = "ハナエ";
+                    }
+                    if (f9 == 16) {
+                        document.getElementById("result9").innerHTML = "アイリ";
+                    }
+                    if (f9 == 17) {
+                        document.getElementById("result9").innerHTML = "シズコ";
+                    }
+                    if (f9 == 18) {
+                        document.getElementById("result9").innerHTML = "モモイ";
+                    }
+                    if (f9 == 19) {
+                        document.getElementById("result9").innerHTML = "ハナコ";
+                    }
+                    if (f9 == 20) {
+                        document.getElementById("result9").innerHTML = "キリノ";
+                    }
+                    if (f9 == 21) {
+                        document.getElementById("result9").innerHTML = "マリー";
+                    }
+                }
+                if (f9_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f9 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result9").style = "color: #00a8ff;"
+                    if (f9 == 1) {
+                        document.getElementById("result9").innerHTML = "チナツ";
+                    }
+                    if (f9 == 2) {
+                        document.getElementById("result9").innerHTML = "ハルカ";
+                    }
+                    if (f9 == 3) {
+                        document.getElementById("result9").innerHTML = "ジュリ";
+                    }
+                    if (f9 == 4) {
+                        document.getElementById("result9").innerHTML = "コタマ";
+                    }
+                    if (f9 == 5) {
+                        document.getElementById("result9").innerHTML = "アスナ";
+                    }
+                    if (f9 == 6) {
+                        document.getElementById("result9").innerHTML = "コトリ";
+                    }
+                    if (f9 == 7) {
+                        document.getElementById("result9").innerHTML = "フィーナ";
+                    }
+                    if (f9 == 8) {
+                        document.getElementById("result9").innerHTML = "スズミ";
+                    }
+                    if (f9 == 9) {
+                        document.getElementById("result9").innerHTML = "シミコ";
+                    }
+                    if (f9 == 10) {
+                        document.getElementById("result9").innerHTML = "セリナ";
+                    }
+                    if (f9 == 11) {
+                        document.getElementById("result9").innerHTML = "ヨシミ";
+                    }
+                }
+                if (f1_type <= 210 || f2_type <= 210 || f3_type <= 210 || f4_type <= 210 || f5_type <= 210 || f6_type <= 210 || f7_type <= 210 || f8_type <= 210 || f9_type <= 210) {
+                    var f10_type = Math.floor(Math.random() * 1000) + 1;
+                } else {
+                    var f10_type = Math.floor(Math.random() * 210) + 1;
+                }
+                if (f10_type <= 25) {
+                    var s3 = Number(document.getElementById("star3out").innerText) + 1;
+                    document.getElementById("star3out").innerHTML = s3;
+                    var f10 = Math.floor(Math.random() * 53) + 1;
+                    document.getElementById("result10").style = "color: #e050f0;"
+                    if (f10 == 1) {
+                        document.getElementById("result10").innerHTML = "ヒナ";
+                    }
+                    if (f10 == 2) {
+                        document.getElementById("result10").innerHTML = "イオリ";
+                    }
+                    if (f10 == 3) {
+                        document.getElementById("result10").innerHTML = "ハルナ";
+                    }
+                    if (f10 == 4) {
+                        document.getElementById("result10").innerHTML = "イズミ";
+                    }
+                    if (f10 == 5) {
+                        document.getElementById("result10").innerHTML = "アル";
+                    }
+                    if (f10 == 6) {
+                        document.getElementById("result10").innerHTML = "スミレ";
+                    }
+                    if (f10 == 7) {
+                        document.getElementById("result10").innerHTML = "エイミ";
+                    }
+                    if (f10 == 8) {
+                        document.getElementById("result10").innerHTML = "カリン";
+                    }
+                    if (f10 == 9) {
+                        document.getElementById("result10").innerHTML = "ネル";
+                    }
+                    if (f10 == 10) {
+                        document.getElementById("result10").innerHTML = "マキ";
+                    }
+                    if (f10 == 11) {
+                        document.getElementById("result10").innerHTML = "ヒビキ";
+                    }
+                    if (f10 == 12) {
+                        document.getElementById("result10").innerHTML = "サヤ";
+                    }
+                    if (f10 == 13) {
+                        document.getElementById("result10").innerHTML = "シュン";
+                    }
+                    if (f10 == 14) {
+                        document.getElementById("result10").innerHTML = "シロコ";
+                    }
+                    if (f10 == 15) {
+                        document.getElementById("result10").innerHTML = "ホシノ";
+                    }
+                    if (f10 == 16) {
+                        document.getElementById("result10").innerHTML = "ヒフミ";
+                    }
+                    if (f10 == 17) {
+                        document.getElementById("result10").innerHTML = "ツルギ";
+                    }
+                    if (f10 == 18) {
+                        document.getElementById("result10").innerHTML = "マシロ";
+                    }
+                    if (f10 == 19) {
+                        document.getElementById("result10").innerHTML = "イズナ";
+                    }
+                    if (f10 == 20) {
+                        document.getElementById("result10").innerHTML = "アリス";
+                    }
+                    if (f10 == 21) {
+                        document.getElementById("result10").innerHTML = "ミドリ";
+                    }
+                    if (f10 == 22) {
+                        document.getElementById("result10").innerHTML = "チェリノ";
+                    }
+                    if (f10 == 23) {
+                        document.getElementById("result10").innerHTML = "ユズ";
+                    }
+                    if (f10 == 24) {
+                        document.getElementById("result10").innerHTML = "アズサ";
+                    }
+                    if (f10 == 25) {
+                        document.getElementById("result10").innerHTML = "コハル";
+                    }
+                    if (f10 == 26) {
+                        document.getElementById("result10").innerHTML = "ヒフミ (水着)";
+                    }
+                    if (f10 == 27) {
+                        document.getElementById("result10").innerHTML = "シロコ (ライディング)";
+                    }
+                    if (f10 == 28) {
+                        document.getElementById("result10").innerHTML = "シュン (幼女)";
+                    }
+                    if (f10 == 29) {
+                        document.getElementById("result10").innerHTML = "サヤ (私服)";
+                    }
+                    if (f10 == 30) {
+                        document.getElementById("result10").innerHTML = "アスナ (パニーガール)";
+                    }
+                    if (f10 == 31) {
+                        document.getElementById("result10").innerHTML = "ナツ";
+                    }
+                    if (f10 == 32) {
+                        document.getElementById("result10").innerHTML = "アコ";
+                    }
+                    if (f10 == 33) {
+                        document.getElementById("result10").innerHTML = "チェリノ (温泉)";
+                    }
+                    if (f10 == 34) {
+                        document.getElementById("result10").innerHTML = "チナツ (温泉)";
+                    }
+                    if (f10 == 35) {
+                        document.getElementById("result10").innerHTML = "ノドカ (温泉)";
+                    }
+                    if (f10 == 36) {
+                        document.getElementById("result10").innerHTML = "セリカ (正月)";
+                    }
+                    if (f10 == 37) {
+                        document.getElementById("result10").innerHTML = "セナ";
+                    }
+                    if (f10 == 38) {
+                        document.getElementById("result10").innerHTML = "チヒコ";
+                    }
+                    if (f10 == 39) {
+                        document.getElementById("result10").innerHTML = "ミモリ";
+                    }
+                    if (f10 == 40) {
+                        document.getElementById("result10").innerHTML = "ウイ";
+                    }
+                    if (f10 == 41) {
+                        document.getElementById("result10").innerHTML = "ヒナタ";
+                    }
+                    if (f10 == 42) {
+                        document.getElementById("result10").innerHTML = "マリナ";
+                    }
+                    if (f10 == 43) {
+                        document.getElementById("result10").innerHTML = "ミヤコ";
+                    }
+                    if (f10 == 44) {
+                        document.getElementById("result10").innerHTML = "サキ";
+                    }
+                    if (f10 == 45) {
+                        document.getElementById("result10").innerHTML = "ミユ";
+                    }
+                    if (f10 == 46) {
+                        document.getElementById("result10").innerHTML = "カエデ";
+                    }
+                    if (f10 == 47) {
+                        document.getElementById("result10").innerHTML = "イロハ";
+                    }
+                    if (f10 == 48) {
+                        document.getElementById("result10").innerHTML = "ツクヨ";
+                    }
+                    if (f10 == 49) {
+                        document.getElementById("result10").innerHTML = "ミサキ";
+                    }
+                    if (f10 == 50) {
+                        document.getElementById("result10").innerHTML = "ヒヨリ";
+                    }
+                    if (f10 == 51) {
+                        document.getElementById("result10").innerHTML = "アツコ";
+                    }
+                    if (f10 == 52) {
+                        document.getElementById("result10").innerHTML = "ウカモ (水着)";
+                    }
+                    if (f10 == 53) {
+                        document.getElementById("result10").innerHTML = "ノノミ (水着)";
+                    }
+                }
+                if (f10_type > 25 && f10_type <= 210) {
+                    var s2 = Number(document.getElementById("star2out").innerText) + 1;
+                    document.getElementById("star2out").innerHTML = s2;
+                    var f10 = Math.floor(Math.random() * 21) + 1;
+                    document.getElementById("result10").style = "color: #ffc800;"
+                    if (f10 == 1) {
+                        document.getElementById("result10").innerHTML = "アカリ";
+                    }
+                    if (f10 == 2) {
+                        document.getElementById("result10").innerHTML = "ジュンコ";
+                    }
+                    if (f10 == 3) {
+                        document.getElementById("result10").innerHTML = "ムツキ";
+                    }
+                    if (f10 == 4) {
+                        document.getElementById("result10").innerHTML = "カヨコ";
+                    }
+                    if (f10 == 5) {
+                        document.getElementById("result10").innerHTML = "フウカ";
+                    }
+                    if (f10 == 6) {
+                        document.getElementById("result10").innerHTML = "ユウカ";
+                    }
+                    if (f10 == 7) {
+                        document.getElementById("result10").innerHTML = "アカネ";
+                    }
+                    if (f10 == 8) {
+                        document.getElementById("result10").innerHTML = "ハレ";
+                    }
+                    if (f10 == 9) {
+                        document.getElementById("result10").innerHTML = "ウタハ";
+                    }
+                    if (f10 == 10) {
+                        document.getElementById("result10").innerHTML = "チセ";
+                    }
+                    if (f10 == 11) {
+                        document.getElementById("result10").innerHTML = "ツバキ";
+                    }
+                    if (f10 == 12) {
+                        document.getElementById("result10").innerHTML = "セリカ";
+                    }
+                    if (f10 == 13) {
+                        document.getElementById("result10").innerHTML = "アヤネ";
+                    }
+                    if (f10 == 14) {
+                        document.getElementById("result10").innerHTML = "ハスミ";
+                    }
+                    if (f10 == 15) {
+                        document.getElementById("result10").innerHTML = "ハナエ";
+                    }
+                    if (f10 == 16) {
+                        document.getElementById("result10").innerHTML = "アイリ";
+                    }
+                    if (f10 == 17) {
+                        document.getElementById("result10").innerHTML = "シズコ";
+                    }
+                    if (f10 == 18) {
+                        document.getElementById("result10").innerHTML = "モモイ";
+                    }
+                    if (f10 == 19) {
+                        document.getElementById("result10").innerHTML = "ハナコ";
+                    }
+                    if (f10 == 20) {
+                        document.getElementById("result10").innerHTML = "キリノ";
+                    }
+                    if (f10 == 21) {
+                        document.getElementById("result10").innerHTML = "マリー";
+                    }
+                }
+                if (f10_type > 210) {
+                    var s1 = Number(document.getElementById("star1out").innerText) + 1;
+                    document.getElementById("star1out").innerHTML = s1;
+                    var f10 = Math.floor(Math.random() * 11) + 1;
+                    document.getElementById("result10").style = "color: #00a8ff;"
+                    if (f10 == 1) {
+                        document.getElementById("result10").innerHTML = "チナツ";
+                    }
+                    if (f10 == 2) {
+                        document.getElementById("result10").innerHTML = "ハルカ";
+                    }
+                    if (f10 == 3) {
+                        document.getElementById("result10").innerHTML = "ジュリ";
+                    }
+                    if (f10 == 4) {
+                        document.getElementById("result10").innerHTML = "コタマ";
+                    }
+                    if (f10 == 5) {
+                        document.getElementById("result10").innerHTML = "アスナ";
+                    }
+                    if (f10 == 6) {
+                        document.getElementById("result10").innerHTML = "コトリ";
+                    }
+                    if (f10 == 7) {
+                        document.getElementById("result10").innerHTML = "フィーナ";
+                    }
+                    if (f10 == 8) {
+                        document.getElementById("result10").innerHTML = "スズミ";
+                    }
+                    if (f10 == 9) {
+                        document.getElementById("result10").innerHTML = "シミコ";
+                    }
+                    if (f10 == 10) {
+                        document.getElementById("result10").innerHTML = "セリナ";
+                    }
+                    if (f10 == 11) {
+                        document.getElementById("result10").innerHTML = "ヨシミ";
+                    }
+                }
+                var times = Number(document.getElementById("usedstones").innerText) / 120;
+                var s3chance = Number(document.getElementById("star3out").innerText) / times;
+                var s3chance_1 = s3chance * 100;
+                var s3chance_2 = s3chance_1.toFixed(2);
+                var s2chance = Number(document.getElementById("star2out").innerText) / times;
+                var s2chance_1 = s2chance * 100;
+                var s2chance_2 = s2chance_1.toFixed(2);
+                var s1chance = Number(document.getElementById("star1out").innerText) / times;
+                var s1chance_1 = s1chance * 100;
+                var s1chance_2 = s1chance_1.toFixed(2);
+                document.getElementById("star3outchance").innerHTML = s3chance_2;
+                document.getElementById("star2outchance").innerHTML = s2chance_2;
+                document.getElementById("star1outchance").innerHTML = s1chance_2;
+            }
+        </script>
+    </div>
+</body>
+
+</html>
