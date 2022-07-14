@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>Milkmappers地图 - xtsdcb69</title>
+    <title>Milkmappers 地图 - xtsdcb69</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
@@ -15,23 +15,70 @@
             margin-left: 0px;
         }
 
-        .content {
-            margin-left: 180px;
-        }
-
         .mapicon {
             float: left;
         }
+        @media screen and (min-width: 1500px) {
+            .content {
+            margin-left: 10%;
+            }
 
-        .mapicon img {
-            margin-left: 300px;
+            .mapicon img {
+                margin-left: 300px;
+            }
+
+            #qyflower_title {
+                margin-left: 747px;
+            }
+
+            #qyflower_engname {
+                margin-left: 422px;
+            }
+
+            #qyflower_status {
+                margin-left: 480px;
+            }
+
+            #qyflower_information {
+                margin-left: 280px;
+            }
+
+            #m2_title {
+                margin-left: 727px;
+            }
+
+            #m2_engname {
+                margin-left: 442px;
+            }
+
+            #m2_status {
+                margin-left: 480px;
+            }
+
+            #m2_information {
+                margin-left: 130px;
+            }
+
+            #temp_mapinfo {
+                margin-left: 445px;
+            }
+        }
+
+        @media screen and (min-width: 1px) {
+            .maptitle {
+                margin-left: 140px;
+            }
+
+            .mapinfo {
+                margin-left: 180px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="title">
-        <h1 style="margin-bottom: 20px;">Milkmappers地图</h1>
+        <h1 style="margin-bottom: 20px;">Milkmappers 地图</h1>
     </div>
     <div class="navigation">
         <h6 style="text-align: center; margin-left: 0px;"><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Milkmappers</a> &gt; <strong>地图</strong></h6>
@@ -43,12 +90,13 @@
             <div class="mapicon">
             </div>
             <div class="maptitle">
-                <h1 style="margin-left: 885px;"><a href="./qyflower/">泉源之花</a></h1>
+                <h1 id="qyflower_title"><a href="./qyflower/">泉源之花</a></h1>
             </div>
-            <div class="mapinfo" style="margin-left: 445px;">
-                <span style="margin-left: 480px; color: #dda800;"><strong>已暂停</strong></span><br />
-                <span style="margin-left: 280px;">1.16.5 | 1P | - | 单一关卡 | 多结局 | 必备材质包 | 恐怖, 解谜</span><br />
-                <span style="margin-left: 283px"><a href="../members/sf/">SF</a> | <a href="../members/xts/">XTS</a>, <a href="../members/skb/">SKB</a>, <a href="../members/cm/">CM</a>, <a href="../members/tuff/">TUFF</a>, <a href="../members/cy/">CY</a>, Kuuhakuchyan, Wu_Qi_Bz</span>
+            <div class="mapinfo" id="temp_mapinfo">
+                <!-- temp_mapinfo 为临时使用，有logo后如 m2 一样。-->
+                <span id="qyflower_engname"><strong>QUANYUAN FLOWER</strong></span><br />
+                <span id="qyflower_status" style="color: #dda800;"><strong>已暂停</strong></span><br />
+                <span id="qyflower_information"><strong>1.17 | 1P | - | 单一关卡 | 多结局 | 必备材质包 | 恐怖, 解谜</strong></span><br />
             </div>
         </div>
         <br /><br /><br /><br /><br />
@@ -57,12 +105,12 @@
                 <img src="./2/icon.png" />
             </div>
             <div class="maptitle">
-                <h1 style="margin-left: 865px;"><a href="./2/">Milkの闯关</a></h1>
+                <h1 id="m2_title"><a href="./2/">Milkの闯关</a></h1>
             </div>
             <div class="mapinfo">
-                <span style="margin-left: 480px;">2021.2.16</span><br />
-                <span style="margin-left: 130px;">1.15.2 | 1P | 3 小时或更久通关 | 8 关卡 | 单结局 | 可选材质包 | 跑酷, 解谜 | 65061 / 11340 / 53718 KB</span><br />
-                <span style="margin-left: 310px"><a href="../members/sf/">SF</a> | <a href="../members/xts/">XTS</a>, <a href="../members/tuff/">TUFF</a> | <a href="../members/skb/">SKB</a>, <a href="../members/cy/">CY</a>, <a href="../members/cm/">CM</a>, Big__Cake, The_SaltFish</span>
+                <span id="m2_engname"><strong>MILK&apos;S CHALLENGE</strong></span><br />
+                <span id="m2_status"><strong>2021.2.16</strong></span><br />
+                <span id="m2_information"><strong>1.15.2 | 1P | 3 小时或更久通关 | 8 关卡 | 单结局 | 可选材质包 | 跑酷, 解谜 | 65061 / 11340 / 53718 KB</strong></span><br />
             </div>
         </div>
     </div>
