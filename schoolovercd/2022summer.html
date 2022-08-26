@@ -47,17 +47,15 @@
     </div>
     <div class="content">
         <div id="countdownblock">
-            <h1 style="font-size: 50px;">距离放学回家还有</h1>
+            <h1 style="font-size: 50px;">距离开学还有</h1>
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
                         <span id="cd_h"></span>
                         <span id="cd_h_dot">•</span>
                     </span>
-                    <span id="minutedisplay">
-                        <span id="cd_m"></span>
-                        <span id="cd_m_dot">•</span>
-                    </span>
+                    <span id="cd_m"></span>
+                    •
                     <span id="cd_s"></span>
                 </h1>
             </div>
@@ -102,10 +100,10 @@
                 var today_w = date.getDay();
                 var today_h = date.getHours();
                 var today_m = date.getMinutes();
-                if (today_w == 5 && today_h < 17 || today_w == 5 && today_h == 17 && today_m <= 15) {
+                if (today_w == 5 && today_h < 17 || today_w == 5 && today_h == 17 && today_m <= 5) {
                     var today = today;
                 }
-                if (today_w == 5 && today_h >= 17 && today_m >= 15 || today_w == 5 && today_h >= 18) {
+                if (today_w == 5 && today_h >= 17 && today_m >= 5 || today_w == 5 && today_h >= 18) {
                     var today = today + 604800000;
                 }
                 if (today_w == 6) {
@@ -132,7 +130,7 @@
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
                 var target_word = target_y + "." + target_m + "." + target_d + " 17:15";
-                getDistanceSpecifiedTime(target_word);
+                getDistanceSpecifiedTime("2022.8.29 18:20");
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
@@ -159,9 +157,6 @@
                     document.getElementById("cd_m").innerHTML = m;
                     document.getElementById("cd_s").innerHTML = s;
 
-                    if (totalsecs < 60) {
-                        document.getElementById("minutedisplay").style = "display: none;";
-                    }
                     if (totalsecs < 3600) {
                         document.getElementById("countdown").style = "margin-left: -30px;";
                         document.getElementById("hourdisplay").innerHTML = "";
@@ -216,9 +211,10 @@
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
                     // var EndTimeSV = new Date("2022.6.30 16:30");
-                    var EndTimeSV = new Date("2023.1.12 16:30");
+                    // var EndTimeSV = new Date("2022.6.30 17:15");
+                    var EndTimeSV = new Date("2023.1.6 16:30");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2022.8.27 8:00");
+                    var StartTimeSV = new Date("2022.8.29 18:20");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
