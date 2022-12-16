@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>CS:GO X-Rating - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">CS:GO X-Rating</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS:GO X-Rating</strong></h6>
+    </div>
+    <div class="content">
+        <p><span>K</span><input id="input1" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> A </span><input id="input2" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> D </span><input id="input3" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> HS% </span><input id="input4" type="number" style="width: 40px; margin-left: 10px;" /><span> %</span></p>
+        <button onclick="cal()">计算</button>
+        <p id="result">&nbsp;</p>
+        <p id="result1">&nbsp;</p>
+        <p id="result2">&nbsp;</p>
+        <p id="result3">&nbsp;</p>
+    </div>
+    <script>
+        function cal() {
+            var k = parseFloat(document.getElementById("input1").value);
+            var a = parseFloat(document.getElementById("input2").value);
+            var d = parseFloat(document.getElementById("input3").value);
+            var hs = parseFloat(document.getElementById("input4").value);
+            if (d == 0) {
+                var d = 1;
+            }
+            var num1 = a / 5;
+            var num2 = k + num1;
+            var num3 = num2 / d;
+            var num4 = hs / 100;
+            var num5 = num4 + 1;
+            var num6 = num5 / 3;
+            var num7 = num6 * 2;
+            var num8 = num3 * num7;
+            var xrating = num8.toFixed(4);
+            var lowrate = 0.8;
+            var highrate = 1.0;
+            if (xrating < lowrate) {
+                document.getElementById("result").style = "color: #dd0000";
+            }
+            if (xrating >= lowrate && xrating < highrate) {
+                document.getElementById("result").style = "color: #ffa800";
+            }
+            if (xrating >= highrate) {
+                document.getElementById("result").style = "color: #00dd00";
+            }
+            document.getElementById("result").innerHTML = "<strong>X-Rating: " + xrating + "</strong>";
+            /*
+            var kda = k / d;
+            var kd = kda.toFixed(4);
+            if (kd < 0.9) {
+                document.getElementById("result1").style = "color: #dd0000";
+            }
+            if (kd >= 0.9 && kd < 1.1) {
+                document.getElementById("result1").style = "color: #ffa800";
+            }
+            if (kd >= 1.1) {
+                document.getElementById("result1").style = "color: #00dd00";
+            }
+            document.getElementById("result1").innerHTML = "K/D: " + kd + "";
+
+            var kaa = k / a;
+            var ka = kaa.toFixed(4);
+            if (ka < 0.9) {
+                document.getElementById("result2").style = "color: #dd0000";
+            }
+            if (ka >= 0.9 && ka < 1.2) {
+                document.getElementById("result2").style = "color: #ffa800";
+            }
+            if (ka >= 1.2) {
+                document.getElementById("result2").style = "color: #00dd00";
+            }
+            document.getElementById("result2").innerHTML = "K/A: " + ka + "";
+            */
+        }
+    </script>
+</body>
+
+</html>
