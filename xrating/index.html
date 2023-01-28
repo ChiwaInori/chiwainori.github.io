@@ -16,7 +16,318 @@
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS:GO X-Rating</strong></h6>
     </div>
     <div class="content">
+        <p id="simplink"><strong>Simple</strong> | <a class="link" onclick="advanced()">Advanced</a></p>
+        <p id="advlink" style="display: none;"><a class="link" onclick="simple()">Simple</a> | <strong><a onclick="showdebug()">Advanced</a></strong></p>
+        <br />
         <p><span>K</span><input id="input1" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> A </span><input id="input2" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> D </span><input id="input3" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> HS% </span><input id="input4" type="number" style="width: 40px; margin-left: 10px;" /><span> %</span></p>
+        <p id="advsource1" style="display: none;"><span>First Kill</span><input id="input5" type="number" style="width: 40px; margin-left: 10px; margin-right: 58px;" /><span> First Death </span><input id="input6" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> KAST </span><input id="input7" type="number" style="width: 40px; margin-left: 10px;" /> %</p>
+        <p id="advsource2" style="display: none;"><span>Flash Enemies / Teammates</span><input id="input8" type="number" style="width: 40px; margin-left: 10px; margin-right: 10px;" /><span>/</span><input id="input9" type="number" style="width: 40px; margin-left: 10px; margin-right: 35px;" /><span> Utility Damage </span><input id="input10" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /></p>
+        <p id="advsource3" style="display: none;"><span>2K</span><input id="input11" type="number" style="width: 40px; margin-left: 10px; margin-right: 20px;" /><span> 3K </span><input id="input12" type="number" style="width: 40px; margin-left: 10px; margin-right: 20px;" /><span> 4K </span><input id="input13" type="number" style="width: 40px; margin-left: 10px; margin-right: 20px;" /><span> 5K </span><input id="input14" type="number" style="width: 40px; margin-left: 10px; margin-right: 20px;" /></p>
+        <p id="advsource4" style="display: none;"><span>1V2</span><input id="input15" type="number" style="width: 40px; margin-left: 10px; margin-right: 10px;" /><span> 1V3 </span><input id="input16" type="number" style="width: 40px; margin-left: 10px; margin-right: 10px;" /><span> 1V4 </span><input id="input17" type="number" style="width: 40px; margin-left: 10px; margin-right: 10px;" /><span> 1V5 </span><input id="input18" type="number" style="width: 40px; margin-left: 10px; margin-right: 10px;" /></p>
+        <br />
+        <button id="calbuttonsimp" onclick="calsimp()">计算</button>
+        <button id="calbuttonadv" onclick="caladv()" style="display: none;">计算</button>
+        <p id="result">&nbsp;</p>
+        <div id="debugplace" style="display: none;">
+            <p id="debug1">&nbsp;</p>
+            <p id="debug2">&nbsp;</p>
+            <p id="debug3">&nbsp;</p>
+            <p id="debug4">&nbsp;</p>
+            <p id="debug5">&nbsp;</p>
+            <p id="debug6">&nbsp;</p>
+            <p id="debug7">&nbsp;</p>
+            <p id="debug8">&nbsp;</p>
+            <p id="debug9">&nbsp;</p>
+            <p id="debug10">&nbsp;</p>
+            <p id="debug11">&nbsp;</p>
+            <p id="debug12">&nbsp;</p>
+            <p id="debug13">&nbsp;</p>
+            <p id="debug14">&nbsp;</p>
+            <p id="debug15">&nbsp;</p>
+            <p id="debug16">&nbsp;</p>
+            <p id="debug16a">&nbsp;</p>
+            <p id="debug17">&nbsp;</p>
+            <p id="debug18">&nbsp;</p>
+            <p id="debug19">&nbsp;</p>
+            <p id="debug20">&nbsp;</p>
+            <p id="debug21">&nbsp;</p>
+            <p id="debug22">&nbsp;</p>
+            <p id="debug22a">&nbsp;</p>
+            <p id="debug23">&nbsp;</p>
+            <p id="debug24">&nbsp;</p>
+            <p id="debug25">&nbsp;</p>
+            <p id="debug26">&nbsp;</p>
+            <p id="debug27">&nbsp;</p>
+            <p id="debug28">&nbsp;</p>
+            <p id="debug29">&nbsp;</p>
+            <p id="debug30">&nbsp;</p>
+            <p id="debug31">&nbsp;</p>
+            <p id="debug32">&nbsp;</p>
+            <p id="debug33">&nbsp;</p>
+            <p id="debug34">&nbsp;</p>
+            <p id="debug35">&nbsp;</p>
+            <p id="debug36">&nbsp;</p>
+            <p id="debug37">&nbsp;</p>
+            <p id="debug38">&nbsp;</p>
+            <p id="debug39">&nbsp;</p>
+            <p id="debug40">&nbsp;</p>
+            <p id="debug41">&nbsp;</p>
+            <p id="debug42">&nbsp;</p>
+            <p id="debug43">&nbsp;</p>
+            <p id="debug44">&nbsp;</p>
+            <p id="debug45">&nbsp;</p>
+            <p id="debug46">&nbsp;</p>
+            <p id="debug47">&nbsp;</p>
+            <p id="debug48">&nbsp;</p>
+            <p id="debug49">&nbsp;</p>
+            <p id="debug50">&nbsp;</p>
+            <p id="debug51">&nbsp;</p>
+        </div>
+    </div>
+    <script>
+        function calsimp() {
+            var k = parseFloat(document.getElementById("input1").value);
+            var a = parseFloat(document.getElementById("input2").value);
+            var d = parseFloat(document.getElementById("input3").value);
+            var hs = parseFloat(document.getElementById("input4").value);
+            if (d == 0) {
+                var d = 1;
+            }
+            var num1 = a / 5;
+            var num2 = k + num1;
+            var num3 = num2 / d;
+            var num4 = hs / 100;
+            var num5 = num4;
+            var num6 = num5 * 0.3;
+            var num7 = num6 + 0.9;
+            var final = num3 * num7;
+            if (final > 1) {
+                var xrating = Math.sqrt(final);
+            } else {
+                var xrating = final;
+            }
+            var xrating = xrating.toFixed(2);
+            var lowrate = 0.9;
+            var highrate = 1.0;
+            if (xrating < lowrate) {
+                document.getElementById("result").style = "color: #dd0000";
+            }
+            if (xrating >= lowrate && xrating < highrate) {
+                document.getElementById("result").style = "color: #ffa800";
+            }
+            if (xrating >= highrate) {
+                document.getElementById("result").style = "color: #00dd00";
+            }
+            document.getElementById("result").innerHTML = "<strong>X-Rating: " + xrating + "</strong>";
+        }
+        function caladv() {
+            var k = parseFloat(document.getElementById("input1").value);
+            var a = parseFloat(document.getElementById("input2").value);
+            var d = parseFloat(document.getElementById("input3").value);
+            var hs = parseFloat(document.getElementById("input4").value);
+            if (d == 0) {
+                var d = 1;
+            }
+            var fk = parseFloat(document.getElementById("input5").value);
+            var fd = parseFloat(document.getElementById("input6").value);
+            var kast = parseFloat(document.getElementById("input7").value);
+            var fe = parseFloat(document.getElementById("input8").value);
+            var ft = parseFloat(document.getElementById("input9").value);
+            var ud = parseFloat(document.getElementById("input10").value);
+            var k2 = parseFloat(document.getElementById("input11").value);
+            var k3 = parseFloat(document.getElementById("input12").value);
+            var k4 = parseFloat(document.getElementById("input13").value);
+            var k5 = parseFloat(document.getElementById("input14").value);
+            var c2 = parseFloat(document.getElementById("input15").value);
+            var c3 = parseFloat(document.getElementById("input16").value);
+            var c4 = parseFloat(document.getElementById("input17").value);
+            var c5 = parseFloat(document.getElementById("input18").value);
+            var fkpercent = fk / k;
+            var fkpercent2 = fkpercent / 2;
+            var fkpercent3 = fkpercent2 + 1;
+            var fdpercent = fd / d;
+            var fdpercent2 = fdpercent / 2.5;
+            var fdpercent3 = fdpercent2 + 1;
+            var assistvalue = a / 5;
+            var killvalue = k + assistvalue;
+            var kd = killvalue / d;
+            var kd1 = kd * fkpercent3;
+            var kd2 = kd1 / fdpercent3;
+            var num4 = hs / 100;
+            var num5 = num4;
+            var num6 = num5 * 0.2;
+            var num7 = num6 + 0.9;
+            var killskill = kd2 * num7;
+            var kast0 = kast / 100;
+            var kast1 = kast0 * 0.3;
+            var kast2 = kast1 + 0.8;
+            var roundskill = killskill * kast2;
+            var flashcount = fe + ft;
+            if (flashcount == 0) {
+                var flashcount = 1;
+            }
+            var flashrate = fe / flashcount;
+            if (flashrate == 0) {
+                var flashrate = 1;
+            }
+            var flashavailable = fe / flashrate;
+            var flashskill = flashavailable * 0.005;
+            var roundskill2 = roundskill + flashskill;
+            var ud1 = ud / 10000;
+            var roundskill3 = roundskill2 + ud1;
+            var k2value = k2 / d;
+            var k2value1 = k2value * 0.02;
+            var roundskill4 = roundskill3 + k2value1;
+            var k3value = k3 / d;
+            var k3value1 = k3value * 0.05;
+            var roundskill5 = roundskill4 + k3value1;
+            var k4value = k4 / d;
+            var k4value1 = k4value * 0.2;
+            var roundskill6 = roundskill5 + k4value1;
+            var k5value = k5 / d;
+            var k5value1 = k5value * 0.3;
+            var roundskill7 = roundskill6 + k5value1;
+            var c2value = c2 / d;
+            var c2value1 = c2value * 0.03;
+            var roundskill8 = roundskill7 + c2value1;
+            var c3value = c3 / d;
+            var c3value1 = c3value * 0.1;
+            var roundskill9 = roundskill8 + c3value1;
+            var c4value = c4 / d;
+            var c4value1 = c4value * 0.35;
+            var roundskill10 = roundskill9 + c4value1;
+            var c5value = c5 / d;
+            var c5value1 = c5value * 0.5;
+            var roundskill11 = roundskill10 + c5value1;
+            var roundskill12 = roundskill11 * 0.95;
+            if (roundskill12 > 1) {
+                var final = Math.sqrt(roundskill12);
+            } else {
+                var final = roundskill12;
+            }
+            var xrating = final.toFixed(2);
+            var lowrate = 0.8;
+            var highrate = 1.0;
+            if (xrating < lowrate) {
+                document.getElementById("result").style = "color: #dd0000";
+            }
+            if (xrating >= lowrate && xrating < highrate) {
+                document.getElementById("result").style = "color: #ffa800";
+            }
+            if (xrating >= highrate) {
+                document.getElementById("result").style = "color: #00dd00";
+            }
+            document.getElementById("result").innerHTML = "<strong>X-Rating: " + xrating + "</strong>";
+            document.getElementById("debug1").innerHTML = "fkpercent: " + fkpercent;
+            document.getElementById("debug2").innerHTML = "fkpercent2: " + fkpercent2;
+            document.getElementById("debug3").innerHTML = "fkpercent3: " + fkpercent3;
+            document.getElementById("debug4").innerHTML = "fdpercent: " + fdpercent;
+            document.getElementById("debug5").innerHTML = "fdpercent2: " + fdpercent2;
+            document.getElementById("debug6").innerHTML = "fdpercent3: " + fdpercent3;
+            document.getElementById("debug7").innerHTML = "assistvalue: " + assistvalue;
+            document.getElementById("debug8").innerHTML = "killvalue: " + killvalue;
+            document.getElementById("debug9").innerHTML = "kd: " + kd;
+            document.getElementById("debug10").innerHTML = "kd1: " + kd1;
+            document.getElementById("debug11").innerHTML = "kd2: " + kd2;
+            document.getElementById("debug12").innerHTML = "num4: " + num4;
+            document.getElementById("debug13").innerHTML = "num5: " + num5;
+            document.getElementById("debug14").innerHTML = "num6: " + num6;
+            document.getElementById("debug15").innerHTML = "num7: " + num7;
+            document.getElementById("debug16").innerHTML = "killskill: " + killskill;
+            document.getElementById("debug16a").innerHTML = "kast0: " + kast0;
+            document.getElementById("debug17").innerHTML = "kast1: " + kast1;
+            document.getElementById("debug18").innerHTML = "kast2: " + kast2;
+            document.getElementById("debug19").innerHTML = "roundskill: " + roundskill;
+            document.getElementById("debug20").innerHTML = "flashcount: " + flashcount;
+            document.getElementById("debug21").innerHTML = "flashrate: " + flashrate;
+            document.getElementById("debug22").innerHTML = "flashavailable: " + flashavailable;
+            document.getElementById("debug22a").innerHTML = "flashskill: " + flashskill;
+            document.getElementById("debug23").innerHTML = "roundskill2: " + roundskill2;
+            document.getElementById("debug24").innerHTML = "ud1: " + ud1;
+            document.getElementById("debug25").innerHTML = "roundskill3: " + roundskill3;
+            document.getElementById("debug26").innerHTML = "k2value: " + k2value;
+            document.getElementById("debug27").innerHTML = "k2value1: " + k2value1;
+            document.getElementById("debug28").innerHTML = "roundskill4: " + roundskill4;
+            document.getElementById("debug29").innerHTML = "k3value: " + k3value;
+            document.getElementById("debug30").innerHTML = "k3value1: " + k3value1;
+            document.getElementById("debug31").innerHTML = "roundskill5: " + roundskill5;
+            document.getElementById("debug32").innerHTML = "k4value: " + k4value;
+            document.getElementById("debug33").innerHTML = "k4value1: " + k4value1;
+            document.getElementById("debug34").innerHTML = "roundskill6: " + roundskill6;
+            document.getElementById("debug35").innerHTML = "k5value: " + k5value;
+            document.getElementById("debug36").innerHTML = "k5value1: " + k5value1;
+            document.getElementById("debug37").innerHTML = "roundskill7: " + roundskill7;
+            document.getElementById("debug38").innerHTML = "c2value: " + c2value;
+            document.getElementById("debug39").innerHTML = "c2value1: " + c2value1;
+            document.getElementById("debug40").innerHTML = "roundskill8: " + roundskill8;
+            document.getElementById("debug41").innerHTML = "c3value: " + c3value;
+            document.getElementById("debug42").innerHTML = "c3value1: " + c3value1;
+            document.getElementById("debug43").innerHTML = "roundskill9: " + roundskill9;
+            document.getElementById("debug44").innerHTML = "c4value: " + c4value;
+            document.getElementById("debug45").innerHTML = "c4value1: " + c4value1;
+            document.getElementById("debug46").innerHTML = "roundskill10: " + roundskill10;
+            document.getElementById("debug47").innerHTML = "5cvalue: " + c5value;
+            document.getElementById("debug48").innerHTML = "5cvalue1: " + c5value1;
+            document.getElementById("debug49").innerHTML = "roundskill11: " + roundskill11;
+            document.getElementById("debug50").innerHTML = "roundskill12: " + roundskill12;
+            document.getElementById("debug51").innerHTML = "final: " + final;
+        }
+        function simple() {
+            document.getElementById("simplink").style = "display: block;";
+            document.getElementById("advlink").style = "display: none;";
+            document.getElementById("calbuttonsimp").style = "display: block;";
+            document.getElementById("calbuttonadv").style = "display: none;";
+            document.getElementById("advsource1").style = "display: none;";
+            document.getElementById("advsource2").style = "display: none;";
+            document.getElementById("advsource3").style = "display: none;";
+            document.getElementById("advsource4").style = "display: none;";
+        }
+        function advanced() {
+            document.getElementById("simplink").style = "display: none;";
+            document.getElementById("advlink").style = "display: block;";
+            document.getElementById("calbuttonsimp").style = "display: none;";
+            document.getElementById("calbuttonadv").style = "display: block;";
+            document.getElementById("advsource1").style = "display: block;";
+            document.getElementById("advsource2").style = "display: block;";
+            document.getElementById("advsource3").style = "display: block;";
+            document.getElementById("advsource4").style = "display: block;";
+        }
+        function showdebug() {
+            document.getElementById("debugplace").style = "display: block";
+        }
+    </script>
+</body>
+
+</html>
+
+<!--
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>CS:GO X-Rating - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="stylesheet" href="https://xtsdcb69.github.io/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">CS:GO X-Rating</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS:GO X-Rating</strong></h6>
+    </div>
+    <div class="content">
+        <p id="simplink"><a>Simple</a> | <a class="link" onclick="advanced()">Advanced</a> | <a class="link" onclick="pro()">Professional</a></p>
+        <p id="advlink" style="display: none;"><a class="link" onclick="simple()">Simple</a> | <a>Advanced</a> | <a class="link" onclick="pro()">Professional</a></p>
+        <p id="prolink" style="display: none;"><a class="link" onclick="simple()">Simple</a> | <a class="link" onclick="advanced()">Advanced</a> | <a>Professional</a></p>
+        <br />
+        <p><span>K</span><input id="input1" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> A </span><input id="input2" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> D </span><input id="input3" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> HS% </span><input id="input4" type="number" style="width: 40px; margin-left: 10px;" /><span> %</span></p>
+        <p id="advsource" style="display: none;"><span>First Kill</span><input id="input5" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> First Death </span><input id="input6" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> KAST </span><input id="input7" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /></p>
+        <p id="prosource" style="display: none;"><span>Flash Enemies / Teammates</span><input id="input8" type="number" style="width: 40px; margin-left: 10px; margin-right: 10px;" /><span>/</span><input id="input9" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /><span> Utility Damage </span><input id="input10" type="number" style="width: 40px; margin-left: 10px; margin-right: 50px;" /></p>
+        <br />
+        <br />
         <button onclick="cal()">计算</button>
         <p id="result">&nbsp;</p>
         <p id="result1">&nbsp;</p>
@@ -36,12 +347,12 @@
             var num2 = k + num1;
             var num3 = num2 / d;
             var num4 = hs / 100;
-            var num5 = num4 + 1;
-            var num6 = num5 / 3;
-            var num7 = num6 * 2;
-            var num8 = num3 * num7;
-            var xrating = num8.toFixed(4);
-            var lowrate = 0.8;
+            var num5 = num4;
+            var num6 = num5 * 0.3;
+            var num7 = num6 + 0.9;
+            var final = num3 * num7;
+            var xrating = final.toFixed(2);
+            var lowrate = 0.9;
             var highrate = 1.0;
             if (xrating < lowrate) {
                 document.getElementById("result").style = "color: #dd0000";
@@ -52,36 +363,31 @@
             if (xrating >= highrate) {
                 document.getElementById("result").style = "color: #00dd00";
             }
-            document.getElementById("result").innerHTML = "<strong>X-Rating: " + xrating + "</strong>";
-            /*
-            var kda = k / d;
-            var kd = kda.toFixed(4);
-            if (kd < 0.9) {
-                document.getElementById("result1").style = "color: #dd0000";
-            }
-            if (kd >= 0.9 && kd < 1.1) {
-                document.getElementById("result1").style = "color: #ffa800";
-            }
-            if (kd >= 1.1) {
-                document.getElementById("result1").style = "color: #00dd00";
-            }
-            document.getElementById("result1").innerHTML = "K/D: " + kd + "";
-
-            var kaa = k / a;
-            var ka = kaa.toFixed(4);
-            if (ka < 0.9) {
-                document.getElementById("result2").style = "color: #dd0000";
-            }
-            if (ka >= 0.9 && ka < 1.2) {
-                document.getElementById("result2").style = "color: #ffa800";
-            }
-            if (ka >= 1.2) {
-                document.getElementById("result2").style = "color: #00dd00";
-            }
-            document.getElementById("result2").innerHTML = "K/A: " + ka + "";
-            */
+            document.getElementById("result").innerHTML = "<strong>X-Rating/Simple: " + xrating + "</strong>";
+        }
+        function simple() {
+            document.getElementById("simplink").style = "display: block;";
+            document.getElementById("advlink").style = "display: none;";
+            document.getElementById("prolink").style = "display: none;";
+            document.getElementById("advsource").style = "display: none;";
+            document.getElementById("prosource").style = "display: none;";
+        }
+        function advanced() {
+            document.getElementById("simplink").style = "display: none;";
+            document.getElementById("advlink").style = "display: block;";
+            document.getElementById("prolink").style = "display: none;";
+            document.getElementById("advsource").style = "display: block;";
+            document.getElementById("prosource").style = "display: none;";
+        }
+        function pro() {
+            document.getElementById("simplink").style = "display: none;";
+            document.getElementById("advlink").style = "display: none;";
+            document.getElementById("prolink").style = "display: block;";
+            document.getElementById("advsource").style = "display: block;";
+            document.getElementById("prosource").style = "display: block;";
         }
     </script>
 </body>
 
 </html>
+-->
