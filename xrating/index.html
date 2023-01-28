@@ -145,6 +145,9 @@
             var fkpercent = fk / k;
             var fkpercent2 = fkpercent / 2;
             var fkpercent3 = fkpercent2 + 1;
+            if (k == 0) {
+                var fkpercent3 = 1;
+            }
             var fdpercent = fd / d;
             var fdpercent2 = fdpercent / 2.5;
             var fdpercent3 = fdpercent2 + 1;
@@ -167,41 +170,62 @@
                 var flashcount = 1;
             }
             var flashrate = fe / flashcount;
-            if (flashrate == 0) {
-                var flashrate = 1;
-            }
-            var flashavailable = fe / flashrate;
+            var flashavailable = fe * flashrate;
             var flashskill = flashavailable * 0.005;
             var roundskill2 = roundskill + flashskill;
             var ud1 = ud / 10000;
             var roundskill3 = roundskill2 + ud1;
             var k2value = k2 / d;
-            var k2value1 = k2value * 0.02;
+            var k2value1 = k2value * 0.5 + 1;
+            var roundskill4 = roundskill3 * k2value1;
+            var k3value = k3 / d;
+            var k3value1 = k3value * 1 + 1;
+            var roundskill5 = roundskill4 * k3value1;
+            var k4value = k4 / d;
+            var k4value1 = k4value * 2 + 1;
+            var roundskill6 = roundskill5 * k4value1;
+            var k5value = k5 / d;
+            var k5value1 = k5value * 3 + 1;
+            var roundskill7 = roundskill6 * k5value1;
+            var c2value = c2 / d;
+            var c2value1 = c2value * 0.5 + 1;
+            var roundskill8 = roundskill7 * c2value1;
+            var c3value = c3 / d;
+            var c3value1 = c3value * 1 + 1;
+            var roundskill9 = roundskill8 * c3value1;
+            var c4value = c4 / d;
+            var c4value1 = c4value * 3 + 1;
+            var roundskill10 = roundskill9 * c4value1;
+            var c5value = c5 / d;
+            var c5value1 = c5value * 5 + 1;
+            var roundskill11 = roundskill10 * c5value1;
+            /*var k2value = k2 / d;
+            var k2value1 = k2value * 0.2;
             var roundskill4 = roundskill3 + k2value1;
             var k3value = k3 / d;
-            var k3value1 = k3value * 0.05;
+            var k3value1 = k3value * 0.5;
             var roundskill5 = roundskill4 + k3value1;
             var k4value = k4 / d;
-            var k4value1 = k4value * 0.2;
+            var k4value1 = k4value * 0.8;
             var roundskill6 = roundskill5 + k4value1;
             var k5value = k5 / d;
-            var k5value1 = k5value * 0.3;
+            var k5value1 = k5value * 1;
             var roundskill7 = roundskill6 + k5value1;
             var c2value = c2 / d;
-            var c2value1 = c2value * 0.03;
+            var c2value1 = c2value * 0.5;
             var roundskill8 = roundskill7 + c2value1;
             var c3value = c3 / d;
-            var c3value1 = c3value * 0.1;
+            var c3value1 = c3value * 0.8;
             var roundskill9 = roundskill8 + c3value1;
             var c4value = c4 / d;
-            var c4value1 = c4value * 0.35;
+            var c4value1 = c4value * 1;
             var roundskill10 = roundskill9 + c4value1;
             var c5value = c5 / d;
-            var c5value1 = c5value * 0.5;
-            var roundskill11 = roundskill10 + c5value1;
+            var c5value1 = c5value * 2;
+            var roundskill11 = roundskill10 + c5value1;*/
             var roundskill12 = roundskill11 * 0.95;
             if (roundskill12 > 1) {
-                var final = Math.sqrt(roundskill12);
+                var final = Math.pow(roundskill12, 1 / 1.7);
             } else {
                 var final = roundskill12;
             }
@@ -266,8 +290,8 @@
             document.getElementById("debug44").innerHTML = "c4value: " + c4value;
             document.getElementById("debug45").innerHTML = "c4value1: " + c4value1;
             document.getElementById("debug46").innerHTML = "roundskill10: " + roundskill10;
-            document.getElementById("debug47").innerHTML = "5cvalue: " + c5value;
-            document.getElementById("debug48").innerHTML = "5cvalue1: " + c5value1;
+            document.getElementById("debug47").innerHTML = "c5value: " + c5value;
+            document.getElementById("debug48").innerHTML = "c5value1: " + c5value1;
             document.getElementById("debug49").innerHTML = "roundskill11: " + roundskill11;
             document.getElementById("debug50").innerHTML = "roundskill12: " + roundskill12;
             document.getElementById("debug51").innerHTML = "final: " + final;
