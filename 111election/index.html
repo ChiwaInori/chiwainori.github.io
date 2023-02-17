@@ -18,8 +18,17 @@
     <div class="content">
         <h6 style="color:#999999">由于本网站是公开的，为保护隐私，涉及到的所有真实姓名均使用首字母代替。</h6>
         <br />
+        <h3>第 4 届选举</h3>
+        <h6>计划 2023.2.22 | ZH -> ?</h6>
+        <p><strong>计划流程</strong></p>
+        <p>由 LGY 和 ZH 分别给出 2 个 1 ~ 20 的不重复数字，将两人的第一个数字相加得到目标的 X 坐标，第二个相加得到 Y 坐标。</p>
+        <p>有第一象限的 20 * 20 的网格，目标根据上述规则随机落在一个格子处。</p>
+        <p>11 位宿舍成员轮流给出一个 X,Y 坐标，落在网格上。不能有重复。</p>
+        <p>最靠近目标的成员成功竞选。如有多个成员距离一样远，周围同样距离内其他人多的成功竞选。</p>
+        <p>与<a href="#election1">第 1 届选举</a>一样，距离计算采用回环机制。</p>
+        <br />
         <h3>第 3 届选举</h3>
-        <h6>计划 2023.2.16 | LGY -> ?</h6>
+        <h6>2023.2.15 | LGY -> ZH</h6>
         <p><strong>计划流程</strong></p>
         <p>由 TGL 和 LGY 分别重新排列 1 ~ 12 的数字，得到两个数列。</p>
         <p>TGL 的数列决定数字顺序，LGY 的数列决定成员的未知数 (以下简称 &quot;?&quot;). 这两个数列在结算阶段前均不公开。</p>
@@ -31,9 +40,135 @@
         <p>当自己的已知数字之和大于等于 20 时就不能继续抽牌。</p>
         <p>所有人都结束后，公开每个人的 &quot;?&quot; 并计算每个人的最终数字。</p>
         <p>若所有人的最终数字都是 21, 按下文平局处理。若所有人的数字都小于等于 21, 数字最小的成功竞选，如有多个人则按平局处理。若所有人的数字都大于等于 21 或只有一个人的数字大于 21, 数字最大的成功竞选，如有多个人则按平局处理。</p>
-        <p>若均不属于上述情况，选出数字最小且不等于 21 的两个人和所有数字大于 21 的人，按平局处理。</p>
+        <p>若均不属于上述情况，选出数字最小且不等于 21 的 X 个人 (X 为数字小于 21 的人数的一半，向下取整) 和所有数字大于 21 的人，按平局处理。</p>
         <p>平局处理: 将平局的多个人的最后抽到的一个数字进行比较，数字最小的成功竞选，如有多个人数字一样小则这些人比较倒数第二个抽到的数字，其他人淘汰，以此类推。</p>
         <p>如果有至少一个人的除了 &quot;?&quot; 外的数字全部比较完仍平局，则忽略其他人尚未比较的数字，直接比较所有仍然平局的人的 &quot;?&quot; 的大小。</p>
+        <p><strong>数据公开</strong></p>
+        <table class="table">
+            <tr>
+                <th>人员</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr>
+                <th>TGL</th>
+                <th>5</th>
+                <th>4</th>
+                <th>7</th>
+                <th>1</th>
+                <th>3</th>
+                <th>2</th>
+                <th>6</th>
+                <th>9</th>
+                <th>10</th>
+                <th>12</th>
+                <th>11</th>
+                <th>8</th>
+            </tr>
+            <tr>
+                <th>LGY</th>
+                <th>10</th>
+                <th>6</th>
+                <th>7</th>
+                <th>11</th>
+                <th>12</th>
+                <th>1</th>
+                <th>2</th>
+                <th>5</th>
+                <th>8</th>
+                <th>3</th>
+                <th>9</th>
+                <th>4</th>
+            </tr>
+        </table>
+        <p>因为 LYL 缺席，由其指定的全权代理人 XZY 进行代理。</p>
+        <table class="table">
+            <tr>
+                <th>人员</th>
+                <th>抽到数字</th>
+                <th>未知数</th>
+                <th>最终结果</th>
+            </tr>
+            <tr>
+                <th>SLJ</th>
+                <th>1+8 = 9</th>
+                <th>11</th>
+                <th style="color: #00a8ff;">20 ↓</th>
+            </tr>
+            <tr>
+                <th>ZH</th>
+                <th>8+6 = 14</th>
+                <th>1</th>
+                <th style="color: #00a8ff;">15 ↓</th>
+            </tr>
+            <tr>
+                <th>QKY</th>
+                <th>10+1+8 = 19</th>
+                <th>12</th>
+                <th style="color: #dd0000;">31 ↑</th>
+            </tr>
+            <tr>
+                <th>LYL</th>
+                <th>7+8 = 15</th>
+                <th>6</th>
+                <th style="color: #00dd00;">21 =</th>
+            </tr>
+            <tr>
+                <th>XZY</th>
+                <th>7+8 = 15</th>
+                <th>10</th>
+                <th style="color: #dd0000;">25 ↑</th>
+            </tr>
+            <tr>
+                <th>TGL</th>
+                <th>4+2+9 = 15</th>
+                <th>2</th>
+                <th style="color: #00a8ff;">17 ↓</th>
+            </tr>
+            <tr>
+                <th>HXM</th>
+                <th>10+4 = 14</th>
+                <th>7</th>
+                <th style="color: #00dd00;">21 =</th>
+            </tr>
+            <tr>
+                <th>YBH</th>
+                <th>2+6+8 = 16</th>
+                <th>4</th>
+                <th style="color: #00a8ff;">20 ↓</th>
+            </tr>
+            <tr>
+                <th>TXJ</th>
+                <th>2+7 = 9</th>
+                <th>8</th>
+                <th style="color: #00a8ff;">17 ↓</th>
+            </tr>
+            <tr>
+                <th>TJW</th>
+                <th>7+3+9 = 19</th>
+                <th>9</th>
+                <th style="color: #dd0000;">28 ↑</th>
+            </tr>
+            <tr>
+                <th>ZCY</th>
+                <th>3+7+9 = 19</th>
+                <th>3</th>
+                <th style="color: #dd0000;">22 ↑</th>
+            </tr>
+        </table>
+        <p>数字小于 21 的有 5 人，一半向下取整，为 2 人，即抽取数字为 15 和 17 的人员进入平局。</p>
+        <p>由于 TGL 和 TXJ 的数字都是 17, 按平局处理，7 (TXJ) &lt; 9 (TGL), TXJ 晋级平局。</p>
+        <p>ZH, QKY, XZY, TXJ, TJW, ZCY 进入平局。6 (ZH) &lt; 7 (TXJ) &lt; 8 (QKY, XZY) &lt; 9 (TJW, ZCY), ZH 成功竞选。</p>
         <br />
         <h3>第 2 届选举</h3>
         <h6>2023.2.9 | TGL -> LGY</h6>
@@ -66,7 +201,7 @@
         <p>决赛 - 决赛组: 大: ZCY / 偏大: HXM / 中: SLJ / 偏小: LGY / 小: QKY</p>
         <p>52+88=140, 溢出处理, 140-100=40 (偏小), LGY 成功竞选。</p>
         <br />
-        <h3>第 1 届选举</h3>
+        <h3 id="election1">第 1 届选举</h3>
         <h6>2023.2.3 | LYL -> TGL</h6>
         <p><strong>计划流程</strong></p>
         <p>首先先由 LYL 给出一个 0 ~ 100 的随机整数 a，然后将其保密，除了 LYL 外将不会有人在公开前知道数字。</p>
@@ -103,7 +238,7 @@
         <p>SLJ 给出数字: 1</p>
         <p>TGL 给出数字: 85</p>
         <p>LYL 选择公式 E (x^2-60) 计算结果为: -24, 溢出处理, 101-24=77</p>
-        <p>TGL 给出的 85 距离 77 更近。TGL 成功竞选</p>
+        <p>TGL 给出的 85 距离 77 更近。TGL 成功竞选。</p>
     </div>
 </body>
 
