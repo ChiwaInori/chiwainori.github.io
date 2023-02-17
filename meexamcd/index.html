@@ -3,7 +3,7 @@
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>中考倒计时 - xtsdcb69</title>
     
-    <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
     <style>
         body {
             background-color: #FFFFDD;
@@ -247,8 +247,10 @@
                     var d_HE = Math.floor(t_HE / 1000 / 60 / 60 / 24);
                     var h_HE = Math.floor(t_HE / 1000 / 60 / 60 % 24);
                     var totalhours_HE = d_HE * 24 + h_HE;
+                    var c = totalhours_HE / 24;
+                    var dhe = Math.floor(c) + 1;
                     document.getElementById("he_t").innerHTML = totalhours_HE;
-                    document.getElementById("he_t_day").innerHTML = d_HE;
+                    document.getElementById("he_t_day").innerHTML = dhe;
                 }
             }
             setInterval("timeUpdate()", "100");
