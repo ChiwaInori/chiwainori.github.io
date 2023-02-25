@@ -17,7 +17,8 @@
     </div>
     <div class="content">
         <p>请输入一个正整数以验证 3x+1 猜想。</p>
-        <p><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
+        <p><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 0px; margin-bottom: 0px;" /></p>
+        <p id="input" style="display: none;"></p>
         <button id="searchbutton" onclick="submit()" disabled="disabled" style="margin-left: 40px;">无效</button>
         <p>&nbsp;</p>
         <p id="final1">&nbsp;</p>
@@ -74,6 +75,9 @@
                     } else {
                         document.getElementById("max").innerHTML = ipt1;
                     }
+                    document.getElementById("input").innerHTML = ipt1;
+                    document.getElementById("input").style = "display: block;";
+                    document.getElementById("ipt1").style = "display: none;";
                 } else {
                     var ipt1 = (parseInt(document.getElementById("num").innerHTML));
                     if (ipt1 % 2 == 1) {
