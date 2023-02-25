@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>3x+1 猜想 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1 style="margin-bottom: 20px;">3x+1 猜想</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>3x+1 猜想</strong></h6>
+    </div>
+    <div class="content">
+        <p>请输入一个正整数以验证考拉兹猜想。</p>
+        <p><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
+        <button id="searchbutton" onclick="submit()" disabled="disabled" style="margin-left: 40px;">无效</button>
+        <p>&nbsp;</p>
+        <p id="final1">&nbsp;</p>
+        <p id="final2">&nbsp;</p>
+        <p id="final3">&nbsp;</p>
+        <p style="display: none;" id="iscalculating">0</p>
+        <p style="display: none;" id="num">0</p>
+        <p style="display: none;" id="finish">0</p>
+        <p id="timesa">Calculation: <span id="times">0</span></p>
+        <p id="maxa">Max: <span id="max">0</span></p>
+        <script>
+            function button() {
+                var ipt1 = document.getElementById("ipt1").value;
+                if (ipt1.toString().length < 1 || ipt1 <= 0 || ipt1 % 1 != 0) {
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                } else {
+                    document.getElementById("searchbutton").disabled = false;
+                    document.getElementById("searchbutton").innerHTML = "计算";
+                }
+            }
+
+            function submit() {
+                var iscal = (parseInt(document.getElementById("iscalculating").innerHTML));
+                if (iscal == 0) {
+                    var ipt1 = document.getElementById("ipt1").value;
+                    if (ipt1 % 2 == 1) {
+                        document.getElementById("final1").style = "color: #ff3333;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -> ODD";
+                        var nextnum = ipt1 * 3 + 1;
+                        document.getElementById("final2").style = "color: #ff3333;";
+                        document.getElementById("final2").innerHTML = ipt1 + " * 3 + 1 = " + nextnum;
+                        document.getElementById("final3").style = "color: #ff3333;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    } else {
+                        document.getElementById("final1").style = "color: #00a8ff;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -> EVEN";
+                        var nextnum = ipt1 / 2;
+                        document.getElementById("final2").style = "color: #00a8ff;";
+                        document.getElementById("final2").innerHTML = ipt1 + " / 2 = " + nextnum;
+                        document.getElementById("final3").style = "color: #00a8ff;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    }
+                    document.getElementById("iscalculating").innerHTML = "1";
+                    document.getElementById("num").innerHTML = nextnum;
+                    if (nextnum == 4 || nextnum == 2) {
+                        document.getElementById("final3").style = "color: #ffa800;";
+                    }
+                    if (nextnum == 1) {
+                        document.getElementById("final3").style = "color: #00dd00;";
+                    }
+                    if (nextnum > ipt1) {
+                        document.getElementById("max").innerHTML = nextnum;
+                    } else {
+                        document.getElementById("max").innerHTML = ipt1;
+                    }
+                } else {
+                    var ipt1 = (parseInt(document.getElementById("num").innerHTML));
+                    if (ipt1 % 2 == 1) {
+                        document.getElementById("final1").style = "color: #ff3333;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -> ODD";
+                        var nextnum = ipt1 * 3 + 1;
+                        document.getElementById("final2").style = "color: #ff3333;";
+                        document.getElementById("final2").innerHTML = ipt1 + " * 3 + 1 = " + nextnum;
+                        document.getElementById("final3").style = "color: #ff3333;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    } else {
+                        document.getElementById("final1").style = "color: #00a8ff;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -> EVEN";
+                        var nextnum = ipt1 / 2;
+                        document.getElementById("final2").style = "color: #00a8ff;";
+                        document.getElementById("final2").innerHTML = ipt1 + " / 2 = " + nextnum;
+                        document.getElementById("final3").style = "color: #00a8ff;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    }
+                    document.getElementById("num").innerHTML = nextnum;
+                    if (nextnum == 4 || nextnum == 2) {
+                        document.getElementById("final3").style = "color: #ffa800;";
+                    }
+                    if (nextnum == 1) {
+                        document.getElementById("final3").style = "color: #00dd00;";
+                    }
+                    var maxbefore = (parseInt(document.getElementById("max").innerHTML));
+                    if (nextnum > maxbefore) {
+                        document.getElementById("max").innerHTML = nextnum;
+                    }
+                }
+                var finishcheck = (parseInt(document.getElementById("finish").innerHTML));
+                if (finishcheck == 0) {
+                    var timescount = (parseInt(document.getElementById("times").innerHTML));
+                    var timescount = timescount + 1;
+                    document.getElementById("times").innerHTML = timescount;
+                }
+                if (nextnum == 1) {
+                    document.getElementById("finish").innerHTML = "1";
+                    document.getElementById("timesa").style = "color: #00dd00;";
+                    document.getElementById("times").style = "color: #00dd00;";
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>
