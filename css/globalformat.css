@@ -41,7 +41,7 @@ blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockq
     font-size: 10px;
 }
 
-.table {
+table {
     color: #666666;
     margin: 0px 0px 10px 40px;
 }
@@ -56,10 +56,6 @@ blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockq
     top: 0;
 }
 
-.hiddenlink:link, .hiddenlink:visited, .hiddenlink {
-    color: #666666;
-}
-
-.hiddenlink:hover, .hiddenlink:hover {
+.hiddenlink:link, .hiddenlink:visited, .hiddenlink, .hiddenlink:hover {
     color: #666666;
 }
