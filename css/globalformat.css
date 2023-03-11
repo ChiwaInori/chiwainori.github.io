@@ -46,6 +46,12 @@ table {
     margin: 0px 0px 10px 40px;
 }
 
+.border_table, .border_table tr th {
+    text-align: center;
+    border: 1px solid #666666;
+    border-collapse: collapse;
+}
+
 .navigation {
     margin: -10px 0px 40px 0px;
 }
