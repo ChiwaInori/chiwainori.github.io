@@ -1,5 +1,9 @@
 .title h1 {
-    margin: 20px 0px 0px 40px;
+    margin: 20px 0px 20px 40px;
+}
+
+.title #center_title {
+    margin: 20px 0px 20px 0px;
 }
 
 body {

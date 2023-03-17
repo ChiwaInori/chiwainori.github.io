@@ -10,7 +10,7 @@
 
 <body>
     <div class="title">
-        <h1 style="margin-bottom: 20px;">Backrooms Nocliper</h1>
+        <h1>Backrooms Nocliper</h1>
     </div>
     <div class="navigation">
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>Backrooms Nocliper</strong></h6>
@@ -22,11 +22,13 @@
         <p>
             <select id="list_wikidot">
                 <option value="level" id="level">Level</option>
+                <option value="levelminus" id="levelminus">Level -</option>
                 <option value="levelc" id="levelc">Level C-</option>
                 <option value="freetyping" id="freetyping">Free Typing</option>
             </select>
             <select id="list_fandom" style="display: none;">
                 <option value="level" id="level">Level</option>
+                <option value="levelminus" id="levelminus">Level -</option>
                 <option value="freetyping" id="freetyping">Free Typing</option>
             </select> <input id="ipt1" type="text" style="margin-left: 0px; margin-bottom: 0px; width: 128px;" /></p>
         <br />
@@ -41,6 +43,9 @@
                     if (targetvalue == "level") {
                         document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-" + input;
                     }
+                    if (targetvalue == "levelminus") {
+                        document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-minus-" + input;
+                    }
                     if (targetvalue == "levelc") {
                         document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-c-" + input;
                     }
@@ -52,6 +57,9 @@
                     var targetvalue = myselect.options[myselect.selectedIndex].value;
                     if (targetvalue == "level") {
                         document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/Level_" + input;
+                    }
+                    if (targetvalue == "levelminus") {
+                        document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/Level_-" + input;
                     }
                     if (targetvalue == "freetyping") {
                         document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/" + input;
