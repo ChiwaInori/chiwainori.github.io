@@ -77,7 +77,7 @@
         </div> -->
         <div id="choose_first" style="display: none;">
             <h2>选择先手</h2>
-            <br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <p style="position: relative; left: 0%;"><button onclick="p1_first()">P1 先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="random_first()">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="p2_first()">P2 先手</button></p>
             <!-- <button onclick="begin()" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">点击开始</button> -->
         </div>
@@ -1474,8 +1474,8 @@
             document.getElementById("p2_attack_b36").style = "display: none;";
             document.getElementById("p1_status_1").innerHTML = "<strong>我方回合</strong>";
             document.getElementById("p1_status_1").style = "color: #00dd00;";
-            document.getElementById("p1_status_2").innerHTML = "<strong>请选择战列舰部署位置</strong>";
-            document.getElementById("p1_status_2").style = "color: #00dd00;";
+            document.getElementById("p1_status_2").innerHTML = "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p1_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>";
+            document.getElementById("p1_status_2").style = "color: #00dd00; margin-bottom: 8px;";
             document.getElementById("p2_status_1").innerHTML = "<strong>敌方回合</strong>";
             document.getElementById("p2_status_1").style = "color: #666666;";
             document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方操作</strong>";
@@ -1629,8 +1629,8 @@
             document.getElementById("p1_attack_b36").style = "display: none;";
             document.getElementById("p2_status_1").innerHTML = "<strong>我方回合</strong>";
                 document.getElementById("p2_status_1").style = "color: #00dd00;";
-                document.getElementById("p2_status_2").innerHTML = "<strong>请选择战列舰部署位置</strong>";
-                document.getElementById("p2_status_2").style = "color: #00dd00;";
+                document.getElementById("p2_status_2").innerHTML = "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p2_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>";
+                document.getElementById("p2_status_2").style = "color: #00dd00; margin-bottom: 8px;";
                 document.getElementById("p1_status_1").innerHTML = "<strong>敌方回合</strong>";
                 document.getElementById("p1_status_1").style = "color: #666666;";
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方操作</strong>";
@@ -2180,6 +2180,10 @@
         }
 
         function p1_round_2() {
+            document.getElementById("p1_status_1").innerHTML = "<strong>我方回合</strong>";
+            document.getElementById("p1_status_1").style = "color: #00dd00;";
+            document.getElementById("p2_status_1").innerHTML = "<strong>敌方回合</strong>";
+            document.getElementById("p2_status_1").style = "color: #666666;";
             document.getElementById("p2_attack_b1").style = "display: none;";
             document.getElementById("p2_attack_b2").style = "display: none;";
             document.getElementById("p2_attack_b3").style = "display: none;";
@@ -2297,6 +2301,10 @@
         }
 
         function p2_round_2() {
+            document.getElementById("p2_status_1").innerHTML = "<strong>我方回合</strong>";
+            document.getElementById("p2_status_1").style = "color: #00dd00;";
+            document.getElementById("p1_status_1").innerHTML = "<strong>敌方回合</strong>";
+            document.getElementById("p1_status_1").style = "color: #666666;";
             document.getElementById("p1_attack_b1").style = "display: none;";
             document.getElementById("p1_attack_b2").style = "display: none;";
             document.getElementById("p1_attack_b3").style = "display: none;";
@@ -3359,8 +3367,10 @@
                 document.getElementById("p1_status_1").style = "color: #ffa800;";
                 document.getElementById("p2_status_1").innerHTML = "<strong>我方战败</strong>";
                 document.getElementById("p2_status_1").style = "color: #dd0000;";
-                document.getElementById("p1_status_2").innerHTML = "&nbsp;";
-                document.getElementById("p2_status_2").innerHTML = "&nbsp;";
+                document.getElementById("p1_status_2").innerHTML = "<strong>敌方所有军舰已被摧毁!</strong>";
+                document.getElementById("p1_status_2").style = "color: #00dd00;";
+                document.getElementById("p2_status_2").innerHTML = "<strong>我方所有军舰已被摧毁!</strong>";
+                document.getElementById("p2_status_2").style = "color: #dd0000;";
                 document.getElementById("p1_attack_b1").style = "display: none;";
                 document.getElementById("p1_attack_b2").style = "display: none;";
                 document.getElementById("p1_attack_b3").style = "display: none;";
@@ -4389,8 +4399,10 @@
                 document.getElementById("p2_status_1").style = "color: #ffa800;";
                 document.getElementById("p1_status_1").innerHTML = "<strong>我方战败</strong>";
                 document.getElementById("p1_status_1").style = "color: #dd0000;";
-                document.getElementById("p2_status_2").innerHTML = "&nbsp;";
-                document.getElementById("p1_status_2").innerHTML = "&nbsp;";
+                document.getElementById("p2_status_2").innerHTML = "<strong>敌方所有军舰已被摧毁!</strong>";
+                document.getElementById("p2_status_2").style = "color: #00dd00;";
+                document.getElementById("p1_status_2").innerHTML = "<strong>我方所有军舰已被摧毁!</strong>";
+                document.getElementById("p1_status_2").style = "color: #dd0000;";
                 document.getElementById("p1_attack_b1").style = "display: none;";
                 document.getElementById("p1_attack_b2").style = "display: none;";
                 document.getElementById("p1_attack_b3").style = "display: none;";
