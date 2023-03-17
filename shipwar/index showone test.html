@@ -52,7 +52,7 @@
             <h2>游戏规则</h2>
             <p>首先要决定两个玩家中谁是先手. 选择 &quot;随机先手&quot;, 将会随机选择一个玩家作为先手. 或者选择 &quot;P1 / P2 先手&quot;, 进行人工选择. <strong>推荐在进行人工选择时通过其他公平的方式选择先手</strong>.</p>
             <p>在游戏开始时, 两个玩家都会有一个 6*6 的显示盘 (Display Panel), 并且需要<strong>通过物理阻拦的方式</strong>让双方互相看不到对方的棋盘. 你的棋盘下面还会有一个 6x6 的控制板 (Operation Panel).</p>
-            <!-- <p>如果不适合同时显示两个玩家的界面, 你可以选择开启 <strong>单显示模式 (<span id="showone_button_off" style="color: #dd0000;" onclick="showone_on()">OFF</span><span id="showone_button_on" style="color: #00dd00; display: none;" onclick="showone_off()">ON</span>)</strong>.</p> -->
+            <p>如果不适合同时显示两个玩家的界面, 你可以选择开启 <strong>单显示模式 (<span id="showone_button_off" style="color: #dd0000;" onclick="showone_on()">OFF</span><span id="showone_button_on" style="color: #00dd00; display: none;" onclick="showone_off()">ON</span>)</strong>.</p>
             <br />
             <p>双方需要选择一个方格作为自己的<strong>母舰</strong>的位置, 通过按下控制盘上对应的按钮来进行.</p>
             <br />
@@ -78,15 +78,15 @@
         </div> -->
         <div id="choose_first" style="display: none;">
             <h2>选择先手</h2>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <p style="position: relative; left: 0%;"><button onclick="p1_first()">P1 先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="random_first()">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="p2_first()">P2 先手</button></p>
             <!-- <button onclick="begin()" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">点击开始</button> -->
         </div>
         <div id="main_panel" style="display: none;">
             <h2 id="goodtitle">放置母舰</h2>
             <h6 style="color: #dd0000;" id="subtitle">请准备好物理阻拦物, 确保玩家不会看到对方的操作界面</h6>
-            <h6 style="color: #00a8ff; display: none;" id="subtitle_showone">单显示模式已开启 - 同一时刻仅会显示一个玩家的操作界面</h6>
-            <table class="border_table left_table">
+            <h6 style="color: #00a8ff; display: none;" id="subtitle_showone">单显示模式已开启 - 同一时刻仅会显示一个玩家的显示板</h6>
+            <table id="p1_table_display" class="border_table left_table">
                 <tr>
                     <th>(D)</th>
                     <th>&nbsp;A&nbsp;</th>
@@ -151,7 +151,7 @@
                     <th id="display_p1_36">&nbsp;</th>
                 </tr>
             </table>
-            <table class="border_table" style="margin: -169px auto auto 61.5%">
+            <table id="p2_table_display" class="border_table" style="margin: -169px auto auto 61.5%">
                 <tr>
                     <th>(D)</th>
                     <th>&nbsp;A&nbsp;</th>
@@ -217,7 +217,7 @@
                 </tr>
             </table>
             <br />
-            <table class="border_table left_table">
+            <table id="p1_table_operation" class="border_table left_table">
                 <tr>
                     <th>(O)</th>
                     <th>&nbsp;A&nbsp;</th>
@@ -282,7 +282,7 @@
                     <th><button id="p1_placebig_b36" style="margin-bottom: -3px; margin-left: -1px;" onclick="p1_placebig_36()">&nbsp;</button><button id="p1_placesmall_b36" style="margin-bottom: -3px; margin-left: -1px; display: none;" onclick="p1_placesmall_36()">&nbsp;</button><button id="p1_attack_b36" style="margin-bottom: -3px; margin-left: -1px; display: none;" onclick="p1_attack_36()">&nbsp;</button></th>
                 </tr>
             </table>
-            <table class="border_table" style="margin: -169px auto auto 61.5%;">
+            <table id="p2_table_operation" class="border_table" style="margin: -169px auto auto 61.5%;">
                 <tr>
                     <th>(O)</th>
                     <th>&nbsp;A&nbsp;</th>
@@ -356,11 +356,13 @@
                 <p id="p1_status_1">&nbsp;</p>
                 <p id="p1_status_2">&nbsp;</p>
                 <p id="p1_status_3">&nbsp;</p>
+                <p id="p1_showone"><button id="showone_button_p1_a" style="display: none;" onclick="showone_end_p1()">回合结束</button><button id="showone_button_p1_b" style="display: none;" onclick="showone_start_p1()">回合开始</button></p>
             </div>
             <div id="p2_status" style="margin: -93px auto auto 32%;">
                 <p id="p2_status_1">&nbsp;</p>
                 <p id="p2_status_2">&nbsp;</p>
                 <p id="p2_status_3">&nbsp;</p>
+                <p id="p2_showone"><button id="showone_button_p2_a" style="display: none;" onclick="showone_end_p2()">回合结束</button><button id="showone_button_p2_b" style="display: none;" onclick="showone_start_p2()">回合开始</button></p>
             </div>
         </div>
         <div id="var" style="display: none;">
@@ -400,6 +402,180 @@
             }
         }
 
+        function showone_end_p1() {
+            document.getElementById("display_p1_1").style = "color: #ffffdd";
+            document.getElementById("display_p1_2").style = "color: #ffffdd";
+            document.getElementById("display_p1_3").style = "color: #ffffdd";
+            document.getElementById("display_p1_4").style = "color: #ffffdd";
+            document.getElementById("display_p1_5").style = "color: #ffffdd";
+            document.getElementById("display_p1_6").style = "color: #ffffdd";
+            document.getElementById("display_p1_7").style = "color: #ffffdd";
+            document.getElementById("display_p1_8").style = "color: #ffffdd";
+            document.getElementById("display_p1_9").style = "color: #ffffdd";
+            document.getElementById("display_p1_10").style = "color: #ffffdd";
+            document.getElementById("display_p1_11").style = "color: #ffffdd";
+            document.getElementById("display_p1_12").style = "color: #ffffdd";
+            document.getElementById("display_p1_13").style = "color: #ffffdd";
+            document.getElementById("display_p1_14").style = "color: #ffffdd";
+            document.getElementById("display_p1_15").style = "color: #ffffdd";
+            document.getElementById("display_p1_16").style = "color: #ffffdd";
+            document.getElementById("display_p1_17").style = "color: #ffffdd";
+            document.getElementById("display_p1_18").style = "color: #ffffdd";
+            document.getElementById("display_p1_19").style = "color: #ffffdd";
+            document.getElementById("display_p1_20").style = "color: #ffffdd";
+            document.getElementById("display_p1_21").style = "color: #ffffdd";
+            document.getElementById("display_p1_22").style = "color: #ffffdd";
+            document.getElementById("display_p1_23").style = "color: #ffffdd";
+            document.getElementById("display_p1_24").style = "color: #ffffdd";
+            document.getElementById("display_p1_25").style = "color: #ffffdd";
+            document.getElementById("display_p1_26").style = "color: #ffffdd";
+            document.getElementById("display_p1_27").style = "color: #ffffdd";
+            document.getElementById("display_p1_28").style = "color: #ffffdd";
+            document.getElementById("display_p1_29").style = "color: #ffffdd";
+            document.getElementById("display_p1_30").style = "color: #ffffdd";
+            document.getElementById("display_p1_31").style = "color: #ffffdd";
+            document.getElementById("display_p1_32").style = "color: #ffffdd";
+            document.getElementById("display_p1_33").style = "color: #ffffdd";
+            document.getElementById("display_p1_34").style = "color: #ffffdd";
+            document.getElementById("display_p1_35").style = "color: #ffffdd";
+            document.getElementById("display_p1_36").style = "color: #ffffdd";
+            document.getElementById("showone_button_p1_a").style = "display: none;";
+            document.getElementById("showone_button_p2_b").style = "display: inline-block;";
+            document.getElementById("p1_status_1").style = "display: none;";
+            document.getElementById("p1_status_2").style = "display: none;";
+            document.getElementById("p1_status_3").style = "display: none;";
+        }
+
+        function showone_start_p1() {
+            document.getElementById("display_p1_1").style = "color: #666666";
+            document.getElementById("display_p1_2").style = "color: #666666";
+            document.getElementById("display_p1_3").style = "color: #666666";
+            document.getElementById("display_p1_4").style = "color: #666666";
+            document.getElementById("display_p1_5").style = "color: #666666";
+            document.getElementById("display_p1_6").style = "color: #666666";
+            document.getElementById("display_p1_7").style = "color: #666666";
+            document.getElementById("display_p1_8").style = "color: #666666";
+            document.getElementById("display_p1_9").style = "color: #666666";
+            document.getElementById("display_p1_10").style = "color: #666666";
+            document.getElementById("display_p1_11").style = "color: #666666";
+            document.getElementById("display_p1_12").style = "color: #666666";
+            document.getElementById("display_p1_13").style = "color: #666666";
+            document.getElementById("display_p1_14").style = "color: #666666";
+            document.getElementById("display_p1_15").style = "color: #666666";
+            document.getElementById("display_p1_16").style = "color: #666666";
+            document.getElementById("display_p1_17").style = "color: #666666";
+            document.getElementById("display_p1_18").style = "color: #666666";
+            document.getElementById("display_p1_19").style = "color: #666666";
+            document.getElementById("display_p1_20").style = "color: #666666";
+            document.getElementById("display_p1_21").style = "color: #666666";
+            document.getElementById("display_p1_22").style = "color: #666666";
+            document.getElementById("display_p1_23").style = "color: #666666";
+            document.getElementById("display_p1_24").style = "color: #666666";
+            document.getElementById("display_p1_25").style = "color: #666666";
+            document.getElementById("display_p1_26").style = "color: #666666";
+            document.getElementById("display_p1_27").style = "color: #666666";
+            document.getElementById("display_p1_28").style = "color: #666666";
+            document.getElementById("display_p1_29").style = "color: #666666";
+            document.getElementById("display_p1_30").style = "color: #666666";
+            document.getElementById("display_p1_31").style = "color: #666666";
+            document.getElementById("display_p1_32").style = "color: #666666";
+            document.getElementById("display_p1_33").style = "color: #666666";
+            document.getElementById("display_p1_34").style = "color: #666666";
+            document.getElementById("display_p1_35").style = "color: #666666";
+            document.getElementById("display_p1_36").style = "color: #666666";
+            document.getElementById("showone_button_p1_b").style = "display: none;";
+            document.getElementById("p1_status_1").style = "display: block;";
+            document.getElementById("p1_status_2").style = "display: block;";
+            document.getElementById("p1_status_3").style = "display: block;";
+        }
+
+        function showone_end_p2() {
+            document.getElementById("display_p2_1").style = "color: #ffffdd";
+            document.getElementById("display_p2_2").style = "color: #ffffdd";
+            document.getElementById("display_p2_3").style = "color: #ffffdd";
+            document.getElementById("display_p2_4").style = "color: #ffffdd";
+            document.getElementById("display_p2_5").style = "color: #ffffdd";
+            document.getElementById("display_p2_6").style = "color: #ffffdd";
+            document.getElementById("display_p2_7").style = "color: #ffffdd";
+            document.getElementById("display_p2_8").style = "color: #ffffdd";
+            document.getElementById("display_p2_9").style = "color: #ffffdd";
+            document.getElementById("display_p2_10").style = "color: #ffffdd";
+            document.getElementById("display_p2_11").style = "color: #ffffdd";
+            document.getElementById("display_p2_12").style = "color: #ffffdd";
+            document.getElementById("display_p2_13").style = "color: #ffffdd";
+            document.getElementById("display_p2_14").style = "color: #ffffdd";
+            document.getElementById("display_p2_15").style = "color: #ffffdd";
+            document.getElementById("display_p2_16").style = "color: #ffffdd";
+            document.getElementById("display_p2_17").style = "color: #ffffdd";
+            document.getElementById("display_p2_18").style = "color: #ffffdd";
+            document.getElementById("display_p2_19").style = "color: #ffffdd";
+            document.getElementById("display_p2_20").style = "color: #ffffdd";
+            document.getElementById("display_p2_21").style = "color: #ffffdd";
+            document.getElementById("display_p2_22").style = "color: #ffffdd";
+            document.getElementById("display_p2_23").style = "color: #ffffdd";
+            document.getElementById("display_p2_24").style = "color: #ffffdd";
+            document.getElementById("display_p2_25").style = "color: #ffffdd";
+            document.getElementById("display_p2_26").style = "color: #ffffdd";
+            document.getElementById("display_p2_27").style = "color: #ffffdd";
+            document.getElementById("display_p2_28").style = "color: #ffffdd";
+            document.getElementById("display_p2_29").style = "color: #ffffdd";
+            document.getElementById("display_p2_30").style = "color: #ffffdd";
+            document.getElementById("display_p2_31").style = "color: #ffffdd";
+            document.getElementById("display_p2_32").style = "color: #ffffdd";
+            document.getElementById("display_p2_33").style = "color: #ffffdd";
+            document.getElementById("display_p2_34").style = "color: #ffffdd";
+            document.getElementById("display_p2_35").style = "color: #ffffdd";
+            document.getElementById("display_p2_36").style = "color: #ffffdd";
+            document.getElementById("showone_button_p2_a").style = "display: none;";
+            document.getElementById("showone_button_p1_b").style = "display: inline-block;";
+            document.getElementById("p2_status_1").style = "display: none;";
+            document.getElementById("p2_status_2").style = "display: none;";
+            document.getElementById("p2_status_3").style = "display: none;";
+        }
+
+        function showone_start_p2() {
+            document.getElementById("display_p2_1").style = "color: #666666";
+            document.getElementById("display_p2_2").style = "color: #666666";
+            document.getElementById("display_p2_3").style = "color: #666666";
+            document.getElementById("display_p2_4").style = "color: #666666";
+            document.getElementById("display_p2_5").style = "color: #666666";
+            document.getElementById("display_p2_6").style = "color: #666666";
+            document.getElementById("display_p2_7").style = "color: #666666";
+            document.getElementById("display_p2_8").style = "color: #666666";
+            document.getElementById("display_p2_9").style = "color: #666666";
+            document.getElementById("display_p2_10").style = "color: #666666";
+            document.getElementById("display_p2_11").style = "color: #666666";
+            document.getElementById("display_p2_12").style = "color: #666666";
+            document.getElementById("display_p2_13").style = "color: #666666";
+            document.getElementById("display_p2_14").style = "color: #666666";
+            document.getElementById("display_p2_15").style = "color: #666666";
+            document.getElementById("display_p2_16").style = "color: #666666";
+            document.getElementById("display_p2_17").style = "color: #666666";
+            document.getElementById("display_p2_18").style = "color: #666666";
+            document.getElementById("display_p2_19").style = "color: #666666";
+            document.getElementById("display_p2_20").style = "color: #666666";
+            document.getElementById("display_p2_21").style = "color: #666666";
+            document.getElementById("display_p2_22").style = "color: #666666";
+            document.getElementById("display_p2_23").style = "color: #666666";
+            document.getElementById("display_p2_24").style = "color: #666666";
+            document.getElementById("display_p2_25").style = "color: #666666";
+            document.getElementById("display_p2_26").style = "color: #666666";
+            document.getElementById("display_p2_27").style = "color: #666666";
+            document.getElementById("display_p2_28").style = "color: #666666";
+            document.getElementById("display_p2_29").style = "color: #666666";
+            document.getElementById("display_p2_30").style = "color: #666666";
+            document.getElementById("display_p2_31").style = "color: #666666";
+            document.getElementById("display_p2_32").style = "color: #666666";
+            document.getElementById("display_p2_33").style = "color: #666666";
+            document.getElementById("display_p2_34").style = "color: #666666";
+            document.getElementById("display_p2_35").style = "color: #666666";
+            document.getElementById("display_p2_36").style = "color: #666666";
+            document.getElementById("showone_button_p2_b").style = "display: none;";
+            document.getElementById("p2_status_1").style = "display: block;";
+            document.getElementById("p2_status_2").style = "display: block;";
+            document.getElementById("p2_status_3").style = "display: block;";
+        }
+
         function p1_first() {
             document.getElementById("choose_first").style = "display: none;";
             document.getElementById("main_panel").style = "display: block;";
@@ -411,6 +587,47 @@
             document.getElementById("p1_status_2").style = "color: #00dd00;";
             document.getElementById("p2_status_2").innerHTML = "<strong>请选择母舰位置</strong>";
             document.getElementById("p2_status_2").style = "color: #00dd00;";
+            if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                document.getElementById("display_p2_1").style = "color: #ffffdd";
+                document.getElementById("display_p2_2").style = "color: #ffffdd";
+                document.getElementById("display_p2_3").style = "color: #ffffdd";
+                document.getElementById("display_p2_4").style = "color: #ffffdd";
+                document.getElementById("display_p2_5").style = "color: #ffffdd";
+                document.getElementById("display_p2_6").style = "color: #ffffdd";
+                document.getElementById("display_p2_7").style = "color: #ffffdd";
+                document.getElementById("display_p2_8").style = "color: #ffffdd";
+                document.getElementById("display_p2_9").style = "color: #ffffdd";
+                document.getElementById("display_p2_10").style = "color: #ffffdd";
+                document.getElementById("display_p2_11").style = "color: #ffffdd";
+                document.getElementById("display_p2_12").style = "color: #ffffdd";
+                document.getElementById("display_p2_13").style = "color: #ffffdd";
+                document.getElementById("display_p2_14").style = "color: #ffffdd";
+                document.getElementById("display_p2_15").style = "color: #ffffdd";
+                document.getElementById("display_p2_16").style = "color: #ffffdd";
+                document.getElementById("display_p2_17").style = "color: #ffffdd";
+                document.getElementById("display_p2_18").style = "color: #ffffdd";
+                document.getElementById("display_p2_19").style = "color: #ffffdd";
+                document.getElementById("display_p2_20").style = "color: #ffffdd";
+                document.getElementById("display_p2_21").style = "color: #ffffdd";
+                document.getElementById("display_p2_22").style = "color: #ffffdd";
+                document.getElementById("display_p2_23").style = "color: #ffffdd";
+                document.getElementById("display_p2_24").style = "color: #ffffdd";
+                document.getElementById("display_p2_25").style = "color: #ffffdd";
+                document.getElementById("display_p2_26").style = "color: #ffffdd";
+                document.getElementById("display_p2_27").style = "color: #ffffdd";
+                document.getElementById("display_p2_28").style = "color: #ffffdd";
+                document.getElementById("display_p2_29").style = "color: #ffffdd";
+                document.getElementById("display_p2_30").style = "color: #ffffdd";
+                document.getElementById("display_p2_31").style = "color: #ffffdd";
+                document.getElementById("display_p2_32").style = "color: #ffffdd";
+                document.getElementById("display_p2_33").style = "color: #ffffdd";
+                document.getElementById("display_p2_34").style = "color: #ffffdd";
+                document.getElementById("display_p2_35").style = "color: #ffffdd";
+                document.getElementById("display_p2_36").style = "color: #ffffdd";
+                document.getElementById("p2_status_1").style = "display: none;";
+                document.getElementById("p2_status_2").style = "display: none;";
+                document.getElementById("p2_status_3").style = "display: none;";
+            }
         }
 
         function p2_first() {
@@ -424,6 +641,47 @@
             document.getElementById("p1_status_2").style = "color: #00dd00;";
             document.getElementById("p2_status_2").innerHTML = "<strong>请选择母舰位置</strong>";
             document.getElementById("p2_status_2").style = "color: #00dd00;";
+            if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                document.getElementById("display_p2_1").style = "color: #ffffdd";
+                document.getElementById("display_p2_2").style = "color: #ffffdd";
+                document.getElementById("display_p2_3").style = "color: #ffffdd";
+                document.getElementById("display_p2_4").style = "color: #ffffdd";
+                document.getElementById("display_p2_5").style = "color: #ffffdd";
+                document.getElementById("display_p2_6").style = "color: #ffffdd";
+                document.getElementById("display_p2_7").style = "color: #ffffdd";
+                document.getElementById("display_p2_8").style = "color: #ffffdd";
+                document.getElementById("display_p2_9").style = "color: #ffffdd";
+                document.getElementById("display_p2_10").style = "color: #ffffdd";
+                document.getElementById("display_p2_11").style = "color: #ffffdd";
+                document.getElementById("display_p2_12").style = "color: #ffffdd";
+                document.getElementById("display_p2_13").style = "color: #ffffdd";
+                document.getElementById("display_p2_14").style = "color: #ffffdd";
+                document.getElementById("display_p2_15").style = "color: #ffffdd";
+                document.getElementById("display_p2_16").style = "color: #ffffdd";
+                document.getElementById("display_p2_17").style = "color: #ffffdd";
+                document.getElementById("display_p2_18").style = "color: #ffffdd";
+                document.getElementById("display_p2_19").style = "color: #ffffdd";
+                document.getElementById("display_p2_20").style = "color: #ffffdd";
+                document.getElementById("display_p2_21").style = "color: #ffffdd";
+                document.getElementById("display_p2_22").style = "color: #ffffdd";
+                document.getElementById("display_p2_23").style = "color: #ffffdd";
+                document.getElementById("display_p2_24").style = "color: #ffffdd";
+                document.getElementById("display_p2_25").style = "color: #ffffdd";
+                document.getElementById("display_p2_26").style = "color: #ffffdd";
+                document.getElementById("display_p2_27").style = "color: #ffffdd";
+                document.getElementById("display_p2_28").style = "color: #ffffdd";
+                document.getElementById("display_p2_29").style = "color: #ffffdd";
+                document.getElementById("display_p2_30").style = "color: #ffffdd";
+                document.getElementById("display_p2_31").style = "color: #ffffdd";
+                document.getElementById("display_p2_32").style = "color: #ffffdd";
+                document.getElementById("display_p2_33").style = "color: #ffffdd";
+                document.getElementById("display_p2_34").style = "color: #ffffdd";
+                document.getElementById("display_p2_35").style = "color: #ffffdd";
+                document.getElementById("display_p2_36").style = "color: #ffffdd";
+                document.getElementById("p2_status_1").style = "display: none;";
+                document.getElementById("p2_status_2").style = "display: none;";
+                document.getElementById("p2_status_3").style = "display: none;";
+            }
         }
 
         function p1_placebig_1() {
@@ -435,6 +693,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -448,6 +709,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -461,6 +725,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -474,6 +741,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -487,6 +757,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -500,6 +773,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -513,6 +789,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -526,6 +805,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -539,6 +821,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -552,6 +837,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -565,6 +853,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -578,6 +869,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -591,6 +885,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -604,6 +901,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -617,6 +917,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -630,6 +933,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -643,6 +949,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -656,6 +965,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -669,6 +981,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -682,6 +997,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -695,6 +1013,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -708,6 +1029,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -721,6 +1045,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -734,6 +1061,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -747,6 +1077,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -760,6 +1093,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -773,6 +1109,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -786,6 +1125,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -799,6 +1141,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -812,6 +1157,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -825,6 +1173,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -838,6 +1189,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -851,6 +1205,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -864,6 +1221,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -877,6 +1237,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -890,6 +1253,9 @@
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p1_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p1_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -904,6 +1270,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -917,6 +1286,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -930,6 +1302,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -943,6 +1318,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -956,6 +1334,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -969,6 +1350,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -982,6 +1366,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -995,6 +1382,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1008,6 +1398,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1021,6 +1414,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1034,6 +1430,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1047,6 +1446,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1060,6 +1462,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1073,6 +1478,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1086,6 +1494,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1099,6 +1510,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1112,6 +1526,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1125,6 +1542,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1138,6 +1558,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1151,6 +1574,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1164,6 +1590,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1177,6 +1606,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1190,6 +1622,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1203,6 +1638,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1216,6 +1654,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1229,6 +1670,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1242,6 +1686,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1255,6 +1702,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1268,6 +1718,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1281,6 +1734,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1294,6 +1750,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1307,6 +1766,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1320,6 +1782,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1333,6 +1798,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1346,6 +1814,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 
                 gamestart();
@@ -1360,6 +1831,9 @@
             if (choosebig == 1) {
                 document.getElementById("p2_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";
                 document.getElementById("p2_status_2").style = "color: #ff9900;";
+                if (parseInt(document.getElementById("var_showone").innerHTML) == 1) {
+                    document.getElementById("showone_button_p2_a").style = "display: inline;";
+                }
             } else {
                 gamestart();
             }
@@ -1446,9 +1920,6 @@
         function gamestart() {
             document.getElementById("goodtitle").innerHTML = "游戏进行中";
             document.getElementById("goodtitle").style = "color: #00dd00;";
-            if (parseInt(document.getElementById("var_showone").innerHTML) == 0) {
-                document.getElementById("subtitle").style = "color: #ffa800;";
-            }
             if (parseInt(document.getElementById("var_first").innerHTML) == 1) {
                 p1_round();  
             } else {
@@ -3390,7 +3861,7 @@
                 document.getElementById("p2_status_1").innerHTML = "<strong>我方战败</strong>";
                 document.getElementById("p2_status_1").style = "color: #dd0000;";
                 document.getElementById("p1_status_2").innerHTML = "<strong>敌方所有军舰已被摧毁!</strong>";
-                document.getElementById("p1_status_2").style = "color: #ffa800;";
+                document.getElementById("p1_status_2").style = "color: #00dd00;";
                 document.getElementById("p2_status_2").innerHTML = "<strong>我方所有军舰已被摧毁!</strong>";
                 document.getElementById("p2_status_2").style = "color: #dd0000;";
                 document.getElementById("p1_attack_b1").style = "display: none;";
@@ -4423,7 +4894,7 @@
                 document.getElementById("p1_status_1").innerHTML = "<strong>我方战败</strong>";
                 document.getElementById("p1_status_1").style = "color: #dd0000;";
                 document.getElementById("p2_status_2").innerHTML = "<strong>敌方所有军舰已被摧毁!</strong>";
-                document.getElementById("p2_status_2").style = "color: #ffa800;";
+                document.getElementById("p2_status_2").style = "color: #00dd00;";
                 document.getElementById("p1_status_2").innerHTML = "<strong>我方所有军舰已被摧毁!</strong>";
                 document.getElementById("p1_status_2").style = "color: #dd0000;";
                 document.getElementById("p1_attack_b1").style = "display: none;";
