@@ -18,12 +18,24 @@
     <div class="content">
         <p id="w_selected"><strong>Wikidot | <span onclick="select_f()" class="link">Fandom</span></strong></p>
         <p id="f_selected" style="display: none;"><strong><span onclick="select_w()" class="link">Wikidot</span> | Fandom</strong></p>
+        <p id="zh_selected"><strong>简体中文 | <span onclick="select_en()" class="link">English</span><span id="mo_a"> | <span onclick="select_mo()" class="link">页面母语</span></span></strong></p>
+        <p id="en_selected" style="display: none;"><strong><span onclick="select_zh()" class="link">简体中文</span> | English<span id="mo_b"> | <span onclick="select_mo()" class="link">页面母语</span></span></strong></p>
+        <p id="mo_selected" style="display: none;"><strong><span onclick="select_zh()" class="link">简体中文</span> | <span onclick="select_en()" class="link">English</span> | 页面母语</strong></p>
         <br />
         <p>
             <select id="list_wikidot">
                 <option value="level" id="level">Level</option>
                 <option value="levelminus" id="levelminus">Level -</option>
                 <option value="levelc" id="levelc">Level C-</option>
+                <option value="levela" id="levela">Level A-</option>
+                <option value="levelfr" id="levelfr">Level X-FR</option>
+                <option value="levelpt" id="levelpt">Level PT-</option>
+                <option value="levelvn" id="levelvn">Level VN-</option>
+                <option value="leveles" id="leveles">Level ES-</option>
+                <option value="levelpl" id="levelpl">Level PL-</option>
+                <option value="leveln" id="leveln">Level X N</option>
+                <option value="levelid" id="levelid">Level X-ID</option>
+                <option value="leveli" id="leveli">Level I-</option>
                 <option value="freetyping" id="freetyping">Free Typing</option>
             </select>
             <select id="list_fandom" style="display: none;">
@@ -34,6 +46,7 @@
         <br />
         <p><a id="noclip" href="about:blank" target="_blank" onclick="check()">[NOCLIP]</a></p>
         <p id="selectedversion" style="display: none;">w</p>
+        <p id="selectedlang" style="display: none;">zh</p>
         <script>
             function check() {
                 var input = document.getElementById("ipt1").value;
@@ -41,28 +54,171 @@
                     var myselect = document.getElementById("list_wikidot");
                     var targetvalue = myselect.options[myselect.selectedIndex].value;
                     if (targetvalue == "level") {
-                        document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-" + input;
+                        }
                     }
                     if (targetvalue == "levelminus") {
-                        document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-minus-" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-minus-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-minus-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-minus-" + input;
+                        }
                     }
                     if (targetvalue == "levelc") {
-                        document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-c-" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-c-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-c-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-c-" + input;
+                        }
+                    }
+                    if (targetvalue == "levela") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-a-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-a-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://ru-backrooms-wiki.wikidot.com/level-a-" + input;
+                        }
+                    }
+                    if (targetvalue == "levelfr") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/niveau-" + input + "-fr";
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/niveau-" + input + "-fr";
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://fr-backrooms-wiki.wikidot.com/niveau-" + input + "-fr";
+                        }
+                    }
+                    if (targetvalue == "levelpt") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-pt-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-pt-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://pt-br-backrooms-wiki.wikidot.com/level-pt-" + input;
+                        }
+                    }
+                    if (targetvalue == "levelvn") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-vn-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-vn-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-vn.wikidot.com/level-vn-" + input;
+                        }
+                    }
+                    if (targetvalue == "levelvn") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/nivel-es-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/nivel-es-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://es-backrooms-wiki.wikidot.com/nivel-es-" + input;
+                        }
+                    }
+                    if (targetvalue == "levelpl") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/poziom-pl-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/poziom-pl-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://pl-backrooms-wiki.wikidot.com/poziom-pl-" + input;
+                        }
+                    }
+                    if (targetvalue == "leveln") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-" + input + "-n";
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-" + input + "-n";
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://fr-backrooms-wiki.wikidot.com/level-" + input + "-n";
+                        }
+                    }
+                    if (targetvalue == "levelid") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-" + input + "-id";
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-" + input + "-id";
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://id-backrooms-wiki.wikidot.com/level-" + input + "-id";
+                        }
+                    }
+                    if (targetvalue == "leveli") {
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/livello-i-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/livello-i-" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://it-backrooms-wiki.wikidot.com/livello-i-" + input;
+                        }
                     }
                     if (targetvalue == "freetyping") {
-                        document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "en") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/" + input;
+                        }
+                        if (document.getElementById("selectedlang").innerHTML == "mo") {
+                            document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/" + input;
+                        }
                     }
                 } else {
                     var myselect = document.getElementById("list_fandom");
                     var targetvalue = myselect.options[myselect.selectedIndex].value;
                     if (targetvalue == "level") {
-                        document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/Level_" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/Level_" + input;
+                        } else {
+                            document.getElementById("noclip").href = "https://backrooms.fandom.com/wiki/Level_" + input;
+                        }
                     }
                     if (targetvalue == "levelminus") {
-                        document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/Level_-" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/Level_-" + input;
+                        } else {
+                            document.getElementById("noclip").href = "https://backrooms.fandom.com/wiki/Level_-" + input;
+                        }
                     }
                     if (targetvalue == "freetyping") {
-                        document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/" + input;
+                        if (document.getElementById("selectedlang").innerHTML == "zh") {
+                            document.getElementById("noclip").href = "https://backrooms.fandom.com/zh/wiki/" + input;
+                        } else {
+                            document.getElementById("noclip").href = "https://backrooms.fandom.com/wiki/" + input;
+                        }
                     }
                 }
             }
@@ -73,6 +229,8 @@
                 document.getElementById("f_selected").style = "display: none;";
                 document.getElementById("list_wikidot").style = "display: inline;";
                 document.getElementById("list_fandom").style = "display: none;";
+                document.getElementById("mo_a").style = "display: inline;";
+                document.getElementById("mo_b").style = "display: inline;";
             }
             
             function select_f() {
@@ -81,6 +239,34 @@
                 document.getElementById("f_selected").style = "display: block;";
                 document.getElementById("list_wikidot").style = "display: none;";
                 document.getElementById("list_fandom").style = "display: inline;";
+                document.getElementById("mo_a").style = "display: none;";
+                document.getElementById("mo_b").style = "display: none;";
+                if (document.getElementById("selectedlang").innerHTML == "mo") {
+                    document.getElementById("zh_selected").style = "display: block;";
+                    document.getElementById("mo_selected").style = "display: none;";
+                    document.getElementById("selectedlang").innerHTML = "zh";
+                }
+            }
+
+            function select_zh() {
+                document.getElementById("selectedlang").innerHTML = "zh";
+                document.getElementById("zh_selected").style = "display: block;";
+                document.getElementById("en_selected").style = "display: none;";
+                document.getElementById("mo_selected").style = "display: none;";
+            }
+            
+            function select_en() {
+                document.getElementById("selectedlang").innerHTML = "en";
+                document.getElementById("zh_selected").style = "display: none;";
+                document.getElementById("en_selected").style = "display: block;";
+                document.getElementById("mo_selected").style = "display: none;";
+            }
+
+            function select_mo() {
+                document.getElementById("selectedlang").innerHTML = "mo";
+                document.getElementById("zh_selected").style = "display: none;";
+                document.getElementById("en_selected").style = "display: none;";
+                document.getElementById("mo_selected").style = "display: block;";
             }
         </script>
     </div>
