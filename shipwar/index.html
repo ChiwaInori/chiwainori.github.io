@@ -1446,9 +1446,6 @@
         function gamestart() {
             document.getElementById("goodtitle").innerHTML = "游戏进行中";
             document.getElementById("goodtitle").style = "color: #00dd00;";
-            if (parseInt(document.getElementById("var_showone").innerHTML) == 0) {
-                document.getElementById("subtitle").style = "color: #ffa800;";
-            }
             if (parseInt(document.getElementById("var_first").innerHTML) == 1) {
                 p1_round();  
             } else {
