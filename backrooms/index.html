@@ -85,7 +85,7 @@
                     var w_class3 = ["level-37","level-43",,"level-44","level-47","level-50","level-64","level-68","level-77","level-84","level-85","level-92","level-94","level-97"];
                     var w_class4 = ["level-3","level-7","level-21","level-29","level-34","level-51","level-59","level-61","level-65","level-93"];
                     var w_class5 = ["level-8","level-9","level-26","level-38"];
-                    var w_deadzone = [];
+                    var w_deadzone = ["level-790"];
                     var w_pending = ["level-6"];
                     var w_undetermined = ["level-16","level-66","level-69","level-95","level-100"];
                     var w_aleph = ["level-30"];
@@ -132,6 +132,12 @@
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(184, 15, 15);";
                         document.getElementById("lc_info").innerHTML = "Class 5";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (w_deadzone.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(78, 41, 40);";
+                        document.getElementById("lc_info").innerHTML = "死区 / Deadzone";
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     if (w_pending.indexOf(input) > -1) {
@@ -263,7 +269,7 @@
                     }
                     if (input == "level-fun") {
                         document.getElementById("lc_title").style = "display: inline;";
-                        document.getElementById("lc_info").style = "display: inline; background-color: rgb(255,242,0); color: #000000;";
+                        document.getElementById("lc_info").style = "display: inline; background-color: rgb(255, 242, 0); color: #000000;";
                         document.getElementById("lc_info").innerHTML = "绝对安全 =)";
                         document.getElementById("lc_no").style = "display: none;";
                         if (document.getElementById("selectedlang").innerHTML != "zh") {
@@ -271,6 +277,12 @@
                             document.getElementById("lc_info").style = "display: none;";
                             document.getElementById("lc_no").style = "display: inline; color: #dd0000;";
                         }
+                    }
+                    if (input != "level-c-490") {
+                        document.getElementById("lc_title_a").style = "display: none;";
+                        document.getElementById("lc_info_a").style = "display: none;";
+                        document.getElementById("lc_no_a").style = "display: none;";
+                        document.getElementById("lc_spoiler").innerHTML = "!! 该层级含有剧透内容。如需显示请<span style=\"color: #dd0000;\" onclick=\"showspoiler()\">点击此处</span>。";
                     }
                 }
                 if (document.getElementById("selectedversion").innerHTML == "f") {
@@ -350,7 +362,7 @@
                     }
                     if (input == "level-c-490") {
                         document.getElementById("lc_title_a").style = "display: inline;";
-                        document.getElementById("lc_info_a").style = "display: inline; color: rgb(52, 27, 26);";
+                        document.getElementById("lc_info_a").style = "display: inline; color: rgb(78, 41, 40);";
                         document.getElementById("lc_info_a").innerHTML = "死区 / Deadzone";
                         document.getElementById("lc_no_a").style = "display: none;";
                     }
