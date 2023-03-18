@@ -79,7 +79,7 @@
                         var input = "level-c-" + input;
                     }
                     var w_habitable = ["level-48","level-c-490"];
-                    var w_class0 = ["level-12","level-15","level-20","level-25","level-39","level-53","level-57","level-63","level-79","level-80","level-83","level-86","level-90","level-c-324"];
+                    var w_class0 = ["level-12","level-15","level-20","level-25","level-39","level-53","level-57","level-63","level-79","level-80","level-86","level-90","level-c-324"];
                     var w_class1 = ["level-0","level-1","level-4","level-10","level-11","level-17","level-18","level-24","level-31","level-36","level-40","level-45","level-58","level-70","level-72","level-82","level-87","level-88","level-89","level-91","level-98"];
                     var w_class2 = ["level-2","level-5","level-13","level-19","level-33","level-35","level-46","level-49","level-54","level-55","level-62","level-67","level-71","level-78","level-81"];
                     var w_class3 = ["level-37","level-43",,"level-44","level-47","level-50","level-64","level-68","level-77","level-84","level-85","level-92","level-94","level-97"];
@@ -229,6 +229,12 @@
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(75, 75, 75);";
                         document.getElementById("lc_info").innerHTML = "Class 4";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-83") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     if (input == "level-96") {
@@ -573,8 +579,14 @@
             }
 
             function random() {
-                document.getElementById("randomwarning").innerHTML = "本网站的随机楼层不参照 Wiki 原内容，仅在常规层级范围内随机生成一个数字，因此随机的层级有一定概率不存在。<a onclick=\"random_confirmed()\" class=\"link\">点击此处</a>随机生成一个已被本网站收录的层级。";
                 if (document.getElementById("selectedversion").innerHTML == "w") {
+                    var myselect = document.getElementById("list_wikidot");
+                    var targetvalue = myselect.options[myselect.selectedIndex].value;
+                    if (targetvalue == "level" || targetvalue == "levelc" || targetvalue == "freetyping") {
+                        document.getElementById("randomwarning").innerHTML = "本网站的随机楼层不参照 Wiki 原内容，仅在常规层级范围内随机生成一个数字，因此随机的层级有一定概率不存在。<a onclick=\"random_confirmed()\" class=\"link\">点击此处</a>随机生成一个已被本网站收录的层级。";
+                    } else {
+                        document.getElementById("randomwarning").innerHTML = "本网站的随机楼层不参照 Wiki 原内容，仅在常规层级范围内随机生成一个数字，因此随机的层级有一定概率不存在。";
+                    }
                     var random = Math.floor(Math.random() * 1000);
                     var myselect = document.getElementById("list_wikidot");
                     var targetvalue = myselect.options[myselect.selectedIndex].value;
@@ -593,17 +605,53 @@
                         document.getElementById("ipt1").value = random;
                     }
                 }
+                setInterval("textcheck()", "500");
+            }
+            function textcheck() {
+                document.getElementById("randomwarning").innerHTML = "本网站的随机楼层不参照 Wiki 原内容，仅在常规层级范围内随机生成一个数字，因此随机的层级有一定概率不存在。<span id=\"randomtext\"><a onclick=\"random_confirmed()\" class=\"link\">点击此处</a>随机生成一个已被本网站收录的层级。</span>";
+                if (document.getElementById("selectedversion").innerHTML == "w") {
+                    var myselect = document.getElementById("list_wikidot");
+                    var targetvalue = myselect.options[myselect.selectedIndex].value;
+                    if (targetvalue == "level" || targetvalue == "levelc" || targetvalue == "freetyping") {
+                        document.getElementById("randomtext").style = "display: inline; color: #dd0000;";
+                    } else {
+                        document.getElementById("randomtext").style = "display: none;";
+                    }
+                } else {
+                    var myselect = document.getElementById("list_fandom");
+                    var targetvalue = myselect.options[myselect.selectedIndex].value;
+                    if (targetvalue == "level" || targetvalue == "freetyping") {
+                        document.getElementById("randomtext").style = "display: inline; color: #dd0000;";
+                    } else {
+                        document.getElementById("randomtext").style = "display: none;";
+                    }
+                }
             }
 
             function random_confirmed() {
                 if (document.getElementById("selectedversion").innerHTML == "w") {
-                    var random = Math.floor(Math.random() * 600);
                     var myselect = document.getElementById("list_wikidot");
                     var targetvalue = myselect.options[myselect.selectedIndex].value;
+                    var random = Math.floor(Math.random() * 600);
                     if (targetvalue == "freetyping") {
                         document.getElementById("ipt1").value = "level-" + random;
                     } else {
                         document.getElementById("ipt1").value = random;
+                    }
+                    if (targetvalue == "levelc") {
+                        /*
+                        var random = Math.floor(Math.random() * 491) + 1;
+                        document.getElementById("ipt1").value = random;
+                        if (random != 324 && random != 490) {
+                            random_confirmed();
+                        }
+                        */
+                        var random = Math.floor(Math.random() * 2) + 1;
+                        if (random == 1) {
+                            document.getElementById("ipt1").value = "324";
+                        } else {
+                            document.getElementById("ipt1").value = "490";
+                        }
                     }
                     if (random == 41 || random == 52 || random >= 101 && random <= 117 || random >= 119 && random <= 598 || random >= 600) {
                         random_confirmed();
