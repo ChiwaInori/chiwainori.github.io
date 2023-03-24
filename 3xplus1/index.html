@@ -39,6 +39,16 @@
         <p id="negcunuse" style="display: none;">Negative Chain C: <strong>-50</strong> -&gt; <strong>-25</strong> -&gt; <strong>-74</strong> -&gt; <strong>-37</strong> -&gt; <strong>-110</strong> -&gt; <strong>-55</strong> -&gt; <strong>-164</strong> -&gt; <strong>-82</strong> -&gt; <strong>-41</strong> -&gt; <strong>-122</strong> -&gt; <strong>-61</strong> -&gt; <strong>-182</strong> -&gt; <strong>-91</strong> -&gt; <strong>-272</strong> -&gt; <strong>-136</strong> -&gt; <strong>-68</strong> -&gt; <strong>-34</strong> -&gt; <strong>-17</strong></p>
         <p id="negativechainc" style="display: none;"><span id="neg3title">Negative Chain C:</span> <strong><span id="negc1">-50</span></strong> -&gt; <strong><span id="negc2">-25</span></strong> -&gt; <strong><span id="negc3">-74</span></strong> -&gt; <strong><span id="negc4">-37</span></strong> -&gt; <strong><span id="negc5">-110</span></strong> -&gt; <strong><span id="negc6">-55</span></strong> -&gt; <strong><span id="negc7">-164</span></strong> -&gt; <strong><span id="negc8">-82</span></strong> -&gt; <strong><span id="negc9">-41</span></strong> -&gt; <strong><span id="negc10">-122</span></strong> -&gt; <strong><span id="negc11">-61</span></strong> -&gt; <strong><span id="negc12">-182</span></strong> -&gt; <strong><span id="negc13">-91</span></strong> -&gt; <strong><span id="negc14">-272</span></strong> -&gt; <strong><span id="negc15">-136</span></strong> -&gt; <strong><span id="negc16">-68</span></strong> -&gt; <strong><span id="negc17">-34</span></strong> -&gt; <strong><span id="negc18">-17</span></strong></p>
         <script>
+            const inputplace = document.querySelector("#ipt1");
+            inputplace.focus();
+            var inputclick = document.getElementById("ipt1");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+
             function button() {
                 var ipt1 = document.getElementById("ipt1").value;
                 if (ipt1.toString().length < 1 || ipt1 % 1 != 0 || ipt1 == 0) {

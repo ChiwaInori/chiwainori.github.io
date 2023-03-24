@@ -24,6 +24,30 @@
         <p>&nbsp;</p>
         <p id="final">&nbsp;</p>
         <script>
+            const inputplace = document.querySelector("#ipt1");
+            inputplace.focus();
+            var inputclick = document.getElementById("ipt1");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+            var inputclick = document.getElementById("ipt2");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+            var inputclick = document.getElementById("ipt3");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+
             function button() {
                 var ipt1 = document.getElementById("ipt1").value;
                 var ipt2 = document.getElementById("ipt2").value;

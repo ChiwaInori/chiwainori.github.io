@@ -356,6 +356,8 @@
                 <p id="p1_status_1">&nbsp;</p>
                 <p id="p1_status_2">&nbsp;</p>
                 <p id="p1_status_3">&nbsp;</p>
+                <!-- <p id="p1_save"><button onclick="p1_save()">保存</button></p>
+                <h6 id="p1_save_id" style="font-size: 1px;">&nbsp;</h6> -->
             </div>
             <div id="p2_status" style="margin: -93px auto auto 32%;">
                 <p id="p2_status_1">&nbsp;</p>
@@ -370,6 +372,36 @@
         </div>
     </div>
     <script>
+        /*
+        function p1_save() {
+            if (document.getElementById("p1_status_2").innerHTML == "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p1_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>") {
+                var round = 0; // P1 放船
+            }
+            if (document.getElementById("p1_status_2").innerHTML == "<strong>请选择攻击位置</strong>") {
+                var round = 1; // P1 攻击
+            }
+            if (document.getElementById("p2_status_2").innerHTML == "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p2_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>") {
+                var round = 2; // P2 放船
+            }
+            if (document.getElementById("p2_status_2").innerHTML == "<strong>请选择攻击位置</strong>") {
+                var round = 3; // P2 攻击
+            }
+            if (document.getElementById("p1_status_2").innerHTML == "<strong>请选择母舰位置</strong>" && document.getElementById("p2_status_2").innerHTML == "<strong>请选择母舰位置</strong>") {
+                var round = 4; // P1 P2 都没放母舰
+            }
+            if (document.getElementById("p1_status_2").innerHTML == "<strong>请等待敌方选择母舰位置</strong>") {
+                var round = 5; // P1 已放母舰
+            }
+            if (document.getElementById("p2_status_2").innerHTML == "<strong>请等待敌方选择母舰位置</strong>") {
+                var round = 6; // P2 已放母舰
+            }
+            console.log(round);
+            document.getElementById("p1_save_id").innerHTML = round;
+            const savegame = document.querySelector("#p1_save_id");
+            savegame.select();
+            document.execCommand('copy');
+        }
+
         function showone_on() {
             document.getElementById("showone_button_on").style = "color: #00dd00; display: inline;";
             document.getElementById("showone_button_off").style = "display: none;";
@@ -385,6 +417,7 @@
             document.getElementById("subtitle").style = "color: #dd0000; display: block;";
             document.getElementById("subtitle_showone").style = "display: none;";
         }
+        */
 
         function begin() {
             document.getElementById("rules").style = "display: none;";
@@ -431,6 +464,8 @@
             var choosebig = choosebig + 1;
             document.getElementById("var_choosebig").innerHTML = choosebig;
             document.getElementById("display_p1_1").innerHTML = "〓";
+            // document.getElementById("p1_status_3").innerHTML = "<strong>母舰已部署 (A1)</strong>";
+            // document.getElementById("p1_status_3").style = "color: #999999;";
             p1_placebig_hidden();
             if (choosebig == 1) {
                 document.getElementById("p1_status_2").innerHTML = "<strong>请等待敌方选择母舰位置</strong>";

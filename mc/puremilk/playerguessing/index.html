@@ -53,6 +53,16 @@
     </div>
     <p id="player" style="display: none;"></p>
     <script>
+        const inputplace = document.querySelector("#ipt");
+        inputplace.focus();
+        var inputclick = document.getElementById("ipt");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("searchbutton").click();
+            }
+        });
+
         function button() {
             var ipt = document.getElementById("ipt").value;
             if (ipt.toString().length < 1) {

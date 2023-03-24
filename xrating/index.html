@@ -5,7 +5,7 @@
     <title>CS:GO X-Rating - xtsdcb69</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/globalformat.css">
+    <link rel="stylesheet" href="../css/globalformat.css">
 </head>
 
 <body>
@@ -28,6 +28,7 @@
         <button id="calbuttonsimp" onclick="calsimp()">计算</button>
         <button id="calbuttonadv" onclick="caladv()" style="display: none;">计算</button>
         <p id="result">&nbsp;</p>
+        <p id="resultadv">&nbsp;</p>
         <div id="debugplace" style="display: none;">
             <p id="debug1">&nbsp;</p>
             <p id="debug2">&nbsp;</p>
@@ -85,7 +86,155 @@
         </div>
     </div>
     <script>
+        const inputplace = document.querySelector("#input1");
+        inputplace.focus();
+        var inputclick = document.getElementById("input1");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonsimp").click();
+            }
+        });
+        var inputclick = document.getElementById("input2");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonsimp").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input3");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonsimp").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input4");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonsimp").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input5");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input6");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input7");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input8");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input9");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input10");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input11");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input12");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input13");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input14");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input15");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input16");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input17");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+        var inputclick = document.getElementById("input18");
+        inputclick.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                document.getElementById("calbuttonadv").click();
+            }
+        });
+
+
         function calsimp() {
+            document.getElementById("result").style = "display: block;";
+            document.getElementById("resultadv").style = "display: none;";
             var k = parseFloat(document.getElementById("input1").value);
             var a = parseFloat(document.getElementById("input2").value);
             var d = parseFloat(document.getElementById("input3").value);
@@ -121,6 +270,8 @@
             document.getElementById("result").innerHTML = "<strong>X-Rating: " + xrating + "</strong>";
         }
         function caladv() {
+            document.getElementById("result").style = "display: none;";
+            document.getElementById("resultadv").style = "display: block;";
             var k = parseFloat(document.getElementById("input1").value);
             var a = parseFloat(document.getElementById("input2").value);
             var d = parseFloat(document.getElementById("input3").value);
@@ -233,15 +384,15 @@
             var lowrate = 0.8;
             var highrate = 1.0;
             if (xrating < lowrate) {
-                document.getElementById("result").style = "color: #dd0000";
+                document.getElementById("resultadv").style = "color: #dd0000";
             }
             if (xrating >= lowrate && xrating < highrate) {
-                document.getElementById("result").style = "color: #ffa800";
+                document.getElementById("resultadv").style = "color: #ffa800";
             }
             if (xrating >= highrate) {
-                document.getElementById("result").style = "color: #00dd00";
+                document.getElementById("resultadv").style = "color: #00dd00";
             }
-            document.getElementById("result").innerHTML = "<strong>X-Rating: " + xrating + "</strong>";
+            document.getElementById("resultadv").innerHTML = "<strong>X-Rating (Advanced): " + xrating + "</strong>";
             document.getElementById("debug1").innerHTML = "fkpercent: " + fkpercent;
             document.getElementById("debug2").innerHTML = "fkpercent2: " + fkpercent2;
             document.getElementById("debug3").innerHTML = "fkpercent3: " + fkpercent3;

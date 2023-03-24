@@ -5,7 +5,7 @@
     <title>Puremilk 三周目入服登记查询 - xtsdcb69</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/globalformat.css">
+    <link rel="stylesheet" href="../../../css/globalformat.css">
     <script>
         function button() {
             var ipt = document.getElementById("ipt").value;
@@ -227,6 +227,17 @@
         <br />
         <h4>如果以上任何一项都已确认无误，但还是存在其他问题</h4>
         <p>可能是网站bug. 请在周末或法定节假日 (包括寒暑假) 联系网站管理员 xtsdcb69 (2862400190).</p>
+        <script>
+            const inputplace = document.querySelector("#ipt");
+            inputplace.focus();
+            var inputclick = document.getElementById("ipt");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+        </script>
     </div>
 </body>
 
