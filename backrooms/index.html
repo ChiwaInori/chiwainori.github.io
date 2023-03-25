@@ -1005,17 +1005,19 @@
                     var targetvalue = myselect.options[myselect.selectedIndex].value;
                     if (targetvalue == "level") {
                         var input = "Level_" + input;
-                    }
-                    var f_habitable = ["Level_4","Level_837"];
-                    var f_class1 = ["Level_0","Level_1","Level_10"];
-                    var f_class2 = ["Level_2","Level_5"];
-                    var f_class3 = ["Level_3","Level_7"];
-                    var f_class4 = ["Level_6","Level_9"];
-                    var f_class5 = ["Level_8"];
-                    var f_deadzone = [];
-                    var storyrich = [];
-                    var spoiler = [];
-                    var f_missing = []
+                    } // ,"Level_"
+                    const f_habitable = ["Level_4","Level_837"];
+                    const f_class1 = ["Level_0","Level_1","Level_10","Level_13"];
+                    const f_class2 = ["Level_2","Level_5"];
+                    const f_class3 = ["Level_3","Level_7","Level_14"];
+                    const f_class4 = ["Level_6","Level_9","Level_16","Level_19"];
+                    const f_class5 = ["Level_8"];
+                    const f_deadzone = [];
+                    const f_1e = ["Level_18","Level_20"];
+                    const f_2e = ["Level_11","Level_15"];
+                    const storyrich = [];
+                    const spoiler = [];
+                    const f_unknown = ["Level_12"]
                     if (f_habitable.indexOf(input) > -1) {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(26, 128, 111);";
@@ -1058,11 +1060,45 @@
                         document.getElementById("lc_no").style = "display: none;";
                         document.getElementById("difficulty_image").innerHTML = "<img src=\"./f_class5.png\" height=\"100\" />";
                     }
+                    if (f_class1.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 128, 0);";
+                        document.getElementById("lc_info").innerHTML = "Class Ie";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./f_class1.png\" height=\"100\" />";
+                    }
+                    if (f_2e.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(199, 226, 82);";
+                        document.getElementById("lc_info").innerHTML = "Class 2e";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./f_class2.png\" height=\"100\" />";
+                    }
                     if (storyrich.indexOf(input) > -1) {
                         document.getElementById("lc_storyrich").style = "display: inline; color: #ffa800;";
                     }
                     if (spoiler.indexOf(input) > -1) {
                         document.getElementById("lc_spoiler").style = "display: inline; color: #dd0000;";
+                    }
+                    if (f_unknown.indexOf(input) > -1) {
+                        document.getElementById("lc_info").style = "display: inline; color: #aaaaaa;";
+                        document.getElementById("lc_info").innerHTML = "XTSGAMES.TOP 无法确认该层级的生存难度。/ Unconfirmed Difficulty.";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    // SPECIAL LEVELS
+                    if (input == "Level_17") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(191, 205, 188);";
+                        document.getElementById("lc_info").innerHTML = "Class I";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./f_class1.png\" height=\"100\" />";
+                    }
+                    if (input == "Level_9223372036854775807") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(100, 100, 100);";
+                        document.getElementById("lc_info").innerHTML = "Class Unknown";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./f_unknown.png\" height=\"100\" />";
                     }
                 }
             }
