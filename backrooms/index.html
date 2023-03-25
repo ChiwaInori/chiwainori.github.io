@@ -18,9 +18,9 @@
     <div class="content">
         <p id="w_selected"><strong>Wikidot | <span onclick="select_f()" class="link">Fandom</span></strong></p>
         <p id="f_selected" style="display: none;"><strong><span onclick="select_w()" class="link">Wikidot</span> | Fandom</strong></p>
-        <p id="zh_selected"><strong>简体中文 | <span onclick="select_en()" class="link">English</span><span id="mo_a"> | <span onclick="select_mo()" class="link">页面母语</span></span></strong></p>
-        <p id="en_selected" style="display: none;"><strong><span onclick="select_zh()" class="link">简体中文</span> | English<span id="mo_b"> | <span onclick="select_mo()" class="link">页面母语</span></span></strong></p>
-        <p id="mo_selected" style="display: none;"><strong><span onclick="select_zh()" class="link">简体中文</span> | <span onclick="select_en()" class="link">English</span> | 页面母语</strong></p>
+        <p id="zh_selected"><strong>简体中文 | <span onclick="select_en()" class="link">English</span><span id="mo_a"> | <span onclick="select_mo()" class="link"><span id="mo_text_a" class="link">&nbsp;</span></span></span></strong></p>
+        <p id="en_selected" style="display: none;"><strong><span onclick="select_zh()" class="link">简体中文</span> | English<span id="mo_b"> | <span onclick="select_mo()" class="link"><span id="mo_text_b" class="link">&nbsp;</span></span></span></strong></p>
+        <p id="mo_selected" style="display: none;"><strong><span onclick="select_zh()" class="link">简体中文</span> | <span onclick="select_en()" class="link">English</span> | <span id="mo_text_c">&nbsp;</span></strong></p>
         <br />
         <p>
             <select id="list_wikidot">
@@ -46,7 +46,7 @@
             <a class="link" onclick="random()">[RANDOM]</a>
         </p>
         <br />
-        <p><strong><span id="lc_placeholder" style="color: #aaaaaa">键入以查询生存难度 / Type to Search</span><span id="lc_title" style="display: none;">生存难度: </span><span id="lc_info" style="display: none;">&nbsp;</span><span id="lc_no" style="display: none; color: #dd0000;">该层级暂未被本网站收录或不存在 / Not Recruited or Exist</span></strong></p>
+        <p id="lc_line"><strong><span id="lc_placeholder" style="color: #aaaaaa">键入以查询生存难度 / Type to Search</span><span id="lc_title" style="display: none;">生存难度: </span><span id="lc_info" style="display: none;">&nbsp;</span><span id="lc_no" style="display: none; color: #dd0000;">该层级暂未被本网站收录或不存在 / Not Recruited or Exist</span></strong></p>
         <p id="a" style="display: none;"><strong><span id="lc_title_a" style="display: none;">生存难度: </span><span id="lc_info_a" style="display: none;">&nbsp;</span><span id="lc_no_a" style="display: none; color: #dd0000;">该层级暂未被本网站收录或不存在</span></strong></p>
         <h6 id="lc_storyrich" style="display: none; color: #ffa800;">i 该层级含有等级更改记录以及大量信息/故事。</h6>
         <h6 id="lc_spoiler" style="display: none; color: #dd0000;">!! 该层级含有剧透内容。如需显示请<span style="color: #dd0000;" onclick="showspoiler()">点击此处</span>。</h6>
@@ -65,7 +65,161 @@
                 }
             });
 
+            function mo_check() {
+                var myselect = document.getElementById("list_wikidot");
+                var targetvalue = myselect.options[myselect.selectedIndex].value;
+                var input = document.getElementById("ipt1").value;
+                var input = input.toLowerCase();
+                if (targetvalue == "level") {
+                    document.getElementById("mo_text_a").innerHTML = "English (Native Language)";
+                    document.getElementById("mo_text_b").innerHTML = "English (Native Language)";
+                    document.getElementById("mo_text_c").innerHTML = "English (Native Language)";
+                    if (input.indexOf("c-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "简体中文 (母语)";
+                        document.getElementById("mo_text_b").innerHTML = "简体中文 (母语)";
+                        document.getElementById("mo_text_c").innerHTML = "简体中文 (母语)";
+                    }
+                    if (input.indexOf("a-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Русский Язык";
+                        document.getElementById("mo_text_b").innerHTML = "Русский Язык";
+                        document.getElementById("mo_text_c").innerHTML = "Русский Язык";
+                    }
+                    if (input.indexOf("pt-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Português";
+                        document.getElementById("mo_text_b").innerHTML = "Português";
+                        document.getElementById("mo_text_c").innerHTML = "Português";
+                    }
+                    if (input.indexOf("vn-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Tiếng Việt";
+                        document.getElementById("mo_text_b").innerHTML = "Tiếng Việt";
+                        document.getElementById("mo_text_c").innerHTML = "Tiếng Việt";
+                    }
+                    if (input.indexOf("-n") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "日本語";
+                        document.getElementById("mo_text_b").innerHTML = "日本語";
+                        document.getElementById("mo_text_c").innerHTML = "日本語";
+                    }
+                    if (input.indexOf("-id") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Bahasa Indonesia";
+                        document.getElementById("mo_text_b").innerHTML = "Bahasa Indonesia";
+                        document.getElementById("mo_text_c").innerHTML = "Bahasa Indonesia";
+                    }
+                }
+                if (targetvalue == "levelminus") {
+                    document.getElementById("mo_text_a").innerHTML = "English (Native Language)";
+                    document.getElementById("mo_text_b").innerHTML = "English (Native Language)";
+                    document.getElementById("mo_text_c").innerHTML = "English (Native Language)";
+                }
+                if (targetvalue == "levelc") {
+                    document.getElementById("mo_text_a").innerHTML = "简体中文 (母语)";
+                    document.getElementById("mo_text_b").innerHTML = "简体中文 (母语)";
+                    document.getElementById("mo_text_c").innerHTML = "简体中文 (母语)";
+                }
+                if (targetvalue == "levela") {
+                    document.getElementById("mo_text_a").innerHTML = "Русский Язык";
+                    document.getElementById("mo_text_b").innerHTML = "Русский Язык";
+                    document.getElementById("mo_text_c").innerHTML = "Русский Язык";
+                }
+                if (targetvalue == "levelfr") {
+                    document.getElementById("mo_text_a").innerHTML = "Français";
+                    document.getElementById("mo_text_b").innerHTML = "Français";
+                    document.getElementById("mo_text_c").innerHTML = "Français";
+                }
+                if (targetvalue == "levelpt") {
+                    document.getElementById("mo_text_a").innerHTML = "Português";
+                    document.getElementById("mo_text_b").innerHTML = "Português";
+                    document.getElementById("mo_text_c").innerHTML = "Português";
+                }
+                if (targetvalue == "levelvn") {
+                    document.getElementById("mo_text_a").innerHTML = "Tiếng Việt";
+                    document.getElementById("mo_text_b").innerHTML = "Tiếng Việt";
+                    document.getElementById("mo_text_c").innerHTML = "Tiếng Việt";
+                }
+                if (targetvalue == "leveles") {
+                    document.getElementById("mo_text_a").innerHTML = "Español";
+                    document.getElementById("mo_text_b").innerHTML = "Español";
+                    document.getElementById("mo_text_c").innerHTML = "Español";
+                }
+                if (targetvalue == "levelpl") {
+                    document.getElementById("mo_text_a").innerHTML = "Polski";
+                    document.getElementById("mo_text_b").innerHTML = "Polski";
+                    document.getElementById("mo_text_c").innerHTML = "Polski";
+                }
+                if (targetvalue == "leveln") {
+                    document.getElementById("mo_text_a").innerHTML = "日本語";
+                    document.getElementById("mo_text_b").innerHTML = "日本語";
+                    document.getElementById("mo_text_c").innerHTML = "日本語";
+                }
+                if (targetvalue == "levelid") {
+                    document.getElementById("mo_text_a").innerHTML = "Bahasa Indonesia";
+                    document.getElementById("mo_text_b").innerHTML = "Bahasa Indonesia";
+                    document.getElementById("mo_text_c").innerHTML = "Bahasa Indonesia";
+                }
+                if (targetvalue == "leveli") {
+                    document.getElementById("mo_text_a").innerHTML = "Italiano";
+                    document.getElementById("mo_text_b").innerHTML = "Italiano";
+                    document.getElementById("mo_text_c").innerHTML = "Italiano";
+                }
+                if (targetvalue == "freetyping") {
+                    document.getElementById("mo_text_a").innerHTML = "English (Native Language)";
+                    document.getElementById("mo_text_b").innerHTML = "English (Native Language)";
+                    document.getElementById("mo_text_c").innerHTML = "English (Native Language)";
+                    if (input.indexOf("c-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "简体中文 (母语)";
+                        document.getElementById("mo_text_b").innerHTML = "简体中文 (母语)";
+                        document.getElementById("mo_text_c").innerHTML = "简体中文 (母语)";
+                    }
+                    if (input.indexOf("a-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Русский Язык";
+                        document.getElementById("mo_text_b").innerHTML = "Русский Язык";
+                        document.getElementById("mo_text_c").innerHTML = "Русский Язык";
+                    }
+                    if (input.indexOf("niveau-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Français";
+                        document.getElementById("mo_text_b").innerHTML = "Français";
+                        document.getElementById("mo_text_c").innerHTML = "Français";
+                    }
+                    if (input.indexOf("pt-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Português";
+                        document.getElementById("mo_text_b").innerHTML = "Português";
+                        document.getElementById("mo_text_c").innerHTML = "Português";
+                    }
+                    if (input.indexOf("vn-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Tiếng Việt";
+                        document.getElementById("mo_text_b").innerHTML = "Tiếng Việt";
+                        document.getElementById("mo_text_c").innerHTML = "Tiếng Việt";
+                    }
+                    if (input.indexOf("es-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Español";
+                        document.getElementById("mo_text_b").innerHTML = "Español";
+                        document.getElementById("mo_text_c").innerHTML = "Español";
+                    }
+                    if (input.indexOf("poziom-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Polski";
+                        document.getElementById("mo_text_b").innerHTML = "Polski";
+                        document.getElementById("mo_text_c").innerHTML = "Polski";
+                    }
+                    if (input.indexOf("-n") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "日本語";
+                        document.getElementById("mo_text_b").innerHTML = "日本語";
+                        document.getElementById("mo_text_c").innerHTML = "日本語";
+                    }
+                    if (input.indexOf("-id") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Bahasa Indonesia";
+                        document.getElementById("mo_text_b").innerHTML = "Bahasa Indonesia";
+                        document.getElementById("mo_text_c").innerHTML = "Bahasa Indonesia";
+                    }
+                    if (input.indexOf("livello-") > -1) {
+                        document.getElementById("mo_text_a").innerHTML = "Italiano";
+                        document.getElementById("mo_text_b").innerHTML = "Italiano";
+                        document.getElementById("mo_text_c").innerHTML = "Italiano";
+                    }
+                }
+            }
+            setInterval("mo_check()", "100");
+
             function levelcheck() {
+                document.getElementById("lc_line").style = "margin-bottom: 10px";
                 document.getElementById("lc_placeholder").style = "display: none;";
                 var input = document.getElementById("ipt1").value;
                 document.getElementById("lc_title").style = "display: none;";
@@ -89,22 +243,26 @@
                         var input = "level-c-" + input;
                     }
                     var input = input.toLowerCase();
-                    var w_habitable = ["level-48","level-c-490"];
-                    var w_class0 = ["level-12","level-15","level-20","level-25","level-39","level-53","level-57","level-63","level-79","level-80","level-86","level-90","level-c-324"];
-                    var w_class1 = ["level-0","level-1","level-4","level-10","level-11","level-17","level-18","level-24","level-31","level-36","level-40","level-45","level-58","level-70","level-72","level-82","level-87","level-88","level-89","level-91","level-98"];
-                    var w_class2 = ["level-2","level-5","level-13","level-19","level-33","level-35","level-46","level-49","level-54","level-55","level-62","level-67","level-71","level-78","level-81"];
-                    var w_class3 = ["level-37","level-43",,"level-44","level-47","level-50","level-64","level-68","level-77","level-84","level-85","level-92","level-94","level-97"];
-                    var w_class4 = ["level-3","level-7","level-21","level-29","level-34","level-51","level-59","level-61","level-65","level-93"];
-                    var w_class5 = ["level-8","level-9","level-26","level-38"];
-                    var w_deadzone = ["level-790"];
-                    var w_pending = ["level-6"];
-                    var w_undetermined = ["level-16","level-66","level-69","level-95","level-100"];
-                    var w_aleph = ["level-30"];
-                    var w_e = ["level-41","level-118"];
-                    var w_5e = ["level-22","level-42","level-56"];
-                    var storyrich = ["level-c-324"];
-                    var spoiler = ["level-c-490"];
-                    var unknown = ["level-52"];
+                    const w_habitable = ["level-48","level-149","level-162","level-180","level-186","level-c-490"];
+                    const w_class0 = ["level-12","level-15","level-20","level-25","level-39","level-53","level-57","level-63","level-79","level-80","level-86","level-90","level-132","level-134","level-136","level-137","level-140","level-163","level-175","level-178","level-179","level-185","level-191","level-198","level-200","level-c-324"]; // Class 0
+                    const w_class1 = ["level-0","level-1","level-4","level-10","level-11","level-17","level-18","level-24","level-31","level-36","level-40","level-45","level-58","level-70","level-72","level-82","level-87","level-88","level-89","level-91","level-98","level-103","level-105","level-108","level-111","level-116","level-125","level-128","level-130","level-165","level-167","level-168","level-169","level-176","level-184"]; // Class 1
+                    const w_class2 = ["level-2","level-5","level-13","level-19","level-33","level-35","level-46","level-49","level-54","level-55","level-62","level-67","level-71","level-78","level-81","level-101","level-109","level-120","level-131","level-147","level-156","level-164","level-170","level-177","level-183","level-189","level-190"]; // Class 2
+                    const w_class3 = ["level-37","level-43",,"level-44","level-47","level-50","level-64","level-68","level-77","level-84","level-85","level-92","level-94","level-97","level-102","level-115","level-138","level-153","level-155","level-172","level-187"]; // Class 3
+                    const w_class4 = ["level-3","level-7","level-21","level-29","level-34","level-51","level-59","level-61","level-65","level-93","level-106","level-117","level-119","level-126","level-127","level-129","level-141","level-173"]; // Class 4
+                    const w_class5 = ["level-8","level-9","level-26","level-38","level-124","level-144","level-154","level-171"]; // Class 5
+                    const w_deadzone = ["level-188", "level-790"];
+                    const w_pending = ["level-6","level-122","level-161"];
+                    const w_undetermined = ["level-16","level-66","level-69","level-95","level-100","level-107","level-110","level-123","level-135","level-145"];
+                    const w_e = ["level-41","level-118","level-192"];
+                    const w_2e = ["level-166","level-196"];
+                    const w_4e = ["level-104"];
+                    const w_5e = ["level-22","level-42","level-56"];
+                    const w_aleph = ["level-30"];
+                    const w_psi = ["level-74","level-150"];
+                    const w_na = ["level-199"];
+                    const storyrich = ["level-c-324"];
+                    const spoiler = ["level-c-490"];
+                    const unknown = ["level-52","level-133","level-152","level-160"];
                     if (w_habitable.indexOf(input) > -1) {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(30, 132, 115);";
@@ -165,22 +323,46 @@
                         document.getElementById("lc_info").innerHTML = "未定分级 / Undetermined";
                         document.getElementById("lc_no").style = "display: none;";
                     }
-                    if (w_aleph.indexOf(input) > -1) {
-                        document.getElementById("lc_title").style = "display: inline;";
-                        document.getElementById("lc_info").style = "display: inline; color: rgb(208, 131, 185);";
-                        document.getElementById("lc_info").innerHTML = "Aleph";
-                        document.getElementById("lc_no").style = "display: none;";
-                    }
                     if (w_e.indexOf(input) > -1) {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(199, 203, 27);";
                         document.getElementById("lc_info").innerHTML = "Class E";
                         document.getElementById("lc_no").style = "display: none;";
                     }
+                    if (w_2e.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(234, 149, 0);";
+                        document.getElementById("lc_info").innerHTML = "Class 2E";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (w_4e.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(254, 29, 7);";
+                        document.getElementById("lc_info").innerHTML = "Class 4E";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
                     if (w_5e.indexOf(input) > -1) {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(184, 15, 15);";
                         document.getElementById("lc_info").innerHTML = "Class 5E";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (w_aleph.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(208, 131, 185);";
+                        document.getElementById("lc_info").innerHTML = "Aleph";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (w_psi.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(225, 189, 237);";
+                        document.getElementById("lc_info").innerHTML = "Class Ψ";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (w_na.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(39, 39, 39);";
+                        document.getElementById("lc_info").innerHTML = "不适用 / N/A";
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     if (storyrich.indexOf(input) > -1) {
@@ -255,12 +437,6 @@
                         document.getElementById("lc_info").innerHTML = "Class 5";
                         document.getElementById("lc_no").style = "display: none;";
                     }
-                    if (input == "level-74") {
-                        document.getElementById("lc_title").style = "display: inline;";
-                        document.getElementById("lc_info").style = "display: inline; color: rgb(225, 189, 237);";
-                        document.getElementById("lc_info").innerHTML = "Class Ψ";
-                        document.getElementById("lc_no").style = "display: none;";
-                    }
                     if (input == "level-76") {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(75, 75, 75);";
@@ -282,12 +458,133 @@
                     if (input == "level-99") {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(180, 180, 180);";
-                        document.getElementById("lc_info").innerHTML = "绿洲";
+                        document.getElementById("lc_info").innerHTML = "绿洲 / Oasis";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-112") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(214, 136, 3);";
+                        document.getElementById("lc_info").innerHTML = "Class A";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-113") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(142, 136, 118);";
+                        document.getElementById("lc_info").innerHTML = "Lambda";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-114") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(220, 43, 18);";
+                        document.getElementById("lc_info").innerHTML = "怀乡...? / Nostalgia...?";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-121") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(118, 152, 139);";
+                        document.getElementById("lc_info").innerHTML = "Class 2";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-139") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(42, 32, 32);";
+                        document.getElementById("lc_info").innerHTML = "Class 3";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-142") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(200, 200, 200);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-143") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(214, 136, 3);";
+                        document.getElementById("lc_info").innerHTML = "神圣 / Hallowed";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-146") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(111, 58, 15);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-148") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(84, 10, 10);";
+                        document.getElementById("lc_info").innerHTML = "5<sub>b</sub>";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("lc_line").style = "margin-bottom: 7px";
+                    }
+                    if (input == "level-151") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(224, 121, 23);";
+                        document.getElementById("lc_info").innerHTML = "转译错误 / TRANSLATION_ERROR";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-157") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(164, 164, 164);";
+                        document.getElementById("lc_info").innerHTML = "Class 2";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-158") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").innerHTML = "凶恶 / WICKED";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-159") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(118, 118, 203);";
+                        document.getElementById("lc_info").innerHTML = "Class 3";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-174") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(98, 98, 98);";
+                        document.getElementById("lc_info").innerHTML = "Class δ";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-181") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(177, 210, 227);";
+                        document.getElementById("lc_info").innerHTML = "不可或缺 / Integral";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-182") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(147, 223, 153);";
+                        document.getElementById("lc_info").innerHTML = "Class 2";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-193") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(29, 18, 7);";
+                        document.getElementById("lc_info").innerHTML = "Class 5";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-194") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(206, 205, 187);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-195") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(26,45,245);";
+                        document.getElementById("lc_info").innerHTML = "终结 / Omega";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-197") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").innerHTML = "变化 / Variable (<span style=\"color: rgb(42, 191, 210)\">Class Zeta</span> | <span style=\"color: rgb(110, 71, 159)\">死区 / Deadzone</span> | <span style=\"color: rgb(200, 17, 54)\">Class 4</span> | <span style=\"color: rgb(28, 28, 40)\">待定 [无人区] / Contested [non-human]</span>)";
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     if (input == "level-599") {
                         document.getElementById("lc_title").style = "display: inline;";
-                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 189, 229);";
                         document.getElementById("lc_info").innerHTML = "死区 / Deadzone";
                         document.getElementById("lc_no").style = "display: none;";
                     }
@@ -407,6 +704,24 @@
                         }
                         if (document.getElementById("selectedlang").innerHTML == "mo") {
                             document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/level-" + input;
+                            if (input.indexOf("c-") > -1) {
+                                document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/level-" + input;
+                            }
+                            if (input.indexOf("a-") > -1) {
+                                document.getElementById("noclip").href = "https://ru-backrooms-wiki.wikidot.com/level-" + input;
+                            }
+                            if (input.indexOf("pt-") > -1) {
+                                document.getElementById("noclip").href = "https://pt-br-backrooms-wiki.wikidot.com/level-" + input;
+                            }
+                            if (input.indexOf("vn-") > -1) {
+                                document.getElementById("noclip").href = "https://backrooms-wiki-vn.wikidot.com/level-" + input;
+                            }
+                            if (input.indexOf("-n") > -1) {
+                                document.getElementById("noclip").href = "https://japan-backrooms-wiki.wikidot.com/level-" + input;
+                            }
+                            if (input.indexOf("-id") > -1) {
+                                document.getElementById("noclip").href = "https://id-backrooms-wiki.wikidot.com/level-" + input;
+                            }
                         }
                     }
                     if (targetvalue == "levelminus") {
@@ -539,6 +854,36 @@
                         }
                         if (document.getElementById("selectedlang").innerHTML == "mo") {
                             document.getElementById("noclip").href = "https://backrooms-wiki.wikidot.com/" + input;
+                            if (input.indexOf("c-") > -1) {
+                                document.getElementById("noclip").href = "https://backrooms-wiki-cn.wikidot.com/" + input;
+                            }
+                            if (input.indexOf("a-") > -1) {
+                                document.getElementById("noclip").href = "https://ru-backrooms-wiki.wikidot.com/" + input;
+                            }
+                            if (input.indexOf("niveau-") > -1) {
+                                document.getElementById("noclip").href = "https://fr-backrooms-wiki.wikidot.com/" + input + "-fr";
+                            }
+                            if (input.indexOf("pt-") > -1) {
+                                document.getElementById("noclip").href = "https://pt-br-backrooms-wiki.wikidot.com/" + input;
+                            }
+                            if (input.indexOf("vn-") > -1) {
+                                document.getElementById("noclip").href = "https://backrooms-wiki-vn.wikidot.com/" + input;
+                            }
+                            if (input.indexOf("es-") > -1) {
+                                document.getElementById("noclip").href = "https://es-backrooms-wiki.wikidot.com/" + input;
+                            }
+                            if (input.indexOf("poziom-") > -1) {
+                                document.getElementById("noclip").href = "https://pl-backrooms-wiki.wikidot.com/" + input;
+                            }
+                            if (input.indexOf("-n") > -1) {
+                                document.getElementById("noclip").href = "https://japan-backrooms-wiki.wikidot.com/" + input + "-n";
+                            }
+                            if (input.indexOf("-id") > -1) {
+                                document.getElementById("noclip").href = "https://id-backrooms-wiki.wikidot.com/" + input + "-id";
+                            }
+                            if (input.indexOf("livello-") > -1) {
+                                document.getElementById("noclip").href = "https://it-backrooms-wiki.wikidot.com/" + input;
+                            }
                         }
                     }
                 } else {
