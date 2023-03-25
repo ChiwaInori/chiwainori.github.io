@@ -72,7 +72,7 @@
                 var ppl_noyou = ipt3 - 1;
                 var avgscore_noyou = totalscore_noyou / ppl_noyou;
                 var change = ipt2 - avgscore_noyou;
-                var change = change.toFixed(2);
+                var change = change.toFixed(4);
                 if (change > 0) {
                     document.getElementById("final").style = "color: #00dd00;";
                     document.getElementById("final").innerHTML = "你对平均分的影响值为 <strong>+" + change + "</strong> 分";
