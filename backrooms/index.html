@@ -261,28 +261,29 @@
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     const w_habitable = ["level-48","level-149","level-162","level-180","level-186","level-250","level-213","level-414","level-436","level-563","level-c-490"];
-                    const w_class0 = ["the_hub","level-12","level-15","level-20","level-25","level-39","level-53","level-57","level-63","level-79","level-80","level-86","level-90","level-132","level-134","level-136","level-137","level-140","level-163","level-175","level-178","level-179","level-185","level-191","level-198","level-200","level-260","level-290","level-448","level-515","level-c-324"]; // Class 0
-                    const w_class1 = ["level-0","level-1","level-4","level-10","level-11","level-17","level-18","level-24","level-31","level-36","level-40","level-45","level-58","level-70","level-72","level-82","level-87","level-88","level-89","level-91","level-98","level-103","level-105","level-108","level-111","level-116","level-125","level-128","level-130","level-165","level-167","level-168","level-169","level-176","level-184","level-201","level-205","level-209","level-211","level-214","level-224","level-229","level-233","level-240","level-241","level-299","level-303","level-309","level-333","level-345","level-356","level-372","level-399","level-409","level-410","level-512"]; // Class 1
-                    const w_class2 = ["level-2","level-5","level-13","level-19","level-33","level-35","level-46","level-49","level-54","level-55","level-62","level-67","level-71","level-78","level-81","level-101","level-109","level-120","level-131","level-147","level-156","level-164","level-170","level-177","level-183","level-189","level-190","level-204","level-280","level-300","level-327","level-389","level-502"]; // Class 2
-                    const w_class3 = ["level-37","level-43",,"level-44","level-47","level-50","level-64","level-68","level-77","level-84","level-85","level-92","level-94","level-97","level-102","level-115","level-138","level-153","level-155","level-172","level-187","level-202","level-208","level-226","level-230","level-270","level-283","level-365","level-458","level-480","level-522","level-532"]; // Class 3
-                    const w_class4 = ["level-3","level-7","level-21","level-29","level-34","level-51","level-59","level-61","level-65","level-93","level-106","level-117","level-119","level-126","level-127","level-129","level-141","level-173","level-206","level-218","level-220","level-321","level-432","level-571"]; // Class 4
-                    const w_class5 = ["level-8","level-9","level-26","level-38","level-124","level-144","level-154","level-171","level-212","level-215","level-234","level-256","level-444","level-598"]; // Class 5
+                    const w_class0 = ["the_hub","level-12","level-15","level-20","level-25","level-39","level-53","level-57","level-63","level-79","level-80","level-86","level-90","level-132","level-134","level-136","level-137","level-140","level-163","level-175","level-178","level-179","level-185","level-191","level-198","level-200","level-260","level-290","level-448","level-515","level-648","level-654","level-707","level-714","level-756","level-924","level-988","level-c-324"]; // Class 0
+                    const w_class1 = ["level-0","level-1","level-4","level-10","level-11","level-17","level-18","level-24","level-31","level-36","level-40","level-45","level-58","level-70","level-72","level-82","level-87","level-88","level-89","level-91","level-98","level-103","level-105","level-108","level-111","level-116","level-125","level-128","level-130","level-165","level-167","level-168","level-169","level-176","level-184","level-201","level-205","level-209","level-211","level-214","level-224","level-229","level-233","level-240","level-241","level-299","level-303","level-309","level-333","level-345","level-356","level-372","level-399","level-409","level-410","level-512","level-696","level-718","level-800","level-811","level-880","level-974"]; // Class 1
+                    const w_class2 = ["level-2","level-5","level-13","level-19","level-33","level-35","level-46","level-49","level-54","level-55","level-62","level-67","level-71","level-78","level-81","level-101","level-109","level-120","level-131","level-147","level-156","level-164","level-170","level-177","level-183","level-189","level-190","level-204","level-280","level-300","level-327","level-389","level-502","level-901","level-996"]; // Class 2
+                    const w_class3 = ["level-37","level-43",,"level-44","level-47","level-50","level-64","level-68","level-77","level-84","level-85","level-92","level-94","level-97","level-102","level-115","level-138","level-153","level-155","level-172","level-187","level-202","level-208","level-226","level-230","level-270","level-283","level-365","level-458","level-480","level-522","level-532","level-729","level-912"]; // Class 3
+                    const w_class4 = ["level-3","level-7","level-21","level-29","level-34","level-51","level-59","level-61","level-65","level-93","level-106","level-117","level-119","level-126","level-127","level-129","level-141","level-173","level-206","level-218","level-220","level-321","level-432","level-571","level-853","level-995"]; // Class 4
+                    const w_class5 = ["level-8","level-9","level-26","level-38","level-124","level-144","level-154","level-171","level-212","level-215","level-234","level-256","level-444","level-598","level-902","level-909"]; // Class 5
                     const w_deadzone = ["level-188","level-237","level-463","level-501","level-790"];
-                    const w_pending = ["level-6","level-122","level-161"];
-                    const w_undetermined = ["level-16","level-66","level-69","level-95","level-100","level-107","level-110","level-123","level-135","level-145","level-203","level-210","level-277","level-423","level-494"];
+                    const w_pending = ["level-6","level-122","level-161","level-757","level-831","level-899"];
+                    const w_undetermined = ["level-16","level-66","level-69","level-95","level-100","level-107","level-110","level-123","level-135","level-145","level-203","level-210","level-277","level-423","level-494","level-616","level-666","level-703","level-710","level-777","level-841","level-940","level-944","level-945"];
                     const w_e = ["level-41","level-118","level-192"];
                     const w_1e = ["level-307"];
                     const w_2e = ["level-166","level-196"];
                     const w_3e = ["level-266"];
-                    const w_4e = ["level-104","level-322"];
+                    const w_4e = ["level-104","level-322","level-700"];
                     const w_5e = ["level-22","level-42","level-56","level-420","level-440"];
                     const w_aleph = ["level-30"];
-                    const w_psi = ["level-74","level-150"];
-                    const w_integral = ["level-181","level-222"]
+                    const w_psi = ["level-74","level-150","level-789"];
+                    const w_integral = ["level-181","level-222"];
+                    const w_variable = ["level-352","level-990"];
                     const w_na = ["level-199","level-586","level-600"];
                     const storyrich = ["level-c-324"];
                     const spoiler = ["level-c-490"];
-                    const unknown = ["level-52","level-133","level-152","level-160","level-324","level-405","level-466","level-555"];
+                    const unknown = ["level-52","level-133","level-152","level-160","level-324","level-405","level-466","level-555","level-619","level-626","level-628","level-657","level-911","level-966","level-997"];
                     if (w_habitable.indexOf(input) > -1) {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(30, 132, 115);";
@@ -411,6 +412,12 @@
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(177, 210, 227);";
                         document.getElementById("lc_info").innerHTML = "不可或缺 / Integral";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (w_variable.indexOf(input) > -1) {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(64, 64, 64);";
+                        document.getElementById("lc_info").innerHTML = "变化 / Variable";
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     if (w_na.indexOf(input) > -1) {
@@ -681,10 +688,10 @@
                         document.getElementById("lc_no").style = "display: none;";
                         document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class2.png\" height=\"100\" />";
                     }
-                    if (input == "level-238") {
+                    if (input == "level-238" || input == "level-611") {
                         document.getElementById("lc_title").style = "display: inline;";
                         document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
-                        document.getElementById("lc_info").innerHTML = "Hunting Grounds!";
+                        document.getElementById("lc_info").innerHTML = "Hunting Grounds";
                         document.getElementById("lc_no").style = "display: none;";
                     }
                     if (input == "level-254") {
@@ -731,12 +738,6 @@
                         document.getElementById("lc_info").innerHTML = "Class 1";
                         document.getElementById("lc_no").style = "display: none;";
                         document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class1.png\" height=\"100\" />";
-                    }
-                    if (input == "level-352") {
-                        document.getElementById("lc_title").style = "display: inline;";
-                        document.getElementById("lc_info").style = "display: inline; color: rgb(64, 64, 64);";
-                        document.getElementById("lc_info").innerHTML = "变化 / Variable";
-                        document.getElementById("lc_no").style = "display: none;";
                     }
                     if (input == "level-353" || input == "level-495") {
                         document.getElementById("lc_title").style = "display: inline;";
@@ -866,6 +867,119 @@
                         document.getElementById("lc_info").innerHTML = "死区 / Deadzone";
                         document.getElementById("lc_no").style = "display: none;";
                         document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_deadzone.png\" height=\"100\" />";
+                    }
+                    if (input == "level-610") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(222, 222, 222);";
+                        document.getElementById("lc_info").innerHTML = "Class 3";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class3.png\" height=\"100\" />";
+                    }
+                    if (input == "level-612") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(198, 193, 169);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class0.png\" height=\"100\" />";
+                    }
+                    if (input == "level-711") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(80, 103, 107);";
+                        document.getElementById("lc_info").innerHTML = "Class 4E";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class4.png\" height=\"100\" />";
+                    }
+                    if (input == "level-712") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(44, 95, 44);";
+                        document.getElementById("lc_info").innerHTML = "Class 2";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class2.png\" height=\"100\" />";
+                    }
+                    if (input == "level-721") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(170, 120, 197);";
+                        document.getElementById("lc_info").innerHTML = "运变 / Amended";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-797") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(30, 132, 115);";
+                        document.getElementById("lc_info").innerHTML = "Habitable<span style=\"margin-left: -70px; color: rgb(0, 0, 0);\">N/A</span><span style=\"margin-left: 20px; color: rgb(0, 0, 0);\">N/A</span>";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_undetermined.png\" height=\"100\" />";
+                    }
+                    if (input == "level-799") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class0.png\" height=\"100\" />";
+                    }
+                    if (input == "level-808") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(207, 0, 123);";
+                        document.getElementById("lc_info").innerHTML = "Class 0";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class0.png\" height=\"100\" />";
+                    }
+                    if (input == "level-817") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").innerHTML = "一起摇滚! / LET&apos;S ROCK!";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-826") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(0, 0, 0);";
+                        document.getElementById("lc_info").innerHTML = "死区 / Deadzone";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_deadzone.png\" height=\"100\" />";
+                    }
+                    if (input == "level-834") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(20, 29, 50);";
+                        document.getElementById("lc_info").innerHTML = "死区 / Deadzone";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_deadzone.png\" height=\"100\" />";
+                    }
+                    if (input == "level-888") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(226, 16, 114);";
+                        document.getElementById("lc_info").innerHTML = "死区 / Deadzone";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_deadzone.png\" height=\"100\" />";
+                    }
+                    if (input == "level-900") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(170, 115, 234);";
+                        document.getElementById("lc_info").innerHTML = "Class 1";
+                        document.getElementById("lc_no").style = "display: none;";
+                        document.getElementById("difficulty_image").innerHTML = "<img src=\"./w_class1.png\" height=\"100\" />";
+                    }
+                    if (input == "level-906") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(34, 102, 215);";
+                        document.getElementById("lc_info").innerHTML = "亲爱的，你在这很安全 / You&apos;re safe here, dear.";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-972") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(104, 44, 65);";
+                        document.getElementById("lc_info").innerHTML = "阿特拉斯 / Atlas";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-998") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(26, 69, 143);";
+                        document.getElementById("lc_info").innerHTML = "变化 / Varied";
+                        document.getElementById("lc_no").style = "display: none;";
+                    }
+                    if (input == "level-999") {
+                        document.getElementById("lc_title").style = "display: inline;";
+                        document.getElementById("lc_info").style = "display: inline; color: rgb(61, 61, 61);";
+                        document.getElementById("lc_info").innerHTML = "终焉 / Final";
+                        document.getElementById("lc_no").style = "display: none;";
                     }
                     if (input == "level-fun") {
                         document.getElementById("lc_title").style = "display: inline;";
