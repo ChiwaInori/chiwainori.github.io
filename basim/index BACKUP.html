@@ -17,27 +17,26 @@
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>ブルーアーカイブ 抽卡模拟器</strong></h6>
     </div>
     <div class="content">
-        <h4 style="margin-bottom: 0px;">版本: 201226 (イズナ + シズコ + ミモリ)</h4>
-        <h6>上次更新: 2023.4.6</h6>
+        <p>版本: 150816 (ミサキ + ヒヨリ)</p>
         <br />
         <img src="f1.png" onclick="f1()" height="40" />
         <img src="f10.png" onclick="f10()" height="40" />
         <br /><br />
-        <p id="summary1" style="display: block;"><strong>- 统计 -</strong></p>
-        <p id="summary2" style="display: block;"><strong>已用青辉石: <span id="usedstones" style="color: #00ddff;">0</span></strong></p>
-        <p id="summary3" style="display: block;"><strong>抽卡小计: <span id="star3out" style="color: #e050f0;">0</span>&nbsp;/&nbsp;<span id="star2out" style="color: #ffc800;">0</span>&nbsp;/&nbsp;<span id="star1out" style="color: #00a8ff;">0</span></strong></p>
-        <p id="summary4" style="display: block;"><strong>概率统计: <span id="star3outchance" style="color: #e050f0;">0</span><span style="color: #e050f0;">%</span>&nbsp;/&nbsp;<span id="star2outchance" style="color: #ffc800;">0</span><span style="color: #ffc800;">%</span>&nbsp;/&nbsp;<span id="star1outchance" style="color: #00a8ff;">0</span><span style="color: #00a8ff;">%</span></strong> (参考值: 3% / 18.5% / 78.5%)</p>
+        <p id="summary1" style="display: none;"><strong>- 统计 -</strong></p>
+        <p id="summary2" style="display: none;">已用青辉石: <span id="usedstones">0</span></p>
+        <p id="summary3" style="display: none;">抽卡小计: <span id="star3out" style="color: #e050f0;">0</span>&nbsp;&nbsp;<span id="star2out" style="color: #ffc800;">0</span>&nbsp;&nbsp;<span id="star1out" style="color: #00a8ff;">0</span></p>
+        <p id="summary4" style="display: none;">概率统计: <span id="star3outchance" style="color: #e050f0;">0</span><span style="color: #e050f0;">%</span>&nbsp;&nbsp;<span id="star2outchance" style="color: #ffc800;">0</span><span style="color: #ffc800;">%</span>&nbsp;&nbsp;<span id="star1outchance" style="color: #00a8ff;">0</span><span style="color: #00a8ff;">%</span> (参考值: 2.5% / 18.5% / 79%)</p>
         <br />
-        <p><strong><span id="result1">&nbsp;</span></strong></p>
-        <p><strong><span id="result2">&nbsp;</span></strong></p>
-        <p><strong><span id="result3">&nbsp;</span></strong></p>
-        <p><strong><span id="result4">&nbsp;</span></strong></p>
-        <p><strong><span id="result5">&nbsp;</span></strong></p>
-        <p><strong><span id="result6">&nbsp;</span></strong></p>
-        <p><strong><span id="result7">&nbsp;</span></strong></p>
-        <p><strong><span id="result8">&nbsp;</span></strong></p>
-        <p><strong><span id="result9">&nbsp;</span></strong></p>
-        <p><strong><span id="result10">&nbsp;</span></strong></p>
+        <p id="result1">&nbsp;</p>
+        <p id="result2">&nbsp;</p>
+        <p id="result3">&nbsp;</p>
+        <p id="result4">&nbsp;</p>
+        <p id="result5">&nbsp;</p>
+        <p id="result6">&nbsp;</p>
+        <p id="result7">&nbsp;</p>
+        <p id="result8">&nbsp;</p>
+        <p id="result9">&nbsp;</p>
+        <p id="result10">&nbsp;</p>
         <script>
             function f1() {
                 document.getElementById("summary1").style = "display: block;";
@@ -56,10 +55,10 @@
                 document.getElementById("result9").innerHTML = "&nbsp;";
                 document.getElementById("result10").innerHTML = "&nbsp;";
                 var f1_type = Math.floor(Math.random() * 1000) + 1;
-                if (f1_type <= 30) {
+                if (f1_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f1 = Math.floor(Math.random() * 71) + 1;
+                    var f1 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result1").style = "color: #e050f0;"
                     if (f1 == 1) {
                         document.getElementById("result1").innerHTML = "ヒナ";
@@ -220,62 +219,8 @@
                     if (f1 == 53) {
                         document.getElementById("result1").innerHTML = "ノノミ (水着)";
                     }
-                    if (f1 == 54) {
-                        document.getElementById("result1").innerHTML = "サオリ";
-                    }
-                    if (f1 == 55) {
-                        document.getElementById("result1").innerHTML = "モエ";
-                    }
-                    if (f1 == 56) {
-                        document.getElementById("result1").innerHTML = "カズサ";
-                    }
-                    if (f1 == 57) {
-                        document.getElementById("result1").innerHTML = "ココナ";
-                    }
-                    if (f1 == 58) {
-                        document.getElementById("result1").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f1 == 59) {
-                        document.getElementById("result1").innerHTML = "ノア";
-                    }
-                    if (f1 == 60) {
-                        document.getElementById("result1").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f1 == 61) {
-                        document.getElementById("result1").innerHTML = "ヒマリ";
-                    }
-                    if (f1 == 62) {
-                        document.getElementById("result1").innerHTML = "シグレ";
-                    }
-                    if (f1 == 63) {
-                        document.getElementById("result1").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f1 == 64) {
-                        document.getElementById("result1").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f1 == 65) {
-                        document.getElementById("result1").innerHTML = "ミネ";
-                    }
-                    if (f1 == 66) {
-                        document.getElementById("result1").innerHTML = "メグ";
-                    }
-                    if (f1 == 67) {
-                        document.getElementById("result1").innerHTML = "カンナ";
-                    }
-                    if (f1 == 68) {
-                        document.getElementById("result1").innerHTML = "サクラコ";
-                    }
-                    if (f1 == 69) {
-                        document.getElementById("result1").innerHTML = "コユキ";
-                    }
-                    if (f1 == 70) {
-                        document.getElementById("result1").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f1 == 71) {
-                        document.getElementById("result1").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f1_type > 30 && f1_type <= 215) {
+                if (f1_type > 25 && f1_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f1 = Math.floor(Math.random() * 21) + 1;
@@ -344,7 +289,7 @@
                         document.getElementById("result1").innerHTML = "マリー";
                     }
                 }
-                if (f1_type > 215) {
+                if (f1_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f1 = Math.floor(Math.random() * 11) + 1;
@@ -406,10 +351,10 @@
                 var stone = Number(document.getElementById("usedstones").innerText) + 1200;
                 document.getElementById("usedstones").innerHTML = stone;
                 var f1_type = Math.floor(Math.random() * 1000) + 1;
-                if (f1_type <= 30) {
+                if (f1_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f1 = Math.floor(Math.random() * 71) + 1;
+                    var f1 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result1").style = "color: #e050f0;"
                     if (f1 == 1) {
                         document.getElementById("result1").innerHTML = "ヒナ";
@@ -570,62 +515,8 @@
                     if (f1 == 53) {
                         document.getElementById("result1").innerHTML = "ノノミ (水着)";
                     }
-                    if (f1 == 54) {
-                        document.getElementById("result1").innerHTML = "サオリ";
-                    }
-                    if (f1 == 55) {
-                        document.getElementById("result1").innerHTML = "モエ";
-                    }
-                    if (f1 == 56) {
-                        document.getElementById("result1").innerHTML = "カズサ";
-                    }
-                    if (f1 == 57) {
-                        document.getElementById("result1").innerHTML = "ココナ";
-                    }
-                    if (f1 == 58) {
-                        document.getElementById("result1").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f1 == 59) {
-                        document.getElementById("result1").innerHTML = "ノア";
-                    }
-                    if (f1 == 60) {
-                        document.getElementById("result1").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f1 == 61) {
-                        document.getElementById("result1").innerHTML = "ヒマリ";
-                    }
-                    if (f1 == 62) {
-                        document.getElementById("result1").innerHTML = "シグレ";
-                    }
-                    if (f1 == 63) {
-                        document.getElementById("result1").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f1 == 64) {
-                        document.getElementById("result1").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f1 == 65) {
-                        document.getElementById("result1").innerHTML = "ミネ";
-                    }
-                    if (f1 == 66) {
-                        document.getElementById("result1").innerHTML = "メグ";
-                    }
-                    if (f1 == 67) {
-                        document.getElementById("result1").innerHTML = "カンナ";
-                    }
-                    if (f1 == 68) {
-                        document.getElementById("result1").innerHTML = "サクラコ";
-                    }
-                    if (f1 == 69) {
-                        document.getElementById("result1").innerHTML = "コユキ";
-                    }
-                    if (f1 == 70) {
-                        document.getElementById("result1").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f1 == 71) {
-                        document.getElementById("result1").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f1_type > 30 && f1_type <= 215) {
+                if (f1_type > 25 && f1_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f1 = Math.floor(Math.random() * 21) + 1;
@@ -694,7 +585,7 @@
                         document.getElementById("result1").innerHTML = "マリー";
                     }
                 }
-                if (f1_type > 215) {
+                if (f1_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f1 = Math.floor(Math.random() * 11) + 1;
@@ -734,10 +625,10 @@
                     }
                 }
                 var f2_type = Math.floor(Math.random() * 1000) + 1;
-                if (f2_type <= 30) {
+                if (f2_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f2 = Math.floor(Math.random() * 71) + 1;
+                    var f2 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result2").style = "color: #e050f0;"
                     if (f2 == 1) {
                         document.getElementById("result2").innerHTML = "ヒナ";
@@ -898,62 +789,8 @@
                     if (f2 == 53) {
                         document.getElementById("result2").innerHTML = "ノノミ (水着)";
                     }
-                    if (f2 == 54) {
-                        document.getElementById("result2").innerHTML = "サオリ";
-                    }
-                    if (f2 == 55) {
-                        document.getElementById("result2").innerHTML = "モエ";
-                    }
-                    if (f2 == 56) {
-                        document.getElementById("result2").innerHTML = "カズサ";
-                    }
-                    if (f2 == 57) {
-                        document.getElementById("result2").innerHTML = "ココナ";
-                    }
-                    if (f2 == 58) {
-                        document.getElementById("result2").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f2 == 59) {
-                        document.getElementById("result2").innerHTML = "ノア";
-                    }
-                    if (f2 == 60) {
-                        document.getElementById("result2").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f2 == 61) {
-                        document.getElementById("result2").innerHTML = "ヒマリ";
-                    }
-                    if (f2 == 62) {
-                        document.getElementById("result2").innerHTML = "シグレ";
-                    }
-                    if (f2 == 63) {
-                        document.getElementById("result2").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f2 == 64) {
-                        document.getElementById("result2").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f2 == 65) {
-                        document.getElementById("result2").innerHTML = "ミネ";
-                    }
-                    if (f2 == 66) {
-                        document.getElementById("result2").innerHTML = "メグ";
-                    }
-                    if (f2 == 67) {
-                        document.getElementById("result2").innerHTML = "カンナ";
-                    }
-                    if (f2 == 68) {
-                        document.getElementById("result2").innerHTML = "サクラコ";
-                    }
-                    if (f2 == 69) {
-                        document.getElementById("result2").innerHTML = "コユキ";
-                    }
-                    if (f2 == 70) {
-                        document.getElementById("result2").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f2 == 71) {
-                        document.getElementById("result2").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f2_type > 30 && f2_type <= 215) {
+                if (f2_type > 25 && f2_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f2 = Math.floor(Math.random() * 21) + 1;
@@ -1022,7 +859,7 @@
                         document.getElementById("result2").innerHTML = "マリー";
                     }
                 }
-                if (f2_type > 215) {
+                if (f2_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f2 = Math.floor(Math.random() * 11) + 1;
@@ -1062,10 +899,10 @@
                     }
                 }
                 var f3_type = Math.floor(Math.random() * 1000) + 1;
-                if (f3_type <= 30) {
+                if (f3_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f3 = Math.floor(Math.random() * 71) + 1;
+                    var f3 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result3").style = "color: #e050f0;"
                     if (f3 == 1) {
                         document.getElementById("result3").innerHTML = "ヒナ";
@@ -1226,62 +1063,8 @@
                     if (f3 == 53) {
                         document.getElementById("result3").innerHTML = "ノノミ (水着)";
                     }
-                    if (f3 == 54) {
-                        document.getElementById("result3").innerHTML = "サオリ";
-                    }
-                    if (f3 == 55) {
-                        document.getElementById("result3").innerHTML = "モエ";
-                    }
-                    if (f3 == 56) {
-                        document.getElementById("result3").innerHTML = "カズサ";
-                    }
-                    if (f3 == 57) {
-                        document.getElementById("result3").innerHTML = "ココナ";
-                    }
-                    if (f3 == 58) {
-                        document.getElementById("result3").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f3 == 59) {
-                        document.getElementById("result3").innerHTML = "ノア";
-                    }
-                    if (f3 == 60) {
-                        document.getElementById("result3").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f3 == 61) {
-                        document.getElementById("result3").innerHTML = "ヒマリ";
-                    }
-                    if (f3 == 62) {
-                        document.getElementById("result3").innerHTML = "シグレ";
-                    }
-                    if (f3 == 63) {
-                        document.getElementById("result3").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f3 == 64) {
-                        document.getElementById("result3").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f3 == 65) {
-                        document.getElementById("result3").innerHTML = "ミネ";
-                    }
-                    if (f3 == 66) {
-                        document.getElementById("result3").innerHTML = "メグ";
-                    }
-                    if (f3 == 67) {
-                        document.getElementById("result3").innerHTML = "カンナ";
-                    }
-                    if (f3 == 68) {
-                        document.getElementById("result3").innerHTML = "サクラコ";
-                    }
-                    if (f3 == 69) {
-                        document.getElementById("result3").innerHTML = "コユキ";
-                    }
-                    if (f3 == 70) {
-                        document.getElementById("result3").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f3 == 71) {
-                        document.getElementById("result3").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f3_type > 30 && f3_type <= 215) {
+                if (f3_type > 25 && f3_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f3 = Math.floor(Math.random() * 21) + 1;
@@ -1350,7 +1133,7 @@
                         document.getElementById("result3").innerHTML = "マリー";
                     }
                 }
-                if (f3_type > 215) {
+                if (f3_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f3 = Math.floor(Math.random() * 11) + 1;
@@ -1390,10 +1173,10 @@
                     }
                 }
                 var f4_type = Math.floor(Math.random() * 1000) + 1;
-                if (f4_type <= 30) {
+                if (f4_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f4 = Math.floor(Math.random() * 71) + 1;
+                    var f4 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result4").style = "color: #e050f0;"
                     if (f4 == 1) {
                         document.getElementById("result4").innerHTML = "ヒナ";
@@ -1554,62 +1337,8 @@
                     if (f4 == 53) {
                         document.getElementById("result4").innerHTML = "ノノミ (水着)";
                     }
-                    if (f4 == 54) {
-                        document.getElementById("result4").innerHTML = "サオリ";
-                    }
-                    if (f4 == 55) {
-                        document.getElementById("result4").innerHTML = "モエ";
-                    }
-                    if (f4 == 56) {
-                        document.getElementById("result4").innerHTML = "カズサ";
-                    }
-                    if (f4 == 57) {
-                        document.getElementById("result4").innerHTML = "ココナ";
-                    }
-                    if (f4 == 58) {
-                        document.getElementById("result4").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f4 == 59) {
-                        document.getElementById("result4").innerHTML = "ノア";
-                    }
-                    if (f4 == 60) {
-                        document.getElementById("result4").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f4 == 61) {
-                        document.getElementById("result4").innerHTML = "ヒマリ";
-                    }
-                    if (f4 == 62) {
-                        document.getElementById("result4").innerHTML = "シグレ";
-                    }
-                    if (f4 == 63) {
-                        document.getElementById("result4").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f4 == 64) {
-                        document.getElementById("result4").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f4 == 65) {
-                        document.getElementById("result4").innerHTML = "ミネ";
-                    }
-                    if (f4 == 66) {
-                        document.getElementById("result4").innerHTML = "メグ";
-                    }
-                    if (f4 == 67) {
-                        document.getElementById("result4").innerHTML = "カンナ";
-                    }
-                    if (f4 == 68) {
-                        document.getElementById("result4").innerHTML = "サクラコ";
-                    }
-                    if (f4 == 69) {
-                        document.getElementById("result4").innerHTML = "コユキ";
-                    }
-                    if (f4 == 70) {
-                        document.getElementById("result4").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f4 == 71) {
-                        document.getElementById("result4").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f4_type > 30 && f4_type <= 215) {
+                if (f4_type > 25 && f4_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f4 = Math.floor(Math.random() * 21) + 1;
@@ -1678,7 +1407,7 @@
                         document.getElementById("result4").innerHTML = "マリー";
                     }
                 }
-                if (f4_type > 215) {
+                if (f4_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f4 = Math.floor(Math.random() * 11) + 1;
@@ -1718,10 +1447,10 @@
                     }
                 }
                 var f5_type = Math.floor(Math.random() * 1000) + 1;
-                if (f5_type <= 30) {
+                if (f5_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f5 = Math.floor(Math.random() * 71) + 1;
+                    var f5 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result5").style = "color: #e050f0;"
                     if (f5 == 1) {
                         document.getElementById("result5").innerHTML = "ヒナ";
@@ -1882,62 +1611,8 @@
                     if (f5 == 53) {
                         document.getElementById("result5").innerHTML = "ノノミ (水着)";
                     }
-                    if (f5 == 54) {
-                        document.getElementById("result5").innerHTML = "サオリ";
-                    }
-                    if (f5 == 55) {
-                        document.getElementById("result5").innerHTML = "モエ";
-                    }
-                    if (f5 == 56) {
-                        document.getElementById("result5").innerHTML = "カズサ";
-                    }
-                    if (f5 == 57) {
-                        document.getElementById("result5").innerHTML = "ココナ";
-                    }
-                    if (f5 == 58) {
-                        document.getElementById("result5").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f5 == 59) {
-                        document.getElementById("result5").innerHTML = "ノア";
-                    }
-                    if (f5 == 60) {
-                        document.getElementById("result5").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f5 == 61) {
-                        document.getElementById("result5").innerHTML = "ヒマリ";
-                    }
-                    if (f5 == 62) {
-                        document.getElementById("result5").innerHTML = "シグレ";
-                    }
-                    if (f5 == 63) {
-                        document.getElementById("result5").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f5 == 64) {
-                        document.getElementById("result5").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f5 == 65) {
-                        document.getElementById("result5").innerHTML = "ミネ";
-                    }
-                    if (f5 == 66) {
-                        document.getElementById("result5").innerHTML = "メグ";
-                    }
-                    if (f5 == 67) {
-                        document.getElementById("result5").innerHTML = "カンナ";
-                    }
-                    if (f5 == 68) {
-                        document.getElementById("result5").innerHTML = "サクラコ";
-                    }
-                    if (f5 == 69) {
-                        document.getElementById("result5").innerHTML = "コユキ";
-                    }
-                    if (f5 == 70) {
-                        document.getElementById("result5").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f5 == 71) {
-                        document.getElementById("result5").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f5_type > 30 && f5_type <= 215) {
+                if (f5_type > 25 && f5_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f5 = Math.floor(Math.random() * 21) + 1;
@@ -2006,7 +1681,7 @@
                         document.getElementById("result5").innerHTML = "マリー";
                     }
                 }
-                if (f5_type > 215) {
+                if (f5_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f5 = Math.floor(Math.random() * 11) + 1;
@@ -2046,10 +1721,10 @@
                     }
                 }
                 var f6_type = Math.floor(Math.random() * 1000) + 1;
-                if (f6_type <= 30) {
+                if (f6_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f6 = Math.floor(Math.random() * 71) + 1;
+                    var f6 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result6").style = "color: #e050f0;"
                     if (f6 == 1) {
                         document.getElementById("result6").innerHTML = "ヒナ";
@@ -2210,62 +1885,8 @@
                     if (f6 == 53) {
                         document.getElementById("result6").innerHTML = "ノノミ (水着)";
                     }
-                    if (f6 == 54) {
-                        document.getElementById("result6").innerHTML = "サオリ";
-                    }
-                    if (f6 == 55) {
-                        document.getElementById("result6").innerHTML = "モエ";
-                    }
-                    if (f6 == 56) {
-                        document.getElementById("result6").innerHTML = "カズサ";
-                    }
-                    if (f6 == 57) {
-                        document.getElementById("result6").innerHTML = "ココナ";
-                    }
-                    if (f6 == 58) {
-                        document.getElementById("result6").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f6 == 59) {
-                        document.getElementById("result6").innerHTML = "ノア";
-                    }
-                    if (f6 == 60) {
-                        document.getElementById("result6").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f6 == 61) {
-                        document.getElementById("result6").innerHTML = "ヒマリ";
-                    }
-                    if (f6 == 62) {
-                        document.getElementById("result6").innerHTML = "シグレ";
-                    }
-                    if (f6 == 63) {
-                        document.getElementById("result6").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f6 == 64) {
-                        document.getElementById("result6").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f6 == 65) {
-                        document.getElementById("result6").innerHTML = "ミネ";
-                    }
-                    if (f6 == 66) {
-                        document.getElementById("result6").innerHTML = "メグ";
-                    }
-                    if (f6 == 67) {
-                        document.getElementById("result6").innerHTML = "カンナ";
-                    }
-                    if (f6 == 68) {
-                        document.getElementById("result6").innerHTML = "サクラコ";
-                    }
-                    if (f6 == 69) {
-                        document.getElementById("result6").innerHTML = "コユキ";
-                    }
-                    if (f6 == 70) {
-                        document.getElementById("result6").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f6 == 71) {
-                        document.getElementById("result6").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f6_type > 30 && f6_type <= 215) {
+                if (f6_type > 25 && f6_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f6 = Math.floor(Math.random() * 21) + 1;
@@ -2334,7 +1955,7 @@
                         document.getElementById("result6").innerHTML = "マリー";
                     }
                 }
-                if (f6_type > 215) {
+                if (f6_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f6 = Math.floor(Math.random() * 11) + 1;
@@ -2374,10 +1995,10 @@
                     }
                 }
                 var f7_type = Math.floor(Math.random() * 1000) + 1;
-                if (f7_type <= 30) {
+                if (f7_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f7 = Math.floor(Math.random() * 71) + 1;
+                    var f7 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result7").style = "color: #e050f0;"
                     if (f7 == 1) {
                         document.getElementById("result7").innerHTML = "ヒナ";
@@ -2538,62 +2159,8 @@
                     if (f7 == 53) {
                         document.getElementById("result7").innerHTML = "ノノミ (水着)";
                     }
-                    if (f7 == 54) {
-                        document.getElementById("result7").innerHTML = "サオリ";
-                    }
-                    if (f7 == 55) {
-                        document.getElementById("result7").innerHTML = "モエ";
-                    }
-                    if (f7 == 56) {
-                        document.getElementById("result7").innerHTML = "カズサ";
-                    }
-                    if (f7 == 57) {
-                        document.getElementById("result7").innerHTML = "ココナ";
-                    }
-                    if (f7 == 58) {
-                        document.getElementById("result7").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f7 == 59) {
-                        document.getElementById("result7").innerHTML = "ノア";
-                    }
-                    if (f7 == 60) {
-                        document.getElementById("result7").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f7 == 61) {
-                        document.getElementById("result7").innerHTML = "ヒマリ";
-                    }
-                    if (f7 == 62) {
-                        document.getElementById("result7").innerHTML = "シグレ";
-                    }
-                    if (f7 == 63) {
-                        document.getElementById("result7").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f7 == 64) {
-                        document.getElementById("result7").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f7 == 65) {
-                        document.getElementById("result7").innerHTML = "ミネ";
-                    }
-                    if (f7 == 66) {
-                        document.getElementById("result7").innerHTML = "メグ";
-                    }
-                    if (f7 == 67) {
-                        document.getElementById("result7").innerHTML = "カンナ";
-                    }
-                    if (f7 == 68) {
-                        document.getElementById("result7").innerHTML = "サクラコ";
-                    }
-                    if (f7 == 69) {
-                        document.getElementById("result7").innerHTML = "コユキ";
-                    }
-                    if (f7 == 70) {
-                        document.getElementById("result7").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f7 == 71) {
-                        document.getElementById("result7").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f7_type > 30 && f7_type <= 215) {
+                if (f7_type > 25 && f7_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f7 = Math.floor(Math.random() * 21) + 1;
@@ -2662,7 +2229,7 @@
                         document.getElementById("result7").innerHTML = "マリー";
                     }
                 }
-                if (f7_type > 215) {
+                if (f7_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f7 = Math.floor(Math.random() * 11) + 1;
@@ -2702,10 +2269,10 @@
                     }
                 }
                 var f8_type = Math.floor(Math.random() * 1000) + 1;
-                if (f8_type <= 30) {
+                if (f8_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f8 = Math.floor(Math.random() * 71) + 1;
+                    var f8 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result8").style = "color: #e050f0;"
                     if (f8 == 1) {
                         document.getElementById("result8").innerHTML = "ヒナ";
@@ -2866,62 +2433,8 @@
                     if (f8 == 53) {
                         document.getElementById("result8").innerHTML = "ノノミ (水着)";
                     }
-                    if (f8 == 54) {
-                        document.getElementById("result8").innerHTML = "サオリ";
-                    }
-                    if (f8 == 55) {
-                        document.getElementById("result8").innerHTML = "モエ";
-                    }
-                    if (f8 == 56) {
-                        document.getElementById("result8").innerHTML = "カズサ";
-                    }
-                    if (f8 == 57) {
-                        document.getElementById("result8").innerHTML = "ココナ";
-                    }
-                    if (f8 == 58) {
-                        document.getElementById("result8").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f8 == 59) {
-                        document.getElementById("result8").innerHTML = "ノア";
-                    }
-                    if (f8 == 60) {
-                        document.getElementById("result8").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f8 == 61) {
-                        document.getElementById("result8").innerHTML = "ヒマリ";
-                    }
-                    if (f8 == 62) {
-                        document.getElementById("result8").innerHTML = "シグレ";
-                    }
-                    if (f8 == 63) {
-                        document.getElementById("result8").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f8 == 64) {
-                        document.getElementById("result8").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f8 == 65) {
-                        document.getElementById("result8").innerHTML = "ミネ";
-                    }
-                    if (f8 == 66) {
-                        document.getElementById("result8").innerHTML = "メグ";
-                    }
-                    if (f8 == 67) {
-                        document.getElementById("result8").innerHTML = "カンナ";
-                    }
-                    if (f8 == 68) {
-                        document.getElementById("result8").innerHTML = "サクラコ";
-                    }
-                    if (f8 == 69) {
-                        document.getElementById("result8").innerHTML = "コユキ";
-                    }
-                    if (f8 == 70) {
-                        document.getElementById("result8").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f8 == 71) {
-                        document.getElementById("result8").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f8_type > 30 && f8_type <= 215) {
+                if (f8_type > 25 && f8_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f8 = Math.floor(Math.random() * 21) + 1;
@@ -2990,7 +2503,7 @@
                         document.getElementById("result8").innerHTML = "マリー";
                     }
                 }
-                if (f8_type > 215) {
+                if (f8_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f8 = Math.floor(Math.random() * 11) + 1;
@@ -3030,10 +2543,10 @@
                     }
                 }
                 var f9_type = Math.floor(Math.random() * 1000) + 1;
-                if (f9_type <= 30) {
+                if (f9_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f9 = Math.floor(Math.random() * 71) + 1;
+                    var f9 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result9").style = "color: #e050f0;"
                     if (f9 == 1) {
                         document.getElementById("result9").innerHTML = "ヒナ";
@@ -3194,62 +2707,8 @@
                     if (f9 == 53) {
                         document.getElementById("result9").innerHTML = "ノノミ (水着)";
                     }
-                    if (f9 == 54) {
-                        document.getElementById("result9").innerHTML = "サオリ";
-                    }
-                    if (f9 == 55) {
-                        document.getElementById("result9").innerHTML = "モエ";
-                    }
-                    if (f9 == 56) {
-                        document.getElementById("result9").innerHTML = "カズサ";
-                    }
-                    if (f9 == 57) {
-                        document.getElementById("result9").innerHTML = "ココナ";
-                    }
-                    if (f9 == 58) {
-                        document.getElementById("result9").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f9 == 59) {
-                        document.getElementById("result9").innerHTML = "ノア";
-                    }
-                    if (f9 == 60) {
-                        document.getElementById("result9").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f9 == 61) {
-                        document.getElementById("result9").innerHTML = "ヒマリ";
-                    }
-                    if (f9 == 62) {
-                        document.getElementById("result9").innerHTML = "シグレ";
-                    }
-                    if (f9 == 63) {
-                        document.getElementById("result9").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f9 == 64) {
-                        document.getElementById("result9").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f9 == 65) {
-                        document.getElementById("result9").innerHTML = "ミネ";
-                    }
-                    if (f9 == 66) {
-                        document.getElementById("result9").innerHTML = "メグ";
-                    }
-                    if (f9 == 67) {
-                        document.getElementById("result9").innerHTML = "カンナ";
-                    }
-                    if (f9 == 68) {
-                        document.getElementById("result9").innerHTML = "サクラコ";
-                    }
-                    if (f9 == 69) {
-                        document.getElementById("result9").innerHTML = "コユキ";
-                    }
-                    if (f9 == 70) {
-                        document.getElementById("result9").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f9 == 71) {
-                        document.getElementById("result9").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f9_type > 30 && f9_type <= 215) {
+                if (f9_type > 25 && f9_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f9 = Math.floor(Math.random() * 21) + 1;
@@ -3318,7 +2777,7 @@
                         document.getElementById("result9").innerHTML = "マリー";
                     }
                 }
-                if (f9_type > 215) {
+                if (f9_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f9 = Math.floor(Math.random() * 11) + 1;
@@ -3357,15 +2816,15 @@
                         document.getElementById("result9").innerHTML = "ヨシミ";
                     }
                 }
-                if (f1_type <= 215 || f2_type <= 215 || f3_type <= 215 || f4_type <= 215 || f5_type <= 215 || f6_type <= 215 || f7_type <= 215 || f8_type <= 215 || f9_type <= 215 ) {
+                if (f1_type <= 210 || f2_type <= 210 || f3_type <= 210 || f4_type <= 210 || f5_type <= 210 || f6_type <= 210 || f7_type <= 210 || f8_type <= 210 || f9_type <= 210 ) {
                     var f10_type = Math.floor(Math.random() * 1000) + 1;
                 } else {
-                    var f10_type = Math.floor(Math.random() * 215) + 1;
+                    var f10_type = Math.floor(Math.random() * 210) + 1;
                 }
-                if (f10_type <= 30) {
+                if (f10_type <= 25) {
                     var s3 = Number(document.getElementById("star3out").innerText) + 1;
                     document.getElementById("star3out").innerHTML = s3;
-                    var f10 = Math.floor(Math.random() * 71) + 1;
+                    var f10 = Math.floor(Math.random() * 53) + 1;
                     document.getElementById("result10").style = "color: #e050f0;"
                     if (f10 == 1) {
                         document.getElementById("result10").innerHTML = "ヒナ";
@@ -3526,62 +2985,8 @@
                     if (f10 == 53) {
                         document.getElementById("result10").innerHTML = "ノノミ (水着)";
                     }
-                    if (f10 == 54) {
-                        document.getElementById("result10").innerHTML = "サオリ";
-                    }
-                    if (f10 == 55) {
-                        document.getElementById("result10").innerHTML = "モエ";
-                    }
-                    if (f10 == 56) {
-                        document.getElementById("result10").innerHTML = "カズサ";
-                    }
-                    if (f10 == 57) {
-                        document.getElementById("result10").innerHTML = "ココナ";
-                    }
-                    if (f10 == 58) {
-                        document.getElementById("result10").innerHTML = "ウタハ (応援団)";
-                    }
-                    if (f10 == 59) {
-                        document.getElementById("result10").innerHTML = "ノア";
-                    }
-                    if (f10 == 60) {
-                        document.getElementById("result10").innerHTML = "アカネ (バニーガール)";
-                    }
-                    if (f10 == 61) {
-                        document.getElementById("result10").innerHTML = "ヒマリ";
-                    }
-                    if (f10 == 62) {
-                        document.getElementById("result10").innerHTML = "シグレ";
-                    }
-                    if (f10 == 63) {
-                        document.getElementById("result10").innerHTML = "セリナ (クリスマス)";
-                    }
-                    if (f10 == 64) {
-                        document.getElementById("result10").innerHTML = "ハナエ (クリスマス)";
-                    }
-                    if (f10 == 65) {
-                        document.getElementById("result10").innerHTML = "ミネ";
-                    }
-                    if (f10 == 66) {
-                        document.getElementById("result10").innerHTML = "メグ";
-                    }
-                    if (f10 == 67) {
-                        document.getElementById("result10").innerHTML = "カンナ";
-                    }
-                    if (f10 == 68) {
-                        document.getElementById("result10").innerHTML = "サクラコ";
-                    }
-                    if (f10 == 69) {
-                        document.getElementById("result10").innerHTML = "コユキ";
-                    }
-                    if (f10 == 70) {
-                        document.getElementById("result10").innerHTML = "カヨコ (正月)";
-                    }
-                    if (f10 == 71) {
-                        document.getElementById("result10").innerHTML = "ハルカ (正月)";
-                    }
                 }
-                if (f10_type > 30 && f10_type <= 215) {
+                if (f10_type > 25 && f10_type <= 210) {
                     var s2 = Number(document.getElementById("star2out").innerText) + 1;
                     document.getElementById("star2out").innerHTML = s2;
                     var f10 = Math.floor(Math.random() * 21) + 1;
@@ -3650,7 +3055,7 @@
                         document.getElementById("result10").innerHTML = "マリー";
                     }
                 }
-                if (f10_type > 215) {
+                if (f10_type > 210) {
                     var s1 = Number(document.getElementById("star1out").innerText) + 1;
                     document.getElementById("star1out").innerHTML = s1;
                     var f10 = Math.floor(Math.random() * 11) + 1;
@@ -3702,7 +3107,6 @@
                 document.getElementById("star3outchance").innerHTML = s3chance_2;
                 document.getElementById("star2outchance").innerHTML = s2chance_2;
                 document.getElementById("star1outchance").innerHTML = s1chance_2;
-                // console.log(f1_type + " " + f2_type + " " + f3_type + " " + f4_type + " " + f5_type + " " + f6_type + " " + f7_type + " " + f8_type + " " + f9_type + " " + f10_type);
             }
         </script>
     </div>
