@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>2020 班随机选人 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../css/globalformat.css">
+    <style>
+        * {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1 id="center_title">2020 班随机选人</h1>
+    </div>
+    <!--
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong></strong></h6>
+    </div>
+    -->
+    <div class="content">
+        <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 250px;">点击下方按钮来随机选人</h1>
+        <p><button onclick="run()">随机选人</button><button style="margin-left: 800px;" onclick="run()">随机选人</button><button style="margin-left: 800px;" onclick="run()">随机选人</button></p>
+        <br />
+        <p><strong>按学号找人</strong> <button id="b_0" onclick="num_0()">0</button><button id="b_1" onclick="num_1()">1</button><button id="b_2" onclick="num_2()">2</button><button id="b_3" onclick="num_3()">3</button><button id="b_4" onclick="num_4()">4</button><button id="b_5" onclick="num_5()">5</button><button id="b_6" onclick="num_6()">6</button><button id="b_7" onclick="num_7()" disabled="disabled">7</button><button id="b_8" onclick="num_8()" disabled="disabled">8</button><button id="b_9" onclick="num_9()" disabled="disabled">9</button></p>
+        <p id="number" style="display: none;"></p>
+        <br />
+        <p style="color: #aaaaaa; font-size: 20px;"><strong>- 免责声明 -</strong></p>
+        <p style="color: #aaaaaa;">2020 班成员名单及学号根据九下一模成绩单进行录入。</p>
+        <p style="color: #aaaaaa;">随机选人系统使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，除了 7 位贵高体验班的成员外都有同等被抽中的机会。</p>
+    </div>
+    <script>
+        function run() {
+            var seed = Math.floor(Math.random() * 60) + 1;
+            if (seed == 1) {
+                document.getElementById("name").innerHTML = "廖致晖";
+            }
+            if (seed == 2) {
+                document.getElementById("name").innerHTML = "叶子翀";
+            }
+            if (seed == 3) {
+                document.getElementById("name").innerHTML = "叶彦广";
+            }
+            if (seed == 4) {
+                document.getElementById("name").innerHTML = "梁万里";
+            }
+            if (seed == 5) {
+                document.getElementById("name").innerHTML = "陈俊烨";
+            }
+            if (seed == 6) {
+                document.getElementById("name").innerHTML = "李瑞朗朗";
+            }
+            if (seed == 7) {
+                document.getElementById("name").innerHTML = "叶彦博";
+            }
+            if (seed == 8) {
+                document.getElementById("name").innerHTML = "徐子洋";
+            }
+            if (seed == 9) {
+                document.getElementById("name").innerHTML = "黄晓敏";
+            }
+            if (seed == 10) {
+                document.getElementById("name").innerHTML = "谭谷乐";
+            }
+            if (seed == 11) {
+                document.getElementById("name").innerHTML = "谭钜文";
+            }
+            if (seed == 12) {
+                document.getElementById("name").innerHTML = "杨博涵";
+            }
+            if (seed == 13) {
+                document.getElementById("name").innerHTML = "韦堡严";
+            }
+            if (seed == 14) {
+                document.getElementById("name").innerHTML = "胡福林";
+            }
+            if (seed == 15) {
+                document.getElementById("name").innerHTML = "肖志斌";
+            }
+            if (seed == 16) {
+                document.getElementById("name").innerHTML = "宋柏羽";
+            }
+            if (seed == 17) {
+                document.getElementById("name").innerHTML = "覃开源";
+            }
+            if (seed == 18) {
+                document.getElementById("name").innerHTML = "冯培森";
+            }
+            if (seed == 19) {
+                document.getElementById("name").innerHTML = "杨显俊";
+            }
+            if (seed == 20) {
+                document.getElementById("name").innerHTML = "周昊";
+            }
+            if (seed == 21) {
+                document.getElementById("name").innerHTML = "梁毓麟";
+            }
+            if (seed == 22) {
+                document.getElementById("name").innerHTML = "张洪铭";
+            }
+            if (seed == 23) {
+                document.getElementById("name").innerHTML = "谭显桀";
+            }
+            if (seed == 24) {
+                document.getElementById("name").innerHTML = "杨振宇";
+            }
+            if (seed == 25) {
+                document.getElementById("name").innerHTML = "韦有鍟";
+            }
+            if (seed == 26) {
+                document.getElementById("name").innerHTML = "张智轩";
+            }
+            if (seed == 27) {
+                document.getElementById("name").innerHTML = "廖冠宇";
+            }
+            if (seed == 28) {
+                document.getElementById("name").innerHTML = "甘晋宁";
+            }
+            if (seed == 29) {
+                document.getElementById("name").innerHTML = "赖震霖";
+            }
+            if (seed == 30) {
+                document.getElementById("name").innerHTML = "黄俊睿";
+            }
+            if (seed == 31) {
+                document.getElementById("name").innerHTML = "宋辞";
+            }
+            if (seed == 32) {
+                document.getElementById("name").innerHTML = "张俊熙";
+            }
+            if (seed == 33) {
+                document.getElementById("name").innerHTML = "覃熙宸";
+            }
+            if (seed == 34) {
+                document.getElementById("name").innerHTML = "谢镇阳";
+            }
+            if (seed == 35) {
+                document.getElementById("name").innerHTML = "罗钰棋";
+            }
+            if (seed == 36) {
+                document.getElementById("name").innerHTML = "韦懿珊";
+            }
+            if (seed == 37) {
+                document.getElementById("name").innerHTML = "黄英";
+            }
+            if (seed == 38) {
+                document.getElementById("name").innerHTML = "曹诗怡";
+            }
+            if (seed == 39) {
+                document.getElementById("name").innerHTML = "黎晓霏";
+            }
+            if (seed == 40) {
+                document.getElementById("name").innerHTML = "黄晶";
+            }
+            if (seed == 41) {
+                document.getElementById("name").innerHTML = "姜宝馨";
+            }
+            if (seed == 42) {
+                document.getElementById("name").innerHTML = "杨张睿婕";
+            }
+            if (seed == 43) {
+                document.getElementById("name").innerHTML = "黄诗婷";
+            }
+            if (seed == 44) {
+                document.getElementById("name").innerHTML = "陈思颖";
+            }
+            if (seed == 45) {
+                document.getElementById("name").innerHTML = "尹文婕";
+            }
+            if (seed == 46) {
+                document.getElementById("name").innerHTML = "陈巧婵";
+            }
+            if (seed == 47) {
+                document.getElementById("name").innerHTML = "叶姝妤";
+            }
+            if (seed == 48) {
+                document.getElementById("name").innerHTML = "黄之晏";
+            }
+            if (seed == 49) {
+                document.getElementById("name").innerHTML = "李怡瑾";
+            }
+            if (seed == 50) {
+                document.getElementById("name").innerHTML = "谭乔予";
+            }
+            if (seed == 51) {
+                document.getElementById("name").innerHTML = "梁茗旖";
+            }
+            if (seed == 52) {
+                document.getElementById("name").innerHTML = "梁舒婷";
+            }
+            if (seed == 53) {
+                document.getElementById("name").innerHTML = "李靖涵";
+            }
+            if (seed == 54) {
+                document.getElementById("name").innerHTML = "杨晶晶";
+            }
+            if (seed == 55) {
+                document.getElementById("name").innerHTML = "李嫦钰";
+            }
+            if (seed == 56) {
+                document.getElementById("name").innerHTML = "何尔雅";
+            }
+            if (seed == 57) {
+                document.getElementById("name").innerHTML = "郭奕言";
+            }
+            if (seed == 58) {
+                document.getElementById("name").innerHTML = "陈铱诺";
+            }
+            if (seed == 59) {
+                document.getElementById("name").innerHTML = "闭然";
+            }
+            if (seed == 60) {
+                document.getElementById("name").innerHTML = "陈美汐";
+            }
+        }
+
+        function num_0() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "陈俊烨 <span style=\"font-size: 32px;\">10</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "肖志斌 <span style=\"font-size: 32px;\">20</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "韦有鍟 <span style=\"font-size: 32px;\">30</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "黄楷茜 <span style=\"font-size: 32px;\">40</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "黄诗婷 <span style=\"font-size: 32px;\">50</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "李靖涵 <span style=\"font-size: 32px;\">60</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "0";
+                document.getElementById("b_0").disabled = true;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = false;
+                document.getElementById("b_9").disabled = false;
+            }
+        }
+
+        function num_1() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name").innerHTML = "周灏然 <span style=\"font-size: 32px;\">01</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "李瑞朗朗 <span style=\"font-size: 32px;\">11</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "宋柏羽 <span style=\"font-size: 32px;\">21</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "张智轩 <span style=\"font-size: 32px;\">31</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "罗钰棋 <span style=\"font-size: 32px;\">41</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "陈思颖 <span style=\"font-size: 32px;\">51</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "杨晶晶 <span style=\"font-size: 32px;\">61</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "1";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = false;
+                document.getElementById("b_9").disabled = false;
+            }
+        }
+        
+        function num_2() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name").innerHTML = "钟才宇 <span style=\"font-size: 32px;\">02</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "叶彦博 <span style=\"font-size: 32px;\">12</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "覃开源 <span style=\"font-size: 32px;\">22</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "廖冠宇 <span style=\"font-size: 32px;\">32</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "杨小未 <span style=\"font-size: 32px;\">42</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "尹文婕 <span style=\"font-size: 32px;\">52</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "李嫦钰 <span style=\"font-size: 32px;\">62</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "2";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = false;
+                document.getElementById("b_9").disabled = false;
+            }
+        }
+        
+        function num_3() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name").innerHTML = "苏朗鋆 <span style=\"font-size: 32px;\">03</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "徐子洋 <span style=\"font-size: 32px;\">13</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "冯培森 <span style=\"font-size: 32px;\">23</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "甘晋宁 <span style=\"font-size: 32px;\">33</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "韦懿珊 <span style=\"font-size: 32px;\">43</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "陈巧婵 <span style=\"font-size: 32px;\">53</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "何尔雅 <span style=\"font-size: 32px;\">63</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "3";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = false;
+                document.getElementById("b_9").disabled = false;
+            }
+        }
+        
+        function num_4() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name").innerHTML = "黄栎霖 <span style=\"font-size: 32px;\">04</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "黄晓敏 <span style=\"font-size: 32px;\">14</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "杨显俊 <span style=\"font-size: 32px;\">24</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "赖震霖 <span style=\"font-size: 32px;\">34</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "黄英 <span style=\"font-size: 32px;\">44</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "叶姝妤 <span style=\"font-size: 32px;\">54</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "郭奕言 <span style=\"font-size: 32px;\">64</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "4";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = false;
+                document.getElementById("b_9").disabled = false;
+            }
+        }
+        
+        function num_5() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name").innerHTML = "陆薪旭 <span style=\"font-size: 32px;\">05</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "谭谷乐 <span style=\"font-size: 32px;\">15</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "周昊 <span style=\"font-size: 32px;\">25</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "黄俊睿 <span style=\"font-size: 32px;\">35</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "曹诗怡 <span style=\"font-size: 32px;\">45</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "黄之晏 <span style=\"font-size: 32px;\">55</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "陈铱诺 <span style=\"font-size: 32px;\">65</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "5";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = false;
+                document.getElementById("b_9").disabled = false;
+            }
+        }
+        
+        function num_6() {
+            if (document.getElementById("number").innerHTML != "") {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name").innerHTML = "廖致晖 <span style=\"font-size: 32px;\">06</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name").innerHTML = "谭钜文 <span style=\"font-size: 32px;\">16</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name").innerHTML = "梁毓麟 <span style=\"font-size: 32px;\">26</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name").innerHTML = "宋辞 <span style=\"font-size: 32px;\">36</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name").innerHTML = "黎晓霏 <span style=\"font-size: 32px;\">46</span>";
+                }
+                if (document.getElementById("number").innerHTML == "5") {
+                    document.getElementById("name").innerHTML = "李怡瑾 <span style=\"font-size: 32px;\">56</span>";
+                }
+                if (document.getElementById("number").innerHTML == "6") {
+                    document.getElementById("name").innerHTML = "闭然 <span style=\"font-size: 32px;\">66</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            } else {
+                document.getElementById("number").innerHTML = "6";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_7").disabled = false;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+            }
+        }
+        
+        function num_7() {
+            if (document.getElementById("number").innerHTML == "0") {
+                document.getElementById("name").innerHTML = "叶子翀 <span style=\"font-size: 32px;\">07</span>";
+            }
+            if (document.getElementById("number").innerHTML == "1") {
+                document.getElementById("name").innerHTML = "杨博涵 <span style=\"font-size: 32px;\">17</span>";
+            }
+            if (document.getElementById("number").innerHTML == "2") {
+                document.getElementById("name").innerHTML = "张洪铭 <span style=\"font-size: 32px;\">27</span>";
+            }
+            if (document.getElementById("number").innerHTML == "3") {
+                document.getElementById("name").innerHTML = "张俊熙 <span style=\"font-size: 32px;\">37</span>";
+            }
+            if (document.getElementById("number").innerHTML == "4") {
+                document.getElementById("name").innerHTML = "黄晶 <span style=\"font-size: 32px;\">47</span>";
+            }
+            if (document.getElementById("number").innerHTML == "5") {
+                document.getElementById("name").innerHTML = "谭乔予 <span style=\"font-size: 32px;\">57</span>";
+            }
+            if (document.getElementById("number").innerHTML == "6") {
+                document.getElementById("name").innerHTML = "陈美汐 <span style=\"font-size: 32px;\">67</span>";
+            }
+            document.getElementById("number").innerHTML = "";
+            document.getElementById("b_0").disabled = false;
+            document.getElementById("b_7").disabled = true;
+            document.getElementById("b_8").disabled = true;
+            document.getElementById("b_9").disabled = true;
+        }
+        
+        function num_8() {
+            if (document.getElementById("number").innerHTML == "0") {
+                document.getElementById("name").innerHTML = "叶彦广 <span style=\"font-size: 32px;\">08</span>";
+            }
+            if (document.getElementById("number").innerHTML == "1") {
+                document.getElementById("name").innerHTML = "韦堡严 <span style=\"font-size: 32px;\">18</span>";
+            }
+            if (document.getElementById("number").innerHTML == "2") {
+                document.getElementById("name").innerHTML = "谭显桀 <span style=\"font-size: 32px;\">28</span>";
+            }
+            if (document.getElementById("number").innerHTML == "3") {
+                document.getElementById("name").innerHTML = "覃熙宸 <span style=\"font-size: 32px;\">38</span>";
+            }
+            if (document.getElementById("number").innerHTML == "4") {
+                document.getElementById("name").innerHTML = "姜宝馨 <span style=\"font-size: 32px;\">48</span>";
+            }
+            if (document.getElementById("number").innerHTML == "5") {
+                document.getElementById("name").innerHTML = "梁茗旖 <span style=\"font-size: 32px;\">58</span>";
+            }
+            document.getElementById("number").innerHTML = "";
+            document.getElementById("b_0").disabled = false;
+            document.getElementById("b_7").disabled = true;
+            document.getElementById("b_8").disabled = true;
+            document.getElementById("b_9").disabled = true;
+        }
+        
+        function num_9() {
+            if (document.getElementById("number").innerHTML == "0") {
+                document.getElementById("name").innerHTML = "梁万里 <span style=\"font-size: 32px;\">09</span>";
+            }
+            if (document.getElementById("number").innerHTML == "1") {
+                document.getElementById("name").innerHTML = "胡福林 <span style=\"font-size: 32px;\">19</span>";
+            }
+            if (document.getElementById("number").innerHTML == "2") {
+                document.getElementById("name").innerHTML = "杨振宇 <span style=\"font-size: 32px;\">29</span>";
+            }
+            if (document.getElementById("number").innerHTML == "3") {
+                document.getElementById("name").innerHTML = "谢镇阳 <span style=\"font-size: 32px;\">39</span>";
+            }
+            if (document.getElementById("number").innerHTML == "4") {
+                document.getElementById("name").innerHTML = "杨张睿婕 <span style=\"font-size: 32px;\">49</span>";
+            }
+            if (document.getElementById("number").innerHTML == "5") {
+                document.getElementById("name").innerHTML = "梁舒婷 <span style=\"font-size: 32px;\">59</span>";
+            }
+            document.getElementById("number").innerHTML = "";
+            document.getElementById("b_0").disabled = false;
+            document.getElementById("b_7").disabled = true;
+            document.getElementById("b_8").disabled = true;
+            document.getElementById("b_9").disabled = true;
+        }
+    </script>
+</body>
+
+</html>
