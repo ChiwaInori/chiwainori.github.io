@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>匿名投票 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../css/globalformat.css">
+    <style>
+        * {
+            text-align: center;
+            margin-left: 0px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1 id="center_title">匿名投票</h1>
+    </div>
+    <!--
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong></strong></h6>
+    </div>
+    -->
+    <div class="content">
+        <p><button onclick="reveal()">公布结果</button></p>
+        <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 150px;">投票进行中</h1>
+        <h1 id="name_animate" style="display: none;">&nbsp;</h1>
+        <h3 id="total_text">已收集到 <span id="num_total">0</span> 票</h3>
+        <p style="margin-bottom: -8px;"><button id="agree" onclick="agree()">投支持票</button></p>
+        <p style="margin-bottom: -8px;"><button id="giveup" onclick="giveup()">投弃权票</button></p>
+        <p><button id="disagree" onclick="disagree()">投反对票</button></p>
+        <p style="display: none;" id="num_agree">0</p>
+        <p style="display: none;" id="num_giveup">0</p>
+        <p style="display: none;" id="num_disagree">0</p>
+        <script>
+            function agree() {
+                var tickets_agree = parseInt(document.getElementById("num_agree").innerHTML);
+                ++tickets_agree;
+                document.getElementById("num_agree").innerHTML = tickets_agree;
+                ticketadd();
+            }
+
+            function giveup() {
+                var tickets_giveup = parseInt(document.getElementById("num_giveup").innerHTML);
+                ++tickets_giveup;
+                document.getElementById("num_giveup").innerHTML = tickets_giveup;
+                ticketadd();
+            }
+
+            function disagree() {
+                var tickets_disagree = parseInt(document.getElementById("num_disagree").innerHTML);
+                ++tickets_disagree;
+                document.getElementById("num_disagree").innerHTML = tickets_disagree;
+                ticketadd();
+            }
+
+            function ticketadd() {
+                var tickets_total = parseInt(document.getElementById("num_total").innerHTML);
+                ++tickets_total;
+                document.getElementById("num_total").innerHTML = tickets_total;
+                document.getElementById("agree").disabled = true;
+                document.getElementById("giveup").disabled = true;
+                document.getElementById("disagree").disabled = true;
+                var stopticket = self.setInterval(function() {
+                    document.getElementById("agree").disabled = false;
+                    document.getElementById("giveup").disabled = false;
+                    document.getElementById("disagree").disabled = false;
+                    clearInterval(stopticket);
+                }, 2000)
+                /*
+                document.getElementById("total_text").style = "color: #01dd01;";
+                document.getElementById("num_total").style = "color: #01dd01;";
+                var speed = 10;
+                var speed = speed || 30;
+                var num = 10;
+                var color_from = "#01dd01";
+                var color_to = "#666666";
+                var r_from = parseInt(color_from.substr(1, 2), 16);
+                var g_from = parseInt(color_from.substr(3, 2), 16);
+                var b_from = parseInt(color_from.substr(5, 2), 16);
+                var r_to = parseInt(color_to.substr(1, 2), 16);
+                var g_to = parseInt(color_to.substr(3, 2), 16);
+                var b_to = parseInt(color_to.substr(5, 2), 16);
+                var step = 10;
+                var r_diff = (r_to - r_from) / step;
+                var g_diff = (g_to - g_from) / step;
+                var b_diff = (b_to - b_from) / step;
+                var st = setInterval(function () {
+                    var nowcolor = document.getElementById("total_text").style.color;
+                    var arr = nowcolor.split(",").map(Number);
+                    var r_now = parseInt(arr[0]);
+                    var g_now = parseInt(arr[1]);
+                    var b_now = parseInt(arr[2]);
+                    alert(arr);
+                    var r_tocolor = (r_now + r_diff).toFixed(0);
+                    var g_tocolor = (g_now + g_diff).toFixed(0);
+                    var b_tocolor = (b_now + b_diff).toFixed(0);
+                    var r_tocolor_hex = r_tocolor.toString(16);
+                    var g_tocolor_hex = g_tocolor.toString(16);
+                    var b_tocolor_hex = b_tocolor.toString(16);
+                    document.getElementById("total_text").style.color = "rgb(" + r_tocolor + ", " + g_tocolor + ", " + b_tocolor + ")";
+                    if (r_tocolor >= r_to) {
+                        clearInterval(st);
+                        document.getElementById("total_text").style.color = color_to;
+                    }
+                }, speed);
+                */
+            }
+
+            function reveal() {
+                var tickets_agree = parseInt(document.getElementById("num_agree").innerHTML);
+                var tickets_giveup = parseInt(document.getElementById("num_giveup").innerHTML);
+                var tickets_disagree = parseInt(document.getElementById("num_disagree").innerHTML);
+                document.getElementById("name_animate").innerHTML = "<span style=\"color: #00dd00;\"><ruby>" + tickets_agree + "<rt>支持</rt></ruby></span><span style=\"color: #aaaaaa;\"> / </span><span style=\"color: #666666;\"><ruby>" + tickets_giveup + "<rt>弃权</rt></ruby></span><span style=\"color: #aaaaaa;\"> / </span><span style=\"color: #dd0000;\"><ruby>" + tickets_disagree + "<rt>反对</rt></ruby></span>";
+                document.getElementById("agree").style = "display: none;";
+                document.getElementById("giveup").style = "display: none;";
+                document.getElementById("disagree").style = "display: none;";
+                document.getElementById("total_text").style = "display: none;";
+                animate();
+            }
+
+            function animate() {
+                var element = document.getElementById("name");
+                var speed = 10;
+                var speed = speed || 30;
+                var num = 10;
+                var st = setInterval(function() {
+                    --num;
+                    element.style.opacity = num / 10;
+                    if (num <= 0)  {
+                        clearInterval(st);
+                        document.getElementById("name").style = "display: none;";
+                        document.getElementById("name_animate").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; opacity: 0;";
+                        var element_in = document.getElementById("name_animate");
+                        var speed_in = 10;
+                        var speed_in = speed_in || 30;
+                        var num_in = 0;
+                        var st_in = setInterval(function() {
+                            ++num_in;
+                            element_in.style.opacity = num_in / 10;
+                            if (num_in >= 10)  {
+                                clearInterval(st_in);
+                                document.getElementById("name_animate").style = "display: none;";
+                                document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
+                                document.getElementById("name").innerHTML = document.getElementById("name_animate").innerHTML;
+                            }
+                        }, speed_in);
+                    }
+                }, speed);
+            }
+        </script>
+    </div>
+</body>
+
+</html>
