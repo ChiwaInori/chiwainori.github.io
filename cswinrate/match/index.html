@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>CS:GO 比赛胜率估算 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../../css/globalformat.css">
+    <style>
+        * {
+            text-align: center;
+            margin-left: 0px !important;
+        }
+
+        input {
+            margin: auto 16px auto 16px;
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1 id="center_title">CS:GO 比赛胜率估算</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS:GO 比赛胜率估算</strong></h6>
+    </div>
+    <div class="content">
+        <h3 id="longtext">中时 | <span class="link" onclick="switch_short()">短时</span> | <span class="link" onclick="switch_overtime()">加时</span></h3>
+        <h3 id="shorttext" style="display: none;"><span class="link" onclick="switch_long()">中时</span> | 短时 | <span class="link" onclick="switch_overtime()">加时</span></h3>
+        <h3 id="overtimetext" style="display: none;"><span class="link" onclick="switch_long()">中时</span> | <span class="link" onclick="switch_short()">短时</span> | 加时</h3>
+        <br />
+        <h3><span id="mytext" style="color: #00a8ff;" onclick="mywin()">我方队伍</span> <input id="myteam_score" value="0" /> : <input id="enemyteam_score" value="0" /> <span id="entext" style="color: #ff77cc;" onclick="enwin()">敌方队伍</span></h3>
+        <br />
+        <div id="preview1">
+            <h3 style="color: #00dd00;">ON WIN:</h3>
+            <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate_onwin" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #aaaaaa;"><span id="tierate_onwin" style="color: #aaaaaa;"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate_onwin" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
+            <div><div id="winbar_onwin" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar_onwin" style="background-color: #aaaaaa; height: 16px; display: inline-block; width: 16px;"></div><div id="losebar_onwin" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
+            <br />
+        </div>
+        <h3>CURRENT:</h3>
+        <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #aaaaaa;"><span id="tierate" style="color: #aaaaaa;"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
+        <div><div id="winbar" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar" style="background-color: #aaaaaa; height: 16px; display: inline-block; width: 16px;"></div><div id="losebar" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
+        <br />
+        <div id="preview2">
+            <h3 style="color: #dd0000;">ON LOSE:</h3>
+            <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate_onlose" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #aaaaaa;"><span id="tierate_onlose" style="color: #aaaaaa;"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate_onlose" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
+            <div><div id="winbar_onlose" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar_onlose" style="background-color: #aaaaaa; height: 16px; display: inline-block; width: 16px;"></div><div id="losebar_onlose" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
+        </div>
+    </div>
+    <script>
+        function switch_long() {
+            document.getElementById("longtext").style = "display: block;";
+            document.getElementById("shorttext").style = "display: none;";
+            document.getElementById("overtimetext").style = "display: none;";
+        }
+
+        function switch_short() {
+            document.getElementById("longtext").style = "display: none;";
+            document.getElementById("shorttext").style = "display: block;";
+            document.getElementById("overtimetext").style = "display: none;";
+        }
+
+        function switch_overtime() {
+            document.getElementById("longtext").style = "display: none;";
+            document.getElementById("shorttext").style = "display: none;";
+            document.getElementById("overtimetext").style = "display: block;";
+        }
+
+        cal();
+        function cal() {
+            var score_myteam = document.getElementById("myteam_score").value;
+            var score_enemyteam = document.getElementById("enemyteam_score").value;
+            if (document.getElementById("longtext").style.display == "" || document.getElementById("longtext").style.display == "block") {
+                var var1 = 15 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 15 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 16) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #00dd00;";
+                    document.getElementById("entext").style = "color: #dd0000;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_enemyteam == 16) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #dd0000;";
+                    document.getElementById("entext").style = "color: #00dd00;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_myteam == 15 && score_enemyteam == 15) {
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #aaaaaa;";
+                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                document.getElementById("winrate").innerText = chance_win;
+                document.getElementById("loserate").innerText = chance_lose;
+                document.getElementById("tierate").innerText = chance_tie;
+            }
+            if (document.getElementById("shorttext").style.display == "block") {
+                var var1 = 8 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 8 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 9) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #00dd00;";
+                    document.getElementById("entext").style = "color: #dd0000;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_enemyteam == 9) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #dd0000;";
+                    document.getElementById("entext").style = "color: #00dd00;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_myteam == 8 && score_enemyteam == 8) {
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #aaaaaa;";
+                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                document.getElementById("winrate").innerText = chance_win;
+                document.getElementById("loserate").innerText = chance_lose;
+                document.getElementById("tierate").innerText = chance_tie;
+            }
+            if (document.getElementById("overtimetext").style.display == "block") {
+                var var1 = 3 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 3 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 4) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #00dd00;";
+                    document.getElementById("entext").style = "color: #dd0000;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_enemyteam == 4) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #dd0000;";
+                    document.getElementById("entext").style = "color: #00dd00;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_myteam == 3 && score_enemyteam == 3) {
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #aaaaaa;";
+                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                document.getElementById("winrate").innerText = chance_win;
+                document.getElementById("loserate").innerText = chance_lose;
+                document.getElementById("tierate").innerText = chance_tie;
+            }
+            var chance_win_width = chance_win * 4;
+            var chance_lose_width = chance_lose * 4;
+            var chance_tie_width = chance_tie * 4;
+            document.getElementById("winbar").style.width = chance_win_width + "px";
+            document.getElementById("losebar").style.width = chance_lose_width + "px";
+            document.getElementById("tiebar").style.width = chance_tie_width + "px";
+        }
+        setInterval("cal()", "100");
+
+        previews();
+        function previews() {
+            var score_myteam = parseInt(document.getElementById("myteam_score").value) + 1;
+            var score_enemyteam = document.getElementById("enemyteam_score").value;
+            if (document.getElementById("longtext").style.display == "" || document.getElementById("longtext").style.display == "block") {
+                var var1 = 15 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 15 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 16) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 16) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onwin").innerText = chance_win;
+                document.getElementById("loserate_onwin").innerText = chance_lose;
+                document.getElementById("tierate_onwin").innerText = chance_tie;
+            }
+            if (document.getElementById("shorttext").style.display == "block") {
+                var var1 = 8 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 8 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 9) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 9) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onwin").innerText = chance_win;
+                document.getElementById("loserate_onwin").innerText = chance_lose;
+                document.getElementById("tierate_onwin").innerText = chance_tie;
+            }
+            if (document.getElementById("overtimetext").style.display == "block") {
+                var var1 = 3 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 3 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 4) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 4) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onwin").innerText = chance_win;
+                document.getElementById("loserate_onwin").innerText = chance_lose;
+                document.getElementById("tierate_onwin").innerText = chance_tie;
+            }
+            var chance_win_width = chance_win * 4;
+            var chance_lose_width = chance_lose * 4;
+            var chance_tie_width = chance_tie * 4;
+            document.getElementById("winbar_onwin").style.width = chance_win_width + "px";
+            document.getElementById("losebar_onwin").style.width = chance_lose_width + "px";
+            document.getElementById("tiebar_onwin").style.width = chance_tie_width + "px";
+
+            var score_myteam = document.getElementById("myteam_score").value;
+            var score_enemyteam = parseInt(document.getElementById("enemyteam_score").value) + 1;
+            if (document.getElementById("longtext").style.display == "" || document.getElementById("longtext").style.display == "block") {
+                var var1 = 15 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 15 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 16) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 16) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onlose").innerText = chance_win;
+                document.getElementById("loserate_onlose").innerText = chance_lose;
+                document.getElementById("tierate_onlose").innerText = chance_tie;
+            }
+            if (document.getElementById("shorttext").style.display == "block") {
+                var var1 = 8 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 8 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 9) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 9) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onlose").innerText = chance_win;
+                document.getElementById("loserate_onlose").innerText = chance_lose;
+                document.getElementById("tierate_onlose").innerText = chance_tie;
+            }
+            if (document.getElementById("overtimetext").style.display == "block") {
+                var var1 = 3 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 3 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 4) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 4) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onlose").innerText = chance_win;
+                document.getElementById("loserate_onlose").innerText = chance_lose;
+                document.getElementById("tierate_onlose").innerText = chance_tie;
+            }
+            var chance_win_width = chance_win * 4;
+            var chance_lose_width = chance_lose * 4;
+            var chance_tie_width = chance_tie * 4;
+            document.getElementById("winbar_onlose").style.width = chance_win_width + "px";
+            document.getElementById("losebar_onlose").style.width = chance_lose_width + "px";
+            document.getElementById("tiebar_onlose").style.width = chance_tie_width + "px";
+        }
+        setInterval("previews()", "100");
+
+        function mywin() {
+            ++document.getElementById("myteam_score").value;
+        }
+
+        function enwin() {
+            ++document.getElementById("enemyteam_score").value;
+        }
+    </script>
+</body>
+
+</html>
