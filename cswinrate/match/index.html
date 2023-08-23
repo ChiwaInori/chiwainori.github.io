@@ -16,6 +16,16 @@
             margin: auto 16px auto 16px;
             width: 20px;
         }
+
+        div {
+            transition: width 0.3s;
+        }
+        
+        .hidden {
+          opacity: 0;
+          height: 0;
+          overflow: hidden;
+        }
     </style>
 </head>
 
@@ -27,9 +37,10 @@
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS:GO 比赛胜率估算</strong></h6>
     </div>
     <div class="content">
-        <h3 id="longtext">中时 | <span class="link" onclick="switch_short()">短时</span> | <span class="link" onclick="switch_overtime()">加时</span></h3>
-        <h3 id="shorttext" style="display: none;"><span class="link" onclick="switch_long()">中时</span> | 短时 | <span class="link" onclick="switch_overtime()">加时</span></h3>
-        <h3 id="overtimetext" style="display: none;"><span class="link" onclick="switch_long()">中时</span> | <span class="link" onclick="switch_short()">短时</span> | 加时</h3>
+        <h3 id="longtext"><ruby>中时<rt>MR15</rt></ruby> | <span class="link" onclick="switch_mr12()">MR12</span> | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
+        <h3 id="shorttext" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | <span class="link" onclick="switch_mr12()">MR12</span> | <ruby>短时<rt>MR8</rt></ruby> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
+        <h3 id="overtimetext" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | <span class="link" onclick="switch_mr12()">MR12</span> | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <ruby>加时<rt>MR3</rt></ruby></h3>
+        <h3 id="mr12text" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | MR12 | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
         <br />
         <h3><span id="mytext" style="color: #00a8ff;" onclick="mywin()">我方队伍</span> <input id="myteam_score" value="0" /> : <input id="enemyteam_score" value="0" /> <span id="entext" style="color: #ff77cc;" onclick="enwin()">敌方队伍</span></h3>
         <br />
@@ -54,18 +65,28 @@
             document.getElementById("longtext").style = "display: block;";
             document.getElementById("shorttext").style = "display: none;";
             document.getElementById("overtimetext").style = "display: none;";
+            document.getElementById("mr12text").style = "display: none;";
         }
 
         function switch_short() {
             document.getElementById("longtext").style = "display: none;";
             document.getElementById("shorttext").style = "display: block;";
             document.getElementById("overtimetext").style = "display: none;";
+            document.getElementById("mr12text").style = "display: none;";
         }
 
         function switch_overtime() {
             document.getElementById("longtext").style = "display: none;";
             document.getElementById("shorttext").style = "display: none;";
             document.getElementById("overtimetext").style = "display: block;";
+            document.getElementById("mr12text").style = "display: none;";
+        }
+
+        function switch_mr12() {
+            document.getElementById("longtext").style = "display: none;";
+            document.getElementById("shorttext").style = "display: none;";
+            document.getElementById("overtimetext").style = "display: none;";
+            document.getElementById("mr12text").style = "display: block;";
         }
 
         cal();
@@ -73,8 +94,8 @@
             var score_myteam = document.getElementById("myteam_score").value;
             var score_enemyteam = document.getElementById("enemyteam_score").value;
             if (document.getElementById("longtext").style.display == "" || document.getElementById("longtext").style.display == "block") {
-                var var1 = 15 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
-                var var2 = 15 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var var1 = 15 - score_myteam;
+                var var2 = 15 - score_enemyteam;
                 var total = var1 + var2 + 1;
                 var chance_win = parseInt(var2 / total * 100);
                 var chance_lose = parseInt(var1 / total * 100);
@@ -195,6 +216,47 @@
                 document.getElementById("loserate").innerText = chance_lose;
                 document.getElementById("tierate").innerText = chance_tie;
             }
+            if (document.getElementById("mr12text").style.display == "block") {
+                var var1 = 12 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 12 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 13) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #00dd00;";
+                    document.getElementById("entext").style = "color: #dd0000;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_enemyteam == 13) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #dd0000;";
+                    document.getElementById("entext").style = "color: #00dd00;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                if (score_myteam == 12 && score_enemyteam == 12) {
+                    document.getElementById("preview1").style = "display: none;";
+                    document.getElementById("preview2").style = "display: none;";
+                    document.getElementById("mytext").style = "color: #aaaaaa;";
+                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").onclick = "";
+                    document.getElementById("entext").onclick = "";
+                }
+                document.getElementById("winrate").innerText = chance_win;
+                document.getElementById("loserate").innerText = chance_lose;
+                document.getElementById("tierate").innerText = chance_tie;
+            }
             var chance_win_width = chance_win * 4;
             var chance_lose_width = chance_lose * 4;
             var chance_tie_width = chance_tie * 4;
@@ -271,6 +333,27 @@
                 document.getElementById("loserate_onwin").innerText = chance_lose;
                 document.getElementById("tierate_onwin").innerText = chance_tie;
             }
+            if (document.getElementById("mr12text").style.display == "block") {
+                var var1 = 12 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 12 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 13) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 13) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onwin").innerText = chance_win;
+                document.getElementById("loserate_onwin").innerText = chance_lose;
+                document.getElementById("tierate_onwin").innerText = chance_tie;
+            }
             var chance_win_width = chance_win * 4;
             var chance_lose_width = chance_lose * 4;
             var chance_tie_width = chance_tie * 4;
@@ -335,6 +418,27 @@
                     var chance_tie = 0;
                 }
                 if (score_enemyteam == 4) {
+                    var chance_win = 0;
+                    var chance_lose = 100;
+                    var chance_tie = 0;
+                }
+                document.getElementById("winrate_onlose").innerText = chance_win;
+                document.getElementById("loserate_onlose").innerText = chance_lose;
+                document.getElementById("tierate_onlose").innerText = chance_tie;
+            }
+            if (document.getElementById("mr12text").style.display == "block") {
+                var var1 = 12 - score_myteam; // ENEMY AVAILABLE WIN ROUNDS
+                var var2 = 12 - score_enemyteam; // ME AVAILABLE WIN ROUNDS
+                var total = var1 + var2 + 1;
+                var chance_win = parseInt(var2 / total * 100);
+                var chance_lose = parseInt(var1 / total * 100);
+                var chance_tie = 100 - chance_win - chance_lose;
+                if (score_myteam == 13) {
+                    var chance_win = 100;
+                    var chance_lose = 0;
+                    var chance_tie = 0;
+                }
+                if (score_enemyteam == 13) {
                     var chance_win = 0;
                     var chance_lose = 100;
                     var chance_tie = 0;
