@@ -47,7 +47,7 @@
     </div>
     <div class="content">
         <div id="countdownblock">
-            <h1 style="font-size: 50px;">距离暑假 (中考结束) 还有</h1>
+            <h1 style="font-size: 50px;">距离放学回家还有</h1>
             <div id="countdown">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
@@ -103,9 +103,9 @@
         </style>
         -->
         <div id="summervacation">
-            <h6 style="margin: 10px auto 10px auto; display: none;">距离寒假还有 <span id="sv_t"></span> 小时</h6>
+            <h6 style="margin: 10px auto 10px auto;">距离寒假还有 <span id="sv_t"></span> 小时</h6>
             <h6 style="margin: 10px auto 10px auto;">(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
-            <h6 style="margin: 10px auto 10px auto; display: none;">距离中考还有 <span id="me_t"></span> 小时 (<span id="me_t_day"></span> 天), 距离高考还有 <span id="he_t"></span> 小时 (<span id="he_t_day"></span> 天)</h6>
+            <h6 style="margin: 10px auto 10px auto;"><span style="display: none;">距离中考还有 <span id="me_t"></span> 小时 (<span id="me_t_day"></span> 天), </span>距离高考还有 <span id="he_t"></span> 小时 (<span id="he_t_day"></span> 天)</h6>
         </div>
         <div id="notes">
             <br />
@@ -118,7 +118,8 @@
             <p id="cal1">辅助校准系统 <span onclick="cal()">&gt;&gt;&gt;</span></p>
             <p id="cal2" style="display: none;">辅助校准系统 | <input id="cali1" type="text" style="width: 30px;" />&nbsp;<input id="cali2" type="text" style="width: 30px;" /> <button id="subcal" onclick="submitcal()">确认</button> | <strong><span id="calresult"></span></strong></p>
             <br />
-            <p>Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY (xtsdcb69). All Rights Reserved.</p>
+            <p>Copyright &copy; <span id="thisyear"></span> Guigang JNZX 2313 XZY (xtsdcb69). All Rights Reserved.</p>
+            <!-- <p>Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY (xtsdcb69). All Rights Reserved.</p> -->
             <script>
                 var date1 = new Date();
                 var thisyear = date1.getFullYear();
@@ -142,28 +143,28 @@
                 var today_w = date.getDay();
                 var today_h = date.getHours();
                 var today_m = date.getMinutes();
-                if (today_w == 5 && today_h < 17 || today_w == 5 && today_h == 17 && today_m <= 15) {
+                if (today_w == 0 && today_h < 11 || today_w == 7 && today_h == 11 && today_m <= 45) {
                     var today = today;
                 }
-                if (today_w == 5 && today_h >= 17 && today_m >= 15 || today_w == 5 && today_h >= 18) {
+                if (today_w == 0 && today_h >= 11 && today_m >= 45 || today_w == 7 && today_h >= 11) {
                     var today = today + 604800000;
                 }
-                if (today_w == 6) {
+                if (today_w == 1) {
                     var today = today + 518400000;
                 }
-                if (today_w == 0) {
+                if (today_w == 2) {
                     var today = today + 432000000;
                 }
-                if (today_w == 1) {
+                if (today_w == 3) {
                     var today = today + 345600000;
                 }
-                if (today_w == 2) {
+                if (today_w == 4) {
                     var today = today + 259200000;
                 }
-                if (today_w == 3) {
+                if (today_w == 5) {
                     var today = today + 172800000;
                 }
-                if (today_w == 4) {
+                if (today_w == 6) {
                     var today = today + 86400000;
                 }
                 var target = new Date(today);
@@ -171,8 +172,8 @@
                 var target_m = target.getMonth();
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
-                var target_word = target_y + "." + target_m + "." + target_d + " 17:15";
-                getDistanceSpecifiedTime("2023.6.26 17:00");
+                var target_word = target_y + "." + target_m + "." + target_d + " 11:45";
+                getDistanceSpecifiedTime(target_word);
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
@@ -256,9 +257,9 @@
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
                     // var EndTimeSV = new Date("2022.6.30 16:30");
-                    var EndTimeSV = new Date("2023.6.26 18:00");
+                    var EndTimeSV = new Date("2024.1.26 17:30");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2023.1.29 8:00");
+                    var StartTimeSV = new Date("2023.8.27 18:00");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
