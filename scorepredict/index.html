@@ -31,6 +31,7 @@
             <p>你的排名: <strong><span id="res4"></span></strong> <strong><span id="res5"></span></strong></p>
             <p>与你同分数的人一共有 <strong><span id="res1"></span></strong> 人</p>
             <p>前方 1 分有 <strong><span id="res2"></span></strong> 人，后方 1 分有 <strong><span id="res3"></span></strong> 人</p>
+            <p>你对平均分的影响为 <strong><span id="res6"></span></strong> 分</p>
         </div>
         <p id="peoplecount" style="display: none;">1</p>
         <p id="countingscore" style="display: none;">&nbsp;</p>
@@ -88,86 +89,127 @@
                 document.getElementById("problem").style = "display: none;";
                 document.getElementById("searchbutton").disabled = false;
                 document.getElementById("searchbutton").innerHTML = "提交";
+                document.getElementById("ipt1").style = "margin-left: 10px; width: 32px; color: #000000;";
+                document.getElementById("ipt2").style = "margin-left: 10px; width: 32px; color: #000000;";
+                document.getElementById("ipt3").style = "margin-left: 10px; width: 32px; color: #000000;";
+                document.getElementById("ipt4").style = "margin-left: 10px; width: 32px; color: #000000;";
+                document.getElementById("ipt5").style = "margin-left: 10px; width: 32px; color: #000000;";
 
-                if (ipt1_ori.toString().length < 1 || ipt2_ori.toString().length < 1 || ipt3_ori.toString().length < 1 || ipt4_ori.toString().length < 1) {
-                    document.getElementById("problem").innerHTML = "&nbsp;";
-                    document.getElementById("problem").style = "display: none;";
-                    document.getElementById("searchbutton").disabled = true;
-                    document.getElementById("searchbutton").innerHTML = "无效";
-                }
                 if (ipt5_ori.toString().length < 1) {
                     document.getElementById("problem").innerHTML = "<strong>平均分未填写，计算误差较大</strong>";
                     document.getElementById("problem").style = "display: block; color: #ffa800;";
                 }
+                if (ipt4_ori.toString().length < 1) {
+                    document.getElementById("problem").innerHTML = "<strong>你的分数不能为空</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt3_ori.toString().length < 1) {
+                    document.getElementById("problem").innerHTML = "<strong>最高分不能为空</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt2_ori.toString().length < 1) {
+                    document.getElementById("problem").innerHTML = "<strong>最低分不能为空</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt1_ori.toString().length < 1) {
+                    document.getElementById("problem").innerHTML = "<strong>参考人数不能为空</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
                 if (ipt1 < 1) {
                     document.getElementById("problem").innerHTML = "<strong>参考人数 ≥ 1</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt1").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt1 % 1 != 0) {
                     document.getElementById("problem").innerHTML = "<strong>参考人数需为整数</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt1").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt2 < 0) {
                     document.getElementById("problem").innerHTML = "<strong>最低分 ≥ 0</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt2").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt3 < 0) {
                     document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 0</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt3").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt4 < 0) {
                     document.getElementById("problem").innerHTML = "<strong>你的分数 ≥ 0</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt4").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt5 < 0) {
                     document.getElementById("problem").innerHTML = "<strong>平均分 ≥ 0</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt5").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt2 > ipt3) {
                     document.getElementById("problem").innerHTML = "<strong>最低分 ≤ 最高分</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt2").style = "margin-left: 10px; width: 32px; color: #dd0000;";
+                    document.getElementById("ipt3").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt2 > ipt4) {
                     document.getElementById("problem").innerHTML = "<strong>最低分 ≤ 你的分数</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt2").style = "margin-left: 10px; width: 32px; color: #dd0000;";
+                    document.getElementById("ipt4").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt2 > ipt5) {
                     document.getElementById("problem").innerHTML = "<strong>最低分 ≤ 平均分</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt2").style = "margin-left: 10px; width: 32px; color: #dd0000;";
+                    document.getElementById("ipt5").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt3 < ipt2) {
                     document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 最低分</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt2").style = "margin-left: 10px; width: 32px; color: #dd0000;";
+                    document.getElementById("ipt3").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt3 < ipt4) {
                     document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 你的分数</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt3").style = "margin-left: 10px; width: 32px; color: #dd0000;";
+                    document.getElementById("ipt4").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
                 if (ipt3 < ipt5) {
                     document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 平均分</strong>";
                     document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("ipt3").style = "margin-left: 10px; width: 32px; color: #dd0000;";
+                    document.getElementById("ipt5").style = "margin-left: 10px; width: 32px; color: #dd0000;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
@@ -201,7 +243,12 @@
                 
                 var avg_true = (ipt2 + ipt3) / 2;
                 var avg_diff = ipt5 - avg_true;
-                if (ipt5_ori == "") { var avg_diff = 0; }
+                if (ipt5_ori.toString().length < 1) { 
+                    var avg_diff = 0;
+                    var avg_use = avg_true;
+                } else {
+                    var avg_use = ipt5_ori;
+                }
 
                 if (avg_diff == 0) {
 
@@ -367,6 +414,27 @@
                 document.getElementById("res1").innerHTML = scorepersons;
                 document.getElementById("res2").innerHTML = scorepersons_add1;
                 document.getElementById("res3").innerHTML = scorepersons_rem1;
+
+                var ipt4 = parseInt(document.getElementById("ipt4").value);
+                var totalscore = ipt1 * avg_use;
+                var totalscore_noyou = totalscore - ipt4;
+                var ppl_noyou = ipt1 - 1;
+                var avgscore_noyou = totalscore_noyou / ppl_noyou;
+                var change = avg_use - avgscore_noyou;
+                console.log(totalscore + "," + ppl_noyou + "," + avgscore_noyou + "," + change);
+                var change = change.toFixed(4);
+                if (change > 0) {
+                    document.getElementById("res6").style = "color: #00dd00;";
+                    document.getElementById("res6").innerHTML = "+" + change;
+                }
+                if (change == 0) {
+                    document.getElementById("res6").style = "color: #666666;";
+                    document.getElementById("res6").innerHTML = change;
+                }
+                if (change < 0) {
+                    document.getElementById("res6").style = "color: #dd0000;";
+                    document.getElementById("res6").innerHTML = change;
+                }
 
                 var nowscore = parseInt(document.getElementById("countingscore").innerHTML) + 1;
                 document.getElementById("countingscore").innerHTML = nowscore;
