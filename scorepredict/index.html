@@ -14,15 +14,15 @@
     </div>
     <div class="navigation">
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>成绩排名估算</strong></h6>
+        <h6 id="dev_text" style="display: none;">[DEVELOPER MODE ON]</h6>
     </div>
     <div class="content">
-        <p>本网站处于开发阶段，可能存在一定 bug.</p>
-        <br />
         <p>在下方输入各项数据来估算你的成绩的排名。</p>
-        <p><strong>参考人数</strong><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
-        <p><strong>最&nbsp;&nbsp;低&nbsp;&nbsp;分</strong><input id="ipt2" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
-        <p><strong>最&nbsp;&nbsp;高&nbsp;&nbsp;分</strong><input id="ipt3" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
-        <p><strong>你的分数</strong><input id="ipt4" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
+        <p><strong>参考人数<input id="ipt1" type="text" onkeyup="button()" style="margin-left: 10px; width: 32px;" /> 人</strong></p>
+        <p><strong>分数分布<input id="ipt2" type="text" onkeyup="button()" style="margin-left: 10px; width: 32px;" /> ~<input id="ipt3" type="text" onkeyup="button()" style="margin-left: 10px; width: 32px;" /></strong></p>
+        <p><strong>平&nbsp;&nbsp;均&nbsp;&nbsp;分</strong><input id="ipt5" type="text" onkeyup="button()" style="margin-left: 10px; width: 32px;" placeholder="选填" /></p>
+        <p><strong>你的分数</strong><input id="ipt4" type="text" onkeyup="button()" style="margin-left: 10px; width: 32px;" /></p>
+        <p id="problem" style="color: #dd0000;"></p>
         <button id="searchbutton" onclick="submit()" disabled="disabled" style="margin-left: 40px;">无效</button>
         <p>&nbsp;</p>
         <div id="result" style="display: none;">
@@ -30,7 +30,7 @@
             <h6 id="warn_tooclose" style="display: none;">* 你的分数接近最低分/最高分。算出来的结果存在略大误差。</h6>
             <p>你的排名: <strong><span id="res4"></span></strong> <strong><span id="res5"></span></strong></p>
             <p>与你同分数的人一共有 <strong><span id="res1"></span></strong> 人</p>
-            <p>提高 1 分可超过 <strong><span id="res2"></span></strong> 人，降低 1 分被 <strong><span id="res3"></span></strong> 人超过</p>
+            <p>前方 1 分有 <strong><span id="res2"></span></strong> 人，后方 1 分有 <strong><span id="res3"></span></strong> 人</p>
         </div>
         <p id="peoplecount" style="display: none;">1</p>
         <p id="countingscore" style="display: none;">&nbsp;</p>
@@ -72,107 +72,500 @@
             });
 
             function button() {
-                var ipt1 = parseInt(document.getElementById("ipt1").value);
-                var ipt2 = parseInt(document.getElementById("ipt2").value);
-                var ipt3 = parseInt(document.getElementById("ipt3").value);
-                var ipt4 = parseInt(document.getElementById("ipt4").value);
-                if (ipt1.toString().length < 1 || ipt2.toString().length < 1 || ipt3.toString().length < 1 || ipt4.toString().length < 1 || ipt4 < ipt2 || ipt4 > ipt3) {
+                var ipt1 = parseFloat(document.getElementById("ipt1").value);
+                var ipt2 = parseFloat(document.getElementById("ipt2").value);
+                var ipt3 = parseFloat(document.getElementById("ipt3").value);
+                var ipt4 = parseFloat(document.getElementById("ipt4").value);
+                var ipt5 = parseFloat(document.getElementById("ipt5").value);
+
+                var ipt1_ori = document.getElementById("ipt1").value;
+                var ipt2_ori = document.getElementById("ipt2").value;
+                var ipt3_ori = document.getElementById("ipt3").value;
+                var ipt4_ori = document.getElementById("ipt4").value;
+                var ipt5_ori = document.getElementById("ipt5").value;
+
+                document.getElementById("problem").innerHTML = "&nbsp;";
+                document.getElementById("problem").style = "display: none;";
+                document.getElementById("searchbutton").disabled = false;
+                document.getElementById("searchbutton").innerHTML = "提交";
+
+                if (ipt1_ori.toString().length < 1 || ipt2_ori.toString().length < 1 || ipt3_ori.toString().length < 1 || ipt4_ori.toString().length < 1) {
+                    document.getElementById("problem").innerHTML = "&nbsp;";
+                    document.getElementById("problem").style = "display: none;";
                     document.getElementById("searchbutton").disabled = true;
                     document.getElementById("searchbutton").innerHTML = "无效";
                 }
-    
-                if (ipt1.toString().length >= 1 && ipt2.toString().length >= 1 && ipt3.toString().length >= 1 && ipt4.toString().length >= 1 && ipt4 >= ipt2 && ipt4 <= ipt3) {
-                    document.getElementById("searchbutton").disabled = false;
-                    document.getElementById("searchbutton").innerHTML = "提交";
+                if (ipt5_ori.toString().length < 1) {
+                    document.getElementById("problem").innerHTML = "<strong>平均分未填写，计算误差较大</strong>";
+                    document.getElementById("problem").style = "display: block; color: #ffa800;";
                 }
+                if (ipt1 < 1) {
+                    document.getElementById("problem").innerHTML = "<strong>参考人数 ≥ 1</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt1 % 1 != 0) {
+                    document.getElementById("problem").innerHTML = "<strong>参考人数需为整数</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt2 < 0) {
+                    document.getElementById("problem").innerHTML = "<strong>最低分 ≥ 0</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt3 < 0) {
+                    document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 0</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt4 < 0) {
+                    document.getElementById("problem").innerHTML = "<strong>你的分数 ≥ 0</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt5 < 0) {
+                    document.getElementById("problem").innerHTML = "<strong>平均分 ≥ 0</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt2 > ipt3) {
+                    document.getElementById("problem").innerHTML = "<strong>最低分 ≤ 最高分</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt2 > ipt4) {
+                    document.getElementById("problem").innerHTML = "<strong>最低分 ≤ 你的分数</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt2 > ipt5) {
+                    document.getElementById("problem").innerHTML = "<strong>最低分 ≤ 平均分</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt3 < ipt2) {
+                    document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 最低分</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt3 < ipt4) {
+                    document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 你的分数</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+                if (ipt3 < ipt5) {
+                    document.getElementById("problem").innerHTML = "<strong>最高分 ≥ 平均分</strong>";
+                    document.getElementById("problem").style = "display: block; color: #dd0000;";
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+
                 document.getElementById("countingscore").innerHTML = ipt4;
                 document.getElementById("peoplecount").innerHTML = 1;
             }
 
+            const debug = 0;
+            if (debug == 1) {
+                document.getElementById("ipt1").value = 1700;
+                document.getElementById("ipt2").value = 20;
+                document.getElementById("ipt3").value = 140;
+                document.getElementById("ipt4").value = 100;
+
+                document.getElementById("dev_text").style = "display: block; color: #00a8ff;";
+                document.getElementById("searchbutton").disabled = false;
+                document.getElementById("searchbutton").innerHTML = "提交";
+
+                document.getElementById("countingscore").innerHTML = parseFloat(document.getElementById("ipt4").value);
+                document.getElementById("peoplecount").innerHTML = 1;
+            }
+
             function submit() {
-                var ipt1 = parseInt(document.getElementById("ipt1").value);
-                var ipt2 = parseInt(document.getElementById("ipt2").value);
-                var ipt3 = parseInt(document.getElementById("ipt3").value);
-                var ipt4 = parseInt(document.getElementById("ipt4").value);
-                // function: (c/(b-a))((0-Math.cos(((2*pi)/(a-b))*(x-b))+1)^4), a = min, b = max, c = total people, x = your score
+                var ipt1 = parseFloat(document.getElementById("ipt1").value);
+                var ipt2 = parseFloat(document.getElementById("ipt2").value);
+                var ipt3 = parseFloat(document.getElementById("ipt3").value);
+                var ipt4 = parseFloat(document.getElementById("ipt4").value);
+                var ipt5 = parseFloat(document.getElementById("ipt5").value);
+                var ipt5_ori = document.getElementById("ipt5").value;
+                
+                var avg_true = (ipt2 + ipt3) / 2;
+                var avg_diff = ipt5 - avg_true;
+                if (ipt5_ori == "") { var avg_diff = 0; }
 
-                var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4); // 例: 105~110 分数段的人数
-                var scorepersons = parseInt(areapersons / 5); // 例: 考 108 的人数，即与你同分数的人数
-                if (areapersons < 5) {
-                    var scorepersons = 0;
-                }
+                if (avg_diff == 0) {
 
-                var areapersons_add1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3+1))+1)**4);
-                var scorepersons_add1 = parseInt(areapersons_add1 / 5);
-                if (areapersons_add1 < 5) {
-                    var scorepersons_add1 = 0;
-                }
+                    // function: (c/(b-a))((0-Math.cos(((2*pi)/(a-b))*(x-b))+1)^4), a = min, b = max, c = total people, x = your score
 
-                var areapersons_rem1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3-1))+1)**4);
-                var scorepersons_rem1 = parseInt(areapersons_rem1 / 5);
-                if (areapersons_rem1 < 5) {
-                    var scorepersons_rem1 = 0;
+                    var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4); // 例: 105~110 分数段的人数
+                    var scorepersons = parseInt(areapersons / 5); // 例: 考 108 的人数，即与你同分数的人数
+                    if (areapersons < 5) {
+                        var scorepersons = 0;
+                    }
+
+                    var areapersons_add1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3+1))+1)**4);
+                    var scorepersons_add1 = parseInt(areapersons_add1 / 5);
+                    if (areapersons_add1 < 5) {
+                        var scorepersons_add1 = 0;
+                    }
+
+                    var areapersons_rem1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3-1))+1)**4);
+                    var scorepersons_rem1 = parseInt(areapersons_rem1 / 5);
+                    if (areapersons_rem1 < 5) {
+                        var scorepersons_rem1 = 0;
+                    }
+
+                    if (ipt4 == ipt3) {
+                        var scorepersons_add1 = 0;
+                    }
+                    if (ipt4 == ipt2) {
+                        var scorepersons_rem1 = 0;
+                    }
                 }
                 
-                if (ipt4 == ipt3) {
-                    var scorepersons_add1 = 0;
+                if (avg_diff > 0) {
+                    var min_normal = ipt2 + avg_diff; // 原函数在 min_normal 左侧无意义
+                    var expend_area = (min_normal + ipt5) / 2; // 原函数的定义域 [expend_area, ipt3]; 延长区函数定义域 [ipt2, expend_area];
+                    
+                    if (ipt4 >= expend_area) {
+                        var ipt4 = ipt4 - avg_diff;
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = parseInt(areapersons / 5);
+                        if (areapersons < 5) {
+                            var scorepersons = 0;
+                        }
+
+                        var areapersons_add1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3+1))+1)**4);
+                        var scorepersons_add1 = parseInt(areapersons_add1 / 5);
+                        if (areapersons_add1 < 5) {
+                            var scorepersons_add1 = 0;
+                        }
+
+                        var areapersons_rem1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3-1))+1)**4);
+                        var scorepersons_rem1 = parseInt(areapersons_rem1 / 5);
+                        if (areapersons_rem1 < 5) {
+                            var scorepersons_rem1 = 0;
+                        }
+
+                        if (ipt4 == ipt3) {
+                            var scorepersons_add1 = 0;
+                        }
+                        if (ipt4 == ipt2) {
+                            var scorepersons_rem1 = 0;
+                        }
+                    } else {
+                        var original_range = expend_area - min_normal;
+                        var expend_range = expend_area - ipt2;
+
+                        var diff_ori_rate = (expend_area - ipt4) / original_range;
+                        var ipt4 = expend_area - (expend_range * diff_ori_rate);
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = parseInt(areapersons / 5);
+                        if (areapersons < 5) {
+                            var scorepersons = 0;
+                        }
+
+                        var areapersons_add1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3+1))+1)**4);
+                        var scorepersons_add1 = parseInt(areapersons_add1 / 5);
+                        if (areapersons_add1 < 5) {
+                            var scorepersons_add1 = 0;
+                        }
+
+                        var areapersons_rem1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3-1))+1)**4);
+                        var scorepersons_rem1 = parseInt(areapersons_rem1 / 5);
+                        if (areapersons_rem1 < 5) {
+                            var scorepersons_rem1 = 0;
+                        }
+
+                        if (ipt4 == ipt3) {
+                            var scorepersons_add1 = 0;
+                        }
+                        if (ipt4 == ipt2) {
+                            var scorepersons_rem1 = 0;
+                        }
+                    }
                 }
-                if (ipt4 == ipt2) {
-                    var scorepersons_rem1 = 0;
+
+                if (avg_diff < 0) {
+                    var max_normal = ipt3 + avg_diff; // 原函数在 max_normal 右侧无意义
+                    var expend_area = (max_normal + ipt5) / 2; // 原函数的定义域 [expend_area, ipt3]; 延长区函数定义域 [ipt2, expend_area];
+                    
+                    if (ipt4 <= expend_area) {
+                        var ipt4 = ipt4 - avg_diff;
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = parseInt(areapersons / 5);
+                        if (areapersons < 5) {
+                            var scorepersons = 0;
+                        }
+
+                        var areapersons_add1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3+1))+1)**4);
+                        var scorepersons_add1 = parseInt(areapersons_add1 / 5);
+                        if (areapersons_add1 < 5) {
+                            var scorepersons_add1 = 0;
+                        }
+
+                        var areapersons_rem1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3-1))+1)**4);
+                        var scorepersons_rem1 = parseInt(areapersons_rem1 / 5);
+                        if (areapersons_rem1 < 5) {
+                            var scorepersons_rem1 = 0;
+                        }
+
+                        if (ipt4 == ipt3) {
+                            var scorepersons_add1 = 0;
+                        }
+                        if (ipt4 == ipt2) {
+                            var scorepersons_rem1 = 0;
+                        }
+                    } else {
+                        var original_range = max_normal - expend_area;
+                        var expend_range = ipt3 - expend_area;
+
+                        var diff_ori_rate = (ipt4 - expend_area) / original_range;
+                        var ipt4 = ipt3 - (expend_range * diff_ori_rate);
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = parseInt(areapersons / 5);
+                        if (areapersons < 5) {
+                            var scorepersons = 0;
+                        }
+
+                        var areapersons_add1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3+1))+1)**4);
+                        var scorepersons_add1 = parseInt(areapersons_add1 / 5);
+                        if (areapersons_add1 < 5) {
+                            var scorepersons_add1 = 0;
+                        }
+
+                        var areapersons_rem1 = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3-1))+1)**4);
+                        var scorepersons_rem1 = parseInt(areapersons_rem1 / 5);
+                        if (areapersons_rem1 < 5) {
+                            var scorepersons_rem1 = 0;
+                        }
+
+                        if (ipt4 == ipt3) {
+                            var scorepersons_add1 = 0;
+                        }
+                        if (ipt4 == ipt2) {
+                            var scorepersons_rem1 = 0;
+                        }
+                    }
                 }
-                
-                
 
                 document.getElementById("result").style = "display: block;";
                 document.getElementById("res1").innerHTML = scorepersons;
                 document.getElementById("res2").innerHTML = scorepersons_add1;
                 document.getElementById("res3").innerHTML = scorepersons_rem1;
-                
-                var toohigh = (ipt3 - ipt2) * 0.9 + ipt2;
-                var toolow = (ipt3 - ipt2) * 0.1 + ipt2;
-                if (ipt4 > toohigh || ipt4 < toolow) {
-                    document.getElementById("warn_tooclose").style = "display: block; color: #aaaaaa;";
-                }
-                if (ipt4 <= toohigh && ipt4 >= toolow) {
-                    document.getElementById("warn_tooclose").style = "display: none;";
-                }
-
-                // document.getElementById("debug").innerHTML = toolow;
 
                 var nowscore = parseInt(document.getElementById("countingscore").innerHTML) + 1;
+                document.getElementById("countingscore").innerHTML = nowscore;
                 getrank();
             }
 
             function getrank() {
-                var ipt1 = document.getElementById("ipt1").value;
-                var ipt2 = document.getElementById("ipt2").value;
-                var ipt3 = document.getElementById("ipt3").value;
-                var nowscore = parseInt(document.getElementById("countingscore").innerHTML);
-
-                var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(nowscore-ipt3))+1)**4);
-                var scorepersons = parseInt(areapersons / 5);
-                if (areapersons < 5) {
-                    var scorepersons = 0;
+                var ipt1 = parseFloat(document.getElementById("ipt1").value);
+                var ipt2 = parseFloat(document.getElementById("ipt2").value);
+                var ipt3 = parseFloat(document.getElementById("ipt3").value);
+                var ipt4 = parseFloat(document.getElementById("ipt4").value);
+                var ipt5_ori = document.getElementById("ipt5").value;
+                
+                var avg_true = (ipt2 + ipt3) / 2;
+                if (ipt5_ori.toString().length < 1) {
+                    var avg_use = avg_true;
+                } else {
+                    var avg_use = ipt5_ori;
                 }
 
-                var nowpeople = parseInt(document.getElementById("peoplecount").innerHTML) + scorepersons;
-                document.getElementById("peoplecount").innerHTML = nowpeople;
-                if (nowscore < ipt3) {
-                    document.getElementById("countingscore").innerHTML = nowscore + 1;
-                    getrank();
-                } else {
-                    document.getElementById("res4").innerHTML = nowpeople;
-                    var halfpeople = ipt1 / 2;
-                    if (nowpeople > halfpeople) {
-                        var percent = parseInt(nowpeople / ipt1 * 100);
-                        document.getElementById("res5").innerHTML = "(被 " + percent + "%的人超过)";
-                        document.getElementById("res5").style = "color: #dd0000;";
+                var nowscore = parseInt(document.getElementById("countingscore").innerHTML);
+                console.log(nowscore);
+                if (ipt4 >= avg_use) {
+                    getrank_fx_up();
+                    if (nowscore < ipt3) {
+                        document.getElementById("countingscore").innerHTML = nowscore + 1;
+                        getrank();
                     } else {
-                        var percent = 100 - parseInt(nowpeople / ipt1 * 100);
-                        document.getElementById("res5").innerHTML = "(超过 " + percent + "%的人)";
-                        document.getElementById("res5").style = "color: #00dd00;";
+                        var nowpeople = parseInt(document.getElementById("peoplecount").innerHTML);
+                        document.getElementById("res4").innerHTML = nowpeople;
+                        var halfpeople = ipt1 / 2;
+                        if (nowpeople > halfpeople) {
+                            var percent = parseInt(nowpeople / ipt1 * 100);
+                            document.getElementById("res5").innerHTML = "(被 " + percent + "%的人超过)";
+                            document.getElementById("res5").style = "color: #dd0000;";
+                        } else {
+                            var percent = 100 - parseInt(nowpeople / ipt1 * 100);
+                            document.getElementById("res5").innerHTML = "(超过 " + percent + "%的人)";
+                            document.getElementById("res5").style = "color: #00dd00;";
+                        }
+                        document.getElementById("peoplecount").innerHTML = "1";
+                        document.getElementById("countingscore").innerHTML = ipt4;
+                    }
+                } else {
+                    getrank_fx_dn();
+                    if (nowscore > ipt2) {
+                        document.getElementById("countingscore").innerHTML = nowscore - 1;
+                        getrank();
+                    } else {
+                        var nowpeople = parseInt(document.getElementById("peoplecount").innerHTML) + ipt1;
+                        document.getElementById("res4").innerHTML = nowpeople;
+                        var halfpeople = ipt1 / 2;
+                        if (nowpeople > halfpeople) {
+                            var percent = parseInt(nowpeople / ipt1 * 100);
+                            document.getElementById("res5").innerHTML = "(被 " + percent + "%的人超过)";
+                            document.getElementById("res5").style = "color: #dd0000;";
+                        } else {
+                            var percent = 100 - parseInt(nowpeople / ipt1 * 100);
+                            document.getElementById("res5").innerHTML = "(超过 " + percent + "%的人)";
+                            document.getElementById("res5").style = "color: #00dd00;";
+                        }
+                        document.getElementById("peoplecount").innerHTML = "1";
+                        document.getElementById("countingscore").innerHTML = ipt4;
                     }
                 }
+            }
+
+            function getrank_fx_up() {
+                var ipt1 = parseFloat(document.getElementById("ipt1").value);
+                var ipt2 = parseFloat(document.getElementById("ipt2").value);
+                var ipt3 = parseFloat(document.getElementById("ipt3").value);
+                var ipt4 = parseInt(document.getElementById("countingscore").innerHTML)
+                var ipt5 = parseFloat(document.getElementById("ipt5").value);
+                var ipt5_ori = document.getElementById("ipt5").value;
+                
+                var avg_true = (ipt2 + ipt3) / 2;
+                var avg_diff = ipt5 - avg_true;
+                if (ipt5_ori == "") { var avg_diff = 0; }
+
+                if (avg_diff == 0) {
+
+                    // function: (c/(b-a))((0-Math.cos(((2*pi)/(a-b))*(x-b))+1)^4), a = min, b = max, c = total people, x = your score
+
+                    var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4); // 例: 105~110 分数段的人数
+                    var scorepersons = areapersons / 5; // 例: 考 108 的人数，即与你同分数的人数
+                }
+                
+                if (avg_diff > 0) {
+                    var min_normal = ipt2 + avg_diff; // 原函数在 min_normal 左侧无意义
+                    var expend_area = (min_normal + ipt5) / 2; // 原函数的定义域 [expend_area, ipt3]; 延长区函数定义域 [ipt2, expend_area];
+                    
+                    if (ipt4 >= expend_area) {
+                        var ipt4 = ipt4 - avg_diff;
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    } else {
+                        var original_range = expend_area - min_normal;
+                        var expend_range = expend_area - ipt2;
+
+                        var diff_ori_rate = (expend_area - ipt4) / original_range;
+                        var ipt4 = expend_area - (expend_range * diff_ori_rate);
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    }
+                }
+
+                if (avg_diff < 0) {
+                    var max_normal = ipt3 + avg_diff; // 原函数在 max_normal 右侧无意义
+                    var expend_area = (max_normal + ipt5) / 2; // 原函数的定义域 [expend_area, ipt3]; 延长区函数定义域 [ipt2, expend_area];
+                    
+                    if (ipt4 <= expend_area) {
+                        var ipt4 = ipt4 - avg_diff;
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    } else {
+                        var original_range = max_normal - expend_area;
+                        var expend_range = ipt3 - expend_area;
+
+                        var diff_ori_rate = (ipt4 - expend_area) / original_range;
+                        var ipt4 = ipt3 - (expend_range * diff_ori_rate);
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    }
+                }
+
+                var nowpeople = parseFloat(document.getElementById("peoplecount").innerHTML) + scorepersons;
+                document.getElementById("peoplecount").innerHTML = nowpeople;
+                console.log(nowpeople + ", " + scorepersons);
+            }
+
+            function getrank_fx_dn() {
+                var ipt1 = parseFloat(document.getElementById("ipt1").value);
+                var ipt2 = parseFloat(document.getElementById("ipt2").value);
+                var ipt3 = parseFloat(document.getElementById("ipt3").value);
+                var ipt4 = parseInt(document.getElementById("countingscore").innerHTML)
+                var ipt5 = parseFloat(document.getElementById("ipt5").value);
+                var ipt5_ori = document.getElementById("ipt5").value;
+                
+                var avg_true = (ipt2 + ipt3) / 2;
+                var avg_diff = ipt5 - avg_true;
+                if (ipt5_ori == "") { var avg_diff = 0; }
+
+                if (avg_diff == 0) {
+
+                    // function: (c/(b-a))((0-Math.cos(((2*pi)/(a-b))*(x-b))+1)^4), a = min, b = max, c = total people, x = your score
+
+                    var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4); // 例: 105~110 分数段的人数
+                    var scorepersons = areapersons / 5; // 例: 考 108 的人数，即与你同分数的人数
+                }
+                
+                if (avg_diff > 0) {
+                    var min_normal = ipt2 + avg_diff; // 原函数在 min_normal 左侧无意义
+                    var expend_area = (min_normal + ipt5) / 2; // 原函数的定义域 [expend_area, ipt3]; 延长区函数定义域 [ipt2, expend_area];
+                    
+                    if (ipt4 >= expend_area) {
+                        var ipt4 = ipt4 - avg_diff;
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    } else {
+                        var original_range = expend_area - min_normal;
+                        var expend_range = expend_area - ipt2;
+
+                        var diff_ori_rate = (expend_area - ipt4) / original_range;
+                        var ipt4 = expend_area - (expend_range * diff_ori_rate);
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    }
+                }
+
+                if (avg_diff < 0) {
+                    var max_normal = ipt3 + avg_diff; // 原函数在 max_normal 右侧无意义
+                    var expend_area = (max_normal + ipt5) / 2; // 原函数的定义域 [expend_area, ipt3]; 延长区函数定义域 [ipt2, expend_area];
+                    
+                    if (ipt4 <= expend_area) {
+                        var ipt4 = ipt4 - avg_diff;
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    } else {
+                        var original_range = max_normal - expend_area;
+                        var expend_range = ipt3 - expend_area;
+
+                        var diff_ori_rate = (ipt4 - expend_area) / original_range;
+                        var ipt4 = ipt3 - (expend_range * diff_ori_rate);
+
+                        var areapersons = (ipt1/(ipt3-ipt2))*((0-Math.cos(((2*Math.PI)/(ipt2-ipt3))*(ipt4-ipt3))+1)**4);
+                        var scorepersons = areapersons / 5;
+                    }
+                }
+
+                var nowpeople = parseFloat(document.getElementById("peoplecount").innerHTML) - scorepersons;
+                document.getElementById("peoplecount").innerHTML = nowpeople;
+                console.log(nowpeople + ", " + scorepersons);
             }
         </script>
     </div>
