@@ -66,9 +66,7 @@
                 document.getElementById('blue-value').innerHTML = b;
 
                 // Update hex values
-                document.getElementById('red-hex').innerHTML = r.toString(16).toUpperCase();
-                document.getElementById('green-hex').innerHTML = g.toString(16).toUpperCase();
-                document.getElementById('blue-hex').innerHTML = b.toString(16).toUpperCase();
+                
 
                 if (r.toString(16).toUpperCase().length == 1) {
                     var red_w = "0" + r.toString(16).toUpperCase();
@@ -85,6 +83,10 @@
                 } else {
                     var blue_w = b.toString(16).toUpperCase();
                 }
+                document.getElementById('red-hex').innerHTML = red_w;
+                document.getElementById('green-hex').innerHTML = green_w;
+                document.getElementById('blue-hex').innerHTML = blue_w;
+
                 document.getElementById('final-code').innerHTML = 'rgb(' + r + ',' + g + ',' + b +')';
                 document.getElementById('final-code-hex').innerHTML = '#' + red_w + green_w + blue_w;
                 document.getElementById('final').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
