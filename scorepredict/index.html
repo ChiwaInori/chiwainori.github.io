@@ -33,6 +33,7 @@
             <p>前方 1 分有 <strong><span id="res2"></span></strong> 人，后方 1 分有 <strong><span id="res3"></span></strong> 人</p>
             <p>你对平均分的影响为 <strong><span id="res6"></span></strong> 分</p>
         </div>
+        <p id="error" style="display: none;"><strong>计算该组数据时出错。请尝试使用其他数据。</strong></p>
         <p id="peoplecount" style="display: none;">1</p>
         <p id="countingscore" style="display: none;">&nbsp;</p>
         <p id="debug">&nbsp;</p>
@@ -439,6 +440,14 @@
                 var nowscore = parseInt(document.getElementById("countingscore").innerHTML) + 1;
                 document.getElementById("countingscore").innerHTML = nowscore;
                 getrank();
+
+                if (parseInt(document.getElementById("res4").innerHTML) >= 1) {
+                    document.getElementById("result").style = "display: block;";
+                    document.getElementById("error").style = "display: none;";
+                } else {
+                    document.getElementById("result").style = "display: none;";
+                    document.getElementById("error").style = "display: block; color: #dd0000;";
+                }
             }
 
             function getrank() {
