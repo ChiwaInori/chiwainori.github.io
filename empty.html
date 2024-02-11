@@ -14,9 +14,16 @@
     </div>
     <div class="navigation">
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong></strong></h6>
+        <h6 id="dev_text" style="display: none;">[DEVELOPER MODE ON]</h6>
     </div>
     <div class="content">
     </div>
+    <script>
+        const debug = 0;
+        if (debug == 1) {
+            document.getElementById("dev_text").style = "display: block; color: #00a8ff;";
+        }
+    </script>
 </body>
 
 </html>
