@@ -34,13 +34,15 @@
         <h1 id="center_title">CS2 比赛胜率估算</h1>
     </div>
     <div class="navigation">
-        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS2 比赛胜率估算</strong></h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <strong>CS2 比赛胜率估算</strong></h6>
     </div>
     <div class="content">
-        <h3 id="longtext"><ruby>中时<rt>MR15</rt></ruby> | <span class="link" onclick="switch_mr12()">MR12</span> | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
+        <h3 id="longtext" style="display: none;"><ruby>中时<rt>MR15</rt></ruby> | <span class="link" onclick="switch_mr12()">MR12</span> | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
         <h3 id="shorttext" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | <span class="link" onclick="switch_mr12()">MR12</span> | <ruby>短时<rt>MR8</rt></ruby> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
-        <h3 id="overtimetext" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | <span class="link" onclick="switch_mr12()">MR12</span> | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <ruby>加时<rt>MR3</rt></ruby></h3>
-        <h3 id="mr12text" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | MR12 | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
+        <!-- <h3 id="overtimetext" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | <span class="link" onclick="switch_mr12()">MR12</span> | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <ruby>加时<rt>MR3</rt></ruby></h3>
+        <h3 id="mr12text" style="display: none;"><span class="link" onclick="switch_long()"><ruby>中时<rt>MR15</rt></ruby></span> | MR12 | <span class="link" onclick="switch_short()"><ruby>短时<rt>MR8</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3> -->
+        <h3 id="overtimetext" style="display: none;"><span class="link" onclick="switch_mr12()"><ruby>CS2<rt>MR12</rt></ruby></span> | <ruby>加时<rt>MR3</rt></ruby></h3>
+        <h3 id="mr12text" style="display: block;"><ruby>CS2<rt>MR12</rt></ruby></span> | <span class="link" onclick="switch_overtime()"><ruby>加时<rt>MR3</rt></ruby></span></h3>
         <br />
         <h3><span id="mytext" style="color: #00a8ff;" onclick="mywin()">我方队伍</span> <input id="myteam_score" value="0" /> : <input id="enemyteam_score" value="0" /> <span id="entext" style="color: #ff77cc;" onclick="enwin()">敌方队伍</span></h3>
         <br />
@@ -61,33 +63,17 @@
         </div>
     </div>
     <script>
-        function switch_long() {
-            document.getElementById("longtext").style = "display: block;";
-            document.getElementById("shorttext").style = "display: none;";
-            document.getElementById("overtimetext").style = "display: none;";
-            document.getElementById("mr12text").style = "display: none;";
-        }
-
-        function switch_short() {
-            document.getElementById("longtext").style = "display: none;";
-            document.getElementById("shorttext").style = "display: block;";
-            document.getElementById("overtimetext").style = "display: none;";
-            document.getElementById("mr12text").style = "display: none;";
-        }
-
         function switch_overtime() {
-            document.getElementById("longtext").style = "display: none;";
-            document.getElementById("shorttext").style = "display: none;";
             document.getElementById("overtimetext").style = "display: block;";
             document.getElementById("mr12text").style = "display: none;";
         }
 
         function switch_mr12() {
-            document.getElementById("longtext").style = "display: none;";
-            document.getElementById("shorttext").style = "display: none;";
             document.getElementById("overtimetext").style = "display: none;";
             document.getElementById("mr12text").style = "display: block;";
         }
+
+        switch_mr12();
 
         cal();
         function cal() {
