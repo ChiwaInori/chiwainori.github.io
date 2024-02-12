@@ -182,7 +182,7 @@
                 document.getElementById("alert1").style = "display: block; color: #ffa800;";
                 document.getElementById("alert1").innerHTML = "[!] 你的两次投掷位置仅间隔 " + diff1 + "m, 这可能会导致误差较大。建议在合理范围内间隔一定距离进行投掷。";
             }
-            if (diff1 > 500) {
+            if (diff1 > 200) {
                 document.getElementById("alert1").style = "display: block; color: #ffa800;";
                 document.getElementById("alert1").innerHTML = "[!] 你的两次投掷位置间隔了 " + diff1 + "m, 这可能会因为两次投掷指向不同的要塞，从而计算出一个根本不存在的要塞。建议在合理范围内进行投掷。";
             }
