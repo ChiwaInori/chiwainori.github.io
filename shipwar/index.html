@@ -6033,6 +6033,7 @@
                 document.getElementById("online_finish").style = "display: block;";
                 p1_text_recolor();
                 var cache = parseInt(document.getElementById("var_cache").innerHTML);
+                var cache1 = document.getElementById("var_cache").innerHTML;
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
@@ -6040,6 +6041,16 @@
                 document.getElementById("code_from_friend").value = "";
                 if (document.getElementById("online_code").innerHTML.indexOf("NaN") > -1) {
                     document.getElementById("online_finish").style.display = "none";
+                }
+                if (document.getElementById("online_code").innerHTML.indexOf("e+") > -1) { // 数字过大变成科学计数法了
+                    if (cache1[0] == "2") {
+                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg.000" + cache1 + ".";
+                    } else {
+                        var firststep = parseInt(cache1[0] + cache1[1] + cache1[2]); // 第一步, 即 '102206207208209210211212213214' 中的 '102'
+                        var firststep = (firststep + random_seed) * random_seed;
+                        var other = cache1.slice(3); // 其他, 即 '102206207208209210211212213214' 中的 '206207208209210211212213214'
+                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + firststep + "000" + other + ".";
+                    }
                 }
             }
         }
@@ -6093,6 +6104,7 @@
                 document.getElementById("online_finish").style = "display: block;";
                 p2_text_recolor();
                 var cache = parseInt(document.getElementById("var_cache").innerHTML);
+                var cache1 = document.getElementById("var_cache").innerHTML;
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
@@ -6100,6 +6112,16 @@
                 document.getElementById("code_from_friend").value = "";
                 if (document.getElementById("online_code").innerHTML.indexOf("NaN") > -1) {
                     document.getElementById("online_finish").style.display = "none";
+                }
+                if (document.getElementById("online_code").innerHTML.indexOf("e+") > -1) { // 数字过大变成科学计数法了
+                    if (cache1[0] == "2") {
+                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg.000" + cache1 + ".";
+                    } else {
+                        var firststep = parseInt(cache1[0] + cache1[1] + cache1[2]); // 第一步, 即 '102206207208209210211212213214' 中的 '102'
+                        var firststep = (firststep + random_seed) * random_seed;
+                        var other = cache1.slice(3); // 其他, 即 '102206207208209210211212213214' 中的 '206207208209210211212213214'
+                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + firststep + "000" + other + "."; // 000 前加密存储, 后明文存储
+                    }
                 }
             }
         }
@@ -6196,6 +6218,9 @@
             var code = document.getElementById("code_from_friend").value;
             var code = code.split("."); // 根据 . 分割字符串
             var code = code[2]; // random_seed + cache
+            var splitcode = code.split("000"); // 根据 000 分割, 前面正常解密, 后面明文读取 (见上)
+            var code = splitcode[0];
+            var code2 = splitcode[1];
             var random_seed = code[0] + code[1];
             var cache = code.slice(2); // 从第 3 个字符往后的字符
             var cache = cache / random_seed - random_seed; // 334
@@ -6323,6 +6348,48 @@
                 }
                 var cache = parseInt(cache);
             }
+            if (code2 != undefined) {
+                while (code2.length > 2) {
+                    var nowpos = code2[1] + code2[2];
+                    if (nowpos == "01") { p2_attack_1(); }
+                    if (nowpos == "02") { p2_attack_2(); }
+                    if (nowpos == "03") { p2_attack_3(); }
+                    if (nowpos == "04") { p2_attack_4(); }
+                    if (nowpos == "05") { p2_attack_5(); }
+                    if (nowpos == "06") { p2_attack_6(); }
+                    if (nowpos == "07") { p2_attack_7(); }
+                    if (nowpos == "08") { p2_attack_8(); }
+                    if (nowpos == "09") { p2_attack_9(); }
+                    if (nowpos == "10") { p2_attack_10(); }
+                    if (nowpos == "11") { p2_attack_11(); }
+                    if (nowpos == "12") { p2_attack_12(); }
+                    if (nowpos == "13") { p2_attack_13(); }
+                    if (nowpos == "14") { p2_attack_14(); }
+                    if (nowpos == "15") { p2_attack_15(); }
+                    if (nowpos == "16") { p2_attack_16(); }
+                    if (nowpos == "17") { p2_attack_17(); }
+                    if (nowpos == "18") { p2_attack_18(); }
+                    if (nowpos == "19") { p2_attack_19(); }
+                    if (nowpos == "20") { p2_attack_20(); }
+                    if (nowpos == "21") { p2_attack_21(); }
+                    if (nowpos == "22") { p2_attack_22(); }
+                    if (nowpos == "23") { p2_attack_23(); }
+                    if (nowpos == "24") { p2_attack_24(); }
+                    if (nowpos == "25") { p2_attack_25(); }
+                    if (nowpos == "26") { p2_attack_26(); }
+                    if (nowpos == "27") { p2_attack_27(); }
+                    if (nowpos == "28") { p2_attack_28(); }
+                    if (nowpos == "29") { p2_attack_29(); }
+                    if (nowpos == "30") { p2_attack_30(); }
+                    if (nowpos == "31") { p2_attack_31(); }
+                    if (nowpos == "32") { p2_attack_32(); }
+                    if (nowpos == "33") { p2_attack_33(); }
+                    if (nowpos == "34") { p2_attack_34(); }
+                    if (nowpos == "35") { p2_attack_35(); }
+                    if (nowpos == "36") { p2_attack_36(); }
+                    var code2 = code2.slice(3);
+                }
+            }
         }
 
         function p2_online_continue() {
@@ -6332,6 +6399,9 @@
             var code = document.getElementById("code_from_friend").value;
             var code = code.split("."); // 根据 . 分割字符串
             var code = code[2]; // random_seed + cache
+            var splitcode = code.split("000"); // 根据 000 分割, 前面正常解密, 后面明文读取 (见上)
+            var code = splitcode[0];
+            var code2 = splitcode[1];
             var random_seed = code[0] + code[1];
             var cache = code.slice(2); // 从第 3 个字符往后的字符
             var cache = cache / random_seed - random_seed; // 334
@@ -6458,6 +6528,48 @@
                     var cache = "0";
                 }
                 var cache = parseInt(cache);
+            }
+            if (code2 != undefined) {
+                while (code2.length > 2) {
+                    var nowpos = code2[1] + code2[2];
+                    if (nowpos == "01") { p1_attack_1(); }
+                    if (nowpos == "02") { p1_attack_2(); }
+                    if (nowpos == "03") { p1_attack_3(); }
+                    if (nowpos == "04") { p1_attack_4(); }
+                    if (nowpos == "05") { p1_attack_5(); }
+                    if (nowpos == "06") { p1_attack_6(); }
+                    if (nowpos == "07") { p1_attack_7(); }
+                    if (nowpos == "08") { p1_attack_8(); }
+                    if (nowpos == "09") { p1_attack_9(); }
+                    if (nowpos == "10") { p1_attack_10(); }
+                    if (nowpos == "11") { p1_attack_11(); }
+                    if (nowpos == "12") { p1_attack_12(); }
+                    if (nowpos == "13") { p1_attack_13(); }
+                    if (nowpos == "14") { p1_attack_14(); }
+                    if (nowpos == "15") { p1_attack_15(); }
+                    if (nowpos == "16") { p1_attack_16(); }
+                    if (nowpos == "17") { p1_attack_17(); }
+                    if (nowpos == "18") { p1_attack_18(); }
+                    if (nowpos == "19") { p1_attack_19(); }
+                    if (nowpos == "20") { p1_attack_20(); }
+                    if (nowpos == "21") { p1_attack_21(); }
+                    if (nowpos == "22") { p1_attack_22(); }
+                    if (nowpos == "23") { p1_attack_23(); }
+                    if (nowpos == "24") { p1_attack_24(); }
+                    if (nowpos == "25") { p1_attack_25(); }
+                    if (nowpos == "26") { p1_attack_26(); }
+                    if (nowpos == "27") { p1_attack_27(); }
+                    if (nowpos == "28") { p1_attack_28(); }
+                    if (nowpos == "29") { p1_attack_29(); }
+                    if (nowpos == "30") { p1_attack_30(); }
+                    if (nowpos == "31") { p1_attack_31(); }
+                    if (nowpos == "32") { p1_attack_32(); }
+                    if (nowpos == "33") { p1_attack_33(); }
+                    if (nowpos == "34") { p1_attack_34(); }
+                    if (nowpos == "35") { p1_attack_35(); }
+                    if (nowpos == "36") { p1_attack_36(); }
+                    var code2 = code2.slice(3);
+                }
             }
         }
     </script>
