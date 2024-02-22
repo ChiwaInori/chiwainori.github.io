@@ -389,7 +389,9 @@
             <div id="online_finish" style="display: none;">
                 <h4>你的操作已经结束. 请将以下代码发送给你的好友:</h4>
                 <h5 id="online_code"></h5>
-                <p>将好友发给你的代码输入: <input id="code_from_friend" style="width: 200px;" /><button onclick="online_continue()" style="margin-left: 16px;">确认</button></p>
+                <p>将好友发给你的代码输入: <input id="code_from_friend" style="width: 200px;" /><button id="online_b1" onclick="online_continue()" style="margin-left: 16px;">确认</button><span id="confirm" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="online_continue_f()" style="margin-left: 16px;">确认</button></span></p>
+                <h5 id="online_same" style="font-size: 10px; color: #dd0000; display: none;">[!] 警告: 此代码与你刚刚生成的代码相同. 如确认无误, 请再次按下确认按钮.</h5>
+                <h5 id="online_justnow" style="font-size: 10px; color: #dd0000; display: none;">[!] 警告: 此代码与你上次输入的代码相同. 如确认无误, 请再次按下确认按钮.</h5>
             </div>
         </div>
         <div id="var" style="display: none;">
@@ -399,6 +401,7 @@
             <p id="var_online">0</p>
             <p id="var_onlinewho"></p>
             <p id="var_cache"></p>
+            <p id="var_last"></p>
         </div>
     </div>
     <script>
@@ -6150,6 +6153,33 @@
         }
 
         function online_continue() {
+            if (document.getElementById("code_from_friend").value == document.getElementById("online_code").innerHTML) {
+                document.getElementById("online_same").style.display = "block";
+                document.getElementById("online_b1").disabled = true;
+                document.getElementById("confirm").style.display = "inline-block";
+            } else if (document.getElementById("code_from_friend").value == document.getElementById("var_last").innerHTML) {
+                document.getElementById("online_justnow").style.display = "block";
+                document.getElementById("online_b1").disabled = true;
+                document.getElementById("confirm").style.display = "inline-block";
+            } else {
+                document.getElementById("online_same").style.display = "none";
+                document.getElementById("online_justnow").style.display = "none";
+                document.getElementById("online_b1").disabled = false;
+                document.getElementById("confirm").style.display = "none";
+                document.getElementById("var_last").innerHTML = document.getElementById("code_from_friend").value;
+                if (document.getElementById("var_onlinewho").innerHTML == "1") {
+                    p1_online_continue();
+                } else {
+                    p2_online_continue();
+                }
+            }
+        }
+        function online_continue_f() {
+            document.getElementById("online_same").style.display = "none";
+            document.getElementById("online_justnow").style.display = "none";
+            document.getElementById("online_b1").disabled = false;
+            document.getElementById("confirm").style.display = "none";
+            document.getElementById("var_last").innerHTML = document.getElementById("code_from_friend").value;
             if (document.getElementById("var_onlinewho").innerHTML == "1") {
                 p1_online_continue();
             } else {
