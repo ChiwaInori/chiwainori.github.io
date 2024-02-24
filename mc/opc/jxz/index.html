@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>小朱 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>小朱</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. Invisible_Love, JustXiaoZhu, JXZ, JustWangBa, China_XiaoZhu, Pvp_xiaozhu_pvP, XiaozhuHasHacks, xiaozhu666</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>小朱</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p></p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #ff86c3;">♀ FEMALE</h5>
+            <h5>MC ID - Invisible_Love / ad03ece2-f801-4025-a308-9a4fb49b7e1d</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/1087930137/" target="_blank">1087930137</a></h5>
+            <h5 id="birthday-text">生日 - 2006.8.28 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 吉林 长春</h5>
+            <h5>身高 - 170 cm</h5>
+        </div>
+        <br />
+        <div id="voice">
+            <h3>声音 (2021.8)</h3>
+            <audio controls="controls">
+                <source src="voice.mp3" type="audio/mp3" />
+            </audio>
+            <blockquote>
+                <p>&quot;那好吧那好吧&quot;</p>
+            </blockquote>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>她因在 Puremilk 服务器四周目向新玩家发放绑定诅咒海龟壳而得名 JustWangBa.</p>
+            <img src="image.png" />
+            <p>(原本想打秋梨膏的) <span style="font-size: 8px;">(截图来自 <a href="../cm/">尘墨</a>)</span></p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 8 && day == 28) {
+            document.getElementById("birthday-text").style = "color: #ff86c3;";
+            document.getElementById("agenum").style = "color: #ff86c3;";
+        }
+        if (month == 8 && day >= 28 || month > 28) {
+            var year = date.getFullYear();
+            var age = year - 2006;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2007;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

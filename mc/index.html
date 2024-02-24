@@ -7,6 +7,23 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/globalformat.css">
     <style>
+        * {
+            text-align: center;
+        }
+
+        .content div {
+            border: 2px solid #666666;
+            width: 350px;
+            margin: 16px auto 16px;
+            padding: 16px;
+            align-items: center;
+        }
+
+        h2, p {
+            margin-left: 0px !important;
+        } 
+
+        /*
         .nav {
             background-color: #777777;
             margin: 30px 40px 0px 40px;
@@ -76,7 +93,16 @@
                 margin: 30px 0px 0px -900px;
             } 
 
+            #opc {
+                padding: 0px 252px;
+                background-color: #78c5e9;
+                color: #247fbb;
+            }
+
             #milkmappers {
+                padding: 0px 252px;
+            }
+            #endfinder {
                 padding: 0px 252px;
             }
 
@@ -92,33 +118,44 @@
                 margin-top: 100px;
             }
         }
+        */
     </style>
 </head>
 
 <body>
 
     <div class="title">
-        <h1>Minecraft</h1>
+        <h1 id="center_title">Minecraft</h1>
     </div>
     <div class="navigation">
-        <h6 style="text-align: center;"><a href="../">XTSGAMES.TOP</a> &gt; <strong>Minecraft</strong></h6>
+        <h6 style="text-align: center; margin-left: 0px;"><a href="../">XTSGAMES.TOP</a> &gt; <strong>Minecraft</strong></h6>
     </div>
     <div class="content">
         <br />
-        <ul class="nav">
+        <!-- <ul class="nav">
+            <li>
+                <a href="opc/" id="opc"><strong>Old Players Club</strong></a>
+            </li>
             <li>
                 <a href="milkmappers/" id="milkmappers">Milkmappers</a>
             </li>
             <li>
+                <a href="endfinder/" id="endfinder">末地传送门查找器</a>
+            </li>
+            <li>
                 <a href="skbpacks/" id="skbpacks">SKB 材质包</a>
             </li>
-            <!-- <li>
-                <a href="players/" id="players">玩家页面</a>
-            </li> -->
             <li>
                 <a href="puremilk/" id="puremilk">Puremilk</a>
             </li>
-        </ul>
+        </ul> -->
+        <div>
+            <p><a href="opc/" id="opc" style="color: #00a8ff;"><strong>Old Players Club</strong></a></p>
+            <p><a href="milkmappers/" id="milkmappers">Milkmappers</a></p>
+            <p><a href="endfinder/" id="endfinder">末地传送门查找器</a></p>
+            <p><a href="skbpacks/" id="skbpacks">SKB 材质包</a></p>
+            <p><a href="puremilk/" id="puremilk">Puremilk</a></p>
+        </div>
     </div>
 </body>
 

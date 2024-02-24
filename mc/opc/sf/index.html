@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>剑鱼 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>剑鱼</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. Im_SwordFish, Dead_SwordFish, SF, Re6</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>剑鱼</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p></p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - Im_SwordFish / 15aa9521-4050-4b8c-858f-ff24e04152da</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/409641899/" target="_blank">409641899</a></h5>
+            <h5 id="birthday-text">生日 - 2007.3.2 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 福建 三明</h5>
+            <h5>身高 - 164 cm (2019)</h5>
+        </div>
+        <br />
+        <div id="voice">
+            <h3>声音 (2021.2)</h3>
+            <audio controls="controls">
+                <source src="voice.mp3" type="audio/mp3" />
+            </audio>
+            <blockquote>
+                <p>&quot;<a href="../xts/">小天使</a>，我，喜欢你&quot;</p>
+            </blockquote>
+            <blockquote>
+                <p style="font-size: 10px;">* 特别声明: 公开本段录音已经过本人同意。<a href="#" onclick="showconv()">点击查看对话...</a></p>
+                <img id="conv" src="./conv.png" width="300" style="display: none;"/>
+                <script>
+                    function showconv() {
+                        document.getElementById("conv").style = "display: block;";
+                    }
+                </script>
+            </blockquote>
+        </div>
+        <br />
+        <div id="stories">
+            <h3>成员故事</h3>
+            <p>在 2021.3 月之前，他是 Milkmappers 成员中唯一一个没有 Minecraft 正版的，不过他说生日在三月，今年的生日礼物就是正版。到了三月中旬，<a href="../xts/">XTS</a> 一问，说家长不给买。到了 2021.3.20 中午，<a href="../xts/">XTS</a> 就召集了 <a href="../tuff/">默默</a> 和 <a href="../skb/">天弓</a>，每人出 ￥55 为剑鱼买正版 (当时 MC Java 版 ￥165).</p>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>在 <a href="../xts/">XTS</a>, <a href="../tuff/">默默</a> 和 <a href="../skb/">天弓</a> 三人为他买正版前，他其实也有一个正版号 Re6. 不过这个号其实是 <a href="../xts/">XTS</a> 给他的一个黑卡，而 <a href="../xts/">XTS</a> 获得这个黑卡的途径又是 <a href="../xts/">XTS</a> 的同学给他的。</p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 3 && day == 2) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 3 && day >= 2 || month > 2) {
+            var year = date.getFullYear();
+            var age = year - 2007;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2008;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

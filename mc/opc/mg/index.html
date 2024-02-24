@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>芒果 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>芒果</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. Mangguo_CAT, MG, sgregay</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>芒果</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p></p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - Mangguo_CAT / a7ced70f-74df-4c8b-a7db-8b8b3126820d</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/32793782/" target="_blank">32793782</a></h5>
+            <h5 id="birthday-text">生日 - 2007.5.5 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 广西 南宁</h5>
+            <h5>身高 - 160 cm</h5>
+        </div>
+        <br />
+        <div id="voice">
+            <h3>声音 (2021.7)</h3>
+            <audio controls="controls">
+                <source src="voice.mp3" type="audio/mp3" />
+            </audio>
+            <blockquote>
+                <p>&quot;刘奶奶找牛奶奶买牛奶，牛奶奶给刘奶奶拿(牛奶)&quot;</p>
+            </blockquote>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>他家养有只叫 &quot;芒果&quot; 的猫 (本人自称 &quot;芒然&quot;)，所以就取了这个 Mangguo_CAT 名字。他也是个 Furry 控。</p>
+            <p>他以前在 MC 用过 sgregay 这个 ID , 然后就被叫做 &quot;是个热gay&quot;.</p>
+            <p>他于 2021.7.10 11:29 在南宁市会展航洋城南门处与 <a href="../../milkmappers/members/xts/">XTS</a> 见面，于 2024 寒假在广东与 右手 见面。</p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 5 && day == 5) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 5 && day >= 5 || month > 5) {
+            var year = date.getFullYear();
+            var age = year - 2007;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2008;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

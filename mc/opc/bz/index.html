@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>本子 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>本子</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. RAYFA_Bz, BZ, 蕾法</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>本子</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <blockquote>
+                <p>&quot;FPS砖家，MC转瓦的典型，拥有CS历史段位双AK，瓦历史段位黄金一的职业“水”平，目前处于坐牢阶段中&quot;</p>
+            </blockquote>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - RAYFA_Bz / 2ccfbeae-88b4-4cfe-9b28-7f9108ce7e47</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/321140664/" target="_blank">321140664</a></h5>
+            <h5 id="birthday-text">生日 - 2008.2.1 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 安徽 阜阳</h5>
+            <h5>身高 - 166 cm</h5>
+        </div>
+        <br />
+        <div id="signature">
+            <h3>签名 <a href="./signature/">(1:1)</a></h3>
+            <img src="signature.png" width="200" />
+        </div>
+        <br />
+        <div id="voice">
+            <h3>声音 (2021.10)</h3>
+            <audio controls="controls">
+                <source src="voice.mp3" type="audio/mp3" />
+            </audio>
+            <blockquote>
+                <p>&quot;♪ 怀揣汹涌喷薄的热情 可与生俱来无法讨喜 ♪&quot; (乌鸦 - 许嵩)</p>
+            </blockquote>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>bz的意思其实是b站，他最早的 ID 是 KawehiKupihea，曾经改名过 Bz_cmysj412，最终以他的 QQ 名 (即蕾法) 加大家叫他的称呼，更名为 RAYFA_Bz.</p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 2 && day == 1) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 2 && day >= 1 || month > 1) {
+            var year = date.getFullYear();
+            var age = year - 2008;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2009;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

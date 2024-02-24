@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>牛排 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>牛排</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. Taste_Steak, TS</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>牛排</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p>Tasty Steak.</p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - Taste_Steak / c7d05a1e-6666-4cc6-aa91-405423ba12f1</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/514826040/" target="_blank">514826040</a></h5>
+            <h5 id="birthday-text">生日 - 2005.11.1 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 广东 佛山</h5>
+        </div>
+        <br />
+        <div id="stories">
+            <h3>成员故事</h3>
+            <p>在 2021.3.28 晚上，<a href="../xts/">XTS</a> 正好在广场散步。牛排 就给 <a href="../xts/">XTS</a> 发了个信息，说他也想回摸鱼群。但是 <a href="../xts/">XTS</a> 不知道他在说哪个群，就说他一开始就在里面，后来摸鱼太久就被踢了。<a href="../xts/">XTS</a> 就和他说<abbr title="指Mr_牛奶在当天发布的Milkの闯关第一期视频">&quot;今天的那个视频&quot;</abbr>是新群，让他问 <a href="../sf/">剑鱼</a> 是否允许。最后，<a href="../xts/">XTS</a> 就以广场信号不好终止了聊天。信号好后，<a href="../xts/">XTS</a> 去 Milkmappers 群内投票是否允许 牛排 加入 Milkmappers, 结果以 4 票支持、1 人不在线通过 (当时群内 5 人)，然后就马上把他拉到了群里。</p>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>他和 <a href="../xts/">XTS</a>, <a href="../sf/">剑鱼</a>, <a href="../tuff/">默默</a>, <a href="../cm/">尘墨</a> 等，也是 X 个屑造图组 (具体是几个无从考究) 中的一员，Mr_牛奶也拍过这个造图组的唯一一个地图的<a href="https://www.bilibili.com/video/BV1rt4y1U7Nn" target="_blank">视频</a>。</p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 11 && day == 1) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 11 && day >= 1 || month > 1) {
+            var year = date.getFullYear();
+            var age = year - 2005;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2006;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

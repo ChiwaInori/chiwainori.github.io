@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>尘墨 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>尘墨</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. Chen_Mo_cht, CM, 尘霁墨</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>尘墨</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p></p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - Chen_Mo_cht / ff1bfa12-1fbf-4616-946c-fa2a79b91776</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/294665708/" target="_blank">294665708</a></h5>
+            <h5 id="birthday-text">生日 - 2005.10.2 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 广东 东莞</h5>
+            <h5>身高 - 160 cm</h5>
+        </div>
+        <br />
+        <div id="signature">
+            <h3>签名 <a href="./signature/">(1:1)</a></h3>
+            <img src="signature.png" width="200" />
+        </div>
+        <br />
+        <div id="voice">
+            <h3>声音 (2021.3)</h3>
+            <audio controls="controls">
+                <source src="voice.mp3" type="audio/mp3" />
+            </audio>
+            <blockquote>
+                <p>&quot;就离谱，我七点打到八点半，打了那么久，我就又发现了<abbr title="指Milkの闯关中第5关的bug">这么一个bug</abbr>, 我人都快傻了&quot;</p>
+            </blockquote>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>他发的表情包基本上都和二次元少女有关。</p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 10 && day == 2) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 10 && day >= 2 || month > 2) {
+            var year = date.getFullYear();
+            var age = year - 2005;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2006;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

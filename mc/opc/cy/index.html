@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>CY - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>CY</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. CY_wl, 重阳万灵, <span style="text-decoration:line-through">初音未来</span></h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>CY</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p></p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - CY_wl / 8d51691e-42b9-484a-bc97-9ff92b246a9c</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/13939892/" target="_blank">13939892</a></h5>
+            <h5 id="birthday-text">生日 - 2002.11.21 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 山西 晋中</h5>
+        </div>
+        <br />
+        <div id="voice">
+            <h3>声音 (2021.4)</h3>
+            <audio controls="controls">
+                <source src="voice.mp3" type="audio/mp3" />
+            </audio>
+            <blockquote>
+                <p>&quot;CY是你爹，艹&quot;</p>
+            </blockquote>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 11 && day == 21) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 11 && day >= 21 || month > 21) {
+            var year = date.getFullYear();
+            var age = year - 2002;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2003;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>

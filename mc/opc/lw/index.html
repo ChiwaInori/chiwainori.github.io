@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>xtsdcb69 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+
+<body>
+    <div class="title">
+        <h1>龙王</h1>
+    </div>
+    <div class="navigation">
+        <h6>aka. Lw_Odin, LW, 1461130641</h6>
+        <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>龙王</strong></h6>
+    </div>
+    <div class="content">
+        <div id="main">
+            <p></p>
+        </div>
+        <br />
+        <div id="info">
+            <h3>相关信息</h3>
+            <h5 style="color: #00a8ff;">♂ MALE</h5>
+            <h5>MC ID - Lw_Odin / 17780ce1-2ed3-4249-81fd-e6faf1587044</h5>
+            <h5>Bilibili - <a href="https://space.bilibili.com/174476189/" target="_blank">174476189</a></h5>
+            <h5 id="birthday-text">生日 - 2007.4.11 (<span id="agenum"></span>)</h5>
+            <h5>地区 - 安徽 合肥</h5>
+            <h5>身高 - 173 cm</h5>
+        </div>
+        <br />
+        <div id="doyouknow">
+            <h3>你知道吗</h3>
+            <p>他在 Puremilk 服务器游玩时因为服务器原因骷髅马没了，所以服主给他的称号是 &quot;马卡没了&quot;.</p>
+        </div>
+    </div>
+    <script>
+        var date = new Date();
+        var month = date.getMonth();
+        var month = month + 1;
+        var day = date.getDate();
+        if (month == 4 && day == 11) {
+            document.getElementById("birthday-text").style = "color: #00a8ff;";
+            document.getElementById("agenum").style = "color: #00a8ff;";
+        }
+        if (month == 4 && day >= 11 || month > 11) {
+            var year = date.getFullYear();
+            var age = year - 2007;
+            document.getElementById("agenum").innerHTML = age;
+        } else {
+            var year = date.getFullYear();
+            var age = year - 2008;
+            document.getElementById("agenum").innerHTML = age;
+        }
+    </script>
+</body>
+
+</html>
