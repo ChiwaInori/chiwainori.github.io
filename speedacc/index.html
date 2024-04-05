@@ -18,9 +18,20 @@
     <div class="content">
         <p>Accelerometer Data:</p>
         <div id="accelerationData"></div>
-        <button id="permission">11</button>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    <script>
+        navigator.permissions.query({ name: "accelerometer" }).then((result) => {
+        if (result.state === "granted") {
+            const acl = new Accelerometer({ frequency: 60 });
+            acl.addEventListener("reading", () => {
+                const vector = [acl.x, acl.y, acl.z];
+                document.getElementById("accelerationData").innerHTML = vector;
+            });
+            acl.start();
+        } 
+  });
+    </script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js">
         $('#permission').on('click', function() {
             if (typeof DeviceMotionEvent.requestPermission === 'function') {
                 DeviceMotionEvent.requestPermission()
@@ -41,7 +52,7 @@
                     });
             }
         });
-    </script>
+    </script> -->
 </body>
 
 </html>
