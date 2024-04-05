@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>加速度测速 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/globalformat.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1>加速度测速</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong></strong></h6>
+    </div>
+    <div class="content">
+        <p>Accelerometer Data:</p>
+        <div id="accelerationData"></div>
+    </div>
+    <script>
+        window.addEventListener('devicemotion', function(event) {
+            var accelerationData = event.acceleration;
+            var dataString = 'X: ' + accelerationData.x + ', Y: ' + accelerationData.y + ', Z: ' + accelerationData.z;
+            document.getElementById('accelerationData').innerHTML = dataString;
+        });
+    </script>
+</body>
+
+</html>
