@@ -18,12 +18,28 @@
     <div class="content">
         <p>Accelerometer Data:</p>
         <div id="accelerationData"></div>
+        <button id="permission">11</button>
     </div>
-    <script>
-        window.addEventListener('devicemotion', function(event) {
-            var accelerationData = event.acceleration;
-            var dataString = 'X: ' + accelerationData.x + ', Y: ' + accelerationData.y + ', Z: ' + accelerationData.z;
-            document.getElementById('accelerationData').innerHTML = dataString;
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+        $('#permission').on('click', function() {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                DeviceMotionEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                        // handle data
+                        window.addEventListener('devicemotion', function(event) {
+                            var accelerationData = event.acceleration;
+                            var dataString = 'X: ' + accelerationData.x + ', Y: ' + accelerationData.y + ', Z: ' + accelerationData.z;
+                            document.getElementById('accelerationData').innerHTML = dataString;
+                        });
+                        } else {
+                        // handle denied
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
         });
     </script>
 </body>
