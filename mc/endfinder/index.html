@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/globalformat.css">
+    <script src="/xts-functions.js"></script>
     <style>
         #x1, #z1, #x2, #z2 {
             margin-left: 4px;
@@ -27,7 +28,7 @@
     </div>
     <div class="navigation">
         <h6><a href="../../">XTSGAMES.TOP</a> &gt; <a href="../">Minecraft</a> &gt; <strong>Minecraft 末地传送门查找器</strong></h6>
-        <h6 id="dev_text" style="display: none;">[DEVELOPER MODE ON]</h6>
+
     </div>
     <div class="content">
         <p>在两个不同的位置投出末影之眼，并输入 (或在游戏中按下 <strong>F3 + C</strong> 并选择 &quot;从剪切板中读取&quot; <span style="font-size: 10px;">(1.13 18w11a 及以上)</span>) 投掷时的位置和末影之眼飞行的方向。(本网页全版本可用)</p>
@@ -51,18 +52,6 @@
         <h5 id="fatal_alert" style="color: #aa0000;"></h5>
     </div>
     <script>
-        const debug = 0;
-        if (debug == 1) {
-            document.getElementById("x1").value = "-15127.98";
-            document.getElementById("z1").value = "-9628.99";
-            document.getElementById("r1").value = "37.54";
-            document.getElementById("x2").value = "-15151.60";
-            document.getElementById("z2").value = "-9638.56";
-            document.getElementById("r2").value = "-13.84";
-
-            document.getElementById("dev_text").style = "display: block; color: #00a8ff;";
-        }
-
         function copy1() {
             navigator.clipboard.readText()
                 .then(text => {

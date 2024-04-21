@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://xtsdcb69.github.io/favicon.ico">
     <link rel="stylesheet" href="/css/globalformat.css">
+    <script src="/xts-functions.js"></script>
     <title>成绩排名估算</title>
 </head>
 
@@ -14,7 +15,7 @@
     </div>
     <div class="navigation">
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>成绩排名估算</strong></h6>
-        <h6 id="dev_text" style="display: none;">[DEVELOPER MODE ON]</h6>
+
     </div>
     <div class="content">
         <p>在下方输入各项数据来估算你的成绩的排名。</p>
@@ -216,21 +217,6 @@
                 }
 
                 document.getElementById("countingscore").innerHTML = ipt4;
-                document.getElementById("peoplecount").innerHTML = 1;
-            }
-
-            const debug = 0;
-            if (debug == 1) {
-                document.getElementById("ipt1").value = 1700;
-                document.getElementById("ipt2").value = 20;
-                document.getElementById("ipt3").value = 140;
-                document.getElementById("ipt4").value = 100;
-
-                document.getElementById("dev_text").style = "display: block; color: #00a8ff;";
-                document.getElementById("searchbutton").disabled = false;
-                document.getElementById("searchbutton").innerHTML = "提交";
-
-                document.getElementById("countingscore").innerHTML = parseFloat(document.getElementById("ipt4").value);
                 document.getElementById("peoplecount").innerHTML = 1;
             }
 
