@@ -3,33 +3,9 @@
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>高考倒计时 - xtsdcb69</title>
     <link rel="shortcut icon" href="/favicon.ico">
-    <script src="/xts-functions.js"></script>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop-center.css">
     <style>
-        body {
-            background-color: #FFFFDD;
-            background-repeat: no-repeat;
-        }
-
-        p, h1, h2, h3, h4, h5, h6, span {
-            color: #666666;
-        }
-
-        a:link, a:visited {
-            color: #0000FF;
-        }
-
-        a:hover {
-            color: #0000AA;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        * {
-            text-align: center;
-        }
-
         #hourdisplay {
             display: inline-block;
         }
@@ -38,16 +14,17 @@
             color: #aaaaaa;
         }
     </style>
+    <script src="/xts-functions.js"></script>
 </head>
 
-<body>
+<body><div class="mainbody">
     <div class="title">
         
     </div>
     <div class="content">
         <div id="countdownblock">
             <h1 style="font-size: 100px;">距离高考还有</h1>
-            <div id="countdown">
+            <div id="countdown" style="margin: 150px auto 150px auto;">
                 <h1 style="font-size: 150px;">
                     <span id="hourdisplay"><span id="cd_h"></span><span id="cd_h_dot"> •</span></span>
                     <span id="cd_m"></span>
@@ -259,4 +236,4 @@
 
 
 
-</body></html>
+</div></body></html>

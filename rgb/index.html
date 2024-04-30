@@ -4,8 +4,8 @@
     <title>RGB 调色器 - xtsdcb69</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/globalformat.css">
-    <script src="/xts-functions.js"></script>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css">
     <style>
         #color-box {
             width: 200px;
@@ -26,9 +26,10 @@
             color: black;
         }
     </style>
+    <script src="/xts-functions.js"></script>
 </head>
 
-<body id="body">
+<body id="body"><div class="mainbody">
     <div class="title">
         <h1 id="title">RGB 调色器</h1>
     </div>
@@ -117,9 +118,9 @@
 
         <br />
 
-        <div id="color-box" style="width: 256px; height: 256px;"></div>
+        <div id="color-box" style="width: 512px; height: 512px;"></div>
         <p id="final" style="color: black;"><span id="final-code" style="color: black;">rgb(0,0,0)</span> / <span id="final-code-hex" style="color: black;">#000000</span></p>
     </div>
-</body>
+</div></div></body>
 
 </html>

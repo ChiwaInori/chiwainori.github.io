@@ -5,32 +5,9 @@
     <title>放学回家倒计时 - xtsdcb69</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop-center.css">
     <style>
-        body {
-            background-color: #FFFFDD;
-            background-repeat: no-repeat;
-        }
-
-        p, h1, h2, h3, h4, h5, h6, span {
-            color: #666666;
-        }
-
-        a:link, a:visited {
-            color: #0000FF;
-        }
-
-        a:hover {
-            color: #0000AA;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        * {
-            text-align: center;
-        }
-
         #hourdisplay {
             display: inline-block;
         }
@@ -39,16 +16,17 @@
             color: #aaaaaa;
         }
     </style>
+    <script src="/xts-functions.js"></script>
 </head>
 
-<body>
+<body><div class="mainbody">
     <div class="title">
         <h1 id="center_title">放学回家倒计时</h1>
     </div>
     <div class="content">
         <div id="countdownblock">
             <h1 style="font-size: 50px;">距离放学回家还有</h1>
-            <div id="countdown">
+            <div id="countdown" style="margin: 150px auto 150px auto;">
                 <h1 style="font-size: 100px;">
                     <span id="hourdisplay">
                         <span id="cd_h"></span>
@@ -103,7 +81,7 @@
         </style>
         -->
         <div id="summervacation">
-            <h6 style="margin: 10px auto 10px auto;">距离寒假还有 <span id="sv_t"></span> 小时</h6>
+            <h6 style="margin: 10px auto 10px auto;">距离暑假还有 <span id="sv_t"></span> 小时</h6>
             <h6 style="margin: 10px auto 10px auto;">(本学期已过 <span id="sv_t_past"></span> 小时, 总计 <span id="sv_t_total"></span> 小时)</h6>
             <h6 style="margin: 10px auto 10px auto;"><span style="display: none;">距离中考还有 <span id="me_t"></span> 小时 (<span id="me_t_day"></span> 天), </span>距离高考还有 <span id="he_t"></span> 小时 (<span id="he_t_day"></span> 天)</h6>
         </div>
@@ -257,9 +235,9 @@
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
                     // var EndTimeSV = new Date("2022.6.30 16:30");
-                    var EndTimeSV = new Date("2024.1.26 17:30");
+                    var EndTimeSV = new Date("2024.7.10 17:00");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2023.8.27 18:00");
+                    var StartTimeSV = new Date("2024.2.25 18:00");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
@@ -324,6 +302,6 @@
             }
         </script>
     </div>
-</body>
+</div></body>
 
 </html>

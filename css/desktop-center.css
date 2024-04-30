@@ -1,0 +1,35 @@
+/* MAIN FORMAT FOR DESKTOP FOR CENTERED PAGES */
+
+body {
+    background-color: #ccccaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.mainbody {
+    background-color: #ffffdd;
+    padding: 30px 20px 30px 20px;
+    border-radius: 10px;
+    margin: 10px 0px auto 0px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 90%;
+    min-height: 90%;
+}
+
+.mainbody * {
+    text-align: center;
+}
+
+/* OVERRIDE GLOBAL.CSS OF MOBILE FORMAT */
+
+.title h1 {
+    margin: auto 0px 0px 0px;
+}
+
+h1, h2, h3, h4, h5, h6, p, img, video, audio {
+    margin: auto 0px 10px 0px;
+}

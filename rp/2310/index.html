@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>2310 班随机选人 - xtsdcb69</title>
     <link rel="shortcut icon" href="https://xtsgames.top/favicon.ico">
-    <link rel="stylesheet" href="/css/globalformat.css">
-    <script src="/xts-functions.js"></script>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop-center.css">
     <style>
         * {
             text-align: center;
@@ -16,9 +16,10 @@
             margin-left: 0px !important;
         }
     </style>
+    <script src="/xts-functions.js"></script>
 </head>
 
-<body>
+<body><div class="mainbody">
     <div class="title">
         <h1 id="center_title" onclick="text_reset()">2310 班随机选人</h1>
     </div>
@@ -53,18 +54,11 @@
         <p style="color: #aaaaaa;">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
         <p style="color: #aaaaaa;">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 55 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
         <br />
-        <p style="color: #aaaaaa;"  onclick="line_reset()">Copyright &copy; <span id="thisyear"></span> Guigang JNZX 2310 XZY (xtsdcb69). All Rights Reserved.</p>
-        <script>
-            var date1 = new Date();
-            var thisyear = date1.getFullYear();
-            if (thisyear == 2024) {
-                document.getElementById("thisyear").innerHTML = "<span style=\"color: #aaaaaa;\">" + thisyear + "</span>";
-            } else {
-                document.getElementById("thisyear").innerHTML = "<span style=\"color: #aaaaaa;\">2024-" + thisyear + "</span>";
-            }
-        </script>
+        <p style="color: #aaaaaa;"  onclick="line_reset()" id="copyright"></p>
     </div>
     <script>
+        copyright(2024, "Guigang JNZX 2310 XZY (xtsdcb69)");
+
         var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
         arr.sort(function () {
             return Math.random() - 0.5
@@ -1104,6 +1098,6 @@
             text_reset();
         }
     </script>
-</body>
+</div></body>
 
 </html>

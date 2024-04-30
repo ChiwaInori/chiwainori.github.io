@@ -5,17 +5,18 @@
     <title>代码测试页面 - xtsdcb69</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/globalformat.css">
-    <script src="/xts-functions.js"></script>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css">
     <script>
         function test() {
             var ipt = document.getElementById("ipt").value;
             document.getElementById("test_result").innerHTML = ipt;
         }
     </script>
+    <script src="/xts-functions.js"></script>
 </head>
 
-<body>
+<body><div class="mainbody">
     <div class="title">
         <h1>代码测试页面</h1>
     </div>
@@ -31,6 +32,6 @@
         <noscript><p style="color: #ff0000"><strong>您的浏览器不支持或已禁用JavaScript。请启用JavaScript以进行代码测试。</strong></p><br /><br /></noscript>
         <p id="test_result">代码测试的结果将会在此处显示</p>
     </div>
-</body>
+</div></body>
 
 </html>

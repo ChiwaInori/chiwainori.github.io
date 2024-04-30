@@ -77,6 +77,19 @@ function load(inputId, target) {                                                
     });
 }
 
+function copyright(startYear, signature) {  // Create the copyright text in <element id="copyright"></element>.
+    if (signature == undefined) {           // [Example] copyright(2021, "Hacker"); (It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright".)
+        var signature = "xtsdcb69";         // [Optional] "signature" can be undefined, default as "xtsdcb69"
+    }
+    var date = new Date();
+    var thisYear = date.getFullYear();
+    if (thisYear == parseInt(startYear)) {
+        document.getElementById("copyright").innerHTML = "Copyright &copy; " + startYear + " " + signature + ". All Rights Reserved.";
+    } else {
+        document.getElementById("copyright").innerHTML = "Copyright &copy; " + startYear + "-" + thisYear + " " + signature + ". All Rights Reserved.";
+    }
+}
+
 // function clipboard() {
 //     navigator.clipboard.readText()
 //         .then(text => {

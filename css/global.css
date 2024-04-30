@@ -1,0 +1,71 @@
+/* MAIN FORMAT FOR MOBILE */
+
+body {
+    background-color: #ffffdd;
+}
+
+.title h1 {
+    margin: auto 0px 0px 20px;
+}
+
+h1, h2, h3, h4, h5, h6, p, img, video, audio, input, button {
+    margin: auto 0px 10px 20px;
+}
+
+/* TEXT COLORS */
+
+p, h1, h2, h3, h4, h5, h6, span {
+    color: #666666;
+}
+
+a:link, a:visited, .link {
+    color: #66a8ff;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover, .link:hover {
+    color: #0088aa;
+    text-decoration: underline;
+}
+
+/* SPECIAL ELEMENTS */
+
+ul li {
+    list-style: none;
+    margin: 0px 0px 0px 10px;
+}
+
+blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockquote h5, blockquote h6 {
+    font-style: italic;
+    color: #AAAAAA;
+}
+
+table {
+    color: #666666;
+    margin: 0px 0px 10px 40px;
+}
+
+.border_table, .border_table tr th {
+    text-align: center;
+    border: 1px solid #666666;
+    border-collapse: collapse;
+}
+
+/* SPECIAL USAGE */
+
+.list {
+    font-size: 10px;
+}
+
+.sticky_header {
+    background-color: #ffffdd;
+    position: sticky;
+    top: 0;
+}
+
+.hiddenlink:link, .hiddenlink:visited, .hiddenlink, .hiddenlink:hover {
+    color: #666666;
+}
