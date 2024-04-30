@@ -56,6 +56,10 @@ table {
 
 /* SPECIAL USAGE */
 
+.infobox {
+    margin: 16px 0px 16px 20px;
+}
+
 .list {
     font-size: 10px;
 }
