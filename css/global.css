@@ -1,7 +1,23 @@
 /* MAIN FORMAT FOR MOBILE */
 
 body {
+    background-color: #ccccaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.mainbody {
     background-color: #ffffdd;
+    padding: 30px 25px 30px 25px;
+    border-radius: 10px;
+    margin: 10px auto auto auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 95%;
+    max-width: 90%;
+    min-height: 82%;
 }
 
 .title h1 {
