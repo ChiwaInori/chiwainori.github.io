@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>人声 / 伴奏音乐混合 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css">
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainbody">
+    <div class="title">
+        <h1>人声 / 伴奏音乐混合</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>人声 / 伴奏音乐混合</strong></h6>
+    </div>
+    <div class="content">
+        <p>使用本网页可以帮助你在歌曲播放时实时调整人声 / 伴奏混合比。</p>
+        <br />
+        <div id="chooseVocal">
+            <p><strong>1. 选择原歌曲 / 仅人声音频</strong></p>
+            <input type="file" id="music-1" accept=".mp3, .ogg, .wav, .flac" />
+            <br /><br />
+        </div>
+        <div id="displayVocal" style="display: none;">
+            <p><strong>原歌曲 (Vocal) :: <span id="vocalName"></span></strong></p>
+            <br />
+        </div>
+        <div id="chooseIns" style="display: none;">
+            <p><strong>2. 选择伴奏音频</strong></p>
+            <input type="file" id="music-2" accept=".mp3, .ogg, .wav, .flac" />
+            <br /><br />
+        </div>
+        <div id="displayIns" style="display: none;">
+            <p><strong>伴奏 (Ins.) :: <span id="insName"></span></strong></p>
+            <br />
+        </div>
+        <div id="playPhase" style="display: none;">
+            <button id="playButton" onclick="playmusic()">播放</button>
+            <button id="stopButton" onclick="stopmusic()" style="display: none;">暂停</button>
+            <br />
+            <h5>Music Mix <span style="font-size: 10px;">调整人声 / 伴奏混合比</span></h5>
+            <p><strong>Vocal</strong> <input type="range" id="volumeControl" min="0" max="100" value="50" step="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Ins.</strong></p>
+            <br />
+            <h5>Progress <span style="font-size: 10px;">调整歌曲播放进度</span></h5>
+            <p><strong><span id="timeNow"></span></strong> <input type="range" id="timeControl" min="0" max="2" value="1" step="1" style="width: 200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="timeTotal"></span></strong></p>
+            <br />
+            <h5>Offset <span style="font-size: 10px;">调整歌曲偏移 (Vocal 比 Ins. 快几秒?)</span></h5>
+            <p><input type="range" id="offsetControl" min="0" max="2000" value="1000" step="1" style="width: 200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="offsetNow">0.000</span></strong> <button onclick="setOffset(-2)">-0.01</button> <button onclick="setOffset(-1)">-0.001</button> <button onclick="setOffset(0)">0</button> <button onclick="setOffset(1)">+0.001</button> <button onclick="setOffset(2)">+0.01</button></p>
+        </div>
+        <div style="display: none;">
+            <audio controls id="musicPlayer1"></audio>
+            <audio controls id="musicPlayer2"></audio>
+            <p id="musicOffset">0</p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('music-1').addEventListener('change', function(event) {
+            const file1 = event.target.files[0];
+            const musicPlayer1 = document.getElementById('musicPlayer1');
+            const objectURL1 = URL.createObjectURL(file1);
+            musicPlayer1.src = objectURL1;
+            hide("chooseVocal");
+            unhide("displayVocal");
+            copyTo("vocalName", file1.name);
+            unhide("chooseIns");
+        });
+
+        document.getElementById('music-2').addEventListener('change', function(event) {
+            const file2 = event.target.files[0];
+            const musicPlayer2 = document.getElementById('musicPlayer2');
+            const objectURL2 = URL.createObjectURL(file2);
+            musicPlayer2.src = objectURL2;
+            hide("chooseIns");
+            unhide("displayIns");
+            copyTo("insName", file2.name);
+            unhide("playPhase");
+        });
+
+        const music1 = target("musicPlayer1");
+        const music2 = target("musicPlayer2");
+
+        function playmusic() {
+            music1.play();
+            music2.play();
+            updateVolume();
+            hide("playButton");
+            unhide("stopButton");
+        }
+
+        function stopmusic() {
+            music1.pause();
+            music2.pause();
+            hide("stopButton");
+            unhide("playButton");
+        }
+
+        document.getElementById('volumeControl').addEventListener('input', function(event) {
+            updateVolume();
+        });
+
+        document.getElementById('timeControl').addEventListener('input', function(event) {
+            controlTime();
+        });
+
+        document.getElementById('offsetControl').addEventListener('input', function(event) {
+            controlOffset();
+        });
+
+        function updateVolume() {
+            var volume1 = parseInt(target("volumeControl").value) / 100;
+            var volume2 = 1 - volume1;
+            music1.volume = 1 - volume1;
+            music2.volume = 1 - volume2;
+        }
+
+        function updateTime() {
+            var nowTime = music1.currentTime;
+            var totalTime = music1.duration;
+
+            target("timeControl").max = totalTime;
+            target("timeControl").value = nowTime;
+
+            var now_minutes = Math.floor(nowTime / 60);
+            var now_seconds = Math.floor(nowTime % 60);
+            var total_minutes = Math.floor(totalTime / 60);
+            var total_seconds = Math.floor(totalTime % 60);
+
+            copyTo("timeNow", `${now_minutes}:${now_seconds < 10 ? '0' : ''}${now_seconds}`);
+            copyTo("timeTotal", `${total_minutes}:${total_seconds < 10 ? '0' : ''}${total_seconds}`);
+        }
+        setInterval("updateTime()", "100");
+
+        function controlTime() {
+            var nowTime = target("timeControl").value;
+            var nowOffset = parseFloat(copyFrom("offsetNow"));
+            music1.currentTime = nowTime - nowOffset;
+            music2.currentTime = nowTime;
+        }
+
+        function controlOffset() {
+            var nowTime = target("timeControl").value;
+            var nowOffset = (target("offsetControl").value / 1000 - 1).toFixed(3);
+            copyTo("offsetNow", `${nowOffset > 0 ? '+' : ''}${nowOffset}`);
+            music1.currentTime = nowTime - nowOffset;
+            music2.currentTime = nowTime;
+        }
+
+        function setOffset(buttonRel) {
+            var nowTime = target("timeControl").value;
+            
+            if (buttonRel == -2) {
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.01).toFixed(3);
+            }
+            if (buttonRel == -1) {
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.001).toFixed(3);
+            }
+            if (buttonRel == 0) {
+                var nowOffset = 0;
+            }
+            if (buttonRel == 1) {
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.001).toFixed(3);
+            }
+            if (buttonRel == 2) {
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.01).toFixed(3);
+            }
+            target("offsetControl").value = (nowOffset + 1) * 1000;
+            copyTo("offsetNow", `${nowOffset > 0 ? '+' : ''}${nowOffset}`);
+            music1.currentTime = nowTime - nowOffset;
+            music2.currentTime = nowTime;
+        }
+    </script>
+</div></body>
+
+</html>

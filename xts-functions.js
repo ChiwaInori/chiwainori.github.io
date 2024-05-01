@@ -7,9 +7,9 @@ function rand(min, max) {                           // RETURN a random integer i
 
 function logVar(varient, name) {            // Log a varient in console.
     if (name == undefined) {                // [Example] logVar("score", score) ==> 128
-        console.log("logVar: " + varient);  // [Optional] "name" can be undefined, default as "logVar"
+        console.log(`logVar: ${varient}`);  // [Optional] "name" can be undefined, default as "logVar"
     } else {
-        console.log(name + ": " + varient);
+        console.log(`${name}: ${varient}`);
     }
 }
 
@@ -84,15 +84,8 @@ function copyright(startYear, signature) {  // Create the copyright text in <ele
     var date = new Date();
     var thisYear = date.getFullYear();
     if (thisYear == parseInt(startYear)) {
-        document.getElementById("copyright").innerHTML = "Copyright &copy; " + startYear + " " + signature + ". All Rights Reserved.";
+        document.getElementById("copyright").innerHTML = `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`;
     } else {
-        document.getElementById("copyright").innerHTML = "Copyright &copy; " + startYear + "-" + thisYear + " " + signature + ". All Rights Reserved.";
+        document.getElementById("copyright").innerHTML = `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`;
     }
 }
-
-// function clipboard() {
-//     navigator.clipboard.readText()
-//         .then(text => {
-//             return text;
-//         });
-// }

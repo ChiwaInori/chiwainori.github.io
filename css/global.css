@@ -24,6 +24,10 @@ body {
     margin: auto 0px 0px 20px;
 }
 
+.navigation {
+    margin-bottom: 16px;
+}
+
 h1, h2, h3, h4, h5, h6, p, img, video, audio, input, button {
     margin: auto 0px 10px 20px;
 }
