@@ -89,3 +89,38 @@ function copyright(startYear, signature) {  // Create the copyright text in <ele
         document.getElementById("copyright").innerHTML = `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`;
     }
 }
+
+function getNum(string) {                   // RETURN all numbers in a string. Split in array.
+    return string.match(/\d+(\.\d+)?/g);    // [Example] getNum("487bsrg13d74gh,-2") ==> ['487', '13', '74', '2']
+}
+
+function transColor(element, toColor) {     // Turn an element's current color to another in transition.
+    var speed = 10;                         // [Example] transColor("title", "#00dd00"); (It'll turn title's color to green.)
+    var speed = speed || 30;
+    var color_from = target(element).style.color || "rgb(102, 102, 102)";
+    var color_to = toColor;
+    var r_from = parseInt(getNum(color_from)[0]);
+    var g_from = parseInt(getNum(color_from)[1]);
+    var b_from = parseInt(getNum(color_from)[2]);
+    var r_to = parseInt(color_to.substr(1, 2), 16);
+    var g_to = parseInt(color_to.substr(3, 2), 16);
+    var b_to = parseInt(color_to.substr(5, 2), 16);
+    var step = 10;
+    var r_diff = ( r_to - r_from ) / step;
+    var g_diff = ( g_to - g_from ) / step;
+    var b_diff = ( b_to - b_from ) / step;
+    var st = setInterval(function() {
+        var nowcolor = target(element).style.color || "rgb(102, 102, 102)";
+        var r_now = parseInt(getNum(nowcolor)[0]);
+        var g_now = parseInt(getNum(nowcolor)[1]);
+        var b_now = parseInt(getNum(nowcolor)[2]);
+        var r_tocolor = ( r_now + r_diff ).toFixed(0);
+        var g_tocolor = ( g_now + g_diff ).toFixed(0);
+        var b_tocolor = ( b_now + b_diff ).toFixed(0);
+        target(element).style.color = `rgb(${r_tocolor}, ${g_tocolor}, ${b_tocolor})`;
+        if (r_to > r_from && r_tocolor >= r_to || r_to < r_from && r_tocolor <= r_to || g_to > g_from && g_tocolor >= g_to || g_to < g_from && g_tocolor <= g_to || b_to > b_from && b_tocolor >= b_to || b_to < b_from && b_tocolor <= b_to) {
+            clearInterval(st);
+            target(element).style.color = color_to;
+        }
+    }, speed);
+}

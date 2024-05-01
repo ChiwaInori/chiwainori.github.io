@@ -26,7 +26,7 @@
             <br /><br />
         </div>
         <div id="displayVocal" style="display: none;">
-            <p><strong>原歌曲 (Vocal) :: <span id="vocalName"></span></strong></p>
+            <p id="vocalLine"><strong>原歌曲 (Vocal) :: <span id="vocalName"></span></strong></p>
             <br />
         </div>
         <div id="chooseIns" style="display: none;">
@@ -35,15 +35,15 @@
             <br /><br />
         </div>
         <div id="displayIns" style="display: none;">
-            <p><strong>伴奏 (Ins.) :: <span id="insName"></span></strong></p>
+            <p id="insLine"><strong>伴奏 (Ins.) :: <span id="insName"></span></strong></p>
             <br />
         </div>
         <div id="playPhase" style="display: none;">
-            <button id="playButton" onclick="playmusic()">播放</button>
+            <button id="playButton" onclick="playmusic()" style="display: block;">播放</button>
             <button id="stopButton" onclick="stopmusic()" style="display: none;">暂停</button>
             <br />
             <h5>Music Mix <span style="font-size: 10px;">调整人声 / 伴奏混合比</span></h5>
-            <p><strong>Vocal</strong> <input type="range" id="volumeControl" min="0" max="100" value="50" step="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Ins.</strong></p>
+            <p><strong id="vocalText">Vocal</strong> <input type="range" id="volumeControl" min="0" max="100" value="50" step="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong id="insText">Ins.</strong></p>
             <br />
             <h5>Progress <span style="font-size: 10px;">调整歌曲播放进度</span></h5>
             <p><strong><span id="timeNow"></span></strong> <input type="range" id="timeControl" min="0" max="2" value="1" step="1" style="width: 200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="timeTotal"></span></strong></p>
@@ -89,6 +89,7 @@
             updateVolume();
             hide("playButton");
             unhide("stopButton");
+            transColor("timeNow", "#00dd00");
         }
 
         function stopmusic() {
@@ -96,6 +97,13 @@
             music2.pause();
             hide("stopButton");
             unhide("playButton");
+            transColor("timeNow", "#666666");
+            colorTo("vocalLine", "#666666");
+            colorTo("vocalName", "#666666");
+            colorTo("vocalText", "#666666");
+            colorTo("insLine", "#666666");
+            colorTo("insName", "#666666");
+            colorTo("insText", "#666666");
         }
 
         document.getElementById('volumeControl').addEventListener('input', function(event) {
@@ -115,6 +123,21 @@
             var volume2 = 1 - volume1;
             music1.volume = 1 - volume1;
             music2.volume = 1 - volume2;
+            
+            if (music1.paused == false) {
+                var r_vocal = (1 - music1.volume) * 102;
+                var g_vocal = music1.volume * 119 + 102;
+                var b_vocal = (1 - music1.volume) * 102;
+                var r_ins = (1 - music2.volume) * 102;
+                var g_ins = music2.volume * 119 + 102;
+                var b_ins = (1 - music2.volume) * 102;
+                colorTo("vocalLine", `rgb(${r_vocal}, ${g_vocal}, ${b_vocal})`);
+                colorTo("vocalName", `rgb(${r_vocal}, ${g_vocal}, ${b_vocal})`);
+                colorTo("vocalText", `rgb(${r_vocal}, ${g_vocal}, ${b_vocal})`);
+                colorTo("insLine", `rgb(${r_ins}, ${g_ins}, ${b_ins})`);
+                colorTo("insName", `rgb(${r_ins}, ${g_ins}, ${b_ins})`);
+                colorTo("insText", `rgb(${r_ins}, ${g_ins}, ${b_ins})`);
+            }
         }
 
         function updateTime() {
@@ -131,6 +154,18 @@
 
             copyTo("timeNow", `${now_minutes}:${now_seconds < 10 ? '0' : ''}${now_seconds}`);
             copyTo("timeTotal", `${total_minutes}:${total_seconds < 10 ? '0' : ''}${total_seconds}`);
+
+            if (nowTime == totalTime) {
+                hide("stopButton");
+                unhide("playButton");
+                transColor("timeNow", "#666666");
+                colorTo("vocalLine", "#666666");
+                colorTo("vocalName", "#666666");
+                colorTo("vocalText", "#666666");
+                colorTo("insLine", "#666666");
+                colorTo("insName", "#666666");
+                colorTo("insText", "#666666");
+            }
         }
         setInterval("updateTime()", "100");
 
@@ -153,22 +188,23 @@
             var nowTime = target("timeControl").value;
             
             if (buttonRel == -2) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.01).toFixed(3);
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.01);
             }
             if (buttonRel == -1) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.001).toFixed(3);
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.001);
             }
             if (buttonRel == 0) {
                 var nowOffset = 0;
             }
             if (buttonRel == 1) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.001).toFixed(3);
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.001);
             }
             if (buttonRel == 2) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.01).toFixed(3);
+                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.01);
             }
             target("offsetControl").value = (nowOffset + 1) * 1000;
-            copyTo("offsetNow", `${nowOffset > 0 ? '+' : ''}${nowOffset}`);
+            var nowOffset = nowOffset.toFixed(3);
+            copyTo("offsetNow", `${nowOffset > 0 ? "+" : ""}${nowOffset}`);
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;
         }
