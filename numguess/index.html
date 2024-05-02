@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Bot 猜数字 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css">
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainbody">
+    <div class="title">
+        <h1>Bot 猜数字</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>Bot 猜数字</strong></h6>
+    </div>
+    <div class="content">
+        <div id="welcome">
+            <p>欢迎来到 Bot 猜数字游戏! 请选择你想要进行的模式。</p>
+            <button onclick="guessMode(0)">Bot 猜你的数字</button>
+            <button onclick="guessMode(1)">你猜 Bot 的数字</button>
+        </div>
+        <p id="min" style="display: none;">1</p>
+        <p id="max" style="display: none;">100000</p>
+        <p id="round" style="display: none;">0</p>
+        <p id="current" style="display: none;">&nbsp;</p>
+        <p id="diff" style="display: none;">&nbsp;</p>
+        <p id="num" style="display: none;">&nbsp;</p>
+        <div id="guessYou" style="display: none;">
+            <p>你可以想一个 1 ~ 100,000 之间的整数, Bot 将会根据你的回应逐步猜出你想的数字。</p>
+            <button id="guessYouOk" onclick="guessYou()">我想好了</button>
+            <br /><br />
+            <div id="guessYouChat"></div>
+        </div>
+        <div id="guessBot" style="display: none;">
+            <p>Bot 将会想一个 1 ~ 100,000 之间的整数, 你需要根据 Bot 的回应逐步猜出 Bot 想的数字。</p>
+            <button id="guessBotOk" onclick="guessBot()">准备好了</button>
+            <br /><br />
+            <div id="guessBotChat"></div>
+        </div>
+    </div>
+    <script>
+        function guessMode(mode) {
+            hide("welcome");
+            if (mode == 0) { // YOU GUESS
+                unhide("guessYou");
+            } else {
+                unhide("guessBot");
+                copyTo("num", rand(1, 100000));
+            }
+        }
+
+        function guessYou() {
+            target("guessYouOk").disabled = true;
+            var min = parseInt(copyFrom("min"));
+            var max = parseInt(copyFrom("max"));
+            var round = parseInt(copyFrom("round")) + 1;
+            if (min <= max) {
+                var current = rand(min, max);    
+                copyTo("guessYouChat", copyFrom("guessYouChat") + `\n<div id="guessYou${round}"><p><strong>Bot: </strong>你猜的数字是不是 <strong>${current}</strong>?</p><p><button id="lessButton${round}" onclick="guessYouReply(-1)">更小</button><button id="correctButton${round}" onclick="guessYouReply(0)">对了</button><button id="moreButton${round}" onclick="guessYouReply(1)">更大</button></p></div>`);
+                console.log(`Round ${round}: ${min} ~ ${max}, randomed ${current}`);
+            } else {
+                copyTo("guessYouChat", copyFrom("guessYouChat") + `\n<div id="guessYou${round}"><p><strong>Bot: </strong>我无法猜出你的数字, 因为从你的回应中, 这个数字比 <strong>${max}</strong> 大, 比 <strong>${min}</strong> 小。</p></div>`);
+                var targetParagraphsH = document.querySelectorAll(`.guessYouR${max + "h"} p`);
+                targetParagraphsH.forEach(function (paragraphH) {
+                    paragraphH.style.color = "#dd0000";
+                });
+                var targetParagraphsL = document.querySelectorAll(`.guessYouR${min + "l"} p`);
+                targetParagraphsL.forEach(function (paragraphL) {
+                    paragraphL.style.color = "#dd0000";
+                });
+            }
+            copyTo("round", round);
+            copyTo("current", current);
+            if (round >= 2) {
+                target(`lessButton${round - 1}`).disabled = true;
+                target(`correctButton${round - 1}`).disabled = true;
+                target(`moreButton${round - 1}`).disabled = true;
+            }
+            if (current == 1) {
+                target(`lessButton${round}`).disabled = true;
+            }
+            if (current == 100000) {
+                target(`moreButton${round}`).disabled = true;
+            }
+        }
+        
+        function guessYouReply(reply) {
+            if (reply == 0) { // CORRECT
+                var min = parseInt(copyFrom("min"));
+                var max = parseInt(copyFrom("max"));
+                var round = parseInt(copyFrom("round"));
+                var current = parseInt(copyFrom("current"));
+                if (round >= 2) {
+                    target(`lessButton${round - 1}`).disabled = true;
+                    target(`correctButton${round - 1}`).disabled = true;
+                    target(`moreButton${round - 1}`).disabled = true;
+                }
+                target(`lessButton${round}`).disabled = true;
+                target(`correctButton${round}`).disabled = true;
+                target(`moreButton${round}`).disabled = true;
+                colorTo(`correctButton${round}`, "#00dd00");
+                if (min == max) {
+                    var additional = `本次游戏, 我在范围缩小至只剩最后一个数字时才猜出了 <strong>${current}</strong>.`;
+                } else {
+                    var numCount = max - min + 1;
+                    var additional = `本次游戏, 我在范围缩小至 <strong>${min} ~ ${max}</strong> (该范围中有 <strong>${numCount}</strong> 个数字) 时猜出了 <strong>${current}</strong>.`;
+                }
+                copyTo("guessYouChat", copyFrom("guessYouChat") + `\n<div id="guessYou${round}"><p style="color: #00dd00;"><strong>Bot: </strong>太棒了! 我在猜了 <strong>${round}</strong> 次后猜出了你的数字 <strong>${current}</strong>.</p><p style="color: #00dd00;"><strong>Bot: </strong>${additional}</p></div>`);
+            } else {
+                var current = parseInt(copyFrom("current"));
+                var round = parseInt(copyFrom("round"));
+                if (reply == -1) { // LESS
+                    copyTo("max", parseInt(copyFrom("current")) - 1);
+                    copyTo("diff", "L");
+                    colorTo(`lessButton${round}`, "#00dd00");
+                }
+                if (reply == 1) { // MORE
+                    copyTo("min", parseInt(copyFrom("current")) + 1);
+                    copyTo("diff", "H");
+                    colorTo(`moreButton${round}`, "#00dd00");
+                }
+                if (copyFrom("diff") == "L") { var id = current + "l"; } else { var id = current + "h"; }
+                target(`guessYou${round}`).classList.add(`guessYouR${id}`);
+                guessYou();
+            }
+        }
+
+        function guessBot() {
+            target("guessBotOk").disabled = true;
+            var min = parseInt(copyFrom("min"));
+            var max = parseInt(copyFrom("max"));
+            var round = parseInt(copyFrom("round")) + 1;
+            copyTo("round", round);
+            if (round >= 2) {
+                var additional = `<h6>建议范围: ${min} ~ ${max}</h6>`;
+            } else {
+                var additional = "";
+            }
+            copyTo("guessBotChat", copyFrom("guessBotChat") + `\n<div id="guessBot${round}"><p>你要猜的数字为: <input id="guessBotI${round}" style="width: 64px;" /><span id="guessBotN${round}"></span><button id="guessBotButton${round}" onclick="guessBotReply()">确认</button></p>${additional}</div>`);
+        }
+
+        function guessBotReply() {
+            var min = parseInt(copyFrom("min"));
+            var max = parseInt(copyFrom("max"));
+            var num = copyFrom("num");
+            var round = parseInt(copyFrom("round"));
+            var current = parseInt(target(`guessBotI${round}`).value);
+            copyTo(`guessBotN${round}`, current);
+            hide(`guessBotI${round}`);
+            target(`guessBotButton${round}`).disabled = true;
+            if (min == max) {
+                var additional = `本次游戏, 你在范围缩小至只剩最后一个数字时才猜出了 <strong>${current}</strong>.`;
+            } else {
+                var numCount = max - min + 1;
+                var additional = `本次游戏, 你在范围缩小至 <strong>${min} ~ ${max}</strong> (该范围中有 <strong>${numCount}</strong> 个数字) 时猜出了 <strong>${current}</strong>.`;
+            }
+            if (current == num) {
+                copyTo("guessBotChat", copyFrom("guessBotChat") + `\n<div id="guessBot${round}"><p style="color: #00dd00;"><strong>Bot: </strong>猜对了! 你在猜了 <strong>${round}</strong> 次后猜出了我的数字 <strong>${current}</strong>.<p style="color: #00dd00;"><strong>Bot: </strong>${additional}</p></div>`);
+            } else {
+                if (current < num) {
+                    var min = current + 1;
+                    if (min > copyFrom("min")) {
+                        copyTo("min", min);
+                    }
+                    copyTo("guessBotChat", copyFrom("guessBotChat") + `\n<div id="guessBotR${round}"><p><strong>Bot: </strong>猜小了</p></div>`);
+                }
+                if (current > num) {
+                    var max = current - 1;
+                    if (max < copyFrom("max")) {
+                        copyTo("max", max);
+                    }
+                    copyTo("guessBotChat", copyFrom("guessBotChat") + `\n<div id="guessBotR${round}"><p><strong>Bot: </strong>猜大了</p></div>`);
+                }
+                guessBot();
+            }
+        }
+    </script>
+</div></body>
+
+</html>
