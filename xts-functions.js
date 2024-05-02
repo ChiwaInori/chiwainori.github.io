@@ -1,52 +1,54 @@
 // Varients excluded numbers like "min" "max" or varients like "varient" should be in string type.
 
-function rand(min, max) {                           // RETURN a random integer in [min, max].
-    var range = max - min + 1;                      // [Example] rand(1, 10) ==> 6
+function rand(min, max) {                                               // RETURN a random integer in [min, max]. [Example] rand(1, 10) ==> 6
+    if (min > max) { throw new Error("Invalid minimum / maximum integer; minimum should be less than maximum"); }
+    var range = max - min + 1;
     return Math.floor(Math.random() * range) + min;
 }
 
-function logVar(varient, name) {            // Log a varient in console.
-    if (name == undefined) {                // [Example] logVar("score", score) ==> 128
-        console.log(`logVar: ${varient}`);  // [Optional] "name" can be undefined, default as "logVar"
+function logVar(varient, name) {            // Log a varient in console. [Example] logVar("score", score) ==> 128 [Optional] "name" can be undefined, default as "logVar"
+    if (name == undefined) {
+        console.log(`logVar: ${varient}`);
     } else {
         console.log(`${name}: ${varient}`);
     }
 }
 
-function target(element) {                      // RETURN an element in HTML.
-    return document.getElementById(element);    // [Example] var text = target("title").innerText; <==>  var text = document.getElementById("title").innerText;
+function target(element) {  // RETURN an element in HTML. [Example] var text = target("title").innerText; <==> var text = document.getElementById("title").innerText;
+    if (document.getElementById(element) == undefined) { throw new ReferenceError(`${element} is not defined`); }
+    return document.getElementById(element);
 }
 
-function copyFrom(element) {                            // RETURN an element's innerHTML.
-    return document.getElementById(element).innerHTML;  // [Example] var str = copyFrom("title"); <==> var str = document.getElementById("title").innerHTML;
+function copyFrom(element) {    // RETURN an element's innerHTML. [Example] var str = copyFrom("title"); <==> var str = document.getElementById("title").innerHTML;
+    return target(element).innerHTML;
 }
 
-function copyTo(element, content) {                         // Change an element's innerHTML.
-    document.getElementById(element).innerHTML = content;   // [Example] copyTo("title", "Hello"); <==> document.getElementById("title").innerHTML = "Hello";
+function copyTo(element, content) { // Change an element's innerHTML. [Example] copyTo("title", "Hello"); <==> document.getElementById("title").innerHTML = "Hello";
+    target(element).innerHTML = content;
 }
 
-function styleTo(element, style) {                          // Change an element's CSS style.
-    document.getElementById(element).style = style;         // [Example] styleTo("title", "margin-left: 64px;"); <==> document.getElementById("title").style = "margin-left: 64px;";
+function styleTo(element, style) {  // Change an element's CSS style. [Example] styleTo("title", "margin-left: 64px;"); <==> document.getElementById("title").style = "margin-left: 64px;";
+    target(element).style = style;
 }
 
-function colorTo(element, color) {                          // Change an element's color.
-    document.getElementById(element).style.color = color;   // [Example] colorTo("title", "#ff0000"); <==> document.getElementById("title").style.color = "#ff0000";
+function colorTo(element, color) {  // Change an element's color. [Example] colorTo("title", "#ff0000"); <==> document.getElementById("title").style.color = "#ff0000";
+    target(element).style.color = color;
 }
 
-function hide(element) {                                        // Hide an element.
-    document.getElementById(element).style.display = "none";    // [Example] hide("para1"); <==> document.getElementById("para1").style.display = "none";
+function hide(element) {    // Hide an element. [Example] hide("para1"); <==> document.getElementById("para1").style.display = "none";
+    target(element).style.display = "none";
 }
 
-function unhide(element, style) {                                   // Show an element with expected format.
-    if (style == undefined) {                                       // [Example] unhide("para1", "inline"); <==> document.getElementById("para1").style.display = "inline";
-        document.getElementById(element).style.display = "block";   // [Optional] "element" can be undefined, default as "block"
+function unhide(element, style) {   // Show an element with expected format. [Example] unhide("para1", "inline"); <==> document.getElementById("para1").style.display = "inline"; [Optional] "element" can be undefined, default as "block"
+    if (style == undefined) {
+        target(element).style.display = "block";
     } else {
-        document.getElementById(element).style.display = style;
+        target(element).style.display = style;
     }
 }
 
-function save(filename, content) {                          // Download a file with expected content.
-    var blob = new Blob([content], { type: "text/plain" }); // [Example] save("readme.txt", "Please read this file."); (It'll download a file named readme.txt with "Please read this file.")
+function save(filename, content) {  // Download a file with expected content. [Example] save("readme.txt", "Please read this file."); (It'll download a file named readme.txt with "Please read this file.")
+    var blob = new Blob([content], { type: "text/plain" });
     var a = document.createElement("a");
     a.style.display = "none";
     var url = window.URL.createObjectURL(blob);
@@ -58,18 +60,17 @@ function save(filename, content) {                          // Download a file w
     window.URL.revokeObjectURL(url);
 }
 
-function load(inputId, target) {                                                    // Keeps copy the content from file in <input id="inputId" /> to an expected position.
-    document.getElementById(inputId).addEventListener('change', function(event) {   // [Example] load("top-file", "fileInfo"); (When a file is selected in <input id="top-file" />, its content will be copied to "fileInfo".)
-        const fileInput = event.target;                                             // [Optional] "target" can be undefined, default as "file-content"
+function load(inputId, element) {    // Keeps copy the content from file in <input id="inputId" /> to an expected position. [Example] load("top-file", "fileInfo"); (When a file is selected in <input id="top-file" />, its content will be copied to "fileInfo".) [Optional] "target" can be undefined, default as "file-content"
+    document.getElementById(inputId).addEventListener('change', function(event) {
+        const fileInput = event.target;
         const file = fileInput.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(event) {
                 var fileContent = event.target.result;
-                if (target == undefined) {
-                    document.getElementById("file-content").textContent = fileContent;
-                } else {
-                    document.getElementById(target).textContent = fileContent;
+                if (element == undefined) { var element = "file-content"; }
+                else {
+                    target(element).textContent = fileContent;
                 }
             };
             reader.readAsText(file);
@@ -77,25 +78,25 @@ function load(inputId, target) {                                                
     });
 }
 
-function copyright(startYear, signature) {  // Create the copyright text in <element id="copyright"></element>.
-    if (signature == undefined) {           // [Example] copyright(2021, "Hacker"); (It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright".)
-        var signature = "xtsdcb69";         // [Optional] "signature" can be undefined, default as "xtsdcb69"
-    }
+function copyright(startYear, signature) {  // Create the copyright text in <element id="copyright"></element>. [Example] copyright(2021, "Hacker"); (It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright".) [Optional] "signature" can be undefined, default as "xtsdcb69"
+    if (signature == undefined) { var signature = "xtsdcb69"; }
     var date = new Date();
     var thisYear = date.getFullYear();
+    if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
     if (thisYear == parseInt(startYear)) {
-        document.getElementById("copyright").innerHTML = `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`;
+        copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
     } else {
-        document.getElementById("copyright").innerHTML = `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`;
+        copyTo("copyright", `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`);
     }
 }
 
-function getNum(string) {                   // RETURN all numbers in a string. Split in array.
-    return string.match(/\d+(\.\d+)?/g);    // [Example] getNum("487bsrg13d74gh,-2") ==> ['487', '13', '74', '2']
+function getNum(string) {   // RETURN all numbers in a string. Split in array. [Example] getNum("487bsrg13d74gh,-2") ==> ['487', '13', '74', '2']
+    return string.match(/\d+(\.\d+)?/g);
 }
 
-function transColor(element, toColor) {     // Turn an element's current color to another in transition.
-    var speed = 10;                         // [Example] transColor("title", "#00dd00"); (It'll turn title's color to green.)
+function transColor(element, toColor) { // Turn an element's current color to another in transition. [Example] transColor("title", "#00dd00"); (It'll turn title's color to green.)
+    if (toColor.indexOf("#") < 0) { throw new Error("toColor should be in hex type"); }
+    var speed = 10
     var speed = speed || 30;
     var color_from = target(element).style.color || "rgb(102, 102, 102)";
     var color_to = toColor;
