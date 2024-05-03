@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>恶魔轮盘 子弹记录 - xtsdcb69</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css">
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainbody">
+    <div class="title">
+        <h1>恶魔轮盘 子弹记录</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>恶魔轮盘 子弹记录</strong></h6>
+    </div>
+    <div class="content">
+        <div id="startTxt">
+            <p>此页面可以帮助你记下 恶魔轮盘 (Buckshot Roulette) 中的子弹情况。</p>
+            <br />
+        </div>
+        <p id="welcomeTxt"><strong>请先输入子弹数量以继续:</strong></p>
+        <p><img src="./Live_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="color: #ff7c7c; font-size: 22px;"><strong>实弹</strong></span>&nbsp;<input id="liveCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="liveCountTxt" style="font-size: 32px; color: #ff7c7c;"></span></strong></p>
+        <p><img id="imgBlank" src="./Blank_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="font-size: 22px;"><strong>空弹</strong></span>&nbsp;<input id="blankCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="blankCountTxt" style="font-size: 32px;"></span></strong></p>
+        <button id="startButton" onclick="start()" disabled="true">继续</button>
+        <p id="nowOrder" style="display: none;">0</p>
+        <p id="telHints" style="display: none;"></p>
+        <div id="gamePhase" style="display: none;">
+            <p>请在你 / 庄家每次射击后，按下下方相应的按钮。</p>
+            <h3>下一次射击: <span style="color: #ff7c7c">实 <span id="liveChance" style="color: #ff7c7c"></span>%<span style="color: #aaaaaa;"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span></h3>
+            <h5>电话: 第<input id="telOrder" style="width: 8px; margin-left: 0px;"/>发子弹 ... &lt;<input id="telLive" type="checkbox" style="margin-left: 0px;" checked="true" />实 / <input id="telBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="confirmTel()">确认</button></h5>
+            <br />
+            <h4><span style="margin-left: 128px; margin-right: 128px; color: #ff7c7c;">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
+            <h4>常规发射</h4>
+            <button id="shootNormalLive" style="height: 256px; width: 256px;" onclick="shoot(1)">常规发射 | <span style="color: #ff7c7c;">实弹</span></button>
+            <button id="shootNormalBlank" style="height: 256px; width: 256px;" onclick="shoot(2)">常规发射 | 空弹</button>
+            <br />
+            <h4 style="color: #007700;">使用转换器</h4>
+            <h6>* 注: 对于两个 &quot;<span style="color: #007700;">使用转换器</span>&quot; 的按钮，根据发射出的实际子弹类型选择 <span style="color: #ff7c7c;">实弹</span> 或 空弹，而不是选择转换前的类型。</h6>
+            <button id="shootInvertLive" style="height: 256px; width: 256px;" onclick="shoot(3)"><span style="color: #007700;">使用转换器</span> | <span style="color: #ff7c7c;">实弹</span></button>
+            <button id="shootInvertBlank" style="height: 256px; width: 256px;" onclick="shoot(4)"><span style="color: #007700;">使用转换器</span> | 空弹</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('liveCount').addEventListener('input', function (event) {
+            updateStartButton();
+        });
+
+        document.getElementById('blankCount').addEventListener('input', function (event) {
+            updateStartButton();
+        });
+
+        document.getElementById('telLive').addEventListener('input', function (event) {
+            target("telBlank").checked = false;
+        });
+
+         document.getElementById('telBlank').addEventListener('input', function (event) {
+            target("telLive").checked = false;
+        });
+
+        function updateStartButton() {
+            var liveCount = target("liveCount").value;
+            var blankCount = target("blankCount").value;
+            if (liveCount != "" && blankCount != "") {
+                target("startButton").disabled = false;
+            }
+        }
+
+        function start() {
+            var liveCount = parseInt(target("liveCount").value);
+            var blankCount = parseInt(target("blankCount").value);
+            hide("liveCount");
+            hide("blankCount");
+            hide("startTxt");
+            hide("welcomeTxt");
+            hide("startButton");
+            unhide("gamePhase");
+            unhide("liveCountTxt", "inline");
+            unhide("blankCountTxt", "inline");
+            copyTo("liveCountTxt", liveCount);
+            copyTo("blankCountTxt", blankCount);
+            shoot(0);
+        }
+
+        function shoot(type) {
+            var liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
+            var blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
+            var nowOrder = parseInt(copyFrom("nowOrder")) + 1;
+            copyTo("nowOrder", nowOrder);
+            if (type == 1 || type == 4) {
+                liveCount--;
+            }
+            if (type == 2 || type == 3) {
+                blankCount--;
+            }
+            if (liveCount != 0) {
+                copyTo("liveCountTxt", liveCount);
+            } else {
+                copyTo("liveCountTxt", "已打完");
+                colorTo("liveCountTxt", "#dd0000");
+                target("shootNormalLive").disabled = true;
+                target("shootInvertBlank").disabled = true;
+            }
+            if (blankCount != 0) {
+                copyTo("blankCountTxt", blankCount);
+            } else {
+                copyTo("blankCountTxt", "已打完");
+                colorTo("blankCountTxt", "#dd0000");
+                target("shootInvertLive").disabled = true;
+                target("shootNormalBlank").disabled = true;
+            }
+            var totalShells = liveCount + blankCount;
+            var liveChance = parseInt(liveCount / totalShells * 100);
+            var blankChance = 100 - liveChance;
+            var liveChance = liveChance || 0;
+            var blankChance = blankChance || 0;
+            copyTo("liveChance", liveChance);
+            copyTo("blankChance", blankChance);
+            hide("confirmed");
+            var telHints = copyFrom("telHints");
+            if (telHints.indexOf(`${nowOrder}l`) >= 0) {
+                copyTo("liveChance", 100);
+                copyTo("blankChance", 0);
+                unhide("confirmed", "inline");
+                colorTo("confirmed", "#ff7c7c");
+            }
+            if (telHints.indexOf(`${nowOrder}b`) >= 0) {
+                copyTo("liveChance", 0);
+                copyTo("blankChance", 100);
+                unhide("confirmed", "inline");
+                colorTo("confirmed", "#666666");
+            }
+        }
+
+        function confirmTel() {
+            var nowOrder = parseInt(copyFrom("nowOrder"));
+            var telOrder = parseInt(target("telOrder").value) + nowOrder - 1;
+            if (target("telLive").checked == true) {
+                copyTo("telHints", copyFrom("telHints") + ` ${telOrder}l`);
+            } else {
+                copyTo("telHints", copyFrom("telHints") + ` ${telOrder}b`);
+            }
+        }
+    </script>
+</div></body>
+
+</html>
