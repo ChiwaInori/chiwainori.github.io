@@ -28,9 +28,11 @@
         <button id="startButton" onclick="start()" disabled="true">继续</button>
         <p id="nowOrder" style="display: none;">0</p>
         <p id="telHints" style="display: none;"></p>
+        <p id="telModifiedLive" style="display: none;"></p>
+        <p id="telModifiedBlank" style="display: none;"></p>
         <div id="gamePhase" style="display: none;">
             <p>请在你 / 庄家每次射击后，按下下方相应的按钮。</p>
-            <h3>下一次射击: <span style="color: #ff7c7c">实 <span id="liveChance" style="color: #ff7c7c"></span>%<span style="color: #aaaaaa;"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span></h3>
+            <h3>下一次射击: <span style="color: #ff7c7c">实 <span id="liveChance" style="color: #ff7c7c"></span>%<span style="color: #aaaaaa;"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: #aaaaaa; display: none;">(电话已更改概率)</span></h3>
             <h5>电话: 第<input id="telOrder" style="width: 8px; margin-left: 0px;"/>发子弹 ... &lt;<input id="telLive" type="checkbox" style="margin-left: 0px;" checked="true" />实 / <input id="telBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="confirmTel()">确认</button></h5>
             <br />
             <h4><span style="margin-left: 128px; margin-right: 128px; color: #ff7c7c;">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
@@ -88,14 +90,32 @@
         function shoot(type) {
             var liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
             var blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
-            var nowOrder = parseInt(copyFrom("nowOrder")) + 1;
-            copyTo("nowOrder", nowOrder);
+            if (copyFrom("telModifiedLive") == "") {
+                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+            } else {
+                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+            }
+            if (copyFrom("telModifiedBlank") == "") {
+                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+            } else {
+                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+            }
+            var nowOrder = parseInt(copyFrom("nowOrder"));
+            var telHints = copyFrom("telHints");
             if (type == 1 || type == 4) {
                 liveCount--;
+                if (telHints.indexOf(`${nowOrder}`) == -1) {
+                    telModifiedLiveCount--;
+                }
             }
             if (type == 2 || type == 3) {
                 blankCount--;
+                if (telHints.indexOf(`${nowOrder}`) == -1) {
+                    telModifiedBlankCount--;
+                }
             }
+            copyTo("telModifiedLive", telModifiedLiveCount);
+            copyTo("telModifiedBlank", telModifiedBlankCount);
             if (liveCount != 0) {
                 copyTo("liveCountTxt", liveCount);
             } else {
@@ -112,15 +132,16 @@
                 target("shootInvertLive").disabled = true;
                 target("shootNormalBlank").disabled = true;
             }
-            var totalShells = liveCount + blankCount;
-            var liveChance = parseInt(liveCount / totalShells * 100);
+            var totalShells = telModifiedLiveCount + telModifiedBlankCount;
+            var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
             var blankChance = 100 - liveChance;
             var liveChance = liveChance || 0;
             var blankChance = blankChance || 0;
             copyTo("liveChance", liveChance);
             copyTo("blankChance", blankChance);
             hide("confirmed");
-            var telHints = copyFrom("telHints");
+            var nowOrder = nowOrder + 1;
+            copyTo("nowOrder", nowOrder);
             if (telHints.indexOf(`${nowOrder}l`) >= 0) {
                 copyTo("liveChance", 100);
                 copyTo("blankChance", 0);
@@ -133,16 +154,61 @@
                 unhide("confirmed", "inline");
                 colorTo("confirmed", "#666666");
             }
+
+            var totalShellsBeforeTel = liveCount + blankCount;
+            var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
+            var liveChanceBeforeTel = liveChanceBeforeTel || 0;
+            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
+                unhide("changed", "inline");
+            } else {
+                hide("changed");
+            }
+            logVar(liveChance, "liveChance");
+            logVar(liveChanceBeforeTel, "liveChanceBeforeTel");
         }
 
         function confirmTel() {
+            var liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
+            var blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
             var nowOrder = parseInt(copyFrom("nowOrder"));
             var telOrder = parseInt(target("telOrder").value) + nowOrder - 1;
+            if (copyFrom("telModifiedLive") == "") {
+                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+            } else {
+                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+            }
+            if (copyFrom("telModifiedBlank") == "") {
+                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+            } else {
+                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+            }
             if (target("telLive").checked == true) {
                 copyTo("telHints", copyFrom("telHints") + ` ${telOrder}l`);
+                telModifiedLiveCount--;
             } else {
                 copyTo("telHints", copyFrom("telHints") + ` ${telOrder}b`);
+                telModifiedBlankCount--;
             }
+            var totalShells = telModifiedLiveCount + telModifiedBlankCount;
+            var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
+            var blankChance = 100 - liveChance;
+            var liveChance = liveChance || 0;
+            var blankChance = blankChance || 0;
+            copyTo("liveChance", liveChance);
+            copyTo("blankChance", blankChance);
+            copyTo("telModifiedLive", telModifiedLiveCount);
+            copyTo("telModifiedBlank", telModifiedBlankCount);
+
+            var totalShellsBeforeTel = liveCount + blankCount;
+            var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
+            var liveChanceBeforeTel = liveChanceBeforeTel || 0;
+            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
+                unhide("changed", "inline");
+            } else {
+                hide("changed");
+            }
+            logVar(liveChance, "liveChance");
+            logVar(liveChanceBeforeTel, "liveChanceBeforeTel");
         }
     </script>
 </div></body>
