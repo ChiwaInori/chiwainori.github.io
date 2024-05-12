@@ -92,7 +92,6 @@
             <p>该倒计时指向的终点是 <span id="targettime"></span></p>
             <p>本倒计时使用的当前时间是 <span id="date"></span> <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒<span id="calibration"></span></p>
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
-            <p>使用移动设备查看此界面及其子界面可能会出现问题。</p>
             <p id="cal1">辅助校准系统 <span onclick="cal()">&gt;&gt;&gt;</span></p>
             <p id="cal2" style="display: none;">辅助校准系统 | <input id="cali1" type="text" style="width: 30px;" />&nbsp;<input id="cali2" type="text" style="width: 30px;" /> <button id="subcal" onclick="submitcal()">确认</button> | <strong><span id="calresult"></span></strong></p>
             <br />
@@ -117,14 +116,14 @@
                 var today_m = date.getMonth();
                 var today_m = today_m + 1;
                 var today_d = date.getDate();
-                document.getElementById("date").innerHTML = today_y + "." + today_m + "." + today_d;
+                document.getElementById("date").innerHTML = today_y + "/" + today_m + "/" + today_d;
                 var today_w = date.getDay();
                 var today_h = date.getHours();
                 var today_m = date.getMinutes();
                 if (today_w == 0 && today_h < 11 || today_w == 7 && today_h == 11 && today_m <= 45) {
                     var today = today;
                 }
-                if (today_w == 0 && today_h >= 11 && today_m >= 45 || today_w == 7 && today_h >= 11) {
+                if (today_w == 0 && today_h >= 11 && today_m >= 45 || today_w == 0 && today_h >= 11) {
                     var today = today + 604800000;
                 }
                 if (today_w == 1) {
@@ -150,7 +149,7 @@
                 var target_m = target.getMonth();
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
-                var target_word = target_y + "." + target_m + "." + target_d + " 11:45";
+                var target_word = target_y + "/" + target_m + "/" + target_d + " 11:45";
                 getDistanceSpecifiedTime(target_word);
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
@@ -235,9 +234,9 @@
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
                     // var EndTimeSV = new Date("2022.6.30 16:30");
-                    var EndTimeSV = new Date("2024.7.10 17:00");
+                    var EndTimeSV = new Date("2024/7/14 17:00");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2024.2.25 18:00");
+                    var StartTimeSV = new Date("2024/2/25 18:00");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
@@ -255,7 +254,7 @@
                 }
                 getDistanceSpecifiedTimeME();
                 function getDistanceSpecifiedTimeME() {
-                    var EndTimeME = new Date("2023.6.24 9:00");
+                    var EndTimeME = new Date("2023/6/24 9:00");
                     var NowTimeME = new Date();
                     var t_ME = EndTimeME.getTime() - NowTimeME.getTime();
                     var d_ME = Math.floor(t_ME / 1000 / 60 / 60 / 24);
@@ -266,7 +265,7 @@
                 }
                 getDistanceSpecifiedTimeHE();
                 function getDistanceSpecifiedTimeHE() {
-                    var EndTimeHE = new Date("2026.6.7 9:00");
+                    var EndTimeHE = new Date("2026/6/7 9:00");
                     var NowTimeHE = new Date();
                     var t_HE = EndTimeHE.getTime() - NowTimeHE.getTime();
                     var d_HE = Math.floor(t_HE / 1000 / 60 / 60 / 24);

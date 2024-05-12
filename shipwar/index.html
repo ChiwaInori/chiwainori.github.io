@@ -4074,7 +4074,9 @@
                 document.getElementById("p2_placesmall_b34").style = "display: none;";
                 document.getElementById("p2_placesmall_b35").style = "display: none;";
                 document.getElementById("p2_placesmall_b36").style = "display: none;";
-                document.getElementById("online_finish").style = "display: block;";
+                if (copyFrom("var_online") == "1") {
+                    document.getElementById("online_finish").style = "display: block;";
+                }
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
@@ -5310,7 +5312,9 @@
                 document.getElementById("p2_placesmall_b34").style = "display: none;";
                 document.getElementById("p2_placesmall_b35").style = "display: none;";
                 document.getElementById("p2_placesmall_b36").style = "display: none;";
-                document.getElementById("online_finish").style = "display: block;";
+                if (copyFrom("var_online") == "1") {
+                    document.getElementById("online_finish").style = "display: block;";
+                }
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
@@ -6032,7 +6036,9 @@
                 document.getElementById("p1_attack_b34").style = "display: none;";
                 document.getElementById("p1_attack_b35").style = "display: none;";
                 document.getElementById("p1_attack_b36").style = "display: none;";
-                document.getElementById("online_finish").style = "display: block;";
+                if (copyFrom("var_online") == "1") {
+                    document.getElementById("online_finish").style = "display: block;";
+                }
                 p1_text_recolor();
                 var cache = parseInt(document.getElementById("var_cache").innerHTML);
                 var cache1 = document.getElementById("var_cache").innerHTML;
@@ -6103,7 +6109,9 @@
                 document.getElementById("p2_attack_b34").style = "display: none;";
                 document.getElementById("p2_attack_b35").style = "display: none;";
                 document.getElementById("p2_attack_b36").style = "display: none;";
-                document.getElementById("online_finish").style = "display: block;";
+                if (copyFrom("var_online") == "1") {
+                    document.getElementById("online_finish").style = "display: block;";
+                }
                 p2_text_recolor();
                 var cache = parseInt(document.getElementById("var_cache").innerHTML);
                 var cache1 = document.getElementById("var_cache").innerHTML;
@@ -6177,6 +6185,7 @@
         }
 
         function online_continue() {
+            document.getElementById("online_b1").disabled = true;
             if (document.getElementById("code_from_friend").value == document.getElementById("online_code").innerHTML) {
                 document.getElementById("online_same").style.display = "block";
                 document.getElementById("online_b1").disabled = true;
@@ -6349,6 +6358,7 @@
                     var cache = "0";
                 }
                 var cache = parseInt(cache);
+                // sleep(1000);
             }
             if (code2 != undefined) {
                 while (code2.length > 2) {
@@ -6390,6 +6400,7 @@
                     if (nowpos == "35") { p2_attack_35(); }
                     if (nowpos == "36") { p2_attack_36(); }
                     var code2 = code2.slice(3);
+                    // sleep(1000);
                 }
             }
         }
@@ -6530,6 +6541,7 @@
                     var cache = "0";
                 }
                 var cache = parseInt(cache);
+                // sleep(1000);
             }
             if (code2 != undefined) {
                 while (code2.length > 2) {
@@ -6571,6 +6583,7 @@
                     if (nowpos == "35") { p1_attack_35(); }
                     if (nowpos == "36") { p1_attack_36(); }
                     var code2 = code2.slice(3);
+                    // sleep(1000);
                 }
             }
         }

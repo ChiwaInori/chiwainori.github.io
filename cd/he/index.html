@@ -46,7 +46,6 @@
             <p>该倒计时指向的终点是 <span id="targettime"></span></p>
             <p>本倒计时使用的当前时间是 <span id="date"></span> <span id="weekday"></span> <span id="h"></span>时<span id="m"></span>分<span id="s"></span>秒 <span id="calibration"></span></p>
             <p>本时间与学校铃声时间难免有误差，因此本倒计时仅作参考，请以实际铃声为准。</p>
-            <p>使用移动设备查看此界面及其子界面可能会出现问题。</p>
             <br>
             <p>Copyright © <span id="thisyear"></span> Guigang JNZX 2310 (高一上 2313) XZY (xtsdcb69). All Rights Reserved.</p>
             <script>
@@ -101,8 +100,8 @@
                 var target_m = target.getMonth();
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
-                var target_word = target_y + "." + target_m + "." + target_d + " 17:15";
-                getDistanceSpecifiedTime('2026.6.7 9:00');
+                var target_word = target_y + "/" + target_m + "/" + target_d + " 17:15";
+                getDistanceSpecifiedTime('2026/6/7 9:00');
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
                     var NowTime = new Date();
@@ -182,9 +181,9 @@
                 function getDistanceSpecifiedTimeSV() {
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
-                    var EndTimeSV = new Date("2023.6.23 23:59:59");
+                    var EndTimeSV = new Date("2023/6/23 23:59:59");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2022.8.27 11:00");
+                    var StartTimeSV = new Date("2022/8/27 11:00");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
@@ -207,7 +206,7 @@
                 }
                 getDistanceSpecifiedTimeME();
                 function getDistanceSpecifiedTimeME() {
-                    var EndTimeME = new Date("2023.6.24 8:30");
+                    var EndTimeME = new Date("2023/6/24 8:30");
                     var NowTimeME = new Date();
                     var t_ME = EndTimeME.getTime() - NowTimeME.getTime();
                     var d_ME = Math.floor(t_ME / 1000 / 60 / 60 / 24);
@@ -218,7 +217,7 @@
                 }
                 getDistanceSpecifiedTimeHE();
                 function getDistanceSpecifiedTimeHE() {
-                    var EndTimeHE = new Date("2026.6.7 9:00");
+                    var EndTimeHE = new Date("2026/6/7 9:00");
                     var NowTimeHE = new Date();
                     var t_HE = EndTimeHE.getTime() - NowTimeHE.getTime();
                     var d_HE = Math.floor(t_HE / 1000 / 60 / 60 / 24);

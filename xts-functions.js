@@ -125,3 +125,18 @@ function transColor(element, toColor) { // Turn an element's current color to an
         }
     }, speed);
 }
+
+function sleepByLoadCpu(miliSec) {   // Pause remaining codes until sleep over by overloading CPU. It'll stop all missions during sleep [Example] sleepByLoadCpu(1000); (It'll pause excuting codes until 1s later.)
+    var now = new Date();
+    var end = now.getTime() + miliSec;
+    while (true) {
+        var now = new Date();
+        if (now.getTime() > end) {
+            return;
+        }
+    }
+}
+
+function sleep(ms) {   // [MUST USED IN async function fName(), and usage must be "await sleep(ms);"] Pause remaining codes until sleep over. [Example] sleep(1000); (It'll pause excuting codes until 1s later.)
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
