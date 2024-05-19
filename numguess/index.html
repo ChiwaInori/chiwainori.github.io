@@ -62,7 +62,7 @@
             if (min <= max) {
                 var current = rand(min, max);    
                 copyTo("guessYouChat", copyFrom("guessYouChat") + `\n<div id="guessYou${round}"><p><strong>Bot: </strong>你猜的数字是不是 <strong>${current}</strong>?</p><p><button id="lessButton${round}" onclick="guessYouReply(-1)">更小</button><button id="correctButton${round}" onclick="guessYouReply(0)">对了</button><button id="moreButton${round}" onclick="guessYouReply(1)">更大</button></p></div>`);
-                console.log(`Round ${round}: ${min} ~ ${max}, randomed ${current}`);
+                console.log(`Round ${round}: ${min} ~ ${max}, random-ed ${current}`);
             } else {
                 copyTo("guessYouChat", copyFrom("guessYouChat") + `\n<div id="guessYou${round}"><p style="color: #dd0000;"><strong>Bot: </strong>我无法猜出你的数字, 因为从你的回应中, 这个数字比 <strong>${max}</strong> 大, 比 <strong>${min}</strong> 小。</p></div>`);
                 var targetParagraphsH = document.querySelectorAll(`.guessYouR${max + "h"} p`);

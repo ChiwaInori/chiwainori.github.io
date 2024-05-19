@@ -18,8 +18,8 @@ function xts(command) {
             var success = 1;
             console.log(
                 `XTS Functions: sleep(time)`
-                + `\nSleep a moment then excute following commands.`
-                + `\ntime : (number > 0) : Sleep time in miliseconds`
+                + `\nSleep a moment then execute following commands.`
+                + `\ntime : (number > 0) : Sleep time in milliseconds`
                 + `\n[EXAMPLE] sleep(1000) :: Wait 1s, the continue following commands.`
                 + `\n%c[ASYNC] Only available in async functions. Use this function like:`
                 + `\nasync function fName() { await sleep(time); }`, "color: #dd0000;"
@@ -51,14 +51,14 @@ function xts(command) {
                 `XTS Functions: getNum(text)`
                 + `\nCreate a random integer.`
                 + `\ntext : (string) : The text that gets number from it`
-                + `\n[EXAMPLE] getNum("487bsrg13d74gh,-2") :: Return ['487', '13', '74', '2']`
+                + `\n[EXAMPLE] getNum("487brg13d74gh,-2") :: Return ['487', '13', '74', '2']`
             );
         }
         if (command == "logVar") {
             var success = 1;
             console.log(
                 `XTS Functions: logVar(variant, name)`
-                + `\nLog a varient in console.`
+                + `\nLog a variant in console.`
                 + `\nvariant : (var) : The variant of log output`
                 + `\nname : (string, OPTIONAL ("logVar")) : The name of variant`
                 + `\n[EXAMPLE] logVar(score, "score") :: Output "score: 128"`
@@ -175,7 +175,7 @@ function xts(command) {
 // GLOBAL USAGE
 
 function sleep(time) {
-    if (time <= 0) { throw new Error("Cannot sleep less than 0 miliseconds"); }
+    if (time <= 0) { throw new Error("Cannot sleep less than 0 milliseconds"); }
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
@@ -298,30 +298,30 @@ function transColor(element, toColor) {
     if (toColor.indexOf("#") < 0) { throw new Error("toColor should be in hex type"); }
     var speed = 10
     var speed = speed || 30;
-    var color_from = target(element).style.color || "rgb(102, 102, 102)";
-    var color_to = toColor;
-    var r_from = parseInt(getNum(color_from)[0]);
-    var g_from = parseInt(getNum(color_from)[1]);
-    var b_from = parseInt(getNum(color_from)[2]);
-    var r_to = parseInt(color_to.substr(1, 2), 16);
-    var g_to = parseInt(color_to.substr(3, 2), 16);
-    var b_to = parseInt(color_to.substr(5, 2), 16);
+    var colorFrom = target(element).style.color || "rgb(102, 102, 102)";
+    var colorTo = toColor;
+    var rFrom = parseInt(getNum(colorFrom)[0]);
+    var gFrom = parseInt(getNum(colorFrom)[1]);
+    var bFrom = parseInt(getNum(colorFrom)[2]);
+    var rTo = parseInt(colorTo.substr(1, 2), 16);
+    var gTo = parseInt(colorTo.substr(3, 2), 16);
+    var bTo = parseInt(colorTo.substr(5, 2), 16);
     var step = 10;
-    var r_diff = ( r_to - r_from ) / step;
-    var g_diff = ( g_to - g_from ) / step;
-    var b_diff = ( b_to - b_from ) / step;
-    var st = setInterval(function() {
-        var nowcolor = target(element).style.color || "rgb(102, 102, 102)";
-        var r_now = parseInt(getNum(nowcolor)[0]);
-        var g_now = parseInt(getNum(nowcolor)[1]);
-        var b_now = parseInt(getNum(nowcolor)[2]);
-        var r_tocolor = ( r_now + r_diff ).toFixed(0);
-        var g_tocolor = ( g_now + g_diff ).toFixed(0);
-        var b_tocolor = ( b_now + b_diff ).toFixed(0);
-        target(element).style.color = `rgb(${r_tocolor}, ${g_tocolor}, ${b_tocolor})`;
-        if (r_to > r_from && r_tocolor >= r_to || r_to < r_from && r_tocolor <= r_to || g_to > g_from && g_tocolor >= g_to || g_to < g_from && g_tocolor <= g_to || b_to > b_from && b_tocolor >= b_to || b_to < b_from && b_tocolor <= b_to) {
+    var r_diff = ( rTo - rFrom ) / step;
+    var g_diff = ( gTo - gFrom ) / step;
+    var b_diff = ( bTo - bFrom ) / step;
+    var st = setInterval(function () {
+        var nowColor = target(element).style.color || "rgb(102, 102, 102)";
+        var r_now = parseInt(getNum(nowColor)[0]);
+        var g_now = parseInt(getNum(nowColor)[1]);
+        var b_now = parseInt(getNum(nowColor)[2]);
+        var rToColor = (r_now + r_diff).toFixed(0);
+        var gToColor = (g_now + g_diff).toFixed(0);
+        var bToColor = (b_now + b_diff).toFixed(0);
+        target(element).style.color = `rgb(${rToColor}, ${gToColor}, ${bToColor})`;
+        if (rTo > rFrom && rToColor >= rTo || rTo < rFrom && rToColor <= rTo || gTo > gFrom && gToColor >= gTo || gTo < gFrom && gToColor <= gTo || bTo > bFrom && bToColor >= bTo || bTo < bFrom && bToColor <= bTo) {
             clearInterval(st);
-            target(element).style.color = color_to;
+            target(element).style.color = colorTo;
         }
     }, speed);
 }
