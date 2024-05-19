@@ -7,7 +7,8 @@
     <link rel="shortcut icon" href="https://xtsgames.top/favicon.ico">
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css">
-    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop-center.css">
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)"
+        href="/css/desktop-center.css">
     <style>
         * {
             text-align: center;
@@ -20,1306 +21,1353 @@
     <script src="/xts-functions.js"></script>
 </head>
 
-<body><div class="mainbody">
-    <div class="title">
-        <h1 id="center_title" onclick="text_reset()">2310 班随机选人</h1>
-    </div>
-    <!--
+<body>
+    <div class="mainbody">
+        <div class="title">
+            <h1 id="center_title" onclick="text_reset()">2310 班随机选人</h1>
+        </div>
+        <!--
     <div class="navigation">
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong></strong></h6>
     </div>
     -->
-    <div class="content">
-        <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 150px;">点击下方按钮进行随机选人</h1>
-        <h1 id="name_animate" style="display: none;">&nbsp;</h1>
-        <p id="s_movable" style="margin-left: -10px;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>允许重复</rt></ruby></a> | <ruby>动态随机<rt>降低重复概率</rt></ruby> | <a class="link" onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
-        <p id="s_true" style="display: none;"><strong><ruby>真随机<rt>允许重复</rt></ruby> | <a class="link" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <a class="link" onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
-        <p id="s_false" style="display: none;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>允许重复</rt></ruby></a> | <a class="link" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <ruby>伪随机<rt>不允许重复</rt></ruby></strong></p>
-        <p id="b_true" style="display: none;"><button id="button7" onclick="run_true()">随机选人</button><button id="button8" style="margin-left: 420px;" onclick="run_true()">随机选人</button><button id="button9" style="margin-left: 450px;" onclick="run_true()">随机选人</button></p>
-        <p id="b_false" style="display: none;"><button id="button4" onclick="run_false()">随机选人</button><button id="button5" style="margin-left: 420px;" onclick="run_false()">随机选人</button><button id="button6" style="margin-left: 450px;" onclick="run_false()">随机选人</button></p>
-        <p id="b_movable"><button id="button1" onclick="run_movable()">随机选人</button><button id="button2" style="margin-left: 420px;" onclick="run_movable()">随机选人</button><button id="button3" style="margin-left: 450px;" onclick="run_movable()">随机选人</button></p>
-        <br />
-        <p><strong id="findbyid" style="color: #666666;" onclick="findbyid_reset()">按学号找人</strong> <button id="b_0" onclick="num_0()">0</button><button id="b_1"
-                onclick="num_1()">1</button><button id="b_2" onclick="num_2()">2</button><button id="b_3"
-                onclick="num_3()">3</button><button id="b_4" onclick="num_4()">4</button><button id="b_5"
-                onclick="num_5()">5</button><button id="b_6" onclick="num_6()" disabled="disabled">6</button><button id="b_7"
-                onclick="num_7()" disabled="disabled">7</button><button id="b_8" onclick="num_8()"
-                disabled="disabled">8</button><button id="b_9" onclick="num_9()" disabled="disabled">9</button></p>
-        <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong></p>
-        <p id="number" style="display: none;"></p>
-        <p id="order" style="display: none;">0</p>
-        <p id="line" style="display: none;"></p>
-        <p id="name_cache" style="display: none;"></p>
-        <audio id="click" src="click.mp3" style="display: none;" preload="auto"></audio>
-        <br /><br /><br />
-        <p style="color: #aaaaaa; font-size: 20px;"><strong>- 免责声明 -</strong></p>
-        <p style="color: #aaaaaa;">2310 班成员名单及学号根据高一下学期 3 月月考成绩单进行录入。所有同学都有同等被抽中的机会。</p>
-        <p style="color: #aaaaaa;">选人动画并不受已抽到的同学的影响。所有出现在选人动画中的名字与真随机相同。</p>
-        <p style="color: #aaaaaa;">动态随机结合真随机与伪随机进行随机选择，确保被选中后仍有小概率会被选中。</p>
-        <p style="color: #aaaaaa;">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
-        <p style="color: #aaaaaa;">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 55 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
-        <br />
-        <h6 style="color: #aaaaaa;">除选人动画的音效外，适用以下版权:</h6>
-        <p style="color: #aaaaaa;"  onclick="line_reset()" id="copyright"></p>
-    </div>
-    <script>
-        copyright(2024, "Guigang JNZX 2310 XZY (xtsdcb69)");
+        <div class="content">
+            <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 150px;">点击下方按钮进行随机选人</h1>
+            <h1 id="name_animate" style="display: none;">&nbsp;</h1>
+            <p id="s_movable" style="margin-left: -10px;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>
+                                允许重复</rt></ruby></a> | <ruby>动态随机<rt>降低重复概率</rt></ruby> | <a class="link"
+                        onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
+            <p id="s_true" style="display: none;"><strong><ruby>真随机<rt>允许重复</rt></ruby> | <a class="link"
+                        onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <a class="link"
+                        onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
+            <p id="s_false" style="display: none;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>允许重复
+                            </rt></ruby></a> | <a class="link" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt>
+                            </ruby></a> | <ruby>伪随机<rt>不允许重复</rt></ruby></strong></p>
+            <p id="b_true" style="display: none;"><button id="button7" onclick="run_true()">随机选人</button><button
+                    id="button8" style="margin-left: 420px;" onclick="run_true()">随机选人</button><button id="button9"
+                    style="margin-left: 450px;" onclick="run_true()">随机选人</button></p>
+            <p id="b_false" style="display: none;"><button id="button4" onclick="run_false()">随机选人</button><button
+                    id="button5" style="margin-left: 420px;" onclick="run_false()">随机选人</button><button id="button6"
+                    style="margin-left: 450px;" onclick="run_false()">随机选人</button></p>
+            <p id="b_movable"><button id="button1" onclick="run_movable()">随机选人</button><button id="button2"
+                    style="margin-left: 420px;" onclick="run_movable()">随机选人</button><button id="button3"
+                    style="margin-left: 450px;" onclick="run_movable()">随机选人</button></p>
+            <br />
+            <p><strong id="findById" style="color: #666666;" onclick="findById_reset()">按学号找人</strong> <button id="b_0"
+                    onclick="num_0()">0</button><button id="b_1" onclick="num_1()">1</button><button id="b_2"
+                    onclick="num_2()">2</button><button id="b_3" onclick="num_3()">3</button><button id="b_4"
+                    onclick="num_4()">4</button><button id="b_5" onclick="num_5()">5</button><button id="b_6"
+                    onclick="num_6()" disabled="disabled">6</button><button id="b_7" onclick="num_7()"
+                    disabled="disabled">7</button><button id="b_8" onclick="num_8()"
+                    disabled="disabled">8</button><button id="b_9" onclick="num_9()" disabled="disabled">9</button></p>
+            <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong></p>
+            <p id="number" style="display: none;"></p>
+            <p id="order" style="display: none;">0</p>
+            <p id="line" style="display: none;"></p>
+            <p id="name_cache" style="display: none;"></p>
+            <audio id="click" src="click.mp3" style="display: none;" preload="auto"></audio>
+            <br /><br /><br />
+            <p style="color: #aaaaaa; font-size: 20px;"><strong>- 免责声明 -</strong></p>
+            <p style="color: #aaaaaa;">2310 班成员名单及学号根据高一下学期 3 月月考成绩单进行录入。所有同学都有同等被抽中的机会。</p>
+            <p style="color: #aaaaaa;">选人动画并不受已抽到的同学的影响。所有出现在选人动画中的名字与真随机相同。</p>
+            <p style="color: #aaaaaa;">动态随机结合真随机与伪随机进行随机选择，确保被选中后仍有小概率会被选中。</p>
+            <p style="color: #aaaaaa;">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
+            <p style="color: #aaaaaa;">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 55 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
+            <br />
+            <h6 style="color: #aaaaaa;">除选人动画的音效外，适用以下版权:</h6>
+            <p style="color: #aaaaaa;" onclick="line_reset()" id="copyright"></p>
+        </div>
+        <script>
+            copyright(2024, "Guigang JNZX 2310 XZY (xtsdcb69)");
 
-        var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
-        arr.sort(function () {
-            return Math.random() - 0.5
-        })
-        document.getElementById("line").innerHTML = arr;
-
-        function run_movable() {
-            var seed = Math.floor(Math.random() * 4) + 1;
-            if (seed == 1) {
-                run_true();
-            } else {
-                run_false_movable();
-            }
-        }
-
-        function select_movable() {
-            document.getElementById("s_movable").style = "display: block; margin-left: -10px;";
-            document.getElementById("b_movable").style = "display: block;";
-            document.getElementById("s_true").style = "display: none;";
-            document.getElementById("b_true").style = "display: none;";
-            document.getElementById("s_false").style = "display: none;";
-            document.getElementById("b_false").style = "display: none;";
-        }
-
-        function select_true() {
-            document.getElementById("s_movable").style = "display: none;";
-            document.getElementById("b_movable").style = "display: none;";
-            document.getElementById("s_true").style = "display: block; margin-left: -10px;";
-            document.getElementById("b_true").style = "display: block;";
-            document.getElementById("s_false").style = "display: none;";
-            document.getElementById("b_false").style = "display: none;";
-        }
-
-        function select_false() {
-            document.getElementById("s_movable").style = "display: none;";
-            document.getElementById("b_movable").style = "display: none;";
-            document.getElementById("s_true").style = "display: none;";
-            document.getElementById("b_true").style = "display: none;";
-            document.getElementById("s_false").style = "display: block; margin-left: -10px;";
-            document.getElementById("b_false").style = "display: block;";
-        }
-
-        function run_true() {
-            var seed = Math.floor(Math.random() * 55) + 1;
-            if (seed == 1) {
-                document.getElementById("name_animate").innerHTML = "徐子洋";
-            }
-            if (seed == 2) {
-                document.getElementById("name_animate").innerHTML = "覃帝创";
-            }
-            if (seed == 3) {
-                document.getElementById("name_animate").innerHTML = "赖宝升";
-            }
-            if (seed == 4) {
-                document.getElementById("name_animate").innerHTML = "何星辉";
-            }
-            if (seed == 5) {
-                document.getElementById("name_animate").innerHTML = "黄政睿";
-            }
-            if (seed == 6) {
-                document.getElementById("name_animate").innerHTML = "陆格里";
-            }
-            if (seed == 7) {
-                document.getElementById("name_animate").innerHTML = "杨联贵";
-            }
-            if (seed == 8) {
-                document.getElementById("name_animate").innerHTML = "廖达举";
-            }
-            if (seed == 9) {
-                document.getElementById("name_animate").innerHTML = "蒋子莹";
-            }
-            if (seed == 10) {
-                document.getElementById("name_animate").innerHTML = "张建涛";
-            }
-            if (seed == 11) {
-                document.getElementById("name_animate").innerHTML = "施奎";
-            }
-            if (seed == 12) {
-                document.getElementById("name_animate").innerHTML = "黄相茗";
-            }
-            if (seed == 13) {
-                document.getElementById("name_animate").innerHTML = "林峭好";
-            }
-            if (seed == 14) {
-                document.getElementById("name_animate").innerHTML = "温文雅";
-            }
-            if (seed == 15) {
-                document.getElementById("name_animate").innerHTML = "钟子宁";
-            }
-            if (seed == 16) {
-                document.getElementById("name_animate").innerHTML = "党希琳";
-            }
-            if (seed == 17) {
-                document.getElementById("name_animate").innerHTML = "杨柠豪";
-            }
-            if (seed == 18) {
-                document.getElementById("name_animate").innerHTML = "吴美萍";
-            }
-            if (seed == 19) {
-                document.getElementById("name_animate").innerHTML = "谢焌宇";
-            }
-            if (seed == 20) {
-                document.getElementById("name_animate").innerHTML = "戴欣彤";
-            }
-            if (seed == 21) {
-                document.getElementById("name_animate").innerHTML = "杨思扬";
-            }
-            if (seed == 22) {
-                document.getElementById("name_animate").innerHTML = "刘乐谦";
-            }
-            if (seed == 23) {
-                document.getElementById("name_animate").innerHTML = "周坤怡";
-            }
-            if (seed == 24) {
-                document.getElementById("name_animate").innerHTML = "郑翼联";
-            }
-            if (seed == 25) {
-                document.getElementById("name_animate").innerHTML = "黄纤媛";
-            }
-            if (seed == 26) {
-                document.getElementById("name_animate").innerHTML = "黄振航";
-            }
-            if (seed == 27) {
-                document.getElementById("name_animate").innerHTML = "邓家宝";
-            }
-            if (seed == 28) {
-                document.getElementById("name_animate").innerHTML = "陆禹熹";
-            }
-            if (seed == 29) {
-                document.getElementById("name_animate").innerHTML = "周福文";
-            }
-            if (seed == 30) {
-                document.getElementById("name_animate").innerHTML = "蒋杰胜";
-            }
-            if (seed == 31) {
-                document.getElementById("name_animate").innerHTML = "苏正恩";
-            }
-            if (seed == 32) {
-                document.getElementById("name_animate").innerHTML = "蒙盈盈";
-            }
-            if (seed == 33) {
-                document.getElementById("name_animate").innerHTML = "郑育明";
-            }
-            if (seed == 34) {
-                document.getElementById("name_animate").innerHTML = "陈广榕";
-            }
-            if (seed == 35) {
-                document.getElementById("name_animate").innerHTML = "廖晓雪";
-            }
-            if (seed == 36) {
-                document.getElementById("name_animate").innerHTML = "黄文贝";
-            }
-            if (seed == 37) {
-                document.getElementById("name_animate").innerHTML = "吴静玉";
-            }
-            if (seed == 38) {
-                document.getElementById("name_animate").innerHTML = "蒙志为";
-            }
-            if (seed == 39) {
-                document.getElementById("name_animate").innerHTML = "叶滨华";
-            }
-            if (seed == 40) {
-                document.getElementById("name_animate").innerHTML = "邓桢";
-            }
-            if (seed == 41) {
-                document.getElementById("name_animate").innerHTML = "麦诚铭";
-            }
-            if (seed == 42) {
-                document.getElementById("name_animate").innerHTML = "梁瀚菲";
-            }
-            if (seed == 43) {
-                document.getElementById("name_animate").innerHTML = "林思颖";
-            }
-            if (seed == 44) {
-                document.getElementById("name_animate").innerHTML = "李永仲";
-            }
-            if (seed == 45) {
-                document.getElementById("name_animate").innerHTML = "邱琦康";
-            }
-            if (seed == 46) {
-                document.getElementById("name_animate").innerHTML = "甘永稳";
-            }
-            if (seed == 47) {
-                document.getElementById("name_animate").innerHTML = "覃耀泓";
-            }
-            if (seed == 48) {
-                document.getElementById("name_animate").innerHTML = "李杰";
-            }
-            if (seed == 49) {
-                document.getElementById("name_animate").innerHTML = "杨凯琪";
-            }
-            if (seed == 50) {
-                document.getElementById("name_animate").innerHTML = "韦国胜";
-            }
-            if (seed == 51) {
-                document.getElementById("name_animate").innerHTML = "邱振鑫";
-            }
-            if (seed == 52) {
-                document.getElementById("name_animate").innerHTML = "覃飞娴";
-            }
-            if (seed == 53) {
-                document.getElementById("name_animate").innerHTML = "谭铮";
-            }
-            if (seed == 54) {
-                document.getElementById("name_animate").innerHTML = "霍然";
-            }
-            if (seed == 55) {
-                document.getElementById("name_animate").innerHTML = "练昆林";
-            }
-            animate();
-        }
-
-
-        function run_false() {
-            var arra = document.getElementById("line").innerHTML;
-            var arr = arra.split(",").map(Number);
-            var person = parseInt(document.getElementById("order").innerHTML);
-            var seed = parseInt(arr[person]);
-            ++person;
-            if (seed == 1) {
-                document.getElementById("name_animate").innerHTML = "徐子洋 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 2) {
-                document.getElementById("name_animate").innerHTML = "覃帝创 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 3) {
-                document.getElementById("name_animate").innerHTML = "赖宝升 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 4) {
-                document.getElementById("name_animate").innerHTML = "何星辉 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 5) {
-                document.getElementById("name_animate").innerHTML = "黄政睿 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 6) {
-                document.getElementById("name_animate").innerHTML = "陆格里 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 7) {
-                document.getElementById("name_animate").innerHTML = "杨联贵 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 8) {
-                document.getElementById("name_animate").innerHTML = "廖达举 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 9) {
-                document.getElementById("name_animate").innerHTML = "蒋子莹 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 10) {
-                document.getElementById("name_animate").innerHTML = "张建涛 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 11) {
-                document.getElementById("name_animate").innerHTML = "施奎 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 12) {
-                document.getElementById("name_animate").innerHTML = "黄相茗 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 13) {
-                document.getElementById("name_animate").innerHTML = "林峭好 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 14) {
-                document.getElementById("name_animate").innerHTML = "温文雅 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 15) {
-                document.getElementById("name_animate").innerHTML = "钟子宁 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 16) {
-                document.getElementById("name_animate").innerHTML = "党希琳 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 17) {
-                document.getElementById("name_animate").innerHTML = "杨柠豪 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 18) {
-                document.getElementById("name_animate").innerHTML = "吴美萍 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 19) {
-                document.getElementById("name_animate").innerHTML = "谢焌宇 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 20) {
-                document.getElementById("name_animate").innerHTML = "戴欣彤 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 21) {
-                document.getElementById("name_animate").innerHTML = "杨思扬 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 22) {
-                document.getElementById("name_animate").innerHTML = "刘乐谦 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 23) {
-                document.getElementById("name_animate").innerHTML = "周坤怡 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 24) {
-                document.getElementById("name_animate").innerHTML = "郑翼联 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 25) {
-                document.getElementById("name_animate").innerHTML = "黄纤媛 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 26) {
-                document.getElementById("name_animate").innerHTML = "黄振航 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 27) {
-                document.getElementById("name_animate").innerHTML = "邓家宝 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 28) {
-                document.getElementById("name_animate").innerHTML = "陆禹熹 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 29) {
-                document.getElementById("name_animate").innerHTML = "周福文 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 30) {
-                document.getElementById("name_animate").innerHTML = "蒋杰胜 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 31) {
-                document.getElementById("name_animate").innerHTML = "苏正恩 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 32) {
-                document.getElementById("name_animate").innerHTML = "蒙盈盈 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 33) {
-                document.getElementById("name_animate").innerHTML = "郑育明 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 34) {
-                document.getElementById("name_animate").innerHTML = "陈广榕 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 35) {
-                document.getElementById("name_animate").innerHTML = "廖晓雪 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 36) {
-                document.getElementById("name_animate").innerHTML = "黄文贝 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 37) {
-                document.getElementById("name_animate").innerHTML = "吴静玉 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 38) {
-                document.getElementById("name_animate").innerHTML = "蒙志为 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 39) {
-                document.getElementById("name_animate").innerHTML = "叶滨华 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 40) {
-                document.getElementById("name_animate").innerHTML = "邓桢 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 41) {
-                document.getElementById("name_animate").innerHTML = "麦诚铭 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 42) {
-                document.getElementById("name_animate").innerHTML = "梁瀚菲 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 43) {
-                document.getElementById("name_animate").innerHTML = "林思颖 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 44) {
-                document.getElementById("name_animate").innerHTML = "李永仲 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 45) {
-                document.getElementById("name_animate").innerHTML = "邱琦康 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 46) {
-                document.getElementById("name_animate").innerHTML = "甘永稳 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 47) {
-                document.getElementById("name_animate").innerHTML = "覃耀泓 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 48) {
-                document.getElementById("name_animate").innerHTML = "李杰 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 49) {
-                document.getElementById("name_animate").innerHTML = "杨凯琪 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 50) {
-                document.getElementById("name_animate").innerHTML = "韦国胜 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 51) {
-                document.getElementById("name_animate").innerHTML = "邱振鑫 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 52) {
-                document.getElementById("name_animate").innerHTML = "覃飞娴 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 53) {
-                document.getElementById("name_animate").innerHTML = "谭铮 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 54) {
-                document.getElementById("name_animate").innerHTML = "霍然 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (seed == 55) {
-                document.getElementById("name_animate").innerHTML = "练昆林 <span style=\"font-size: 32px;\">" + person + "/55</span>";
-            }
-            if (person == 55) {
-                var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
-                arr.sort(function () {
-                    return Math.random() - 0.5
-                })
-                document.getElementById("line").innerHTML = arr;
-                var person = 0;
-            }
-            document.getElementById("order").innerHTML = person;
-            animate();
-        }
-
-        function run_false_movable() {
-            var arra = document.getElementById("line").innerHTML;
-            var arr = arra.split(",").map(Number);
-            var person = parseInt(document.getElementById("order").innerHTML);
-            var seed = parseInt(arr[person]);
-            ++person;
-            if (seed == 1) {
-                document.getElementById("name_animate").innerHTML = "徐子洋";
-            }
-            if (seed == 2) {
-                document.getElementById("name_animate").innerHTML = "覃帝创";
-            }
-            if (seed == 3) {
-                document.getElementById("name_animate").innerHTML = "赖宝升";
-            }
-            if (seed == 4) {
-                document.getElementById("name_animate").innerHTML = "何星辉";
-            }
-            if (seed == 5) {
-                document.getElementById("name_animate").innerHTML = "黄政睿";
-            }
-            if (seed == 6) {
-                document.getElementById("name_animate").innerHTML = "陆格里";
-            }
-            if (seed == 7) {
-                document.getElementById("name_animate").innerHTML = "杨联贵";
-            }
-            if (seed == 8) {
-                document.getElementById("name_animate").innerHTML = "廖达举";
-            }
-            if (seed == 9) {
-                document.getElementById("name_animate").innerHTML = "蒋子莹";
-            }
-            if (seed == 10) {
-                document.getElementById("name_animate").innerHTML = "张建涛";
-            }
-            if (seed == 11) {
-                document.getElementById("name_animate").innerHTML = "施奎";
-            }
-            if (seed == 12) {
-                document.getElementById("name_animate").innerHTML = "黄相茗";
-            }
-            if (seed == 13) {
-                document.getElementById("name_animate").innerHTML = "林峭好";
-            }
-            if (seed == 14) {
-                document.getElementById("name_animate").innerHTML = "温文雅";
-            }
-            if (seed == 15) {
-                document.getElementById("name_animate").innerHTML = "钟子宁";
-            }
-            if (seed == 16) {
-                document.getElementById("name_animate").innerHTML = "党希琳";
-            }
-            if (seed == 17) {
-                document.getElementById("name_animate").innerHTML = "杨柠豪";
-            }
-            if (seed == 18) {
-                document.getElementById("name_animate").innerHTML = "吴美萍";
-            }
-            if (seed == 19) {
-                document.getElementById("name_animate").innerHTML = "谢焌宇";
-            }
-            if (seed == 20) {
-                document.getElementById("name_animate").innerHTML = "戴欣彤";
-            }
-            if (seed == 21) {
-                document.getElementById("name_animate").innerHTML = "杨思扬";
-            }
-            if (seed == 22) {
-                document.getElementById("name_animate").innerHTML = "刘乐谦";
-            }
-            if (seed == 23) {
-                document.getElementById("name_animate").innerHTML = "周坤怡";
-            }
-            if (seed == 24) {
-                document.getElementById("name_animate").innerHTML = "郑翼联";
-            }
-            if (seed == 25) {
-                document.getElementById("name_animate").innerHTML = "黄纤媛";
-            }
-            if (seed == 26) {
-                document.getElementById("name_animate").innerHTML = "黄振航";
-            }
-            if (seed == 27) {
-                document.getElementById("name_animate").innerHTML = "邓家宝";
-            }
-            if (seed == 28) {
-                document.getElementById("name_animate").innerHTML = "陆禹熹";
-            }
-            if (seed == 29) {
-                document.getElementById("name_animate").innerHTML = "周福文";
-            }
-            if (seed == 30) {
-                document.getElementById("name_animate").innerHTML = "蒋杰胜";
-            }
-            if (seed == 31) {
-                document.getElementById("name_animate").innerHTML = "苏正恩";
-            }
-            if (seed == 32) {
-                document.getElementById("name_animate").innerHTML = "蒙盈盈";
-            }
-            if (seed == 33) {
-                document.getElementById("name_animate").innerHTML = "郑育明";
-            }
-            if (seed == 34) {
-                document.getElementById("name_animate").innerHTML = "陈广榕";
-            }
-            if (seed == 35) {
-                document.getElementById("name_animate").innerHTML = "廖晓雪";
-            }
-            if (seed == 36) {
-                document.getElementById("name_animate").innerHTML = "黄文贝";
-            }
-            if (seed == 37) {
-                document.getElementById("name_animate").innerHTML = "吴静玉";
-            }
-            if (seed == 38) {
-                document.getElementById("name_animate").innerHTML = "蒙志为";
-            }
-            if (seed == 39) {
-                document.getElementById("name_animate").innerHTML = "叶滨华";
-            }
-            if (seed == 40) {
-                document.getElementById("name_animate").innerHTML = "邓桢";
-            }
-            if (seed == 41) {
-                document.getElementById("name_animate").innerHTML = "麦诚铭";
-            }
-            if (seed == 42) {
-                document.getElementById("name_animate").innerHTML = "梁瀚菲";
-            }
-            if (seed == 43) {
-                document.getElementById("name_animate").innerHTML = "林思颖";
-            }
-            if (seed == 44) {
-                document.getElementById("name_animate").innerHTML = "李永仲";
-            }
-            if (seed == 45) {
-                document.getElementById("name_animate").innerHTML = "邱琦康";
-            }
-            if (seed == 46) {
-                document.getElementById("name_animate").innerHTML = "甘永稳";
-            }
-            if (seed == 47) {
-                document.getElementById("name_animate").innerHTML = "覃耀泓";
-            }
-            if (seed == 48) {
-                document.getElementById("name_animate").innerHTML = "李杰";
-            }
-            if (seed == 49) {
-                document.getElementById("name_animate").innerHTML = "杨凯琪";
-            }
-            if (seed == 50) {
-                document.getElementById("name_animate").innerHTML = "韦国胜";
-            }
-            if (seed == 51) {
-                document.getElementById("name_animate").innerHTML = "邱振鑫";
-            }
-            if (seed == 52) {
-                document.getElementById("name_animate").innerHTML = "覃飞娴";
-            }
-            if (seed == 53) {
-                document.getElementById("name_animate").innerHTML = "谭铮";
-            }
-            if (seed == 54) {
-                document.getElementById("name_animate").innerHTML = "霍然";
-            }
-            if (seed == 55) {
-                document.getElementById("name_animate").innerHTML = "练昆林";
-            }
-            if (person == 55) {
-                var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
-                arr.sort(function () {
-                    return Math.random() - 0.5
-                })
-                document.getElementById("line").innerHTML = arr;
-                var person = 0;
-            }
-            document.getElementById("order").innerHTML = person;
-            animate();
-        }
-
-        function num_0() {
-            if (document.getElementById("number").innerHTML != "") {
-                if (document.getElementById("number").innerHTML == "1") {
-                    document.getElementById("name_animate").innerHTML = "张建涛 <span style=\"font-size: 32px;\">10</span>";
-                }
-                if (document.getElementById("number").innerHTML == "2") {
-                    document.getElementById("name_animate").innerHTML = "戴欣彤 <span style=\"font-size: 32px;\">20</span>";
-                }
-                if (document.getElementById("number").innerHTML == "3") {
-                    document.getElementById("name_animate").innerHTML = "蒋杰胜 <span style=\"font-size: 32px;\">30</span>";
-                }
-                if (document.getElementById("number").innerHTML == "4") {
-                    document.getElementById("name_animate").innerHTML = "邓桢 <span style=\"font-size: 32px;\">40</span>";
-                }
-                if (document.getElementById("number").innerHTML == "5") {
-                    document.getElementById("name_animate").innerHTML = "韦国胜 <span style=\"font-size: 32px;\">50</span>";
-                }
-                document.getElementById("number").innerHTML = "";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_1();
-                animate();
-            } else {
-                document.getElementById("number").innerHTML = "0";
-                document.getElementById("b_0").disabled = true;
-                document.getElementById("b_6").disabled = false;
-                document.getElementById("b_7").disabled = false;
-                document.getElementById("b_8").disabled = false;
-                document.getElementById("b_9").disabled = false;
-                animate_0();
-            }
-        }
-
-        function num_1() {
-            if (document.getElementById("number").innerHTML != "") {
-                if (document.getElementById("number").innerHTML == "0") {
-                    document.getElementById("name_animate").innerHTML = "徐子洋 <span style=\"font-size: 32px;\">01</span>";
-                }
-                if (document.getElementById("number").innerHTML == "1") {
-                    document.getElementById("name_animate").innerHTML = "施奎 <span style=\"font-size: 32px;\">11</span>";
-                }
-                if (document.getElementById("number").innerHTML == "2") {
-                    document.getElementById("name_animate").innerHTML = "杨思扬 <span style=\"font-size: 32px;\">21</span>";
-                }
-                if (document.getElementById("number").innerHTML == "3") {
-                    document.getElementById("name_animate").innerHTML = "苏正恩 <span style=\"font-size: 32px;\">31</span>";
-                }
-                if (document.getElementById("number").innerHTML == "4") {
-                    document.getElementById("name_animate").innerHTML = "麦诚铭 <span style=\"font-size: 32px;\">41</span>";
-                }
-                if (document.getElementById("number").innerHTML == "5") {
-                    document.getElementById("name_animate").innerHTML = "邱振鑫 <span style=\"font-size: 32px;\">51</span>";
-                }
-                document.getElementById("number").innerHTML = "";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_1();
-                animate();
-            } else {
-                document.getElementById("number").innerHTML = "1";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = false;
-                document.getElementById("b_7").disabled = false;
-                document.getElementById("b_8").disabled = false;
-                document.getElementById("b_9").disabled = false;
-                animate_0();
-            }
-        }
-
-        function num_2() {
-            if (document.getElementById("number").innerHTML != "") {
-                if (document.getElementById("number").innerHTML == "0") {
-                    document.getElementById("name_animate").innerHTML = "覃帝创 <span style=\"font-size: 32px;\">02</span>";
-                }
-                if (document.getElementById("number").innerHTML == "1") {
-                    document.getElementById("name_animate").innerHTML = "黄相茗 <span style=\"font-size: 32px;\">12</span>";
-                }
-                if (document.getElementById("number").innerHTML == "2") {
-                    document.getElementById("name_animate").innerHTML = "刘乐谦 <span style=\"font-size: 32px;\">22</span>";
-                }
-                if (document.getElementById("number").innerHTML == "3") {
-                    document.getElementById("name_animate").innerHTML = "蒙盈盈 <span style=\"font-size: 32px;\">32</span>";
-                }
-                if (document.getElementById("number").innerHTML == "4") {
-                    document.getElementById("name_animate").innerHTML = "梁瀚菲 <span style=\"font-size: 32px;\">42</span>";
-                }
-                if (document.getElementById("number").innerHTML == "5") {
-                    document.getElementById("name_animate").innerHTML = "覃飞娴 <span style=\"font-size: 32px;\">52</span>";
-                }
-                document.getElementById("number").innerHTML = "";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_1();
-                animate();
-            } else {
-                document.getElementById("number").innerHTML = "2";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = false;
-                document.getElementById("b_7").disabled = false;
-                document.getElementById("b_8").disabled = false;
-                document.getElementById("b_9").disabled = false;
-                animate_0();
-            }
-        }
-
-        function num_3() {
-            if (document.getElementById("number").innerHTML != "") {
-                if (document.getElementById("number").innerHTML == "0") {
-                    document.getElementById("name_animate").innerHTML = "赖宝升 <span style=\"font-size: 32px;\">03</span>";
-                }
-                if (document.getElementById("number").innerHTML == "1") {
-                    document.getElementById("name_animate").innerHTML = "林峭好 <span style=\"font-size: 32px;\">13</span>";
-                }
-                if (document.getElementById("number").innerHTML == "2") {
-                    document.getElementById("name_animate").innerHTML = "周坤怡 <span style=\"font-size: 32px;\">23</span>";
-                }
-                if (document.getElementById("number").innerHTML == "3") {
-                    document.getElementById("name_animate").innerHTML = "郑育明 <span style=\"font-size: 32px;\">33</span>";
-                }
-                if (document.getElementById("number").innerHTML == "4") {
-                    document.getElementById("name_animate").innerHTML = "林思颖 <span style=\"font-size: 32px;\">43</span>";
-                }
-                if (document.getElementById("number").innerHTML == "5") {
-                    document.getElementById("name_animate").innerHTML = "谭铮 <span style=\"font-size: 32px;\">53</span>";
-                }
-                document.getElementById("number").innerHTML = "";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_1();
-                animate();
-            } else {
-                document.getElementById("number").innerHTML = "3";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = false;
-                document.getElementById("b_7").disabled = false;
-                document.getElementById("b_8").disabled = false;
-                document.getElementById("b_9").disabled = false;
-                animate_0();
-            }
-        }
-
-        function num_4() {
-            if (document.getElementById("number").innerHTML != "") {
-                if (document.getElementById("number").innerHTML == "0") {
-                    document.getElementById("name_animate").innerHTML = "何星辉 <span style=\"font-size: 32px;\">04</span>";
-                }
-                if (document.getElementById("number").innerHTML == "1") {
-                    document.getElementById("name_animate").innerHTML = "温文雅 <span style=\"font-size: 32px;\">14</span>";
-                }
-                if (document.getElementById("number").innerHTML == "2") {
-                    document.getElementById("name_animate").innerHTML = "郑翼联 <span style=\"font-size: 32px;\">24</span>";
-                }
-                if (document.getElementById("number").innerHTML == "3") {
-                    document.getElementById("name_animate").innerHTML = "陈广榕 <span style=\"font-size: 32px;\">34</span>";
-                }
-                if (document.getElementById("number").innerHTML == "4") {
-                    document.getElementById("name_animate").innerHTML = "李永仲 <span style=\"font-size: 32px;\">44</span>";
-                }
-                if (document.getElementById("number").innerHTML == "5") {
-                    document.getElementById("name_animate").innerHTML = "霍然 <span style=\"font-size: 32px;\">54</span>";
-                }
-                document.getElementById("number").innerHTML = "";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_1();
-                animate();
-            } else {
-                document.getElementById("number").innerHTML = "4";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = false;
-                document.getElementById("b_7").disabled = false;
-                document.getElementById("b_8").disabled = false;
-                document.getElementById("b_9").disabled = false;
-                animate_0();
-            }
-        }
-
-        function num_5() {
-            if (document.getElementById("number").innerHTML != "") {
-                if (document.getElementById("number").innerHTML == "0") {
-                    document.getElementById("name_animate").innerHTML = "黄政睿 <span style=\"font-size: 32px;\">05</span>";
-                }
-                if (document.getElementById("number").innerHTML == "1") {
-                    document.getElementById("name_animate").innerHTML = "钟子宁 <span style=\"font-size: 32px;\">15</span>";
-                }
-                if (document.getElementById("number").innerHTML == "2") {
-                    document.getElementById("name_animate").innerHTML = "黄纤媛 <span style=\"font-size: 32px;\">25</span>";
-                }
-                if (document.getElementById("number").innerHTML == "3") {
-                    document.getElementById("name_animate").innerHTML = "廖晓雪 <span style=\"font-size: 32px;\">35</span>";
-                }
-                if (document.getElementById("number").innerHTML == "4") {
-                    document.getElementById("name_animate").innerHTML = "邱琦康 <span style=\"font-size: 32px;\">45</span>";
-                }
-                if (document.getElementById("number").innerHTML == "5") {
-                    document.getElementById("name_animate").innerHTML = "练昆林 <span style=\"font-size: 32px;\">55</span>";
-                }
-                document.getElementById("number").innerHTML = "";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_1();
-                animate();
-            } else {
-                document.getElementById("number").innerHTML = "5";
-                document.getElementById("b_0").disabled = false;
-                document.getElementById("b_6").disabled = true;
-                document.getElementById("b_7").disabled = true;
-                document.getElementById("b_8").disabled = true;
-                document.getElementById("b_9").disabled = true;
-                animate_0();
-            }
-        }
-
-        function num_6() {
-            if (document.getElementById("number").innerHTML == "0") {
-                document.getElementById("name_animate").innerHTML = "陆格里 <span style=\"font-size: 32px;\">06</span>";
-            }
-            if (document.getElementById("number").innerHTML == "1") {
-                document.getElementById("name_animate").innerHTML = "党希琳 <span style=\"font-size: 32px;\">16</span>";
-            }
-            if (document.getElementById("number").innerHTML == "2") {
-                document.getElementById("name_animate").innerHTML = "黄振航 <span style=\"font-size: 32px;\">26</span>";
-            }
-            if (document.getElementById("number").innerHTML == "3") {
-                document.getElementById("name_animate").innerHTML = "黄文贝 <span style=\"font-size: 32px;\">36</span>";
-            }
-            if (document.getElementById("number").innerHTML == "4") {
-                document.getElementById("name_animate").innerHTML = "甘永稳 <span style=\"font-size: 32px;\">46</span>";
-            }
-            document.getElementById("number").innerHTML = "";
-            document.getElementById("b_0").disabled = false;
-            document.getElementById("b_6").disabled = true;
-            document.getElementById("b_7").disabled = true;
-            document.getElementById("b_8").disabled = true;
-            document.getElementById("b_9").disabled = true;
-            animate_1();
-            animate();
-        }
-
-        function num_7() {
-            if (document.getElementById("number").innerHTML == "0") {
-                document.getElementById("name_animate").innerHTML = "杨联贵 <span style=\"font-size: 32px;\">07</span>";
-            }
-            if (document.getElementById("number").innerHTML == "1") {
-                document.getElementById("name_animate").innerHTML = "杨柠豪 <span style=\"font-size: 32px;\">17</span>";
-            }
-            if (document.getElementById("number").innerHTML == "2") {
-                document.getElementById("name_animate").innerHTML = "邓家宝 <span style=\"font-size: 32px;\">27</span>";
-            }
-            if (document.getElementById("number").innerHTML == "3") {
-                document.getElementById("name_animate").innerHTML = "吴静玉 <span style=\"font-size: 32px;\">37</span>";
-            }
-            if (document.getElementById("number").innerHTML == "4") {
-                document.getElementById("name_animate").innerHTML = "覃耀泓 <span style=\"font-size: 32px;\">47</span>";
-            }
-            document.getElementById("number").innerHTML = "";
-            document.getElementById("b_0").disabled = false;
-            document.getElementById("b_6").disabled = true;
-            document.getElementById("b_7").disabled = true;
-            document.getElementById("b_8").disabled = true;
-            document.getElementById("b_9").disabled = true;
-            animate_1();
-            animate();
-        }
-
-        function num_8() {
-            if (document.getElementById("number").innerHTML == "0") {
-                document.getElementById("name_animate").innerHTML = "廖达举 <span style=\"font-size: 32px;\">08</span>";
-            }
-            if (document.getElementById("number").innerHTML == "1") {
-                document.getElementById("name_animate").innerHTML = "吴美萍 <span style=\"font-size: 32px;\">18</span>";
-            }
-            if (document.getElementById("number").innerHTML == "2") {
-                document.getElementById("name_animate").innerHTML = "陆禹熹 <span style=\"font-size: 32px;\">28</span>";
-            }
-            if (document.getElementById("number").innerHTML == "3") {
-                document.getElementById("name_animate").innerHTML = "蒙志为 <span style=\"font-size: 32px;\">38</span>";
-            }
-            if (document.getElementById("number").innerHTML == "4") {
-                document.getElementById("name_animate").innerHTML = "李杰 <span style=\"font-size: 32px;\">48</span>";
-            }
-            document.getElementById("number").innerHTML = "";
-            document.getElementById("b_0").disabled = false;
-            document.getElementById("b_6").disabled = true;
-            document.getElementById("b_7").disabled = true;
-            document.getElementById("b_8").disabled = true;
-            document.getElementById("b_9").disabled = true;
-            animate_1();
-            animate();
-        }
-
-        function num_9() {
-            if (document.getElementById("number").innerHTML == "0") {
-                document.getElementById("name_animate").innerHTML = "蒋子莹 <span style=\"font-size: 32px;\">09</span>";
-            }
-            if (document.getElementById("number").innerHTML == "1") {
-                document.getElementById("name_animate").innerHTML = "谢焌宇 <span style=\"font-size: 32px;\">19</span>";
-            }
-            if (document.getElementById("number").innerHTML == "2") {
-                document.getElementById("name_animate").innerHTML = "周福文 <span style=\"font-size: 32px;\">29</span>";
-            }
-            if (document.getElementById("number").innerHTML == "3") {
-                document.getElementById("name_animate").innerHTML = "叶滨华 <span style=\"font-size: 32px;\">39</span>";
-            }
-            if (document.getElementById("number").innerHTML == "4") {
-                document.getElementById("name_animate").innerHTML = "杨凯琪 <span style=\"font-size: 32px;\">49</span>";
-            }
-            document.getElementById("number").innerHTML = "";
-            document.getElementById("b_0").disabled = false;
-            document.getElementById("b_6").disabled = true;
-            document.getElementById("b_7").disabled = true;
-            document.getElementById("b_8").disabled = true;
-            document.getElementById("b_9").disabled = true;
-            animate_1();
-            animate();
-        }
-
-        function animate() {
-            for (i = 1; i <= 9; i++) {
-                target(`button${i}`).disabled = true;
-            }
-            copyTo("name_cache", copyFrom("name_animate"));
-            if (target("skipAnimation").checked == 1 || target("findbyid").style.color != "rgb(102, 102, 102)") {
-                animate_skip();
-            } else {
-                transColor("name", "#ffffdd");
-                setTimeout(animate_step2, 100);
-            }
-        }
-
-        async function animate_step2() {
-            console.log(copyFrom("name_cache"));
-            hide("name");
-            copyTo("name_animate", "&nbsp;");
-            unhide("name_animate");
-            styleTo("name_animate", "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; color: #ffffdd");
-            transColor("name_animate", "#aaaaaa");
-            for (i = 0; i <= 13; i++) {
-                target("click").currentTime = 0.02;
-                target("click").play();
-                if (i <= 12) {
-                    var timeOut = (0.002 * i ** 2 + 0.06) * 1000;
-                    logVar(timeOut);
-                    var seed = rand(1, 55);
-                    if (seed == 1) {
-                        document.getElementById("name_animate").innerHTML = "徐子洋";
-                    }
-                    if (seed == 2) {
-                        document.getElementById("name_animate").innerHTML = "覃帝创";
-                    }
-                    if (seed == 3) {
-                        document.getElementById("name_animate").innerHTML = "赖宝升";
-                    }
-                    if (seed == 4) {
-                        document.getElementById("name_animate").innerHTML = "何星辉";
-                    }
-                    if (seed == 5) {
-                        document.getElementById("name_animate").innerHTML = "黄政睿";
-                    }
-                    if (seed == 6) {
-                        document.getElementById("name_animate").innerHTML = "陆格里";
-                    }
-                    if (seed == 7) {
-                        document.getElementById("name_animate").innerHTML = "杨联贵";
-                    }
-                    if (seed == 8) {
-                        document.getElementById("name_animate").innerHTML = "廖达举";
-                    }
-                    if (seed == 9) {
-                        document.getElementById("name_animate").innerHTML = "蒋子莹";
-                    }
-                    if (seed == 10) {
-                        document.getElementById("name_animate").innerHTML = "张建涛";
-                    }
-                    if (seed == 11) {
-                        document.getElementById("name_animate").innerHTML = "施奎";
-                    }
-                    if (seed == 12) {
-                        document.getElementById("name_animate").innerHTML = "黄相茗";
-                    }
-                    if (seed == 13) {
-                        document.getElementById("name_animate").innerHTML = "林峭好";
-                    }
-                    if (seed == 14) {
-                        document.getElementById("name_animate").innerHTML = "温文雅";
-                    }
-                    if (seed == 15) {
-                        document.getElementById("name_animate").innerHTML = "钟子宁";
-                    }
-                    if (seed == 16) {
-                        document.getElementById("name_animate").innerHTML = "党希琳";
-                    }
-                    if (seed == 17) {
-                        document.getElementById("name_animate").innerHTML = "杨柠豪";
-                    }
-                    if (seed == 18) {
-                        document.getElementById("name_animate").innerHTML = "吴美萍";
-                    }
-                    if (seed == 19) {
-                        document.getElementById("name_animate").innerHTML = "谢焌宇";
-                    }
-                    if (seed == 20) {
-                        document.getElementById("name_animate").innerHTML = "戴欣彤";
-                    }
-                    if (seed == 21) {
-                        document.getElementById("name_animate").innerHTML = "杨思扬";
-                    }
-                    if (seed == 22) {
-                        document.getElementById("name_animate").innerHTML = "刘乐谦";
-                    }
-                    if (seed == 23) {
-                        document.getElementById("name_animate").innerHTML = "周坤怡";
-                    }
-                    if (seed == 24) {
-                        document.getElementById("name_animate").innerHTML = "郑翼联";
-                    }
-                    if (seed == 25) {
-                        document.getElementById("name_animate").innerHTML = "黄纤媛";
-                    }
-                    if (seed == 26) {
-                        document.getElementById("name_animate").innerHTML = "黄振航";
-                    }
-                    if (seed == 27) {
-                        document.getElementById("name_animate").innerHTML = "邓家宝";
-                    }
-                    if (seed == 28) {
-                        document.getElementById("name_animate").innerHTML = "陆禹熹";
-                    }
-                    if (seed == 29) {
-                        document.getElementById("name_animate").innerHTML = "周福文";
-                    }
-                    if (seed == 30) {
-                        document.getElementById("name_animate").innerHTML = "蒋杰胜";
-                    }
-                    if (seed == 31) {
-                        document.getElementById("name_animate").innerHTML = "苏正恩";
-                    }
-                    if (seed == 32) {
-                        document.getElementById("name_animate").innerHTML = "蒙盈盈";
-                    }
-                    if (seed == 33) {
-                        document.getElementById("name_animate").innerHTML = "郑育明";
-                    }
-                    if (seed == 34) {
-                        document.getElementById("name_animate").innerHTML = "陈广榕";
-                    }
-                    if (seed == 35) {
-                        document.getElementById("name_animate").innerHTML = "廖晓雪";
-                    }
-                    if (seed == 36) {
-                        document.getElementById("name_animate").innerHTML = "黄文贝";
-                    }
-                    if (seed == 37) {
-                        document.getElementById("name_animate").innerHTML = "吴静玉";
-                    }
-                    if (seed == 38) {
-                        document.getElementById("name_animate").innerHTML = "蒙志为";
-                    }
-                    if (seed == 39) {
-                        document.getElementById("name_animate").innerHTML = "叶滨华";
-                    }
-                    if (seed == 40) {
-                        document.getElementById("name_animate").innerHTML = "邓桢";
-                    }
-                    if (seed == 41) {
-                        document.getElementById("name_animate").innerHTML = "麦诚铭";
-                    }
-                    if (seed == 42) {
-                        document.getElementById("name_animate").innerHTML = "梁瀚菲";
-                    }
-                    if (seed == 43) {
-                        document.getElementById("name_animate").innerHTML = "林思颖";
-                    }
-                    if (seed == 44) {
-                        document.getElementById("name_animate").innerHTML = "李永仲";
-                    }
-                    if (seed == 45) {
-                        document.getElementById("name_animate").innerHTML = "邱琦康";
-                    }
-                    if (seed == 46) {
-                        document.getElementById("name_animate").innerHTML = "甘永稳";
-                    }
-                    if (seed == 47) {
-                        document.getElementById("name_animate").innerHTML = "覃耀泓";
-                    }
-                    if (seed == 48) {
-                        document.getElementById("name_animate").innerHTML = "李杰";
-                    }
-                    if (seed == 49) {
-                        document.getElementById("name_animate").innerHTML = "杨凯琪";
-                    }
-                    if (seed == 50) {
-                        document.getElementById("name_animate").innerHTML = "韦国胜";
-                    }
-                    if (seed == 51) {
-                        document.getElementById("name_animate").innerHTML = "邱振鑫";
-                    }
-                    if (seed == 52) {
-                        document.getElementById("name_animate").innerHTML = "覃飞娴";
-                    }
-                    if (seed == 53) {
-                        document.getElementById("name_animate").innerHTML = "谭铮";
-                    }
-                    if (seed == 54) {
-                        document.getElementById("name_animate").innerHTML = "霍然";
-                    }
-                    if (seed == 55) {
-                        document.getElementById("name_animate").innerHTML = "练昆林";
-                    }
-                    await sleep(timeOut);
-                } else {
-                    copyTo("name_animate", copyFrom("name_cache"));
-                    await sleep(800);
-                    transColor("name_animate", "#666666");
-                }
-            }
-            setTimeout(animate_step3, 100);
-        }
-
-        function animate_step3() {
-            for (i = 1; i <= 9; i++) {
-                target(`button${i}`).disabled = false;
-            }
-            document.getElementById("name_animate").style = "display: none;";
-            document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
-            document.getElementById("name").innerHTML = document.getElementById("name_cache").innerHTML;
-        }
-
-        function animate_skip() {
-            target("click").currentTime = 0.02;
-            target("click").play();
-            var element = document.getElementById("name");
-            var speed = 10;
-            var speed = speed || 30;
-            var num = 10;
-            var st = setInterval(function () {
-                --num;
-                element.style.opacity = num / 10;
-                if (num <= 0) {
-                    clearInterval(st);
-                    document.getElementById("name").style = "display: none;";
-                    document.getElementById("name_animate").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; opacity: 0;";
-                    var element_in = document.getElementById("name_animate");
-                    var speed_in = 10;
-                    var speed_in = speed_in || 30;
-                    var num_in = 0;
-                    var st_in = setInterval(function () {
-                        ++num_in;
-                        element_in.style.opacity = num_in / 10;
-                        if (num_in >= 10) {
-                            clearInterval(st_in);
-                            document.getElementById("name_animate").style = "display: none;";
-                            document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
-                            document.getElementById("name").innerHTML = document.getElementById("name_animate").innerHTML;
-                            for (i = 1; i <= 9; i++) {
-                                target(`button${i}`).disabled = false;
-                            }
+            function transColor_rp(element, toColor) {
+                    if (toColor.indexOf("#") < 0) { throw new Error("toColor should be in hex type"); }
+                    var speed = 10
+                    var speed = speed || 30;
+                    var colorFrom = target(element).style.color || "rgb(102, 102, 102)";
+                    var colorTo = toColor;
+                    var rFrom = parseInt(getNum(colorFrom, 1));
+                    var gFrom = parseInt(getNum(colorFrom, 2));
+                    var bFrom = parseInt(getNum(colorFrom, 3));
+                    var rTo = parseInt(colorTo.substr(1, 2), 16);
+                    var gTo = parseInt(colorTo.substr(3, 2), 16);
+                    var bTo = parseInt(colorTo.substr(5, 2), 16);
+                    var step = 10;
+                    var r_diff = (rTo - rFrom) / step;
+                    var g_diff = (gTo - gFrom) / step;
+                    var b_diff = (bTo - bFrom) / step;
+                    var st = setInterval(function () {
+                        var nowColor = target(element).style.color || "rgb(102, 102, 102)";
+                        var r_now = parseInt(getNum(nowColor, 1));
+                        var g_now = parseInt(getNum(nowColor, 2));
+                        var b_now = parseInt(getNum(nowColor, 3));
+                        var rToColor = (r_now + r_diff).toFixed(0);
+                        var gToColor = (g_now + g_diff).toFixed(0);
+                        var bToColor = (b_now + b_diff).toFixed(0);
+                        target(element).style.color = `rgb(${rToColor}, ${gToColor}, ${bToColor})`;
+                        if (rTo > rFrom && rToColor >= rTo || rTo < rFrom && rToColor <= rTo || gTo > gFrom && gToColor >= gTo || gTo < gFrom && gToColor <= gTo || bTo > bFrom && bToColor >= bTo || bTo < bFrom && bToColor <= bTo) {
+                            clearInterval(st);
+                            target(element).style.color = colorTo;
                         }
-                    }, speed_in);
+                    }, speed);
                 }
-            }, speed);
-        }
 
-        function animate_0() {
-            var speed = 10;
-            var speed = speed || 30;
-            var num = 10;
-            var color_from = "#666666";
-            var color_to = "#ffa800";
-            var r_from = parseInt(color_from.substr(1, 2), 16);
-            var g_from = parseInt(color_from.substr(3, 2), 16);
-            var b_from = parseInt(color_from.substr(5, 2), 16);
-            var r_to = parseInt(color_to.substr(1, 2), 16);
-            var g_to = parseInt(color_to.substr(3, 2), 16);
-            var b_to = parseInt(color_to.substr(5, 2), 16);
-            var step = 10;
-            var r_diff = ( r_to - r_from ) / step;
-            var g_diff = ( g_to - g_from ) / step;
-            var b_diff = ( b_to - b_from ) / step;
-            var st = setInterval(function() {
-                var nowcolor = document.getElementById("findbyid").style.color;
-                var r_now = parseInt(nowcolor[4] + nowcolor[5] + nowcolor[6]);
-                var g_now = parseInt(nowcolor[9] + nowcolor[10] + nowcolor[11]);
-                var b_now = parseInt(nowcolor[14] + nowcolor[15] + nowcolor[16]);
-                var r_tocolor = ( r_now + r_diff ).toFixed(0);
-                var g_tocolor = ( g_now + g_diff ).toFixed(0);
-                var b_tocolor = ( b_now + b_diff ).toFixed(0);
-                var r_tocolor_hex = r_tocolor.toString(16);
-                var g_tocolor_hex = g_tocolor.toString(16);
-                var b_tocolor_hex = b_tocolor.toString(16);
-                document.getElementById("findbyid").style.color = "rgb(" + r_tocolor + ", " + g_tocolor + ", " + b_tocolor + ")";
-                if (r_tocolor >= r_to) {
-                    clearInterval(st);
-                    document.getElementById("findbyid").style.color = color_to;
-                }
-            }, speed);
-        }
-
-        function animate_1() {
-            var speed = 10;
-            var speed = speed || 30;
-            var num = 10;
-            var color_from = "#ffa800";
-            var color_to = "#666666";
-            var r_from = parseInt(color_from.substr(1, 2), 16);
-            var g_from = parseInt(color_from.substr(3, 2), 16);
-            var b_from = parseInt(color_from.substr(5, 2), 16);
-            var r_to = parseInt(color_to.substr(1, 2), 16);
-            var g_to = parseInt(color_to.substr(3, 2), 16);
-            var b_to = parseInt(color_to.substr(5, 2), 16);
-            var step = 10;
-            var r_diff = ( r_to - r_from ) / step;
-            var g_diff = ( g_to - g_from ) / step;
-            var b_diff = ( b_to - b_from ) / step;
-            var st = setInterval(function() {
-                var nowcolor = document.getElementById("findbyid").style.color;
-                var r_now = parseInt(nowcolor[4] + nowcolor[5] + nowcolor[6]);
-                var g_now = parseInt(nowcolor[9] + nowcolor[10] + nowcolor[11]);
-                var b_now = parseInt(nowcolor[14] + nowcolor[15] + nowcolor[16]);
-                var r_tocolor = ( r_now + r_diff ).toFixed(0);
-                var g_tocolor = ( g_now + g_diff ).toFixed(0);
-                var b_tocolor = ( b_now + b_diff ).toFixed(0);
-                var r_tocolor_hex = r_tocolor.toString(16);
-                var g_tocolor_hex = g_tocolor.toString(16);
-                var b_tocolor_hex = b_tocolor.toString(16);
-                document.getElementById("findbyid").style.color = "rgb(" + r_tocolor + ", " + g_tocolor + ", " + b_tocolor + ")";
-                if (r_tocolor <= r_to) {
-                    clearInterval(st);
-                    document.getElementById("findbyid").style.color = color_to;
-                }
-            }, speed);
-        }
-
-        function findbyid_reset() {
-            document.getElementById("number").innerHTML = "";
-            document.getElementById("b_0").disabled = false;
-            document.getElementById("b_6").disabled = true;
-            document.getElementById("b_7").disabled = true;
-            document.getElementById("b_8").disabled = true;
-            document.getElementById("b_9").disabled = true;
-            animate_1();
-        }
-
-        function text_reset() {
-            document.getElementById("name_animate").innerHTML = "点击下方按钮进行随机选人";
-            animate();
-        }
-
-        function line_reset() {
             var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
             arr.sort(function () {
                 return Math.random() - 0.5
             })
-            document.getElementById("order").innerHTML = 0;
             document.getElementById("line").innerHTML = arr;
-            text_reset();
-        }
-    </script>
-</div></body>
+
+            function run_movable() {
+                var seed = Math.floor(Math.random() * 4) + 1;
+                if (seed == 1) {
+                    run_true();
+                } else {
+                    run_false_movable();
+                }
+            }
+
+            function select_movable() {
+                document.getElementById("s_movable").style = "display: block; margin-left: -10px;";
+                document.getElementById("b_movable").style = "display: block;";
+                document.getElementById("s_true").style = "display: none;";
+                document.getElementById("b_true").style = "display: none;";
+                document.getElementById("s_false").style = "display: none;";
+                document.getElementById("b_false").style = "display: none;";
+            }
+
+            function select_true() {
+                document.getElementById("s_movable").style = "display: none;";
+                document.getElementById("b_movable").style = "display: none;";
+                document.getElementById("s_true").style = "display: block; margin-left: -10px;";
+                document.getElementById("b_true").style = "display: block;";
+                document.getElementById("s_false").style = "display: none;";
+                document.getElementById("b_false").style = "display: none;";
+            }
+
+            function select_false() {
+                document.getElementById("s_movable").style = "display: none;";
+                document.getElementById("b_movable").style = "display: none;";
+                document.getElementById("s_true").style = "display: none;";
+                document.getElementById("b_true").style = "display: none;";
+                document.getElementById("s_false").style = "display: block; margin-left: -10px;";
+                document.getElementById("b_false").style = "display: block;";
+            }
+
+            function run_true() {
+                var seed = Math.floor(Math.random() * 55) + 1;
+                if (seed == 1) {
+                    document.getElementById("name_animate").innerHTML = "徐子洋";
+                }
+                if (seed == 2) {
+                    document.getElementById("name_animate").innerHTML = "覃帝创";
+                }
+                if (seed == 3) {
+                    document.getElementById("name_animate").innerHTML = "赖宝升";
+                }
+                if (seed == 4) {
+                    document.getElementById("name_animate").innerHTML = "何星辉";
+                }
+                if (seed == 5) {
+                    document.getElementById("name_animate").innerHTML = "黄政睿";
+                }
+                if (seed == 6) {
+                    document.getElementById("name_animate").innerHTML = "陆格里";
+                }
+                if (seed == 7) {
+                    document.getElementById("name_animate").innerHTML = "杨联贵";
+                }
+                if (seed == 8) {
+                    document.getElementById("name_animate").innerHTML = "廖达举";
+                }
+                if (seed == 9) {
+                    document.getElementById("name_animate").innerHTML = "蒋子莹";
+                }
+                if (seed == 10) {
+                    document.getElementById("name_animate").innerHTML = "张建涛";
+                }
+                if (seed == 11) {
+                    document.getElementById("name_animate").innerHTML = "施奎";
+                }
+                if (seed == 12) {
+                    document.getElementById("name_animate").innerHTML = "黄相茗";
+                }
+                if (seed == 13) {
+                    document.getElementById("name_animate").innerHTML = "林峭好";
+                }
+                if (seed == 14) {
+                    document.getElementById("name_animate").innerHTML = "温文雅";
+                }
+                if (seed == 15) {
+                    document.getElementById("name_animate").innerHTML = "钟子宁";
+                }
+                if (seed == 16) {
+                    document.getElementById("name_animate").innerHTML = "党希琳";
+                }
+                if (seed == 17) {
+                    document.getElementById("name_animate").innerHTML = "杨柠豪";
+                }
+                if (seed == 18) {
+                    document.getElementById("name_animate").innerHTML = "吴美萍";
+                }
+                if (seed == 19) {
+                    document.getElementById("name_animate").innerHTML = "谢焌宇";
+                }
+                if (seed == 20) {
+                    document.getElementById("name_animate").innerHTML = "戴欣彤";
+                }
+                if (seed == 21) {
+                    document.getElementById("name_animate").innerHTML = "杨思扬";
+                }
+                if (seed == 22) {
+                    document.getElementById("name_animate").innerHTML = "刘乐谦";
+                }
+                if (seed == 23) {
+                    document.getElementById("name_animate").innerHTML = "周坤怡";
+                }
+                if (seed == 24) {
+                    document.getElementById("name_animate").innerHTML = "郑翼联";
+                }
+                if (seed == 25) {
+                    document.getElementById("name_animate").innerHTML = "黄纤媛";
+                }
+                if (seed == 26) {
+                    document.getElementById("name_animate").innerHTML = "黄振航";
+                }
+                if (seed == 27) {
+                    document.getElementById("name_animate").innerHTML = "邓家宝";
+                }
+                if (seed == 28) {
+                    document.getElementById("name_animate").innerHTML = "陆禹熹";
+                }
+                if (seed == 29) {
+                    document.getElementById("name_animate").innerHTML = "周福文";
+                }
+                if (seed == 30) {
+                    document.getElementById("name_animate").innerHTML = "蒋杰胜";
+                }
+                if (seed == 31) {
+                    document.getElementById("name_animate").innerHTML = "苏正恩";
+                }
+                if (seed == 32) {
+                    document.getElementById("name_animate").innerHTML = "蒙盈盈";
+                }
+                if (seed == 33) {
+                    document.getElementById("name_animate").innerHTML = "郑育明";
+                }
+                if (seed == 34) {
+                    document.getElementById("name_animate").innerHTML = "陈广榕";
+                }
+                if (seed == 35) {
+                    document.getElementById("name_animate").innerHTML = "廖晓雪";
+                }
+                if (seed == 36) {
+                    document.getElementById("name_animate").innerHTML = "黄文贝";
+                }
+                if (seed == 37) {
+                    document.getElementById("name_animate").innerHTML = "吴静玉";
+                }
+                if (seed == 38) {
+                    document.getElementById("name_animate").innerHTML = "蒙志为";
+                }
+                if (seed == 39) {
+                    document.getElementById("name_animate").innerHTML = "叶滨华";
+                }
+                if (seed == 40) {
+                    document.getElementById("name_animate").innerHTML = "邓桢";
+                }
+                if (seed == 41) {
+                    document.getElementById("name_animate").innerHTML = "麦诚铭";
+                }
+                if (seed == 42) {
+                    document.getElementById("name_animate").innerHTML = "梁瀚菲";
+                }
+                if (seed == 43) {
+                    document.getElementById("name_animate").innerHTML = "林思颖";
+                }
+                if (seed == 44) {
+                    document.getElementById("name_animate").innerHTML = "李永仲";
+                }
+                if (seed == 45) {
+                    document.getElementById("name_animate").innerHTML = "邱琦康";
+                }
+                if (seed == 46) {
+                    document.getElementById("name_animate").innerHTML = "甘永稳";
+                }
+                if (seed == 47) {
+                    document.getElementById("name_animate").innerHTML = "覃耀泓";
+                }
+                if (seed == 48) {
+                    document.getElementById("name_animate").innerHTML = "李杰";
+                }
+                if (seed == 49) {
+                    document.getElementById("name_animate").innerHTML = "杨凯琪";
+                }
+                if (seed == 50) {
+                    document.getElementById("name_animate").innerHTML = "韦国胜";
+                }
+                if (seed == 51) {
+                    document.getElementById("name_animate").innerHTML = "邱振鑫";
+                }
+                if (seed == 52) {
+                    document.getElementById("name_animate").innerHTML = "覃飞娴";
+                }
+                if (seed == 53) {
+                    document.getElementById("name_animate").innerHTML = "谭铮";
+                }
+                if (seed == 54) {
+                    document.getElementById("name_animate").innerHTML = "霍然";
+                }
+                if (seed == 55) {
+                    document.getElementById("name_animate").innerHTML = "练昆林";
+                }
+                animate();
+            }
+
+
+            function run_false() {
+                var arrA = document.getElementById("line").innerHTML;
+                var arr = arrA.split(",").map(Number);
+                var person = parseInt(document.getElementById("order").innerHTML);
+                var seed = parseInt(arr[person]);
+                ++person;
+                if (seed == 1) {
+                    document.getElementById("name_animate").innerHTML = "徐子洋 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 2) {
+                    document.getElementById("name_animate").innerHTML = "覃帝创 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 3) {
+                    document.getElementById("name_animate").innerHTML = "赖宝升 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 4) {
+                    document.getElementById("name_animate").innerHTML = "何星辉 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 5) {
+                    document.getElementById("name_animate").innerHTML = "黄政睿 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 6) {
+                    document.getElementById("name_animate").innerHTML = "陆格里 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 7) {
+                    document.getElementById("name_animate").innerHTML = "杨联贵 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 8) {
+                    document.getElementById("name_animate").innerHTML = "廖达举 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 9) {
+                    document.getElementById("name_animate").innerHTML = "蒋子莹 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 10) {
+                    document.getElementById("name_animate").innerHTML = "张建涛 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 11) {
+                    document.getElementById("name_animate").innerHTML = "施奎 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 12) {
+                    document.getElementById("name_animate").innerHTML = "黄相茗 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 13) {
+                    document.getElementById("name_animate").innerHTML = "林峭好 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 14) {
+                    document.getElementById("name_animate").innerHTML = "温文雅 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 15) {
+                    document.getElementById("name_animate").innerHTML = "钟子宁 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 16) {
+                    document.getElementById("name_animate").innerHTML = "党希琳 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 17) {
+                    document.getElementById("name_animate").innerHTML = "杨柠豪 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 18) {
+                    document.getElementById("name_animate").innerHTML = "吴美萍 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 19) {
+                    document.getElementById("name_animate").innerHTML = "谢焌宇 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 20) {
+                    document.getElementById("name_animate").innerHTML = "戴欣彤 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 21) {
+                    document.getElementById("name_animate").innerHTML = "杨思扬 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 22) {
+                    document.getElementById("name_animate").innerHTML = "刘乐谦 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 23) {
+                    document.getElementById("name_animate").innerHTML = "周坤怡 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 24) {
+                    document.getElementById("name_animate").innerHTML = "郑翼联 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 25) {
+                    document.getElementById("name_animate").innerHTML = "黄纤媛 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 26) {
+                    document.getElementById("name_animate").innerHTML = "黄振航 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 27) {
+                    document.getElementById("name_animate").innerHTML = "邓家宝 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 28) {
+                    document.getElementById("name_animate").innerHTML = "陆禹熹 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 29) {
+                    document.getElementById("name_animate").innerHTML = "周福文 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 30) {
+                    document.getElementById("name_animate").innerHTML = "蒋杰胜 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 31) {
+                    document.getElementById("name_animate").innerHTML = "苏正恩 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 32) {
+                    document.getElementById("name_animate").innerHTML = "蒙盈盈 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 33) {
+                    document.getElementById("name_animate").innerHTML = "郑育明 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 34) {
+                    document.getElementById("name_animate").innerHTML = "陈广榕 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 35) {
+                    document.getElementById("name_animate").innerHTML = "廖晓雪 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 36) {
+                    document.getElementById("name_animate").innerHTML = "黄文贝 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 37) {
+                    document.getElementById("name_animate").innerHTML = "吴静玉 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 38) {
+                    document.getElementById("name_animate").innerHTML = "蒙志为 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 39) {
+                    document.getElementById("name_animate").innerHTML = "叶滨华 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 40) {
+                    document.getElementById("name_animate").innerHTML = "邓桢 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 41) {
+                    document.getElementById("name_animate").innerHTML = "麦诚铭 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 42) {
+                    document.getElementById("name_animate").innerHTML = "梁瀚菲 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 43) {
+                    document.getElementById("name_animate").innerHTML = "林思颖 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 44) {
+                    document.getElementById("name_animate").innerHTML = "李永仲 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 45) {
+                    document.getElementById("name_animate").innerHTML = "邱琦康 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 46) {
+                    document.getElementById("name_animate").innerHTML = "甘永稳 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 47) {
+                    document.getElementById("name_animate").innerHTML = "覃耀泓 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 48) {
+                    document.getElementById("name_animate").innerHTML = "李杰 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 49) {
+                    document.getElementById("name_animate").innerHTML = "杨凯琪 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 50) {
+                    document.getElementById("name_animate").innerHTML = "韦国胜 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 51) {
+                    document.getElementById("name_animate").innerHTML = "邱振鑫 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 52) {
+                    document.getElementById("name_animate").innerHTML = "覃飞娴 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 53) {
+                    document.getElementById("name_animate").innerHTML = "谭铮 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 54) {
+                    document.getElementById("name_animate").innerHTML = "霍然 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (seed == 55) {
+                    document.getElementById("name_animate").innerHTML = "练昆林 <span style=\"font-size: 32px;\">" + person + "/55</span>";
+                }
+                if (person == 55) {
+                    var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+                    arr.sort(function () {
+                        return Math.random() - 0.5
+                    })
+                    document.getElementById("line").innerHTML = arr;
+                    var person = 0;
+                }
+                document.getElementById("order").innerHTML = person;
+                animate();
+            }
+
+            function run_false_movable() {
+                var arrA = document.getElementById("line").innerHTML;
+                var arr = arrA.split(",").map(Number);
+                var person = parseInt(document.getElementById("order").innerHTML);
+                var seed = parseInt(arr[person]);
+                ++person;
+                if (seed == 1) {
+                    document.getElementById("name_animate").innerHTML = "徐子洋";
+                }
+                if (seed == 2) {
+                    document.getElementById("name_animate").innerHTML = "覃帝创";
+                }
+                if (seed == 3) {
+                    document.getElementById("name_animate").innerHTML = "赖宝升";
+                }
+                if (seed == 4) {
+                    document.getElementById("name_animate").innerHTML = "何星辉";
+                }
+                if (seed == 5) {
+                    document.getElementById("name_animate").innerHTML = "黄政睿";
+                }
+                if (seed == 6) {
+                    document.getElementById("name_animate").innerHTML = "陆格里";
+                }
+                if (seed == 7) {
+                    document.getElementById("name_animate").innerHTML = "杨联贵";
+                }
+                if (seed == 8) {
+                    document.getElementById("name_animate").innerHTML = "廖达举";
+                }
+                if (seed == 9) {
+                    document.getElementById("name_animate").innerHTML = "蒋子莹";
+                }
+                if (seed == 10) {
+                    document.getElementById("name_animate").innerHTML = "张建涛";
+                }
+                if (seed == 11) {
+                    document.getElementById("name_animate").innerHTML = "施奎";
+                }
+                if (seed == 12) {
+                    document.getElementById("name_animate").innerHTML = "黄相茗";
+                }
+                if (seed == 13) {
+                    document.getElementById("name_animate").innerHTML = "林峭好";
+                }
+                if (seed == 14) {
+                    document.getElementById("name_animate").innerHTML = "温文雅";
+                }
+                if (seed == 15) {
+                    document.getElementById("name_animate").innerHTML = "钟子宁";
+                }
+                if (seed == 16) {
+                    document.getElementById("name_animate").innerHTML = "党希琳";
+                }
+                if (seed == 17) {
+                    document.getElementById("name_animate").innerHTML = "杨柠豪";
+                }
+                if (seed == 18) {
+                    document.getElementById("name_animate").innerHTML = "吴美萍";
+                }
+                if (seed == 19) {
+                    document.getElementById("name_animate").innerHTML = "谢焌宇";
+                }
+                if (seed == 20) {
+                    document.getElementById("name_animate").innerHTML = "戴欣彤";
+                }
+                if (seed == 21) {
+                    document.getElementById("name_animate").innerHTML = "杨思扬";
+                }
+                if (seed == 22) {
+                    document.getElementById("name_animate").innerHTML = "刘乐谦";
+                }
+                if (seed == 23) {
+                    document.getElementById("name_animate").innerHTML = "周坤怡";
+                }
+                if (seed == 24) {
+                    document.getElementById("name_animate").innerHTML = "郑翼联";
+                }
+                if (seed == 25) {
+                    document.getElementById("name_animate").innerHTML = "黄纤媛";
+                }
+                if (seed == 26) {
+                    document.getElementById("name_animate").innerHTML = "黄振航";
+                }
+                if (seed == 27) {
+                    document.getElementById("name_animate").innerHTML = "邓家宝";
+                }
+                if (seed == 28) {
+                    document.getElementById("name_animate").innerHTML = "陆禹熹";
+                }
+                if (seed == 29) {
+                    document.getElementById("name_animate").innerHTML = "周福文";
+                }
+                if (seed == 30) {
+                    document.getElementById("name_animate").innerHTML = "蒋杰胜";
+                }
+                if (seed == 31) {
+                    document.getElementById("name_animate").innerHTML = "苏正恩";
+                }
+                if (seed == 32) {
+                    document.getElementById("name_animate").innerHTML = "蒙盈盈";
+                }
+                if (seed == 33) {
+                    document.getElementById("name_animate").innerHTML = "郑育明";
+                }
+                if (seed == 34) {
+                    document.getElementById("name_animate").innerHTML = "陈广榕";
+                }
+                if (seed == 35) {
+                    document.getElementById("name_animate").innerHTML = "廖晓雪";
+                }
+                if (seed == 36) {
+                    document.getElementById("name_animate").innerHTML = "黄文贝";
+                }
+                if (seed == 37) {
+                    document.getElementById("name_animate").innerHTML = "吴静玉";
+                }
+                if (seed == 38) {
+                    document.getElementById("name_animate").innerHTML = "蒙志为";
+                }
+                if (seed == 39) {
+                    document.getElementById("name_animate").innerHTML = "叶滨华";
+                }
+                if (seed == 40) {
+                    document.getElementById("name_animate").innerHTML = "邓桢";
+                }
+                if (seed == 41) {
+                    document.getElementById("name_animate").innerHTML = "麦诚铭";
+                }
+                if (seed == 42) {
+                    document.getElementById("name_animate").innerHTML = "梁瀚菲";
+                }
+                if (seed == 43) {
+                    document.getElementById("name_animate").innerHTML = "林思颖";
+                }
+                if (seed == 44) {
+                    document.getElementById("name_animate").innerHTML = "李永仲";
+                }
+                if (seed == 45) {
+                    document.getElementById("name_animate").innerHTML = "邱琦康";
+                }
+                if (seed == 46) {
+                    document.getElementById("name_animate").innerHTML = "甘永稳";
+                }
+                if (seed == 47) {
+                    document.getElementById("name_animate").innerHTML = "覃耀泓";
+                }
+                if (seed == 48) {
+                    document.getElementById("name_animate").innerHTML = "李杰";
+                }
+                if (seed == 49) {
+                    document.getElementById("name_animate").innerHTML = "杨凯琪";
+                }
+                if (seed == 50) {
+                    document.getElementById("name_animate").innerHTML = "韦国胜";
+                }
+                if (seed == 51) {
+                    document.getElementById("name_animate").innerHTML = "邱振鑫";
+                }
+                if (seed == 52) {
+                    document.getElementById("name_animate").innerHTML = "覃飞娴";
+                }
+                if (seed == 53) {
+                    document.getElementById("name_animate").innerHTML = "谭铮";
+                }
+                if (seed == 54) {
+                    document.getElementById("name_animate").innerHTML = "霍然";
+                }
+                if (seed == 55) {
+                    document.getElementById("name_animate").innerHTML = "练昆林";
+                }
+                if (person == 55) {
+                    var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+                    arr.sort(function () {
+                        return Math.random() - 0.5
+                    })
+                    document.getElementById("line").innerHTML = arr;
+                    var person = 0;
+                }
+                document.getElementById("order").innerHTML = person;
+                animate();
+            }
+
+            function num_0() {
+                if (document.getElementById("number").innerHTML != "") {
+                    if (document.getElementById("number").innerHTML == "1") {
+                        document.getElementById("name_animate").innerHTML = "张建涛 <span style=\"font-size: 32px;\">10</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "2") {
+                        document.getElementById("name_animate").innerHTML = "戴欣彤 <span style=\"font-size: 32px;\">20</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "3") {
+                        document.getElementById("name_animate").innerHTML = "蒋杰胜 <span style=\"font-size: 32px;\">30</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "4") {
+                        document.getElementById("name_animate").innerHTML = "邓桢 <span style=\"font-size: 32px;\">40</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "5") {
+                        document.getElementById("name_animate").innerHTML = "韦国胜 <span style=\"font-size: 32px;\">50</span>";
+                    }
+                    document.getElementById("number").innerHTML = "";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_1();
+                    animate();
+                } else {
+                    document.getElementById("number").innerHTML = "0";
+                    document.getElementById("b_0").disabled = true;
+                    document.getElementById("b_6").disabled = false;
+                    document.getElementById("b_7").disabled = false;
+                    document.getElementById("b_8").disabled = false;
+                    document.getElementById("b_9").disabled = false;
+                    animate_0();
+                }
+            }
+
+            function num_1() {
+                if (document.getElementById("number").innerHTML != "") {
+                    if (document.getElementById("number").innerHTML == "0") {
+                        document.getElementById("name_animate").innerHTML = "徐子洋 <span style=\"font-size: 32px;\">01</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "1") {
+                        document.getElementById("name_animate").innerHTML = "施奎 <span style=\"font-size: 32px;\">11</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "2") {
+                        document.getElementById("name_animate").innerHTML = "杨思扬 <span style=\"font-size: 32px;\">21</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "3") {
+                        document.getElementById("name_animate").innerHTML = "苏正恩 <span style=\"font-size: 32px;\">31</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "4") {
+                        document.getElementById("name_animate").innerHTML = "麦诚铭 <span style=\"font-size: 32px;\">41</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "5") {
+                        document.getElementById("name_animate").innerHTML = "邱振鑫 <span style=\"font-size: 32px;\">51</span>";
+                    }
+                    document.getElementById("number").innerHTML = "";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_1();
+                    animate();
+                } else {
+                    document.getElementById("number").innerHTML = "1";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = false;
+                    document.getElementById("b_7").disabled = false;
+                    document.getElementById("b_8").disabled = false;
+                    document.getElementById("b_9").disabled = false;
+                    animate_0();
+                }
+            }
+
+            function num_2() {
+                if (document.getElementById("number").innerHTML != "") {
+                    if (document.getElementById("number").innerHTML == "0") {
+                        document.getElementById("name_animate").innerHTML = "覃帝创 <span style=\"font-size: 32px;\">02</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "1") {
+                        document.getElementById("name_animate").innerHTML = "黄相茗 <span style=\"font-size: 32px;\">12</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "2") {
+                        document.getElementById("name_animate").innerHTML = "刘乐谦 <span style=\"font-size: 32px;\">22</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "3") {
+                        document.getElementById("name_animate").innerHTML = "蒙盈盈 <span style=\"font-size: 32px;\">32</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "4") {
+                        document.getElementById("name_animate").innerHTML = "梁瀚菲 <span style=\"font-size: 32px;\">42</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "5") {
+                        document.getElementById("name_animate").innerHTML = "覃飞娴 <span style=\"font-size: 32px;\">52</span>";
+                    }
+                    document.getElementById("number").innerHTML = "";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_1();
+                    animate();
+                } else {
+                    document.getElementById("number").innerHTML = "2";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = false;
+                    document.getElementById("b_7").disabled = false;
+                    document.getElementById("b_8").disabled = false;
+                    document.getElementById("b_9").disabled = false;
+                    animate_0();
+                }
+            }
+
+            function num_3() {
+                if (document.getElementById("number").innerHTML != "") {
+                    if (document.getElementById("number").innerHTML == "0") {
+                        document.getElementById("name_animate").innerHTML = "赖宝升 <span style=\"font-size: 32px;\">03</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "1") {
+                        document.getElementById("name_animate").innerHTML = "林峭好 <span style=\"font-size: 32px;\">13</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "2") {
+                        document.getElementById("name_animate").innerHTML = "周坤怡 <span style=\"font-size: 32px;\">23</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "3") {
+                        document.getElementById("name_animate").innerHTML = "郑育明 <span style=\"font-size: 32px;\">33</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "4") {
+                        document.getElementById("name_animate").innerHTML = "林思颖 <span style=\"font-size: 32px;\">43</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "5") {
+                        document.getElementById("name_animate").innerHTML = "谭铮 <span style=\"font-size: 32px;\">53</span>";
+                    }
+                    document.getElementById("number").innerHTML = "";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_1();
+                    animate();
+                } else {
+                    document.getElementById("number").innerHTML = "3";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = false;
+                    document.getElementById("b_7").disabled = false;
+                    document.getElementById("b_8").disabled = false;
+                    document.getElementById("b_9").disabled = false;
+                    animate_0();
+                }
+            }
+
+            function num_4() {
+                if (document.getElementById("number").innerHTML != "") {
+                    if (document.getElementById("number").innerHTML == "0") {
+                        document.getElementById("name_animate").innerHTML = "何星辉 <span style=\"font-size: 32px;\">04</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "1") {
+                        document.getElementById("name_animate").innerHTML = "温文雅 <span style=\"font-size: 32px;\">14</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "2") {
+                        document.getElementById("name_animate").innerHTML = "郑翼联 <span style=\"font-size: 32px;\">24</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "3") {
+                        document.getElementById("name_animate").innerHTML = "陈广榕 <span style=\"font-size: 32px;\">34</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "4") {
+                        document.getElementById("name_animate").innerHTML = "李永仲 <span style=\"font-size: 32px;\">44</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "5") {
+                        document.getElementById("name_animate").innerHTML = "霍然 <span style=\"font-size: 32px;\">54</span>";
+                    }
+                    document.getElementById("number").innerHTML = "";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_1();
+                    animate();
+                } else {
+                    document.getElementById("number").innerHTML = "4";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = false;
+                    document.getElementById("b_7").disabled = false;
+                    document.getElementById("b_8").disabled = false;
+                    document.getElementById("b_9").disabled = false;
+                    animate_0();
+                }
+            }
+
+            function num_5() {
+                if (document.getElementById("number").innerHTML != "") {
+                    if (document.getElementById("number").innerHTML == "0") {
+                        document.getElementById("name_animate").innerHTML = "黄政睿 <span style=\"font-size: 32px;\">05</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "1") {
+                        document.getElementById("name_animate").innerHTML = "钟子宁 <span style=\"font-size: 32px;\">15</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "2") {
+                        document.getElementById("name_animate").innerHTML = "黄纤媛 <span style=\"font-size: 32px;\">25</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "3") {
+                        document.getElementById("name_animate").innerHTML = "廖晓雪 <span style=\"font-size: 32px;\">35</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "4") {
+                        document.getElementById("name_animate").innerHTML = "邱琦康 <span style=\"font-size: 32px;\">45</span>";
+                    }
+                    if (document.getElementById("number").innerHTML == "5") {
+                        document.getElementById("name_animate").innerHTML = "练昆林 <span style=\"font-size: 32px;\">55</span>";
+                    }
+                    document.getElementById("number").innerHTML = "";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_1();
+                    animate();
+                } else {
+                    document.getElementById("number").innerHTML = "5";
+                    document.getElementById("b_0").disabled = false;
+                    document.getElementById("b_6").disabled = true;
+                    document.getElementById("b_7").disabled = true;
+                    document.getElementById("b_8").disabled = true;
+                    document.getElementById("b_9").disabled = true;
+                    animate_0();
+                }
+            }
+
+            function num_6() {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name_animate").innerHTML = "陆格里 <span style=\"font-size: 32px;\">06</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name_animate").innerHTML = "党希琳 <span style=\"font-size: 32px;\">16</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name_animate").innerHTML = "黄振航 <span style=\"font-size: 32px;\">26</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name_animate").innerHTML = "黄文贝 <span style=\"font-size: 32px;\">36</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name_animate").innerHTML = "甘永稳 <span style=\"font-size: 32px;\">46</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_6").disabled = true;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+                animate_1();
+                animate();
+            }
+
+            function num_7() {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name_animate").innerHTML = "杨联贵 <span style=\"font-size: 32px;\">07</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name_animate").innerHTML = "杨柠豪 <span style=\"font-size: 32px;\">17</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name_animate").innerHTML = "邓家宝 <span style=\"font-size: 32px;\">27</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name_animate").innerHTML = "吴静玉 <span style=\"font-size: 32px;\">37</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name_animate").innerHTML = "覃耀泓 <span style=\"font-size: 32px;\">47</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_6").disabled = true;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+                animate_1();
+                animate();
+            }
+
+            function num_8() {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name_animate").innerHTML = "廖达举 <span style=\"font-size: 32px;\">08</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name_animate").innerHTML = "吴美萍 <span style=\"font-size: 32px;\">18</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name_animate").innerHTML = "陆禹熹 <span style=\"font-size: 32px;\">28</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name_animate").innerHTML = "蒙志为 <span style=\"font-size: 32px;\">38</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name_animate").innerHTML = "李杰 <span style=\"font-size: 32px;\">48</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_6").disabled = true;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+                animate_1();
+                animate();
+            }
+
+            function num_9() {
+                if (document.getElementById("number").innerHTML == "0") {
+                    document.getElementById("name_animate").innerHTML = "蒋子莹 <span style=\"font-size: 32px;\">09</span>";
+                }
+                if (document.getElementById("number").innerHTML == "1") {
+                    document.getElementById("name_animate").innerHTML = "谢焌宇 <span style=\"font-size: 32px;\">19</span>";
+                }
+                if (document.getElementById("number").innerHTML == "2") {
+                    document.getElementById("name_animate").innerHTML = "周福文 <span style=\"font-size: 32px;\">29</span>";
+                }
+                if (document.getElementById("number").innerHTML == "3") {
+                    document.getElementById("name_animate").innerHTML = "叶滨华 <span style=\"font-size: 32px;\">39</span>";
+                }
+                if (document.getElementById("number").innerHTML == "4") {
+                    document.getElementById("name_animate").innerHTML = "杨凯琪 <span style=\"font-size: 32px;\">49</span>";
+                }
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_6").disabled = true;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+                animate_1();
+                animate();
+            }
+
+            function animate() {
+                for (i = 1; i <= 9; i++) {
+                    target(`button${i}`).disabled = true;
+                }
+                copyTo("name_cache", copyFrom("name_animate"));
+                if (target("skipAnimation").checked == 1 || target("findById").style.color != "rgb(102, 102, 102)") {
+                    animate_skip();
+                } else {
+                    transColor_rp("name", "#ffffdd");
+                    setTimeout(animate_step2, 100);
+                }
+            }
+
+            async function animate_step2() {
+                console.log(copyFrom("name_cache"));
+                hide("name");
+                copyTo("name_animate", "&nbsp;");
+                unhide("name_animate");
+                styleTo("name_animate", "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; color: #ffffdd");
+                transColor_rp("name_animate", "#aaaaaa");
+                for (i = 0; i <= 13; i++) {
+                    target("click").currentTime = 0.02;
+                    target("click").play();
+                    if (i <= 12) {
+                        var timeOut = (0.002 * i ** 2 + 0.06) * 1000;
+                        logVar(timeOut);
+                        var seed = rand(1, 55);
+                        if (seed == 1) {
+                            document.getElementById("name_animate").innerHTML = "徐子洋";
+                        }
+                        if (seed == 2) {
+                            document.getElementById("name_animate").innerHTML = "覃帝创";
+                        }
+                        if (seed == 3) {
+                            document.getElementById("name_animate").innerHTML = "赖宝升";
+                        }
+                        if (seed == 4) {
+                            document.getElementById("name_animate").innerHTML = "何星辉";
+                        }
+                        if (seed == 5) {
+                            document.getElementById("name_animate").innerHTML = "黄政睿";
+                        }
+                        if (seed == 6) {
+                            document.getElementById("name_animate").innerHTML = "陆格里";
+                        }
+                        if (seed == 7) {
+                            document.getElementById("name_animate").innerHTML = "杨联贵";
+                        }
+                        if (seed == 8) {
+                            document.getElementById("name_animate").innerHTML = "廖达举";
+                        }
+                        if (seed == 9) {
+                            document.getElementById("name_animate").innerHTML = "蒋子莹";
+                        }
+                        if (seed == 10) {
+                            document.getElementById("name_animate").innerHTML = "张建涛";
+                        }
+                        if (seed == 11) {
+                            document.getElementById("name_animate").innerHTML = "施奎";
+                        }
+                        if (seed == 12) {
+                            document.getElementById("name_animate").innerHTML = "黄相茗";
+                        }
+                        if (seed == 13) {
+                            document.getElementById("name_animate").innerHTML = "林峭好";
+                        }
+                        if (seed == 14) {
+                            document.getElementById("name_animate").innerHTML = "温文雅";
+                        }
+                        if (seed == 15) {
+                            document.getElementById("name_animate").innerHTML = "钟子宁";
+                        }
+                        if (seed == 16) {
+                            document.getElementById("name_animate").innerHTML = "党希琳";
+                        }
+                        if (seed == 17) {
+                            document.getElementById("name_animate").innerHTML = "杨柠豪";
+                        }
+                        if (seed == 18) {
+                            document.getElementById("name_animate").innerHTML = "吴美萍";
+                        }
+                        if (seed == 19) {
+                            document.getElementById("name_animate").innerHTML = "谢焌宇";
+                        }
+                        if (seed == 20) {
+                            document.getElementById("name_animate").innerHTML = "戴欣彤";
+                        }
+                        if (seed == 21) {
+                            document.getElementById("name_animate").innerHTML = "杨思扬";
+                        }
+                        if (seed == 22) {
+                            document.getElementById("name_animate").innerHTML = "刘乐谦";
+                        }
+                        if (seed == 23) {
+                            document.getElementById("name_animate").innerHTML = "周坤怡";
+                        }
+                        if (seed == 24) {
+                            document.getElementById("name_animate").innerHTML = "郑翼联";
+                        }
+                        if (seed == 25) {
+                            document.getElementById("name_animate").innerHTML = "黄纤媛";
+                        }
+                        if (seed == 26) {
+                            document.getElementById("name_animate").innerHTML = "黄振航";
+                        }
+                        if (seed == 27) {
+                            document.getElementById("name_animate").innerHTML = "邓家宝";
+                        }
+                        if (seed == 28) {
+                            document.getElementById("name_animate").innerHTML = "陆禹熹";
+                        }
+                        if (seed == 29) {
+                            document.getElementById("name_animate").innerHTML = "周福文";
+                        }
+                        if (seed == 30) {
+                            document.getElementById("name_animate").innerHTML = "蒋杰胜";
+                        }
+                        if (seed == 31) {
+                            document.getElementById("name_animate").innerHTML = "苏正恩";
+                        }
+                        if (seed == 32) {
+                            document.getElementById("name_animate").innerHTML = "蒙盈盈";
+                        }
+                        if (seed == 33) {
+                            document.getElementById("name_animate").innerHTML = "郑育明";
+                        }
+                        if (seed == 34) {
+                            document.getElementById("name_animate").innerHTML = "陈广榕";
+                        }
+                        if (seed == 35) {
+                            document.getElementById("name_animate").innerHTML = "廖晓雪";
+                        }
+                        if (seed == 36) {
+                            document.getElementById("name_animate").innerHTML = "黄文贝";
+                        }
+                        if (seed == 37) {
+                            document.getElementById("name_animate").innerHTML = "吴静玉";
+                        }
+                        if (seed == 38) {
+                            document.getElementById("name_animate").innerHTML = "蒙志为";
+                        }
+                        if (seed == 39) {
+                            document.getElementById("name_animate").innerHTML = "叶滨华";
+                        }
+                        if (seed == 40) {
+                            document.getElementById("name_animate").innerHTML = "邓桢";
+                        }
+                        if (seed == 41) {
+                            document.getElementById("name_animate").innerHTML = "麦诚铭";
+                        }
+                        if (seed == 42) {
+                            document.getElementById("name_animate").innerHTML = "梁瀚菲";
+                        }
+                        if (seed == 43) {
+                            document.getElementById("name_animate").innerHTML = "林思颖";
+                        }
+                        if (seed == 44) {
+                            document.getElementById("name_animate").innerHTML = "李永仲";
+                        }
+                        if (seed == 45) {
+                            document.getElementById("name_animate").innerHTML = "邱琦康";
+                        }
+                        if (seed == 46) {
+                            document.getElementById("name_animate").innerHTML = "甘永稳";
+                        }
+                        if (seed == 47) {
+                            document.getElementById("name_animate").innerHTML = "覃耀泓";
+                        }
+                        if (seed == 48) {
+                            document.getElementById("name_animate").innerHTML = "李杰";
+                        }
+                        if (seed == 49) {
+                            document.getElementById("name_animate").innerHTML = "杨凯琪";
+                        }
+                        if (seed == 50) {
+                            document.getElementById("name_animate").innerHTML = "韦国胜";
+                        }
+                        if (seed == 51) {
+                            document.getElementById("name_animate").innerHTML = "邱振鑫";
+                        }
+                        if (seed == 52) {
+                            document.getElementById("name_animate").innerHTML = "覃飞娴";
+                        }
+                        if (seed == 53) {
+                            document.getElementById("name_animate").innerHTML = "谭铮";
+                        }
+                        if (seed == 54) {
+                            document.getElementById("name_animate").innerHTML = "霍然";
+                        }
+                        if (seed == 55) {
+                            document.getElementById("name_animate").innerHTML = "练昆林";
+                        }
+                        await sleep(timeOut);
+                    } else {
+                        copyTo("name_animate", copyFrom("name_cache"));
+                        await sleep(800);
+                        transColor_rp("name_animate", "#666666");
+                    }
+                }
+                setTimeout(animate_step3, 100);
+            }
+
+            function animate_step3() {
+                for (i = 1; i <= 9; i++) {
+                    target(`button${i}`).disabled = false;
+                }
+                document.getElementById("name_animate").style = "display: none;";
+                document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
+                document.getElementById("name").innerHTML = document.getElementById("name_cache").innerHTML;
+            }
+
+            function animate_skip() {
+                target("click").currentTime = 0.02;
+                target("click").play();
+                var element = document.getElementById("name");
+                var speed = 10;
+                var speed = speed || 30;
+                var num = 10;
+                var st = setInterval(function () {
+                    --num;
+                    element.style.opacity = num / 10;
+                    if (num <= 0) {
+                        clearInterval(st);
+                        document.getElementById("name").style = "display: none;";
+                        document.getElementById("name_animate").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; opacity: 0;";
+                        var element_in = document.getElementById("name_animate");
+                        var speed_in = 10;
+                        var speed_in = speed_in || 30;
+                        var num_in = 0;
+                        var st_in = setInterval(function () {
+                            ++num_in;
+                            element_in.style.opacity = num_in / 10;
+                            if (num_in >= 10) {
+                                clearInterval(st_in);
+                                document.getElementById("name_animate").style = "display: none;";
+                                document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
+                                document.getElementById("name").innerHTML = document.getElementById("name_animate").innerHTML;
+                                for (i = 1; i <= 9; i++) {
+                                    target(`button${i}`).disabled = false;
+                                }
+                            }
+                        }, speed_in);
+                    }
+                }, speed);
+            }
+
+            function animate_0() {
+                var speed = 10;
+                var speed = speed || 30;
+                var num = 10;
+                var color_from = "#666666";
+                var color_to = "#ffa800";
+                var r_from = parseInt(color_from.substr(1, 2), 16);
+                var g_from = parseInt(color_from.substr(3, 2), 16);
+                var b_from = parseInt(color_from.substr(5, 2), 16);
+                var r_to = parseInt(color_to.substr(1, 2), 16);
+                var g_to = parseInt(color_to.substr(3, 2), 16);
+                var b_to = parseInt(color_to.substr(5, 2), 16);
+                var step = 10;
+                var r_diff = (r_to - r_from) / step;
+                var g_diff = (g_to - g_from) / step;
+                var b_diff = (b_to - b_from) / step;
+                var st = setInterval(function () {
+                    var nowcolor = document.getElementById("findById").style.color;
+                    var r_now = parseInt(nowcolor[4] + nowcolor[5] + nowcolor[6]);
+                    var g_now = parseInt(nowcolor[9] + nowcolor[10] + nowcolor[11]);
+                    var b_now = parseInt(nowcolor[14] + nowcolor[15] + nowcolor[16]);
+                    var r_tocolor = (r_now + r_diff).toFixed(0);
+                    var g_tocolor = (g_now + g_diff).toFixed(0);
+                    var b_tocolor = (b_now + b_diff).toFixed(0);
+                    var r_tocolor_hex = r_tocolor.toString(16);
+                    var g_tocolor_hex = g_tocolor.toString(16);
+                    var b_tocolor_hex = b_tocolor.toString(16);
+                    document.getElementById("findById").style.color = "rgb(" + r_tocolor + ", " + g_tocolor + ", " + b_tocolor + ")";
+                    if (r_tocolor >= r_to) {
+                        clearInterval(st);
+                        document.getElementById("findById").style.color = color_to;
+                    }
+                }, speed);
+            }
+
+            function animate_1() {
+                var speed = 10;
+                var speed = speed || 30;
+                var num = 10;
+                var color_from = "#ffa800";
+                var color_to = "#666666";
+                var r_from = parseInt(color_from.substr(1, 2), 16);
+                var g_from = parseInt(color_from.substr(3, 2), 16);
+                var b_from = parseInt(color_from.substr(5, 2), 16);
+                var r_to = parseInt(color_to.substr(1, 2), 16);
+                var g_to = parseInt(color_to.substr(3, 2), 16);
+                var b_to = parseInt(color_to.substr(5, 2), 16);
+                var step = 10;
+                var r_diff = (r_to - r_from) / step;
+                var g_diff = (g_to - g_from) / step;
+                var b_diff = (b_to - b_from) / step;
+                var st = setInterval(function () {
+                    var nowcolor = document.getElementById("findById").style.color;
+                    var r_now = parseInt(nowcolor[4] + nowcolor[5] + nowcolor[6]);
+                    var g_now = parseInt(nowcolor[9] + nowcolor[10] + nowcolor[11]);
+                    var b_now = parseInt(nowcolor[14] + nowcolor[15] + nowcolor[16]);
+                    var r_tocolor = (r_now + r_diff).toFixed(0);
+                    var g_tocolor = (g_now + g_diff).toFixed(0);
+                    var b_tocolor = (b_now + b_diff).toFixed(0);
+                    var r_tocolor_hex = r_tocolor.toString(16);
+                    var g_tocolor_hex = g_tocolor.toString(16);
+                    var b_tocolor_hex = b_tocolor.toString(16);
+                    document.getElementById("findById").style.color = "rgb(" + r_tocolor + ", " + g_tocolor + ", " + b_tocolor + ")";
+                    if (r_tocolor <= r_to) {
+                        clearInterval(st);
+                        document.getElementById("findById").style.color = color_to;
+                    }
+                }, speed);
+            }
+
+            function findById_reset() {
+                document.getElementById("number").innerHTML = "";
+                document.getElementById("b_0").disabled = false;
+                document.getElementById("b_6").disabled = true;
+                document.getElementById("b_7").disabled = true;
+                document.getElementById("b_8").disabled = true;
+                document.getElementById("b_9").disabled = true;
+                animate_1();
+            }
+
+            function text_reset() {
+                document.getElementById("name_animate").innerHTML = "点击下方按钮进行随机选人";
+                animate();
+            }
+
+            function line_reset() {
+                var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+                arr.sort(function () {
+                    return Math.random() - 0.5
+                })
+                document.getElementById("order").innerHTML = 0;
+                document.getElementById("line").innerHTML = arr;
+                text_reset();
+            }
+        </script>
+    </div>
+</body>
 
 </html>

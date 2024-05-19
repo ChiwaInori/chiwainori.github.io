@@ -19,7 +19,7 @@ function xts(command) {
             console.log(
                 `XTS Functions: sleep(time)`
                 + `\nSleep a moment then execute following commands.`
-                + `\ntime : (number > 0) : Sleep time in milliseconds`
+                + `\ntime : (number >= 1) : Sleep time in milliseconds`
                 + `\n[EXAMPLE] sleep(1000) :: Wait 1s, the continue following commands.`
                 + `\n%c[ASYNC] Only available in async functions. Use this function like:`
                 + `\nasync function fName() { await sleep(time); }`, "color: #dd0000;"
@@ -48,10 +48,11 @@ function xts(command) {
         if (command == "getNum") {
             var success = 1;
             console.log(
-                `XTS Functions: getNum(text)`
-                + `\nCreate a random integer.`
+                `XTS Functions: getNum(text, order)`
+                + `\nRETURN a selected integer in a string.`
                 + `\ntext : (string) : The text that gets number from it`
-                + `\n[EXAMPLE] getNum("487brg13d74gh,-2") :: Return ['487', '13', '74', '2']`
+                + `\norder : (number >= 1) : Which part of number you want`
+                + `\n[EXAMPLE] getNum("487brg13d74gh,-2",3) :: Return 74`
             );
         }
         if (command == "logVar") {
@@ -138,11 +139,43 @@ function xts(command) {
         if (command == "transColor") {
             var success = 1;
             console.log(
-                `XTS Functions: transColor(element, toColor)`
+                `XTS Functions: transColor(element, toColor, time)`
                 + `\nTurn an element's current color to another in transition.`
                 + `\nelement : (string) : The id of target element`
                 + `\ntoColor : (string) : The target color of transition`
+                + `\ntime : (number >= 1) : The time length of transition`
                 + `\n[EXAMPLE] transColor("title", "#00dd00") :: Turn the color of title to green in transition.`
+            );
+        }
+        if (command == "fadeOut") {
+            var success = 1;
+            console.log(
+                `XTS Functions: fadeOut(element, time)`
+                + `\nFade out an element.`
+                + `\nelement : (string) : The id of target element`
+                + `\ntime : (number >= 1, OPTIONAL (100)) : The time length of fade out`
+                + `\n[EXAMPLE] fadeOut("title", 200) :: Fade out title in 0.2s.`
+            );
+        }
+        if (command == "fadeIn") {
+            var success = 1;
+            console.log(
+                `XTS Functions: fadeIn(element, time)`
+                + `\nFade in an element.`
+                + `\nelement : (string) : The id of target element`
+                + `\ntime : (number >= 1, OPTIONAL (100)) : The time length of fade in`
+                + `\n[EXAMPLE] fadeIn("title", 200) :: Fade in title in 0.2s.`
+            );
+        }
+        if (command == "fadeChange") {
+            var success = 1;
+            console.log(
+                `XTS Functions: fadeChange(outElement, inElement, time)`
+                + `\nFade out an element and fade in another element.`
+                + `\noutElement : (string) : The id of target element to fade out`
+                + `\ninElement : (string) : The id of target element to fade in`
+                + `\ntime : (number >= 1, OPTIONAL (200)) : The total time length of whole change session`
+                + `\n[EXAMPLE] fadeChange("title", "secondTitle", 500) :: Fade out title in 0.25s and fade in secondTitle in 0.25s.`
             );
         }
         if (command == "save") {
@@ -175,7 +208,7 @@ function xts(command) {
 // GLOBAL USAGE
 
 function sleep(time) {
-    if (time <= 0) { throw new Error("Cannot sleep less than 0 milliseconds"); }
+    if (time < 1) { throw new Error("Cannot sleep less than 1 milliseconds"); }
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
@@ -199,8 +232,10 @@ function rand(min, max) {
     return Math.floor(Math.random() * range) + min;
 }
 
-function getNum(string) {
-    return string.match(/\d+(\.\d+)?/g);
+function getNum(string, order) {
+    if (order == undefined) { var order = 1; }
+    if (order <= 0) { throw new Error("Order cannot less than 1"); }
+    return parseInt(string.match(/\d+(\.\d+)?/g)[order - 1]);
 }
 
 // CONSOLE LOG
@@ -294,36 +329,101 @@ function unhide(element, display, method) {
     }
 }
 
-function transColor(element, toColor) {
-    if (toColor.indexOf("#") < 0) { throw new Error("toColor should be in hex type"); }
-    var speed = 10
-    var speed = speed || 30;
-    var colorFrom = target(element).style.color || "rgb(102, 102, 102)";
-    var colorTo = toColor;
-    var rFrom = parseInt(getNum(colorFrom)[0]);
-    var gFrom = parseInt(getNum(colorFrom)[1]);
-    var bFrom = parseInt(getNum(colorFrom)[2]);
-    var rTo = parseInt(colorTo.substr(1, 2), 16);
-    var gTo = parseInt(colorTo.substr(3, 2), 16);
-    var bTo = parseInt(colorTo.substr(5, 2), 16);
-    var step = 10;
-    var r_diff = ( rTo - rFrom ) / step;
-    var g_diff = ( gTo - gFrom ) / step;
-    var b_diff = ( bTo - bFrom ) / step;
-    var st = setInterval(function () {
-        var nowColor = target(element).style.color || "rgb(102, 102, 102)";
-        var r_now = parseInt(getNum(nowColor)[0]);
-        var g_now = parseInt(getNum(nowColor)[1]);
-        var b_now = parseInt(getNum(nowColor)[2]);
-        var rToColor = (r_now + r_diff).toFixed(0);
-        var gToColor = (g_now + g_diff).toFixed(0);
-        var bToColor = (b_now + b_diff).toFixed(0);
-        target(element).style.color = `rgb(${rToColor}, ${gToColor}, ${bToColor})`;
-        if (rTo > rFrom && rToColor >= rTo || rTo < rFrom && rToColor <= rTo || gTo > gFrom && gToColor >= gTo || gTo < gFrom && gToColor <= gTo || bTo > bFrom && bToColor >= bTo || bTo < bFrom && bToColor <= bTo) {
-            clearInterval(st);
-            target(element).style.color = colorTo;
+async function transColor(element, toColor, time) {
+    if (time == undefined) { var time = 100; }
+    if (time < 1) { throw new Error("Cannot change color in less than 1 milliseconds"); }
+    var presetR = 102;
+    var presetG = 102;
+    var presetB = 102;
+
+    if (target(element).style.color != "") {
+        var fromColorR = getNum(target(element).style.color, 1);
+        var fromColorG = getNum(target(element).style.color, 2);
+        var fromColorB = getNum(target(element).style.color, 3);
+    } else {
+        var fromColorR = presetR;
+        var fromColorG = presetG;
+        var fromColorB = presetB;
+    }
+
+    if (toColor.indexOf("#") >= 0) {
+        var toColorR = parseInt(toColor.split("")[1] + toColor.split("")[2], 16);
+        var toColorG = parseInt(toColor.split("")[3] + toColor.split("")[4], 16);
+        var toColorB = parseInt(toColor.split("")[5] + toColor.split("")[6], 16);
+    }
+    if (toColor.indexOf("rgb(") >= 0) {
+        var toColorR = getNum(toColor, 1);
+        var toColorG = getNum(toColor, 2);
+        var toColorB = getNum(toColor, 3);
+    }
+
+    var diffR = (toColorR - fromColorR) / 20;
+    var diffG = (toColorG - fromColorG) / 20;
+    var diffB = (toColorB - fromColorB) / 20;
+
+    for (i = 1; i <= 21; i++) {
+        if (target(element).style.color != "") {
+            var nowColorR = getNum(target(element).style.color, 1);
+            var nowColorG = getNum(target(element).style.color, 2);
+            var nowColorB = getNum(target(element).style.color, 3);
+        } else {
+            var nowColorR = presetR;
+            var nowColorG = presetG;
+            var nowColorB = presetB;
         }
-    }, speed);
+        if (i <= 20) {
+            var nowToColorR = nowColorR + diffR;
+            var nowToColorG = nowColorG + diffG;
+            var nowToColorB = nowColorB + diffB;
+            colorTo(element, `rgb(${nowToColorR}, ${nowToColorG}, ${nowToColorB})`);
+            await sleep(time / 20);
+        } else {
+            colorTo(element, toColor);
+        }
+    }
+}
+
+async function fadeOut(element, time) {
+    if (time == undefined) { var time = 100; }
+    if (time < 1) { throw new Error("Cannot fade out in less than 1 milliseconds"); }
+    if (target(element).style.opacity != "") {
+        var nowOpacity = parseFloat(target(element).style.opacity);
+    } else {
+        var nowOpacity = 1;
+    }
+    while (nowOpacity > 0) {
+        var nowOpacity = nowOpacity - 0.05;
+        target(element).style.opacity = nowOpacity;
+        await sleep(time / 20);
+    }
+    if (nowOpacity <= 0) {
+        hide(element);
+        target(element).style.opacity = 0;
+    }
+}
+
+async function fadeIn(element, time) {
+    if (time == undefined) { var time = 100; }
+    if (time < 1) { throw new Error("Cannot fade in in less than 1 milliseconds"); }
+    unhide(element);
+    if (target(element).style.opacity != "") {
+        var nowOpacity = parseFloat(target(element).style.opacity);
+    } else {
+        var nowOpacity = 0;
+    }
+    while (nowOpacity < 1) {
+        var nowOpacity = nowOpacity + 0.05;
+        target(element).style.opacity = nowOpacity;
+        await sleep(time / 20);
+    }
+}
+
+async function fadeChange(outElement, inElement, time) {
+    if (time == undefined) { var time = 200; }
+    if (time < 1) { throw new Error("Cannot fade change in than 1 milliseconds"); }
+    fadeOut(outElement, time / 2);
+    await sleep(time / 2 + 20);
+    fadeIn(inElement, time / 2);
 }
 
 // SAVE & LOAD

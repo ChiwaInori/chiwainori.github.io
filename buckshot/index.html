@@ -75,12 +75,11 @@
         function start() {
             var liveCount = parseInt(target("liveCount").value);
             var blankCount = parseInt(target("blankCount").value);
-            hide("liveCount");
-            hide("blankCount");
-            hide("startTxt");
-            hide("welcomeTxt");
-            hide("startButton");
-            unhide("gamePhase");
+            fadeOut("liveCount");
+            fadeOut("blankCount");
+            fadeOut("startTxt");
+            fadeOut("startButton");
+            fadeChange("welcomeTxt", "gamePhase");
             unhide("liveCountTxt", "inline");
             unhide("blankCountTxt", "inline");
             copyTo("liveCountTxt", liveCount);
@@ -89,6 +88,11 @@
         }
 
         function shoot(type) {
+            target("shootNormalLive").disabled = false;
+            target("shootInvertBlank").disabled = false;
+            target("shootNormalBlank").disabled = false;
+            target("shootInvertLive").disabled = false;
+
             var liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
             var blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
             if (copyFrom("telModifiedLive") == "") {
@@ -156,6 +160,15 @@
                 colorTo("confirmed", "#666666");
             }
 
+            if (copyFrom("liveChance") == 100) {
+                target("shootInvertLive").disabled = true;
+                target("shootNormalBlank").disabled = true;
+            }
+            if (copyFrom("liveChance") == 0) {
+                target("shootInvertBlank").disabled = true;
+                target("shootNormalLive").disabled = true;
+            }
+
             var totalShellsBeforeTel = liveCount + blankCount;
             var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
             var liveChanceBeforeTel = liveChanceBeforeTel || 0;
@@ -210,6 +223,15 @@
             }
             logVar(liveChance, "liveChance");
             logVar(liveChanceBeforeTel, "liveChanceBeforeTel");
+
+            if (copyFrom("liveChance") == 100) {
+                target("shootInvertLive").disabled = true;
+                target("shootNormalBlank").disabled = true;
+            }
+            if (copyFrom("liveChance") == 0) {
+                target("shootInvertBlank").disabled = true;
+                target("shootNormalLive").disabled = true;
+            }
         }
     </script>
 </div></body>
