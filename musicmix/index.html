@@ -40,8 +40,8 @@
             <br />
         </div>
         <div id="playPhase" style="display: none;">
-            <button id="playButton" onclick="playmusic()" style="display: block;">播放</button>
-            <button id="stopButton" onclick="stopmusic()" style="display: none;">暂停</button>
+            <button id="playButton" onclick="playMusic()" style="display: block;">播放</button>
+            <button id="stopButton" onclick="stopMusic()" style="display: none;">暂停</button>
             <br />
             <h5>Music Mix <span style="font-size: 10px;">调整人声 / 伴奏混合比</span></h5>
             <p><strong id="vocalText">Vocal</strong> <input type="range" id="volumeControl" min="0" max="100" value="50" step="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong id="insText">Ins.</strong></p>
@@ -64,8 +64,7 @@
             const musicPlayer1 = document.getElementById('musicPlayer1');
             const objectURL1 = URL.createObjectURL(file1);
             musicPlayer1.src = objectURL1;
-            hide("chooseVocal");
-            unhide("displayVocal");
+            fadeChange("chooseVocal", "displayVocal");
             copyTo("vocalName", file1.name);
             unhide("chooseIns");
         });
@@ -75,16 +74,15 @@
             const musicPlayer2 = document.getElementById('musicPlayer2');
             const objectURL2 = URL.createObjectURL(file2);
             musicPlayer2.src = objectURL2;
-            hide("chooseIns");
-            unhide("displayIns");
+            fadeChange("chooseIns", "displayIns");
             copyTo("insName", file2.name);
-            unhide("playPhase");
+            fadeIn("playPhase");
         });
 
         const music1 = target("musicPlayer1");
         const music2 = target("musicPlayer2");
 
-        function playmusic() {
+        function playMusic() {
             music1.play();
             music2.play();
             updateVolume();
@@ -93,7 +91,7 @@
             transColor("timeNow", "#00dd00");
         }
 
-        function stopmusic() {
+        function stopMusic() {
             music1.pause();
             music2.pause();
             hide("stopButton");

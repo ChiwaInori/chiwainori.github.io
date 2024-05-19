@@ -26,6 +26,10 @@
             margin: -93px auto auto 50% !important;
         }
 
+        button {
+            margin-right: 0px;
+        }
+
         @media screen and (min-width: 700px) {
             .left_table { 
                 margin: auto auto auto 29.5% !important;
@@ -457,8 +461,7 @@
 
         function begin() {
             if (document.getElementById("file-content").innerHTML == "") {
-                document.getElementById("rules").style = "display: none;";
-                document.getElementById("choose_first").style = "display: block;";
+                fadeChange("rules", "choose_first");
             } else {
                 loadgame();
             }
@@ -474,8 +477,7 @@
         }
 
         function p1_first() {
-            document.getElementById("choose_first").style = "display: none;";
-            document.getElementById("main_panel").style = "display: block;";
+            fadeChange("choose_first", "main_panel");
             document.getElementById("p1_status_1").innerHTML = "<strong>我方先手</strong>";
             document.getElementById("p1_status_1").style = "color: #00dd00;";
             document.getElementById("p2_status_1").innerHTML = "<strong>敌方先手</strong>";
@@ -498,8 +500,7 @@
         }
 
         function p2_first() {
-            document.getElementById("choose_first").style = "display: none;";
-            document.getElementById("main_panel").style = "display: block;";
+            fadeChange("choose_first", "main_panel");
             document.getElementById("p1_status_1").innerHTML = "<strong>敌方先手</strong>";
             document.getElementById("p2_status_1").style = "color: #00dd00;";
             document.getElementById("p2_status_1").innerHTML = "<strong>我方先手</strong>";
@@ -5841,8 +5842,7 @@
         }
 
         function online() {
-            document.getElementById("online_button").style = "display: none;";
-            document.getElementById("online_text").style = "display: block;";
+            fadeChange("online_button", "online_text");
         }
 
         function online_p1_first() {

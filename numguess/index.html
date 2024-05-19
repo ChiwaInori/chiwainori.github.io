@@ -45,11 +45,10 @@
     </div>
     <script>
         function guessMode(mode) {
-            hide("welcome");
             if (mode == 0) { // YOU GUESS
-                unhide("guessYou");
+                fadeChange("welcome", "guessYou");
             } else {
-                unhide("guessBot");
+                fadeChange("welcome", "guessBot");
                 copyTo("num", rand(1, 100000));
             }
         }
