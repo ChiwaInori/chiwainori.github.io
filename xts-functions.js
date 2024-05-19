@@ -1,5 +1,8 @@
 // XTS FUNCTIONS
 
+/**
+ * @param {string} command
+ */
 function xts(command) {
     if (command == undefined) {
         console.log("XTS Functions are available in current session.\nUse xts(\"command\") to get help.");
@@ -60,7 +63,7 @@ function xts(command) {
             console.log(
                 `XTS Functions: logVar(variant, name)`
                 + `\nLog a variant in console.`
-                + `\nvariant : (var) : The variant of log output`
+                + `\nvariant : (any) : The variant of log output`
                 + `\nname : (string, OPTIONAL ("logVar")) : The name of variant`
                 + `\n[EXAMPLE] logVar(score, "score") :: Output "score: 128"`
             );
@@ -207,13 +210,19 @@ function xts(command) {
 
 // GLOBAL USAGE
 
+/**
+ * @param {number} time
+ */
 function sleep(time) {
     if (time < 1) { throw new Error("Cannot sleep less than 1 milliseconds"); }
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
-function copyright(startYear, signature) {
-    if (signature == undefined) { var signature = "xtsdcb69"; }
+/**
+ * @param {number} startYear
+ * @param {string} signature
+ */
+function copyright(startYear, signature = "xtsdcb69") {
     var date = new Date();
     var thisYear = date.getFullYear();
     if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
@@ -226,42 +235,67 @@ function copyright(startYear, signature) {
 
 // NUMERAL COMMANDS
 
+/**
+ * @param {number} min
+ * @param {number} max
+ */
 function rand(min, max) {
-    if (min > max) { throw new Error("Invalid minimum / maximum integer; minimum should be less than maximum"); }
+    if (min > max) { throw new Error(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
     var range = max - min + 1;
     return Math.floor(Math.random() * range) + min;
 }
 
-function getNum(string, order) {
-    if (order == undefined) { var order = 1; }
+/**
+ * @param {string} string
+ * @param {number} order
+ */
+function getNum(string, order = 1) {
     if (order <= 0) { throw new Error("Order cannot less than 1"); }
     return parseInt(string.match(/\d+(\.\d+)?/g)[order - 1]);
 }
 
 // CONSOLE LOG
 
-function logVar(variant, name) {
-    if (name == undefined) { var name = "logVar"; }
+/**
+ * @param {any} variant
+ * @param {string} name
+ */
+function logVar(variant, name = "logVar") {
     console.log(`${name}: ${variant}`);
 }
 
 // HTML ELEMENTS
 
+/**
+ * @param {string} element
+ */
 function target(element) {
     if (document.getElementById(element) == undefined) { throw new ReferenceError(`${element} is not defined`); }
     return document.getElementById(element);
 }
 
+/**
+ * @param {string} element
+ */
 function copyFrom(element) {
     return target(element).innerHTML;
 }
 
+/**
+ * @param {string} element
+ * @param {string} content
+ */
 function copyTo(element, content) {
     target(element).innerHTML = content;
 }
 
-function styleTo(element, style, method) {
-    if (method == undefined) { var method = "id"; }
+/**
+ * @param {string} element
+ * @param {string} style
+ * @param {"id" | "class" | "query"} method
+ */
+function styleTo(element, style, method = "id") {
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
     if (method == "id") {
         target(element).style = style;
     }
@@ -277,8 +311,13 @@ function styleTo(element, style, method) {
     }
 }
 
-function colorTo(element, color, method) {
-    if (method == undefined) { var method = "id"; }
+/**
+ * @param {string} element
+ * @param {string} color
+ * @param {"id" | "class" | "query"} method
+ */
+function colorTo(element, color, method = "id") {
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
     if (method == "id") {
         target(element).style.color = color;
     }
@@ -294,8 +333,12 @@ function colorTo(element, color, method) {
     }
 }
 
-function hide(element, method) {
-    if (method == undefined) { var method = "id"; }
+/**
+ * @param {string} element
+ * @param {"id" | "class" | "query"} method
+ */
+function hide(element, method = "id") {
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
     if (method == "id") {
         target(element).style.display = "none";
     }
@@ -311,9 +354,13 @@ function hide(element, method) {
     }
 }
 
-function unhide(element, display, method) {
-    if (display == undefined) { var display = "block"; }
-    if (method == undefined) { var method = "id"; }
+/**
+ * @param {string} element
+ * @param {string} display
+ * @param {"id" | "class" | "query"} method
+ */
+function unhide(element, display = "block", method = "id") {
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
     if (method == "id") {
         target(element).style.display = display;
     }
@@ -329,8 +376,12 @@ function unhide(element, display, method) {
     }
 }
 
-async function transColor(element, toColor, time) {
-    if (time == undefined) { var time = 100; }
+/**
+ * @param {string} element
+ * @param {string} toColor
+ * @param {number} time
+ */
+async function transColor(element, toColor, time = 100) {
     if (time < 1) { throw new Error("Cannot change color in less than 1 milliseconds"); }
     var presetR = 102;
     var presetG = 102;
@@ -383,8 +434,11 @@ async function transColor(element, toColor, time) {
     }
 }
 
-async function fadeOut(element, time) {
-    if (time == undefined) { var time = 100; }
+/**
+ * @param {string} element
+ * @param {number} time
+ */
+async function fadeOut(element, time = 100) {
     if (time < 1) { throw new Error("Cannot fade out in less than 1 milliseconds"); }
     if (target(element).style.opacity != "") {
         var nowOpacity = parseFloat(target(element).style.opacity);
@@ -402,8 +456,11 @@ async function fadeOut(element, time) {
     }
 }
 
-async function fadeIn(element, time) {
-    if (time == undefined) { var time = 100; }
+/**
+ * @param {string} element
+ * @param {number} time
+ */
+async function fadeIn(element, time = 100) {
     if (time < 1) { throw new Error("Cannot fade in in less than 1 milliseconds"); }
     unhide(element);
     if (target(element).style.opacity != "") {
@@ -418,8 +475,12 @@ async function fadeIn(element, time) {
     }
 }
 
-async function fadeChange(outElement, inElement, time) {
-    if (time == undefined) { var time = 200; }
+/**
+ * @param {string} outElement
+ * @param {string} inElement
+ * @param {number} time
+ */
+async function fadeChange(outElement, inElement, time = 200) {
     if (time < 1) { throw new Error("Cannot fade change in than 1 milliseconds"); }
     fadeOut(outElement, time / 2);
     await sleep(time / 2 + 20);
@@ -428,6 +489,10 @@ async function fadeChange(outElement, inElement, time) {
 
 // SAVE & LOAD
 
+/**
+ * @param {string} fileName
+ * @param {string} content
+ */
 function save(fileName, content) {
     var blob = new Blob([content], { type: "text/plain" });
     var a = document.createElement("a");
@@ -441,7 +506,11 @@ function save(fileName, content) {
     window.URL.revokeObjectURL(url);
 }
 
-function load(inputId, element) {
+/**
+ * @param {string} inputId
+ * @param {string} element
+ */
+function load(inputId, element = "file-content") {
     document.getElementById(inputId).addEventListener('change', function (event) {
         const fileInput = event.target;
         const file = fileInput.files[0];
@@ -449,10 +518,7 @@ function load(inputId, element) {
             const reader = new FileReader();
             reader.onload = function (event) {
                 var fileContent = event.target.result;
-                if (element == undefined) { var element = "file-content"; }
-                else {
-                    target(element).textContent = fileContent;
-                }
+                target(element).textContent = fileContent;
             };
             reader.readAsText(file);
         }
