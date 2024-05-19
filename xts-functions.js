@@ -99,7 +99,7 @@ function xts(command) {
                 + `\nApply styles to an element.`
                 + `\nelement : (string) : The id of target element`
                 + `\nstyle : (string) : The style to apply to the element`
-                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\nmethod : (string, OPTIONAL ("id")) [Choose from id | class | query] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] styleTo("title", "margin-left: 64px;") :: Equals to document.getElementById("title").style = "margin-left: 64px;"`
             );
         }
@@ -110,7 +110,7 @@ function xts(command) {
                 + `\nChange the color of an element.`
                 + `\nelement : (string) : The id of target element`
                 + `\ncolor : (string) : The color to apply to the element`
-                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\nmethod : (string, OPTIONAL ("id")) [Choose from id | class | query] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] colorTo("title", "#ff0000") :: Equals to document.getElementById("title").style.color = "#ff0000"`
             );
         }
@@ -120,7 +120,7 @@ function xts(command) {
                 `XTS Functions: hide(element, method)`
                 + `\nHide an element.`
                 + `\nelement : (string) : The id of target element`
-                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\nmethod : (string, OPTIONAL ("id")) [Choose from id | class | query] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] hide("title") :: Equals to document.getElementById("title").style.display = "none"`
             );
         }
@@ -131,7 +131,7 @@ function xts(command) {
                 + `\nShow an element with expected format.`
                 + `\nelement : (string) : The id of target element`
                 + `\ndisplay : (string, OPTIONAL ("block")) : The type of display`
-                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\nmethod : (string, OPTIONAL ("id")) [Choose from id | class | query] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] unhide("title", "inline-block") :: Equals to document.getElementById("title").style.display = "inline-block"`
             );
         }
