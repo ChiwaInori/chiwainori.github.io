@@ -1,37 +1,8 @@
-/* MAIN FORMAT FOR DESKTOP */
-
-body {
-    background-color: #ccccaa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+/* FORMAT FOR DESKTOP */
 
 .mainbody {
-    background-color: #ffffdd;
-    padding: 30px 25px 30px 25px;
-    border-radius: 10px;
-    margin: 10px auto auto auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     width: 840px;
-    max-width: 90%;
-    min-height: 90vh;
-}
-
-/* OVERRIDE GLOBAL.CSS OF MOBILE FORMAT */
-
-.title h1 {
-    margin: auto 0px 0px 0px;
-}
-
-h1, h2, h3, h4, h5, h6, p, img, video, audio {
-    margin: auto 0px 10px 0px;
-}
-
-.infobox {
-    margin: 16px 0px 16px 0px;
+    min-height: 90%;
 }
 
 /* OLD CSS
@@ -88,7 +59,7 @@ table {
     margin: 0px 0px 10px 40px;
 }
 
-.border_table, .border_table tr th {
+.borderTable, .borderTable tr th {
     text-align: center;
     border: 1px solid #666666;
     border-collapse: collapse;
@@ -98,7 +69,7 @@ table {
     margin: -10px 0px 40px 0px;
 }
 
-.sticky_header {
+.stickyHeader {
     background-color: #ffffdd;
     position: sticky;
     top: 0;

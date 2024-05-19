@@ -1,84 +1,185 @@
-// Varients excluded numbers like "min" "max" or varients like "varient" should be in string type.
+// XTS FUNCTIONS
 
-function rand(min, max) {                                               // RETURN a random integer in [min, max]. [Example] rand(1, 10) ==> 6
-    if (min > max) { throw new Error("Invalid minimum / maximum integer; minimum should be less than maximum"); }
-    var range = max - min + 1;
-    return Math.floor(Math.random() * range) + min;
-}
-
-function logVar(varient, name) {            // Log a varient in console. [Example] logVar("score", score) ==> 128 [Optional] "name" can be undefined, default as "logVar"
-    if (name == undefined) {
-        console.log(`logVar: ${varient}`);
+function xts(command) {
+    if (command == undefined) {
+        console.log("XTS Functions are available in current session.\nUse xts(\"command\") to get help.");
     } else {
-        console.log(`${name}: ${varient}`);
-    }
-}
-
-function target(element) {  // RETURN an element in HTML. [Example] var text = target("title").innerText; <==> var text = document.getElementById("title").innerText;
-    if (document.getElementById(element) == undefined) { throw new ReferenceError(`${element} is not defined`); }
-    return document.getElementById(element);
-}
-
-function copyFrom(element) {    // RETURN an element's innerHTML. [Example] var str = copyFrom("title"); <==> var str = document.getElementById("title").innerHTML;
-    return target(element).innerHTML;
-}
-
-function copyTo(element, content) { // Change an element's innerHTML. [Example] copyTo("title", "Hello"); <==> document.getElementById("title").innerHTML = "Hello";
-    target(element).innerHTML = content;
-}
-
-function styleTo(element, style) {  // Change an element's CSS style. [Example] styleTo("title", "margin-left: 64px;"); <==> document.getElementById("title").style = "margin-left: 64px;";
-    target(element).style = style;
-}
-
-function colorTo(element, color) {  // Change an element's color. [Example] colorTo("title", "#ff0000"); <==> document.getElementById("title").style.color = "#ff0000";
-    target(element).style.color = color;
-}
-
-function hide(element) {    // Hide an element. [Example] hide("para1"); <==> document.getElementById("para1").style.display = "none";
-    target(element).style.display = "none";
-}
-
-function unhide(element, style) {   // Show an element with expected format. [Example] unhide("para1", "inline"); <==> document.getElementById("para1").style.display = "inline"; [Optional] "element" can be undefined, default as "block"
-    if (style == undefined) {
-        target(element).style.display = "block";
-    } else {
-        target(element).style.display = style;
-    }
-}
-
-function save(filename, content) {  // Download a file with expected content. [Example] save("readme.txt", "Please read this file."); (It'll download a file named readme.txt with "Please read this file.")
-    var blob = new Blob([content], { type: "text/plain" });
-    var a = document.createElement("a");
-    a.style.display = "none";
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-}
-
-function load(inputId, element) {    // Keeps copy the content from file in <input id="inputId" /> to an expected position. [Example] load("top-file", "fileInfo"); (When a file is selected in <input id="top-file" />, its content will be copied to "fileInfo".) [Optional] "target" can be undefined, default as "file-content"
-    document.getElementById(inputId).addEventListener('change', function(event) {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                var fileContent = event.target.result;
-                if (element == undefined) { var element = "file-content"; }
-                else {
-                    target(element).textContent = fileContent;
-                }
-            };
-            reader.readAsText(file);
+        var success = 0;
+        if (command == "xts") {
+            var success = 1;
+            console.log(
+                `XTS Functions: xts(command)`
+                + `\nCheck if XTS Functions are available.`
+                + `\ncommand : (string) : Input a command in XTS Functions to get help`
+                + `\n[EXAMPLE] xts("rand") :: Get help of rand().`
+            );
         }
-    });
+        if (command == "sleep") {
+            var success = 1;
+            console.log(
+                `XTS Functions: sleep(time)`
+                + `\nSleep a moment then excute following commands.`
+                + `\ntime : (number > 0) : Sleep time in miliseconds`
+                + `\n[EXAMPLE] sleep(1000) :: Wait 1s, the continue following commands.`
+                + `\n%c[ASYNC] Only available in async functions. Use this function like:`
+                + `\nasync function fName() { await sleep(time); }`, "color: #dd0000;"
+            );
+        }
+        if (command == "copyright") {
+            var success = 1;
+            console.log(
+                `XTS Functions: copyright(startYear, signature)`
+                + `\nCreate a copyright text.`
+                + `\nstartYear : (number) : The year that copyright starts`
+                + `\nsignature : (string, OPTIONAL ("xtsdcb69")) : Who own the copyright`
+                + `\n[EXAMPLE] copyright(2021, "Hacker") :: It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright"`
+            );
+        }
+        if (command == "rand") {
+            var success = 1;
+            console.log(
+                `XTS Functions: rand(min, max)`
+                + `\nRETURN a random integer.`
+                + `\nmin : (number <= max) : The minimum value of the random integer`
+                + `\nmax : (number >= min) : The maximum value of the random integer`
+                + `\n[EXAMPLE] rand(1, 10) :: It might return 6`
+            );
+        }
+        if (command == "getNum") {
+            var success = 1;
+            console.log(
+                `XTS Functions: getNum(text)`
+                + `\nCreate a random integer.`
+                + `\ntext : (string) : The text that gets number from it`
+                + `\n[EXAMPLE] getNum("487bsrg13d74gh,-2") :: Return ['487', '13', '74', '2']`
+            );
+        }
+        if (command == "logVar") {
+            var success = 1;
+            console.log(
+                `XTS Functions: logVar(variant, name)`
+                + `\nLog a varient in console.`
+                + `\nvariant : (var) : The variant of log output`
+                + `\nname : (string, OPTIONAL ("logVar")) : The name of variant`
+                + `\n[EXAMPLE] logVar(score, "score") :: Output "score: 128"`
+            );
+        }
+        if (command == "target") {
+            var success = 1;
+            console.log(
+                `XTS Functions: target(element)`
+                + `\nRETURN an element in HTML.`
+                + `\nelement : (string) : The id of target element`
+                + `\n[EXAMPLE] target("title").innerText :: Equals to document.getElementById("title").innerText`
+            );
+        }
+        if (command == "copyFrom") {
+            var success = 1;
+            console.log(
+                `XTS Functions: copyFrom(element)`
+                + `\nRETURN an element's innerHTML.`
+                + `\nelement : (string) : The id of target element`
+                + `\n[EXAMPLE] copyFrom("p1") :: Equals to document.getElementById("p1").innerHTML`
+            );
+        }
+        if (command == "copyTo") {
+            var success = 1;
+            console.log(
+                `XTS Functions: copyTo(element, content)`
+                + `\nCopy something to an element's innerHTML.`
+                + `\nelement : (string) : The id of target element`
+                + `\ncontent : (string) : The content to copy to the element`
+                + `\n[EXAMPLE] copyTo("p1", "Hello") :: Equals to document.getElementById("p1").innerHTML = "Hello"`
+            );
+        }
+        if (command == "styleTo") {
+            var success = 1;
+            console.log(
+                `XTS Functions: styleTo(element, style, method)`
+                + `\nApply styles to an element.`
+                + `\nelement : (string) : The id of target element`
+                + `\nstyle : (string) : The style to apply to the element`
+                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\n[EXAMPLE] styleTo("title", "margin-left: 64px;") :: Equals to document.getElementById("title").style = "margin-left: 64px;"`
+            );
+        }
+        if (command == "colorTo") {
+            var success = 1;
+            console.log(
+                `XTS Functions: colorTo(element, content, method)`
+                + `\nChange the color of an element.`
+                + `\nelement : (string) : The id of target element`
+                + `\ncolor : (string) : The color to apply to the element`
+                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\n[EXAMPLE] colorTo("title", "#ff0000") :: Equals to document.getElementById("title").style.color = "#ff0000"`
+            );
+        }
+        if (command == "hide") {
+            var success = 1;
+            console.log(
+                `XTS Functions: hide(element, method)`
+                + `\nHide an element.`
+                + `\nelement : (string) : The id of target element`
+                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\n[EXAMPLE] hide("title") :: Equals to document.getElementById("title").style.display = "none"`
+            );
+        }
+        if (command == "unhide") {
+            var success = 1;
+            console.log(
+                `XTS Functions: unhide(element, display, method)`
+                + `\nShow an element with expected format.`
+                + `\nelement : (string) : The id of target element`
+                + `\ndisplay : (string, OPTIONAL ("block")) : The type of display`
+                + `\nmethod : (string, OPTIONAL ("id")) : [Choose from id | class | query] The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
+                + `\n[EXAMPLE] unhide("title", "inline-block") :: Equals to document.getElementById("title").style.display = "inline-block"`
+            );
+        }
+        if (command == "transColor") {
+            var success = 1;
+            console.log(
+                `XTS Functions: transColor(element, toColor)`
+                + `\nTurn an element's current color to another in transition.`
+                + `\nelement : (string) : The id of target element`
+                + `\ntoColor : (string) : The target color of transition`
+                + `\n[EXAMPLE] transColor("title", "#00dd00") :: Turn the color of title to green in transition.`
+            );
+        }
+        if (command == "save") {
+            var success = 1;
+            console.log(
+                `XTS Functions: save(fileName, content)`
+                + `\nDownload a file with expected content.`
+                + `\nfileName : (string) : The name of the file to be downloaded`
+                + `\ncontent : (string) : The content of the file`
+                + `\n[EXAMPLE] save("readme.txt", "Please read this file.") :: It'll download a file named readme.txt with "Please read this file."`
+            );
+        }
+        if (command == "load") {
+            var success = 1;
+            console.log(
+                `XTS Functions: load(inputId, element)`
+                + `\nKeeps copy the content from file in <input id="inputId" /> to an expected position.`
+                + `\ninputId : (string) : The id of input where the file receives`
+                + `\nelement : (string, OPTIONAL ("file-content")) : The place to copy the file content`
+                + `\n[EXAMPLE] load("top-file", "fileInfo") :: When a file is selected in <input id="top-file" />, its content will be copied to "fileInfo".`
+            );
+        }
+
+        if (success == 0) {
+            console.log("Unknown command in XTS Functions.\nCheck typing then try again.");
+        }
+    }
 }
 
-function copyright(startYear, signature) {  // Create the copyright text in <element id="copyright"></element>. [Example] copyright(2021, "Hacker"); (It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright".) [Optional] "signature" can be undefined, default as "xtsdcb69"
+// GLOBAL USAGE
+
+function sleep(time) {
+    if (time <= 0) { throw new Error("Cannot sleep less than 0 miliseconds"); }
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function copyright(startYear, signature) {
     if (signature == undefined) { var signature = "xtsdcb69"; }
     var date = new Date();
     var thisYear = date.getFullYear();
@@ -90,11 +191,110 @@ function copyright(startYear, signature) {  // Create the copyright text in <ele
     }
 }
 
-function getNum(string) {   // RETURN all numbers in a string. Split in array. [Example] getNum("487bsrg13d74gh,-2") ==> ['487', '13', '74', '2']
+// NUMERAL COMMANDS
+
+function rand(min, max) {
+    if (min > max) { throw new Error("Invalid minimum / maximum integer; minimum should be less than maximum"); }
+    var range = max - min + 1;
+    return Math.floor(Math.random() * range) + min;
+}
+
+function getNum(string) {
     return string.match(/\d+(\.\d+)?/g);
 }
 
-function transColor(element, toColor) { // Turn an element's current color to another in transition. [Example] transColor("title", "#00dd00"); (It'll turn title's color to green.)
+// CONSOLE LOG
+
+function logVar(variant, name) {
+    if (name == undefined) { var name = "logVar"; }
+    console.log(`${name}: ${variant}`);
+}
+
+// HTML ELEMENTS
+
+function target(element) {
+    if (document.getElementById(element) == undefined) { throw new ReferenceError(`${element} is not defined`); }
+    return document.getElementById(element);
+}
+
+function copyFrom(element) {
+    return target(element).innerHTML;
+}
+
+function copyTo(element, content) {
+    target(element).innerHTML = content;
+}
+
+function styleTo(element, style, method) {
+    if (method == undefined) { var method = "id"; }
+    if (method == "id") {
+        target(element).style = style;
+    }
+    if (method == "class") {
+        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style = style;
+        }
+    }
+    if (method == "query") {
+        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style = style;
+        }
+    }
+}
+
+function colorTo(element, color, method) {
+    if (method == undefined) { var method = "id"; }
+    if (method == "id") {
+        target(element).style.color = color;
+    }
+    if (method == "class") {
+        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style.color = color;
+        }
+    }
+    if (method == "query") {
+        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style.color = color;
+        }
+    }
+}
+
+function hide(element, method) {
+    if (method == undefined) { var method = "id"; }
+    if (method == "id") {
+        target(element).style.display = "none";
+    }
+    if (method == "class") {
+        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style.display = "none";
+        }
+    }
+    if (method == "query") {
+        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style.display = "none";
+        }
+    }
+}
+
+function unhide(element, display, method) {
+    if (display == undefined) { var display = "block"; }
+    if (method == undefined) { var method = "id"; }
+    if (method == "id") {
+        target(element).style.display = display;
+    }
+    if (method == "class") {
+        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style.display = display;
+        }
+    }
+    if (method == "query") {
+        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style.display = display;
+        }
+    }
+}
+
+function transColor(element, toColor) {
     if (toColor.indexOf("#") < 0) { throw new Error("toColor should be in hex type"); }
     var speed = 10
     var speed = speed || 30;
@@ -126,17 +326,35 @@ function transColor(element, toColor) { // Turn an element's current color to an
     }, speed);
 }
 
-function sleepByLoadCpu(miliSec) {   // Pause remaining codes until sleep over by overloading CPU. It'll stop all missions during sleep [Example] sleepByLoadCpu(1000); (It'll pause excuting codes until 1s later.)
-    var now = new Date();
-    var end = now.getTime() + miliSec;
-    while (true) {
-        var now = new Date();
-        if (now.getTime() > end) {
-            return;
-        }
-    }
+// SAVE & LOAD
+
+function save(fileName, content) {
+    var blob = new Blob([content], { type: "text/plain" });
+    var a = document.createElement("a");
+    a.style.display = "none";
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
 }
 
-function sleep(ms) {   // [MUST USED IN async function fName(), and usage must be "await sleep(ms);"] Pause remaining codes until sleep over. [Example] sleep(1000); (It'll pause excuting codes until 1s later.)
-    return new Promise(resolve => setTimeout(resolve, ms));
+function load(inputId, element) {
+    document.getElementById(inputId).addEventListener('change', function (event) {
+        const fileInput = event.target;
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                var fileContent = event.target.result;
+                if (element == undefined) { var element = "file-content"; }
+                else {
+                    target(element).textContent = fileContent;
+                }
+            };
+            reader.readAsText(file);
+        }
+    });
 }

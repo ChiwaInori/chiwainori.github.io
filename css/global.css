@@ -1,4 +1,11 @@
-/* MAIN FORMAT FOR MOBILE */
+/* MAIN FORMAT FOR EVERY DEVICES */
+
+:root {
+    --majorColor: #66a8ff;
+    --secondaryColor: #0088aa;
+}
+
+/* BASIC LAYOUT */
 
 body {
     background-color: #ccccaa;
@@ -17,19 +24,39 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     width: 95%;
     max-width: 90%;
-    min-height: 82%;
 }
+
+/* NORMAL ELEMENTS */
 
 .title h1 {
-    margin: auto 0px 0px 20px;
+    margin: auto 0px 0px 0px;
 }
 
-.navigation {
-    margin-bottom: 16px;
+h1, h2, h3, h4, h5, h6, p, img, video, audio {
+    margin: auto 0px 10px 0px;
 }
 
-h1, h2, h3, h4, h5, h6, p, img, video, audio, input, button {
-    margin: auto 0px 10px 20px;
+input, button {
+    margin: auto 10px auto 10px;
+    border: 1px solid var(--majorColor);
+    background-color: #ffffff;
+    color: var(--majorColor);
+    transition: color 0.1s ease;
+}
+
+button:hover {
+    background-color: #eeeeee;
+}
+
+button:active {
+    color: var(--secondaryColor);
+    background-color: #dddddd;
+}
+
+button:disabled {
+    border: 1px solid #aaaaaa;
+    background-color: #dddddd;
+    color: #aaaaaa;
 }
 
 /* TEXT COLORS */
@@ -38,58 +65,57 @@ p, h1, h2, h3, h4, h5, h6, span {
     color: #666666;
 }
 
-a:link, a:visited, .link {
-    color: #66a8ff;
-}
-
-a {
+a:not(.hiddenLink), .link {
+    color: var(--majorColor);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
-a:hover, .link:hover {
-    color: #0088aa;
+a:not(.hiddenLink):hover, .link:hover {
+    color: var(--secondaryColor);
     text-decoration: underline;
+    font-weight: bold;
 }
 
-/* SPECIAL ELEMENTS */
+/* SPECIAL ELEMENTS IN XTSGAMES.TOP */
 
-ul li {
-    list-style: none;
-    margin: 0px 0px 0px 10px;
-}
-
-blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockquote h5, blockquote h6 {
+blockquote * {
     font-style: italic;
     color: #AAAAAA;
 }
 
 table {
     color: #666666;
-    margin: 0px 0px 10px 40px;
+    margin: 0px 0px 10px 0px;
 }
 
-.border_table, .border_table tr th {
-    text-align: center;
-    border: 1px solid #666666;
-    border-collapse: collapse;
-}
-
-/* SPECIAL USAGE */
+/* SPECIAL CLASSES */
 
 .infobox {
-    margin: 16px 0px 16px 20px;
+    margin: 16px 0px 16px 0px;
 }
 
 .list {
     font-size: 10px;
 }
 
-.sticky_header {
+.annotate {
+    font-size: 10px;
+    color: #aaaaaa;
+}
+
+.borderTable, .borderTable tr th {
+    border: 1px solid #666666;
+    border-collapse: collapse;
+}
+
+.stickyHeader {
     background-color: #ffffdd;
     position: sticky;
     top: 0;
 }
 
-.hiddenlink:link, .hiddenlink:visited, .hiddenlink, .hiddenlink:hover {
+.hiddenLink:link, .hiddenLink:visited, .hiddenLink, .hiddenLink:hover {
     color: #666666;
+    text-decoration: none;
 }
