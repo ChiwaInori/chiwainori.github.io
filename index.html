@@ -9,11 +9,7 @@
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css">
     <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop-center.css">
     <style>
-        * {
-            text-align: center;
-        }
-
-        .content div {
+        #infoBlocks > div {
             border: 2px solid #666666;
             width: 350px;
             margin: 16px auto 16px;
@@ -21,70 +17,98 @@
             align-items: center;
         }
 
-        h2, p {
-            margin-left: 0px !important;
-        } 
-
-        /*
-        @media screen and (min-width: 800px) {
-            .content {
-                width: 1000px;
+        @media screen and (min-width: 1000px) and (hover: hover) {
+            #infoBlocks {
+                display: block;
+                margin: 16px auto 16px;
+                max-width: 1608px;
             }
 
-            .content div {
-                display: inline-block;
-                margin-top: 0px;
+            #infoBlocks > div {
+                float: left;
+                margin: 8px;
+            }
+
+            #contactUs {
+                clear: both;
             }
         }
-        */
+
+        h2, p {
+            margin-left: 0px !important;
+        }
+
+        #recentUpdate {
+            border: 2px solid var(--majorColor) !important;
+        }
+
+        #recentUpdate * {
+            color: var(--majorColor);
+        }
     </style>
     <script src="/xts-functions.js"></script>
 </head>
 
-<body><div class="mainbody">
+<body><div class="mainBody">
     <div class="title">
-        <h1 id="center_title">XTSGAMES.TOP</h1>
+        <h1 id="center_title">XTSGAMES<span style="font-size: 12px;">.TOP</span></h1>
     </div>
     <div class="content">
         <br />
-        <h4>欢迎来到 XTSGAMES.TOP!</h4>
+        <h4>欢迎来到 XTSGAMES!</h4>
         <p>本网站是 <a href="https://space.bilibili.com/74178478/" target="_blank">xtsdcb69</a> 的个人网站,</p>
         <p>内含了一些实用 (或者没啥用) 的工具等页面.</p>
-        <br />
-        <div>
-            <h2>游戏文档/工具</h2>
-            <p><a href="./buckshot/">恶魔轮盘 子弹记录</a></p>
-            <p><a href="./mc/">Minecraft</a></p>
-            <p>CS2 <a href="./cs/xrating/">X-Rating</a> / (<a href="./cs/winrate/match/">比赛</a> / <a href="./cs/winrate/round/">回合</a>) 胜率估算</p>
-            <p><a href="./basim/">ブルーアーカイブ 抽卡模拟器</a></p>
+        <div id="infoBlocks">
+            <div id="recentUpdate">
+                <h2>最近更新</h2>
+                <div class="LST">
+                    <p>2024.5.26 - 添加了 最近更新, 更改了主页桌面端排版</p>
+                    <p>2024.5.19 - 更改了输入框 / 按钮样式, 链接文字加粗</p>
+                    <p>2024.5.19 - 部分页面添加了淡入淡出动画</p>
+                    <p>2024.5.19 - 移动端中心居中页面可正常显示</p>
+                    <p>2024.5.3 - 添加了 <strong><a href="./buckshot/">恶魔轮盘 子弹记录</a></strong></p>
+                    <p>2024.5.2 - 添加了 <strong><a href="./numguess/">Bot 猜数字</a></strong></p>
+                    <p>2024.5.1 - 添加了 <strong><a href="./musicmix/">人声 / 伴奏音乐混合</a></strong></p>
+                    <p>2024.5.1 - 移动端应用新样式</p>
+                    <p>2024.4.30 - 增大了 <strong><a href="./rgb/">RGB 调色器</a></strong> 中的色块面积</p>
+                    <p>2024.4.30 - 网站全局样式大改</p>
+                </div>
+            </div>
+            <div>
+                <h2>游戏文档/工具</h2>
+                <p><a href="./buckshot/">恶魔轮盘 子弹记录</a></p>
+                <p><a href="./mc/">Minecraft</a></p>
+                <p>CS2 <a href="./cs/xrating/">X-Rating</a> / (<a href="./cs/winrate/match/">比赛</a> / <a href="./cs/winrate/round/">回合</a>) 胜率估算</p>
+                <p><a href="./basim/">ブルーアーカイブ 抽卡模拟器</a></p>
+            </div>
+            <div>
+                <h2>工具</h2>
+                <p><a href="./musicmix/">人声 / 伴奏音乐混合</a></p>
+                <p><a href="./scorepredict/">成绩排名估算</a></p>
+                <p><a href="./note/">已知音符查找大调</a></p>
+                <p><a href="./rgb/">RGB 调色器</a></p>
+                <p><a href="./idnumverify/">身份证号校验</a></p>
+                <p><a href="./3xplus1/">3x+1 猜想</a></p>
+                <p><a href="./randomword/">随机词语生成器</a></p>
+                <p><a href="./cd/he/">高考倒计时 (2026)</a></p>
+                <p><a href="./vote/">匿名投票</a></p>
+                <p><a href="./avgscore/">平均分影响值计算</a></p>
+                <p><a href="./backrooms/">Backrooms Nocliper</a></p>
+                <p><a href="./pescore/">体育中考自助算分器 (贵港 2023)</a></p>
+            </div>
+            <div>
+                <h2>小游戏</h2>
+                <p><a href="./numguess/">Bot 猜数字</a></p>
+                <p><a href="./shipwar/">军舰大战</a></p>
+                <p><a href="./1plus1/">1+1</a></p>
+            </div>
+            <div>
+                <h2>小测试</h2>
+                <p><a href="./chinacitytest/">中国地级市猜省份测试</a></p>
+                <p><a href="./chinaprovincetest/">中国省级行政区域全称、简称以及行政中心测试</a></p>
+            </div>
         </div>
-        <div>
-            <h2>工具</h2>
-            <p><a href="./scorepredict/">成绩排名估算</a></p>
-            <p><a href="./musicmix/">人声 / 伴奏音乐混合</a></p>
-            <p><a href="./note/">已知音符查找大调</a></p>
-            <p><a href="./cd/he/">高考倒计时 (2026)</a></p>
-            <p><a href="./vote/">匿名投票</a></p>
-            <p><a href="./rgb/">RGB 调色器</a></p>
-            <p><a href="./idnumverify/">身份证号校验</a></p>
-            <p><a href="./randomword/">随机词语生成器</a></p>
-            <p><a href="./3xplus1/">3x+1 猜想</a></p>
-            <p><a href="./avgscore/">平均分影响值计算</a></p>
-            <p><a href="./backrooms/">Backrooms Nocliper</a></p>
-            <p><a href="./pescore/">体育中考自助算分器 (贵港 2023)</a></p>
-        </div>
-        <div>
-            <h2>小游戏</h2>
-            <p><a href="./numguess/">Bot 猜数字</a></p>
-            <p><a href="./shipwar/">军舰大战</a></p>
-            <p><a href="./1plus1/">1+1</a></p>
-        </div>
-        <div>
-            <h2>小测试</h2>
-            <p><a href="./chinacitytest/">中国地级市猜省份测试</a></p>
-            <p><a href="./chinaprovincetest/">中国省级行政区域全称、简称以及行政中心测试</a></p>
-        </div>
-        <h6>联系我们: xtsdcb69@qq.com</h6>
+        <p id="contactUs" class="ANT">联系我们: xtsdcb69@qq.com</p>
     </div>
 </div></body>
 

@@ -1,6 +1,12 @@
 /* MAIN FORMAT FOR EVERY DEVICES */
 
 :root {
+    --backgroundColor: #ffffdd;
+    --backgroundColor-1: #ccccaa;
+
+    --textColor: #666666;
+    --fadeColor: #aaaaaa;
+
     --majorColor: #66a8ff;
     --secondaryColor: #0088aa;
 }
@@ -8,7 +14,7 @@
 /* BASIC LAYOUT */
 
 body {
-    background-color: #ccccaa;
+    background-color: var(--backgroundColor-1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,8 +22,8 @@ body {
     margin: 0;
 }
 
-.mainbody {
-    background-color: #ffffdd;
+.mainBody {
+    background-color: var(--backgroundColor);
     padding: 30px 25px 30px 25px;
     border-radius: 10px;
     margin: 10px auto auto auto;
@@ -38,10 +44,11 @@ h1, h2, h3, h4, h5, h6, p, img, video, audio {
 
 input, button {
     margin: auto 10px auto 10px;
-    border: 1px solid var(--majorColor);
+    border: 2px solid var(--majorColor);
     background-color: #ffffff;
     color: var(--majorColor);
-    transition: color 0.1s ease;
+    transition: color 0.05s ease;
+    font-weight: bold;
 }
 
 button:hover {
@@ -54,68 +61,72 @@ button:active {
 }
 
 button:disabled {
-    border: 1px solid #aaaaaa;
+    border: 2px solid var(--fadeColor);
     background-color: #dddddd;
-    color: #aaaaaa;
+    color: var(--fadeColor);
 }
 
 /* TEXT COLORS */
 
 p, h1, h2, h3, h4, h5, h6, span {
-    color: #666666;
+    color: var(--textColor);
 }
 
-a:not(.hiddenLink), .link {
+a:not(.HLK), .LNK {
     color: var(--majorColor);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.1s ease;
 }
 
-a:not(.hiddenLink):hover, .link:hover {
+a:not(.HLK):hover, .LNK:hover {
     color: var(--secondaryColor);
     text-decoration: underline;
     font-weight: bold;
 }
 
-/* SPECIAL ELEMENTS IN XTSGAMES.TOP */
+/* SPECIAL ELEMENTS IN XTSGAMES */
 
 blockquote * {
+    color: var(--fadeColor);
     font-style: italic;
-    color: #AAAAAA;
 }
 
 table {
-    color: #666666;
+    color: var(--textColor);
     margin: 0px 0px 10px 0px;
 }
 
-/* SPECIAL CLASSES */
+/* SPECIAL CLASSES IN XTSGAMES */
 
-.infobox {
+/*
+.LNK {} (Link) is defined above
+*/
+
+.IFB { /* Infobox */
     margin: 16px 0px 16px 0px;
 }
 
-.list {
+.LST { /* List */
     font-size: 10px;
 }
 
-.annotate {
+.ANT { /* Annotate */
     font-size: 10px;
-    color: #aaaaaa;
+    color: var(--fadeColor);
 }
 
-.borderTable, .borderTable tr th {
-    border: 1px solid #666666;
+.BRT, .BRT tr th { /* Border Table */
+    border: 1px solid var(--textColor);
     border-collapse: collapse;
 }
 
-.stickyHeader {
-    background-color: #ffffdd;
+.SKH { /* Sticky Header */
+    background-color: var(--backgroundColor);
     position: sticky;
     top: 0;
 }
 
-.hiddenLink:link, .hiddenLink:visited, .hiddenLink, .hiddenLink:hover {
-    color: #666666;
+.HLK:link, .HLK:visited, .HLK, .HLK:hover { /* Hidden Link */
+    color: var(--textColor);
     text-decoration: none;
 }

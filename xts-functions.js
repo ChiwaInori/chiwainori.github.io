@@ -3,8 +3,8 @@
 /**
  * @param {string} command
  */
-function xts(command) {
-    if (command == undefined) {
+function xts(command = "") {
+    if (command == "") {
         console.log("XTS Functions are available in current session.\nUse xts(\"command\") to get help.");
     } else {
         var success = 0;
@@ -52,10 +52,21 @@ function xts(command) {
             var success = 1;
             console.log(
                 `XTS Functions: getNum(text, order)`
-                + `\nRETURN a selected integer in a string.`
+                + `\nRETURN a selected number in a string.`
                 + `\ntext : (string) : The text that gets number from it`
                 + `\norder : (number >= 1) : Which part of number you want`
-                + `\n[EXAMPLE] getNum("487brg13d74gh,-2",3) :: Return 74`
+                + `\n[EXAMPLE] getNum("589brg13d7.4gh,-2.6eru", 3) :: Return 7.4 (It'll collect ["589", "13", "7.4", "-2.6")`
+            );
+        }
+        if (command == "transit") {
+            var success = 1;
+            console.log(
+                `XTS Functions: transit(from, to, percentage)`
+                + `\nRETURN a number within given range and percentage.`
+                + `\nfrom : (number) : The number where calculates from`
+                + `\nto : (number) : The number where calculates to`
+                + `\npercentage : (0 <= number <= 1) : The percentage of number of transit`
+                + `\n[EXAMPLE] transit(0, 10, 0.6) :: Return 6 (The number in [0, 10] and 60% of its range is 6)`
             );
         }
         if (command == "logVar") {
@@ -251,7 +262,18 @@ function rand(min, max) {
  */
 function getNum(string, order = 1) {
     if (order <= 0) { throw new Error("Order cannot less than 1"); }
-    return parseInt(string.match(/\d+(\.\d+)?/g)[order - 1]);
+    return parseFloat(string.match(/-?[0-9]+\.?[0-9]*/g)[order - 1]);
+}
+
+/**
+ * @param {number} from
+ * @param {number} to
+ * @param {number} percentage
+ */
+function transit(from, to, percentage) {
+    if (percentage > 1 || percentage < 0) { throw new Error("Percentage must between 0 and 1"); }
+    var range = to - from;
+    return percentage * range + from;
 }
 
 // CONSOLE LOG

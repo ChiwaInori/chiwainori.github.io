@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <div class="mainbody">
+    <div class="mainBody">
         <div class="title">
             <h1 id="center_title" onclick="text_reset()">2310 班随机选人</h1>
         </div>
@@ -34,14 +34,14 @@
         <div class="content">
             <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 150px;">点击下方按钮进行随机选人</h1>
             <h1 id="name_animate" style="display: none;">&nbsp;</h1>
-            <p id="s_movable" style="margin-left: -10px;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>
-                                允许重复</rt></ruby></a> | <ruby>动态随机<rt>降低重复概率</rt></ruby> | <a class="link"
+            <p id="s_movable" style="margin-left: -10px;"><strong><a class="LNK" onclick="select_true()"><ruby>真随机<rt>
+                                允许重复</rt></ruby></a> | <ruby>动态随机<rt>降低重复概率</rt></ruby> | <a class="LNK"
                         onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
-            <p id="s_true" style="display: none;"><strong><ruby>真随机<rt>允许重复</rt></ruby> | <a class="link"
-                        onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <a class="link"
+            <p id="s_true" style="display: none;"><strong><ruby>真随机<rt>允许重复</rt></ruby> | <a class="LNK"
+                        onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <a class="LNK"
                         onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
-            <p id="s_false" style="display: none;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>允许重复
-                            </rt></ruby></a> | <a class="link" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt>
+            <p id="s_false" style="display: none;"><strong><a class="LNK" onclick="select_true()"><ruby>真随机<rt>允许重复
+                            </rt></ruby></a> | <a class="LNK" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt>
                             </ruby></a> | <ruby>伪随机<rt>不允许重复</rt></ruby></strong></p>
             <p id="b_true" style="display: none;"><button id="button7" onclick="run_true()">随机选人</button><button
                     id="button8" style="margin-left: 420px;" onclick="run_true()">随机选人</button><button id="button9"
@@ -1354,7 +1354,7 @@
 
             function text_reset() {
                 document.getElementById("name_animate").innerHTML = "点击下方按钮进行随机选人";
-                animate();
+                animate_skip();
             }
 
             function line_reset() {

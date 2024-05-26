@@ -20,7 +20,7 @@
     <script src="/xts-functions.js"></script>
 </head>
 
-<body><div class="mainbody">
+<body><div class="mainBody">
     <div class="title">
         <h1 id="center_title" onclick="text_reset()">2020 班随机选人</h1>
     </div>
@@ -30,16 +30,16 @@
     </div>
     -->
         <div class="content">
-            <div class="infobox" style="border: 2px solid #dd0000; background-color: #ffbbbb; width: 350px; padding: 16px; text-align: center;">
+            <div class="IFB" style="border: 2px solid #dd0000; background-color: #ffbbbb; width: 350px; padding: 16px; text-align: center;">
             <strong style="color: #ff0000;">此页已归档</strong>
             <p style="color: #ff0000; margin-top: 10px; margin-bottom: 5px;">这表示此页的内容可能已经不符合目前情况,</p>
             <p style="color: #ff0000; margin-bottom: 5px;">并且不会再进行任何更新.</p>
         </div>
         <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 150px;">点击下方按钮进行随机选人</h1>
         <h1 id="name_animate" style="display: none;">&nbsp;</h1>
-        <p id="s_movable" style="margin-left: -10px;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>允许重复</rt></ruby></a> | <ruby>动态随机<rt>降低重复概率</rt></ruby> | <a class="link" onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
-        <p id="s_true" style="display: none;"><strong><ruby>真随机<rt>允许重复</rt></ruby> | <a class="link" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <a class="link" onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
-        <p id="s_false" style="display: none;"><strong><a class="link" onclick="select_true()"><ruby>真随机<rt>允许重复</rt></ruby></a> | <a class="link" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <ruby>伪随机<rt>不允许重复</rt></ruby></strong></p>
+        <p id="s_movable" style="margin-left: -10px;"><strong><a class="LNK" onclick="select_true()"><ruby>真随机<rt>允许重复</rt></ruby></a> | <ruby>动态随机<rt>降低重复概率</rt></ruby> | <a class="LNK" onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
+        <p id="s_true" style="display: none;"><strong><ruby>真随机<rt>允许重复</rt></ruby> | <a class="LNK" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <a class="LNK" onclick="select_false()"><ruby>伪随机<rt>不允许重复</rt></ruby></a></strong></p>
+        <p id="s_false" style="display: none;"><strong><a class="LNK" onclick="select_true()"><ruby>真随机<rt>允许重复</rt></ruby></a> | <a class="LNK" onclick="select_movable()"><ruby>动态随机<rt>降低重复概率</rt></ruby></a> | <ruby>伪随机<rt>不允许重复</rt></ruby></strong></p>
         <p id="b_true" style="display: none;"><button onclick="run_true()">随机选人</button><button style="margin-left: 450px;" onclick="run_true()">随机选人</button><button style="margin-left: 500px;" onclick="run_true()">随机选人</button></p>
         <p id="b_false" style="display: none;"><button onclick="run_false()">随机选人</button><button style="margin-left: 450px;" onclick="run_false()">随机选人</button><button style="margin-left: 500px;" onclick="run_false()">随机选人</button></p>
         <p id="b_movable"><button onclick="run_movable()">随机选人</button><button style="margin-left: 450px;" onclick="run_movable()">随机选人</button><button style="margin-left: 500px;" onclick="run_movable()">随机选人</button></p>
