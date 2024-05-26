@@ -1,4 +1,11 @@
 {
     "search.useIgnoreFiles": true,
-    "liveServer.settings.AdvanceCustomBrowserCmdLine": ""
+    "liveServer.settings.AdvanceCustomBrowserCmdLine": "",
+    "cSpell.words": [
+        "endfinder",
+        "Milkmappers",
+        "Puremilk",
+        "skbpacks",
+        "tuffdllx"
+    ]
 }
