@@ -7,18 +7,14 @@ function xts(command = "") {
     if (command == "") {
         console.log("XTS Functions are available in current session.\nUse xts(\"command\") to get help.");
     } else {
-        var success = 0;
         if (command == "xts") {
-            var success = 1;
             console.log(
                 `XTS Functions: xts(command)`
                 + `\nCheck if XTS Functions are available.`
                 + `\ncommand : (string) : Input a command in XTS Functions to get help`
                 + `\n[EXAMPLE] xts("rand") :: Get help of rand().`
             );
-        }
-        if (command == "sleep") {
-            var success = 1;
+        } else if (command == "sleep") {
             console.log(
                 `XTS Functions: sleep(time)`
                 + `\nSleep a moment then execute following commands.`
@@ -27,9 +23,7 @@ function xts(command = "") {
                 + `\n%c[ASYNC] Only available in async functions. Use this function like:`
                 + `\nasync function fName() { await sleep(time); }`, "color: #dd0000;"
             );
-        }
-        if (command == "copyright") {
-            var success = 1;
+        } else if (command == "copyright") {
             console.log(
                 `XTS Functions: copyright(startYear, signature)`
                 + `\nCreate a copyright text.`
@@ -37,40 +31,33 @@ function xts(command = "") {
                 + `\nsignature : (string, OPTIONAL ("xtsdcb69")) : Who own the copyright`
                 + `\n[EXAMPLE] copyright(2021, "Hacker") :: It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright"`
             );
-        }
-        if (command == "rand") {
-            var success = 1;
+        } else if (command == "rand") {
             console.log(
-                `XTS Functions: rand(min, max)`
-                + `\nRETURN a random integer.`
+                `XTS Functions: rand(min, max, keepFloat)`
+                + `\n[RETURN NUMBER]: Return a random integer.`
                 + `\nmin : (number <= max) : The minimum value of the random integer`
                 + `\nmax : (number >= min) : The maximum value of the random integer`
+                + `\nkeepFloat : (boolean, OPTIONAL (false)) : If true, it'll keep the decimal point.`
                 + `\n[EXAMPLE] rand(1, 10) :: It might return 6`
             );
-        }
-        if (command == "getNum") {
-            var success = 1;
+        } else if (command == "getNum") {
             console.log(
                 `XTS Functions: getNum(text, order)`
-                + `\nRETURN a selected number in a string.`
+                + `\n[RETURN NUMBER]: Return a selected number in a string.`
                 + `\ntext : (string) : The text that gets number from it`
                 + `\norder : (number >= 1) : Which part of number you want`
                 + `\n[EXAMPLE] getNum("589brg13d7.4gh,-2.6eru", 3) :: Return 7.4 (It'll collect ["589", "13", "7.4", "-2.6")`
             );
-        }
-        if (command == "transit") {
-            var success = 1;
+        } else if (command == "transit") {
             console.log(
                 `XTS Functions: transit(from, to, percentage)`
-                + `\nRETURN a number within given range and percentage.`
+                + `\n[RETURN NUMBER]: Return a number within given range and percentage.`
                 + `\nfrom : (number) : The number where calculates from`
                 + `\nto : (number) : The number where calculates to`
                 + `\npercentage : (0 <= number <= 1) : The percentage of number of transit`
                 + `\n[EXAMPLE] transit(0, 10, 0.6) :: Return 6 (The number in [0, 10] and 60% of its range is 6)`
             );
-        }
-        if (command == "logVar") {
-            var success = 1;
+        } else if (command == "logVar") {
             console.log(
                 `XTS Functions: logVar(variant, name)`
                 + `\nLog a variant in console.`
@@ -78,27 +65,21 @@ function xts(command = "") {
                 + `\nname : (string, OPTIONAL ("logVar")) : The name of variant`
                 + `\n[EXAMPLE] logVar(score, "score") :: Output "score: 128"`
             );
-        }
-        if (command == "target") {
-            var success = 1;
+        } else if (command == "target") {
             console.log(
                 `XTS Functions: target(element)`
-                + `\nRETURN an element in HTML.`
+                + `\n[RETURN ELEMENT]: Return an element in HTML.`
                 + `\nelement : (string) : The id of target element`
                 + `\n[EXAMPLE] target("title").innerText :: Equals to document.getElementById("title").innerText`
             );
-        }
-        if (command == "copyFrom") {
-            var success = 1;
+        } else if (command == "copyFrom") {
             console.log(
                 `XTS Functions: copyFrom(element)`
-                + `\nRETURN an element's innerHTML.`
+                + `\n[RETURN STRING]: Return an element's innerHTML.`
                 + `\nelement : (string) : The id of target element`
                 + `\n[EXAMPLE] copyFrom("p1") :: Equals to document.getElementById("p1").innerHTML`
             );
-        }
-        if (command == "copyTo") {
-            var success = 1;
+        } else if (command == "copyTo") {
             console.log(
                 `XTS Functions: copyTo(element, content)`
                 + `\nCopy something to an element's innerHTML.`
@@ -106,9 +87,7 @@ function xts(command = "") {
                 + `\ncontent : (string) : The content to copy to the element`
                 + `\n[EXAMPLE] copyTo("p1", "Hello") :: Equals to document.getElementById("p1").innerHTML = "Hello"`
             );
-        }
-        if (command == "styleTo") {
-            var success = 1;
+        } else if (command == "styleTo") {
             console.log(
                 `XTS Functions: styleTo(element, style, method)`
                 + `\nApply styles to an element.`
@@ -117,9 +96,7 @@ function xts(command = "") {
                 + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] styleTo("title", "margin-left: 64px;") :: Equals to document.getElementById("title").style = "margin-left: 64px;"`
             );
-        }
-        if (command == "colorTo") {
-            var success = 1;
+        } else if (command == "colorTo") {
             console.log(
                 `XTS Functions: colorTo(element, content, method)`
                 + `\nChange the color of an element.`
@@ -128,9 +105,7 @@ function xts(command = "") {
                 + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] colorTo("title", "#ff0000") :: Equals to document.getElementById("title").style.color = "#ff0000"`
             );
-        }
-        if (command == "hide") {
-            var success = 1;
+        } else if (command == "hide") {
             console.log(
                 `XTS Functions: hide(element, method)`
                 + `\nHide an element.`
@@ -138,9 +113,7 @@ function xts(command = "") {
                 + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] hide("title") :: Equals to document.getElementById("title").style.display = "none"`
             );
-        }
-        if (command == "unhide") {
-            var success = 1;
+        } else if (command == "unhide") {
             console.log(
                 `XTS Functions: unhide(element, display, method)`
                 + `\nShow an element with expected format.`
@@ -149,9 +122,7 @@ function xts(command = "") {
                 + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
                 + `\n[EXAMPLE] unhide("title", "inline-block") :: Equals to document.getElementById("title").style.display = "inline-block"`
             );
-        }
-        if (command == "transColor") {
-            var success = 1;
+        } else if (command == "transColor") {
             console.log(
                 `XTS Functions: transColor(element, toColor, time)`
                 + `\nTurn an element's current color to another in transition.`
@@ -160,9 +131,7 @@ function xts(command = "") {
                 + `\ntime : (number >= 1) : The time length of transition`
                 + `\n[EXAMPLE] transColor("title", "#00dd00") :: Turn the color of title to green in transition.`
             );
-        }
-        if (command == "fadeOut") {
-            var success = 1;
+        } else if (command == "fadeOut") {
             console.log(
                 `XTS Functions: fadeOut(element, time)`
                 + `\nFade out an element.`
@@ -170,9 +139,7 @@ function xts(command = "") {
                 + `\ntime : (number >= 1, OPTIONAL (100)) : The time length of fade out`
                 + `\n[EXAMPLE] fadeOut("title", 200) :: Fade out title in 0.2s.`
             );
-        }
-        if (command == "fadeIn") {
-            var success = 1;
+        } else if (command == "fadeIn") {
             console.log(
                 `XTS Functions: fadeIn(element, time)`
                 + `\nFade in an element.`
@@ -180,9 +147,7 @@ function xts(command = "") {
                 + `\ntime : (number >= 1, OPTIONAL (100)) : The time length of fade in`
                 + `\n[EXAMPLE] fadeIn("title", 200) :: Fade in title in 0.2s.`
             );
-        }
-        if (command == "fadeChange") {
-            var success = 1;
+        } else if (command == "fadeChange") {
             console.log(
                 `XTS Functions: fadeChange(outElement, inElement, time)`
                 + `\nFade out an element and fade in another element.`
@@ -191,9 +156,7 @@ function xts(command = "") {
                 + `\ntime : (number >= 1, OPTIONAL (200)) : The total time length of whole change session`
                 + `\n[EXAMPLE] fadeChange("title", "secondTitle", 500) :: Fade out title in 0.25s and fade in secondTitle in 0.25s.`
             );
-        }
-        if (command == "save") {
-            var success = 1;
+        } else if (command == "save") {
             console.log(
                 `XTS Functions: save(fileName, content)`
                 + `\nDownload a file with expected content.`
@@ -201,9 +164,7 @@ function xts(command = "") {
                 + `\ncontent : (string) : The content of the file`
                 + `\n[EXAMPLE] save("readme.txt", "Please read this file.") :: It'll download a file named readme.txt with "Please read this file."`
             );
-        }
-        if (command == "load") {
-            var success = 1;
+        } else if (command == "load") {
             console.log(
                 `XTS Functions: load(inputId, element)`
                 + `\nKeeps copy the content from file in <input id="inputId" /> to an expected position.`
@@ -211,9 +172,7 @@ function xts(command = "") {
                 + `\nelement : (string, OPTIONAL ("file-content")) : The place to copy the file content`
                 + `\n[EXAMPLE] load("top-file", "fileInfo") :: When a file is selected in <input id="top-file" />, its content will be copied to "fileInfo".`
             );
-        }
-
-        if (success == 0) {
+        } else {
             console.log("Unknown command in XTS Functions.\nCheck typing then try again.");
         }
     }
@@ -225,7 +184,9 @@ function xts(command = "") {
  * @param {number} time
  */
 function sleep(time) {
+    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot sleep less than 1 milliseconds"); }
+
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
@@ -234,6 +195,10 @@ function sleep(time) {
  * @param {string} signature
  */
 function copyright(startYear, signature = "xtsdcb69") {
+    if (typeof startYear != "number") { throw new Error(`startYear must be a NUMBER`); }
+    if (typeof signature != "string") { throw new Error(`signature must be a STRING`); }
+    if (document.getElementById(element) == null) { throw new Error("Cannot set a copyright without #copyright element"); }
+
     var date = new Date();
     var thisYear = date.getFullYear();
     if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
@@ -249,11 +214,20 @@ function copyright(startYear, signature = "xtsdcb69") {
 /**
  * @param {number} min
  * @param {number} max
+ * @param {boolean} keepFloat
  */
-function rand(min, max) {
+function rand(min, max, keepFloat = false) {
+    if (typeof min != "number") { throw new Error(`min must be a NUMBER`); }
+    if (typeof max != "number") { throw new Error(`max must be a NUMBER`); }
+    if (typeof keepFloat != "boolean") { throw new Error(`keepFloat must be a BOOLEAN`); }
     if (min > max) { throw new Error(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
+
     var range = max - min + 1;
-    return Math.floor(Math.random() * range) + min;
+    if (keepFloat == false) {
+        return Math.floor(Math.random() * range) + min;
+    } else {
+        return Math.random() * range + min;
+    }
 }
 
 /**
@@ -261,7 +235,10 @@ function rand(min, max) {
  * @param {number} order
  */
 function getNum(string, order = 1) {
+    if (typeof string != "string") { throw new Error(`string must be a STRING`); }
+    if (typeof order != "number") { throw new Error(`order must be a NUMBER`); }
     if (order <= 0) { throw new Error("Order cannot less than 1"); }
+
     return parseFloat(string.match(/-?[0-9]+\.?[0-9]*/g)[order - 1]);
 }
 
@@ -271,7 +248,11 @@ function getNum(string, order = 1) {
  * @param {number} percentage
  */
 function transit(from, to, percentage) {
+    if (typeof from != "number") { throw new Error(`from must be a NUMBER`); }
+    if (typeof to != "number") { throw new Error(`to must be a NUMBER`); }
+    if (typeof percentage != "number") { throw new Error(`percentage must be a NUMBER`); }
     if (percentage > 1 || percentage < 0) { throw new Error("Percentage must between 0 and 1"); }
+
     var range = to - from;
     return percentage * range + from;
 }
@@ -283,6 +264,8 @@ function transit(from, to, percentage) {
  * @param {string} name
  */
 function logVar(variant, name = "logVar") {
+    if (typeof name != "string") { throw new Error(`name must be a STRING`); }
+
     console.log(`${name}: ${variant}`);
 }
 
@@ -292,7 +275,9 @@ function logVar(variant, name = "logVar") {
  * @param {string} element
  */
 function target(element) {
-    if (document.getElementById(element) == undefined) { throw new ReferenceError(`${element} is not defined`); }
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (document.getElementById(element) == null) { throw new ReferenceError(`${element} is not defined`); }
+
     return document.getElementById(element);
 }
 
@@ -300,6 +285,8 @@ function target(element) {
  * @param {string} element
  */
 function copyFrom(element) {
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+
     return target(element).innerHTML;
 }
 
@@ -308,6 +295,9 @@ function copyFrom(element) {
  * @param {string} content
  */
 function copyTo(element, content) {
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof content != "string") { throw new Error(`content must be a STRING`); }
+
     target(element).innerHTML = content;
 }
 
@@ -317,7 +307,10 @@ function copyTo(element, content) {
  * @param {"id" | "class" | "query"} method
  */
 function styleTo(element, style, method = "id") {
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof style != "string") { throw new Error(`style must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+
     if (method == "id") {
         target(element).style = style;
     }
@@ -339,7 +332,10 @@ function styleTo(element, style, method = "id") {
  * @param {"id" | "class" | "query"} method
  */
 function colorTo(element, color, method = "id") {
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof color != "string") { throw new Error(`color must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+
     if (method == "id") {
         target(element).style.color = color;
     }
@@ -360,7 +356,9 @@ function colorTo(element, color, method = "id") {
  * @param {"id" | "class" | "query"} method
  */
 function hide(element, method = "id") {
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+
     if (method == "id") {
         target(element).style.display = "none";
     }
@@ -382,7 +380,10 @@ function hide(element, method = "id") {
  * @param {"id" | "class" | "query"} method
  */
 function unhide(element, display = "block", method = "id") {
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`Invalid method "${method}"`); }
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof display != "string") { throw new Error(`display must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+
     if (method == "id") {
         target(element).style.display = display;
     }
@@ -404,7 +405,11 @@ function unhide(element, display = "block", method = "id") {
  * @param {number} time
  */
 async function transColor(element, toColor, time = 100) {
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof toColor != "string") { throw new Error(`toColor must be a STRING`); }
+    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot change color in less than 1 milliseconds"); }
+
     var presetR = 102;
     var presetG = 102;
     var presetB = 102;
@@ -461,7 +466,10 @@ async function transColor(element, toColor, time = 100) {
  * @param {number} time
  */
 async function fadeOut(element, time = 100) {
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot fade out in less than 1 milliseconds"); }
+
     if (target(element).style.opacity != "") {
         var nowOpacity = parseFloat(target(element).style.opacity);
     } else {
@@ -483,7 +491,10 @@ async function fadeOut(element, time = 100) {
  * @param {number} time
  */
 async function fadeIn(element, time = 100) {
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot fade in in less than 1 milliseconds"); }
+
     unhide(element);
     if (target(element).style.opacity != "") {
         var nowOpacity = parseFloat(target(element).style.opacity);
@@ -503,7 +514,10 @@ async function fadeIn(element, time = 100) {
  * @param {number} time
  */
 async function fadeChange(outElement, inElement, time = 200) {
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot fade change in than 1 milliseconds"); }
+
     fadeOut(outElement, time / 2);
     await sleep(time / 2 + 20);
     fadeIn(inElement, time / 2);
@@ -516,6 +530,9 @@ async function fadeChange(outElement, inElement, time = 200) {
  * @param {string} content
  */
 function save(fileName, content) {
+    if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
+    if (typeof content != "string") { throw new Error(`content must be a STRING`); }
+
     var blob = new Blob([content], { type: "text/plain" });
     var a = document.createElement("a");
     a.style.display = "none";
@@ -533,6 +550,9 @@ function save(fileName, content) {
  * @param {string} element
  */
 function load(inputId, element = "file-content") {
+    if (typeof inputId != "string") { throw new Error(`inputId must be a STRING`); }
+    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+
     document.getElementById(inputId).addEventListener('change', function (event) {
         const fileInput = event.target;
         const file = fileInput.files[0];

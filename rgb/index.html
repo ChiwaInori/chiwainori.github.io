@@ -1,7 +1,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>RGB 调色器 - xtsdcb69</title>
+    <title>RGB 调色器 - XTSGAMES</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
@@ -19,11 +19,11 @@
             margin-left: 0px;
         }
 
-        body {
+        .mainBody {
             background-color: white;
         }
 
-        h1, h6 {
+        h1, h6, #linkName {
             color: black;
         }
     </style>
@@ -35,7 +35,7 @@
         <h1 id="title">RGB 调色器</h1>
     </div>
     <div class="navigation">
-        <h6 id="title2"><a href="../">XTSGAMES.TOP</a> &gt; <strong>RGB 调色器</strong></h6>
+        <h6 id="title2"><a id="linkName" href="../">XTSGAMES.TOP</a> &gt; <strong>RGB 调色器</strong></h6>
     </div>
     <div class="content" style="margin-left: 40px;">
         <script>
@@ -59,9 +59,10 @@
                 var r_rev = 255 - r;
                 var g_rev = 255 - g;
                 var b_rev = 255 - b;
-                document.getElementById('body').style.backgroundColor = 'rgb(' + r_rev + ',' + g_rev + ',' + b_rev +')';
+                document.getElementsByClassName('mainBody')[0].style.backgroundColor = 'rgb(' + r_rev + ',' + g_rev + ',' + b_rev +')';
                 document.getElementById('title').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
                 document.getElementById('title2').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
+                document.getElementById('linkName').style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
 
                 // Update slider values
                 document.getElementById('red-value').innerHTML = r;
