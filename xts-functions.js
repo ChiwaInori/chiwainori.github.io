@@ -124,10 +124,10 @@ function xts(command = "") {
             );
         } else if (command == "transColor") {
             console.log(
-                `XTS Functions: transColor(element, toColor, time)`
+                `XTS Functions: transColor(element, color, time)`
                 + `\nTurn an element's current color to another in transition.`
                 + `\nelement : (string) : The id of target element`
-                + `\ntoColor : (string) : The target color of transition`
+                + `\ncolor : (string) : The target color of transition`
                 + `\ntime : (number >= 1) : The time length of transition`
                 + `\n[EXAMPLE] transColor("title", "#00dd00") :: Turn the color of title to green in transition.`
             );
@@ -199,8 +199,8 @@ function copyright(startYear, signature = "xtsdcb69") {
     if (typeof signature != "string") { throw new Error(`signature must be a STRING`); }
     if (document.getElementById(element) == null) { throw new Error("Cannot set a copyright without #copyright element"); }
 
-    var date = new Date();
-    var thisYear = date.getFullYear();
+    const date = new Date();
+    const thisYear = date.getFullYear();
     if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
     if (thisYear == parseInt(startYear)) {
         copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
@@ -222,7 +222,7 @@ function rand(min, max, keepFloat = false) {
     if (typeof keepFloat != "boolean") { throw new Error(`keepFloat must be a BOOLEAN`); }
     if (min > max) { throw new Error(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
 
-    var range = max - min + 1;
+    const range = max - min + 1;
     if (keepFloat == false) {
         return Math.floor(Math.random() * range) + min;
     } else {
@@ -253,7 +253,7 @@ function transit(from, to, percentage) {
     if (typeof percentage != "number") { throw new Error(`percentage must be a NUMBER`); }
     if (percentage > 1 || percentage < 0) { throw new Error("Percentage must between 0 and 1"); }
 
-    var range = to - from;
+    const range = to - from;
     return percentage * range + from;
 }
 
@@ -315,12 +315,12 @@ function styleTo(element, style, method = "id") {
         target(element).style = style;
     }
     if (method == "class") {
-        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
             document.getElementsByClassName(element)[i].style = style;
         }
     }
     if (method == "query") {
-        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
             document.querySelectorAll(element)[i].style = style;
         }
     }
@@ -340,12 +340,12 @@ function colorTo(element, color, method = "id") {
         target(element).style.color = color;
     }
     if (method == "class") {
-        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
             document.getElementsByClassName(element)[i].style.color = color;
         }
     }
     if (method == "query") {
-        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
             document.querySelectorAll(element)[i].style.color = color;
         }
     }
@@ -363,12 +363,12 @@ function hide(element, method = "id") {
         target(element).style.display = "none";
     }
     if (method == "class") {
-        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
             document.getElementsByClassName(element)[i].style.display = "none";
         }
     }
     if (method == "query") {
-        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
             document.querySelectorAll(element)[i].style.display = "none";
         }
     }
@@ -388,12 +388,12 @@ function unhide(element, display = "block", method = "id") {
         target(element).style.display = display;
     }
     if (method == "class") {
-        for (i = 0; i < document.getElementsByClassName(element).length; i++) {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
             document.getElementsByClassName(element)[i].style.display = display;
         }
     }
     if (method == "query") {
-        for (i = 0; i < document.querySelectorAll(element).length; i++) {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
             document.querySelectorAll(element)[i].style.display = display;
         }
     }
@@ -401,62 +401,70 @@ function unhide(element, display = "block", method = "id") {
 
 /**
  * @param {string} element
- * @param {string} toColor
+ * @param {string} color
  * @param {number} time
  */
-async function transColor(element, toColor, time = 100) {
+async function transColor(element, color, time = 100) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof toColor != "string") { throw new Error(`toColor must be a STRING`); }
+    if (typeof color != "string") { throw new Error(`color must be a STRING`); }
     if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot change color in less than 1 milliseconds"); }
 
-    var presetR = 102;
-    var presetG = 102;
-    var presetB = 102;
+    const preset = {
+        r: 102,
+        g: 102,
+        b: 102
+    }
+    let fromColor;
+    let toColor;
+    let nowColor;
 
     if (target(element).style.color != "") {
-        var fromColorR = getNum(target(element).style.color, 1);
-        var fromColorG = getNum(target(element).style.color, 2);
-        var fromColorB = getNum(target(element).style.color, 3);
+        fromColor = {
+            r: getNum(target(element).style.color, 1),
+            g: getNum(target(element).style.color, 2),
+            b: getNum(target(element).style.color, 3)
+        }
     } else {
-        var fromColorR = presetR;
-        var fromColorG = presetG;
-        var fromColorB = presetB;
+        fromColor = preset;
     }
 
-    if (toColor.indexOf("#") >= 0) {
-        var toColorR = parseInt(toColor.split("")[1] + toColor.split("")[2], 16);
-        var toColorG = parseInt(toColor.split("")[3] + toColor.split("")[4], 16);
-        var toColorB = parseInt(toColor.split("")[5] + toColor.split("")[6], 16);
+    if (color.indexOf("#") >= 0) {
+        toColor = {
+            r: parseInt(color.substring(1, 3), 16),
+            g: parseInt(color.substring(3, 5), 16),
+            b: parseInt(color.substring(5, 7), 16)
+        }
     }
-    if (toColor.indexOf("rgb(") >= 0) {
-        var toColorR = getNum(toColor, 1);
-        var toColorG = getNum(toColor, 2);
-        var toColorB = getNum(toColor, 3);
+    if (color.indexOf("rgb(") >= 0) {
+        toColor = {
+            r: getNum(color, 1),
+            g: getNum(color, 2),
+            b: getNum(color, 3)
+        }
     }
 
-    var diffR = (toColorR - fromColorR) / 20;
-    var diffG = (toColorG - fromColorG) / 20;
-    var diffB = (toColorB - fromColorB) / 20;
+    const diff = {
+        r: (toColor.r - fromColor.r) / 20,
+        g: (toColor.g - fromColor.g) / 20,
+        b: (toColor.b - fromColor.b) / 20
+    }
 
-    for (i = 1; i <= 21; i++) {
+    for (let i = 1; i <= 21; i++) {
         if (target(element).style.color != "") {
-            var nowColorR = getNum(target(element).style.color, 1);
-            var nowColorG = getNum(target(element).style.color, 2);
-            var nowColorB = getNum(target(element).style.color, 3);
+            nowColor = {
+                r: getNum(target(element).style.color, 1),
+                g: getNum(target(element).style.color, 2),
+                b: getNum(target(element).style.color, 3)
+            }
         } else {
-            var nowColorR = presetR;
-            var nowColorG = presetG;
-            var nowColorB = presetB;
+            nowColor = preset;
         }
         if (i <= 20) {
-            var nowToColorR = nowColorR + diffR;
-            var nowToColorG = nowColorG + diffG;
-            var nowToColorB = nowColorB + diffB;
-            colorTo(element, `rgb(${nowToColorR}, ${nowToColorG}, ${nowToColorB})`);
+            colorTo(element, `rgb(${nowColor.r + diff.r}, ${nowColor.g + diff.g}, ${nowColor.b + diff.b})`);
             await sleep(time / 20);
         } else {
-            colorTo(element, toColor);
+            colorTo(element, color);
         }
     }
 }
@@ -470,13 +478,15 @@ async function fadeOut(element, time = 100) {
     if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot fade out in less than 1 milliseconds"); }
 
+    let nowOpacity;
+
     if (target(element).style.opacity != "") {
-        var nowOpacity = parseFloat(target(element).style.opacity);
+        nowOpacity = parseFloat(target(element).style.opacity);
     } else {
-        var nowOpacity = 1;
+        nowOpacity = 1;
     }
     while (nowOpacity > 0) {
-        var nowOpacity = nowOpacity - 0.05;
+        nowOpacity = nowOpacity - 0.05;
         target(element).style.opacity = nowOpacity;
         await sleep(time / 20);
     }
@@ -495,14 +505,16 @@ async function fadeIn(element, time = 100) {
     if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot fade in in less than 1 milliseconds"); }
 
+    let nowOpacity;
+
     unhide(element);
     if (target(element).style.opacity != "") {
-        var nowOpacity = parseFloat(target(element).style.opacity);
+        nowOpacity = parseFloat(target(element).style.opacity);
     } else {
-        var nowOpacity = 0;
+        nowOpacity = 0;
     }
     while (nowOpacity < 1) {
-        var nowOpacity = nowOpacity + 0.05;
+        nowOpacity = nowOpacity + 0.05;
         target(element).style.opacity = nowOpacity;
         await sleep(time / 20);
     }
@@ -534,10 +546,10 @@ function save(fileName, content) {
     if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
     if (typeof content != "string" && typeof content != "number" && typeof content != "boolean") { throw new Error(`content must be a STRING or NUMBER or BOOLEAN`); }
 
-    var blob = new Blob([content], { type: "text/plain" });
-    var a = document.createElement("a");
-    a.style.display = "none";
-    var url = window.URL.createObjectURL(blob);
+    const blob = new Blob([content], { type: "text/plain" });
+    const a = document.createElement("a");
+    const url = window.URL.createObjectURL(blob);
+
     a.href = url;
     a.download = fileName;
     document.body.appendChild(a);
@@ -560,7 +572,7 @@ function load(inputId, element = "file-content") {
         if (file) {
             const reader = new FileReader();
             reader.onload = function (event) {
-                var fileContent = event.target.result;
+                const fileContent = event.target.result;
                 target(element).textContent = fileContent;
             };
             reader.readAsText(file);
