@@ -48,9 +48,9 @@
         </div>
     </div>
     <script>
-        document.getElementById('liveCount').addEventListener('input', updateStartButton);
+        target("liveCount").addEventListener("input", updateStartButton);
 
-        document.getElementById('blankCount').addEventListener('input', updateStartButton);
+        target("blankCount").addEventListener("input", updateStartButton);
 
         function updateStartButton() {
             var liveCount = target("liveCount").value;
