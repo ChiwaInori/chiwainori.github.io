@@ -9,6 +9,7 @@
 
     --majorColor: #66a8ff;
     --secondaryColor: #0088aa;
+    --majorFade: #8899aa;
 }
 
 /* BASIC LAYOUT */
@@ -51,6 +52,10 @@ input, button {
     font-weight: bold;
 }
 
+::placeholder {
+    color: var(--majorFade);
+}
+
 button:hover {
     background-color: #eeeeee;
 }
@@ -60,10 +65,15 @@ button:active {
     background-color: #dddddd;
 }
 
-button:disabled {
+input:disabled, button:disabled {
     border: 2px solid var(--fadeColor);
     background-color: #dddddd;
     color: var(--fadeColor);
+}
+
+img, video {
+    border: 3px solid var(--majorColor);
+    margin: 2px;
 }
 
 /* TEXT COLORS */

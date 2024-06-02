@@ -34,7 +34,7 @@
         <div id="gamePhase" style="display: none;">
             <p>请在你 / 庄家每次射击后，按下下方相应的按钮。</p>
             <h3>下一次射击: <span style="color: #ff7c7c">实 <span id="liveChance" style="color: #ff7c7c"></span>%<span style="color: #aaaaaa;"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: #aaaaaa; display: none;">(电话已更改概率)</span></h3>
-            <h5>电话: 第<input id="telOrder" style="width: 8px; margin-left: 0px;"/>发子弹 ... &lt;<input id="telLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: #ff7c7c">实</span> / <input id="telBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="confirmTel()">确认</button></h5>
+            <h5>电话: 第<input id="telOrder" style="width: 8px; margin-left: 0px;"/>发子弹 ... &lt;<input type="radio" name="tel" id="telLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: #ff7c7c">实</span> / <input type="radio" name="tel" id="telBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="confirmTel()">确认</button></h5>
             <br />
             <h4><span style="margin-left: 128px; margin-right: 128px; color: #ff7c7c;">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
             <h4>常规发射</h4>
@@ -48,21 +48,9 @@
         </div>
     </div>
     <script>
-        document.getElementById('liveCount').addEventListener('input', function (event) {
-            updateStartButton();
-        });
+        document.getElementById('liveCount').addEventListener('input', updateStartButton);
 
-        document.getElementById('blankCount').addEventListener('input', function (event) {
-            updateStartButton();
-        });
-
-        document.getElementById('telLive').addEventListener('input', function (event) {
-            target("telBlank").checked = false;
-        });
-
-         document.getElementById('telBlank').addEventListener('input', function (event) {
-            target("telLive").checked = false;
-        });
+        document.getElementById('blankCount').addEventListener('input', updateStartButton);
 
         function updateStartButton() {
             var liveCount = target("liveCount").value;

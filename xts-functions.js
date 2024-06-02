@@ -84,7 +84,7 @@ function xts(command = "") {
                 `XTS Functions: copyTo(element, content)`
                 + `\nCopy something to an element's innerHTML.`
                 + `\nelement : (string) : The id of target element`
-                + `\ncontent : (string) : The content to copy to the element`
+                + `\ncontent : (string | number | boolean) : The content to copy to the element`
                 + `\n[EXAMPLE] copyTo("p1", "Hello") :: Equals to document.getElementById("p1").innerHTML = "Hello"`
             );
         } else if (command == "styleTo") {
@@ -161,7 +161,7 @@ function xts(command = "") {
                 `XTS Functions: save(fileName, content)`
                 + `\nDownload a file with expected content.`
                 + `\nfileName : (string) : The name of the file to be downloaded`
-                + `\ncontent : (string) : The content of the file`
+                + `\ncontent : (string | number | boolean) : The content of the file`
                 + `\n[EXAMPLE] save("readme.txt", "Please read this file.") :: It'll download a file named readme.txt with "Please read this file."`
             );
         } else if (command == "load") {
@@ -292,11 +292,11 @@ function copyFrom(element) {
 
 /**
  * @param {string} element
- * @param {string} content
+ * @param {string | number} content
  */
 function copyTo(element, content) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof content != "string") { throw new Error(`content must be a STRING`); }
+    if (typeof content != "string" && typeof content != "number" && typeof content != "boolean") { throw new Error(`content must be a STRING or NUMBER or BOOLEAN`); }
 
     target(element).innerHTML = content;
 }
@@ -514,7 +514,8 @@ async function fadeIn(element, time = 100) {
  * @param {number} time
  */
 async function fadeChange(outElement, inElement, time = 200) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof outElement != "string") { throw new Error(`outElement must be a STRING`); }
+    if (typeof inElement != "string") { throw new Error(`inElement must be a STRING`); }
     if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot fade change in than 1 milliseconds"); }
 
@@ -527,11 +528,11 @@ async function fadeChange(outElement, inElement, time = 200) {
 
 /**
  * @param {string} fileName
- * @param {string} content
+ * @param {string | number} content
  */
 function save(fileName, content) {
     if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
-    if (typeof content != "string") { throw new Error(`content must be a STRING`); }
+    if (typeof content != "string" && typeof content != "number" && typeof content != "boolean") { throw new Error(`content must be a STRING or NUMBER or BOOLEAN`); }
 
     var blob = new Blob([content], { type: "text/plain" });
     var a = document.createElement("a");
@@ -553,7 +554,7 @@ function load(inputId, element = "file-content") {
     if (typeof inputId != "string") { throw new Error(`inputId must be a STRING`); }
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
 
-    document.getElementById(inputId).addEventListener('change', function (event) {
+    document.getElementById(inputId).addEventListener('change', (event) => {
         const fileInput = event.target;
         const file = fileInput.files[0];
         if (file) {
