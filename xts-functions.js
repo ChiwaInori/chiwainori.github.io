@@ -57,13 +57,13 @@ function xts(command = "") {
                 + `\npercentage : (0 <= number <= 1) : The percentage of number of transit`
                 + `\n[EXAMPLE] transit(0, 10, 0.6) :: Return 6 (The number in [0, 10] and 60% of its range is 6)`
             );
-        } else if (command == "logVar") {
+        } else if (command == "log") {
             console.log(
-                `XTS Functions: logVar(variant, name)`
+                `XTS Functions: log(variant, name)`
                 + `\nLog a variant in console.`
                 + `\nvariant : (any) : The variant of log output`
-                + `\nname : (string, OPTIONAL ("logVar")) : The name of variant`
-                + `\n[EXAMPLE] logVar(score, "score") :: Output "score: 128"`
+                + `\nname : (string, OPTIONAL ("")) : The name of variant`
+                + `\n[EXAMPLE] log(score, "score") :: Output "score: 128"`
             );
         } else if (command == "target") {
             console.log(
@@ -197,7 +197,7 @@ function sleep(time) {
 function copyright(startYear, signature = "xtsdcb69") {
     if (typeof startYear != "number") { throw new Error(`startYear must be a NUMBER`); }
     if (typeof signature != "string") { throw new Error(`signature must be a STRING`); }
-    if (document.getElementById(element) == null) { throw new Error("Cannot set a copyright without #copyright element"); }
+    if (document.getElementById("copyright") == null) { throw new Error("Cannot set a copyright without #copyright element"); }
 
     const date = new Date();
     const thisYear = date.getFullYear();
@@ -222,10 +222,13 @@ function rand(min, max, keepFloat = false) {
     if (typeof keepFloat != "boolean") { throw new Error(`keepFloat must be a BOOLEAN`); }
     if (min > max) { throw new Error(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
 
-    const range = max - min + 1;
+    let range;
+
     if (keepFloat == false) {
+        range = max - min + 1;
         return Math.floor(Math.random() * range) + min;
     } else {
+        range = max - min;
         return Math.random() * range + min;
     }
 }
@@ -263,7 +266,7 @@ function transit(from, to, percentage) {
  * @param {any} variant
  * @param {string} name
  */
-function logVar(variant, name = "logVar") {
+function log(variant, name = "") {
     if (typeof name != "string") { throw new Error(`name must be a STRING`); }
 
     console.log(`${name}: ${variant}`);
@@ -292,7 +295,7 @@ function copyFrom(element) {
 
 /**
  * @param {string} element
- * @param {string | number} content
+ * @param {string | number | boolean} content
  */
 function copyTo(element, content) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -540,7 +543,7 @@ async function fadeChange(outElement, inElement, time = 200) {
 
 /**
  * @param {string} fileName
- * @param {string | number} content
+ * @param {string | number | boolean} content
  */
 function save(fileName, content) {
     if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
