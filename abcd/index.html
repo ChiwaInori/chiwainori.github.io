@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>单项选择题选项均衡器 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
+    <style>
+        .scrollbar {
+            position: relative;
+            width: 510px;
+            height: 10px;
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            z-index: 0; /* 确保进度条在handle的下方 */
+        }
+
+        .progress1 {
+            background-color: #00dd00;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .progress2 {
+            background-color: #aadd00;
+        }
+
+        .progress3 {
+            background-color: #ffdd00;
+        }
+
+        .progress4 {
+            background-color: #ff8800;
+        }
+
+        .progress5 {
+            background-color: #dd0000;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .handle {
+            position: absolute;
+            top: -5px; /* Centering the handle vertically */
+            width: 10px;
+            height: 20px;
+            background-color: #ff6666;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1; /* 确保handle在进度条的上方 */
+        }
+
+        .value {
+            position: absolute;
+            top: 25px; /* 显示在handle下方 */
+            left: -10px; /* 调整位置以对齐 */
+            width: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #000;
+        }
+
+        #handle1 { left: 75px; }
+        #handle2 { left: 125px; }
+        #handle3 { left: 175px; }
+        #handle4 { left: 225px; }
+    </style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>单项选择题选项均衡器</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>单项选择题选项均衡器</strong></h6>
+    </div>
+    <div class="content">
+        <p>在下方选择 A, B, C, D 按钮或点击键盘上的 A, B, C, D (或 U, I, O, P), 以帮助你均衡单项选择题中的这四个选项。</p>
+        <p><button id="aButton" onclick="option(1)">A</button><button id="bButton" onclick="option(2)">B</button><button id="cButton" onclick="option(3)">C</button><button id="dButton" onclick="option(4)">D</button></p>
+        <br />
+        <table id="table" style="display: none;">
+            <caption>选项均衡情况</caption>
+            <tr>
+                <th>选项</th>
+                <th>数量</th>
+                <th>占比</th>
+                <th>分析</th>
+                <th>差值</th>
+                <th>图示</th>
+            </tr>
+            <tr>
+                <th id="aTitle">A</th>
+                <th id="aCount">0</th>
+                <th id="aPercent">&nbsp;</th>
+                <th id="aAnalysis">&nbsp;</th>
+                <th id="aDiff">&nbsp;</th>
+                <th id="aIcon">&nbsp;</th>
+            </tr>
+            <tr>
+                <th id="bTitle">B</th>
+                <th id="bCount">0</th>
+                <th id="bPercent">&nbsp;</th>
+                <th id="bAnalysis">&nbsp;</th>
+                <th id="bDiff">&nbsp;</th>
+                <th id="bIcon">&nbsp;</th>
+            </tr>
+            <tr>
+                <th id="cTitle">C</th>
+                <th id="cCount">0</th>
+                <th id="cPercent">&nbsp;</th>
+                <th id="cAnalysis">&nbsp;</th>
+                <th id="cDiff">&nbsp;</th>
+                <th id="cIcon">&nbsp;</th>
+            </tr>
+            <tr>
+                <th id="dTitle">D</th>
+                <th id="dCount">0</th>
+                <th id="dPercent">&nbsp;</th>
+                <th id="dAnalysis">&nbsp;</th>
+                <th id="dDiff">&nbsp;</th>
+                <th id="dIcon">&nbsp;</th>
+            </tr>
+        </table>
+        <br />
+        <p>下方的滚动条可以让你自定义各区间的范围。</p>
+        <div class="scrollbar">
+            <div class="handle" id="handle1"><span class="value" id="value1" style="color: #aadd00;"></span></div>
+            <div class="handle" id="handle2"><span class="value" id="value2" style="color: #ffdd00;"></span></div>
+            <div class="handle" id="handle3"><span class="value" id="value3" style="color: #ff8800;"></span></div>
+            <div class="handle" id="handle4"><span class="value" id="value4" style="color: #dd0000;"></span></div>
+        </div>
+        <br /><br />
+        <p class="ANT">上面的数字代表某个选项与平均值的差异。</p>
+        <br />
+        <p id="hint" style="color: var(--fadeColor);">输入四个选项后，选项均衡提示将会出现。</p>
+        <p id="wrong" style="color: #dd0000; display: none;">区间值错误: 必须以从小到大的顺序排序。</p>
+    </div>
+    <script>
+        let count = {
+            a: 0,
+            b: 0,
+            c: 0,
+            d: 0
+        }
+        const optionTarget = ["a", "b", "c", "d"];
+        const optionAddition = ["u", "i", "o", "p"]
+        const optionElement = ["Button", "Title", "Count", "Percent", "Analysis", "Diff", "Icon"];
+        const optionArr = [1, 2, 3, 4];
+        let compare = [];
+
+        function updateCompare(d1, d2, d3, d4) {
+            compare[0] = -d4;
+            compare[1] = -d3;
+            compare[2] = -d2;
+            compare[3] = -d1;
+            compare[4] = d1;
+            compare[5] = d2;
+            compare[6] = d3;
+            compare[7] = d4;
+            if (count.a != 0 && count.b != 0 && count.c != 0 && count.d != 0) {
+                change();
+            }
+        }
+
+        updateCompare(0.75, 1.25, 1.75, 2.25); // 使用 updateCompare(d1, d2, d3, d4) 来实时更改分析分层
+
+        document.addEventListener("keydown", (event) => {
+            for (let i = 0; i < optionTarget.length; i++) {
+                if (event.key == optionTarget[i] || event.key == optionAddition[i]) {
+                    option(optionArr[i]);
+                }
+                if (event.key == "r") { reset(); }
+            }
+        });
+
+        function reset() {
+            optionTarget.forEach(countId => {
+                count[countId] = 0;
+                for (let i = 0; i < optionTarget.length; i++) {
+                    optionElement.forEach(element => {
+                        colorTo(`${optionTarget[i]}${element}`, "#666666");
+                    });
+                    ["Percent", "Analysis", "Diff", "Icon"].forEach(element => {
+                        copyTo(`${optionTarget[i]}${element}`, "&nbsp;");
+                    });
+                    styleTo(`${optionTarget[i]}Button`, "color: var(--majorColor); border: 2px solid var(--majorColor);");
+                }
+            });
+            change();
+        }
+
+        function option(optionId) {
+            optionArr.forEach(num => {
+                if (optionId == num) {
+                    count[optionTarget[num - 1]]++;
+                }
+            });
+            change();
+        }
+
+        function change() {
+            copyTo("hint", "输入四个选项后，选项均衡提示将会出现。");
+            hide("table");
+            for (let i = 0; i < optionTarget.length; i++) {
+                let nowChange = optionTarget[i];
+                let total = count.a + count.b + count.c + count.d;
+                let average = total / 4;
+                let diff = count[nowChange] - average;
+
+                copyTo(`${nowChange}Count`, count[nowChange]);
+                if (count.a != 0 || count.b != 0 || count.c != 0 || count.d != 0) {
+                    unhide("table");
+                    copyTo(`${nowChange}Percent`, `${parseInt(count[nowChange] / total * 100)}%`);
+                } else {
+                    unhide("hint");
+                }
+
+                if (total >= 4) {
+                    copyTo("hint", "按 R 来重置数据。")
+                    optionElement.forEach(element => {
+                        if (diff < compare[0]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量过少`);
+                            copyTo(`${nowChange}Icon`, `!↓↓`);
+                            styleTo(`${nowChange}Button`, "color: #0000dd; border: 2px solid #0000dd;");
+                            colorTo(`${nowChange}${element}`, "#0000dd");
+                        }
+                        if (diff >= compare[0] && diff < compare[1]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量少`);
+                            copyTo(`${nowChange}Icon`, `↓↓`);
+                            styleTo(`${nowChange}Button`, "color: #0088ff; border: 2px solid #0088ff;");
+                            colorTo(`${nowChange}${element}`, "#0088ff");
+                        }
+                        if (diff >= compare[1] && diff < compare[2]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量较少`);
+                            copyTo(`${nowChange}Icon`, `↓`);
+                            styleTo(`${nowChange}Button`, "color: #00ddff; border: 2px solid #00ddff;");
+                            colorTo(`${nowChange}${element}`, "#00ddff");
+                        }
+                        if (diff >= compare[2] && diff < compare[3]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量偏少`);
+                            copyTo(`${nowChange}Icon`, `√↓`);
+                            styleTo(`${nowChange}Button`, "color: #00ddaa; border: 2px solid #00ddaa;");
+                            colorTo(`${nowChange}${element}`, "#00ddaa");
+                        }
+                        if (diff >= compare[3] && diff <= compare[4]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量合适`);
+                            copyTo(`${nowChange}Icon`, `√`);
+                            styleTo(`${nowChange}Button`, "color: #00dd00; border: 2px solid #00dd00;");
+                            colorTo(`${nowChange}${element}`, "#00dd00");
+                        }
+                        if (diff > compare[4] && diff <= compare[5]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量偏多`);
+                            copyTo(`${nowChange}Icon`, `√↑`);
+                            styleTo(`${nowChange}Button`, "color: #aadd00; border: 2px solid #aadd00;");
+                            colorTo(`${nowChange}${element}`, "#aadd00");
+                        }
+                        if (diff > compare[5] && diff <= compare[6]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量较多`);
+                            copyTo(`${nowChange}Icon`, `↑`);
+                            styleTo(`${nowChange}Button`, "color: #ffdd00; border: 2px solid #ffdd00;");
+                            colorTo(`${nowChange}${element}`, "#ffdd00");
+                        }
+                        if (diff > compare[6] && diff <= compare[7]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量多`);
+                            copyTo(`${nowChange}Icon`, `↑↑`);
+                            styleTo(`${nowChange}Button`, "color: #ff8800; border: 2px solid #ff8800;");
+                            colorTo(`${nowChange}${element}`, "#ff8800");
+                        }
+                        if (diff > compare[7]) {
+                            copyTo(`${nowChange}Analysis`, `选项数量过多`);
+                            copyTo(`${nowChange}Icon`, `!↑↑`);
+                            styleTo(`${nowChange}Button`, "color: #dd0000; border: 2px solid #dd0000;");
+                            colorTo(`${nowChange}${element}`, "#dd0000");
+                        }
+                        copyTo(`${nowChange}Diff`, `${diff > 0 ? "+" : ""}${diff}`);
+                    });
+                }
+            }
+        }
+
+        const handles = document.querySelectorAll('.handle');
+        const scrollbar = document.querySelector('.scrollbar');
+        // 创建每个区间的进度条
+        const progress1 = document.createElement('div');
+        const progress2 = document.createElement('div');
+        const progress3 = document.createElement('div');
+        const progress4 = document.createElement('div');
+        const progress5 = document.createElement('div');
+        progress1.className = 'progress progress1';
+        progress2.className = 'progress progress2';
+        progress3.className = 'progress progress3';
+        progress4.className = 'progress progress4';
+        progress5.className = 'progress progress5';
+        scrollbar.appendChild(progress1);
+        scrollbar.appendChild(progress2);
+        scrollbar.appendChild(progress3);
+        scrollbar.appendChild(progress4);
+        scrollbar.appendChild(progress5);
+
+        handles.forEach(handle => {
+            handle.addEventListener('mousedown', startDrag);
+        });
+
+        function startDrag(event) {
+            const handle = event.target.closest('.handle');
+            const initialX = event.clientX;
+            const initialLeft = handle.offsetLeft;
+            function drag(event) {
+                const deltaX = event.clientX - initialX;
+                let newLeft = initialLeft + deltaX;
+                // 确保handle在滚动条内移动
+                newLeft = Math.max(0, Math.min(newLeft, 500)); // 510px宽度减去handle的10px宽度
+                handle.style.left = `${newLeft}px`;
+                updateProgress();
+                updateValue(handle.id, newLeft);
+            }
+            function stopDrag() {
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+        
+        function updateProgress() {
+            const handle1Left = document.getElementById('handle1').offsetLeft;
+            const handle2Left = document.getElementById('handle2').offsetLeft;
+            const handle3Left = document.getElementById('handle3').offsetLeft;
+            const handle4Left = document.getElementById('handle4').offsetLeft;
+            progress1.style.width = `${handle1Left + 5}px`; // 5是handle宽度的一半
+            progress2.style.left = `${handle1Left + 5}px`;
+            progress2.style.width = `${handle2Left - handle1Left}px`;
+            progress3.style.left = `${handle2Left + 5}px`;
+            progress3.style.width = `${handle3Left - handle2Left}px`;
+            progress4.style.left = `${handle3Left + 5}px`;
+            progress4.style.width = `${handle4Left - handle3Left}px`;
+            progress5.style.left = `${handle4Left + 5}px`;
+            progress5.style.width = `${510 - (handle4Left + 5)}px`; // 510是滚动条总宽度
+        }
+
+        function updateValue(handleId, value) {
+            const valueElement = document.getElementById(`value${handleId.slice(-1)}`);
+            valueElement.textContent = value / 100;
+            checkValue();
+        }
+
+        function checkValue() {
+            let value1 = parseFloat(copyFrom("value1"));
+            let value2 = parseFloat(copyFrom("value2"));
+            let value3 = parseFloat(copyFrom("value3"));
+            let value4 = parseFloat(copyFrom("value4"));
+            updateCompare(value1, value2, value3, value4);
+            if (value1 > value2 || value2 > value3 || value3 > value4) {
+                unhide("wrong");
+            } else {
+                hide("wrong");
+            }
+        }
+
+        // 初始更新进度条和显示值
+        updateProgress();
+        handles.forEach(handle => updateValue(handle.id, handle.offsetLeft));
+    </script>
+</div></body>
+
+</html>
