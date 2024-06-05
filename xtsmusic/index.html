@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>XTS 音乐 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>XTS 音乐</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>XTS 音乐</strong></h6>
+    </div>
+    <div class="content">
+        <div id="startup">
+            <p>选择一个 XTS 音乐文件 (.top) 来继续。</p>
+            <input id="input" type="file" accept=".top" />
+            <button id="readButton" onclick="read()" disabled>确认</button>
+            <p id="wrong" class="ANT" style="color: #dd0000; display: none;">错误的 XTS 音乐文件。</p>
+            <p id="outdate" class="ANT" style="color: #dd0000; display: none;"></p>
+            <br /><br />
+            <p>若要制作一个 XTS 音乐文件，请参照以下格式:</p>
+            <p>在一个 .top 文件中输入:</p>
+            <p style="font-size: 10px;">xtsgames-xtsmusic\100\(歌曲名)\(歌曲作者)\(BPM)\(歌曲内容)\</p>
+            <p>其中，歌曲内容部分，按照此格式输入音符: 4d#,1 (意为第 4 个八度 (有效范围为 0a ~ 8c) 的 D# 音 (降记号用 * 表示), 时长为 1 拍). 不同的音符之间用分号 (;) 分隔。</p>
+        </div>
+        <div id="musicPage" style="display: none;">
+            <h3 id="musicTitle"></h3>
+            <h5 id="musicAuthor"></h5>
+            <button onclick="play()">播放</button>
+            <br /><br /><br />
+            <p id="musicVer" class="ANT"></p>
+            <p id="musicBpm" class="ANT"></p>
+            <p id="musicText" class="ANT"></p>
+        </div>
+        <p id="file-content" style="display: none;"></p>
+    </div>
+    <script>
+        load("input");
+        let musicCode;
+        let musicSplit;
+        let musicContent;
+        let bpm;
+        let currentPlaying = 0;
+        let currentNote;
+        let musicArray;
+        let playLength;
+
+        target("input").addEventListener("input", () => {
+            target("readButton").disabled = false;
+        });
+
+        function read() { // Current Version: 100
+            musicCode = copyFrom("file-content"); // xtsgames-xtsmusic\(VERSION)\(MUSIC-NAME)\(AUTHOR)\(BPM)\(MUSIC-CONTENT)\
+            musicSplit = musicCode.split("\\"); // ["xtsgames-xtsmusic", "(VERSION)", "(MUSIC-NAME)", "(AUTHOR)", "(BPM)", "(MUSIC-CONTENT)"]
+            bpm = parseFloat(musicSplit[4]);
+            musicContent = replaceNote(musicSplit[5]);
+            if (musicSplit[0] != "xtsgames-xtsmusic" || isNaN(bpm) || musicContent == undefined) {
+                unhide("wrong");
+            } else if (musicSplit[1] != "100") {
+                unhide("outdate");
+                copyTo("outdate", `此为以前版本的 XTS 音乐文件。在该网页的地址后加上 /../archive_${musicSplit[1]}.html 以读取该文件。`);
+            } else {
+                ready();
+            }
+        }
+
+        function replaceNote(splitMusic) { // Turn all *s to #s
+            splitMusic = splitMusic.replace(/a\*/g, "g#");
+            splitMusic = splitMusic.replace(/b\*/g, "a#");
+            splitMusic = splitMusic.replace(/1c\*/g, "0b");
+            splitMusic = splitMusic.replace(/2c\*/g, "1b");
+            splitMusic = splitMusic.replace(/3c\*/g, "2b");
+            splitMusic = splitMusic.replace(/4c\*/g, "3b");
+            splitMusic = splitMusic.replace(/5c\*/g, "4b");
+            splitMusic = splitMusic.replace(/6c\*/g, "5b");
+            splitMusic = splitMusic.replace(/7c\*/g, "6b");
+            splitMusic = splitMusic.replace(/8c\*/g, "7b");
+            splitMusic = splitMusic.replace(/d\*/g, "c#");
+            splitMusic = splitMusic.replace(/e\*/g, "d#");
+            splitMusic = splitMusic.replace(/f\*/g, "e");
+            splitMusic = splitMusic.replace(/g\*/g, "f#");
+            return splitMusic;
+        }
+
+        function ready() {
+            hide("startup");
+            unhide("musicPage");
+            copyTo("musicTitle", musicSplit[2]);
+            copyTo("musicAuthor", musicSplit[3]);
+            copyTo("musicVer", `Version ${musicSplit[1]}`);
+            copyTo("musicBpm", `BPM: ${bpm}`);
+            copyTo("musicText", `[Content] ${musicContent.replace(/([0-8]([a-g])?(#|\*)?,[0-9]+(\.[0-9]+)?)/g, "<strong>$1</strong>")}`);
+        }
+
+        async function play() { // musicContent = "5d#,1;6a,0.5;......"
+            musicArray = musicContent.split(";");
+            for (let i = 0; i < musicArray.length; i++) { // "5d#,1"
+                currentNote = musicArray[currentPlaying];
+                playLength = currentNote.split(",")[1] / bpm * 60 * 1000;
+                findSound();
+                await sleep(playLength);
+                currentPlaying++;
+            }
+        }
+
+        const noteList = ["0,", "0a,", "0a#,", "0b,", "1c,", "1c#,", "1d,", "1d#,", "1e,", "1f,", "1f#,", "1g,", "1g#,", "1a,", "1a#,", "1b,", "2c,", "2c#,", "2d,", "2d#,", "2e,", "2f,", "2f#,", "2g,", "2g#,", "2a,", "2a#,", "2b,", "3c,", "3c#,", "3d,", "3d#,", "3e,", "3f,", "3f#,", "3g,", "3g#,", "3a,", "3a#,", "3b,", "4c,", "4c#,", "4d,", "4d#,", "4e,", "4f,", "4f#,", "4g,", "4g#,", "4a,", "4a#,", "4b,", "5c,", "5c#,", "5d,", "5d#,", "5e,", "5f,", "5f#,", "5g,", "5g#,", "5a,", "5a#,", "5b,", "6c,", "6c#,", "6d,", "6d#,", "6e,", "6f,", "6f#,", "6g,", "6g#,", "6a,", "6a#,", "6b,", "7c,", "7c#,", "7d,", "7d#,", "7e,", "7f,", "7f#,", "7g,", "7g#,", "7a,", "7a#,", "7b,", "8c"];
+        const hzList = [0, 55, 58, 61, 65, 69, 73, 77, 82, 87, 92, 97, 103, 110, 116, 123, 130, 138, 146, 155, 164, 174, 184, 195, 207, 220, 233, 246, 261, 277, 293, 311, 329, 349, 369, 391, 415, 440, 466, 493, 523, 554, 587, 622, 659, 698, 739, 783, 830, 880, 932, 987, 1046, 1108, 1174, 1244, 1318, 1396, 1479, 1567, 1661, 1760, 1864, 1975, 2093, 2217, 2349, 2489, 2637, 2793, 2959, 3135, 3322, 3520, 3729, 3951, 4186, 4434, 4698, 4978, 5274, 5587, 5919, 6271, 6644, 7040, 7458, 7902, 8372];
+
+        function findSound() {
+            for (let i = 0; i < noteList.length; i++) {
+                if ((currentNote.split(",")[0] + ",").indexOf(noteList[i]) >= 0) {
+                    playSound(hzList[i]);
+                }
+            }
+        }
+
+        async function playSound(hz) {
+            let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            let oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(hz, audioCtx.currentTime);
+            oscillator.connect(audioCtx.destination);
+            oscillator.start();
+            await sleep(playLength - 20);
+            oscillator.stop();
+        }
+    </script>
+</div></body>
+
+</html>
