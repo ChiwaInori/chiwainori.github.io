@@ -202,6 +202,7 @@ function copyright(startYear, signature = "xtsdcb69") {
     const date = new Date();
     const thisYear = date.getFullYear();
     if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
+
     if (thisYear == parseInt(startYear)) {
         copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
     } else {
@@ -224,7 +225,7 @@ function rand(min, max, keepFloat = false) {
 
     let range;
 
-    if (keepFloat == false) {
+    if (!keepFloat) {
         range = max - min + 1;
         return Math.floor(Math.random() * range) + min;
     } else {
@@ -242,7 +243,7 @@ function getNum(string, order = 1) {
     if (typeof order != "number") { throw new Error(`order must be a NUMBER`); }
     if (order <= 0) { throw new Error("Order cannot less than 1"); }
 
-    return parseFloat(string.match(/-?[0-9]+\.?[0-9]*/g)[order - 1]);
+    return parseFloat(string.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1]);
 }
 
 /**

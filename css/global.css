@@ -9,7 +9,10 @@
 
     --majorColor: #66a8ff;
     --secondaryColor: #0088aa;
+    --majorFadeBright: #99ccff;
     --majorFade: #8899aa;
+
+    --transit: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 /* BASIC LAYOUT */
@@ -43,21 +46,98 @@ h1, h2, h3, h4, h5, h6, p, img, video, audio {
     margin: auto 0px 10px 0px;
 }
 
+img, video {
+    border: 3px solid var(--majorColor);
+    margin: 2px;
+}
+
 input, button {
     margin: auto 10px auto 10px;
     border: 2px solid var(--majorColor);
     background-color: #ffffff;
     color: var(--majorColor);
-    transition: color 0.05s ease;
+    transition: color 0.05s var(--transit);
     font-weight: bold;
+}
+
+input {
+    cursor: text;
+}
+
+button {
+    cursor: pointer;
 }
 
 ::placeholder {
     color: var(--majorFade);
 }
 
-button:hover {
+input[type="checkbox"] {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:hover, button:hover {
     background-color: #eeeeee;
+}
+
+input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
+    background-color: var(--majorColor);
+    content: '';
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"]:checked::before {
+    width: 5px;
+    height: 5px;
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+input[type="range"] {
+    appearance: none;
+    width: auto;
+    height: 6px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--majorFadeBright);
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--majorFadeBright);
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
 
 button:active {
@@ -69,11 +149,14 @@ input:disabled, button:disabled {
     border: 2px solid var(--fadeColor);
     background-color: #dddddd;
     color: var(--fadeColor);
+    cursor: not-allowed;
 }
 
-img, video {
-    border: 3px solid var(--majorColor);
-    margin: 2px;
+select {
+    margin: auto 10px auto 10px;
+    border: 2px solid var(--majorColor);
+    background-color: #ffffff;
+    color: var(--majorColor);
 }
 
 /* TEXT COLORS */
@@ -85,7 +168,7 @@ p, h1, h2, h3, h4, h5, h6, span {
 a:not(.HLK), .LNK {
     color: var(--majorColor);
     text-decoration: none;
-    transition: color 0.1s ease;
+    transition: color 0.1s var(--transit);
 }
 
 a:not(.HLK):hover, .LNK:hover {
@@ -126,7 +209,7 @@ table {
 }
 
 .BRT, .BRT tr th { /* Border Table */
-    border: 1px solid var(--textColor);
+    border: 2px solid var(--textColor);
     border-collapse: collapse;
 }
 
