@@ -143,12 +143,11 @@ function copyFrom(element) {
 /**
  * Copy something to an element's innerHTML.
  * @param {string} element - The id of target element
- * @param {string | number | boolean} content - The content to copy to the element
+ * @param {any} content - The content to copy to the element
  * @example copyTo("p1", "Hello") // Copy "Hello" to #p1
  */
 function copyTo(element, content) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof content != "string" && typeof content != "number" && typeof content != "boolean") { throw new Error(`content must be a STRING or NUMBER or BOOLEAN`); }
 
     target(element).innerHTML = content;
 }
@@ -409,12 +408,11 @@ async function fadeChange(outElement, inElement, time = 200) {
 /**
  * Download a file with expected content.
  * @param {string} fileName - The name of the file to be downloaded
- * @param {string | number | boolean} content - The content of the file
+ * @param {any} content - The content of the file
  * @example save("readme.txt", "Please read this file.") // It'll download a file named readme.txt with "Please read this file."
  */
 function save(fileName, content) {
     if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
-    if (typeof content != "string" && typeof content != "number" && typeof content != "boolean") { throw new Error(`content must be a STRING or NUMBER or BOOLEAN`); }
 
     const blob = new Blob([content], { type: "text/plain" });
     const a = document.createElement("a");
