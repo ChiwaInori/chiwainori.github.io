@@ -1,187 +1,19 @@
 // XTS FUNCTIONS
 
 /**
- * @param {string} command
+ * Check if XTS Functions are available.
  */
-function xts(command = "") {
-    if (command == "") {
-        console.log("XTS Functions are available in current session.\nUse xts(\"command\") to get help.");
-    } else {
-        if (command == "xts") {
-            console.log(
-                `XTS Functions: xts(command)`
-                + `\nCheck if XTS Functions are available.`
-                + `\ncommand : (string) : Input a command in XTS Functions to get help`
-                + `\n[EXAMPLE] xts("rand") :: Get help of rand().`
-            );
-        } else if (command == "sleep") {
-            console.log(
-                `XTS Functions: sleep(time)`
-                + `\nSleep a moment then execute following commands.`
-                + `\ntime : (number >= 1) : Sleep time in milliseconds`
-                + `\n[EXAMPLE] sleep(1000) :: Wait 1s, the continue following commands.`
-                + `\n%c[ASYNC] Only available in async functions. Use this function like:`
-                + `\nasync function fName() { await sleep(time); }`, "color: #dd0000;"
-            );
-        } else if (command == "copyright") {
-            console.log(
-                `XTS Functions: copyright(startYear, signature)`
-                + `\nCreate a copyright text.`
-                + `\nstartYear : (number) : The year that copyright starts`
-                + `\nsignature : (string, OPTIONAL ("xtsdcb69")) : Who own the copyright`
-                + `\n[EXAMPLE] copyright(2021, "Hacker") :: It'll shown "Copyright © 2021-2024 Hacker. All Rights Reserved." in "copyright"`
-            );
-        } else if (command == "rand") {
-            console.log(
-                `XTS Functions: rand(min, max, keepFloat)`
-                + `\n[RETURN NUMBER]: Return a random integer.`
-                + `\nmin : (number <= max) : The minimum value of the random integer`
-                + `\nmax : (number >= min) : The maximum value of the random integer`
-                + `\nkeepFloat : (boolean, OPTIONAL (false)) : If true, it'll keep the decimal point.`
-                + `\n[EXAMPLE] rand(1, 10) :: It might return 6`
-            );
-        } else if (command == "getNum") {
-            console.log(
-                `XTS Functions: getNum(text, order)`
-                + `\n[RETURN NUMBER]: Return a selected number in a string.`
-                + `\ntext : (string) : The text that gets number from it`
-                + `\norder : (number >= 1) : Which part of number you want`
-                + `\n[EXAMPLE] getNum("589brg13d7.4gh,-2.6eru", 3) :: Return 7.4 (It'll collect ["589", "13", "7.4", "-2.6")`
-            );
-        } else if (command == "transit") {
-            console.log(
-                `XTS Functions: transit(from, to, percentage)`
-                + `\n[RETURN NUMBER]: Return a number within given range and percentage.`
-                + `\nfrom : (number) : The number where calculates from`
-                + `\nto : (number) : The number where calculates to`
-                + `\npercentage : (0 <= number <= 1) : The percentage of number of transit`
-                + `\n[EXAMPLE] transit(0, 10, 0.6) :: Return 6 (The number in [0, 10] and 60% of its range is 6)`
-            );
-        } else if (command == "log") {
-            console.log(
-                `XTS Functions: log(variant, name)`
-                + `\nLog a variant in console.`
-                + `\nvariant : (any) : The variant of log output`
-                + `\nname : (string, OPTIONAL ("")) : The name of variant`
-                + `\n[EXAMPLE] log(score, "score") :: Output "score: 128"`
-            );
-        } else if (command == "target") {
-            console.log(
-                `XTS Functions: target(element)`
-                + `\n[RETURN ELEMENT]: Return an element in HTML.`
-                + `\nelement : (string) : The id of target element`
-                + `\n[EXAMPLE] target("title").innerText :: Equals to document.getElementById("title").innerText`
-            );
-        } else if (command == "copyFrom") {
-            console.log(
-                `XTS Functions: copyFrom(element)`
-                + `\n[RETURN STRING]: Return an element's innerHTML.`
-                + `\nelement : (string) : The id of target element`
-                + `\n[EXAMPLE] copyFrom("p1") :: Equals to document.getElementById("p1").innerHTML`
-            );
-        } else if (command == "copyTo") {
-            console.log(
-                `XTS Functions: copyTo(element, content)`
-                + `\nCopy something to an element's innerHTML.`
-                + `\nelement : (string) : The id of target element`
-                + `\ncontent : (string | number | boolean) : The content to copy to the element`
-                + `\n[EXAMPLE] copyTo("p1", "Hello") :: Equals to document.getElementById("p1").innerHTML = "Hello"`
-            );
-        } else if (command == "styleTo") {
-            console.log(
-                `XTS Functions: styleTo(element, style, method)`
-                + `\nApply styles to an element.`
-                + `\nelement : (string) : The id of target element`
-                + `\nstyle : (string) : The style to apply to the element`
-                + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
-                + `\n[EXAMPLE] styleTo("title", "margin-left: 64px;") :: Equals to document.getElementById("title").style = "margin-left: 64px;"`
-            );
-        } else if (command == "colorTo") {
-            console.log(
-                `XTS Functions: colorTo(element, content, method)`
-                + `\nChange the color of an element.`
-                + `\nelement : (string) : The id of target element`
-                + `\ncolor : (string) : The color to apply to the element`
-                + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
-                + `\n[EXAMPLE] colorTo("title", "#ff0000") :: Equals to document.getElementById("title").style.color = "#ff0000"`
-            );
-        } else if (command == "hide") {
-            console.log(
-                `XTS Functions: hide(element, method)`
-                + `\nHide an element.`
-                + `\nelement : (string) : The id of target element`
-                + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
-                + `\n[EXAMPLE] hide("title") :: Equals to document.getElementById("title").style.display = "none"`
-            );
-        } else if (command == "unhide") {
-            console.log(
-                `XTS Functions: unhide(element, display, method)`
-                + `\nShow an element with expected format.`
-                + `\nelement : (string) : The id of target element`
-                + `\ndisplay : (string, OPTIONAL ("block")) : The type of display`
-                + `\nmethod : (string, OPTIONAL ("id")) [Choose from "id" | "class" | "query"] : The method of getting elements. If "query" is used, type element like CSS (for example, "#tar *")`
-                + `\n[EXAMPLE] unhide("title", "inline-block") :: Equals to document.getElementById("title").style.display = "inline-block"`
-            );
-        } else if (command == "transColor") {
-            console.log(
-                `XTS Functions: transColor(element, color, time)`
-                + `\nTurn an element's current color to another in transition.`
-                + `\nelement : (string) : The id of target element`
-                + `\ncolor : (string) : The target color of transition`
-                + `\ntime : (number >= 1) : The time length of transition`
-                + `\n[EXAMPLE] transColor("title", "#00dd00") :: Turn the color of title to green in transition.`
-            );
-        } else if (command == "fadeOut") {
-            console.log(
-                `XTS Functions: fadeOut(element, time)`
-                + `\nFade out an element.`
-                + `\nelement : (string) : The id of target element`
-                + `\ntime : (number >= 1, OPTIONAL (100)) : The time length of fade out`
-                + `\n[EXAMPLE] fadeOut("title", 200) :: Fade out title in 0.2s.`
-            );
-        } else if (command == "fadeIn") {
-            console.log(
-                `XTS Functions: fadeIn(element, time)`
-                + `\nFade in an element.`
-                + `\nelement : (string) : The id of target element`
-                + `\ntime : (number >= 1, OPTIONAL (100)) : The time length of fade in`
-                + `\n[EXAMPLE] fadeIn("title", 200) :: Fade in title in 0.2s.`
-            );
-        } else if (command == "fadeChange") {
-            console.log(
-                `XTS Functions: fadeChange(outElement, inElement, time)`
-                + `\nFade out an element and fade in another element.`
-                + `\noutElement : (string) : The id of target element to fade out`
-                + `\ninElement : (string) : The id of target element to fade in`
-                + `\ntime : (number >= 1, OPTIONAL (200)) : The total time length of whole change session`
-                + `\n[EXAMPLE] fadeChange("title", "secondTitle", 500) :: Fade out title in 0.25s and fade in secondTitle in 0.25s.`
-            );
-        } else if (command == "save") {
-            console.log(
-                `XTS Functions: save(fileName, content)`
-                + `\nDownload a file with expected content.`
-                + `\nfileName : (string) : The name of the file to be downloaded`
-                + `\ncontent : (string | number | boolean) : The content of the file`
-                + `\n[EXAMPLE] save("readme.txt", "Please read this file.") :: It'll download a file named readme.txt with "Please read this file."`
-            );
-        } else if (command == "load") {
-            console.log(
-                `XTS Functions: load(inputId, element)`
-                + `\nKeeps copy the content from file in <input id="inputId" /> to an expected position.`
-                + `\ninputId : (string) : The id of input where the file receives`
-                + `\nelement : (string, OPTIONAL ("file-content")) : The place to copy the file content`
-                + `\n[EXAMPLE] load("top-file", "fileInfo") :: When a file is selected in <input id="top-file" />, its content will be copied to "fileInfo".`
-            );
-        } else {
-            console.log("Unknown command in XTS Functions.\nCheck typing then try again.");
-        }
-    }
+function xts() {
+    console.log("XTS Functions are available in current session.");
 }
 
 // GLOBAL USAGE
 
 /**
- * @param {number} time
+ * Sleep a moment then execute following commands.
+ * [ASYNC] Only available in async functions.
+ * @param {number} time - (>= 1) Sleep time in milliseconds
+ * @example sleep(1000) // Pause your commands for 1s
  */
 function sleep(time) {
     if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
@@ -191,8 +23,10 @@ function sleep(time) {
 }
 
 /**
- * @param {number} startYear
- * @param {string} signature
+ * Create a copyright text in #copyright.
+ * @param {number} startYear - (>= thisYear) The year that copyright starts
+ * @param {string} signature - Who own the copyright
+ * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2024
  */
 function copyright(startYear, signature = "xtsdcb69") {
     if (typeof startYear != "number") { throw new Error(`startYear must be a NUMBER`); }
@@ -213,9 +47,12 @@ function copyright(startYear, signature = "xtsdcb69") {
 // NUMERAL COMMANDS
 
 /**
- * @param {number} min
- * @param {number} max
- * @param {boolean} keepFloat
+ * Return a random number.
+ * @param {number} min - (<= max) The minimum value of the random integer
+ * @param {number} max - (>= min) The maximum value of the random integer
+ * @param {boolean} keepFloat - Keep the decimal point or not
+ * @return {number} The result of randomized number
+ * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10]
  */
 function rand(min, max, keepFloat = false) {
     if (typeof min != "number") { throw new Error(`min must be a NUMBER`); }
@@ -235,8 +72,11 @@ function rand(min, max, keepFloat = false) {
 }
 
 /**
- * @param {string} string
- * @param {number} order
+ * Return a selected number in a string.
+ * @param {string} string - The text that gets number from it
+ * @param {number} order (>= 1) Which part of number you want
+ * @return {number} The number from specified string in specified order
+ * @example getNum("589brg13d7.4gh,-2.6eru", 3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 function getNum(string, order = 1) {
     if (typeof string != "string") { throw new Error(`string must be a STRING`); }
@@ -246,10 +86,14 @@ function getNum(string, order = 1) {
     return parseFloat(string.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1]);
 }
 
+
 /**
- * @param {number} from
- * @param {number} to
- * @param {number} percentage
+ * Return a number within given range and percentage.
+ * @param {number} from - The number where calculates from
+ * @param {number} to - The number where calculates to
+ * @param {number} percentage - ([0, 1]) The percentage of number of transit
+ * @return {number} A number in range and specified percentage
+ * @example transit(0, 10, 0.6) // 6 (The number in [0, 10] and 60% of its range is 6)
  */
 function transit(from, to, percentage) {
     if (typeof from != "number") { throw new Error(`from must be a NUMBER`); }
@@ -264,19 +108,21 @@ function transit(from, to, percentage) {
 // CONSOLE LOG
 
 /**
- * @param {any} variant
- * @param {string} name
+ * Log variants in console.
+ * @param {any} variant - The variant of log output
+ * @example log(score1, score2) // Output score1 and score2
  */
-function log(variant, name = "") {
-    if (typeof name != "string") { throw new Error(`name must be a STRING`); }
-
-    console.log(`${name}: ${variant}`);
+function log(...args) {
+    console.log(args);
 }
 
 // HTML ELEMENTS
 
 /**
- * @param {string} element
+ * Return an element in HTML.
+ * @param {string} element - The id of target element
+ * @return {HTMLElement} The element in HTML
+ * @example target("title").addEventListener(...) // Add an event listener to #title
  */
 function target(element) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -295,8 +141,10 @@ function copyFrom(element) {
 }
 
 /**
- * @param {string} element
- * @param {string | number | boolean} content
+ * Copy something to an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @param {string | number | boolean} content - The content to copy to the element
+ * @example copyTo("p1", "Hello") // Copy "Hello" to #p1
  */
 function copyTo(element, content) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -306,9 +154,11 @@ function copyTo(element, content) {
 }
 
 /**
- * @param {string} element
- * @param {string} style
- * @param {"id" | "class" | "query"} method
+ * Apply styles to an element.
+ * @param {string} element - The id of target element
+ * @param {string} style - The style to apply to the element
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example styleTo(".main title", "margin-left: 64px;", "query") // The left margin of <title> in <... class="main"> will be 64px
  */
 function styleTo(element, style, method = "id") {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -331,9 +181,11 @@ function styleTo(element, style, method = "id") {
 }
 
 /**
- * @param {string} element
- * @param {string} color
- * @param {"id" | "class" | "query"} method
+ * Change the color of an element.
+ * @param {string} element - The id of target element
+ * @param {string} color - The color to apply to the element
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example colorTo(".main title", "#ff0000", "query") // The color of <title> in <... class="main"> will be red
  */
 function colorTo(element, color, method = "id") {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -356,8 +208,10 @@ function colorTo(element, color, method = "id") {
 }
 
 /**
- * @param {string} element
- * @param {"id" | "class" | "query"} method
+ * Hide an element.
+ * @param {string} element - The id of target element
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example hide(".main title", "query") // <title> in <... class="main"> will be hidden
  */
 function hide(element, method = "id") {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -379,9 +233,11 @@ function hide(element, method = "id") {
 }
 
 /**
- * @param {string} element
- * @param {string} display
- * @param {"id" | "class" | "query"} method
+ * Show an element with expected display method.
+ * @param {string} element - The id of target element
+ * @param {string} display - The type of display
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example unhide(".main title", "inline-block", "query") // Show <title> in <... class="main"> in inline-block
  */
 function unhide(element, display = "block", method = "id") {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -404,9 +260,11 @@ function unhide(element, display = "block", method = "id") {
 }
 
 /**
- * @param {string} element
- * @param {string} color
- * @param {number} time
+ * Turn an element's current color to another in transition.
+ * @param {string} element - The id of target element
+ * @param {string} color - The target color of transition
+ * @param {number} time - （>= 1) The time length of transition in milliseconds
+ * @example transColor("title", "#00dd00") // Turn the color of title to green in transition.
  */
 async function transColor(element, color, time = 100) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -414,7 +272,7 @@ async function transColor(element, color, time = 100) {
     if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
     if (time < 1) { throw new Error("Cannot change color in less than 1 milliseconds"); }
 
-    const preset = {
+    const preset = { // Same as --textColor in global.css
         r: 102,
         g: 102,
         b: 102
@@ -474,8 +332,10 @@ async function transColor(element, color, time = 100) {
 }
 
 /**
- * @param {string} element
- * @param {number} time
+ * Fade out an element.
+ * @param {string} element - The id of target element
+ * @param {number} time - (>= 1) The time length of fade out
+ * @example fadeOut("title", 200) // Fade out #title in 0.2s.
  */
 async function fadeOut(element, time = 100) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -501,8 +361,10 @@ async function fadeOut(element, time = 100) {
 }
 
 /**
- * @param {string} element
- * @param {number} time
+ * Fade in an element.
+ * @param {string} element - The id of target element
+ * @param {number} time - (>= 1) The time length of fade out
+ * @example fadeOut("title", 200) // Fade in #title in 0.2s.
  */
 async function fadeIn(element, time = 100) {
     if (typeof element != "string") { throw new Error(`element must be a STRING`); }
@@ -525,9 +387,11 @@ async function fadeIn(element, time = 100) {
 }
 
 /**
- * @param {string} outElement
- * @param {string} inElement
- * @param {number} time
+ * Fade out an element and fade in another element.
+ * @param {string} outElement - The id of target element to fade out
+ * @param {string} inElement - The id of target element to fade in 
+ * @param {number} time - (>= 1) The total time length of whole change session
+ * @example fadeChange("title", "secondTitle", 500) // Fade out #title in 0.25s and fade in #secondTitle in 0.25s.
  */
 async function fadeChange(outElement, inElement, time = 200) {
     if (typeof outElement != "string") { throw new Error(`outElement must be a STRING`); }
@@ -543,8 +407,10 @@ async function fadeChange(outElement, inElement, time = 200) {
 // SAVE & LOAD
 
 /**
- * @param {string} fileName
- * @param {string | number | boolean} content
+ * Download a file with expected content.
+ * @param {string} fileName - The name of the file to be downloaded
+ * @param {string | number | boolean} content - The content of the file
+ * @example save("readme.txt", "Please read this file.") // It'll download a file named readme.txt with "Please read this file."
  */
 function save(fileName, content) {
     if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
@@ -563,8 +429,10 @@ function save(fileName, content) {
 }
 
 /**
- * @param {string} inputId
- * @param {string} element
+ * Keeps copy the content from file in <input id="inputId" /> to an expected position.
+ * @param {string} inputId - The id of input where the file receives
+ * @param {string} element - The place to copy the file content
+ * @example load("top-file", "fileInfo") // When a file is selected in <input id="top-file" />, its content will be copied to #fileInfo.
  */
 function load(inputId, element = "file-content") {
     if (typeof inputId != "string") { throw new Error(`inputId must be a STRING`); }
@@ -583,3 +451,6 @@ function load(inputId, element = "file-content") {
         }
     });
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
