@@ -22,15 +22,20 @@
     </div>
     <div class="content">
         <div id="main">
+            <blockquote>
+                <p>&quot;ODX english和japponese砖家，cs5600分，不知道为什么不打瓦的=O&quot; --- <a href="../skb/">天弓</a></p>
+                <p>&quot;xts，曾任puremilk管理员，现任OPC群主，外号小天使（因为xts是小天使的首字母）；作为opc中唯一的鸟（头像），被skbyd在val中使用斯凯扔出&quot; --- <a href="../ys/">右手</a></p>
+            </blockquote>
             <p>XTS 在 2021.2.15 正式成立了 Milkmappers, 是 Milkmappers 的团长。</p>
         </div>
+        <img src="../skinLib/skin_xts.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - xtsdcb69 / 2830b538-4afa-4dce-ac03-7a40fc453faa</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/74178478/" target="_blank">74178478</a></h5>
-            <h5 id="birthday-text">生日 - 2007.12.12 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2007.12.12 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 广西 贵港</h5>
             <h5>身高 - 173 cm</h5>
         </div>
@@ -46,7 +51,7 @@
                 <source src="voice.mp3" type="audio/mp3" />
             </audio>
             <blockquote>
-                <p>&quot;Milk的视频可能没了&quot; (指Mr_牛奶的<a href="../../maps/2/">Milkの闯关</a>下半期视频)</p>
+                <p>&quot;Milk的视频可能没了&quot; (指Mr_牛奶的<a href="../../milkmappers/maps/2/">Milkの闯关</a>下半期视频)</p>
             </blockquote>
         </div>
         <br />
@@ -71,16 +76,16 @@
         var day = date.getDate();
         if (month == 12 && day == 12) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 12 && day >= 12 || month > 12) {
             var year = date.getFullYear();
             var age = year - 2007;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2008;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

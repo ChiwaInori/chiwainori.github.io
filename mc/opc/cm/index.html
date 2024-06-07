@@ -24,13 +24,14 @@
         <div id="main">
             <p></p>
         </div>
+        <img src="../skinLib/skin_cm.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - Chen_Mo_cht / ff1bfa12-1fbf-4616-946c-fa2a79b91776</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/294665708/" target="_blank">294665708</a></h5>
-            <h5 id="birthday-text">生日 - 2005.10.2 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2005.10.2 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 广东 东莞</h5>
             <h5>身高 - 160 cm</h5>
         </div>
@@ -62,16 +63,16 @@
         var day = date.getDate();
         if (month == 10 && day == 2) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 10 && day >= 2 || month > 2) {
             var year = date.getFullYear();
             var age = year - 2005;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2006;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

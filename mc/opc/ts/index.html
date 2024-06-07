@@ -17,20 +17,25 @@
         <h1>牛排</h1>
     </div>
     <div class="navigation">
-        <h6>aka. Taste_Steak, TS</h6>
+        <h6>aka. Tasty_Steak, TS, Taste_Steak</h6>
         <h6><a href="../../../">XTSGAMES.TOP</a> &gt; <a href="../../">Minecraft</a> &gt; <a href="../">Old Players Club</a> &gt; <strong>牛排</strong></h6>
     </div>
     <div class="content">
         <div id="main">
+            <blockquote>
+                <p>&quot;帮我写个简介给你封个狗官（龙图）&quot; --- <a href="../skb/">天弓</a></p>
+                <img src="lt.jpg" width="64" />
+            </blockquote>
             <p>Tasty Steak.</p>
         </div>
+        <img src="../skinLib/skin_ts.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
-            <h5>MC ID - Taste_Steak / c7d05a1e-6666-4cc6-aa91-405423ba12f1</h5>
+            <h5>MC ID - Tasty_Steak / 2b553283-139f-4d92-8306-a9b02bf07b88</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/514826040/" target="_blank">514826040</a></h5>
-            <h5 id="birthday-text">生日 - 2005.11.1 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2005.11.1 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 广东 佛山</h5>
         </div>
         <br />
@@ -51,16 +56,16 @@
         var day = date.getDate();
         if (month == 11 && day == 1) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 11 && day >= 1 || month > 1) {
             var year = date.getFullYear();
             var age = year - 2005;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2006;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

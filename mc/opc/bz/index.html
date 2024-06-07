@@ -26,13 +26,14 @@
                 <p>&quot;FPS砖家，MC转瓦的典型，拥有CS历史段位双AK，瓦历史段位黄金一的职业“水”平，目前处于坐牢阶段中&quot;</p>
             </blockquote>
         </div>
+        <img src="../skinLib/skin_bz.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - RAYFA_Bz / 2ccfbeae-88b4-4cfe-9b28-7f9108ce7e47</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/321140664/" target="_blank">321140664</a></h5>
-            <h5 id="birthday-text">生日 - 2008.2.1 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2008.2.1 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 安徽 阜阳</h5>
             <h5>身高 - 166 cm</h5>
         </div>
@@ -64,16 +65,16 @@
         var day = date.getDate();
         if (month == 2 && day == 1) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 2 && day >= 1 || month > 1) {
             var year = date.getFullYear();
             var age = year - 2008;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2009;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

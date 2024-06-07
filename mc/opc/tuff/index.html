@@ -26,26 +26,27 @@
                 <p>&quot;我是土匪浮空推特，是个初升，在别人眼里我是魅魔的儿子，是男娘的老公，是各位的狗&quot;</p>
             </blockquote>
         </div>
+        <img src="../skinLib/skin_tuff.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - tuffcute_WDNMD / deb9d280-1d80-4349-80b6-3cdb2d77af77</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/294100439/" target="_blank">294100439</a></h5>
-            <h5 id="birthday-text">生日 - 2008.9.27 (<span id="agenum"></span>)</h5>
-            <h5>地区 - 天津</h5>
+            <h5 id="birthday-text">生日 - 2008.9.27 (<span id="ageNum"></span>)</h5>
+            <h5>地区 - 天津 滨海新区</h5>
             <h5>身高 - 171 cm</h5>
         </div>
         <br />
         <div id="voice">
             <div id="voicetitle">
-                <h3>声音 (2021.7)</h3>
+                <h3>声音 (2024.6)</h3>
             </div>
             <audio controls="controls">
-                <source src="voice_2.mp3" type="audio/mp3" />
+                <source src="voice_3.mp3" type="audio/mp3" />
             </audio>
             <blockquote>
-                <p>&quot;WDNMD&quot;</p>
+                <p>&quot;啊啊啊啊啊&quot;</p>
             </blockquote>
             <br />
             <div id="oldervoice">
@@ -55,16 +56,25 @@
         <div id="voiceold" style="display: none;">
             <div id="voicetitle">
                 <h3>声音</h3>
-                <h4>2021.7</h4>
+                <h4>2024.6</h4>
             </div>
             <audio controls="controls">
-                <source src="voice_2.mp3" type="audio/mp3" />
+                <source src="voice_3.mp3" type="audio/mp3" />
             </audio>
             <blockquote>
-                <p>&quot;WDNMD&quot;</p>
+                <p>&quot;啊啊啊啊啊&quot;</p>
             </blockquote>
+            
             <br />
             <div id="oldervoice">
+                 <h4>2021.7</h4>
+                </div>
+                <audio controls="controls">
+                    <source src="voice_2.mp3" type="audio/mp3" />
+                </audio>
+                <blockquote>
+                    <p>&quot;WDNMD&quot;</p>
+                </blockquote>
                 <h4>2021.4</h4>
                 <audio controls="controls">
                     <source src="voice_1.mp3" type="audio/mp3" />
@@ -99,16 +109,16 @@
         var day = date.getDate();
         if (month == 9 && day == 27) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 9 && day >= 27 || month > 27) {
             var year = date.getFullYear();
             var age = year - 2008;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2009;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
 
         function showoldervoice() {

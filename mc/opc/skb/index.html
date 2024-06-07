@@ -22,17 +22,16 @@
     </div>
     <div class="content">
         <div id="main">
-            <blockquote>
-                <p>&quot;第一届未举办的ODX FPS大赛抽象马枪冠军；捂胃契约皮肤锐评大亡，剪寄糕手，door雪生，破防红温专家。群内最优秀也是唯一的mc材质包制作者，全国英语创新大赛省级一等奖获得者。自封本群牛子最长。无套M4A1爱好者。别称skybyd，天弓你个byd。&quot;</p>
-            </blockquote>
+            <p>第一届未举办的ODX FPS大赛抽象马枪冠军；捂胃契约皮肤锐评大亡，剪寄糕手，door雪生，破防红温专家。群内最优秀也是唯一的mc材质包制作者，全国英语创新大赛省级一等奖获得者。自封本群牛子最长。无套M4A1爱好者。别称skybyd，天弓你个byd。</p>
         </div>
+        <img src="../skinLib/skin_skb.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - Sky_bow_orange / a2982f8f-18ee-4e49-9365-090559f419a8</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/105114070/" target="_blank">105114070</a></h5>
-            <h5 id="birthday-text">生日 - 2005.4.20 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2005.4.20 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 浙江 <ruby>台<rt>tāi</rt></ruby>州</h5>
             <h5>身高 - 174 cm</h5>
         </div>
@@ -79,16 +78,16 @@
         var day = date.getDate();
         if (month == 4 && day == 20) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 4 && day >= 20 || month > 20) {
             var year = date.getFullYear();
             var age = year - 2005;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2006;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

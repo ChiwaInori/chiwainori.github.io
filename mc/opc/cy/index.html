@@ -24,13 +24,14 @@
         <div id="main">
             <p></p>
         </div>
+        <img src="../skinLib/skin_cy.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - CY_wl / 8d51691e-42b9-484a-bc97-9ff92b246a9c</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/13939892/" target="_blank">13939892</a></h5>
-            <h5 id="birthday-text">生日 - 2002.11.21 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2002.11.21 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 山西 晋中</h5>
         </div>
         <br />
@@ -51,16 +52,16 @@
         var day = date.getDate();
         if (month == 11 && day == 21) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 11 && day >= 21 || month > 21) {
             var year = date.getFullYear();
             var age = year - 2002;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2003;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

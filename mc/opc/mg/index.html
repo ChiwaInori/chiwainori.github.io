@@ -22,15 +22,16 @@
     </div>
     <div class="content">
         <div id="main">
-            <p></p>
+            <p>芒果，一只猫，furry，电脑爱好者，瓦批和平主义者，丝瓜味薯条，队友压力对象</p>
         </div>
+        <img src="../skinLib/skin_mg.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #00a8ff;">♂ MALE</h5>
             <h5>MC ID - Mangguo_CAT / a7ced70f-74df-4c8b-a7db-8b8b3126820d</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/32793782/" target="_blank">32793782</a></h5>
-            <h5 id="birthday-text">生日 - 2007.5.5 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2007.5.5 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 广西 南宁</h5>
             <h5>身高 - 160 cm</h5>
         </div>
@@ -59,16 +60,16 @@
         var day = date.getDate();
         if (month == 5 && day == 5) {
             document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("agenum").style = "color: #00a8ff;";
+            document.getElementById("ageNum").style = "color: #00a8ff;";
         }
         if (month == 5 && day >= 5 || month > 5) {
             var year = date.getFullYear();
             var age = year - 2007;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2008;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>

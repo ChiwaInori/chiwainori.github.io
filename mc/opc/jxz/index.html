@@ -24,13 +24,14 @@
         <div id="main">
             <p></p>
         </div>
+        <img src="../skinLib/skin_jxz.png" height="128" />
         <br />
         <div id="info">
             <h3>相关信息</h3>
             <h5 style="color: #ff86c3;">♀ FEMALE</h5>
             <h5>MC ID - Invisible_Love / ad03ece2-f801-4025-a308-9a4fb49b7e1d</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/1087930137/" target="_blank">1087930137</a></h5>
-            <h5 id="birthday-text">生日 - 2006.8.28 (<span id="agenum"></span>)</h5>
+            <h5 id="birthday-text">生日 - 2006.8.28 (<span id="ageNum"></span>)</h5>
             <h5>地区 - 吉林 长春</h5>
             <h5>身高 - 170 cm</h5>
         </div>
@@ -59,16 +60,16 @@
         var day = date.getDate();
         if (month == 8 && day == 28) {
             document.getElementById("birthday-text").style = "color: #ff86c3;";
-            document.getElementById("agenum").style = "color: #ff86c3;";
+            document.getElementById("ageNum").style = "color: #ff86c3;";
         }
         if (month == 8 && day >= 28 || month > 28) {
             var year = date.getFullYear();
             var age = year - 2006;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         } else {
             var year = date.getFullYear();
             var age = year - 2007;
-            document.getElementById("agenum").innerHTML = age;
+            document.getElementById("ageNum").innerHTML = age;
         }
     </script>
 </div></body>
