@@ -223,3 +223,16 @@ table {
     color: var(--textColor);
     text-decoration: none;
 }
+
+.SEI {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--backgroundColor);
+    padding: 16px 32px 16px 32px;
+    border: 2px solid var(--textColor);
+    text-align: center;
+    width: 650px;
+}
