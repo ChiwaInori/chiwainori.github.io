@@ -16,8 +16,8 @@ function xts() {
  * @example sleep(1000) // Pause your commands for 1s
  */
 function sleep(time) {
-    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
-    if (time < 1) { throw new Error("Cannot sleep less than 1 milliseconds"); }
+    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (time < 1) { throw new RangeError("Cannot sleep less than 1 milliseconds"); }
 
     return new Promise(resolve => setTimeout(resolve, time));
 }
@@ -34,7 +34,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     }
     
     if (typeof cnText == "string") {
-        document.querySelector("body").innerHTML = document.querySelector("body").innerHTML + `<div id="cnSei" class="SEI"><h3 style="color: #dd0000;">! 光敏性癫痫警告 !</h3><p>${cnText}</p><p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p><p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p><p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p><p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure(1)">EN</span></strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[继续]</span></strong></p></div><div id="enSei" class="SEI"><h3 style="color: #dd0000;">! PHOTOSENSITIVE EPILEPSY WARNING !</h3><p>${enText}</p><p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p><p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p><p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(0)">中文</span> | EN</strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[CONTINUE]</span></strong></p></div>`;
+        document.querySelector("body").innerHTML += `<div id="cnSei" class="SEI"><h3 style="color: #dd0000;">! 光敏性癫痫警告 !</h3><p>${cnText}</p><p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p><p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p><p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p><p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure(1)">EN</span></strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[继续]</span></strong></p></div><div id="enSei" class="SEI"><h3 style="color: #dd0000;">! PHOTOSENSITIVE EPILEPSY WARNING !</h3><p>${enText}</p><p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p><p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p><p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(0)">中文</span> | EN</strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[CONTINUE]</span></strong></p></div>`;
 
         document.body.style.overflow = 'hidden';
         window.addEventListener('scroll', preventScroll, { passive: false });
@@ -69,9 +69,9 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
  * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2024
  */
 function copyright(startYear, signature = "xtsdcb69") {
-    if (typeof startYear != "number") { throw new Error(`startYear must be a NUMBER`); }
-    if (typeof signature != "string") { throw new Error(`signature must be a STRING`); }
-    if (document.getElementById("copyright") == null) { throw new Error("Cannot set a copyright without #copyright element"); }
+    if (typeof startYear != "number") { throw new TypeError(`startYear must be a NUMBER`); }
+    if (typeof signature != "string") { throw new TypeError(`signature must be a STRING`); }
+    if (document.getElementById("copyright") == null) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const date = new Date();
     const thisYear = date.getFullYear();
@@ -95,10 +95,10 @@ function copyright(startYear, signature = "xtsdcb69") {
  * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10]
  */
 function rand(min, max, keepFloat = false) {
-    if (typeof min != "number") { throw new Error(`min must be a NUMBER`); }
-    if (typeof max != "number") { throw new Error(`max must be a NUMBER`); }
-    if (typeof keepFloat != "boolean") { throw new Error(`keepFloat must be a BOOLEAN`); }
-    if (min > max) { throw new Error(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
+    if (typeof min != "number") { throw new TypeError(`min must be a NUMBER`); }
+    if (typeof max != "number") { throw new TypeError(`max must be a NUMBER`); }
+    if (typeof keepFloat != "boolean") { throw new TypeError(`keepFloat must be a BOOLEAN`); }
+    if (min > max) { throw new RangeError(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
 
     let range;
 
@@ -119,9 +119,9 @@ function rand(min, max, keepFloat = false) {
  * @example getNum("589brg13d7.4gh,-2.6eru", 3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 function getNum(string, order = 1) {
-    if (typeof string != "string") { throw new Error(`string must be a STRING`); }
-    if (typeof order != "number") { throw new Error(`order must be a NUMBER`); }
-    if (order <= 0) { throw new Error("Order cannot less than 1"); }
+    if (typeof string != "string") { throw new TypeError(`string must be a STRING`); }
+    if (typeof order != "number") { throw new TypeError(`order must be a NUMBER`); }
+    if (order <= 0) { throw new RangeError("Order cannot less than 1"); }
 
     return parseFloat(string.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1]);
 }
@@ -136,10 +136,10 @@ function getNum(string, order = 1) {
  * @example transit(0, 10, 0.6) // 6 (The number in [0, 10] and 60% of its range is 6)
  */
 function transit(from, to, percentage) {
-    if (typeof from != "number") { throw new Error(`from must be a NUMBER`); }
-    if (typeof to != "number") { throw new Error(`to must be a NUMBER`); }
+    if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
+    if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
     if (typeof percentage != "number") { throw new Error(`percentage must be a NUMBER`); }
-    if (percentage > 1 || percentage < 0) { throw new Error("Percentage must between 0 and 1"); }
+    if (percentage > 1 || percentage < 0) { throw new RangeError("Percentage must between 0 and 1"); }
 
     const range = to - from;
     return percentage * range + from;
@@ -165,7 +165,7 @@ function log(...args) {
  * @example target("title").addEventListener(...) // Add an event listener to #title
  */
 function target(element) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (document.getElementById(element) == null) { throw new ReferenceError(`${element} is not defined`); }
 
     return document.getElementById(element);
@@ -175,7 +175,7 @@ function target(element) {
  * @param {string} element
  */
 function copyFrom(element) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
     return target(element).innerHTML;
 }
@@ -187,7 +187,7 @@ function copyFrom(element) {
  * @example copyTo("p1", "Hello") // Copy "Hello" to #p1
  */
 function copyTo(element, content) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
     target(element).innerHTML = content;
 }
@@ -200,9 +200,9 @@ function copyTo(element, content) {
  * @example styleTo(".main title", "margin-left: 64px;", "query") // The left margin of <title> in <... class="main"> will be 64px
  */
 function styleTo(element, style, method = "id") {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof style != "string") { throw new Error(`style must be a STRING`); }
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof style != "string") { throw new TypeError(`style must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
         target(element).style = style;
@@ -227,9 +227,9 @@ function styleTo(element, style, method = "id") {
  * @example colorTo(".main title", "#ff0000", "query") // The color of <title> in <... class="main"> will be red
  */
 function colorTo(element, color, method = "id") {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof color != "string") { throw new Error(`color must be a STRING`); }
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
         target(element).style.color = color;
@@ -253,8 +253,8 @@ function colorTo(element, color, method = "id") {
  * @example hide(".main title", "query") // <title> in <... class="main"> will be hidden
  */
 function hide(element, method = "id") {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
         target(element).style.display = "none";
@@ -279,9 +279,9 @@ function hide(element, method = "id") {
  * @example unhide(".main title", "inline-block", "query") // Show <title> in <... class="main"> in inline-block
  */
 function unhide(element, display = "block", method = "id") {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof display != "string") { throw new Error(`display must be a STRING`); }
-    if (method != "id" && method != "class" && method != "query") { throw new Error(`method must be "id" or "class" or "query"`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof display != "string") { throw new TypeError(`display must be a STRING`); }
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
         target(element).style.display = display;
@@ -306,10 +306,10 @@ function unhide(element, display = "block", method = "id") {
  * @example transColor("title", "#00dd00") // Turn the color of title to green in transition.
  */
 async function transColor(element, color, time = 100) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof color != "string") { throw new Error(`color must be a STRING`); }
-    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
-    if (time < 1) { throw new Error("Cannot change color in less than 1 milliseconds"); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
+    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (time < 1) { throw new RangeError("Cannot change color in less than 1 milliseconds"); }
 
     const preset = { // Same as --textColor in global.css
         r: 102,
@@ -377,9 +377,9 @@ async function transColor(element, color, time = 100) {
  * @example fadeOut("title", 200) // Fade out #title in 0.2s.
  */
 async function fadeOut(element, time = 100) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
-    if (time < 1) { throw new Error("Cannot fade out in less than 1 milliseconds"); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (time < 1) { throw new RangeError("Cannot fade out in less than 1 milliseconds"); }
 
     let nowOpacity;
 
@@ -406,9 +406,9 @@ async function fadeOut(element, time = 100) {
  * @example fadeOut("title", 200) // Fade in #title in 0.2s.
  */
 async function fadeIn(element, time = 100) {
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
-    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
-    if (time < 1) { throw new Error("Cannot fade in in less than 1 milliseconds"); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (time < 1) { throw new RangeError("Cannot fade in in less than 1 milliseconds"); }
 
     let nowOpacity;
 
@@ -433,10 +433,10 @@ async function fadeIn(element, time = 100) {
  * @example fadeChange("title", "secondTitle", 500) // Fade out #title in 0.25s and fade in #secondTitle in 0.25s.
  */
 async function fadeChange(outElement, inElement, time = 200) {
-    if (typeof outElement != "string") { throw new Error(`outElement must be a STRING`); }
-    if (typeof inElement != "string") { throw new Error(`inElement must be a STRING`); }
-    if (typeof time != "number") { throw new Error(`time must be a NUMBER`); }
-    if (time < 1) { throw new Error("Cannot fade change in than 1 milliseconds"); }
+    if (typeof outElement != "string") { throw new TypeError(`outElement must be a STRING`); }
+    if (typeof inElement != "string") { throw new TypeError(`inElement must be a STRING`); }
+    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (time < 1) { throw new RangeError("Cannot fade change in than 1 milliseconds"); }
 
     fadeOut(outElement, time / 2);
     await sleep(time / 2 + 20);
@@ -452,7 +452,7 @@ async function fadeChange(outElement, inElement, time = 200) {
  * @example save("readme.txt", "Please read this file.") // It'll download a file named readme.txt with "Please read this file."
  */
 function save(fileName, content) {
-    if (typeof fileName != "string") { throw new Error(`fileName must be a STRING`); }
+    if (typeof fileName != "string") { throw new TypeError(`fileName must be a STRING`); }
 
     const blob = new Blob([content], { type: "text/plain" });
     const a = document.createElement("a");
@@ -473,8 +473,8 @@ function save(fileName, content) {
  * @example load("top-file", "fileInfo") // When a file is selected in <input id="top-file" />, its content will be copied to #fileInfo.
  */
 function load(inputId, element = "file-content") {
-    if (typeof inputId != "string") { throw new Error(`inputId must be a STRING`); }
-    if (typeof element != "string") { throw new Error(`element must be a STRING`); }
+    if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
     document.getElementById(inputId).addEventListener('change', (event) => {
         const fileInput = event.target;

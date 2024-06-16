@@ -79,7 +79,7 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-input[type="checkbox"]:hover, button:hover {
+input[type="checkbox"]:hover, input[type="radio"]:hover, button:hover {
     background-color: #eeeeee;
 }
 
@@ -224,7 +224,7 @@ table {
     text-decoration: none;
 }
 
-.SEI {
+.SEI { /* Seizure Warning */
     display: none;
     position: fixed;
     top: 50%;
