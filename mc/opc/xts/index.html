@@ -9,6 +9,7 @@
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
     <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
     <script src="/xts-functions.js"></script>
+    <script src="../opc.js"></script>
 </head>
 
 
@@ -36,6 +37,7 @@
             <h5>MC ID - xtsdcb69 / 2830b538-4afa-4dce-ac03-7a40fc453faa</h5>
             <h5>Bilibili - <a href="https://space.bilibili.com/74178478/" target="_blank">74178478</a></h5>
             <h5 id="birthday-text">生日 - 2007.12.12 (<span id="ageNum"></span>)</h5>
+            <h5 id="mbti">MBTI - </h5>
             <h5>地区 - 广西 贵港</h5>
             <h5>身高 - 173 cm</h5>
         </div>
@@ -70,23 +72,9 @@
         </div>
     </div>
     <script>
-        var date = new Date();
-        var month = date.getMonth();
-        var month = month + 1;
-        var day = date.getDate();
-        if (month == 12 && day == 12) {
-            document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("ageNum").style = "color: #00a8ff;";
-        }
-        if (month == 12 && day >= 12 || month > 12) {
-            var year = date.getFullYear();
-            var age = year - 2007;
-            document.getElementById("ageNum").innerHTML = age;
-        } else {
-            var year = date.getFullYear();
-            var age = year - 2008;
-            document.getElementById("ageNum").innerHTML = age;
-        }
+        const bDay = copyFrom("birthday-text").match(/[0-9]+/g);
+        getAge(bDay[0], bDay[1], bDay[2]);
+        personality("ESFP");
     </script>
 </div></body>
 

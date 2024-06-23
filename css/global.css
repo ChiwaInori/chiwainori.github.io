@@ -1,24 +1,28 @@
 /* MAIN FORMAT FOR EVERY DEVICES */
 
 :root {
-    --backgroundColor: #ffffdd;
-    --backgroundColor-1: #ccccaa;
+    /* -500 colors are major colors in each section. */
+    --backgroundColor-500: #ffffdd;
+    --backgroundColor-600: #ccccaa;
 
-    --textColor: #666666;
-    --fadeColor: #aaaaaa;
+    --textColor-400: #aaaaaa;
+    --textColor-500: #666666;
 
-    --majorColor: #66a8ff;
-    --secondaryColor: #0088aa;
-    --majorFadeBright: #99ccff;
-    --majorFade: #8899aa;
+    --activeColor-400: #99ccff;
+    --activeColor-500: #66a8ff;
+    --activeColor-700: #0088aa;
+    --activeColor-800: #8899aa;
 
-    --transit: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --judge-false: #dd0000;
+    --judge-true: #00dd00;
+
+    --transit: cubic-bezier(0.22, 0.61, 0.36, 1); /* Out Cubic */
 }
 
 /* BASIC LAYOUT */
 
 body {
-    background-color: var(--backgroundColor-1);
+    background-color: var(--backgroundColor-600);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +31,7 @@ body {
 }
 
 .mainBody {
-    background-color: var(--backgroundColor);
+    background-color: var(--backgroundColor-500);
     padding: 30px 25px 30px 25px;
     border-radius: 10px;
     margin: 10px auto auto auto;
@@ -47,15 +51,15 @@ h1, h2, h3, h4, h5, h6, p, img, video, audio {
 }
 
 img, video {
-    border: 3px solid var(--majorColor);
+    border: 3px solid var(--activeColor-500);
     margin: 2px;
 }
 
 input, button {
     margin: auto 10px auto 10px;
-    border: 2px solid var(--majorColor);
+    border: 2px solid var(--activeColor-500);
     background-color: #ffffff;
-    color: var(--majorColor);
+    color: var(--activeColor-500);
     transition: color 0.05s var(--transit);
     font-weight: bold;
 }
@@ -69,7 +73,7 @@ button {
 }
 
 ::placeholder {
-    color: var(--majorFade);
+    color: var(--activeColor-800);
 }
 
 input[type="checkbox"] {
@@ -84,7 +88,7 @@ input[type="checkbox"]:hover, input[type="radio"]:hover, button:hover {
 }
 
 input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
-    background-color: var(--majorColor);
+    background-color: var(--activeColor-500);
     content: '';
     display: block;
     position: relative;
@@ -124,7 +128,7 @@ input[type="range"]::-webkit-slider-thumb {
     appearance: none;
     width: 12px;
     height: 12px;
-    background: var(--majorFadeBright);
+    background: var(--activeColor-400);
     border-radius: 50%;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
@@ -134,45 +138,45 @@ input[type="range"]::-moz-range-thumb {
     appearance: none;
     width: 12px;
     height: 12px;
-    background: var(--majorFadeBright);
+    background: var(--activeColor-400);
     border-radius: 50%;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
 
 button:active {
-    color: var(--secondaryColor);
+    color: var(--activeColor-700);
     background-color: #dddddd;
 }
 
 input:disabled, button:disabled {
-    border: 2px solid var(--fadeColor);
+    border: 2px solid var(--textColor-400);
     background-color: #dddddd;
-    color: var(--fadeColor);
+    color: var(--textColor-400);
     cursor: not-allowed;
 }
 
 select {
     margin: auto 10px auto 10px;
-    border: 2px solid var(--majorColor);
+    border: 2px solid var(--activeColor-500);
     background-color: #ffffff;
-    color: var(--majorColor);
+    color: var(--activeColor-500);
 }
 
 /* TEXT COLORS */
 
 p, h1, h2, h3, h4, h5, h6, span {
-    color: var(--textColor);
+    color: var(--textColor-500);
 }
 
 a:not(.HLK), .LNK {
-    color: var(--majorColor);
+    color: var(--activeColor-500);
     text-decoration: none;
     transition: color 0.1s var(--transit);
 }
 
 a:not(.HLK):hover, .LNK:hover {
-    color: var(--secondaryColor);
+    color: var(--activeColor-700);
     text-decoration: underline;
     font-weight: bold;
 }
@@ -180,12 +184,12 @@ a:not(.HLK):hover, .LNK:hover {
 /* SPECIAL ELEMENTS IN XTSGAMES */
 
 blockquote * {
-    color: var(--fadeColor);
+    color: var(--textColor-400);
     font-style: italic;
 }
 
 table {
-    color: var(--textColor);
+    color: var(--textColor-500);
     margin: 0px 0px 10px 0px;
 }
 
@@ -205,34 +209,34 @@ table {
 
 .ANT { /* Annotate */
     font-size: 10px;
-    color: var(--fadeColor);
+    color: var(--textColor-400);
 }
 
 .BRT, .BRT tr th { /* Border Table */
-    border: 2px solid var(--textColor);
+    border: 2px solid var(--textColor-500);
     border-collapse: collapse;
 }
 
 .SKH { /* Sticky Header */
-    background-color: var(--backgroundColor);
+    background-color: var(--backgroundColor-500);
     position: sticky;
     top: 0;
 }
 
 .HLK:link, .HLK:visited, .HLK, .HLK:hover { /* Hidden Link */
-    color: var(--textColor);
+    color: var(--textColor-500);
     text-decoration: none;
 }
 
-.SEI { /* Seizure Warning */
+.SEIZURE { /* Seizure Warning */
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--backgroundColor);
+    background-color: var(--backgroundColor-500);
     padding: 16px 32px 16px 32px;
-    border: 2px solid var(--textColor);
+    border: 2px solid var(--textColor-500);
     text-align: center;
     width: 650px;
 }

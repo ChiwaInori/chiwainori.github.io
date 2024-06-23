@@ -9,6 +9,7 @@
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
     <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
     <script src="/xts-functions.js"></script>
+    <script src="../opc.js"></script>
 </head>
 
 
@@ -46,23 +47,8 @@
         </div>
     </div>
     <script>
-        var date = new Date();
-        var month = date.getMonth();
-        var month = month + 1;
-        var day = date.getDate();
-        if (month == 11 && day == 21) {
-            document.getElementById("birthday-text").style = "color: #00a8ff;";
-            document.getElementById("ageNum").style = "color: #00a8ff;";
-        }
-        if (month == 11 && day >= 21 || month > 21) {
-            var year = date.getFullYear();
-            var age = year - 2002;
-            document.getElementById("ageNum").innerHTML = age;
-        } else {
-            var year = date.getFullYear();
-            var age = year - 2003;
-            document.getElementById("ageNum").innerHTML = age;
-        }
+        const bDay = copyFrom("birthday-text").match(/[0-9]+/g);
+        getAge(bDay[0], bDay[1], bDay[2]);
     </script>
 </div></body>
 

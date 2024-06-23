@@ -139,7 +139,7 @@
         <br /><br />
         <p class="ANT">上面的数字代表某个选项与平均值的差异。</p>
         <br />
-        <p id="hint" style="color: var(--fadeColor);">输入四个选项后，选项均衡提示将会出现。</p>
+        <p id="hint" style="color: var(--textColor-400);">输入四个选项后，选项均衡提示将会出现。</p>
         <p id="wrong" style="color: #dd0000; display: none;">区间值错误: 必须以从小到大的顺序排序。</p>
     </div>
     <script>
@@ -190,7 +190,7 @@
                     ["Percent", "Analysis", "Diff", "Icon"].forEach(element => {
                         copyTo(`${optionTarget[i]}${element}`, "&nbsp;");
                     });
-                    styleTo(`${optionTarget[i]}Button`, "color: var(--majorColor); border: 2px solid var(--majorColor);");
+                    styleTo(`${optionTarget[i]}Button`, "color: var(--activeColor-500); border: 2px solid var(--activeColor-500);");
                 }
             });
             change();

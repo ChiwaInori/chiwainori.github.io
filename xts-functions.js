@@ -34,26 +34,26 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     }
     
     if (typeof cnText == "string") {
-        document.querySelector("body").innerHTML += `<div id="cnSei" class="SEI"><h3 style="color: #dd0000;">! 光敏性癫痫警告 !</h3><p>${cnText}</p><p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p><p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p><p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p><p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure(1)">EN</span></strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[继续]</span></strong></p></div><div id="enSei" class="SEI"><h3 style="color: #dd0000;">! PHOTOSENSITIVE EPILEPSY WARNING !</h3><p>${enText}</p><p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p><p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p><p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(0)">中文</span> | EN</strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[CONTINUE]</span></strong></p></div>`;
+        document.querySelector("body").innerHTML += `<div id="cnSeizure" class="SEIZURE"><h3 style="color: #dd0000;">! 光敏性癫痫警告 !</h3><p>${cnText}</p><p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p><p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p><p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p><p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure(1)">EN</span></strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[继续]</span></strong></p></div><div id="enSeizure" class="SEIZURE"><h3 style="color: #dd0000;">! PHOTOSENSITIVE EPILEPSY WARNING !</h3><p>${enText}</p><p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p><p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p><p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(0)">中文</span> | EN</strong></p><p style="text-align: right;"><strong><span class="LNK" onclick="seizure(2)">[CONTINUE]</span></strong></p></div>`;
 
         document.body.style.overflow = 'hidden';
         window.addEventListener('scroll', preventScroll, { passive: false });
 
-        document.querySelector("body *:not(.SEI)").style.filter = "brightness(0.7)";
+        document.querySelector("body *:not(.SEIZURE)").style.filter = "brightness(0.7)";
 
         seizure(0);
     }
     if (cnText == 0) {
-        unhide("cnSei");
-        hide("enSei");
+        unhide("cnSeizure");
+        hide("enSeizure");
     }
     if (cnText == 1) {
-        unhide("enSei");
-        hide("cnSei");
+        unhide("enSeizure");
+        hide("cnSeizure");
     }
     if (cnText == 2) {
-        hide("cnSei");
-        hide("enSei");
+        hide("cnSeizure");
+        hide("enSeizure");
 
         document.body.style.overflow = '';
         window.removeEventListener('scroll', preventScroll, { passive: false });
@@ -311,7 +311,7 @@ async function transColor(element, color, time = 100) {
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
     if (time < 1) { throw new RangeError("Cannot change color in less than 1 milliseconds"); }
 
-    const preset = { // Same as --textColor in global.css
+    const preset = { // Same as --textColor-500 in global.css
         r: 102,
         g: 102,
         b: 102
