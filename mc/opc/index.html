@@ -9,7 +9,7 @@
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
     <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
     <style>
-        img, video {
+        #members img {
             border: none;
         }
 
@@ -92,7 +92,7 @@
             <br />
             <img src="skinLib/skin_tuff.png" />
             <h3><a href="tuff/">默默</a></h3><span>&nbsp;<span class="mmp">&nbsp;Milkmappers&nbsp;</span></span>
-            <h6>tuffcute_WDNMD [TUFF]</h6>
+            <h6>tuffcute_WDNMD [TUFF] | <a class="sec-mbti">ISFJ</a></h6>
             <p>我是土匪浮空推特，是个初升</p>
             <p>在别人眼里我是魅魔的儿子，是男娘的老公，是各位的狗</p>
             <br />
@@ -192,6 +192,8 @@
 
         const secondaryLine = document.querySelectorAll("#members h6");
         const personalities = ["ISTJ", "ISFJ", "ESTJ", "ESFJ", "ISTP", "ISFP", "ESTP", "ESFP", "INFJ", "INFP", "ENFJ", "ENFP", "INTJ", "INTP", "ENTJ", "ENTP"];
+
+        // MBTI Support
 
         let i = 0;
         const sentinels = personalities.slice(i, i += 4);
