@@ -23,16 +23,18 @@ function personality(personality) {
     target("mbti").innerHTML += `<a id="mbti-text" href=\"https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC\" target="_blank" style="text-decoration: underline;">${personality}</a>`;
 
     colorTo("mbti-text", "var(--judge-false)");
-    if (personality == "ISTJ" || personality == "ISFJ" || personality == "ESTJ" || personality == "ESFJ") { // Sentinels
-        colorTo("mbti-text", "rgb(66, 152, 180)");
-    }
-    if (personality == "ISTP" || personality == "ISFP" || personality == "ESTP" || personality == "ESFP") { // Explorers
-        colorTo("mbti-text", "rgb(228, 174, 58)");
-    }
-    if (personality == "INFJ" || personality == "INFP" || personality == "ENFJ" || personality == "ENFP") { // Diplomats
-        colorTo("mbti-text", "rgb(51, 164, 116)");
-    }
-    if (personality == "INTJ" || personality == "INTP" || personality == "ENTJ" || personality == "ENTP") { // Analysts
-        colorTo("mbti-text", "rgb(136, 97, 154)");
+    switch (personality) {
+        case "ISTJ": case "ISFJ": case "ESTJ": case "ESFJ": // Sentinels
+            colorTo("mbti-text", "rgb(66, 152, 180)");
+            break;
+        case "ISTP": case "ISFP": case "ESTP": case "ESFP": // Explorers
+            colorTo("mbti-text", "rgb(228, 174, 58)");
+            break;
+        case "INFJ": case "INFP": case "ENFJ": case "ENFP": // Diplomats
+            colorTo("mbti-text", "rgb(51, 164, 116)");
+            break;
+        case "INTJ": case "INTP": case "ENTJ": case "ENTP": // Analysts
+            colorTo("mbti-text", "rgb(136, 97, 154)");
+            break;
     }
 }
