@@ -325,7 +325,7 @@ async function transColor(element, color, time = 100) {
         r: 102,
         g: 102,
         b: 102
-    }
+    };
     let fromColor;
     let toColor;
     let nowColor;
@@ -335,7 +335,7 @@ async function transColor(element, color, time = 100) {
             r: getNum(target(element).style.color, 1),
             g: getNum(target(element).style.color, 2),
             b: getNum(target(element).style.color, 3)
-        }
+        };
     } else {
         fromColor = preset;
     }
@@ -345,21 +345,21 @@ async function transColor(element, color, time = 100) {
             r: parseInt(color.substring(1, 3), 16),
             g: parseInt(color.substring(3, 5), 16),
             b: parseInt(color.substring(5, 7), 16)
-        }
+        };
     }
     if (color.indexOf("rgb(") >= 0) {
         toColor = {
             r: getNum(color, 1),
             g: getNum(color, 2),
             b: getNum(color, 3)
-        }
+        };
     }
 
     const diff = {
         r: (toColor.r - fromColor.r) / 20,
         g: (toColor.g - fromColor.g) / 20,
         b: (toColor.b - fromColor.b) / 20
-    }
+    };
 
     for (let i = 1; i <= 21; i++) {
         if (target(element).style.color != "") {
@@ -367,7 +367,7 @@ async function transColor(element, color, time = 100) {
                 r: getNum(target(element).style.color, 1),
                 g: getNum(target(element).style.color, 2),
                 b: getNum(target(element).style.color, 3)
-            }
+            };
         } else {
             nowColor = preset;
         }

@@ -4,7 +4,7 @@ function getAge(year, month, day) {
         year: date.getFullYear(),
         month: date.getMonth() + 1,
         day: date.getDate()
-    }
+    };
     let ageFix = 0;
 
     // Change age information line color
@@ -20,7 +20,7 @@ function getAge(year, month, day) {
 }
 
 function personality(personality) {
-    target("mbti").innerHTML += `<a id="mbti-text" href=\"https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC\" target="_blank" style="text-decoration: underline;">${personality}</a>`;
+    target("mbti").innerHTML += `<a id="mbti-text" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank" style="text-decoration: underline;">${personality}</a>`;
 
     colorTo("mbti-text", "var(--judge-false)");
     switch (personality) {
