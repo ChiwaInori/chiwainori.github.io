@@ -23,9 +23,7 @@
     </div>
     <div class="content">
         <div id="main">
-            <blockquote>
-                <p>&quot;FPS砖家，MC转瓦的典型，拥有CS历史段位双AK，瓦历史段位黄金一的职业“水”平，目前处于坐牢阶段中&quot;</p>
-            </blockquote>
+            <blockquote><p>&quot;FPS砖家，MC转瓦的典型，拥有CS历史段位双AK，瓦历史段位黄金一的职业“水”平，目前处于坐牢阶段中&quot;</p></blockquote>
         </div>
         <img src="../skinLib/skin_bz.png" height="128" />
         <br />
@@ -37,7 +35,7 @@
             <h5 id="birthday-text">生日 - 2008.2.1 (<span id="ageNum"></span>)</h5>
             <h5 id="mbti">MBTI - </h5>
             <h5>地区 - 安徽 阜阳</h5>
-            <h5>身高 - 171 cm (2024)</h5>
+            <h5>身高 - 175 cm (2024)</h5>
         </div>
         <br />
         <div id="signature">
@@ -46,13 +44,28 @@
         </div>
         <br />
         <div id="voice">
-            <h3>声音 (2021.10)</h3>
-            <audio controls="controls">
-                <source src="voice.mp3" type="audio/mp3" />
-            </audio>
-            <blockquote>
-                <p>&quot;♪ 怀揣汹涌喷薄的热情 可与生俱来无法讨喜 ♪&quot; (乌鸦 - 许嵩)</p>
-            </blockquote>
+            <h3>声音 (2024.6)</h3>
+            <audio controls src="voice_1.mp3"></audio>
+            <blockquote><p>&quot;♪ 或许你会有一天怀念，可是我已不在 ♪ (小镇姑娘 - 陶喆)&quot;</p></blockquote>
+            <br />
+            <button onclick="showOlderVoice()">显示以前的声音...</button>
+        </div>
+        <div id="voiceOld" style="display: none;">
+            <div>
+                <h3>声音</h3>
+                <h4>2024.6</h4>
+            </div>
+            <audio controls src="voice_1.mp3"></audio>
+            <blockquote><p>&quot;♪ 或许你会有一天怀念，可是我已不在 ♪&quot; (小镇姑娘 - 陶喆)</p></blockquote>
+            <br />
+
+            <h4>2021.10</h4>
+            <audio controls src="voice.mp3"></audio>
+            <blockquote><p>&quot;♪ 怀揣汹涌喷薄的热情 可与生俱来无法讨喜 ♪&quot; (乌鸦 - 许嵩)</p></blockquote>
+        </div>
+        <br />
+        <div id="voice">
+            
         </div>
         <br />
         <div id="doyouknow">
@@ -64,6 +77,11 @@
         const bDay = copyFrom("birthday-text").match(/[0-9]+/g);
         getAge(bDay[0], bDay[1], bDay[2]);
         personality("ISFP");
+
+        function showOlderVoice() {
+            document.getElementById("voice").style = "display: none;";
+            document.getElementById("voiceOld").style = "display: block;";
+        }
     </script>
 </div></body>
 
