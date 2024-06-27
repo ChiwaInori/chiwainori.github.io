@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Apple 风格密码生成器 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>Apple 风格密码生成器</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>Apple 风格密码生成器</strong></h6>
+    </div>
+    <div class="content">
+        <p id="result"></p>
+        <button onclick="gen()">生成新密码</button>
+    </div>
+    <script>
+        const lowerAlphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        const upperAlphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+        const passwordParts = 3;
+        const partLength = 6;
+
+        function gen() {
+            let password = "";
+            for (let i = 0; i < passwordParts; i++) { // 3 parts of password abcdef-abcdef-abcdef
+                for (let j = 0; j < partLength; j++) { // each part
+                    let decider = rand(1, 20);
+                    if (decider <= 16) {
+                        password += lowerAlphabet[rand(0, 25)];
+                    } else if (decider <= 18) {
+                        password += upperAlphabet[rand(0, 25)];
+                    } else {
+                        password += numbers[rand(0, 9)];
+                    }
+                }
+                if (i != passwordParts - 1) {
+                    password += "-";
+                }
+            }
+            copyTo("result", password);
+        }
+
+        gen();
+    </script>
+</div></body>
+
+</html>
