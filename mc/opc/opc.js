@@ -22,7 +22,7 @@ function getAge(year, month, day) {
 function personality(personality) {
     target("mbti").innerHTML += `<a id="mbti-text" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank" style="text-decoration: underline;">${personality}</a>`;
 
-    colorTo("mbti-text", "var(--judge-false)");
+    colorTo("mbti-text", "var(--red)");
     switch (personality) {
         case "ISTJ": case "ISFJ": case "ESTJ": case "ESFJ": // Sentinels
             colorTo("mbti-text", "rgb(66, 152, 180)");

@@ -43,24 +43,20 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
 
         seizure(0);
     }
-    switch (cnText) {
-        case 0:
-            unhide("cnSeizure");
-            hide("enSeizure");
-            break;
-        case 1:
-            unhide("enSeizure");
-            hide("cnSeizure");
-            break;
-        case 2:
-            hide("cnSeizure");
-            hide("enSeizure");
+    if (cnText == 0) {
+        unhide("cnSeizure");
+        hide("enSeizure");
+    } else if (cnText == 1) {
+        unhide("enSeizure");
+        hide("cnSeizure");
+    } else if (cnText == 2) {
+        hide("cnSeizure");
+        hide("enSeizure");
 
-            document.body.style.overflow = "";
-            window.removeEventListener("scroll", preventScroll, { passive: false });
+        document.body.style.overflow = "";
+        window.removeEventListener("scroll", preventScroll, { passive: false });
 
-            document.querySelector("body *").style.filter = "brightness(1)";
-            break;
+        document.querySelector("body *").style.filter = "brightness(1)";
     }
 }
 
@@ -206,20 +202,18 @@ function styleTo(element, style, method = "id") {
     if (typeof style != "string") { throw new TypeError(`style must be a STRING`); }
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
-    switch (method) {
-        case "id":
-            target(element).style = style;
-            break;
-        case "class":
-            for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-                document.getElementsByClassName(element)[i].style = style;
-            }
-            break;
-        case "query":
-            for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-                document.querySelectorAll(element)[i].style = style;
-            }
-            break;
+    if (method == "id") {
+        target(element).style = style;
+    }
+    if (method == "class") {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style = style;
+        }
+    }
+    if (method == "query") {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style = style;
+        }
     }
 }
 
@@ -235,20 +229,18 @@ function colorTo(element, color, method = "id") {
     if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
-    switch (method) {
-        case "id":
-            target(element).style.color = color;
-            break;
-        case "class":
-            for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-                document.getElementsByClassName(element)[i].style.color = color;
-            }
-            break;
-        case "query":
-            for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-                document.querySelectorAll(element)[i].style.color = color;
-            }
-            break;
+    if (method == "id") {
+        target(element).style.color = color;
+    }
+    if (method == "class") {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style.color = color;
+        }
+    }
+    if (method == "query") {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style.color = color;
+        }
     }
 }
 
@@ -262,20 +254,18 @@ function hide(element, method = "id") {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
-    switch (method) {
-        case "id":
-            target(element).style.display = "none";
-            break;
-        case "class":
-            for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-                document.getElementsByClassName(element)[i].style.display = "none";
-            }
-            break;
-        case "query":
-            for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-                document.querySelectorAll(element)[i].style.display = "none";
-            }
-            break;
+    if (method == "id") {
+        target(element).style.display = "none";
+    }
+    if (method == "class") {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style.display = "none";
+        }
+    }
+    if (method == "query") {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style.display = "none";
+        }
     }
 }
 
@@ -291,20 +281,18 @@ function unhide(element, display = "block", method = "id") {
     if (typeof display != "string") { throw new TypeError(`display must be a STRING`); }
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
-    switch (method) {
-        case "id":
-            target(element).style.display = display;
-            break;
-        case "class":
-            for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-                document.getElementsByClassName(element)[i].style.display = display;
-            }
-            break;
-        case "query":
-            for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-                document.querySelectorAll(element)[i].style.display = display;
-            }
-            break;
+    if (method == "id") {
+        target(element).style.display = display;
+    }
+    if (method == "class") {
+        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
+            document.getElementsByClassName(element)[i].style.display = display;
+        }
+    }
+    if (method == "query") {
+        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
+            document.querySelectorAll(element)[i].style.display = display;
+        }
     }
 }
 
@@ -405,7 +393,7 @@ async function fadeOut(element, time = 100) {
     }
     if (nowOpacity <= 0) {
         hide(element);
-        target(element).style.opacity = 0;
+        target(element).style.opacity = 1;
     }
 }
 

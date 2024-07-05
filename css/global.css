@@ -1,7 +1,8 @@
 /* MAIN FORMAT FOR EVERY DEVICES */
 
 :root {
-    /* -500 colors are major colors in each section. */
+    /* XTS BASIC COLORS */
+    /* These are basic colors of XTSGAMES. -500 colors are major colors in each section. */
     --backgroundColor-500: #ffffdd;
     --backgroundColor-600: #ccccaa;
 
@@ -13,8 +14,32 @@
     --activeColor-700: #0088aa;
     --activeColor-800: #8899aa;
 
-    --judge-false: #dd0000;
-    --judge-true: #00dd00;
+    /* XTS STANDARD COLORS */
+    /* These are verified to have great visibility on XTSGAMES. */
+    --pink: #ff86c3;
+    --darkRed: #aa0000;
+    --red: #dd0000;
+    --darkOrange: #ff8800;
+    --orange: #ffa800;
+    --yellow: #ffc800;
+    --green: #00dd00;
+    --aqua: var(--activeColor-500);
+    --blue: #00a8ff;
+    --darkBlue: #0000dd;
+    --gray: var(--textColor-400);
+
+    /* TIER COLORS (RED -> GREEN) */
+    /* These colors are used in tables to show different values. */
+    --tier-1: #ff1100;
+    --tier-2: #ff4400;
+    --tier-3: #ff7700;
+    --tier-4: #ffaa00;
+    --tier-5: #ffdd00;
+    --tier-6: #dddd00;
+    --tier-7: #aadd00;
+    --tier-8: #77dd00;
+    --tier-9: #44cc00;
+    --tier-10: #11aa00;
 
     --transit: cubic-bezier(0.22, 0.61, 0.36, 1); /* Out Cubic */
 }
@@ -199,6 +224,10 @@ table {
 .LNK {} (Link) is defined above
 */
 
+.STX { /* Small Texts */
+    font-size: 10px;
+}
+
 .IFB { /* Infobox */
     margin: 16px 0px 16px 0px;
 }
@@ -207,14 +236,18 @@ table {
     font-size: 10px;
 }
 
-.ANT { /* Annotate */
+.ANT, .ANT * { /* Annotate */
     font-size: 10px;
     color: var(--textColor-400);
 }
 
-.BRT, .BRT tr th { /* Border Table */
+.BRT, .BRT tr * { /* Border Table */
     border: 2px solid var(--textColor-500);
     border-collapse: collapse;
+}
+
+.UBC { /* Unbold Cells (Table) */
+    font-weight: 500;
 }
 
 .SKH { /* Sticky Header */

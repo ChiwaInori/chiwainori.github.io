@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>赌注游戏 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
+    <style>
+        .small {
+            color: var(--blue);
+        }
+
+        .big {
+            color: var(--pink);
+        }
+
+        button.small {
+            border: 2px solid var(--blue);
+        }
+
+        button.big {
+            border: 2px solid var(--pink);
+        }
+    </style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>赌注游戏</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>赌注游戏</strong></h6>
+    </div>
+    <div class="content">
+        <p>点击下方的下注倍率，然后一个数字将会生成。</p>
+        <p>你初始有 <strong>$10</strong>, 达到 <strong>$100</strong> 即胜利，达到 <strong>$0</strong> 则失败。</p>
+        <br />
+        <h4 id="balanceLine" style="font-size: 20px; color: var(--orange);">余额: $<span id="balance" style="color: var(--orange);"></span></h4>
+        <h4 style="font-size: 20px;" id="win">&nbsp;</h4>
+        <br />
+        <h3 id="number" style="font-size: 64px;">&nbsp;</h3>
+        <h4 id="result" style="font-size: 20px;">&nbsp;</h4>
+        <br />
+        <table>
+            <tr>
+                <th class="small">赌小</th>
+                <th class="big">赌大</th>
+            </tr>
+            <tr>
+                <th><button class="t1 small" onclick="betSmall(1)">X 1</button></th>
+                <th><button class="t1 big" onclick="betBig(1)">X 1</button></th>
+            </tr>
+            <tr>
+                <th><button class="t2 small" onclick="betSmall(2)">X 2</button></th>
+                <th><button class="t2 big" onclick="betBig(2)">X 2</button></th>
+            </tr>
+            <tr>
+                <th><button class="t4 small" onclick="betSmall(4)">X 4</button></th>
+                <th><button class="t4 big" onclick="betBig(4)">X 4</button></th>
+            </tr>
+            <tr>
+                <th><button class="t8 small" onclick="betSmall(8)">X 8</button></th>
+                <th><button class="t8 big" onclick="betBig(8)">X 8</button></th>
+            </tr>
+            <tr>
+                <th><button class="t16 small" onclick="betSmall(16)">X 16</button></th>
+                <th><button class="t16 big" onclick="betBig(16)">X 16</button></th>
+            </tr>
+            <tr>
+                <th><button class="t32 small" onclick="betSmall(32)">X 32</button></th>
+                <th><button class="t32 big" onclick="betBig(32)">X 32</button></th>
+            </tr>
+            <tr>
+                <th><button class="t64 small" onclick="betSmall(64)">X 64</button></th>
+                <th><button class="t64 big" onclick="betBig(64)">X 64</button></th>
+            </tr>
+        </table>
+        <br />
+        <p style="color: var(--aqua);"><input id="preventWin" type="checkbox" />戒赌模式</p>
+    </div>
+    <script>
+        let balance = 10;
+        const betTypeArray = [1, 2, 4, 8, 16, 32, 64];
+        let mult;
+        let betType;
+
+        function updateBalance() {
+            copyTo("balance", balance);
+        }
+
+        function updateButton() {
+            betTypeArray.forEach(type => {
+                if (balance >= type) {
+                    for (let i = 0; i < 2; i++) {
+                        document.querySelectorAll(`.t${type}`)[i].disabled = false;
+                    }
+                } else {
+                    for (let i = 0; i < 2; i++) {
+                        document.querySelectorAll(`.t${type}`)[i].disabled = true;
+                    }
+                }
+            });
+        }
+
+        function betSmall(betMult) {
+            betType = "small";
+            mult = betMult;
+            betRoll();
+        }
+
+        function betBig(betMult) {
+            betType = "big";
+            mult = betMult;
+            betRoll();
+        }
+
+        function betRoll() {
+            let nowNumber;
+            if (!target("preventWin").checked) {
+                nowNumber = rand(1, 100);
+            } else {
+                if (balance + mult >= 100) {
+                    if (betType == "small") {
+                        nowNumber = rand(51, 100);
+                    } else {
+                        nowNumber = rand(1, 50);
+                    }
+                } else {
+                    let decider = rand(1, 10);
+                    if (decider <= 3) { // Correct
+                        if (betType == "small") {
+                            nowNumber = rand(1, 50);
+                        } else {
+                            nowNumber = rand(51, 100);
+                        }
+                    } else { // Wrong
+                        if (betType == "big") {
+                            nowNumber = rand(1, 50);
+                        } else {
+                            nowNumber = rand(51, 100);
+                        }
+                    }
+                }
+            }
+            copyTo("number", nowNumber);
+
+            if (nowNumber <= 50) {
+                colorTo("number", "var(--blue)");
+                if (betType == "small") {
+                    balance += mult;
+                    copyTo("result", `你赌对了! +$${mult}`);
+                    colorTo("result", "var(--green)");
+                } else {
+                    balance -= mult;
+                    copyTo("result", `你赌错了! -$${mult}`);
+                    colorTo("result", "var(--red)");
+                }
+            } else {
+                colorTo("number", "var(--pink)");
+                if (betType == "big") {
+                    balance += mult;
+                    copyTo("result", `你赌对了! +$${mult}`);
+                    colorTo("result", "var(--green)");
+                } else {
+                    balance -= mult;
+                    copyTo("result", `你赌错了! -$${mult}`);
+                    colorTo("result", "var(--red)");
+                }
+            }
+            
+            updateBalance();
+            updateButton();
+            checkStatus();
+        }
+
+        function checkStatus() {
+            if (balance <= 0) {
+                copyTo("win", "你破产了!");
+                colorTo("win", "var(--red)");
+                colorTo("#balanceLine, #balanceLine *", "var(--red)", "query");
+                for (let i = 0; i < 14; i++) {
+                    document.querySelectorAll(`button`)[i].disabled = true;
+                }
+            }
+            if (balance >= 100) {
+                copyTo("win", "你胜利了!");
+                colorTo("win", "var(--green)");
+                colorTo("#balanceLine, #balanceLine *", "var(--green)", "query");
+                for (let i = 0; i < 14; i++) {
+                    document.querySelectorAll(`button`)[i].disabled = true;
+                }
+            }
+        }
+
+        updateBalance();
+        updateButton();
+    </script>
+</div></body>
+
+</html>
