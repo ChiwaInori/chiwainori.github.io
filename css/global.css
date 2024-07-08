@@ -262,11 +262,6 @@ table {
 }
 
 .SEIZURE { /* Seizure Warning */
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: var(--backgroundColor-500);
     padding: 16px 32px 16px 32px;
     border: 2px solid var(--textColor-500);
