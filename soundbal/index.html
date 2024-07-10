@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>音量平衡工具 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <style></style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>音量平衡工具</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>音量平衡工具</strong></h6>
+    </div>
+    <div class="content">
+        <blockquote><p>你是否焦虑于你的音乐列表中部分音乐音量偏大，而有一些偏小，导致你时常要手动更改音量大小?</p></blockquote>
+        <p>使用本页面可以帮助你解决一个歌单中部分音乐音量偏大，而有一些偏小造成的不适的问题。</p>
+        <div id="chooseFile">
+            <p>请在下方选择音频文件:</p>
+            <p><input type="file" id="audioFile" accept="audio/*" /></p>
+        </div>
+        <div id="targetVolume" hide>
+            <p>请输入目标音量值: <input type="number" id="volume" value="90" style="width: 32px;" />dB</p>
+            <p class="STX">注意: 设置过大或过小都可能导致音频失真。</p>
+            <button id="deal" onclick="adjustVolume()">处理音频</button>
+        </div>
+        <div id="results" hide>
+            <p id="finalAudio"><audio id="audioPlayer" controls></audio></p>
+            <p><button onclick="save(`${musicName.replace(/\.[^/.]+$/, '')}_Modified.mp3`, wav)">下载音频</button></p>
+            <p style="color: var(--red)">注意: 使用本页面获得的音频文件的占用空间可能较大。如在意该问题，我们推荐使用如格式工厂之类的格式转换文件处理。</p>
+        </div>
+        <br />
+        <p class="ANT">你的音频只在本地进行处理，不会被上传到任何服务器。</p>
+        <p class="ANT">&quot;音量平衡工具 - XTSGAMES&quot; 仅为一款处理音频的工具，不负责、承担任何的版权问题。您的音频版权取决于音频自身的版权方，在使用音频前请确保本人已悉知该音频本身相关的版权事项，如若由此产生任何纠纷，XTSGAMES 概不负责。</p>
+    </div>
+    <script>
+        const fileInput = target("audioFile");
+        const audioPlayer = target("audioPlayer");
+
+        const defaultTarget = 90;
+
+        let musicFile;
+        let musicName;
+        let targetVolume = dB2Linear(defaultTarget); // 0.2 86.02059991327963
+        target("volume").value = defaultTarget;
+        target("audioFile").addEventListener("input", () => {
+            musicFile = fileInput.files[0];
+            musicName = fileInput.files[0].name;
+            fadeChange("chooseFile", "targetVolume");
+        });
+        target("volume").addEventListener("input", () => {
+            if (parseFloat(target("volume").value) >= 0) {
+                target("deal").disabled = false;
+                targetVolume = dB2Linear(parseInt(target("volume").value));
+            }
+        });
+
+        let wav;
+        
+        function adjustVolume() {
+            fadeChange("targetVolume", "results");
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                audioContext.decodeAudioData(event.target.result, (buffer) => {
+                    // 创建一个离线音频上下文
+                    const offlineContext = new OfflineAudioContext(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+                    const source = offlineContext.createBufferSource();
+                    source.buffer = buffer;
+
+                    // 创建增益节点来调整音量
+                    const gainNode = offlineContext.createGain();
+
+                    let data = {
+                        L: buffer.getChannelData(0),
+                        R: buffer.getChannelData(1)
+                    };
+                    let totalVolume = {
+                        L: 0,
+                        R: 0
+                    };
+                    log(data);
+
+                    for (let i = 0; i < data.L.length; i++) { // Get volume data (Weighted Average: Less add less, more add more)
+                        totalVolume.L += Math.abs(data.L[i]) ** (1 / 2) - 0.08;
+                        totalVolume.R += Math.abs(data.R[i]) ** (1 / 2) - 0.08;
+                    }
+
+                    const averageVolume = (totalVolume.L / data.L.length + totalVolume.R / data.R.length) / 2;
+
+                    const bufferStrength = targetVolume / averageVolume;
+                    log(bufferStrength, averageVolume, targetVolume);
+
+                    for (let i = 0; i < data.L.length; i++) { // Modify volume data (If 0, *= bufferStrength; if 1, *= 1 (Less plus more, more plus less, to avoid explosion))
+                        const bufferRange = {
+                            L: Math.abs(data.L[i]),
+                            R: Math.abs(data.R[i])
+                        };
+
+                        data.L[i] *= transit(bufferStrength, 1, bufferRange.L);
+                        data.R[i] *= transit(bufferStrength, 1, bufferRange.R);
+                    }
+                
+                    source.connect(gainNode);
+                    gainNode.connect(offlineContext.destination);
+                    source.start(0);
+                
+                    // 渲染处理后的音频
+                    offlineContext.startRendering().then((renderedBuffer) => {
+                        wav = audioBufferToWav(renderedBuffer);
+                        const blob = new Blob([new DataView(wav)], {type: "audio/wav" });
+                        const url = URL.createObjectURL(blob);
+
+                        unhide("finalAudio");
+                    
+                        audioPlayer.src = url;
+                        audioPlayer.play();
+                    });
+                });
+            };
+            reader.readAsArrayBuffer(musicFile);
+        }
+
+        function audioBufferToWav(buffer) {
+            let numOfChan = buffer.numberOfChannels,
+            length = buffer.length * numOfChan * 2 + 44,
+            bufferArr = new ArrayBuffer(length),
+            view = new DataView(bufferArr),
+            channels = [],
+            i, sample,
+            offset = 0,
+            pos = 0;
+
+            // 头部信息
+            setUint32(0x46464952);                         // "RIFF"
+            setUint32(length - 8);                         // 文件大小
+            setUint32(0x45564157);                         // "WAVE"
+
+            // fmt块
+            setUint32(0x20746d66);                         // "fmt " chunk
+            setUint32(16);                                 // 长度
+            setUint16(1);                                  // PCM格式
+            setUint16(numOfChan);                          // 声道数
+            setUint32(buffer.sampleRate);                  // 采样率
+            setUint32(buffer.sampleRate * 2 * numOfChan);  // 数据传输率
+            setUint16(numOfChan * 2);                      // 每样本字节数
+            setUint16(16);                                 // 位深
+
+            // 数据块
+            setUint32(0x61746164);                         // "data" chunk
+            setUint32(length - pos - 4);                   // 数据长度
+
+            // 写入PCM数据
+            for (i = 0; i < buffer.numberOfChannels; i++)
+            channels.push(buffer.getChannelData(i));
+
+            while (pos < length) {
+                for (i = 0; i < numOfChan; i++) {
+                // 小端字节序
+                    sample = Math.max(-1, Math.min(1, channels[i][offset]));
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                    view.setInt16(pos, sample, true);
+                    pos += 2;
+                }
+                offset++;
+            }
+
+            function setUint16(data) {
+                view.setUint16(pos, data, true);
+                pos += 2;
+            }
+
+            function setUint32(data) {
+                view.setUint32(pos, data, true);
+                pos += 4;
+            }
+
+            return bufferArr;
+        }
+
+        function dB2Linear(input) {
+            return 10 ** ((input - 100) / 20);
+        }
+    </script>
+</div></body>
+
+</html>

@@ -224,6 +224,10 @@ table {
 .LNK {} (Link) is defined above
 */
 
+*[hide] { /* Use "hide" in element directly to hide it. Example: <div id="secret" hide></div> */
+    display: none;
+}
+
 .STX { /* Small Texts */
     font-size: 10px;
 }

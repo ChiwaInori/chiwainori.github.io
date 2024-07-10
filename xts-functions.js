@@ -148,17 +148,38 @@ function getNum(string, order = 1) {
  * @param {number} from - The number where calculates from
  * @param {number} to - The number where calculates to
  * @param {number} percentage - ([0, 1]) The percentage of number of transit
+ * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @return {number} A number in range and specified percentage
  * @example transit(0, 10, 0.6) // 6 (The number in [0, 10] and 60% of its range is 6)
  */
-function transit(from, to, percentage) {
+function transit(from, to, percentage, disableRange = false) {
     if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
     if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
     if (typeof percentage != "number") { throw new Error(`percentage must be a NUMBER`); }
-    if (percentage > 1 || percentage < 0) { throw new RangeError("Percentage must between 0 and 1"); }
 
     const range = to - from;
-    return percentage * range + from;
+
+    return disableRange ? percentage * range + from : toRange(0, percentage, 1) * range + from;
+}
+
+/**
+ * Return a number within given range.
+ * If the number is out of range, a warning message will be provided.
+ * @param {number} minBoundary - (<= maxBoundary) The boundary of minimum
+ * @param {number} number - The number being parsed into range
+ * @param {number} maxBoundary - (>= minBoundary) The boundary of maximum
+ * @return {number} The number been parsed into range
+ * @example toRange(0, 120, 100) // 100 (120 is out of [0, 100], so output 100)
+ */
+function toRange(minBoundary, number, maxBoundary) {
+    if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
+    if (typeof number != "number") { throw new TypeError(`number must be a NUMBER`); }
+    if (typeof maxBoundary != "number") { throw new Error(`maxBoundary must be a NUMBER`); }
+    if (minBoundary > maxBoundary) { throw new RangeError(`Invalid minimum / maximum boundary number; minimum (${min}) should be less than maximum (${max})`); }
+
+    if (number < minBoundary || number > maxBoundary) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${number}). Parsing it into given range.`); }
+
+    return Math.min(Math.max(number, minBoundary), maxBoundary);
 }
 
 // CONSOLE LOG
