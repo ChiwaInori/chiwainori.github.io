@@ -156,6 +156,7 @@ function transit(from, to, percentage, disableRange = false) {
     if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
     if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
     if (typeof percentage != "number") { throw new Error(`percentage must be a NUMBER`); }
+    if (typeof disableRange != "boolean") { throw new Error(`disableRange must be a BOOLEAN`); }
 
     const range = to - from;
 
@@ -168,16 +169,18 @@ function transit(from, to, percentage, disableRange = false) {
  * @param {number} minBoundary - (<= maxBoundary) The boundary of minimum
  * @param {number} number - The number being parsed into range
  * @param {number} maxBoundary - (>= minBoundary) The boundary of maximum
+ * @param {boolean} warnIfWorked - Should the function warn in console if itself worked
  * @return {number} The number been parsed into range
  * @example toRange(0, 120, 100) // 100 (120 is out of [0, 100], so output 100)
  */
-function toRange(minBoundary, number, maxBoundary) {
+function toRange(minBoundary, number, maxBoundary, warnIfWorked = false) {
     if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
     if (typeof number != "number") { throw new TypeError(`number must be a NUMBER`); }
     if (typeof maxBoundary != "number") { throw new Error(`maxBoundary must be a NUMBER`); }
+    if (typeof warnIfWorked != "boolean") { throw new Error(`warnIfWorked must be a BOOLEAN`); }
     if (minBoundary > maxBoundary) { throw new RangeError(`Invalid minimum / maximum boundary number; minimum (${min}) should be less than maximum (${max})`); }
 
-    if (number < minBoundary || number > maxBoundary) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${number}). Parsing it into given range.`); }
+    if (warnIfWorked && (number < minBoundary || number > maxBoundary)) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${number}). Parsing it into given range.`); }
 
     return Math.min(Math.max(number, minBoundary), maxBoundary);
 }
