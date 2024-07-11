@@ -459,6 +459,15 @@
         }
         */
 
+        const shipwarURL = "https://xtsgames/shipwar/?code=";
+
+        let onlineCode = paramURL("code");
+        if (onlineCode) {
+            document.getElementById("code_type").value = onlineCode;
+            hide("rules");
+            online_code_enter();
+        }
+
         function begin() {
             if (document.getElementById("file-content").innerHTML == "") {
                 fadeChange("rules", "choose_first");
@@ -5915,7 +5924,7 @@
             } else {
                 var first = 1;
             }
-            document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + first + random_seed + big_pos + ".";
+            document.getElementById("online_code").innerHTML = `<span style="color: var(--gray);">${shipwarURL}</span>xtsgames-shipwar.olg.` + first + random_seed + big_pos + ".";
         }
 
         function online_code_enter() {
@@ -6187,7 +6196,7 @@
 
         function online_continue() {
             document.getElementById("online_b1").disabled = true;
-            if (document.getElementById("code_from_friend").value == document.getElementById("online_code").innerHTML) {
+            if (document.getElementById("code_from_friend").value == document.getElementById("online_code").innerText || document.getElementById("code_from_friend").value == document.getElementById("online_code").innerHTML.match(/xtsgames-shipwar.*/g)) {
                 document.getElementById("online_same").style.display = "block";
                 document.getElementById("online_b1").disabled = true;
                 document.getElementById("confirm").style.display = "inline-block";
