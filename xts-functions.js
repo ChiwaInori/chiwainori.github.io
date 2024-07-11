@@ -103,10 +103,10 @@ function copyright(startYear, signature = "xtsdcb69") {
 /**
  * Get the param from URL (.../...?param1=content1&param2=content2).
  * @param {string} name - The param name from URL
- * @return The value of the param
- * @example paramURL("userID") // Return the value of ?userID=...
+ * @return {string | null} The value of the param
+ * @example testfunction1("userID") // Return the value of ?userID=...
  */
-function paramURL(name) {
+function testfunction1(name) {
     if (typeof name != "string") { throw new TypeError(`name must be a STRING`); }
 
     return new URLSearchParams(window.location.search).get(name);
