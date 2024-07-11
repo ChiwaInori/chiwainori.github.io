@@ -101,15 +101,27 @@ function copyright(startYear, signature = "xtsdcb69") {
 }
 
 /**
- * Get the param from URL (.../...?param1=content1&param2=content2).
+ * Get or set the param from URL (.../...?param1=content1&param2=content2).
+ * @param {"get" | "set"} method - Are you getting or setting a param?
  * @param {string} name - The param name from URL
- * @return {string | null} The value of the param
+ * @param {any} value - The param value being set (only when using "set")
+ * @return {string | null} The value of the param (only when using "get")
  * @example paramURL("userID") // Return the value of ?userID=...
  */
-function paramURL(name) {
+function paramURL(method, name, value = null) {
+    if (method != "get" && method != "set") { throw new TypeError(`method must be "get" or "set"`); }
     if (typeof name != "string") { throw new TypeError(`name must be a STRING`); }
 
-    return new URLSearchParams(window.location.search).get(name);
+    if (method == "get") {
+        return new URLSearchParams(window.location.search).get(name);
+    }
+    if (method == "set") {
+        if (!window.location.href.match(/\?/g)) {
+            window.location.href += `?${name}=${value}`;
+        } else {
+            window.location.href += `&${name}=${value}`;
+        }
+    }
 }
 
 // NUMERAL COMMANDS
