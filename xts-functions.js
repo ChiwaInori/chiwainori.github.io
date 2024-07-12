@@ -25,7 +25,7 @@ function sleep(time) {
 /**
  * Pop up a seizure warning in page.
  * @param {any} cnText - The custom text for Chinese
- * @param {any} enText - The custom text for Chinese
+ * @param {any} enText - The custom text for English
  * @example seizure("本页面包含闪烁内容。", "This page includes flashing content.") // Create a seizure warning in specified text.
  */
 function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>") {
@@ -89,8 +89,7 @@ function copyright(startYear, signature = "xtsdcb69") {
     if (typeof signature != "string") { throw new TypeError(`signature must be a STRING`); }
     if (document.getElementById("copyright") == null) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
-    const date = new Date();
-    const thisYear = date.getFullYear();
+    const thisYear = new Date().getFullYear();
     if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
 
     if (thisYear == parseInt(startYear)) {
@@ -106,7 +105,7 @@ function copyright(startYear, signature = "xtsdcb69") {
  * @param {string} name - The param name from URL
  * @param {any} value - The param value being set (only when using "set")
  * @return {string | null} The value of the param (only when using "get")
- * @example paramURL("userID") // Return the value of ?userID=...
+ * @example paramURL("get", "userID") // Return the value of ?userID=...
  */
 function paramURL(method, name, value = null) {
     if (method != "get" && method != "set") { throw new TypeError(`method must be "get" or "set"`); }
