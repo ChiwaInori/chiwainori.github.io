@@ -90,9 +90,9 @@ function copyright(startYear, signature = "xtsdcb69") {
     if (document.getElementById("copyright") == null) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    if (thisYear < parseInt(startYear)) { throw new Error("Cannot set a copyright starting from future"); }
+    if (thisYear < +startYear) { throw new Error("Cannot set a copyright starting from future"); }
 
-    if (thisYear == parseInt(startYear)) {
+    if (thisYear == +startYear) {
         copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
     } else {
         copyTo("copyright", `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`);
@@ -120,6 +120,23 @@ function paramURL(method, name, value = null) {
         } else {
             window.location.href += `&${name}=${value}`;
         }
+    }
+}
+
+/**
+ * Return true in a specified chance.
+ * @param {number} percent - [0, 1] The chance of returning true
+ * @returns {number} true or false in specified chance
+ * @example chance(0.6) // It has 60% chance to return true
+ */
+function chance(percent) {
+    if (typeof percent != "number") { throw new TypeError(`percent must be a NUMBER`); }
+    if (percent > 1 || percent < 0) { throw new RangeError(`percent must between 0 and 1 (received ${percent})`); }
+
+    if (rand(0, 1, true) < percent) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -154,13 +171,13 @@ function rand(min, max, keepFloat = false) {
  * Return a selected number in a string.
  * @param {number} order (>= 1) Which part of number you want
  * @return {number} The number from specified string in specified order
- * @example getNum("589brg13d7.4gh,-2.6eru", 3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
+ * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
     if (typeof order != "number") { throw new TypeError(`order must be a NUMBER`); }
     if (order <= 0) { throw new RangeError("Order cannot less than 1"); }
 
-    return parseFloat(this.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1]);
+    return +this.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1];
 }
 
 
@@ -170,7 +187,7 @@ String.prototype.getNum = function (order = 1) {
  * @param {number} to - The number where calculates to
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @return {number} A number in range and specified percentage
- * @example transit(0, 10, 0.6) // 6 (The number in [0, 10] and 60% of its range is 6)
+ * @example (0.6).transit(0, 10) // 6 (The number in [0, 10] and 60% of its range is 6)
  */
 Number.prototype.transit = function (from, to, disableRange = false) {
     if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
@@ -189,7 +206,7 @@ Number.prototype.transit = function (from, to, disableRange = false) {
  * @param {number} maxBoundary - (>= minBoundary) The boundary of maximum
  * @param {boolean} warnIfWorked - Should the function warn in console if itself worked
  * @return {number} The number been parsed into range
- * @example toRange(0, 120, 100) // 100 (120 is out of [0, 100], so output 100)
+ * @example (120).toRange(0, 100) // 100 (120 is out of [0, 100], so output 100)
  */
 Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = false) {
     if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
@@ -354,15 +371,19 @@ function unhide(element, display = "block", method = "id") {
 
     if (method == "id") {
         target(element).style.display = display;
+        target(element).style.opacity = 1;
     }
     if (method == "class") {
         for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
             document.getElementsByClassName(element)[i].style.display = display;
+            document.getElementsByClassName(element)[i].style.opacity = 1;
+
         }
     }
     if (method == "query") {
         for (let i = 0; i < document.querySelectorAll(element).length; i++) {
             document.querySelectorAll(element)[i].style.display = display;
+            document.querySelectorAll(element)[i].style.opacity = 1;
         }
     }
 }
@@ -442,10 +463,11 @@ async function transColor(element, color, time = 100) {
 /**
  * Fade out an element.
  * @param {string} element - The id of target element
+ * @param {boolean} doNotHide - Do not hide the element after fading out (keep a blank space for the element)
  * @param {number} time - (>= 1) The time length of fade out
- * @example fadeOut("title", 200) // Fade out #title in 0.2s.
+ * @example fadeOut("title", false, 200) // Fade out #title in 0.2s.
  */
-async function fadeOut(element, time = 100) {
+async function fadeOut(element, doNotHide = false, time = 100) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
     if (time < 1) { throw new RangeError("Cannot fade out in less than 1 milliseconds"); }
@@ -453,7 +475,7 @@ async function fadeOut(element, time = 100) {
     let nowOpacity;
 
     if (target(element).style.opacity != "") {
-        nowOpacity = parseFloat(target(element).style.opacity);
+        nowOpacity = +target(element).style.opacity;
     } else {
         nowOpacity = 1;
     }
@@ -463,8 +485,10 @@ async function fadeOut(element, time = 100) {
         await sleep(time / 20);
     }
     if (nowOpacity <= 0) {
-        hide(element);
-        target(element).style.opacity = 1;
+        if (!doNotHide) {
+            hide(element);
+        }
+        target(element).style.opacity = 0;
     }
 }
 
@@ -483,7 +507,7 @@ async function fadeIn(element, time = 100) {
 
     unhide(element);
     if (target(element).style.opacity != "") {
-        nowOpacity = parseFloat(target(element).style.opacity);
+        nowOpacity = +target(element).style.opacity;
     } else {
         nowOpacity = 0;
     }
@@ -507,7 +531,7 @@ async function fadeChange(outElement, inElement, time = 200) {
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
     if (time < 1) { throw new RangeError("Cannot fade change in than 1 milliseconds"); }
 
-    fadeOut(outElement, time / 2);
+    fadeOut(outElement, false, time / 2);
     await sleep(time / 2 + 20);
     fadeIn(inElement, time / 2);
 }

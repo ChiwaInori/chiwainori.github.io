@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>JavaScript 表达式计算测试 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <style></style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>JavaScript 表达式计算测试</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>JavaScript 表达式计算测试</strong></h6>
+    </div>
+    <div class="content">
+        <div id="welcome">
+            <p>欢迎来到 <strong>JavaScript 表达式计算测试</strong>!</p>
+            <p>请调整表达式中出现下列运算符的权重。</p>
+            <br />
+            <table>
+                <tr>
+                    <th>&& ||</th>
+                    <th><input id="weight1" value="3" style="width: 32px;" /></th>
+                </tr>
+                <tr>
+                    <th>+ -</th>
+                    <th><input id="weight2" value="1" style="width: 32px;" /></th>
+                </tr>
+            </table>
+            <br />
+            <p><button onclick="confirm()">确认</button></p>
+        </div>
+        <div id="test" hide>
+            <p>已知有如下常量:</p>
+            <div id="varList" style="background-color: rgb(31, 31, 31); padding: 16px;">
+            </div>
+            <br />
+            <p>求以下表达式的结果:</p>
+            <h4 id="operation"></h4>
+            <p><input id="input" /><button onclick="check()">确认</button></p>
+            <p id="final">&nbsp;</p>
+            <h5 id="finalSub" style="color: var(--blue)" class="STX" hide>请自行判断正误。</h5>
+        </div>
+    </div>
+    <script>
+        const totalConstants = ["a", "b", "c", "d", "e", "f", "g"];
+        const usedConstants = constGet(rand(0, 1, true));
+
+        let a;
+        let b;
+        let c;
+        let d;
+        let e;
+        let f;
+        let g;
+
+        let weight1 = 3; // && ||
+        let weight2 = 1; // + -
+
+        let answer;
+
+        target("weight1").addEventListener("input", function () {
+            weight1 = +this.value;
+        });
+        target("weight2").addEventListener("input", function () {
+            weight2 = +this.value;
+        });
+
+        function constGet(p) {
+            if (p <= 0.5) { return totalConstants.slice(0, 6); }
+            else if (p <= 0.7) { return totalConstants.slice(0, 7); }
+            else if (p <= 0.8) { return totalConstants; }
+            else if (p <= 0.9) { return totalConstants.slice(0, 5); }
+            else if (p <= 0.97) { return totalConstants.slice(0, 4); }
+            else if (p <= 0.99) { return totalConstants.slice(0, 3); }
+            else { return totalConstants.slice(0, 2); }
+        }
+
+        usedConstants.forEach(constant => {
+            const assignedValue = getValue();
+            let color;
+
+            if (typeof assignedValue == "number") {
+                color = "155, 219, 158";
+            }
+            if (typeof assignedValue == "string") {
+                color = "214, 130, 97";
+            }
+            if (assignedValue === true || assignedValue === false || assignedValue === null || typeof assignedValue != "string" && isNaN(assignedValue)) {
+                color = "62, 100, 179";
+            }
+            if (assignedValue == "[]" || assignedValue == "{}") {
+                color = "251, 210, 0";
+            }
+            addTo("varList", `<p><strong><span style="color: rgb(62, 100, 179)">const</span> <span style="color: rgb(62, 151, 239)">${constant}</span> <span style="color: rgb(255, 255, 255);">=</span> <span style="color: rgb(${color})">${assignedValue}</span><span style="color: rgb(255, 255, 255);">;</span></strong></p>`);
+        });
+
+        function getValue() {
+            const d = rand(1, 10);
+
+            if (d == 1) {
+                return 0;
+            }
+            if (d == 2) {
+                return 1;
+            }
+            if (d == 3) {
+                return true;
+            }
+            if (d == 4) {
+                return false;
+            }
+            if (d == 5) {
+                return "\"\"";
+            }
+            if (d == 6) {
+                return "\"Hello\"";
+            }
+            if (d == 7) {
+                return null;
+            }
+            if (d == 8) {
+                return NaN;
+            }
+            if (d == 9) {
+                return "[]";
+            }
+            if (d == 10) {
+                return "{}";
+            }
+        }
+
+        const allConstants = document.querySelectorAll("#varList p");
+        allConstants.forEach(line => {
+            const constName = line.innerHTML.match(/\b[a-g]\b/g);
+            const constValueString = line.innerHTML;
+
+            let constValue;
+            if (constValueString.indexOf("0<") >= 0) { constValue = 0; }
+            if (constValueString.indexOf("1<") >= 0) { constValue = 1; }
+            if (constValueString.indexOf("true") >= 0) { constValue = true; }
+            if (constValueString.indexOf("false") >= 0) { constValue = false; }
+            if (constValueString.indexOf("\"\"") >= 0) { constValue = ""; }
+            if (constValueString.indexOf("Hello") >= 0) { constValue = "Hello"; }
+            if (constValueString.indexOf("null") >= 0) { constValue = null; }
+            if (constValueString.indexOf("NaN") >= 0) { constValue = NaN; }
+            if (constValueString.indexOf("[]") >= 0) { constValue = []; }
+            if (constValueString.indexOf("{}") >= 0) { constValue = {}; }
+
+            if (constName == "a") { a = constValue; }
+            if (constName == "b") { b = constValue; }
+            if (constName == "c") { c = constValue; }
+            if (constName == "d") { d = constValue; }
+            if (constName == "e") { e = constValue; }
+            if (constName == "f") { f = constValue; }
+            if (constName == "g") { g = constValue; }
+        });
+
+        function getRandomExpression(variables) {
+            const operators = [
+                { operator: '&&', weight: weight1 },
+                { operator: '||', weight: weight1 },
+                { operator: '+', weight: weight2 },
+                { operator: '-', weight: weight2 }
+            ];
+
+            const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)];
+            const getRandomVariable = () => getRandomElement(variables);
+
+            const getWeightedRandomOperator = () => {
+                const totalWeight = operators.reduce((sum, op) => sum + op.weight, 0);
+                let randomWeight = Math.random() * totalWeight;
+                for (let op of operators) {
+                    if (randomWeight < op.weight) {
+                        return op.operator;
+                    }
+                    randomWeight -= op.weight;
+                }
+            };
+
+            const generateExpression = (depth) => {
+                if (depth > 3 || (depth > 0 && Math.random() > 0.9)) {
+                    return getRandomVariable();
+                }
+                const left = generateExpression(depth + 1);
+                const operator = getWeightedRandomOperator();
+                const right = generateExpression(depth + 1);
+                return `(${left} ${operator} ${right})`;
+            };
+
+            return generateExpression(0);
+        }
+
+        function confirm() {
+            fadeChange("welcome", "test");
+            copyTo("operation", getRandomExpression(usedConstants));
+            answer = eval(target("operation").innerText);
+        }
+
+
+        function check() {
+            let formattedAnswer = answer;
+            let color;
+
+            if (typeof answer == "number") {
+                color = "155, 219, 158";
+            }
+            if (answer === true || answer === false || answer === null || typeof answer != "string" && isNaN(answer)) {
+                color = "62, 100, 179";
+            }
+
+            if (typeof answer == "string") { formattedAnswer = `"${answer}"`; color = "214, 130, 97"; }
+            if (typeof answer == "object" && answer !== null) { formattedAnswer = "{}"; color = "251, 210, 0"; }
+            if (checkArray()) { formattedAnswer = "[]"; color = "251, 210, 0"; }
+
+            document.getElementById("final").innerHTML = `<span style="color: var(--blue)"><strong>标准答案: <span style="color: rgb(${color}); background-color: rgb(31, 31, 31); padding: 4px;">${formattedAnswer}</span></strong></span>`;
+            log(answer, formattedAnswer);
+            unhide("finalSub");
+        }
+
+        function checkArray() {
+            try {
+                return answer.length == 0;
+            } catch {
+                return false;
+            }
+        }
+    </script>
+</div></body>
+
+</html>

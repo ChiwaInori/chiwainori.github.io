@@ -55,10 +55,10 @@
             musicName = fileInput.files[0].name;
             fadeChange("chooseFile", "targetVolume");
         });
-        target("volume").addEventListener("input", () => {
-            if (parseFloat(target("volume").value) >= 0) {
+        target("volume").addEventListener("input", function () {
+            if (+this.value >= 0) {
                 target("deal").disabled = false;
-                targetVolume = dB2Linear(parseInt(target("volume").value));
+                targetVolume = dB2Linear(+this.value);
             }
         });
 
