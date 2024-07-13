@@ -40,8 +40,8 @@
             <p><strong>钢笔</strong> - 将点数上限从 21 改为 24</p>
             <p><strong>交换器</strong> - 将你的最后一张牌和庄家的最后一张牌互换</p>
             <p><strong>打火机</strong> - 移除你的最后一张牌</p>
-            <p><strong>小刀</strong> - 如果这一局你胜利，则对庄家造成额外 1 点伤害</p>
-            <p><strong>盾牌</strong> - 如果这一局你失败，抵挡 1 点伤害</p>
+            <p><strong>小刀</strong> - 如果这一局你胜利，则对庄家造成额外 1 点伤害 (不可叠加)</p>
+            <p><strong>盾牌</strong> - 如果这一局你失败，抵挡 1 点伤害 (不可叠加)</p>
             <p><strong>桃</strong> - 回复 1 点生命值</p>
         </div>
         <div id="game" hide>
@@ -526,13 +526,21 @@
 
             }
             if (prop.indexOf("小刀") != -1) {
-                dealerTakingDamage++;
+                if (target("dealerShield").style.display == "none") {
+                    dealerTakingDamage = 2;
+                } else {
+                    dealerTakingDamage = 1;
+                }
                 unhide("playerKnife", "inline");
 
                 copyTo("propUsedEffects", "玩家 使用 小刀: 如果这一局你胜利，则对庄家造成额外 1 点伤害");
             }
             if (prop.indexOf("盾牌") != -1) {
-                playerTakingDamage--;
+                if (target("dealerKnife").style.display == "none") {
+                    playerTakingDamage = 0;
+                } else {
+                    playerTakingDamage = 1;
+                }
                 unhide("playerShield", "inline");
 
                 copyTo("propUsedEffects", "玩家 使用 盾牌: 如果这一局你失败，抵挡 1 点伤害");
@@ -639,14 +647,22 @@
                 dealerProps = dealerProps.remove("Lighter");
             }
             if (prop == 4) {
-                playerTakingDamage++;
+                if (target("playerShield").style.display == "none") {
+                    playerTakingDamage = 2;
+                } else {
+                    playerTakingDamage = 1;
+                }
                 unhide("dealerKnife", "inline");
 
                 dealerProps = dealerProps.remove("Knife");
                 copyTo("propUsedEffects", "庄家 使用 小刀: 如果这一局庄家胜利，则对玩家造成额外 1 点伤害");
             }
             if (prop == 5) {
-                dealerTakingDamage--;
+                if (target("playerKnife").style.display == "none") {
+                    dealerTakingDamage = 0;
+                } else {
+                    dealerTakingDamage = 1;
+                }
                 unhide("dealerShield", "inline");
 
                 dealerProps = dealerProps.remove("Shield");
