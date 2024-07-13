@@ -544,7 +544,8 @@
                 copyTo("propUsedEffects", "玩家 使用 盾牌: 如果这一局你失败，抵挡 1 点伤害");
             }
             if (prop.indexOf("桃") != -1) {
-                playerHealth = ++playerHealth.toRange(0, 5);
+                playerHealth = (++playerHealth).toRange(0, 5);
+                updateHealth();
 
                 copyTo("propUsedEffects", "玩家 使用 桃: 回复 1 点生命值");
             }
@@ -658,7 +659,8 @@
                 copyTo("propUsedEffects", "庄家 使用 盾牌: 如果这一局庄家失败，抵挡 1 点伤害");
             }
             if (prop == 6) {
-                dealerHealth = ++dealerHealth.toRange(0, 5);
+                dealerHealth = (++dealerHealth).toRange(0, 5);
+                updateHealth();
 
                 copyTo("propUsedEffects", "庄家 使用 桃: 回复 1 点生命值");
             }
