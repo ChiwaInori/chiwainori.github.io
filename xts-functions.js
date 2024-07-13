@@ -152,17 +152,15 @@ function rand(min, max, keepFloat = false) {
 
 /**
  * Return a selected number in a string.
- * @param {string} string - The text that gets number from it
  * @param {number} order (>= 1) Which part of number you want
  * @return {number} The number from specified string in specified order
  * @example getNum("589brg13d7.4gh,-2.6eru", 3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
-function getNum(string, order = 1) {
-    if (typeof string != "string") { throw new TypeError(`string must be a STRING`); }
+String.prototype.getNum = function (order = 1) {
     if (typeof order != "number") { throw new TypeError(`order must be a NUMBER`); }
     if (order <= 0) { throw new RangeError("Order cannot less than 1"); }
 
-    return parseFloat(string.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1]);
+    return parseFloat(this.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1]);
 }
 
 
@@ -170,42 +168,38 @@ function getNum(string, order = 1) {
  * Return a number within given range and percentage.
  * @param {number} from - The number where calculates from
  * @param {number} to - The number where calculates to
- * @param {number} percentage - ([0, 1]) The percentage of number of transit
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @return {number} A number in range and specified percentage
  * @example transit(0, 10, 0.6) // 6 (The number in [0, 10] and 60% of its range is 6)
  */
-function transit(from, to, percentage, disableRange = false) {
+Number.prototype.transit = function (from, to, disableRange = false) {
     if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
     if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
-    if (typeof percentage != "number") { throw new Error(`percentage must be a NUMBER`); }
     if (typeof disableRange != "boolean") { throw new Error(`disableRange must be a BOOLEAN`); }
 
     const range = to - from;
 
-    return disableRange ? percentage * range + from : toRange(0, percentage, 1) * range + from;
+    return disableRange ? this * range + from : this.toRange(0, 1) * range + from;
 }
 
 /**
  * Return a number within given range.
  * If the number is out of range, a warning message will be provided.
  * @param {number} minBoundary - (<= maxBoundary) The boundary of minimum
- * @param {number} number - The number being parsed into range
  * @param {number} maxBoundary - (>= minBoundary) The boundary of maximum
  * @param {boolean} warnIfWorked - Should the function warn in console if itself worked
  * @return {number} The number been parsed into range
  * @example toRange(0, 120, 100) // 100 (120 is out of [0, 100], so output 100)
  */
-function toRange(minBoundary, number, maxBoundary, warnIfWorked = false) {
+Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = false) {
     if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
-    if (typeof number != "number") { throw new TypeError(`number must be a NUMBER`); }
     if (typeof maxBoundary != "number") { throw new Error(`maxBoundary must be a NUMBER`); }
     if (typeof warnIfWorked != "boolean") { throw new Error(`warnIfWorked must be a BOOLEAN`); }
     if (minBoundary > maxBoundary) { throw new RangeError(`Invalid minimum / maximum boundary number; minimum (${min}) should be less than maximum (${max})`); }
 
-    if (warnIfWorked && (number < minBoundary || number > maxBoundary)) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${number}). Parsing it into given range.`); }
+    if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
 
-    return Math.min(Math.max(number, minBoundary), maxBoundary);
+    return Math.min(Math.max(this, minBoundary), maxBoundary);
 }
 
 // CONSOLE LOG
@@ -216,7 +210,7 @@ function toRange(minBoundary, number, maxBoundary, warnIfWorked = false) {
  * @example log(score1, score2) // Output score1 and score2
  */
 function log(...args) {
-    console.log(args);
+    console.log(args.length == 1 ? args[0] : args);
 }
 
 // HTML ELEMENTS
@@ -253,6 +247,18 @@ function copyTo(element, content) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
     target(element).innerHTML = content;
+}
+
+/**
+ * Add something to an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @param {any} content - The content to add to the element
+ * @example copyTo("p1", "Hello") // Add "Hello" to #p1
+ */
+function addTo(element, content) {
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+
+    target(element).innerHTML += content;
 }
 
 /**
@@ -385,9 +391,9 @@ async function transColor(element, color, time = 100) {
 
     if (target(element).style.color != "") {
         fromColor = {
-            r: getNum(target(element).style.color, 1),
-            g: getNum(target(element).style.color, 2),
-            b: getNum(target(element).style.color, 3)
+            r: target(element).style.color.getNum(1),
+            g: target(element).style.color.getNum(2),
+            b: target(element).style.color.getNum(3)
         };
     } else {
         fromColor = preset;
@@ -402,9 +408,9 @@ async function transColor(element, color, time = 100) {
     }
     if (color.indexOf("rgb(") >= 0) {
         toColor = {
-            r: getNum(color, 1),
-            g: getNum(color, 2),
-            b: getNum(color, 3)
+            r: color.getNum(1),
+            g: color.getNum(2),
+            b: color.getNum(3)
         };
     }
 
@@ -417,9 +423,9 @@ async function transColor(element, color, time = 100) {
     for (let i = 1; i <= 21; i++) {
         if (target(element).style.color != "") {
             nowColor = {
-                r: getNum(target(element).style.color, 1),
-                g: getNum(target(element).style.color, 2),
-                b: getNum(target(element).style.color, 3)
+                r: target(element).style.color.getNum(1),
+                g: target(element).style.color.getNum(2),
+                b: target(element).style.color.getNum(3)
             };
         } else {
             nowColor = preset;

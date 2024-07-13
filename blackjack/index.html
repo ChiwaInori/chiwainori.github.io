@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>黑杰克 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <style></style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>黑杰克</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>黑杰克</strong></h6>
+    </div>
+    <div class="content">
+        <div id="welcome">
+            <p><strong>欢迎来到 黑杰克 游戏!</strong></p>
+            <p><strong>注意: XTSGAMES 的黑杰克游戏或许有一些不同。</strong>请看下列规则:</p>
+            <!-- <p><strong>玩家</strong>和<strong>庄家</strong>各有 5 点生命值。每失败一局<strong>降低一点生命值</strong>。降低至 0 则<strong>游戏失败</strong>。</p> -->
+            <p><strong>玩家</strong>和<strong>庄家</strong>将会在<strong>去掉大小王的 52 张扑克牌 (花色忽略)</strong> 中轮流抽牌。</p>
+            <p>双方无法看到<strong>对方</strong>抽到的<strong>第一张牌</strong>，但可以看到后续的牌。</p>
+            <p>当你的牌的点数大小之和<strong>大于 21</strong>时，就不能再抽牌。</p>
+            <p>根据需要，玩家和庄家可以选择<strong>停牌</strong>。一方停牌后，另一方<strong>仍可选择继续抽牌</strong>。</p>
+            <p>如果双方停牌时，点数之和都<strong>小于等于 21</strong>，则点数<strong>最接近 21</strong> 的一方获胜；</p>
+            <p>如果有且仅有一方的点数之和<strong>大于 21</strong>，则<strong>小于等于 21</strong> 的一方获胜；</p>
+            <p>如果双方的点数之和<strong>都大于 21</strong>或<strong>相等</strong>，则游戏平局。</p>
+            <p>A 可视为 <strong>1 点或 11 点</strong>，如果 A 认为是 11 点时点数之和<strong>大于 21</strong>，则该 A 认为是 <strong>1 点</strong>。</p>
+            <p>J, Q, K 均视为 <strong>10 点</strong>。</p>
+            <br />
+            <p><button onclick="start()">开始游戏</button></p>
+            <!-- <br />
+            <p>你会在每次抽牌时有 <strong>25%</strong> 的概率获得一个道具。</p>
+            <p><strong>钢笔</strong> - 将点数上限从 21 改为 24</p>
+            <p><strong>交换器</strong> - 将你的最后一张牌和庄家的最后一张牌互换</p>
+            <p><strong>打火机</strong> - 移除你的最后一张牌</p>
+            <p><strong>小刀</strong> - 如果这一局你胜利，则对庄家造成 2 点伤害</p>
+            <p><strong>盾牌</strong> - 如果这一局你失败，不失去生命值</p> -->
+        </div>
+        <div id="game" hide>
+            <h3>玩家</h3>
+            <p><strong id="playerLine"><span id="playerTotal" style="color: var(--blue)">0</span> : </strong></p>
+            <br />
+            <p><button id="drawButton" style="color: var(--green); border: 2px solid var(--green)" onclick="draw()">抽牌</button><button id="standButton" style="color: var(--red); border: 2px solid var(--red)" onclick="stand()">停牌</button><span id="status"></span></p>
+            <br />
+            <p><strong id="dealerLine"><span id="dealerTotal" style="color: var(--orange)">0</span> : </strong></p>
+            <h3>庄家</h3>
+        </div>
+    </div>
+    <script>
+        let currentDeck = ["A", "A", "A", "A", "2", "2", "2", "2", "3", "3", "3", "3", "4", "4", "4", "4", "5", "5", "5", "5", "6", "6", "6", "6", "7", "7", "7", "7", "8", "8", "8", "8", "9", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "Q", "Q", "Q", "Q", "K", "K", "K", "K"];
+        let playerHand = [];
+        let dealerHand = [];
+        let playerTotal = 0;
+        let dealerTotal = 0;
+        let playerTotalWithoutA = 0;
+        let dealerTotalWithoutA = 0;
+        let dealerFirstDrawn;
+        let standThreshold;
+
+        Array.prototype.remove = function (number) {
+            const index = this.indexOf(number); // this[index] is the number
+
+            let returnArray = [];
+            for (let i = 0; i < index; i++) { // Push value that is before index
+                returnArray.push(this[i]);
+            }
+            for (let i = index + 1; i < this.length; i++) { // Push value that is after index
+                returnArray.push(this[i]);
+            }
+
+            return returnArray;
+        };
+
+        String.prototype.getCountOf = function (target) {
+            const splitString = this.split(target);
+
+            return splitString.length - 1;
+        };
+
+        function start() {
+            fadeChange("welcome", "game");
+            getThreshold();
+        }
+
+        function draw() {
+            const drawnCard = currentDeck[rand(0, currentDeck.length - 1)]; // "A"
+
+            currentDeck = currentDeck.remove(drawnCard); // Remove the drawn card from deck
+            playerHand.push(drawnCard); // Add it to player's hand
+            addTo("playerLine", `${drawnCard} `);
+
+            if (!isNaN(drawnCard)) { // 2 ~ 10 is drawn
+                playerTotalWithoutA += parseInt(drawnCard);
+            } else if (drawnCard != "A") { // J, Q, K is drawn
+                playerTotalWithoutA += 10;
+            }
+            checkA(); // If A is drawn, check value here
+            updateTotal();
+            drawStatus(false);
+
+            dealerAct();
+        }
+
+        function checkA() {
+            const playerAs = playerHand.toString().getCountOf("A");
+            const dealerAs = dealerHand.toString().getCountOf("A");
+
+            if (playerAs >= 1) {
+                if (playerTotalWithoutA <= 10) { // < 11, one A consider as 11, others 1
+                    playerTotal = playerTotalWithoutA + 11 + playerAs - 1;
+                } else { // > 10, all A consider as 1
+                    playerTotal = playerTotalWithoutA + playerAs;
+                }
+            } else {
+                playerTotal = playerTotalWithoutA;
+            }
+
+            if (dealerAs >= 1) {
+                if (dealerTotalWithoutA <= 10) { // < 11, one A consider as 11, others 1
+                    dealerTotal = dealerTotalWithoutA + 11 + dealerAs - 1;
+                } else { // > 10, all A consider as 1
+                    dealerTotal = dealerTotalWithoutA + dealerAs;
+                }
+            } else {
+                dealerTotal = dealerTotalWithoutA;
+            }
+        }
+
+        function updateTotal() {
+            copyTo("playerTotal", playerTotal);
+            copyTo("dealerTotal", `${getDealerTotalLine()}`);
+
+            if (playerTotal == 21) {
+                colorTo("playerTotal", "var(--green)");
+            }
+            if (playerTotal > 21) {
+                colorTo("playerTotal", "var(--red)");
+                drawStatus(false);
+            }
+        }
+
+        function getDealerTotal() {
+            const checkArray = dealerHand.slice(1);
+            let counter = 0;
+
+            checkArray.forEach(handCard => {
+                if (counter != "?") {
+                    if (!isNaN(handCard)) {
+                        counter += parseInt(handCard);
+                    } else if (handCard != "A") {
+                        counter += 10;
+                    } else {
+                        counter = "?";
+                    }
+                }
+            });
+
+            return counter;
+        }
+
+        function getDealerTotalLine() {
+            if (dealerTotal == 0) {
+                return "0";
+            }
+            if (getDealerTotal() == 0) {
+                return "?";
+            } else {
+                return `?+${getDealerTotal()}`;
+            }
+        }
+
+        function drawStatus(boolean) {
+            if (boolean) {
+                target("drawButton").disabled = false;
+                styleTo("drawButton", "color: var(--green); border: 2px solid var(--green);");
+            } else {
+                target("drawButton").disabled = true;
+                styleTo("drawButton", "color: var(--gray); border: 2px solid var(--gray);");
+            }
+        }
+
+        function standStatus(boolean) {
+            if (boolean) {
+                target("standButton").disabled = false;
+                styleTo("standButton", "color: var(--red); border: 2px solid var(--red);");
+            } else {
+                target("standButton").disabled = true;
+                styleTo("standButton", "color: var(--gray); border: 2px solid var(--gray);");
+            }
+        }
+
+        async function dealerAct() {
+            standStatus(false);
+            if (dealerTotal < standThreshold) {
+                copyTo("status", "庄家思考中...");
+                await sleep(rand(1000, 3000));
+
+                const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
+
+                currentDeck = currentDeck.remove(drawnCard);
+                dealerHand.push(drawnCard);
+                if (dealerTotal == 0) {
+                    addTo("dealerLine", `[?] `);
+                    dealerFirstDrawn = drawnCard;
+                } else {
+                    addTo("dealerLine", `${drawnCard} `);
+                }
+
+                if (!isNaN(drawnCard)) {
+                    dealerTotalWithoutA += parseInt(drawnCard);
+                } else if (drawnCard != "A") {
+                    dealerTotalWithoutA += 10;
+                }
+                checkA();
+                updateTotal();
+
+                if (dealerTotal >= standThreshold) {
+                    addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
+                }
+            }
+            drawStatus(playerTotal > 21 ? false : true);
+            standStatus(true);
+            copyTo("status", "");
+        }
+
+        function getThreshold() {
+            standThreshold = rand(13, 19);
+        }
+
+        function stand() {
+            drawStatus(false);
+            standStatus(false);
+            addTo("playerLine", "<span style='color: var(--red)'>已停牌</span>");
+
+            if (dealerTotal < standThreshold) {
+                dealerActAfterPlayerStand();
+            } else {
+                result();
+            }
+        }
+
+        async function dealerActAfterPlayerStand() {
+            standStatus(false);
+            copyTo("status", "庄家思考中...");
+            await sleep(rand(1000, 2000));
+
+            const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
+
+            currentDeck = currentDeck.remove(drawnCard);
+            dealerHand.push(drawnCard);
+            if (dealerTotal == 0) {
+                addTo("dealerLine", `[?] `);
+                dealerFirstDrawn = drawnCard;
+            } else {
+                addTo("dealerLine", `${drawnCard} `);
+            }
+
+            if (!isNaN(drawnCard)) {
+                dealerTotalWithoutA += parseInt(drawnCard);
+            } else if (drawnCard != "A") {
+                dealerTotalWithoutA += 10;
+            }
+            checkA();
+            updateTotal();
+
+            if (dealerTotal >= standThreshold) {
+                addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
+                result();
+            } else {
+                dealerActAfterPlayerStand();
+            }
+        }
+
+        async function result() {
+            copyTo("status", "结算中...");
+            await sleep(rand(2000, 3000));
+
+            copyTo("dealerTotal", dealerTotal);
+            copyTo("dealerLine", `${copyFrom("dealerLine").replace(/\[\?\]/, dealerFirstDrawn)}`);
+
+            if (dealerTotal < 21) {
+                colorTo("dealerTotal", "var(--blue)");
+            } else if (dealerTotal == 21) {
+                colorTo("dealerTotal", "var(--green)");
+            } else {
+                colorTo("dealerTotal", "var(--red)");
+            }
+
+            if (playerTotal <= 21 && dealerTotal <= 21) {
+                if (playerTotal > dealerTotal) {
+                    copyTo("status", "<strong>你赢了!</strong>");
+                    colorTo("status", "var(--yellow)");
+                } else {
+                    copyTo("status", "<strong>你输了!</strong>");
+                    colorTo("status", "var(--red)");
+                }
+            }
+            if (playerTotal > 21 && dealerTotal <= 21 || playerTotal <= 21 && dealerTotal > 21) {
+                if (playerTotal > 21) {
+                    copyTo("status", "<strong>你输了!</strong>");
+                    colorTo("status", "var(--red)");
+                } else {
+                    copyTo("status", "<strong>你赢了!</strong>");
+                    colorTo("status", "var(--yellow)");
+                }
+            }
+            if (playerTotal == dealerTotal || playerTotal > 21 && dealerTotal > 21) {
+                copyTo("status", "平局");
+                colorTo("status", "var(--textColor-500)");
+            }
+        }
+    </script>
+</div></body>
+
+</html>

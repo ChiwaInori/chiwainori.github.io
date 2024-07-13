@@ -105,8 +105,8 @@
                             R: Math.abs(data.R[i])
                         };
 
-                        data.L[i] *= transit(bufferStrength, 1, bufferRange.L);
-                        data.R[i] *= transit(bufferStrength, 1, bufferRange.R);
+                        data.L[i] *= bufferRange.L.transit(bufferStrength, 1);
+                        data.R[i] *= bufferRange.R.transit(bufferStrength, 1);
                     }
                 
                     source.connect(gainNode);
