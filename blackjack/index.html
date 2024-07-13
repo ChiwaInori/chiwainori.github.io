@@ -90,22 +90,16 @@
 
         Array.prototype.remove = function (number) {
             const index = this.indexOf(number); // this[index] is the number
+            let returnArray = [];
 
-            if (index !== -1) {
-                this.splice(index, 1); // 移除该元素
+            for (let i = 0; i < index; i++) { // Push value that is before index
+                returnArray.push(this[i]);
+            }
+            for (let i = index + 1; i < this.length; i++) { // Push value that is after index
+                returnArray.push(this[i]);
             }
 
-            return this; // 返回修改后的数组
-
-            // let returnArray = [];
-            // for (let i = 0; i < index; i++) { // Push value that is before index
-            //     returnArray.push(this[i]);
-            // }
-            // for (let i = index + 1; i < this.length; i++) { // Push value that is after index
-            //     returnArray.push(this[i]);
-            // }
-
-            // return returnArray;
+            return returnArray;
         };
 
         String.prototype.getCountOf = function (target) {
@@ -124,7 +118,7 @@
         function draw() {
             const drawnCard = currentDeck[rand(0, currentDeck.length - 1)]; // "A"
 
-            currentDeck.remove(drawnCard); // Remove the drawn card from deck
+            currentDeck = currentDeck.remove(drawnCard); // Remove the drawn card from deck
             playerHand.push(drawnCard); // Add it to player's hand
             addTo("playerLine", `${drawnCard} `);
 
@@ -252,7 +246,7 @@
                 
                 const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
                 
-                currentDeck.remove(drawnCard);
+                currentDeck = currentDeck.remove(drawnCard);
                 dealerHand.push(drawnCard);
                 if (dealerTotal == 0) {
                     addTo("dealerLine", `[?] `);
@@ -329,7 +323,7 @@
             
             const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
             
-            currentDeck.remove(drawnCard);
+            currentDeck = currentDeck.remove(drawnCard);
             dealerHand.push(drawnCard);
             if (dealerTotal == 0) {
                 addTo("dealerLine", `[?] `);
@@ -608,7 +602,7 @@
                 repaint();
                 if (playerTotal <= 21 && copyFrom("playerLine").indexOf("已停牌") == -1) { drawStatus(true); }
         
-                dealerProps.remove("Pen");
+                dealerProps = dealerProps.remove("Pen");
                 copyTo("propUsedEffects", "庄家 使用 钢笔: 点数上限从 21 改为 24");
             }
             if (prop == 2) {
@@ -626,7 +620,7 @@
                 checkA();
                 updateTotal();
 
-                dealerProps.remove("Exchanger");
+                dealerProps = dealerProps.remove("Exchanger");
                 copyTo("propUsedEffects", "庄家 使用 交换器: 庄家的最后一张牌和玩家的最后一张牌互换");
             }
             if (prop == 3) {
@@ -642,26 +636,27 @@
                 } else {
                     copyTo("propUsedEffects", "庄家 使用 打火机: 移除庄家的最后一张牌 <strong style='color: var(--red)'>(没有可移除的内容)</strong>");
                 }
-                dealerProps.remove("Lighter");
+                dealerProps = dealerProps.remove("Lighter");
             }
             if (prop == 4) {
                 playerTakingDamage++;
                 unhide("dealerKnife", "inline");
 
-                dealerProps.remove("Knife");
+                dealerProps = dealerProps.remove("Knife");
                 copyTo("propUsedEffects", "庄家 使用 小刀: 如果这一局庄家胜利，则对玩家造成额外 1 点伤害");
             }
             if (prop == 5) {
                 dealerTakingDamage--;
                 unhide("dealerShield", "inline");
 
-                dealerProps.remove("Shield");
+                dealerProps = dealerProps.remove("Shield");
                 copyTo("propUsedEffects", "庄家 使用 盾牌: 如果这一局庄家失败，抵挡 1 点伤害");
             }
             if (prop == 6) {
                 dealerHealth = (++dealerHealth).toRange(0, 5);
                 updateHealth();
 
+                dealerProps = dealerProps.remove("Peach");
                 copyTo("propUsedEffects", "庄家 使用 桃: 回复 1 点生命值");
             }
 
