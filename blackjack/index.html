@@ -91,15 +91,21 @@
         Array.prototype.remove = function (number) {
             const index = this.indexOf(number); // this[index] is the number
 
-            let returnArray = [];
-            for (let i = 0; i < index; i++) { // Push value that is before index
-                returnArray.push(this[i]);
-            }
-            for (let i = index + 1; i < this.length; i++) { // Push value that is after index
-                returnArray.push(this[i]);
+            if (index !== -1) {
+                this.splice(index, 1); // 移除该元素
             }
 
-            return returnArray;
+            return this; // 返回修改后的数组
+
+            // let returnArray = [];
+            // for (let i = 0; i < index; i++) { // Push value that is before index
+            //     returnArray.push(this[i]);
+            // }
+            // for (let i = index + 1; i < this.length; i++) { // Push value that is after index
+            //     returnArray.push(this[i]);
+            // }
+
+            // return returnArray;
         };
 
         String.prototype.getCountOf = function (target) {
@@ -118,7 +124,7 @@
         function draw() {
             const drawnCard = currentDeck[rand(0, currentDeck.length - 1)]; // "A"
 
-            currentDeck = currentDeck.remove(drawnCard); // Remove the drawn card from deck
+            currentDeck.remove(drawnCard); // Remove the drawn card from deck
             playerHand.push(drawnCard); // Add it to player's hand
             addTo("playerLine", `${drawnCard} `);
 
@@ -246,7 +252,7 @@
                 
                 const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
                 
-                currentDeck = currentDeck.remove(drawnCard);
+                currentDeck.remove(drawnCard);
                 dealerHand.push(drawnCard);
                 if (dealerTotal == 0) {
                     addTo("dealerLine", `[?] `);
@@ -323,7 +329,7 @@
             
             const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
             
-            currentDeck = currentDeck.remove(drawnCard);
+            currentDeck.remove(drawnCard);
             dealerHand.push(drawnCard);
             if (dealerTotal == 0) {
                 addTo("dealerLine", `[?] `);
