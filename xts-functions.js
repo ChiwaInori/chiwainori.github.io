@@ -131,9 +131,8 @@ function paramURL(method, name, value = null) {
  */
 function chance(percent) {
     if (typeof percent != "number") { throw new TypeError(`percent must be a NUMBER`); }
-    if (percent > 1 || percent < 0) { throw new RangeError(`percent must between 0 and 1 (received ${percent})`); }
 
-    if (rand(0, 1, true) < percent) {
+    if (rand(0, 1, true) < percent.toRange(0, 1)) {
         return true;
     } else {
         return false;

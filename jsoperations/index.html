@@ -39,7 +39,7 @@
         </div>
         <div id="test" hide>
             <p>已知有如下常量:</p>
-            <div id="varList" style="background-color: rgb(31, 31, 31); padding: 16px;">
+            <div id="varList" style="background-color: rgb(31, 31, 31); padding: 16px; font-family: consolas;">
             </div>
             <br />
             <p>求以下表达式的结果:</p>
@@ -220,8 +220,7 @@
             if (typeof answer == "object" && answer !== null) { formattedAnswer = "{}"; color = "251, 210, 0"; }
             if (checkArray()) { formattedAnswer = "[]"; color = "251, 210, 0"; }
 
-            document.getElementById("final").innerHTML = `<span style="color: var(--blue)"><strong>标准答案: <span style="color: rgb(${color}); background-color: rgb(31, 31, 31); padding: 4px;">${formattedAnswer}</span></strong></span>`;
-            log(answer, formattedAnswer);
+            document.getElementById("final").innerHTML = `<span style="color: var(--blue)"><strong>标准答案: <span style="color: rgb(${color}); background-color: rgb(31, 31, 31); padding: 4px; font-family: consolas;">${formattedAnswer}</span></strong></span>`;
             unhide("finalSub");
         }
 

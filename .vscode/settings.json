@@ -1,5 +1,5 @@
 {
-    "search.useIgnoreFiles": true,
+    "search.useIgnoreFiles": false,
     "liveServer.settings.AdvanceCustomBrowserCmdLine": "",
     "cSpell.words": [
         "Calabiyau",
