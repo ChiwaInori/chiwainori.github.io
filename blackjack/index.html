@@ -95,6 +95,7 @@
             shield: 0,
             peach: 0
         };
+        let dealerUsedPropThisTurn = false;
 
         Array.prototype.remove = function (number) {
             const index = this.indexOf(number); // this[index] is the number
@@ -281,6 +282,7 @@
             drawStatus(playerTotal > targetPoint ? false : true);
             standStatus(true);
             copyTo("status", "");
+            dealerUsedPropThisTurn = false;
         }
 
         function getThreshold() {
@@ -364,6 +366,7 @@
         async function result() {
             copyTo("status", "结算中...");
             colorTo("status", "var(--blue)");
+            dealerUsedPropThisTurn = false;
             await sleep(rand(2000, 3000));
 
             copyTo("dealerTotal", dealerTotal);
@@ -613,6 +616,9 @@
         }
 
         async function dealerUseProp(prop) {
+            if (dealerUsedPropThisTurn) { // If dealer tried to use many props in a turn, give space time to show every hint
+                await sleep(1020);
+            }
             unhide("propUsedEffects");
             colorTo("propUsedEffects", "var(--red)");
 
@@ -688,6 +694,7 @@
                 copyTo("propUsedEffects", "庄家 使用 桃: 回复 1 点生命值");
             }
 
+            dealerUsedPropThisTurn = true;
             await sleep(2000);
             fadeOut("propUsedEffects", true);
         }
