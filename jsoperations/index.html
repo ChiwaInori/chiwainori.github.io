@@ -227,7 +227,7 @@
 
         function checkArray() {
             try {
-                return answer.length == 0;
+                return typeof answer == "object" && answer.length == 0;
             } catch {
                 return false;
             }
