@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>加速度测速仪 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop-center.css" />
+    <style>
+        #speedMeter {
+            margin-top: 20vh;
+        }
+
+        #speedMeter h3 {
+            font-size: 15rem;
+        }
+    </style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>加速度测速仪</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>加速度测速仪</strong></h6>
+    </div>
+    <div class="content">
+        <div id="welcome">
+            <p>使用本页面可以通过加速度计算，在 GPS 信号不佳时计算出速度的大小。</p>
+            <p class="STX">使用场景例子: 地铁, 火车, 飞机...</p>
+            <br />
+            <p>在使用加速度测速仪前，请先确认:</p>
+            <p><strong>你现在的对地速度必须是 0</strong>, 否则通过本页面得到的速度将会是相对于你点击开始测速时的速度大小。</p>
+            <br />
+            <p>如果你已准备好，请点击 <strong>&quot;获取权限&quot;</strong> 按钮然后点击同意。本加速度测速仪需要访问设备的加速度传感器数据。</p>
+            <br />
+            <p><button onclick="permission()">获取权限</button></p>
+            <p id="permissionReply">&nbsp;</p>
+            <br />
+            <p><button id="startButton" onclick="start()" disabled>开始测速</button></p>
+        </div>
+        <div id="speedMeter" hide>
+            <h3 id="acceleration-x">1</h3>
+            <h3 id="acceleration-y">2</h3>
+            <h3 id="acceleration-z">3</h3>
+        </div>
+    </div>
+    <script>
+        function permission() {
+            if (typeof DeviceMotionEvent.requestPermission == "function") {
+                DeviceMotionEvent.requestPermission()
+                    .then(function (permissionState) {
+                        if (permissionState == "granted") {
+                            window.addEventListener("devicemotion", handleMotionEvent);
+
+                            copyTo("permissionReply", "已获取访问加速度传感器数据权限。点击 <strong>&quot;开始测速&quot;</strong> 按钮将进入测速页面");
+                            colorTo("permissionReply", "var(--green)");
+                            target("startButton").disabled = false;
+                        } else {
+                            copyTo("permissionReply", "访问加速度传感器数据权限被拒绝");
+                            colorTo("permissionReply", "var(--red)");
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                copyTo("permissionReply", "您的设备不支持访问加速度传感器数据");
+                colorTo("permissionReply", "var(--red)");
+            }
+        }
+
+        function start() {
+            fadeChange("welcome", "speedMeter");
+        }
+        start();
+
+        function handleMotionEvent(event) {
+            const acceleration = event.acceleration;
+
+            if (acceleration) {
+                document.getElementById('acceleration-x').textContent = 'X: ' + acceleration.x.toFixed(2);
+                document.getElementById('acceleration-y').textContent = 'Y: ' + acceleration.y.toFixed(2);
+                document.getElementById('acceleration-z').textContent = 'Z: ' + acceleration.z.toFixed(2);
+            }
+        }
+    </script>
+</div></body>
+
+</html>
