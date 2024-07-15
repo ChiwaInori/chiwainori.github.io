@@ -25,8 +25,14 @@
 16. Use "const" if a variant is never changed (and it shouldn't be changed even in future update)
 17. When coding, use "const" first, then if found the value should be changed, turn into "let"
 18. Name variants using lowerCamelCase instead of UpperCamelCase, snake_case or kebab-case
-19. Naming variants with meaning (Do not use "a" "b" "c")
-20. Declare variants as early as possible (and gather them together, see 5.)
+19. Naming variants with meaning (Do not use "a", "b" or "c")
+20. When the variant is used as random decision, name it as "d"
+21. Declare variants as early as possible (and gather them together, see 5.)
+
+## Changing Variant's Type
+22. Use !!variant to turn into BOOLEAN (!!"thisIsTrue")
+23. Use +variant to turn into NUMBER (+"2024")
+24. Use ""+variant to turn into STRING (""+[1, 2, 3])
 
 ## etc.
 No ESLint is used because some ....ing problems

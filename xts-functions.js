@@ -4,7 +4,7 @@
  * Check if XTS Functions are available.
  */
 function xts() {
-    console.log("XTS Functions are available in current session.");
+    log("XTS Functions are available in current session.");
 }
 
 // GLOBAL USAGE
@@ -126,17 +126,13 @@ function paramURL(method, name, value = null) {
 /**
  * Return true in a specified chance.
  * @param {number} percent - [0, 1] The chance of returning true
- * @returns {number} true or false in specified chance
+ * @returns {boolean} true or false in specified chance
  * @example chance(0.6) // It has 60% chance to return true
  */
 function chance(percent) {
     if (typeof percent != "number") { throw new TypeError(`percent must be a NUMBER`); }
 
-    if (rand(0, 1, true) < percent.toRange(0, 1)) {
-        return true;
-    } else {
-        return false;
-    }
+    return rand(0, 1, true) <= percent.toRange(0, 1);
 }
 
 // NUMERAL COMMANDS
@@ -234,23 +230,49 @@ function log(...args) {
 /**
  * Return an element in HTML.
  * @param {string} element - The id of target element
- * @return {HTMLElement} The element in HTML
+ * @return {HTMLElement | null} The element in HTML
  * @example target("title").addEventListener(...) // Add an event listener to #title
  */
 function target(element) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (document.getElementById(element) == null) { throw new ReferenceError(`${element} is not defined`); }
 
     return document.getElementById(element);
 }
 
 /**
- * @param {string} element
+ * Return queried element(s) in HTML.
+ * @param {string} element - The query input of target element
+ * @return {NodeList} The element(s) in HTML
+ * @example query(".paragraph") // List out all elements of .paragraph
+ */
+function query(element) {
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+
+    return document.querySelectorAll(element);
+}
+
+/**
+ * Copy something from an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @return {string} The innerHTML of the element
+ * @example copyFrom("title") // Return the innerHTML of #title
  */
 function copyFrom(element) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
     return target(element).innerHTML;
+}
+
+/**
+ * Copy something from an input's value.
+ * @param {string} element - The id of target input
+ * @return {string} The value of the element
+ * @example copyValue("range") // Return the value of #range
+ */
+function copyValue(element) {
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+
+    return target(element).value;
 }
 
 /**
@@ -388,6 +410,18 @@ function unhide(element, display = "block", method = "id") {
 }
 
 /**
+ * Check a element is hidden (display: none) or not.
+ * @param {string} element - The id of target element
+ * @return {boolean} The element is hidden or not
+ * @example isHide("title") // If #title is hidden, return true
+ */
+function isHidden(element) {
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+
+    return target(element).style.display == "none" || !!document.querySelector(`#${element}[hide]`);
+}
+
+/**
  * Turn an element's current color to another in transition.
  * @param {string} element - The id of target element
  * @param {string} color - The target color of transition
@@ -400,53 +434,29 @@ async function transColor(element, color, time = 100) {
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
     if (time < 1) { throw new RangeError("Cannot change color in less than 1 milliseconds"); }
 
-    const preset = { // Same as --textColor-500 in global.css
-        r: 102,
-        g: 102,
-        b: 102
-    };
+    const preset = { r: 102, g: 102, b: 102 }; // Same as --textColor-500 in global.css
     let fromColor;
     let toColor;
     let nowColor;
 
     if (target(element).style.color != "") {
-        fromColor = {
-            r: target(element).style.color.getNum(1),
-            g: target(element).style.color.getNum(2),
-            b: target(element).style.color.getNum(3)
-        };
+        fromColor = { r: target(element).style.color.getNum(1), g: target(element).style.color.getNum(2), b: target(element).style.color.getNum(3) };
     } else {
         fromColor = preset;
     }
 
     if (color.indexOf("#") >= 0) {
-        toColor = {
-            r: parseInt(color.substring(1, 3), 16),
-            g: parseInt(color.substring(3, 5), 16),
-            b: parseInt(color.substring(5, 7), 16)
-        };
+        toColor = { r: parseInt(color.substring(1, 3), 16), g: parseInt(color.substring(3, 5), 16), b: parseInt(color.substring(5, 7), 16) };
     }
-    if (color.indexOf("rgb(") >= 0) {
-        toColor = {
-            r: color.getNum(1),
-            g: color.getNum(2),
-            b: color.getNum(3)
-        };
+    if (color.indexOf("rgb") >= 0) {
+        toColor = { r: color.getNum(1), g: color.getNum(2), b: color.getNum(3) };
     }
 
-    const diff = {
-        r: (toColor.r - fromColor.r) / 20,
-        g: (toColor.g - fromColor.g) / 20,
-        b: (toColor.b - fromColor.b) / 20
-    };
+    const diff = { r: (toColor.r - fromColor.r) / 20, g: (toColor.g - fromColor.g) / 20, b: (toColor.b - fromColor.b) / 20 };
 
     for (let i = 1; i <= 21; i++) {
         if (target(element).style.color != "") {
-            nowColor = {
-                r: target(element).style.color.getNum(1),
-                g: target(element).style.color.getNum(2),
-                b: target(element).style.color.getNum(3)
-            };
+            nowColor = { r: target(element).style.color.getNum(1), g: target(element).style.color.getNum(2), b: target(element).style.color.getNum(3) };
         } else {
             nowColor = preset;
         }
@@ -479,7 +489,7 @@ async function fadeOut(element, doNotHide = false, time = 100) {
         nowOpacity = 1;
     }
     while (nowOpacity > 0) {
-        nowOpacity = nowOpacity - 0.05;
+        nowOpacity -= 0.05;
         target(element).style.opacity = nowOpacity;
         await sleep(time / 20);
     }
@@ -511,7 +521,7 @@ async function fadeIn(element, time = 100) {
         nowOpacity = 0;
     }
     while (nowOpacity < 1) {
-        nowOpacity = nowOpacity + 0.05;
+        nowOpacity += 0.05;
         target(element).style.opacity = nowOpacity;
         await sleep(time / 20);
     }
@@ -568,19 +578,16 @@ function load(inputId, element = "file-content") {
     if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
-    document.getElementById(inputId).addEventListener("change", (event) => {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
+    target(inputId).addEventListener("change", (event) => {
+        const file = event.target.files[0];
+
         if (file) {
             const reader = new FileReader();
+
             reader.onload = function (event) {
-                const fileContent = event.target.result;
-                target(element).textContent = fileContent;
+                target(element).textContent = event.target.result;
             };
             reader.readAsText(file);
         }
     });
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

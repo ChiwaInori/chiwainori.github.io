@@ -1009,21 +1009,21 @@
 
                 for (let i = 22; i < 58; i++) { // P1
                     if (saveInfo[i] == "1") {
-                        copyTo(`display_p1_${i - 21}`).innerHTML = "≡";
+                        copyTo(`display_p1_${i - 21}`, "≡");
                     } else if (saveInfo[i] == "2") {
-                        copyTo(`display_p1_${i - 21}`).innerHTML = "〓";
+                        copyTo(`display_p1_${i - 21}`, "〓");
                     } else {
-                        copyTo(`display_p1_${i - 21}`).innerHTML = "&nbsp;";
+                        copyTo(`display_p1_${i - 21}`, "&nbsp;");
                     }
                 }
 
                 for (let i = 58; i < 94; i++) { // P2
                     if (saveInfo[i] == "1") {
-                        copyTo(`display_p2_${i - 57}`).innerHTML = "≡";
+                        copyTo(`display_p2_${i - 57}`, "≡");
                     } else if (saveInfo[i] == "2") {
-                        copyTo(`display_p2_${i - 57}`).innerHTML = "〓";
+                        copyTo(`display_p2_${i - 57}`, "〓");
                     } else {
-                        copyTo(`display_p2_${i - 57}`).innerHTML = "&nbsp;";
+                        copyTo(`display_p2_${i - 57}`, "&nbsp;");
                     }
                 }
                 

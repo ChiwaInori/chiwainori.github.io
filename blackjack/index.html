@@ -276,7 +276,7 @@
                 }
                 checkA();
                 updateTotal();
-                if (chance(0.2)) { dealerGetProp(); }
+                if (chance(0.25)) { dealerGetProp(); }
             }
 
             drawStatus(playerTotal > targetPoint ? false : true);
@@ -351,7 +351,7 @@
             }
             checkA();
             updateTotal();
-            if (chance(0.2)) { dealerGetProp(); }
+            if (chance(0.25)) { dealerGetProp(); }
             
             if (dealerTotal >= standThreshold) {
                 await sleep(rand(500, 1000));
@@ -461,28 +461,28 @@
         }
 
         function getProp() {
-            const decider = rand(1, 6);
+            const d = rand(1, 6);
 
             if (copyFrom("propList").indexOf("空") != -1) {
                 copyTo("propList", "");
             }
 
-            if (decider == 1) { // Pen
+            if (d == 1) { // Pen
                 addTo("propList", `<p id="propLine${++propID}"><strong>钢笔</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 将点数上限从 21 改为 24</p>`);
             }
-            if (decider == 2) { // Exchanger
+            if (d == 2) { // Exchanger
                 addTo("propList", `<p id="propLine${++propID}"><strong>交换器</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 将你的最后一张牌和庄家的最后一张牌互换</p>`);
             }
-            if (decider == 3) { // Lighter
+            if (d == 3) { // Lighter
                 addTo("propList", `<p id="propLine${++propID}"><strong>打火机</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 移除你的最后一张牌</p>`);
             }
-            if (decider == 4) { // Knife
+            if (d == 4) { // Knife
                 addTo("propList", `<p id="propLine${++propID}"><strong>小刀</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 如果这一局你胜利，则对庄家造成额外 1 点伤害</p>`);
             }
-            if (decider == 5) { // Shield
+            if (d == 5) { // Shield
                 addTo("propList", `<p id="propLine${++propID}"><strong>盾牌</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 如果这一局你失败，抵挡 1 点伤害</p>`);
             }
-            if (decider == 6) { // Peach
+            if (d == 6) { // Peach
                 addTo("propList", `<p id="propLine${++propID}"><strong>桃</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 回复 1 点生命值</p>`);
             }
         }
@@ -541,7 +541,7 @@
 
             }
             if (prop.indexOf("小刀") != -1) {
-                if (target("dealerShield").style.display == "none") {
+                if (isHidden("dealerShield")) {
                     dealerTakingDamage = 2;
                 } else {
                     dealerTakingDamage = 1;
@@ -551,7 +551,7 @@
                 copyTo("propUsedEffects", "玩家 使用 小刀: 如果这一局你胜利，则对庄家造成额外 1 点伤害");
             }
             if (prop.indexOf("盾牌") != -1) {
-                if (target("dealerKnife").style.display == "none") {
+                if (isHidden("dealerKnife")) {
                     playerTakingDamage = 0;
                 } else {
                     playerTakingDamage = 1;
@@ -665,7 +665,7 @@
                 dealerProps = dealerProps.remove("Lighter");
             }
             if (prop == 4) {
-                if (target("playerShield").style.display == "none") {
+                if (isHidden("playerShield")) {
                     playerTakingDamage = 2;
                 } else {
                     playerTakingDamage = 1;
@@ -676,7 +676,7 @@
                 copyTo("propUsedEffects", "庄家 使用 小刀: 如果这一局庄家胜利，则对玩家造成额外 1 点伤害");
             }
             if (prop == 5) {
-                if (target("playerKnife").style.display == "none") {
+                if (isHidden("playerKnife")) {
                     dealerTakingDamage = 0;
                 } else {
                     dealerTakingDamage = 1;
@@ -700,14 +700,14 @@
         }
 
         function dealerGetProp() {
-            const decider = rand(1, 6);
+            const d = rand(1, 6);
 
-            if (decider == 1) { dealerProps.push("Pen"); }
-            if (decider == 2) { dealerProps.push("Exchanger"); }
-            if (decider == 3) { dealerProps.push("Lighter"); }
-            if (decider == 4) { dealerProps.push("Knife"); }
-            if (decider == 5) { dealerProps.push("Shield"); }
-            if (decider == 6) { dealerProps.push("Peach"); }
+            if (d == 1) { dealerProps.push("Pen"); }
+            if (d == 2) { dealerProps.push("Exchanger"); }
+            if (d == 3) { dealerProps.push("Lighter"); }
+            if (d == 4) { dealerProps.push("Knife"); }
+            if (d == 5) { dealerProps.push("Shield"); }
+            if (d == 6) { dealerProps.push("Peach"); }
         }
 
         function dealerThinkProp() {
@@ -792,6 +792,9 @@
             if (dealerTotal >= 22) { // Dealer over 21
                 dealerPropThought.knife -= 1000;
             }
+            if (isHidden("dealerKnife")) { // Dealer already have Knife
+                dealerPropThought.knife -= 1000;
+            }
 
             // Shield Thoughts
             if (closestPossibility >= targetPoint - 3 && closestPossibility <= targetPoint) { // Player near target
@@ -802,6 +805,18 @@
             }
             if (dealerTotal >= 13 && dealerTotal <= 17) { // Dealer is less
                 dealerPropThought.shield += 0.3;
+            }
+            if (dealerTotal >= 18 && dealerTotal <= 20) { // Dealer is near 21
+                dealerPropThought.shield -= 0.2;
+            }
+            if (dealerTotal == 21) { // Dealer is 21
+                dealerPropThought.shield -= 1000;
+            }
+            if (dealerTotal >= 22) { // Dealer over 21
+                dealerPropThought.shield += 0.3;
+            }
+            if (isHidden("dealerShield")) { // Dealer already have Shield
+                dealerPropThought.shield -= 1000;
             }
 
             // Peach Thoughts
