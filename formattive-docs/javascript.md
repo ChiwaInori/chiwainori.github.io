@@ -30,7 +30,7 @@
 21. Declare variants as early as possible (and gather them together, see 5.)
 
 ## Changing Variant's Type
-22. Use !!variant to turn into BOOLEAN (!!"thisIsTrue")
+22. Use !!variant to turn into BOOLEAN (!!"thisIsTrue") (into a negative BOOLEAN use !variant)
 23. Use +variant to turn into NUMBER (+"2024")
 24. Use ""+variant to turn into STRING (""+[1, 2, 3])
 

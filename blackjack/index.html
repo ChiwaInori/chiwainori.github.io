@@ -97,8 +97,8 @@
         };
         let dealerUsedPropThisTurn = false;
 
-        Array.prototype.remove = function (number) {
-            const index = this.indexOf(number); // this[index] is the number
+        Array.prototype.remove = function (target) { // Remove ONLY ONE specified target from an array
+            const index = this.indexOf(target); // this[index] is the (FIRST) target
             let returnArray = [];
 
             for (let i = 0; i < index; i++) { // Push value that is before index
@@ -111,7 +111,7 @@
             return returnArray;
         };
 
-        String.prototype.getCountOf = function (target) {
+        String.prototype.getCountOf = function (target) { // Get the count of specified string in a string
             const splitString = this.split(target);
 
             return splitString.length - 1;
@@ -141,7 +141,13 @@
             drawStatus(false);
             if (chance(0.25)) { getProp(); }
 
-            dealerAct();
+            if (!copyFrom("dealerLine").includes("已停牌")) {
+                dealerAct();
+            } else {
+                drawStatus(playerTotal > targetPoint ? false : true);
+                standStatus(true);
+                copyTo("status", "");
+            }
         }
 
         function checkA() {
@@ -182,11 +188,11 @@
                 const checkArray = dealerHand.slice(1);
                 let counter = 0;
 
-                checkArray.forEach(handCard => {
+                checkArray.forEach(card => {
                     if (counter != "?") {
-                        if (!isNaN(handCard)) {
-                            counter += parseInt(handCard);
-                        } else if (handCard != "A") {
+                        if (!isNaN(card)) {
+                            counter += parseInt(card);
+                        } else if (card != "A") {
                             counter += 10;
                         } else {
                             counter = "?";
@@ -227,20 +233,16 @@
 
         function standStatus(boolean) {
             const propButtons = document.querySelectorAll(".propButton");
-            if (boolean) {
-                target("standButton").disabled = false;
-                styleTo("standButton", "color: var(--red); border: 2px solid var(--red);");
-                
-                for (let i = 0; i < propButtons.length; i++) {
-                    propButtons[i].disabled = false;
-                }
-            } else {
-                target("standButton").disabled = true;
-                styleTo("standButton", "color: var(--gray); border: 2px solid var(--gray);");
 
-                for (let i = 0; i < propButtons.length; i++) {
-                    propButtons[i].disabled = true;
-                }
+            target("standButton").disabled = !boolean;
+            if (boolean) {
+                styleTo("standButton", "color: var(--red); border: 2px solid var(--red);");
+            } else {
+                styleTo("standButton", "color: var(--gray); border: 2px solid var(--gray);");
+            }
+
+            for (let i = 0; i < propButtons.length; i++) {
+                propButtons[i].disabled = !boolean;
             }
         }
 
@@ -248,12 +250,12 @@
             standStatus(false);
             copyTo("status", "庄家思考中...");
             colorTo("status", "var(--aqua)");
-            if (dealerTotal >= standThreshold && copyFrom("dealerLine").indexOf("已停牌") == -1) {
+            if (dealerTotal >= standThreshold && !copyFrom("dealerLine").includes("已停牌")) {
                 await sleep(rand(500, 1000));
                 dealerThinkProp();
                 addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
             }
-            if (dealerTotal < standThreshold && copyFrom("dealerLine").indexOf("已停牌") == -1) {
+            if (dealerTotal < standThreshold && !copyFrom("dealerLine").includes("已停牌")) {
                 await sleep(rand(500, 1000));
                 dealerThinkProp();
                 await sleep(rand(1000, 3000));
@@ -463,7 +465,7 @@
         function getProp() {
             const d = rand(1, 6);
 
-            if (copyFrom("propList").indexOf("空") != -1) {
+            if (copyFrom("propList").includes("空")) {
                 copyTo("propList", "");
             }
 
@@ -494,7 +496,7 @@
             unhide("propUsedEffects");
             colorTo("propUsedEffects", "var(--blue)");
 
-            if (prop.indexOf("钢笔") != -1) {
+            if (prop.includes("钢笔")) {
                 targetPoint = 24;
                 copyTo("currentTarget", 24);
                 repaint();
@@ -502,7 +504,7 @@
 
                 copyTo("propUsedEffects", "玩家 使用 钢笔: 点数上限从 21 改为 24");
             }
-            if (prop.indexOf("交换器") != -1) {
+            if (prop.includes("交换器")) {
                 if (playerHand.length != 0 && dealerHand.length != 0) {
                     const playerLast = playerHand[playerHand.length - 1];
                     const dealerLast = dealerHand[dealerHand.length - 1];
@@ -524,7 +526,7 @@
                     copyTo("propUsedEffects", "玩家 使用 交换器: 你的最后一张牌和庄家的最后一张牌互换 <strong style='color: var(--red)'>(没有可移除的内容)</strong>");
                 }
             }
-            if (prop.indexOf("打火机") != -1) {
+            if (prop.includes("打火机")) {
                 if (playerHand.length != 0) {
                     playerHand.pop();
                     copyTo("playerLine", copyFrom("playerLine").replace(/[^ ]* $/, ""));
@@ -540,7 +542,7 @@
                 }
 
             }
-            if (prop.indexOf("小刀") != -1) {
+            if (prop.includes("小刀")) {
                 if (isHidden("dealerShield")) {
                     dealerTakingDamage = 2;
                 } else {
@@ -550,7 +552,7 @@
 
                 copyTo("propUsedEffects", "玩家 使用 小刀: 如果这一局你胜利，则对庄家造成额外 1 点伤害");
             }
-            if (prop.indexOf("盾牌") != -1) {
+            if (prop.includes("盾牌")) {
                 if (isHidden("dealerKnife")) {
                     playerTakingDamage = 0;
                 } else {
@@ -560,7 +562,7 @@
 
                 copyTo("propUsedEffects", "玩家 使用 盾牌: 如果这一局你失败，抵挡 1 点伤害");
             }
-            if (prop.indexOf("桃") != -1) {
+            if (prop.includes("桃")) {
                 playerHealth = (++playerHealth).toRange(0, 5);
                 updateHealth();
 
@@ -601,15 +603,13 @@
             let returnArray = [];
             let sum = 0;
 
-            arr.forEach(element => {
-                if (element != "A") {
-                    if (element == "J" || element == "Q" || element == "K") { element = "10"; }
-                    returnArray.push(+element);
-                }
+            arr.filter(card => card != "A").forEach(card => {
+                if (card == "J" || card == "Q" || card == "K") { card = "10"; }
+                returnArray.push(+card);
             }); // [2, 10]
 
-            returnArray.forEach(element => {
-                sum += element;
+            returnArray.forEach(card => {
+                sum += card;
             }); // 12
 
             return sum;
@@ -626,7 +626,7 @@
                 targetPoint = 24;
                 copyTo("currentTarget", 24);
                 repaint();
-                if (playerTotal <= 21 && copyFrom("playerLine").indexOf("已停牌") == -1) { drawStatus(true); }
+                if (playerTotal <= 21 && !copyFrom("playerLine").indexOf("已停牌")) { drawStatus(true); }
         
                 dealerProps = dealerProps.remove("Pen");
                 copyTo("propUsedEffects", "庄家 使用 钢笔: 点数上限从 21 改为 24");
