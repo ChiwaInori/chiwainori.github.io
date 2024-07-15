@@ -49,6 +49,7 @@
             <p id="permissionReply">&nbsp;</p>
             <br />
             <p><button id="startButton" onclick="start()" disabled>开始测速</button></p>
+            <p id="fixHint">&nbsp;</p>
         </div>
         <div id="speedMeter" hide>
             <h3 id="velocityNumberMS">Lorem ipsum</h3>
@@ -72,6 +73,12 @@
                     <th id="acceleration-y" style="color: var(--lightRed)">&nbsp;</th>
                     <th id="acceleration-z" style="color: var(--lightRed)">&nbsp;</th>
                 </tr>
+                <tr>
+                    <th style="color: var(--orange)"><ruby>加速度 (修正)<rt>m/s²</rt></ruby></th>
+                    <th id="accelerationFixed-x" style="color: var(--orange)">&nbsp;</th>
+                    <th id="accelerationFixed-y" style="color: var(--orange)">&nbsp;</th>
+                    <th id="accelerationFixed-z" style="color: var(--orange)">&nbsp;</th>
+                </tr>
             </table>
         </div>
     </div>
@@ -79,6 +86,8 @@
         const freq = 30;
 
         let velocity = { x: 0, y: 0, z: 0 }; // m/s
+        let fix = { x: 0, y: 0, z: 0 }; // Acceleration meter fixes
+        let accelerationToFix;
 
         function permission() {
             if (typeof DeviceMotionEvent.requestPermission == "function") {
@@ -102,17 +111,64 @@
             }
         }
 
-        function start() {
+        async function start() {
+            colorTo("fixHint", "var(--green)");
+            
+            fixAcceleration(1);
+            copyTo("fixHint", "正在校准加速度数据... (1/10)");
+            await sleep(50);
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (2/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (3/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (4/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (5/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (6/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (7/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (8/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (9/10)");
+            await sleep(50); 
+            fixAcceleration(0);
+            copyTo("fixHint", "正在校准加速度数据... (10/10)");
+
             fadeChange("welcome", "speedMeter");
+            velocity = { x: 0, y: 0, z: 0 };
+        }
+
+        function fixAcceleration(firstStartup) {
+            if (firstStartup) {
+                fix.x = accelerationToFix.x;
+                fix.y = accelerationToFix.y;
+                fix.z = accelerationToFix.z;
+            } else {
+                fix.x = (fix.x + accelerationToFix.x) / 2;
+                fix.y = (fix.y + accelerationToFix.y) / 2;
+                fix.z = (fix.z + accelerationToFix.z) / 2;
+            }
         }
 
         function handleMotionEvent(event) {
             const acceleration = event.acceleration; // { x: ..., y: ..., z:xxx }, m/s**2
 
             if (acceleration) {
-                velocity.x += acceleration.x / freq; // Apply acceleration to last velocity
-                velocity.y += acceleration.y / freq;
-                velocity.z += acceleration.z / freq;
+                accelerationToFix = acceleration;
+
+                velocity.x += (acceleration.x - fix.x) / freq; // Apply acceleration to last velocity
+                velocity.y += (acceleration.y - fix.y) / freq;
+                velocity.z += (acceleration.z - fix.z) / freq;
 
                 let nowVelocity = +Math.sqrt(velocity.x ** 2 + velocity.y ** 2 + velocity.z ** 2).toFixed(2);
 
@@ -125,6 +181,9 @@
                 copyTo("acceleration-x", acceleration.x.toFixed(2));
                 copyTo("acceleration-y", acceleration.y.toFixed(2));
                 copyTo("acceleration-z", acceleration.z.toFixed(2));
+                copyTo("accelerationFixed-x", (acceleration.x - fix.x).toFixed(2));
+                copyTo("accelerationFixed-y", (acceleration.y - fix.y).toFixed(2));
+                copyTo("accelerationFixed-z", (acceleration.z - fix.z).toFixed(2));
 
                 // document.getElementById('acceleration-x').textContent = 'X: ' + acceleration.x.toFixed(2);
                 // document.getElementById('acceleration-y').textContent = 'Y: ' + acceleration.y.toFixed(2);
