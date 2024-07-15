@@ -166,28 +166,31 @@
             if (acceleration) {
                 accelerationToFix = acceleration;
 
-                velocity.x += (acceleration.x - fix.x) / freq; // Apply acceleration to last velocity
-                velocity.y += (acceleration.y - fix.y) / freq;
-                velocity.z += (acceleration.z - fix.z) / freq;
+                if (Math.sqrt(acceleration.x ** 2 + acceleration.y ** 2 + acceleration.z ** 2) >= 0.05) {
+                    velocity.x += (acceleration.x - fix.x) / freq; // Apply acceleration to last velocity
+                    velocity.y += (acceleration.y - fix.y) / freq;
+                    velocity.z += (acceleration.z - fix.z) / freq;
+    
+                    let nowVelocity = +Math.sqrt(velocity.x ** 2 + velocity.y ** 2 + velocity.z ** 2).toFixed(2);
+    
+                    copyTo("velocityNumberMS", `${nowVelocity} m/s`);
+                    copyTo("velocityNumberKMH", `${(nowVelocity * 3.6).toFixed(2)} km/h`);
+    
+                    copyTo("velocity-x", velocity.x.toFixed(2));
+                    copyTo("velocity-y", velocity.y.toFixed(2));
+                    copyTo("velocity-z", velocity.z.toFixed(2));
+                    copyTo("acceleration-x", acceleration.x.toFixed(2));
+                    copyTo("acceleration-y", acceleration.y.toFixed(2));
+                    copyTo("acceleration-z", acceleration.z.toFixed(2));
+                    copyTo("accelerationFixed-x", (acceleration.x - fix.x).toFixed(2));
+                    copyTo("accelerationFixed-y", (acceleration.y - fix.y).toFixed(2));
+                    copyTo("accelerationFixed-z", (acceleration.z - fix.z).toFixed(2));
+    
+                    // document.getElementById('acceleration-x').textContent = 'X: ' + acceleration.x.toFixed(2);
+                    // document.getElementById('acceleration-y').textContent = 'Y: ' + acceleration.y.toFixed(2);
+                    // document.getElementById('acceleration-z').textContent = 'Z: ' + acceleration.z.toFixed(2);
+                }
 
-                let nowVelocity = +Math.sqrt(velocity.x ** 2 + velocity.y ** 2 + velocity.z ** 2).toFixed(2);
-
-                copyTo("velocityNumberMS", `${nowVelocity} m/s`);
-                copyTo("velocityNumberKMH", `${(nowVelocity * 3.6).toFixed(2)} km/h`);
-
-                copyTo("velocity-x", velocity.x.toFixed(2));
-                copyTo("velocity-y", velocity.y.toFixed(2));
-                copyTo("velocity-z", velocity.z.toFixed(2));
-                copyTo("acceleration-x", acceleration.x.toFixed(2));
-                copyTo("acceleration-y", acceleration.y.toFixed(2));
-                copyTo("acceleration-z", acceleration.z.toFixed(2));
-                copyTo("accelerationFixed-x", (acceleration.x - fix.x).toFixed(2));
-                copyTo("accelerationFixed-y", (acceleration.y - fix.y).toFixed(2));
-                copyTo("accelerationFixed-z", (acceleration.z - fix.z).toFixed(2));
-
-                // document.getElementById('acceleration-x').textContent = 'X: ' + acceleration.x.toFixed(2);
-                // document.getElementById('acceleration-y').textContent = 'Y: ' + acceleration.y.toFixed(2);
-                // document.getElementById('acceleration-z').textContent = 'Z: ' + acceleration.z.toFixed(2);
             }
         }
     </script>
