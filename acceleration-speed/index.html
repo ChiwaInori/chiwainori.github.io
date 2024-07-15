@@ -14,7 +14,15 @@
         }
 
         #speedMeter h3 {
-            font-size: 15rem;
+            font-size: 8rem;
+        }
+
+        table {
+            margin-top: 10vh;
+        }
+
+        table tr th {
+            font-size: 2rem;
         }
     </style>
     <script src="/xts-functions.js"></script>
@@ -43,18 +51,41 @@
             <p><button id="startButton" onclick="start()" disabled>开始测速</button></p>
         </div>
         <div id="speedMeter" hide>
-            <h3 id="acceleration-x">1</h3>
-            <h3 id="acceleration-y">2</h3>
-            <h3 id="acceleration-z">3</h3>
+            <h3 id="velocityNumberMS">Lorem ipsum</h3>
+            <h3 id="velocityNumberKMH">Lorem ipsum</h3>
+            <table>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th style="color: var(--red)"><ruby>X<rt>(右 -> 左)</rt></ruby></th>
+                    <th style="color: var(--green)"><ruby>Y<rt>(上 -> 下)</rt></ruby></th>
+                    <th style="color: var(--darkBlue)"><ruby>Z<rt>(前 -> 后)</rt></ruby></th>
+                </tr>
+                <tr>
+                    <th style="color: var(--blue)"><ruby>速度<rt>m/s</rt></ruby></th>
+                    <th id="velocity-x" style="color: var(--blue)">&nbsp;</th>
+                    <th id="velocity-y" style="color: var(--blue)">&nbsp;</th>
+                    <th id="velocity-z" style="color: var(--blue)">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th style="color: var(--lightRed)"><ruby>加速度<rt>m/s²</rt></ruby></th>
+                    <th id="acceleration-x" style="color: var(--lightRed)">&nbsp;</th>
+                    <th id="acceleration-y" style="color: var(--lightRed)">&nbsp;</th>
+                    <th id="acceleration-z" style="color: var(--lightRed)">&nbsp;</th>
+                </tr>
+            </table>
         </div>
     </div>
     <script>
+        const freq = 30;
+
+        let velocity = { x: 0, y: 0, z: 0 }; // m/s
+
         function permission() {
             if (typeof DeviceMotionEvent.requestPermission == "function") {
                 DeviceMotionEvent.requestPermission()
                     .then(function (permissionState) {
                         if (permissionState == "granted") {
-                            window.addEventListener("devicemotion", handleMotionEvent);
+                            window.addEventListener("devicemotion", handleMotionEvent, { frequency: freq });
 
                             copyTo("permissionReply", "已获取访问加速度传感器数据权限。点击 <strong>&quot;开始测速&quot;</strong> 按钮将进入测速页面");
                             colorTo("permissionReply", "var(--green)");
@@ -76,12 +107,27 @@
         }
 
         function handleMotionEvent(event) {
-            const acceleration = event.acceleration;
+            const acceleration = event.acceleration; // { x: ..., y: ..., z:xxx }, m/s**2
 
             if (acceleration) {
-                document.getElementById('acceleration-x').textContent = 'X: ' + acceleration.x.toFixed(2);
-                document.getElementById('acceleration-y').textContent = 'Y: ' + acceleration.y.toFixed(2);
-                document.getElementById('acceleration-z').textContent = 'Z: ' + acceleration.z.toFixed(2);
+                velocity.x += acceleration.x / freq; // Apply acceleration to last velocity
+                velocity.y += acceleration.y / freq;
+                velocity.z += acceleration.z / freq;
+
+                let nowVelocity = Math.sqrt(velocity.x ** 2 + velocity.y ** 2 + velocity.z ** 2);
+
+                copyTo("velocityNumber", `${nowVelocity} m/s`);
+
+                copyTo("velocity-x", velocity.x.toFixed(2));
+                copyTo("velocity-y", velocity.y.toFixed(2));
+                copyTo("velocity-z", velocity.z.toFixed(2));
+                copyTo("acceleration-x", acceleration.x.toFixed(2));
+                copyTo("acceleration-y", acceleration.y.toFixed(2));
+                copyTo("acceleration-z", acceleration.z.toFixed(2));
+
+                // document.getElementById('acceleration-x').textContent = 'X: ' + acceleration.x.toFixed(2);
+                // document.getElementById('acceleration-y').textContent = 'Y: ' + acceleration.y.toFixed(2);
+                // document.getElementById('acceleration-z').textContent = 'Z: ' + acceleration.z.toFixed(2);
             }
         }
     </script>

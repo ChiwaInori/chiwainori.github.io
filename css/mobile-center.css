@@ -11,6 +11,11 @@
     text-align: center;
 }
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .IFB {
     margin: 48px auto 16px auto;
 }
