@@ -145,8 +145,6 @@
                 dealerAct();
             } else {
                 drawStatus(playerTotal > targetPoint ? false : true);
-                standStatus(true);
-                copyTo("status", "");
             }
         }
 
@@ -250,45 +248,45 @@
             standStatus(false);
             copyTo("status", "庄家思考中...");
             colorTo("status", "var(--aqua)");
-            if (dealerTotal >= standThreshold && !copyFrom("dealerLine").includes("已停牌")) {
-                await sleep(rand(500, 1000));
-                dealerThinkProp();
-                addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
-            }
-            if (dealerTotal < standThreshold && !copyFrom("dealerLine").includes("已停牌")) {
-                await sleep(rand(500, 1000));
-                dealerThinkProp();
-                await sleep(rand(1000, 3000));
-                
-                const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
-                
-                currentDeck = currentDeck.remove(drawnCard);
-                dealerHand.push(drawnCard);
-                if (dealerTotal == 0) {
-                    addTo("dealerLine", `[?] `);
-                    dealerFirstDrawn = drawnCard;
-                } else {
-                    addTo("dealerLine", `${drawnCard} `);
-                }
-                
-                if (!isNaN(drawnCard)) {
-                    dealerTotalWithoutA += parseInt(drawnCard);
-                } else if (drawnCard != "A") {
-                    dealerTotalWithoutA += 10;
-                }
-                checkA();
-                updateTotal();
-                if (chance(0.25)) { dealerGetProp(); }
 
-                if (dealerTotal >= standThreshold && !copyFrom("dealerLine").includes("已停牌")) {
-                    addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
-                }
+            await sleep(rand(500, 1000));
+            dealerThinkProp();
+
+            if (dealerTotal < standThreshold) {
+                await sleep(rand(1000, 3000));
+                dealerDraw();
+            }
+
+            if (dealerTotal >= standThreshold) {
+                addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
             }
 
             drawStatus(playerTotal > targetPoint ? false : true);
             standStatus(true);
             copyTo("status", "");
             dealerUsedPropThisTurn = false;
+        }
+
+        function dealerDraw() {
+            const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
+
+            currentDeck = currentDeck.remove(drawnCard);
+            dealerHand.push(drawnCard);
+            if (dealerTotal == 0) {
+                addTo("dealerLine", `[?] `);
+                dealerFirstDrawn = drawnCard;
+            } else {
+                addTo("dealerLine", `${drawnCard} `);
+            }
+
+            if (!isNaN(drawnCard)) {
+                dealerTotalWithoutA += parseInt(drawnCard);
+            } else if (drawnCard != "A") {
+                dealerTotalWithoutA += 10;
+            }
+            checkA();
+            updateTotal();
+            if (chance(0.25)) { dealerGetProp(); }
         }
 
         function getThreshold() {
@@ -332,37 +330,20 @@
         }
 
         async function dealerActAfterPlayerStand() {
-            standStatus(false);
             copyTo("status", "庄家思考中...");
             colorTo("status", "var(--aqua)");
+
             await sleep(rand(500, 1000));
             dealerThinkProp();
+
             await sleep(rand(1000, 2000));
-            
-            const drawnCard = currentDeck[rand(0, currentDeck.length - 1)];
-            
-            currentDeck = currentDeck.remove(drawnCard);
-            dealerHand.push(drawnCard);
-            if (dealerTotal == 0) {
-                addTo("dealerLine", `[?] `);
-                dealerFirstDrawn = drawnCard;
-            } else {
-                addTo("dealerLine", `${drawnCard} `);
-            }
-            
-            if (!isNaN(drawnCard)) {
-                dealerTotalWithoutA += parseInt(drawnCard);
-            } else if (drawnCard != "A") {
-                dealerTotalWithoutA += 10;
-            }
-            checkA();
-            updateTotal();
-            if (chance(0.25)) { dealerGetProp(); }
+            dealerDraw();
             
             if (dealerTotal >= standThreshold) {
                 await sleep(rand(500, 1000));
                 dealerThinkProp();
                 addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
+
                 result();
             } else {
                 dealerActAfterPlayerStand();
