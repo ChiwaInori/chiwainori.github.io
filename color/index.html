@@ -10,6 +10,7 @@
     <style>
         .mainBody {
             background-color: #888888;
+            transition: background-color 0.5s var(--transit);
         }
 
         input[type="range"] {
@@ -216,6 +217,12 @@
             // Paint ColorBlock
             styleTo("colorBlock", `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`);
             // styleTo("mainBody", `background-color: rgb(${255 - rgb.r}, ${255 - rgb.g}, ${255 - rgb.b});`, "class");
+
+            if (rgb.r >= 116 && rgb.r <= 156 && rgb.g >= 116 && rgb.g <= 156 && rgb.b >= 116 && rgb.b <= 156) {
+                styleTo("mainBody", `background-color: #222222;`, "class");
+            } else {
+                styleTo("mainBody", `background-color: #888888;`, "class");
+            }
 
             // Update everyone's color
 
