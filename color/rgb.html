@@ -38,7 +38,31 @@
         <h6 id="title2"><a id="linkName" href="../">XTSGAMES.TOP</a> &gt; <strong>RGB 调色器</strong></h6>
     </div>
     <div class="content" style="margin-left: 40px;">
-        <script>
+        <div class="slider-container">
+            <label for="red" class="slider-label" style="color: #ff0000;"><strong>R</strong></label>
+            <input type="range" id="red" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
+            <span id="r-v"><strong><span id="red-value" style="margin-left: 16px;">0</span> / <span id="red-hex">00</span></strong></span>
+        </div>
+
+        <div class="slider-container">
+            <label for="green" class="slider-label" style="color: #00ff00;"><strong>G</strong></label>
+            <input type="range" id="green" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
+            <span id="g-v"><strong><span id="green-value" style="margin-left: 16px;">0</span> / <span id="green-hex">00</span></strong></span>
+        </div>
+
+        <div class="slider-container">
+            <label for="blue" class="slider-label" style="color: #0000ff;"><strong>B</strong></label>
+            <input type="range" id="blue" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
+            <span id="b-v"><strong><span id="blue-value" style="margin-left: 16px;">0</span> / <span id="blue-hex">00</span></strong></span>
+        </div>
+
+        <br />
+
+        <div id="color-box" style="width: 512px; height: 512px;"></div>
+        <p id="final" style="color: black;"><span id="final-code" style="color: black;">rgb(0,0,0)</span> / <span id="final-code-hex" style="color: black;">#000000</span></p>
+    </div>
+    <script>
+        seizure("当你快速滑动本页面上的滚动条时，页面的<strong>布局颜色可能会快速改变</strong>。", "When you quickly swipe the scroll bar on this page, <strong>the layout color of the page may change quickly</strong>.");
             function updateColor() {
                 var r = parseInt(document.getElementById('red').value);
                 var g = parseInt(document.getElementById('green').value);
@@ -98,34 +122,7 @@
                 document.getElementById('final-code-hex').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
             }
         </script>
-
-
-        <div class="slider-container">
-            <label for="red" class="slider-label" style="color: #ff0000;"><strong>R</strong></label>
-            <input type="range" id="red" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
-            <span id="r-v"><strong><span id="red-value" style="margin-left: 16px;">0</span> / <span id="red-hex">00</span></strong></span>
-        </div>
-
-        <div class="slider-container">
-            <label for="green" class="slider-label" style="color: #00ff00;"><strong>G</strong></label>
-            <input type="range" id="green" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
-            <span id="g-v"><strong><span id="green-value" style="margin-left: 16px;">0</span> / <span id="green-hex">00</span></strong></span>
-        </div>
-
-        <div class="slider-container">
-            <label for="blue" class="slider-label" style="color: #0000ff;"><strong>B</strong></label>
-            <input type="range" id="blue" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
-            <span id="b-v"><strong><span id="blue-value" style="margin-left: 16px;">0</span> / <span id="blue-hex">00</span></strong></span>
-        </div>
-
-        <br />
-
-        <div id="color-box" style="width: 512px; height: 512px;"></div>
-        <p id="final" style="color: black;"><span id="final-code" style="color: black;">rgb(0,0,0)</span> / <span id="final-code-hex" style="color: black;">#000000</span></p>
     </div>
-    <script>
-        seizure("当你快速滑动本页面上的滚动条时，页面的<strong>布局颜色可能会快速改变</strong>。", "When you quickly swipe the scroll bar on this page, <strong>the layout color of the page may change quickly</strong>.");
-    </script>
-</div></div></body>
+</div></body>
 
 </html>

@@ -418,7 +418,13 @@ function unhide(element, display = "block", method = "id") {
 function isHidden(element) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
-    return target(element).style.display == "none" || !!document.querySelector(`#${element}[hide]`);
+    return target(element).style.display != "" ? target(element).style.display == "none" : !!document.querySelector(`#${element}[hide]`);
+
+    /* Explain the code:
+        There are much ways to hide an element in XTSGAMES.
+        1. Is the element's display NOT "" (default value if you didn't set its display)? If so, check the value directly: if it is "none", it's hidden.
+        2. If IT'S "", they might be tagged by [hide]. Check this tag: if it has this tag, it's hidden.
+    */
 }
 
 /**
