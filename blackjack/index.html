@@ -279,6 +279,10 @@
                 checkA();
                 updateTotal();
                 if (chance(0.25)) { dealerGetProp(); }
+
+                if (dealerTotal >= standThreshold && !copyFrom("dealerLine").includes("已停牌")) {
+                    addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
+                }
             }
 
             drawStatus(playerTotal > targetPoint ? false : true);
