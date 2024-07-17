@@ -134,25 +134,25 @@
     <script>
         seizure("当你快速滑动本页面上的滚动条时，页面的<strong>布局颜色可能会快速改变</strong>。", "When you quickly swipe the scroll bar on this page, <strong>the layout color of the page may change quickly</strong>.");
 
-        function turn(colorspace) {
-            const targets = ["choose", "adjust", "img"];
-            const spaces = ["rgb", "cmyk", "hsv", "hsl"];
+        const targets = ["choose", "adjust", "img"];
+        const spaces = ["rgb", "cmyk", "hsv", "hsl"];
 
+        let nowControlling;
+
+        let rgb = { r: undefined, g: undefined, b: undefined };
+        let cmyk = { c: undefined, m: undefined, y: undefined, k: undefined };
+        let hsv = { h: undefined, s: undefined, v: undefined };
+        let hsl = { h: undefined, s: undefined, l: undefined };
+
+        function turn(colorspace) {
             targets.forEach(target => {
                 spaces.forEach(space => {
                     colorspace == space ? unhide(`${target}-${space}`) : hide(`${target}-${space}`);
-                })
+                });
             });
         }
 
         function changeColor() {
-            let nowControlling;
-
-            let rgb = { r: undefined, g: undefined, b: undefined };
-            let cmyk = { c: undefined, m: undefined, y: undefined, k: undefined };
-            let hsv = { h: undefined, s: undefined, v: undefined };
-            let hsl = { h: undefined, s: undefined, l: undefined };
-
             if (!isHidden("choose-rgb")) { nowControlling = "RGB"; }
             if (!isHidden("choose-cmyk")) { nowControlling = "CMYK"; }
             if (!isHidden("choose-hsv")) { nowControlling = "HSV"; }
@@ -197,19 +197,19 @@
             }
 
             // Formative
-            rgb.r = parseInt(rgb.r);
-            rgb.g = parseInt(rgb.g);
-            rgb.b = parseInt(rgb.b);
-            cmyk.c = parseInt(cmyk.c);
-            cmyk.m = parseInt(cmyk.m);
-            cmyk.y = parseInt(cmyk.y);
-            cmyk.k = parseInt(cmyk.k);
-            hsv.h = parseInt(hsv.h);
-            hsv.s = parseInt(hsv.s);
-            hsv.v = parseInt(hsv.v);
-            hsl.h = parseInt(hsl.h);
-            hsl.s = parseInt(hsl.s);
-            hsl.l = parseInt(hsl.l);
+            rgb.r = Math.round(rgb.r);
+            rgb.g = Math.round(rgb.g);
+            rgb.b = Math.round(rgb.b);
+            cmyk.c = Math.round(cmyk.c);
+            cmyk.m = Math.round(cmyk.m);
+            cmyk.y = Math.round(cmyk.y);
+            cmyk.k = Math.round(cmyk.k);
+            hsv.h = Math.round(hsv.h);
+            hsv.s = Math.round(hsv.s);
+            hsv.v = Math.round(hsv.v);
+            hsl.h = Math.round(hsl.h);
+            hsl.s = Math.round(hsl.s);
+            hsl.l = Math.round(hsl.l);
 
             if (hsv.h == 360) { hsv.h = 0; }
             if (hsl.h == 360) { hsl.h = 0; }

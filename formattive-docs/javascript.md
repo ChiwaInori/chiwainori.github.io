@@ -31,7 +31,7 @@
 
 ## Changing Variant's Type
 22. Use !!variant to turn into BOOLEAN (!!"thisIsTrue") (into a negative BOOLEAN use !variant)
-23. Use +variant to turn into NUMBER (+"2024")
+23. Use +variant to turn into NUMBER (+"2024") (parsing into a integer use ~~variant)
 24. Use ""+variant to turn into STRING (""+[1, 2, 3])
 
 ## etc.
