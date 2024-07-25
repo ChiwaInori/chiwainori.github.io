@@ -36,7 +36,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     if (cnText != "toCN" && cnText != "toEN" && cnText != "close") {
         document.querySelector("body").innerHTML += 
             `<dialog id="cnSeizure" class="SEIZURE">
-                <h3 style="color: #dd0000;">! 光敏性癫痫警告 !</h3>
+                <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
                 <p>${cnText}</p>
                 <p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p>
                 <p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p>
@@ -45,7 +45,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
                 <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('close')">[继续]</span></strong></p>
             </dialog>
             <dialog id="enSeizure" class="SEIZURE">
-                <h3 style="color: #dd0000;">! PHOTOSENSITIVE EPILEPSY WARNING !</h3>
+                <h3 style="color: var(--red);">! PHOTOSENSITIVE EPILEPSY WARNING !</h3>
                 <p>${enText}</p>
                 <p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p>
                 <p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p>
