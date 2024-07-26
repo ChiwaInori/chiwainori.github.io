@@ -11,10 +11,14 @@
     <style>
         #infoBlocks > div {
             border: 2px solid #666666;
-            width: 350px;
+            width: 700px;
             margin: 16px auto 16px;
             padding: 16px;
             align-items: center;
+        }
+
+        #top {
+            font-size: 24px;
         }
 
         @media screen and (min-width: 1000px) and (hover: hover) {
@@ -26,11 +30,16 @@
 
             #infoBlocks > div {
                 float: left;
+                width: 350px;
                 margin: 8px;
             }
 
             #contactUs {
                 clear: both;
+            }
+
+            #top {
+                font-size: 12px;
             }
         }
 
@@ -51,7 +60,7 @@
 
 <body><div class="mainBody">
     <div class="title">
-        <h1 id="center_title">XTSGAMES<span style="font-size: 12px;"><a href="private/" class="HLK">.</a>TOP</span></h1>
+        <h1 id="center_title">XTSGAMES<span id="top"><a href="private/" class="HLK">.</a>TOP</span></h1>
     </div>
     <div class="content">
         <br />
@@ -62,6 +71,7 @@
             <div id="recentUpdate">
                 <h2>最近更新</h2>
                 <div class="LST">
+                    <p>2024.7.26 - 移动端页面观感改善</p>
                     <p>2024.7.13 - 添加了 <strong><a href="./jsoperations/">JavaScript 表达式计算测试</a></strong></p>
                     <p>2024.7.13 - 添加了 <strong><a href="./blackjack/">黑杰克</a></strong></p>
                     <p>2024.7.11 - 添加了 <strong><a href="./soundbal/">音量平衡工具</a></strong></p>
