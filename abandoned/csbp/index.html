@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>CS:GO Ban & Pick - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (min-width: 1000px) and (hover: hover)" href="/css/desktop.css" />
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>CS:GO Ban & Pick</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>CS:GO Ban & Pick</strong></h6>
+    </div>
+    <div class="content">
+        <h3 style="color: #00a8ff;">- TEAM A ROUND -</h3>
+        <p id="q1"><strong>Choose map first?</strong></p>
+        <p id="q2"><strong><a class="LNK" onclick="first()">YES</a> / <a class="LNK" onclick="second()">NO</a></strong></p>
+        <p id="q3" style="display: none;"><strong>Ban a map</strong></p>
+    </div>
+    <script>
+        function first() {
+            document.getElementById("q1").style = "display: none;";
+            document.getElementById("q2").style = "display: none;";
+            document.getElementById("q3").style = "display: block;";
+        }
+    </script>
+</div></body>
+
+</html>

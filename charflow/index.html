@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>句子字母滚动 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <style></style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>句子字母滚动</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>句子字母滚动</strong></h6>
+    </div>
+    <div class="content">
+        <p>在下方输入一些英文句子，然后可以将所有字母都替换为往前/后一个字母。</p>
+        <br />
+        <hr />
+        <p id="doc" contenteditable>[TYPE HERE]</p>
+        <hr />
+        <br />
+        <p><button onclick="change('backward')">← 1</button><button onclick="change('forward')">1 →</button></p>
+        <br />
+        <p id="alphabet" style="color: var(--gray)">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</p>
+        <br />
+        <p class="ANT">在本页面中输入日文可能会出现问题。</p>
+    </div>
+    <script>
+        const englishChars = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        const japaneseChars = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の", "は", "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ"];
+        let docContent = "[TYPE HERE]";
+        let backwardChar = null;
+
+        target("doc").addEventListener("input", function () {
+            docContent = this.innerText;
+        });
+
+        target("doc").addEventListener("click", updateCursor);
+        target("doc").addEventListener("keydown", updateCursor);
+
+        function change(direction) {
+            docContent = docContent.replaceAll(/\n/g, "ん");
+
+            for (let i = 0; i < 52; i++) {
+                docContent = docContent.replaceAll(new RegExp(englishChars[i], "g"), japaneseChars[i]); // to japanese
+            }
+
+            if (direction == "backward") { 
+                for (let i = 0; i < 52; i++) {
+                    let target = i - 1; // backward 1
+                    if (target == 25) { target = 51; } // a -> z
+                    if (target == -1) { target = 25; } // A -> Z
+
+                    docContent = docContent.replaceAll(new RegExp(japaneseChars[i], "g"), englishChars[target]); // back to english
+                }
+            } else {
+                for (let i = 0; i < 52; i++) {
+                    let target = i + 1; // forward 1
+                    if (target == 26) { target = 0; } // Z -> A
+                    if (target == 52) { target = 26; } // z -> a
+
+                    docContent = docContent.replaceAll(new RegExp(japaneseChars[i], "g"), englishChars[target]);
+                }
+            }
+
+            docContent = docContent.replaceAll(/ん/g, "\n");
+
+            target("doc").innerText = docContent;
+        }
+
+        async function updateCursor() {
+            await sleep(1);
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            const offset = range.startOffset;
+
+            if (offset > 0) {
+                const textNode = range.startContainer;
+                const charBeforeCursor = textNode.textContent.charAt(offset - 1);
+                backwardChar = charBeforeCursor.toUpperCase();
+            } else {
+                backwardChar = null;
+            }
+
+            copyTo("alphabet", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
+            copyTo("alphabet", copyFrom("alphabet").replace(backwardChar, `<strong style="color: var(--green);">${backwardChar}</strong>`));
+        }
+    </script>
+</div></body>
+
+</html>

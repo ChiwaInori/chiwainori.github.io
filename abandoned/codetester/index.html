@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>代码测试页面 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <script>
+        function test() {
+            var ipt = document.getElementById("ipt").value;
+            document.getElementById("test_result").innerHTML = ipt;
+        }
+    </script>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>代码测试页面</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>代码测试页面</strong></h6>
+    </div>
+    <div class="content">
+        <p>在下面的框中输入要测试的<strong>HTML代码</strong>，然后点击"测试"按钮即可进行测试。</p>
+        <input id="ipt" type="text" />
+        <button id="button" onclick="test()">测试</button>
+        <br />
+        <br />
+        <noscript><p style="color: #ff0000"><strong>您的浏览器不支持或已禁用JavaScript。请启用JavaScript以进行代码测试。</strong></p><br /><br /></noscript>
+        <p id="test_result">代码测试的结果将会在此处显示</p>
+    </div>
+</div></body>
+
+</html>
