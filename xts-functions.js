@@ -135,6 +135,57 @@ function chance(percent) {
     return rand(0, 1, true) <= percent.toRange(0, 1);
 }
 
+/**
+ * Deep clone (isolate) an array.
+ * @returns {array} The deep clone result
+ * @example [1, 2, [3, 4]].isolate() // [1, 2, [3, 4]]
+ */
+Array.prototype.isolate = function () {
+    let newArray = [];
+
+    this.forEach(arg => {
+        if (typeof arg == "object") { // Still an array
+            newArray.push(arg.isolate()); // Loop
+        } else {
+            newArray.push(arg);
+        }
+    });
+
+    return newArray;
+}
+
+/**
+ * Remove ONLY ONE specified target from an array.
+ * @param {any} target - The target to remove
+ * @returns {array} The array without (one of) the target(s)
+ * @example [1, 2, 3].remove(2) // [1, 3]
+ */
+Array.prototype.remove = function (target) {
+    const index = this.indexOf(target); // this[index] is the (FIRST) target
+    let returnArray = [];
+
+    for (let i = 0; i < index; i++) { // Push value that is before index
+        returnArray.push(this[i]);
+    }
+    for (let i = index + 1; i < this.length; i++) { // Push value that is after index
+        returnArray.push(this[i]);
+    }
+
+    return returnArray;
+};
+
+/**
+ * Get the count of specified string in a string
+ * @param {any} target - The target to count
+ * @returns {number} How many targets are in the string
+ * @example "HelloWorld".getCountOf("l") // 3
+ */
+String.prototype.getCountOf = function (target) {
+    const splitString = this.split(target);
+
+    return splitString.length - 1;
+};
+
 // NUMERAL COMMANDS
 
 /**

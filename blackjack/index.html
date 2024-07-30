@@ -97,26 +97,6 @@
         };
         let dealerUsedPropThisTurn = false;
 
-        Array.prototype.remove = function (target) { // Remove ONLY ONE specified target from an array
-            const index = this.indexOf(target); // this[index] is the (FIRST) target
-            let returnArray = [];
-
-            for (let i = 0; i < index; i++) { // Push value that is before index
-                returnArray.push(this[i]);
-            }
-            for (let i = index + 1; i < this.length; i++) { // Push value that is after index
-                returnArray.push(this[i]);
-            }
-
-            return returnArray;
-        };
-
-        String.prototype.getCountOf = function (target) { // Get the count of specified string in a string
-            const splitString = this.split(target);
-
-            return splitString.length - 1;
-        };
-
         function start() {
             fadeChange("welcome", "game");
             updateHealth();
