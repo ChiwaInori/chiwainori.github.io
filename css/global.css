@@ -235,6 +235,9 @@ table {
 
 .IFB { /* Infobox */
     margin: 16px 0px 16px 0px;
+    width: 350px;
+    padding: 16px;
+    text-align: center;
 }
 
 .LST { /* List */
