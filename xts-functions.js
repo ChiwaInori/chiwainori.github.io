@@ -12,14 +12,16 @@ function xts() {
 /**
  * Sleep a moment then execute following commands.
  * [ASYNC] Only available in async functions.
- * @param {number} time - (>= 1) Sleep time in milliseconds
+ * @param {number} time - (>= 0) Sleep time in milliseconds
  * @example sleep(1000) // Pause your commands for 1s
  */
 function sleep(time) {
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError("Cannot sleep less than 1 milliseconds"); }
+    if (time < 0) { throw new RangeError("Cannot sleep less than 0 milliseconds"); }
 
-    return new Promise(resolve => setTimeout(resolve, time));
+    if (time != 0) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
 }
 
 /**
@@ -366,14 +368,14 @@ function styleTo(element, style, method = "id") {
         target(element).style = style;
     }
     if (method == "class") {
-        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-            document.getElementsByClassName(element)[i].style = style;
-        }
+        query(`.${element}`).forEach(target => {
+            target.style = style;
+        });
     }
     if (method == "query") {
-        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-            document.querySelectorAll(element)[i].style = style;
-        }
+        query(element).forEach(target => {
+            target.style = style;
+        });
     }
 }
 
@@ -393,14 +395,14 @@ function colorTo(element, color, method = "id") {
         target(element).style.color = color;
     }
     if (method == "class") {
-        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-            document.getElementsByClassName(element)[i].style.color = color;
-        }
+        query(`.${element}`).forEach(target => {
+            target.style.color = color;
+        });
     }
     if (method == "query") {
-        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-            document.querySelectorAll(element)[i].style.color = color;
-        }
+        query(element).forEach(target => {
+            target.style.color = color;
+        });
     }
 }
 
@@ -418,14 +420,16 @@ function hide(element, method = "id") {
         target(element).style.display = "none";
     }
     if (method == "class") {
-        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-            document.getElementsByClassName(element)[i].style.display = "none";
-        }
+        query(`.${element}`).forEach(target => {
+            target.style.display = "none";
+            target.style.opacity = 1;
+        });
     }
     if (method == "query") {
-        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-            document.querySelectorAll(element)[i].style.display = "none";
-        }
+        query(element).forEach(target => {
+            target.style.display = "none";
+            target.style.opacity = 1;
+        });
     }
 }
 
@@ -446,17 +450,16 @@ function unhide(element, display = "block", method = "id") {
         target(element).style.opacity = 1;
     }
     if (method == "class") {
-        for (let i = 0; i < document.getElementsByClassName(element).length; i++) {
-            document.getElementsByClassName(element)[i].style.display = display;
-            document.getElementsByClassName(element)[i].style.opacity = 1;
-
-        }
+        query(`.${element}`).forEach(target => {
+            target.style.display = display;
+            target.style.opacity = 1;
+        });
     }
     if (method == "query") {
-        for (let i = 0; i < document.querySelectorAll(element).length; i++) {
-            document.querySelectorAll(element)[i].style.display = display;
-            document.querySelectorAll(element)[i].style.opacity = 1;
-        }
+        query(element).forEach(target => {
+            target.style.display = display;
+            target.style.opacity = 1;
+        });
     }
 }
 
@@ -482,48 +485,42 @@ function isHidden(element) {
  * Turn an element's current color to another in transition.
  * @param {string} element - The id of target element
  * @param {string} color - The target color of transition
- * @param {number} time - （>= 1) The time length of transition in milliseconds
+ * @param {number} time - （>= 0) The time length of transition in milliseconds
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
  * @example transColor("title", "#00dd00") // Turn the color of title to green in transition.
  */
-async function transColor(element, color, time = 100) {
+async function transColor(element, color, time = 100, method = "id") {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError("Cannot change color in less than 1 milliseconds"); }
+    if (time < 0) { throw new RangeError("Cannot change color in less than 0 milliseconds"); }
 
-    const preset = { r: 102, g: 102, b: 102 }; // Same as --textColor-500 in global.css
-    let fromColor;
-    let toColor;
-    let nowColor;
-
-    if (target(element).style.color != "") {
-        fromColor = { r: target(element).style.color.getNum(1), g: target(element).style.color.getNum(2), b: target(element).style.color.getNum(3) };
-    } else {
-        fromColor = preset;
+    if (time == 0) {
+        colorTo(element, color);
+        return;
     }
 
-    if (color.indexOf("#") >= 0) {
-        toColor = { r: parseInt(color.substring(1, 3), 16), g: parseInt(color.substring(3, 5), 16), b: parseInt(color.substring(5, 7), 16) };
+    if (method == "id") {
+        target(element).classList.add("temp_transColor_target");
     }
-    if (color.indexOf("rgb") >= 0) {
-        toColor = { r: color.getNum(1), g: color.getNum(2), b: color.getNum(3) };
+    if (method == "class") {
+        query(`.${element}`).forEach(target => {
+            target.classList.add("temp_transColor_target");
+        });
     }
+    if (method == "query") {
+        query(element).forEach(target => {
+            target.classList.add("temp_transColor_target");
+        });
+    }
+    document.querySelector("style").innerHTML += `.temp_transColor_target { transition: color ${time / 1000}s var(--transit); }`;
 
-    const diff = { r: (toColor.r - fromColor.r) / 20, g: (toColor.g - fromColor.g) / 20, b: (toColor.b - fromColor.b) / 20 };
+    colorTo(element, color, method);
 
-    for (let i = 1; i <= 21; i++) {
-        if (target(element).style.color != "") {
-            nowColor = { r: target(element).style.color.getNum(1), g: target(element).style.color.getNum(2), b: target(element).style.color.getNum(3) };
-        } else {
-            nowColor = preset;
-        }
-        if (i <= 20) {
-            colorTo(element, `rgb(${nowColor.r + diff.r}, ${nowColor.g + diff.g}, ${nowColor.b + diff.b})`);
-            await sleep(time / 20);
-        } else {
-            colorTo(element, color);
-        }
-    }
+    await sleep(time);
+    query("*").forEach(target => {
+        target.classList.remove("temp_transColor_target");
+    });
 }
 
 /**

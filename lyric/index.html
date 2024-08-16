@@ -156,7 +156,7 @@
                                 await sleep(waitLength);
                             }
 
-                            const length = +notes[i].split(",")[1].replaceAll(/'/g, ".") * clockBase || 0.001;
+                            const length = +notes[i].split(",")[1].replaceAll(/'/g, ".") * clockBase;
                             jump(i + 1, length * 1000);
 
                             isLast = i == notes.length - 1;
@@ -191,7 +191,7 @@
             function getWordPos() {
                 let fontSize = 100; // px
                 const horizontalTotal = target("lyricBlock").offsetWidth;
-                const words = document.querySelectorAll("#lyrics *");
+                const words = query("#lyrics *");
                 words.forEach(element => {
                     element.style.fontSize = `${fontSize}px`;
                 });
@@ -267,7 +267,7 @@
 
             async function next(sentence) {
                 await sleep(1);
-                const current = document.querySelectorAll("#lyrics *");
+                const current = query("#lyrics *");
                 current.forEach(element => {
                     element.style.transition = "all 0.5s var(--transit)";
                     element.style.top = `${element.style.top.getNum() - 100}px`;
@@ -278,7 +278,7 @@
                 copyTo("lyrics", sentence);
                 getWordPos();
 
-                const after = document.querySelectorAll("#lyrics *");
+                const after = query("#lyrics *");
                 after.forEach(element => {
                     element.style.opacity = 0;
                     element.style.top = `${element.style.top.getNum() + 100}px`;
