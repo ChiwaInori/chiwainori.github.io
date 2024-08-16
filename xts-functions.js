@@ -464,21 +464,15 @@ function unhide(element, display = "block", method = "id") {
 }
 
 /**
- * Check a element is hidden (display: none) or not.
+ * Check a element is hidden or not.
  * @param {string} element - The id of target element
  * @return {boolean} The element is hidden or not
- * @example isHide("title") // If #title is hidden, return true
+ * @example isHidden("title") // If #title is hidden, return true
  */
 function isHidden(element) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
-    return target(element).style.display != "" ? target(element).style.display == "none" : !!document.querySelector(`#${element}[hide]`);
-
-    /* Explain the code:
-        There are much ways to hide an element in XTSGAMES.
-        1. Is the element's display NOT "" (default value if you didn't set its display)? If so, check the value directly: if it is "none", it's hidden.
-        2. If IT'S "", they might be tagged by [hide]. Check this tag: if it has this tag, it's hidden.
-    */
+    return target(element).style.display == "none" || target(element).style.opacity === "0" || !!query(`#${element}[hide]`)[0] && target(element).style.display == "";
 }
 
 /**
@@ -493,6 +487,7 @@ async function transColor(element, color, time = 100, method = "id") {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
     if (time < 0) { throw new RangeError("Cannot change color in less than 0 milliseconds"); }
 
     if (time == 0) {
@@ -501,25 +496,25 @@ async function transColor(element, color, time = 100, method = "id") {
     }
 
     if (method == "id") {
-        target(element).classList.add("temp_transColor_target");
+        target(element).classList.add("temp_transColor");
     }
     if (method == "class") {
         query(`.${element}`).forEach(target => {
-            target.classList.add("temp_transColor_target");
+            target.classList.add("temp_transColor");
         });
     }
     if (method == "query") {
         query(element).forEach(target => {
-            target.classList.add("temp_transColor_target");
+            target.classList.add("temp_transColor");
         });
     }
-    document.querySelector("style").innerHTML += `.temp_transColor_target { transition: color ${time / 1000}s var(--transit); }`;
+    document.querySelector("style").innerHTML += `.temp_transColor { transition: color ${time / 1000}s var(--transit); }`;
 
     colorTo(element, color, method);
 
     await sleep(time);
     query("*").forEach(target => {
-        target.classList.remove("temp_transColor_target");
+        target.classList.remove("temp_transColor");
     });
 }
 
