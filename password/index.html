@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
     <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <style></style>
     <script src="/xts-functions.js"></script>
 </head>
 
@@ -111,10 +112,11 @@
             }
         }
 
-        function copy(type) {
+        async function copy(type) {
             const password = copyFrom(`result-${type}`); 
-            colorTo(`result-${type}`, "#00dd00");
-            transColor(`result-${type}`, "#666666", 500); 
+            colorTo(`result-${type}`, "var(--green)");
+            await sleep(1);
+            transColor(`result-${type}`, "var(--textColor-500)", 1000); 
 
             navigator.clipboard.writeText(password);
         }
