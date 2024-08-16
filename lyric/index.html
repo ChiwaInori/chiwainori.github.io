@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>动态歌词显示 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop-center.css" />
+    <style>
+        @font-face {
+          font-family: 'futomaru401';
+          src: url('futomaru401.ttf') format('truetype');
+        }
+
+        @font-face {
+          font-family: 'AaGuXiLaZhangGuanKeAiDeShen-2';
+          src: url('AaGuXiLaZhangGuanKeAiDeShen-2.ttf') format('truetype');
+        }
+
+        :root {
+            --font: "futomaru401";
+        }
+        
+        #lyricBlock {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+        }
+
+        #titleLine {
+            font-size: 32px;
+            color: var(--activeColor-400);
+            font-family: var(--font);
+        }
+        
+        #lyrics, #lyrics * {
+            position: absolute;
+            color: var(--activeColor-400) !important;
+            font-family: var(--font);
+            font-size: 100px;
+            white-space: nowrap;
+        }
+    </style>
+    <script src="/xts-functions.js"></script>
+</head>
+
+<body>
+    <div class="mainBody">
+        <div class="title">
+            <h1>动态歌词显示</h1>
+        </div>
+        <div class="navigation">
+            <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>动态歌词显示</strong></h6>
+        </div>
+        <div class="content">
+            <div id="startup">
+                <h1>在下方选中 XTSGAMES Lyric 文件 (.top) 来播放动态歌词</h1>
+                <input id="fileInput" type="file" accept=".top" />
+                <h3 id="display"></h3>
+                <p id="content"></p>
+                <div id="helpDiv">
+                    <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
+                    <div id="helpGroup" hide>
+                        <h3>如何制作 XTSGAMES Lyric 文件</h3>
+                        <p><strong>1.</strong> 新建一个空白文件，将后缀名设置为 <strong>.top</strong> , 然后使用记事本 (或其他软件) 打开</p>
+                        <p><strong>2.</strong> 输入以下基本内容: <strong>xtsgames-lyric.100.</strong></p>
+                        <p><strong>3.</strong> 在后面按照以下格式继续输入: <strong>歌曲名,作者,歌曲每分钟节拍数,语言.</strong> (注意逗号和点也要输入)</p>
+                        <p>输入的 语言 将决定歌词使用的<strong>字体</strong>。<strong>CHN 中文; ENG 英文; JPN 日文.</strong> 如果歌词为其他语言，推荐先使用 ENG 进行测试，如果显示效果不佳则使用 OTH, 使用默认字体。</p>
+                        <p><strong>4.</strong> 接下来，按照歌曲的进行顺序，输入以下内容: <strong>(注意: 下文的时长以节拍为单位，但是所有小数点要改为撇号 ' , 例如 2.5 拍 =&gt; 2'5)</strong></p>
+                        <p>如果是休息段 (伴奏), 输入 <strong>[SPACE],时长</strong> (例: [SPACE],15'5 )</p>
+                        <p>如果是歌词，输入 <strong>汉字(或单词音节),时长</strong> ，并在每个汉字之间加上 <strong>分号 ;</strong> (例如 He,1'5;llo,0'5 )</p>
+                        <p>如果歌词中要输入空格，请使用 <strong>反斜杠 \</strong> 代替</p>
+                        <p>在句子与句子之间，使用 <strong>斜杠 /</strong> 分开 (例如: 一,1;二,1'5/三,0'5 )</p>
+                        <p><strong>5.</strong> 你可以根据自己的编码习惯以及视觉观感，在<strong>任意位置</strong>换行</p>
+                    </div>
+                </div>
+            </div>
+            <div id="lyricBlock" hide>
+                <h1 id="titleLine"></h1>
+                <h1 id="lyrics">&nbsp;</h1>
+            </div>
+        </div>
+        <script>
+            let fileContent, lang, clockBase;
+            load("fileInput", "content");
+            target("fileInput").addEventListener("change", async () => {
+                await sleep(1);
+                fileContent = copyFrom("content").replaceAll(/\r/g, "").replaceAll(/\n/g, "");
+                extractInfo();
+            });
+
+            function extractInfo() {
+                const currentVersion = 100;
+                const [signature, version, messages] = fileContent.split(".");
+
+                if (signature != "xtsgames-lyric") {
+                    copyTo("display", `错误的文件签名 (${signature})`);
+                    colorTo("display", "var(--red)");
+                    return;
+                }
+                if (version != currentVersion) {
+                    copyTo("display", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
+                    colorTo("display", "var(--red)");
+                    return;
+                }
+                hide("fileInput");
+                
+                const [title, author, bpm, font] = messages.split(",");
+                clockBase = 60 / bpm; // bps
+
+                lang;
+                if (font == "CHN") { lang = "中文"; document.documentElement.style.setProperty('--font', '"AaGuXiLaZhangGuanKeAiDeShen-2"'); }
+                if (font == "ENG") { lang = "英文"; document.documentElement.style.setProperty('--font', '"futomaru401"'); }
+                if (font == "JPN") { lang = "日文"; document.documentElement.style.setProperty('--font', '"futomaru401"'); }
+                if (font == "OTH") { lang = "默认"; document.documentElement.style.setProperty('--font', '"inherit"'); }
+
+                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. ${lang}. <button onclick="play()">点击播放</button>`);
+                copyTo("titleLine", `"${title}" - ${author}`);
+            }
+            
+            let waitLength = 1;
+            let lyric, len, nextLen;
+            
+            async function play() {
+                const lyricArray = fileContent.split(".")[3].split("/");
+
+                fadeChange("startup", "lyricBlock");
+                for (let i = 0; i < lyricArray.length; i++) { // /沈,1;ん,0'5;で,0'5;い,0'25;た\,1'75;味,1'5;の,0'5;な,0'25;い,0'5;日,0'5;々,0'5;で,0'25;も,1'5/
+                    let sentence = "";
+                    let nextSentence = "";
+                    let isFirst = false;
+                    let isLast = false;
+
+                    len = lyricArray[i].getCountOf(",");
+
+                    const notes = lyricArray[i].split(";");
+                    notes.forEach((note, index) => { // ["沈,1", 0]
+                        sentence += `<span id='w-${index + 1}'>${note.split(",")[0].replaceAll(/\\/g, "&nbsp;")}</span>`;
+                    });
+
+                    if (i != lyricArray.length - 1) {
+                        nextLen = lyricArray[i + 1].getCountOf(",");
+
+                        const nextNotes = lyricArray[i + 1].split(";");
+                        nextNotes.forEach((note, index) => { // ["沈,1", 0]
+                            nextSentence += `<span id='w-${index + 1}'>${note.split(",")[0].replaceAll(/\\/g, "&nbsp;")}</span>`;
+                        });
+                    }
+
+                    if (!sentence.includes("[SPACE]")) {
+                        for (let i = 0; i < notes.length; i++) { // 沈,1
+                            isFirst = i == 0;
+                            if (isFirst) {
+                                await sleep(waitLength);
+                            }
+
+                            const length = +notes[i].split(",")[1].replaceAll(/'/g, ".") * clockBase || 0.001;
+                            jump(i + 1, length * 1000);
+
+                            isLast = i == notes.length - 1;
+
+                            log(notes[i], length, isFirst, isLast);
+                            if (!isLast) {
+                                await sleep(length * 1000);
+                            } else {
+                                waitLength = length * 1000 - 500;
+                                await sleep(500);
+
+                                len = nextLen;
+                                next(nextSentence);
+                            }
+                        }
+                    } else {
+                        isFirst = false;
+                        isLast = true;
+                        next(`<span id="w-1">...</span>`);
+
+                        const length = +notes[0].split(",")[1].replace(/'/, ".") * clockBase;
+                        log(notes[0], length, false, true);
+                        await sleep(length * 1000 - 1000 < 1 ? 1 : length * 1000 - 1000);
+
+                        len = nextLen;
+                        next(nextSentence);
+                        await sleep(1000);
+                    }
+                }
+            }
+
+            function getWordPos() {
+                let fontSize = 100; // px
+                const horizontalTotal = target("lyricBlock").offsetWidth;
+                const words = document.querySelectorAll("#lyrics *");
+                words.forEach(element => {
+                    element.style.fontSize = `${fontSize}px`;
+                });
+                
+                let width = 0;
+                for (let i = 1; i <= len; i++) {
+                    width += target(`w-${i}`).offsetWidth;
+                }
+                while (width > horizontalTotal - 42 && fontSize > 10) {
+                    fontSize -= 10;
+                    words.forEach(element => {
+                        element.style.fontSize = `${fontSize}px`;
+                    });
+                    width = 0;
+                    for (let i = 1; i <= len; i++) {
+                        width += target(`w-${i}`).offsetWidth;
+                    }
+                }
+                
+                // HORIZONTAL
+                const horizontalUsed = width;
+                const horizontalMargin = (horizontalTotal - horizontalUsed) / 2;
+
+                let currentX = horizontalMargin;
+                for (let i = 1; i <= len; i++) {
+                    target(`w-${i}`).style.left = `${currentX}px`;
+                    let offset = lang != "默认" && target(`w-${i}`).innerHTML == target(`w-${i}`).innerHTML.match(/[A-z]/g) ? fontSize / 2.1 : target(`w-${i}`).offsetWidth;
+                    let space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
+                    currentX += offset + space;
+                }
+
+                // VERTICAL
+                const verticalTotal = target("lyricBlock").offsetHeight;
+                const verticalUsed = fontSize * 2;
+                const verticalMargin = (verticalTotal - verticalUsed) / 2;
+
+                
+                for (let i = 1; i <= len; i++) {
+                    const f = x => Math.sqrt((len + 5) ** 2 - x ** 2);
+                    const float = (len + 5 - f(i - (len / 2 + 0.5))) * 30;
+                    target(`w-${i}`).style.top = `${verticalMargin + float}px`;
+                }
+
+                // ROTATE
+                for (let i = 1; i <= len; i++) {
+                    const g = x => Math.sqrt((len + 5) ** 2 - x ** 2);
+                    const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 12;
+                    target(`w-${i}`).style.transform = `rotate(${degree}deg)`;
+                }
+            }
+
+            async function jump(index, length) {
+                const jumpLength = 50;
+                const jumpTarget = target(`w-${index}`);
+                const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum() : 0;
+                const xOffset = Math.sin(targetRotation / 180 * Math.PI) * jumpLength;
+                const yOffset = Math.cos(targetRotation / 180 * Math.PI) * jumpLength;
+
+                jumpTarget.style.transition = "all 0.2s var(--transit)";
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum() + xOffset}px`;
+                await sleep(1);
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum() - yOffset}px`;
+                jumpTarget.style.color = "var(--aqua) !important";
+
+                await sleep(200);
+
+                jumpTarget.style.transition = `all ${length / 1000}s ease`;
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum() - xOffset}px`;
+                await sleep(1);
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum() + yOffset}px`;
+                jumpTarget.style.color = "var(--activeColor-400)";
+            }
+
+            async function next(sentence) {
+                await sleep(1);
+                const current = document.querySelectorAll("#lyrics *");
+                current.forEach(element => {
+                    element.style.transition = "all 0.5s var(--transit)";
+                    element.style.top = `${element.style.top.getNum() - 100}px`;
+                    element.style.opacity = 0;
+                });
+
+                await sleep(500);
+                copyTo("lyrics", sentence);
+                getWordPos();
+
+                const after = document.querySelectorAll("#lyrics *");
+                after.forEach(element => {
+                    element.style.opacity = 0;
+                    element.style.top = `${element.style.top.getNum() + 100}px`;
+                });
+                await sleep(1);
+                after.forEach(element => {
+                    element.style.transition = "all 0.5s var(--transit)";
+                    element.style.opacity = 1;
+                    element.style.top = `${element.style.top.getNum() - 100}px`;
+                });
+            }
+
+            window.addEventListener("resize", getWordPos);
+        </script>
+    </div>
+</body>
+
+</html>

@@ -394,6 +394,7 @@
         copyright(2023);
 
         const shipwarURL = "https://xtsgames.top/shipwar/?code=";
+        const currentVersion = 100;
 
         const onlineCode = paramURL("get", "code");
         if (onlineCode) {
@@ -1097,8 +1098,10 @@
                 styleTo("saveButton", "display: block; margin-left: 48%;");
             } else {
                 styleTo("text1", "font-size: 10px; color: #dd0000;");
-                if (version == "099") {
-                    copyTo("text1", "你的存档文件是在旧版本中保存的, 此存档文件无法在目前版本中加载. 如果你想要加载这个文件, 请在本网页的地址后面加上 /../archive_099.html 以尝试在旧版本中加载.");
+                if (root.split(".") != "xtsgames-shipwar") {
+                    copyTo("text1", `错误的文件签名 (${root.split(".")})`);
+                } else if (version != currentVersion) {
+                    copyTo("text1", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
                 } else if (version == "olg") {
                     copyTo("text1", "不能用在线代码加载游戏.");
                 } else {

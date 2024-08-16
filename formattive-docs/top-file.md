@@ -8,11 +8,13 @@
 
 ## Verification
 5. Check SIGNATURE:
-    if (INPUTTED-CODE.split(X, Y) != "xtsgames-siteName") { ... "错误的代码签名" ... }
+    if (INPUTTED-CODE.split(X, Y) != "xtsgames-siteName") { ... `错误的文件签名 (${signature})` ... }
 6. Check VERSION:
     const nowVersion = ...
-    if (INPUTTED-CODE.split(X, Y) != nowVersion) { ... "错误的代码版本: ${version} (目前: ${nowVersion}). 请在本页面的 URL 后加入 /../archive_${version}.html 以读取该代码" ... }
-7. Check Dots:
+    if (INPUTTED-CODE.split(X, Y) != nowVersion) { ...  `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.` ... }
+    
+7. Do other optional checks:
+7I. (OPTIONAL) Check Dots:
     if (INPUTTED-CODE[X] != "." && INPUTTED-CODE[Y] != "." && ...) { ... }
-8. Check availability of INFO if necessary (To verify it's user-made or not)
+7II. (OPTIONAL) Check availability of INFO if necessary (To verify it's user-made or not)
     if (INPUTTED-CODE[X] <= numberRange) { ... }

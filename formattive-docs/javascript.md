@@ -26,13 +26,16 @@
 17. When coding, use "const" first, then if found the value should be changed, turn into "let"
 18. Name variants using lowerCamelCase instead of UpperCamelCase, snake_case or kebab-case
 19. Naming variants with meaning (Do not use "a", "b" or "c")
-20. When the variant is used as random decision, name it as "d"
+20. When the variant is used as random decision, name it as "d" means "decider"
 21. Declare variants as early as possible (and gather them together, see 5.)
+22. If a variant is only used in one function, declare it inside the function
+23. When using many for loops, name the loop index as "i", "j", "k" ...
+24. Declare variant with using less lines: "let name, sex, age;" "const [first, second, third] = array.split(".");
 
 ## Changing Variant's Type
-22. Use !!variant to turn into BOOLEAN (!!"thisIsTrue") (into a negative BOOLEAN use !variant)
-23. Use +variant to turn into NUMBER (+"2024") (parsing into a integer use ~~variant)
-24. Use ""+variant to turn into STRING (""+[1, 2, 3])
+25. Use !!variant to turn into BOOLEAN (!!"thisIsTrue") (into a negative BOOLEAN use !variant)
+26. Use +variant to turn into NUMBER (+"2024") (parsing into a integer use ~~variant)
+27. Use ""+variant to turn into STRING (""+[1, 2, 3])
 
 ## etc.
 No ESLint is used because some ....ing problems
@@ -40,4 +43,4 @@ No ESLint is used because some ....ing problems
 # Epilogue
 The creation of these rules is to keep code format unified. Have fun coding in XTSGAMES!
 by xtsdcb69, XTSGAMES
-Created at 2024.6.27 12:28, Last modified at 2024.7.12 14:31
+Created at 2024.6.27 12:28, Last modified at 2024.8.16 13:22
