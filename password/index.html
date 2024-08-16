@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>Apple 风格密码生成器 - XTSGAMES</title>
+    <title>密码生成器 - XTSGAMES</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
@@ -13,45 +13,129 @@
 
 <body><div class="mainBody">
     <div class="title">
-        <h1>Apple 风格密码生成器</h1>
+        <h1>密码生成器</h1>
     </div>
     <div class="navigation">
-        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>Apple 风格密码生成器</strong></h6>
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>密码生成器</strong></h6>
     </div>
     <div class="content">
-        <p id="result"></p>
-        <button onclick="gen()">生成新密码</button>
+        <p>下面提供了不同密码生成器的密码风格生成，你可以根据需要来选择。</p>
+        <p style="color: var(--red)">注意! 此生成器不检查是否存在常用词语。请自行检查生成的密码。</p>
+        <table>
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            <tr>
+                <th>Apple</th>
+                <th id="result-apple"></th>
+                <th><button onclick="copy('apple')">复制</button></th>
+                <th><button onclick="gen('apple')">生成</button></th>
+            </tr>
+            <tr>
+                <th>Microsoft</th>
+                <th id="result-ms"></th>
+                <th><button onclick="copy('ms')">复制</button></th>
+                <th><button onclick="gen('ms')">生成</button></th>
+                <th><span id="ms-length">16</span><input id="ms-slider" type="range" min="1" max="64" value="16" step="1" /></th>
+                <th>Aa<input id="ms-aa" type="checkbox" checked /></th>
+                <th>123<input id="ms-123" type="checkbox" checked /></th>
+                <th>!@$<input id="ms-notes" type="checkbox" checked /></th>
+            </tr>
+        </table>
     </div>
     <script>
         const lowerAlphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
         const upperAlphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
         const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        const notes = ["!", "@", "$", "_", "-"];
 
         const passwordParts = 3;
         const partLength = 6;
 
-        function gen() {
+        let msLength = 16;
+        let msOptions = [true, true, true];
+
+        function gen(type) {
             let password = "";
             
-            for (let i = 0; i < passwordParts; i++) { // 3 parts of password abcdef-abcdef-abcdef
-                for (let j = 0; j < partLength; j++) { // each part
-                    let decider = rand(1, 20);
-                    if (decider <= 16) {
-                        password += lowerAlphabet[rand(0, 25)];
-                    } else if (decider <= 18) {
-                        password += upperAlphabet[rand(0, 25)];
-                    } else {
-                        password += numbers[rand(0, 9)];
+            if (type == "apple") {
+                for (let i = 0; i < passwordParts; i++) { // 3 parts of password abcdef-abcdef-abcdef
+                    for (let j = 0; j < partLength; j++) { // each part
+                        const d = rand(1, 20);
+
+                        if (d <= 16) {
+                            password += lowerAlphabet[rand(0, 25)];
+                        } else if (d <= 18) {
+                            password += upperAlphabet[rand(0, 25)];
+                        } else {
+                            password += numbers[rand(0, 9)];
+                        }
+                    }
+                    if (i != passwordParts - 1) {
+                        password += "-";
                     }
                 }
-                if (i != passwordParts - 1) {
-                    password += "-";
-                }
+                copyTo("result-apple", password);
             }
-            copyTo("result", password);
+
+            if (type == "ms") { // 20% number; 12% notes
+                // Calculate weight
+                let weight = [0, 0, 0];
+                if (msOptions[0]) { weight[0] = 60; }
+                if (msOptions[1]) { weight[1] = 20; }
+                if (msOptions[2]) { weight[2] = 20; }
+
+                let sum = 0;
+                weight.forEach(part => {
+                    sum += part;
+                });
+                const percent = [weight[0] / sum, weight[1] / sum, weight[2] / sum];
+
+                for (let i = 0; i < msLength; i++) {
+                    const d = rand(0, 1, true);
+                    
+                    if (d <= percent[0]) { // Aa
+                        if (chance(0.5)) { // lower
+                            password += lowerAlphabet[rand(0, 25)];
+                        } else { // upper
+                            password += upperAlphabet[rand(0, 25)];
+                        }
+                    } else if (d <= percent[0] + percent[1]) { // 123
+                        password += numbers[rand(0, 9)];
+                    } else { // !@$
+                        password += notes[rand(0, 4)];
+                    }
+                }
+                copyTo("result-ms", password);
+            }
         }
 
-        gen();
+        function copy(type) {
+            const password = copyFrom(`result-${type}`); 
+            colorTo(`result-${type}`, "#00dd00");
+            transColor(`result-${type}`, "#666666", 500); 
+
+            navigator.clipboard.writeText(password);
+        }
+
+        target("ms-slider").addEventListener("input", function () {
+            copyTo("ms-length", this.value);
+            msLength = +this.value;
+        });
+
+        target("ms-aa").addEventListener("change", function () {
+            msOptions[0] = this.checked;
+        });
+        target("ms-123").addEventListener("change", function () {
+            msOptions[1] = this.checked;
+        });
+        target("ms-notes").addEventListener("change", function () {
+            msOptions[2] = this.checked;
+        });
+
+        gen("apple");
+        gen("ms");
     </script>
 </div></body>
 
