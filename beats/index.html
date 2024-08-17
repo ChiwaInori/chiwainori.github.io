@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>节拍量化器 - XTSGAMES</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop.css" />
+    <style></style>
+    <script src="/inori-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>节拍量化器</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>节拍量化器</strong></h6>
+    </div>
+    <div class="content">
+        <p>此页面可以帮助你获得音符与音符之间以节拍为单位的时长。</p>
+        <p>BPM <input id="bpmInput" style="width: 32px;" type="number" value="80" /> | 量化精度 <select id="precisionList">
+            <option value="5">0.0625</option>
+            <option value="4">0.125</option>
+            <option value="3" selected>0.25</option>
+            <option value="2">0.5</option>
+            <option value="1">1</option>
+        </select><select id="precisionListFraction" hide>
+            <option value="5">1/16</option>
+            <option value="4">1/8</option>
+            <option value="3" selected>1/4</option>
+            <option value="2">1/2</option>
+            <option value="1">1</option>
+        </select><input id="showAsFraction" type="checkbox" /> 以分数显示</p>
+        <p><input id="f-normal" name="format" type="radio" checked />常规格式<span id="showTopFormat"> | <input id="f-top" name="format" type="radio" /> .top 文件格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)</span></p>
+        <p class="STX">更改上面的内容将会重置已记录的节拍。</p>
+        <br />
+        <p>确定好上面的数据后，按下 <strong>空格键 (Space)</strong> 来量化节拍。</p>
+        <p>按下 <strong>R</strong> 来换行 (不会算作一个音符)，按下 <strong>退格键 (Backspace)</strong> 重置已记录的节拍。</p>
+        <p><button id="playButton" onclick="play()" disabled>播放</button> <span id="returnOk" style="color: var(--green)" hide>换行已就绪</span><span id="returnReady" style="color: var(--red)" hide>换行将会在下一个音符被按下时执行</span></p>
+        <p id="result" style="word-wrap: break-word;"></p>
+    </div>
+    <script>
+        let bpm = 80;
+        let clockBase = 60 / 80;
+        let precision = 0.25;
+        let lastPressTime;
+        let pressCount = 0;
+        let playNow = 0;
+        let topFormat = false;
+        let returnReady = false;
+        let showAsFraction = false;
+
+        target("bpmInput").addEventListener("input", function () {
+            bpm = +this.value;
+            clockBase = 60 / bpm;
+            reset();
+        });
+        target("precisionList").addEventListener("input", function () {
+            if (!showAsFraction) {
+                precision = 1 / 2 ** (+this.value - 1);
+            }
+            target("precisionListFraction").value = this.value;
+            reset();
+        });
+        target("f-normal").addEventListener("change", function () {
+            topFormat = false;
+            reset();
+        });
+        target("f-top").addEventListener("change", function () {
+            topFormat = true;
+            reset();
+        });
+        target("showAsFraction").addEventListener("change", function () {
+            showAsFraction = this.checked;
+            if (showAsFraction) {
+                hide("precisionList");
+                hide("showTopFormat");
+                unhide("precisionListFraction", "inline");
+                topFormat = false;
+                target("f-normal").checked = true;
+            } else {
+                unhide("precisionList", "inline");
+                unhide("showTopFormat", "inline");
+                hide("precisionListFraction");
+            }
+            reset();
+        });
+        target("precisionListFraction").addEventListener("input", function () {
+            if (showAsFraction) {
+                precision = 1 / 2 ** (+this.value - 1);
+            }
+            target("precisionList").value = this.value;
+            reset();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.code == "Space") {
+                spacePressed();
+            }
+            if (event.code == "KeyR") {
+                if (topFormat) {
+                    returnReady = true;
+                    unhide("returnReady", "inline");
+                } else {
+                    addTo("result", "<br />");
+                    unhide("returnOk", "inline");
+                }
+            }
+            if (event.code == "Backspace") {
+                reset();
+            }
+        });
+
+        function reset() {
+            lastPressTime = undefined;
+            pressCount = 0;
+            copyTo("result", "");
+            target("playButton").disabled = true;
+        }
+
+        function spacePressed() {
+            const nowTime = new Date().getTime();
+
+            pressCount++;
+            
+            if (pressCount == 1) { // first press
+                if (topFormat) {
+                    addTo("result", `<span id="w-${pressCount}">@</span>`);
+                } else {
+                    addTo("result", `<span id="w-${pressCount}">@&nbsp;</span>`);
+                }
+                lastPressTime = nowTime;
+                target("playButton").disabled = false;
+            } else { // later press
+                const diff = (nowTime - lastPressTime) / 1000; // seconds
+
+                const costBeats = diff / clockBase; // 1 / 0.75 == 1.33333
+                let includedPrecision = Math.floor(costBeats / precision); // 1.33333 / 0.25 == 5.33332, floor to 5
+
+                const exceededBeats = costBeats - includedPrecision * precision; //  1.33333 - 5 * 0.25 == 0.08333
+                if (exceededBeats >= precision / 2) { // parse to nearby
+                    includedPrecision++;
+                }
+                
+                let beatResult = includedPrecision * precision; // 5 * 0.25 = 1.25, final result
+                if (showAsFraction) { beatResult = toFraction(beatResult); }
+
+                if (topFormat) {
+                    const original = copyFrom("result");
+                    copyTo("result", `${original.slice(0, original.length - 7)},<strong>${(""+beatResult).replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`);
+
+                    if (returnReady) {
+                        returnReady = false;
+                        hide("returnReady");
+
+                        const text = copyFrom("result");
+                        const semicolons = text.getCountOf(";");
+
+                        const splitBySemi = text.split(";");
+                        let beforeLastSemi = "";
+                        for (let i = 0; i <= splitBySemi.length - 2; i++) {
+                            const hasSemi = i == splitBySemi.length - 2 ? "" : ";";
+                            beforeLastSemi += `${splitBySemi[i]}${hasSemi}`; // add everything excluding last 1 semis (; ... are excluded)
+                        }
+
+                        copyTo("result", `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`); 
+                    }
+                } else {
+                    hide("returnOk");
+                    addTo("result", `<span id='w-${pressCount}'><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`);
+                }
+                lastPressTime = nowTime;
+            }
+        }
+
+        async function play() {
+            playNow++;
+            if (playNow >= 2) {
+                target(`w-${playNow - 1}`).style.textDecoration = "none";
+            }
+            colorTo(`w-${playNow}`, "var(--red)");
+            target(`w-${playNow}`).style.textDecoration = "underline";
+
+            if (playNow != pressCount) {
+                const waitTime = topFormat ? copyFrom(`w-${playNow}`).replaceAll(/'/g, ".").getNum() : copyFrom(`w-${playNow + 1}`).replaceAll(/'/g, ".").getNum();
+
+                await sleep(waitTime * clockBase * 1000);
+                play();
+            } else {
+                await sleep(2000);
+                for (let i = 1; i <= pressCount; i++) {
+                    colorTo(`w-${i}`, "var(--textColor-500)");
+                }
+                target(`w-${playNow}`).style.textDecoration = "none";
+                playNow = 0;
+            }
+        }
+
+        function toFraction(input) {
+            let int = 0;
+            while (input > 1) {
+                input--;
+                int++;
+            }
+
+            if (int == 0) {
+                if (input == 0.0625) { return "1/16"; }
+                if (input == 0.125) { return "1/8"; }
+                if (input == 0.1875) { return "3/16"; }
+                if (input == 0.25) { return "1/4"; }
+                if (input == 0.3125) { return "5/16"; }
+                if (input == 0.375) { return "3/8"; }
+                if (input == 0.4375) { return "7/16"; }
+                if (input == 0.5) { return "1/2"; }
+                if (input == 0.5625) { return "9/16"; }
+                if (input == 0.625) { return "5/8"; }
+                if (input == 0.6875) { return "11/16"; }
+                if (input == 0.75) { return "3/4"; }
+                if (input == 0.8125) { return "13/16"; }
+                if (input == 0.875) { return "7/8"; }
+                if (input == 0.9375) { return "15/16"; }
+                if (input == 1) { return "1"; }
+            } else {
+                if (input == 0.0625) { return `${int}+1/16`; }
+                if (input == 0.125) { return `${int}+1/8`; }
+                if (input == 0.1875) { return `${int}+3/16`; }
+                if (input == 0.25) { return `${int}+1/4`; }
+                if (input == 0.3125) { return `${int}+5/16`; }
+                if (input == 0.375) { return `${int}+3/8`; }
+                if (input == 0.4375) { return `${int}+7/16`; }
+                if (input == 0.5) { return `${int}+1/2`; }
+                if (input == 0.5625) { return `${int}+9/16`; }
+                if (input == 0.625) { return `${int}+5/8`; }
+                if (input == 0.6875) { return `${int}+11/16`; }
+                if (input == 0.75) { return `${int}+3/4`; }
+                if (input == 0.8125) { return `${int}+13/16`; }
+                if (input == 0.875) { return `${int}+7/8`; }
+                if (input == 0.9375) { return `${int}+15/16`; }
+                if (input == 1) { return int + 1; }
+            }
+        }
+    </script>
+</div></body>
+
+</html>

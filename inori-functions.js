@@ -21,10 +21,10 @@ function inori(usage) {
         1, // Usually doesn't change
         5, // Major updates
         1, // Minor updates
-        12291 // Bug fixes, start from 10000, last + rand(1000, 9000) 
+        19757 // Bug fixes, start from 10000, last + rand(1000, 6000)
     ];
 
-    if (usage == "next") { return version[3] + rand(1000, 9000); }
+    if (usage == "next") { return version[3] + rand(1000, 6000); }
 
     log(`Inori Functions are available in current session.\nVersion: ${version[0]}.${version[1]}.${version[2]}.${version[3]}`);
 }
@@ -247,7 +247,8 @@ String.prototype.getNum = function (order = 1) {
     if (typeof order != "number") { throw new TypeError(`order must be a NUMBER`); }
     if (order <= 0) { throw new RangeError("Order cannot less than 1"); }
 
-    return +this.match(/-?[0-9]+(\.[0-9]+)?/g)[order - 1];
+    const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
+    return numbersList != null ? +numbersList[order - 1] : null;
 }
 
 
