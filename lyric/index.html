@@ -43,7 +43,7 @@
             white-space: nowrap;
         }
     </style>
-    <script src="/xts-functions.js"></script>
+    <script src="/inori-functions.js"></script>
 </head>
 
 <body>
@@ -57,9 +57,10 @@
         <div class="content">
             <div id="startup">
                 <h1>在下方选中 XTSGAMES Lyric 文件 (.top) 来播放动态歌词</h1>
+                <h5>注意: 请勿在播放过程中更改浏览器窗口大小。</h5>
                 <input id="fileInput" type="file" accept=".top" />
                 <h3 id="display"></h3>
-                <p id="content"></p>
+                <p id="content" hide></p>
                 <div id="helpDiv">
                     <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
                     <div id="helpGroup" hide>

@@ -1,10 +1,32 @@
-// XTS FUNCTIONS
+// INORI FUNCTIONS
+
+/*
+    Inori Function is a custom JavaScript library used in XTSGAMES.TOP for better coding.
+    Most of the functions included are original created by XTSGAMES owner Chiwa Inori.
+    Inori Function is updating every time. You can use inori() to check current version.
+
+    Index:
+    Global Usage (8): sleep, seizure, copyright, paramURL, chance, Array.isolate, Array.remove, String.getCountOf
+    Numeral Commands (4): rand, String.getNum, Number.transit, Number.toRange
+    Console Log (1): log
+    HTML Elements (17): target, query, copyFrom, copyValue, copyTo, addTo, styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange, save, load
+*/
 
 /**
- * Check if XTS Functions are available.
+ * Check if Inori Functions are available and get current version.
+ * Use inori("next") to get the number of next bug fix version.
  */
-function xts() {
-    log("XTS Functions are available in current session.");
+function inori(usage) {
+    const version = [
+        1, // Usually doesn't change
+        5, // Major updates
+        1, // Minor updates
+        12291 // Bug fixes, start from 10000, last + rand(1000, 9000) 
+    ];
+
+    if (usage == "next") { return version[3] + rand(1000, 9000); }
+
+    log(`Inori Functions are available in current session.\nVersion: ${version[0]}.${version[1]}.${version[2]}.${version[3]}`);
 }
 
 // GLOBAL USAGE
@@ -86,7 +108,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
  * @param {string} signature - Who own the copyright
  * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2024
  */
-function copyright(startYear, signature = "xtsdcb69") {
+function copyright(startYear, signature = "千和 いのり") {
     if (typeof startYear != "number") { throw new TypeError(`startYear must be a NUMBER`); }
     if (typeof signature != "string") { throw new TypeError(`signature must be a STRING`); }
     if (document.getElementById("copyright") == null) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
@@ -134,7 +156,7 @@ function paramURL(method, name, value = null) {
 function chance(percent) {
     if (typeof percent != "number") { throw new TypeError(`percent must be a NUMBER`); }
 
-    return rand(0, 1, true) <= percent.toRange(0, 1);
+    return rand(0, 1, true) <= percent;
 }
 
 /**
@@ -513,9 +535,20 @@ async function transColor(element, color, time = 100, method = "id") {
     colorTo(element, color, method);
 
     await sleep(time);
-    query("*").forEach(target => {
-        target.classList.remove("temp_transColor");
-    });
+
+    if (method == "id") {
+        target(element).classList.remove("temp_transColor");
+    }
+    if (method == "class") {
+        query(`.${element}`).forEach(target => {
+            target.classList.remove("temp_transColor");
+        });
+    }
+    if (method == "query") {
+        query(element).forEach(target => {
+            target.classList.remove("temp_transColor");
+        });
+    }
 }
 
 /**
