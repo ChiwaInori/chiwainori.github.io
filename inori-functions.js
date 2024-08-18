@@ -22,7 +22,7 @@ function inori(usage) {
         1, // Usually doesn't change
         5, // Major updates
         1, // Minor updates
-        21031 // Bug fixes, start from 10000, last + rand(1000, 6000)
+        22195 // Bug fixes, start from 10000, last + rand(1000, 6000)
     ];
 
     if (usage == "next") { return version[3] + rand(1000, 6000); }
@@ -671,6 +671,8 @@ function load(inputId, element = "file-content") {
                 target(element).textContent = event.target.result;
             };
             reader.readAsText(file);
+        } else {
+            target(element).textContent = "";
         }
     });
 }
