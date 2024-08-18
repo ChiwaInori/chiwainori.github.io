@@ -9,7 +9,8 @@
     Global Usage (8): sleep, seizure, copyright, paramURL, chance, Array.isolate, Array.remove, String.getCountOf
     Numeral Commands (4): rand, String.getNum, Number.transit, Number.toRange
     Console Log (1): log
-    HTML Elements (17): target, query, copyFrom, copyValue, copyTo, addTo, styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange, save, load
+    HTML Elements (15): target, query, copyFrom, copyValue, copyTo, addTo, styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange
+    Save & Load (2): save, load
 */
 
 /**
@@ -21,7 +22,7 @@ function inori(usage) {
         1, // Usually doesn't change
         5, // Major updates
         1, // Minor updates
-        19757 // Bug fixes, start from 10000, last + rand(1000, 6000)
+        21031 // Bug fixes, start from 10000, last + rand(1000, 6000)
     ];
 
     if (usage == "next") { return version[3] + rand(1000, 6000); }
@@ -239,8 +240,8 @@ function rand(min, max, keepFloat = false) {
 
 /**
  * Return a selected number in a string.
- * @param {number} order (>= 1) Which part of number you want
- * @return {number} The number from specified string in specified order
+ * @param {number} order (>= 1) Which part of number you want (start from 1)
+ * @return {number | null} The number from specified string in specified order
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
@@ -250,7 +251,6 @@ String.prototype.getNum = function (order = 1) {
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
     return numbersList != null ? +numbersList[order - 1] : null;
 }
-
 
 /**
  * Return a number within given range and percentage.

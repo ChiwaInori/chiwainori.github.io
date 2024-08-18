@@ -9,18 +9,8 @@
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css" />
     <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop-center.css" />
     <style>
-        @font-face {
-          font-family: 'futomaru401';
-          src: url('futomaru401.ttf') format('truetype');
-        }
-
-        @font-face {
-          font-family: 'AaGuXiLaZhangGuanKeAiDeShen-2';
-          src: url('AaGuXiLaZhangGuanKeAiDeShen-2.ttf') format('truetype');
-        }
 
         :root {
-            --font: "futomaru401";
             --backgroundColor: #ffffdd;
             --lyricColor: #99ccff;
             --activeColor: #66a8ff;
@@ -39,13 +29,11 @@
         #titleLine {
             font-size: 32px;
             color: var(--lyricColor);
-            font-family: var(--font);
         }
         
         #lyrics, #lyrics * {
             position: absolute;
             color: var(--lyricColor) !important;
-            font-family: var(--font);
             font-size: 100px;
             white-space: nowrap;
         }
@@ -67,10 +55,17 @@
                 <p><input id="fileInput" type="file" accept=".top" /></p>
                 <h3 id="display"></h3>
                 <h5>注意: 请勿在播放过程中更改浏览器窗口大小。</h5>
+                <br />
+                <p>你可以选择一个<strong>字体文件</strong>，它将被应用于动态歌词。</p>
+                <p><input id="fontFile" type="file" accept=".ttf, .otf, .woff, .woff2" /></p>
+                <p id="fontTest" contenteditable>现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例</p>
+                <br />
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
+                <br />
                 <p><input id="showDot" type="checkbox" checked />休息段显示省略号 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" /> 歌词颜色 <input id="color-lyric" type="color" value="#99ccff" /> 激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
-                <p id="content"></p>
+                <br />
+                <p id="content" hide></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
                 <p style="color: var(--red)">如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
@@ -79,8 +74,7 @@
                         <h3>如何制作 XTSGAMES Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个空白文件，将后缀名设置为 <strong>.top</strong> , 然后使用记事本 (或其他软件) 打开</p>
                         <p><strong>2.</strong> 输入以下基本内容: <strong>xtsgames-lyric.100.</strong></p>
-                        <p><strong>3.</strong> 在后面按照以下格式继续输入: <strong>歌曲名,作者,歌曲每分钟节拍数,语言.</strong> (注意逗号和点也要输入)</p>
-                        <p>输入的 语言 将决定歌词使用的<strong>字体</strong>。<strong>CHN 中文; ENG 英文; JPN 日文.</strong> 如果歌词为其他语言，推荐先使用 ENG 进行测试，如果显示效果不佳则使用 <strong>OTH</strong>, 使用默认字体。</p>
+                        <p><strong>3.</strong> 在后面按照以下格式继续输入: <strong>歌曲名,作者,歌曲每分钟节拍数.</strong> (注意逗号和点也要输入)</p>
                         <p><strong>4.</strong> 接下来，按照歌曲的进行顺序，输入以下内容: <strong>(注意: 下文的时长以节拍为单位，但是所有小数点要改为撇号 ' , 例如 2.5 拍 =&gt; 2'5)</strong></p>
                         <p>如果是休息段 (伴奏), 输入 <strong>[SPACE],时长</strong> (例: [SPACE],15'5 ) <strong>([SPACE] 必须独立成句)</strong></p>
                         <p>如果是歌词，输入 <strong>汉字(或单词音节),时长</strong> ，并在每个汉字之间加上 <strong>分号 ;</strong> (例如 He,1'5;llo,0'5 )</p>
@@ -91,7 +85,6 @@
                         <p><strong>6.</strong> 你可以根据自己的编码习惯以及视觉观感，在<strong>任意位置</strong>换行</p>
                     </div>
                 </div>
-                <p>字体测试: <span style="font-family: 'AaGuXiLaZhangGuanKeAiDeShen-2';">中文字体测试</span> | <span style="font-family: 'futomaru401';">日本語のフォントのテスト</span></p>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
             </div>
             <div id="lyricBlock" hide>
@@ -101,15 +94,14 @@
             <audio id="audio" src="" controls hide></audio>
         </div>
         <script>
-            let fileContent, lang, clockBase;
-            let showDot = true;
+            let fileContent, clockBase;
             load("fileInput", "content");
             target("fileInput").addEventListener("input", async () => {
                 await sleep(50);
                 fileContent = copyFrom("content").replaceAll(/\r/g, "").replaceAll(/\n/g, "");
                 extractInfo();
             });
-
+            
             target("color-bg").addEventListener("input", function () {
                 document.documentElement.style.setProperty('--backgroundColor', `${this.value}`);
             });
@@ -119,7 +111,8 @@
             target("color-active").addEventListener("input", function () {
                 document.documentElement.style.setProperty('--activeColor', `${this.value}`);
             });
-
+            
+            let showDot = true;
             target("showDot").addEventListener("input", function () {
                 showDot = this.checked;
             });
@@ -130,6 +123,34 @@
 
                 target("audio").src = objectURL;
             });
+
+            target("fontFile").addEventListener("change", function () {
+                const fileInput = this;
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const fontUrl = event.target.result;
+                        loadFont(fontUrl);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    target("titleLine").style.fontFamily = "inherit";
+                    query("style")[0].innerHTML += "#lyrics * { font-family: inherit; }";
+                    target("fontTest").style.fontFamily = "inherit";
+                }
+            });
+
+            function loadFont(url) {
+                const font = new FontFace('CustomFont', `url(${url})`);
+                font.load().then(function (loadedFont) {
+                    document.fonts.add(loadedFont);
+                    target("titleLine").style.fontFamily = "CustomFont";
+                    query("style")[0].innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
+                    target("fontTest").style.fontFamily = "CustomFont";
+                });
+            }
 
             function extractInfo() {
                 const currentVersion = 100;
@@ -147,16 +168,10 @@
                 }
                 hide("fileInput");
                 
-                const [title, author, bpm, font] = messages.split(",");
+                const [title, author, bpm] = messages.split(",");
                 clockBase = 60 / bpm; // bps
 
-                lang;
-                if (font == "CHN") { lang = "中文"; document.documentElement.style.setProperty('--font', '"AaGuXiLaZhangGuanKeAiDeShen-2"'); }
-                if (font == "ENG") { lang = "英文"; document.documentElement.style.setProperty('--font', '"futomaru401"'); }
-                if (font == "JPN") { lang = "日文"; document.documentElement.style.setProperty('--font', '"futomaru401"'); }
-                if (font == "OTH") { lang = "默认"; document.documentElement.style.setProperty('--font', '"inherit"'); }
-
-                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. ${lang}. <button onclick="play()">点击播放</button>`);
+                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
             }
             
@@ -230,7 +245,6 @@
                                 } else {
                                     waitBase = noteRealLength / 10;
                                 }
-                                log(waitBase, noteRealLength * 1000 - waitBase * 7 * 1000)
 
                                 await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // give 7 waitBase to next() animation
                             }
@@ -271,7 +285,7 @@
                 let currentX = horizontalMargin;
                 for (let i = 1; i <= len; i++) {
                     target(`w-${i}`).style.left = `${currentX}px`;
-                    let offset = lang != "默认" && target(`w-${i}`).innerHTML == target(`w-${i}`).innerHTML.match(/[A-z]/g) ? fontSize / 2.1 : target(`w-${i}`).offsetWidth;
+                    let offset = target(`w-${i}`).offsetWidth;
                     let space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
                     currentX += offset + space;
                 }
