@@ -206,41 +206,23 @@
                 int++;
             }
 
-            if (int == 0) {
-                if (input == 0.0625) { return "1/16"; }
-                if (input == 0.125) { return "1/8"; }
-                if (input == 0.1875) { return "3/16"; }
-                if (input == 0.25) { return "1/4"; }
-                if (input == 0.3125) { return "5/16"; }
-                if (input == 0.375) { return "3/8"; }
-                if (input == 0.4375) { return "7/16"; }
-                if (input == 0.5) { return "1/2"; }
-                if (input == 0.5625) { return "9/16"; }
-                if (input == 0.625) { return "5/8"; }
-                if (input == 0.6875) { return "11/16"; }
-                if (input == 0.75) { return "3/4"; }
-                if (input == 0.8125) { return "13/16"; }
-                if (input == 0.875) { return "7/8"; }
-                if (input == 0.9375) { return "15/16"; }
-                if (input == 1) { return "1"; }
-            } else {
-                if (input == 0.0625) { return `${int}+1/16`; }
-                if (input == 0.125) { return `${int}+1/8`; }
-                if (input == 0.1875) { return `${int}+3/16`; }
-                if (input == 0.25) { return `${int}+1/4`; }
-                if (input == 0.3125) { return `${int}+5/16`; }
-                if (input == 0.375) { return `${int}+3/8`; }
-                if (input == 0.4375) { return `${int}+7/16`; }
-                if (input == 0.5) { return `${int}+1/2`; }
-                if (input == 0.5625) { return `${int}+9/16`; }
-                if (input == 0.625) { return `${int}+5/8`; }
-                if (input == 0.6875) { return `${int}+11/16`; }
-                if (input == 0.75) { return `${int}+3/4`; }
-                if (input == 0.8125) { return `${int}+13/16`; }
-                if (input == 0.875) { return `${int}+7/8`; }
-                if (input == 0.9375) { return `${int}+15/16`; }
-                if (input == 1) { return int + 1; }
-            }
+            if (input == 0) { return int != 0 ? int : "0"; }
+            if (input == 0.0625) { return `${int != 0 ? `${int}+` : ""}1/16`; }
+            if (input == 0.125) { return `${int != 0 ? `${int}+` : ""}1/8`; }
+            if (input == 0.1875) { return `${int != 0 ? `${int}+` : ""}3/16`; }
+            if (input == 0.25) { return `${int != 0 ? `${int}+` : ""}1/4`; }
+            if (input == 0.3125) { return `${int != 0 ? `${int}+` : ""}5/16`; }
+            if (input == 0.375) { return `${int != 0 ? `${int}+` : ""}3/8`; }
+            if (input == 0.4375) { return `${int != 0 ? `${int}+` : ""}7/16`; }
+            if (input == 0.5) { return `${int != 0 ? `${int}+` : ""}1/2`; }
+            if (input == 0.5625) { return `${int != 0 ? `${int}+` : ""}9/16`; }
+            if (input == 0.625) { return `${int != 0 ? `${int}+` : ""}5/8`; }
+            if (input == 0.6875) { return `${int != 0 ? `${int}+` : ""}11/16`; }
+            if (input == 0.75) { return `${int != 0 ? `${int}+` : ""}3/4` }
+            if (input == 0.8125) { return `${int != 0 ? `${int}+` : ""}13/16`; }
+            if (input == 0.875) { return `${int != 0 ? `${int}+` : ""}7/8`; }
+            if (input == 0.9375) { return `${int != 0 ? `${int}+` : ""}15/16`; }
+            if (input == 1) { return int != 0 ? int + 1 : "1"; }
         }
     </script>
 </div></body>
