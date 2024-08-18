@@ -63,7 +63,7 @@
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
                 <br />
-                <p><input id="showDot" type="checkbox" checked />休息段显示省略号 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" /> 歌词颜色 <input id="color-lyric" type="color" value="#99ccff" /> 激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
+                <p><input id="showTitle" type="checkbox" checked />显示网页标题 <input id="showDot" type="checkbox" checked />休息段显示省略号 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" /> 歌词颜色 <input id="color-lyric" type="color" value="#99ccff" /> 激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
                 <br />
                 <p id="content" hide></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
@@ -117,6 +117,10 @@
                 showDot = this.checked;
             });
 
+            target("showTitle").addEventListener("input", function () {
+                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +this.checked;
+            });
+
             target("audioFile").addEventListener("change", function (event) {
                 const file = event.target.files[0];
                 const objectURL = URL.createObjectURL(file);
@@ -136,9 +140,8 @@
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    target("titleLine").style.fontFamily = "inherit";
+                    target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "inherit";
                     query("style")[0].innerHTML += "#lyrics * { font-family: inherit; }";
-                    target("fontTest").style.fontFamily = "inherit";
                 }
             });
 
@@ -146,9 +149,8 @@
                 const font = new FontFace('CustomFont', `url(${url})`);
                 font.load().then(function (loadedFont) {
                     document.fonts.add(loadedFont);
-                    target("titleLine").style.fontFamily = "CustomFont";
+                    target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
                     query("style")[0].innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
-                    target("fontTest").style.fontFamily = "CustomFont";
                 });
             }
 
@@ -170,6 +172,7 @@
                 
                 const [title, author, bpm] = messages.split(",");
                 clockBase = 60 / bpm; // bps
+                query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
                 copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
