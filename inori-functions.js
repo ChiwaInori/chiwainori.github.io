@@ -202,7 +202,7 @@ Array.prototype.remove = function (target) {
 /**
  * Get the count of specified string in a string
  * @param {any} target - The target to count
- * @returns {number} How many targets are in the string
+ * @return {number} How many targets are in the string
  * @example "HelloWorld".getCountOf("l") // 3
  */
 String.prototype.getCountOf = function (target) {
@@ -673,6 +673,35 @@ function load(inputId, element = "file-content") {
             reader.readAsText(file);
         } else {
             target(element).textContent = "";
+        }
+    });
+}
+
+/**
+ * Load a JSON file from input and return an object.
+ * @param {string} inputId - The id of input where the file receives
+ * @return {Promise} The promise included JSON
+ * @example loadJSON("fileInput").then(json => content = json) // Load JSON from #fileInput and copy the JSON object to content
+ * @example loadJSON("fileInput").catch(e => { if (e.message.includes("Invalid") { ... } }) // Catch error from loadJSON
+ */
+function loadJSON(inputId) {
+    return new Promise((resolve, reject) => {
+        const fileInput = document.getElementById(inputId);
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                try {
+                    resolve(JSON.parse(event.target.result));
+                } catch (e) {
+                    reject(new ReferenceError(`Invalid JSON file was selected in #${inputId}: ${e}`));
+                }
+            };
+            reader.readAsText(file);
+        } else {
+            reject(new ReferenceError(`No file was selected in #${inputId}.`));
         }
     });
 }
