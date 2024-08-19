@@ -82,20 +82,7 @@
                         <p><strong>4.</strong> "settings" 的值为对象, 其中包括可选键 (不存在即使用默认设置) <strong>"showTitle", "showDot", "showCircle"</strong> (布尔值) 和 颜色 (格式为 "#abcdef"): <strong>"backgroundColor", "lyricColor", "activeColor"</strong> (字符串)</p>
                         <p><strong>5.</strong> "lyrics" 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一句歌词</strong>，一句歌词数组由<strong>若干个以下数组</strong>构成: <strong>["汉字(或单词音节)", 时长(以节拍为单位)]</strong> (一共有三层数组)</p>
                         <p>如果是休息段 (伴奏), 在汉字的位置输入 <strong>[SPACE]</strong> <strong>([SPACE] 必须独立成句)</strong></p>
-                        <!-- <p> 新建一个空白文件，将后缀名设置为 <strong>.top</strong> , 然后使用记事本 (或其他软件) 打开</p>
-                        <p><strong>2.</strong> 输入以下基本内容: <strong>xtsgames-lyric.101.</strong></p>
-                        <p><strong>3.</strong> 继续输入: <strong>歌曲名,作者,歌曲每分钟节拍数.</strong> (注意逗号和点也要输入)</p>
-                        <p><strong>4.</strong> 在后面按照以下格式继续输入: <strong>是否显示网页标题,是否在休息段显示省略号,是否使用圆弧歌词,背景颜色,歌词颜色,激活颜色.</strong></p>
-                        <p>&quot;是&quot;写 <strong>true</strong> , &quot;否&quot;写 <strong>false</strong> ; 颜色需要使用十六进制格式格式: <strong>#abcdef</strong>; 使用默认设置请在逗号之间什么都不写</p>
-                        <p>(例如: false,true,true,#000000,#aaaaaa,#ffffff. ; 全部使用默认设置 ,,,,,. )</p>
-                        <p><strong>5.</strong> 接下来，按照歌曲的进行顺序，输入以下内容: <strong>(注意: 下文的时长以节拍为单位，但是所有小数点要改为撇号 ' , 例如 2.5 拍 =&gt; 2'5)</strong></p>
-                        <p>如果是休息段 (伴奏), 输入 <strong>[SPACE],时长</strong> (例: [SPACE],15'5 ) <strong>([SPACE] 必须独立成句)</strong></p>
-                        <p>如果是歌词，输入 <strong>汉字(或单词音节),时长</strong> ，并在每个汉字之间加上 <strong>分号 ;</strong> (例如 He,1'5;llo,0'5 )</p>
-                        <p>如果歌词中要输入空格，请使用 <strong>反斜杠 \</strong> 代替 (例如 Oh\,0'5;my\,0'5;god\,0'5 )</p>
-                        <p>在句子与句子之间，使用 <strong>斜杠 /</strong> 分开 (例如: 一,1;二,1'5/三,0'5 )</p>
-                        <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度。</p>
-                        <p><strong>6.</strong> 整首歌的<strong>最后一句末尾</strong>也要输入 <strong>斜杠 /</strong>, 作为歌曲结束的标志</p>
-                        <p><strong>7.</strong> 你可以根据自己的编码习惯以及视觉观感，在<strong>任意位置</strong>换行</p> -->
+                        <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度</p>
                     </div>
                 </div>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
@@ -115,9 +102,7 @@
 
             copyTo("version", currentVersion);
 
-            load("fileInput", "content");
             target("fileInput").addEventListener("input", async () => {
-
                 loadJSON("fileInput").then(json => file = json).catch(e => {
                     copyTo("display", `无效的 JSON 文件`);
                     colorTo("display", "var(--red)");
@@ -197,14 +182,14 @@
                 }
                 hide("fileInput");
                 
-                const {title, author, bpm} = file["musicInfo"];
+                const {title, author, bpm} = file.musicInfo;
                 clockBase = 60 / bpm; // bps
                 query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
                 copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
 
-                const {showTitle, showDot, showCircle, backgroundColor, lyricColor, activeColor} = file["settings"];
+                const {showTitle, showDot, showCircle, backgroundColor, lyricColor, activeColor} = file.settings;
                 const defaultSettings = [false, true, true, "#ffffdd", "#99ccff", "#66a8ff"];
                 let notDefault = 0;
                 if (showTitle != undefined && showTitle != defaultSettings[0]) {

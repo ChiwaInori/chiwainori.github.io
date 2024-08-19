@@ -679,6 +679,7 @@ function load(inputId, element = "file-content") {
 
 /**
  * Load a JSON file from input and return an object.
+ * [WARNING] Don't forget to sleep(50) after loadJSON because load file needs time.
  * @param {string} inputId - The id of input where the file receives
  * @return {Promise} The promise included JSON
  * @example loadJSON("fileInput").then(json => content = json) // Load JSON from #fileInput and copy the JSON object to content

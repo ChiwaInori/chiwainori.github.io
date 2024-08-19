@@ -21,39 +21,34 @@
     </div>
     <div class="content">
         <div id="startup">
-            <p>选择一个 XTS 正弦波音乐文件来继续。</p>
-            <input id="input" type="file" accept=".json" />
-            <p class="STX">如果你的 Lyric 文件是 .top 格式, 请在本网页的地址后面加上 /../archive_100.html 以尝试在支持 .top 的版本中加载.</p>
+            <p>选择一个 XTS 正弦波音乐文件 (.top) 来继续。</p>
+            <input id="input" type="file" accept=".top" />
             <button id="readButton" onclick="read()" disabled>确认</button>
             <p id="wrong" class="ANT" style="color: #dd0000; display: none;"></p>
             <br /><br />
             <p>若要制作一个 XTS 正弦波音乐文件，请参照以下格式:</p>
-            <p>在一个 .json 文件中:</p>
-            <p><strong>1.</strong> 在根对象中创建以下键: <strong>"signature", "version", "musicInfo", "notes"</strong></p>
-            <p>其中 "signature" 的值一定为 <strong>"xtsgames-sinemusic"</strong>, "version" 的值为目前版本 <strong id="version"></strong></p>
-            <p><strong>2.</strong> "musicInfo" 的值为对象, 其中包括 <strong>"title"</strong> (字符串), <strong>"author"</strong> (字符串), <strong>"bpm"</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
-            <p><strong>3.</strong> "notes" 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一个音符</strong>，由以下数据构成: <strong>["音高", 时长(以节拍为单位)]</strong> (一共有两层数组)</p>
-            <p>音高要按照如下格式输入: <strong>第几个八度</strong>+<strong>哪个音</strong>+<strong>升降记号</strong> (例如 4d# 意为第 4 个八度 (有效范围为 0a ~ 8c) 的 D# 音 (降记号用 * 表示))</p>
+            <p>在一个 .top 文件中输入:</p>
+            <p style="font-size: 10px;">xtsgames-sinemusic.100.(歌曲名).(歌曲作者).(BPM).(歌曲内容).</p>
+            <p>其中，歌曲内容部分，按照此格式输入音符: 4d#,1'5 (意为第 4 个八度 (有效范围为 0a ~ 8c) 的 D# 音 (降记号用 * 表示), 时长为 1.5 拍 (小数点要改为撇号 ')). 不同的音符之间用分号 (;) 分隔。</p>
             <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度。</p>
         </div>
         <div id="musicPage" style="display: none;">
             <h3 id="musicTitle"></h3>
             <h5 id="musicAuthor"></h5>
-            <button id="playButton" onclick="play()">播放</button>
+            <button onclick="play()">播放</button>
             <br /><br /><br />
             <p id="musicVer" class="ANT"></p>
             <p id="musicBpm" class="ANT"></p>
             <p id="musicText" class="ANT"></p>
         </div>
+        <p id="file-content" style="display: none;"></p>
     </div>
     <script>
-        const currentVersion = 101;
-        copyTo("version", currentVersion);
-
-        let file;
+        load("input");
+        let musicCode;
         let musicSplit;
         let musicContent;
-        let title, author, bpm;
+        let bpm;
         let currentPlaying = 0;
         let currentNote;
         let musicArray;
@@ -61,85 +56,63 @@
 
         target("input").addEventListener("input", () => {
             target("readButton").disabled = false;
-
-            loadJSON("input").then(json => file = json).catch(e => {
-                unhide("wrong")
-                copyTo("wrong", `无效的 JSON 文件`);
-            });
         });
 
         function read() {
-            const {signature, version} = file;
+            const currentVersion = 100;
 
-            if (signature != "xtsgames-sinemusic") {
-                unhide("wrong");
-                copyTo("wrong", `错误的文件签名 (${signature})`);
-                return;
-            }
-            if (version != currentVersion) {
-                unhide("wrong");
-                copyTo("wrong", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
-                return;
-            }
-            
-            title = file.musicInfo.title;
-            author = file.musicInfo.author;
-            bpm = file.musicInfo.bpm;
+            musicCode = copyFrom("file-content"); // xtsgames-xtsmusic\(VERSION)\(MUSIC-NAME)\(AUTHOR)\(BPM)\(MUSIC-CONTENT)\
+            musicSplit = musicCode.split("."); // ["xtsgames-xtsmusic", "(VERSION)", "(MUSIC-NAME)", "(AUTHOR)", "(BPM)", "(MUSIC-CONTENT)"]
+            bpm = parseFloat(musicSplit[4]);
 
-            if (isNaN(bpm) || bpm == undefined) {
+            if (musicSplit[0] != "xtsgames-sinemusic" || musicContent == undefined) {
+                unhide("wrong");
+                copyTo("wrong", `错误的文件签名 (${musicSplit[0]})`);
+            } else if (musicSplit[1] != currentVersion) {
+                unhide("wrong");
+                copyTo("wrong", `错误的文件版本 (${musicSplit[1]}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${musicSplit[1]}.html 以尝试在其他版本中加载.`);
+            } else if (isNaN(bpm)) {
                 unhide("wrong");
                 copyTo("wrong", `错误的 BPM 数值`);
-                return;
+            } else {
+                musicContent = replaceNote(musicSplit[5]);
+                ready();
             }
-
-            const converted = convert(file.notes);
-            log(converted)
-            musicContent = replaceNote(converted);
-            ready();
-        }
-
-        function convert(input) { // ["4d", 1.5]
-            let string = "";
-
-            input.forEach(note => {
-                string += `${note[0]},${note[1]};`;
-            });
-
-            return string;
         }
 
         function replaceNote(splitMusic) { // Turn all *s to #s
-            return splitMusic.replace(/a\*/g, "g#")
-                .replace(/b\*/g, "a#")
-                .replace(/1c\*/g, "0b")
-                .replace(/2c\*/g, "1b")
-                .replace(/3c\*/g, "2b")
-                .replace(/4c\*/g, "3b")
-                .replace(/5c\*/g, "4b")
-                .replace(/6c\*/g, "5b")
-                .replace(/7c\*/g, "6b")
-                .replace(/8c\*/g, "7b")
-                .replace(/d\*/g, "c#")
-                .replace(/e\*/g, "d#")
-                .replace(/f\*/g, "e")
-                .replace(/g\*/g, "f#");
+            splitMusic = splitMusic.replace(/a\*/g, "g#");
+            splitMusic = splitMusic.replace(/b\*/g, "a#");
+            splitMusic = splitMusic.replace(/1c\*/g, "0b");
+            splitMusic = splitMusic.replace(/2c\*/g, "1b");
+            splitMusic = splitMusic.replace(/3c\*/g, "2b");
+            splitMusic = splitMusic.replace(/4c\*/g, "3b");
+            splitMusic = splitMusic.replace(/5c\*/g, "4b");
+            splitMusic = splitMusic.replace(/6c\*/g, "5b");
+            splitMusic = splitMusic.replace(/7c\*/g, "6b");
+            splitMusic = splitMusic.replace(/8c\*/g, "7b");
+            splitMusic = splitMusic.replace(/d\*/g, "c#");
+            splitMusic = splitMusic.replace(/e\*/g, "d#");
+            splitMusic = splitMusic.replace(/f\*/g, "e");
+            splitMusic = splitMusic.replace(/g\*/g, "f#");
+            return splitMusic;
         }
 
         function ready() {
             hide("startup");
             unhide("musicPage");
-            copyTo("musicTitle", title);
-            copyTo("musicAuthor", author);
+            copyTo("musicTitle", musicSplit[2]);
+            copyTo("musicAuthor", musicSplit[3]);
+            copyTo("musicVer", `Version ${musicSplit[1]}`);
             copyTo("musicBpm", `BPM: ${bpm}`);
             copyTo("musicText", `[Content] ${musicContent.replace(/([0-8]([a-g])?(#|\*)?,[0-9]+(\.[0-9]+)?)/g, "<strong>$1</strong>")}`);
         }
 
         async function play() { // musicContent = "5d#,1;6a,0.5;......"
-            target("playButton").disabled = true;
             musicArray = musicContent.split(";");
             for (let i = 0; i < musicArray.length; i++) { // "5d#,1"
                 currentNote = musicArray[currentPlaying];
-                playLength = currentNote.split(",")[1] / bpm * 60 * 1000;
+                playLength = currentNote.split(",")[1].replaceAll(/'/g, ".") / bpm * 60 * 1000;
                 findSound();
                 await sleep(playLength);
                 currentPlaying++;

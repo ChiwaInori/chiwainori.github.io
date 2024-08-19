@@ -69,9 +69,9 @@
             <p>如果自己的母舰被摧毁, 那么就无法放置更多的战列舰了. 此时被摧毁母舰的玩家在击中地方军舰后可以<strong>继续攻击, 直至打空</strong>.</p>
             <p>把对方的所有军舰全部击毁, 你就赢了.</p>
             <br />
-            <p style="margin-left: 16.5%;"><button onclick="begin()">点击开始</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(或 <input type="file" id="saveInput" accept=".json" />)</p>
+            <p style="margin-left: 16.5%;"><button onclick="begin()">点击开始</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(或 <input type="file" id="top-file" accept=".top" />)</p>
             <p id="text1" style="font-size: 10px;">若选择读取游戏, 请在选择存档文件后点击 &quot;点击开始&quot; 按钮.</p>
-            <p class="STX">如果你的存档文件是 .top 格式, 请在本网页的地址后面加上 /../archive_100_a.html 以尝试在支持 .top 的版本中加载.</p>
+            <pre id="file-content" style="display: none;"></pre>
             <br /><br />
             <h6 style="color: var(--gray)">本游戏的灵感与本网站所有代码均为 千和 いのり (xtsdcb69) 所作。<span id="copyright" style="color: var(--gray)"></span></h6>
         </div>
@@ -394,7 +394,7 @@
         copyright(2023);
 
         const shipwarURL = "https://xtsgames.top/shipwar/?code=";
-        const currentVersion = 101;
+        const currentVersion = 100;
 
         const onlineCode = paramURL("get", "code");
         if (onlineCode) {
@@ -415,17 +415,14 @@
         let onlineWho = 0;
         let cache = "";
         let lastCode;
-        let loaded = 0;
 
         function begin() {
-            if (loaded) {
-                loadGame();
-            } else {
+            if (target("file-content").innerHTML == "") {
                 fadeChange("rules", "choose_first");
+            } else {
+                loadGame();
             }
         }
-
-        target("saveInput").addEventListener("change", () => { loaded = 1; });
 
         function randomFirst() {
             const seed = rand(1, 2);
@@ -990,60 +987,51 @@
                 currentId2 = "7" + currentText2[19] + currentText2[20];
             }
 
-            const data = {
-                signature: "xtsgames-shipwar",
-                version: currentVersion,
-                data: `${stage}${p1Situation}${p2Situation}${currentId1}${currentId2}`
-            }
-
-            save("xtsgames-shipwar.json", JSON.stringify(data));
+            save("xtsgames-shipwar.top", `xtsgames-shipwar.100.${stage}${p1Situation}${p2Situation}${currentId1}${currentId2}.`);
         }
 
-        async function loadGame() {
-            let file;
-            loadJSON("saveInput").then(json => file = json).catch(e => {
-                styleTo("text1", "font-size: 10px; color: #dd0000;");
-                copyTo("text1", `无效的 JSON 文件`);
-                return;
-            });
-        
-            await sleep(50);
-            const {signature, version, data} = file;
+        load("top-file", "file-content");
 
-            if (signature == "xtsgames-shipwar" &&  version == currentVersion) {
-                const stage = data[0];
-                
+        function loadGame() {
+            const saveInfo = copyFrom("file-content");
+            const root = saveInfo.slice(0, 17);
+            const version = saveInfo.slice(17, 20);
+            const middle = saveInfo[20];
+            const end = saveInfo[100];
+
+            if (root == "xtsgames-shipwar." && middle == "." && version == "100" && end == ".") {
+                const stage = saveInfo[21];
+
                 if (stage == "0") { p1Round1(); }
                 if (stage == "1") { p1Round2(); }
                 if (stage == "2") { p2Round1(); }
                 if (stage == "3") { p2Round2(); }
                 hideButtons("PlaceBig");
-                
-                const p1Situation = data.slice(1, 37);
-                const p2Situation = data.slice(37, 73);
 
-                for (let i = 0; i < 36; i++) { // P1
-                    if (p1Situation[i] == "1") {
-                        copyTo(`display_p1_${i + 1}`, "≡");
-                    } else if (p1Situation[i] == "2") {
-                        copyTo(`display_p1_${i + 1}`, "〓");
+                for (let i = 22; i < 58; i++) { // P1
+                    if (saveInfo[i] == "1") {
+                        copyTo(`display_p1_${i - 21}`, "≡");
+                    } else if (saveInfo[i] == "2") {
+                        copyTo(`display_p1_${i - 21}`, "〓");
                     } else {
-                        copyTo(`display_p1_${i + 1}`, "&nbsp;");
+                        copyTo(`display_p1_${i - 21}`, "&nbsp;");
                     }
+                }
 
-                    if (p2Situation[i] == "1") {
-                        copyTo(`display_p2_${i + 1}`, "≡");
-                    } else if (p2Situation[i] == "2") {
-                        copyTo(`display_p2_${i + 1}`, "〓");
+                for (let i = 58; i < 94; i++) { // P2
+                    if (saveInfo[i] == "1") {
+                        copyTo(`display_p2_${i - 57}`, "≡");
+                    } else if (saveInfo[i] == "2") {
+                        copyTo(`display_p2_${i - 57}`, "〓");
                     } else {
-                        copyTo(`display_p2_${i + 1}`, "&nbsp;");
+                        copyTo(`display_p2_${i - 57}`, "&nbsp;");
                     }
                 }
                 
-                const currentStatus1 = data[73];
-                const currentPos1 = data[74] + data[75];
-                const currentStatus2 = data[76];
-                const currentPos2 = data[77] + data[78];
+                const currentStatus1 = saveInfo[94];
+                const currentPos1 = saveInfo[95] + saveInfo[96];
+                const currentStatus2 = saveInfo[97];
+                const currentPos2 = saveInfo[98] + saveInfo[99];
 
                 if (currentStatus1 == "1") {
                     copyTo("p1_status_3", `<strong>战列舰已部署 (${currentPos1})</strong>`);
@@ -1110,8 +1098,8 @@
                 styleTo("saveButton", "display: block; margin-left: 48%;");
             } else {
                 styleTo("text1", "font-size: 10px; color: #dd0000;");
-                if (signature != "xtsgames-shipwar") {
-                    copyTo("text1", `错误的文件签名 (${signature})`);
+                if (root.split(".") != "xtsgames-shipwar") {
+                    copyTo("text1", `错误的文件签名 (${root.split(".")})`);
                 } else if (version != currentVersion) {
                     copyTo("text1", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
                 } else if (version == "olg") {
