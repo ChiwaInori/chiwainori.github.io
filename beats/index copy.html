@@ -42,6 +42,9 @@
         <p>按下 <strong>R</strong> 来换行 (不会算作一个音符)，按下 <strong>退格键 (Backspace)</strong> 重置已记录的节拍。</p>
         <p><button id="playButton" onclick="play()" disabled>播放</button> <span id="returnOk" style="color: var(--green)" hide>换行已就绪</span><span id="returnReady" style="color: var(--red)" hide>换行将会在下一个音符被按下时执行</span></p>
         <p id="result" style="word-wrap: break-word;"></p>
+        <br />
+        <h4>节拍显示</h4>
+        <h1><span id="beat-1">■</span>&nbsp;<span id="beat-2">■</span>&nbsp;<span id="beat-3">■</span>&nbsp;<span id="beat-4">■</span>&nbsp;<span id="beat-5">■</span>&nbsp;<span id="beat-6">■</span>&nbsp;<span id="beat-7">■</span>&nbsp;<span id="beat-8">■</span>&nbsp;<span id="beat-9">■</span>&nbsp;<span id="beat-10">■</span>&nbsp;<span id="beat-11">■</span>&nbsp;<span id="beat-12">■</span>&nbsp;<span id="beat-13">■</span>&nbsp;<span id="beat-14">■</span>&nbsp;<span id="beat-15">■</span>&nbsp;<span id="beat-16">■</span></h1>
     </div>
     <script>
         let bpm = 80;
@@ -53,6 +56,8 @@
         let format = "normal";
         let returnReady = false;
         let showAsFraction = false;
+        let currentBeat = 17;
+        let startTime;
 
         target("bpmInput").addEventListener("input", function () {
             bpm = +this.value;
@@ -126,6 +131,23 @@
             }
         });
 
+        function checkAvailableBeats() {
+            let available = [1];
+            if (precision <= 0.5) { available.push(9); }
+            if (precision <= 0.25) { available.push(5, 13); }
+            if (precision <= 0.125) { available.push(3, 7, 11, 15); }
+            if (precision == 0.0625) { available.push(2, 4, 6, 8, 10, 12, 14, 16); }
+
+            for (let i = 1; i <= 16; i++) {
+                colorTo(`beat-${i}`, "var(--textColor-500)");
+            }
+            
+            available.forEach(beat => {
+                colorTo(`beat-${beat}`, "var(--activeColor-400)");
+            });
+        }
+        checkAvailableBeats();
+
         function reset() {
             lastPressTime = undefined;
             returnReady = false;
@@ -134,6 +156,10 @@
             target("playButton").disabled = true;
             hide("returnOk");
             hide("returnReady");
+            currentBeat = 17;
+            startTime = undefined;
+            stopBeat();
+            checkAvailableBeats();
         }
 
         function spacePressed() {
@@ -155,6 +181,8 @@
                 startTime = nowTime;
                 lastPressTime = nowTime;
                 target("playButton").disabled = false;
+
+                startBeat();
             } else { // later press
                 const diff = (nowTime - lastPressTime) / 1000; // seconds
 
@@ -209,10 +237,12 @@
                 }
                 
                 lastPressTime = nowTime;
+                highlightBeat();
             }
         }
 
         async function play() {
+            stopBeat();
             playNow++;
             if (playNow >= 2) {
                 target(`w-${playNow - 1}`).style.textDecoration = "none";
@@ -268,6 +298,48 @@
             if (input == 0.875) { return `${int != 0 ? `${int}+` : ""}7/8`; }
             if (input == 0.9375) { return `${int != 0 ? `${int}+` : ""}15/16`; }
             if (input == 1) { return int != 0 ? int + 1 : "1"; }
+        }
+
+        async function startBeat() {
+            currentBeat = 1;
+            
+            while (currentBeat <= 16) {
+                const clock1 = new Date().getTime();
+                const diff1 = (clock1 - startTime) / 1000;
+
+                await sleep(10);
+
+                const clock2 = new Date().getTime();
+                const diff2 = (clock2 - startTime) / 1000; // make 2 clocks
+
+                if (diff1 % (clockBase / 16) > diff2 % (clockBase / 16)) { // if clock1's mod > clock2's mod, means between clock1 and 2 passed a (clockBase / 16), so next color block
+                    let currentColor = target(`beat-${currentBeat}`).style.color;
+                    if (currentColor == "var(--textColor-500)") { colorTo(`beat-${currentBeat}`, "var(--textColor-400)"); }
+                    if (currentColor == "var(--activeColor-400)") { colorTo(`beat-${currentBeat}`, "var(--green)"); }
+                    if (currentColor == "var(--lightRed)") { colorTo(`beat-${currentBeat}`, "var(--textColor-500)"); }
+                    if (currentColor == "var(--red)") { colorTo(`beat-${currentBeat}`, "var(--activeColor-400)"); }
+
+                    let lastColor = target(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).style.color;
+                    if (lastColor == "var(--textColor-400)") { colorTo(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`, "var(--textColor-500)"); }
+                    if (lastColor == "var(--green)") { colorTo(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`, "var(--activeColor-400)"); }
+
+                    currentBeat++;
+                    if (currentBeat == 17) { currentBeat = 1; }
+                }
+            }
+            
+        }
+
+        function highlightBeat() {
+            let currentColor = target(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).style.color;
+            if (currentColor == "var(--textColor-400)") { colorTo(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`, "var(--lightRed)"); }
+            if (currentColor == "var(--green)") { colorTo(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`, "var(--red)"); }
+            if (currentColor == "var(--lightRed)") { colorTo(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`, "var(--lightRed)"); }
+            if (currentColor == "var(--red)") { colorTo(`beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`, "var(--red)"); }
+        }
+
+        function stopBeat() {
+            currentBeat = 17;
         }
     </script>
 </div></body>
