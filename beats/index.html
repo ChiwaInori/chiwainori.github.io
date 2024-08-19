@@ -21,7 +21,7 @@
     </div>
     <div class="content">
         <p>此页面可以帮助你获得音符与音符之间以节拍为单位的时长。</p>
-        <p>BPM <input id="bpmInput" style="width: 32px;" type="number" value="80" /> | 量化精度 <select id="precisionList">
+        <p>BPM <input id="bpmInput" style="width: 48px;" type="number" value="80" /> | 量化精度 <select id="precisionList">
             <option value="5">0.0625</option>
             <option value="4">0.125</option>
             <option value="3" selected>0.25</option>
@@ -116,9 +116,12 @@
 
         function reset() {
             lastPressTime = undefined;
+            returnReady = false;
             pressCount = 0;
             copyTo("result", "");
             target("playButton").disabled = true;
+            hide("returnOk");
+            hide("returnReady");
         }
 
         function spacePressed() {

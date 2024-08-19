@@ -62,6 +62,7 @@
                 <br />
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
+                <p>调试功能: 从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
                 <br />
                 <p><input id="showTitle" type="checkbox" checked />显示网页标题 <input id="showDot" type="checkbox" checked />休息段显示省略号 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" /> 歌词颜色 <input id="color-lyric" type="color" value="#99ccff" /> 激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
                 <br />
@@ -182,6 +183,7 @@
             let lyric, len;
             
             async function play() {
+                target("audio").currentTime = +copyValue("audioStart");
                 const lyricArray = fileContent.split(".")[3].split("/"); // 沈,1;ん,0'5;で,0'5;い,0'25;た\,1'75;味,1'5;の,0'5;な,0'25;い,0'5;日,0'5;々,0'5;で,0'25;も,1'5
 
                 fadeChange("startup", "lyricBlock");
@@ -308,7 +310,7 @@
                 // ROTATE
                 for (let i = 1; i <= len; i++) {
                     const g = x => Math.sqrt((len + 5) ** 2 - x ** 2);
-                    const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 20;
+                    const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 16;
                     target(`w-${i}`).style.transform = `rotate(${degree}deg)`;
                 }
             }
