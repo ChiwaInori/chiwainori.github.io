@@ -66,7 +66,7 @@
                 <p>调试功能: 从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
                 <br />
                 <p><strong id="loadFromFile" hide>已从 Lyric 文件中读取设置:</strong></p>
-                <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;<input id="showJump" type="checkbox" checked />歌词跳动 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
+                <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
                 <br />
                 <p id="content" hide></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
@@ -76,14 +76,13 @@
                     <div id="helpGroup" hide>
                         <h3>如何制作 XTSGAMES Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个 JSON 文件</p>
-                        <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot;, &quot;lyrics&quot;</strong></p>
-                        <p>其中 &quot;signature&quot; 的值一定为 <strong>&quot;xtsgames-lyric&quot;</strong>, &quot;version&quot; 的值为目前版本 <strong id="version"></strong></p>
-                        <p><strong>3.</strong> &quot;musicInfo&quot; 的值为对象, 其中包括 <strong>&quot;title&quot;</strong> (字符串), <strong>&quot;author&quot;</strong> (字符串), <strong>&quot;bpm&quot;</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
-                        <p><strong>4.</strong> &quot;settings&quot; 的值为对象, 其中包括可选键 (不存在即使用默认设置) <strong>&quot;showTitle&quot;, &quot;showDot&quot;, &quot;showCircle&quot;, &quot;lyricJump&quot;</strong> (布尔值) 和 颜色 (格式为 &quot;#abcdef&quot;): <strong>&quot;backgroundColor&quot;, &quot;lyricColor&quot;, &quot;activeColor&quot;</strong> (字符串)</p>
-                        <p><strong>5.</strong> &quot;lyrics&quot; 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一句歌词</strong>，一句歌词数组由<strong>若干个以下数组</strong>构成: <strong>[&quot;汉字(或单词音节)&quot;, 时长(以节拍为单位)]</strong> (一共有三层数组)</p>
+                        <p><strong>2.</strong> 在根对象中创建以下键: <strong>"signature", "version", "musicInfo", "settings", "lyrics"</strong></p>
+                        <p>其中 "signature" 的值一定为 <strong>"xtsgames-lyric"</strong>, "version" 的值为目前版本 <strong id="version"></strong></p>
+                        <p><strong>3.</strong> "musicInfo" 的值为对象, 其中包括 <strong>"title"</strong> (字符串), <strong>"author"</strong> (字符串), <strong>"bpm"</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
+                        <p><strong>4.</strong> "settings" 的值为对象, 其中包括可选键 (不存在即使用默认设置) <strong>"showTitle", "showDot", "showCircle"</strong> (布尔值) 和 颜色 (格式为 "#abcdef"): <strong>"backgroundColor", "lyricColor", "activeColor"</strong> (字符串)</p>
+                        <p><strong>5.</strong> "lyrics" 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一句歌词</strong>，一句歌词数组由<strong>若干个以下数组</strong>构成: <strong>["汉字(或单词音节)", 时长(以节拍为单位)]</strong> (一共有三层数组)</p>
                         <p>如果是休息段 (伴奏), 在汉字的位置输入 <strong>[SPACE]</strong> <strong>([SPACE] 必须独立成句)</strong></p>
                         <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度</p>
-                        <p>你还可以把一句歌词的数组改为一个<strong>对象</strong>，在这个对象中填入和 <strong>&quot;settings&quot; 一样的键</strong>，填写相应的值，将会在歌词播放到这里时更改指定的设置</p>
                     </div>
                 </div>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
@@ -95,11 +94,9 @@
             <audio id="audio" src="" controls hide></audio>
         </div>
         <script>
-            const currentVersion = 103;
-            const alsoAccept = [102];
-            let showDotSetting = true;
-            let showCircleSetting = true;
-            let lyricJumpSetting = true;
+            const currentVersion = 102;
+            let showDot = true;
+            let showCircle = true;
             let waitBase = 0.2;
             let file, clockBase, lyric, len;
 
@@ -129,14 +126,13 @@
             target("showTitle").addEventListener("input", function () {
                 query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +this.checked;
             });
+
             target("showDot").addEventListener("input", function () {
-                showDotSetting = this.checked;
+                showDot = this.checked;
             });
+
             target("showCircle").addEventListener("input", function () {
-                showCircleSetting = this.checked;
-            });
-            target("showJump").addEventListener("input", function () {
-                lyricJumpSetting = this.checked;
+                showCircle = this.checked;
             });
 
             target("audioFile").addEventListener("change", function (event) {
@@ -179,7 +175,7 @@
                     colorTo("display", "var(--red)");
                     return;
                 }
-                if (version != currentVersion && !alsoAccept.includes(version)) {
+                if (version != currentVersion) {
                     copyTo("display", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
                     colorTo("display", "var(--red)");
                     return;
@@ -194,8 +190,8 @@
                 copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
 
-                const {showTitle, showDot, showCircle, lyricJump, backgroundColor, lyricColor, activeColor} = file.settings;
-                const defaultSettings = [false, true, true, true, "#ffffdd", "#99ccff", "#66a8ff"];
+                const {showTitle, showDot, showCircle, backgroundColor, lyricColor, activeColor} = file.settings;
+                const defaultSettings = [false, true, true, "#ffffdd", "#99ccff", "#66a8ff"];
                 let notDefault = 0;
                 if (showTitle != undefined && showTitle != defaultSettings[0]) {
                     notDefault = 1;
@@ -204,30 +200,25 @@
                 }
                 if (showDot != undefined && showDot != defaultSettings[1]) {
                     notDefault = 1;
-                    showDotSetting = false;
+                    showDot = false;
                     target("showDot").checked = false;
                 }
                 if (showCircle != undefined && showCircle != defaultSettings[2]) {
                     notDefault = 1;
-                    showCircleSetting = false;
+                    showCircle = false;
                     target("showCircle").checked = false;
                 }
-                if (lyricJump != undefined && lyricJump != defaultSettings[3]) {
-                    notDefault = 1;
-                    lyricJumpSetting = false;
-                    target("showJump").checked = false;
-                }
-                if (backgroundColor != undefined && backgroundColor != defaultSettings[4]) {
+                if (backgroundColor != undefined && backgroundColor != defaultSettings[3]) {
                     notDefault = 1;
                     document.documentElement.style.setProperty('--backgroundColor', `${backgroundColor}`);
                     target("color-bg").value = backgroundColor;
                 }
-                if (lyricColor != undefined && lyricColor != defaultSettings[5]) {
+                if (lyricColor != undefined && lyricColor != defaultSettings[4]) {
                     notDefault = 1;
                     document.documentElement.style.setProperty('--lyricColor', `${lyricColor}`);
                     target("color-lyric").value = lyricColor;
                 }
-                if (activeColor != undefined && activeColor != defaultSettings[6]) {
+                if (activeColor != undefined && activeColor != defaultSettings[5]) {
                     notDefault = 1;
                     document.documentElement.style.setProperty('--activeColor', `${activeColor}`);
                     target("color-active").value = activeColor;
@@ -248,88 +239,63 @@
                 
                 for (let i = 0; i < lyricArray.length + 1; i++) { // loop every sentence
                     if (i != lyricArray.length) { // the song is not over
-                        const nowChecking = lyricArray[i];
-                        if (Array.isArray(lyricArray[i])) { // is array => is a sentence
-                            const notes = nowChecking; // [["沈", 1], ["ん", 0.5], ["で", 0.5], ["い", 0.25], ["た ", 1.75], ["味", 1.5], ["の", 0.5], ["な", 0.25], ["い", 0.5], ["日", 0.5], ["々", 0.5], ["で", 0.25], ["も", 1.5]]
-                            let sentence = "";
+                        const notes = lyricArray[i]; // [["沈", 1], ["ん", 0.5], ["で", 0.5], ["い", 0.25], ["た ", 1.75], ["味", 1.5], ["の", 0.5], ["な", 0.25], ["い", 0.5], ["日", 0.5], ["々", 0.5], ["で", 0.25], ["も", 1.5]]
+                        let sentence = "";
 
-                            len = notes.length;
+                        len = notes.length;
 
-                            if (i == 0 && notes[0][0] != "[SPACE]") { // if the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
-                                const noteBeatLength = notes[0][1];
-                                const noteRealLength = noteBeatLength * clockBase;
+                        if (i == 0 && notes[0][0] != "[SPACE]") { // if the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
+                            const noteBeatLength = notes[0][1];
+                            const noteRealLength = noteBeatLength * clockBase;
+                            if (noteRealLength >= 2) {
+                                waitBase = 0.2;
+                            } else {
+                                waitBase = noteRealLength / 10;
+                            }
+                        }
+
+                        notes.forEach((note, index) => { // note: ["沈", 1], index: 0
+                            if (note[0] == "[SPACE]") {
+                                if (showDot) {
+                                    sentence = "<span id='w-1'>...</span>";
+                                } else {
+                                    sentence = "<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>";
+                                }
+                            } else {
+                                sentence += `<span id='w-${index + 1}'>${note[0].replaceAll(/ /g, "&nbsp;")}</span>`;
+                            }
+                        });
+                        next(sentence);
+
+                        if (i == 0) {
+                            if (notes[0][0] == "[SPACE]") { // if this is the 1st sentence and is [SPACE], play music
+                                target("audio").play();
+                            } else { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation then play music
+                                await sleep(1000);
+                                target("audio").play();
+                            }
+                        } else { // it's not the first sentence, wait because last sentence next()ed in advance
+                            await sleep(waitBase * 7 * 1000);
+                        }
+
+                        for (let i = 0; i < notes.length; i++) { // loop every chars
+                            const noteBeatLength = notes[i][1];
+                            const noteRealLength = noteBeatLength * clockBase;
+
+                            if (notes[i][0] != "[SPACE]") {
+                                jump(i + 1, noteRealLength * 1000);
+                            }
+
+                            if (i != notes.length - 1) {
+                                await sleep(noteRealLength * 1000);
+                            } else { // now playing is last one
                                 if (noteRealLength >= 2) {
                                     waitBase = 0.2;
                                 } else {
                                     waitBase = noteRealLength / 10;
                                 }
-                            }
 
-                            notes.forEach((note, index) => { // note: ["沈", 1], index: 0
-                                if (note[0] == "[SPACE]") {
-                                    if (showDotSetting) {
-                                        sentence = "<span id='w-1'>...</span>";
-                                    } else {
-                                        sentence = "<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>";
-                                    }
-                                } else {
-                                    sentence += `<span id='w-${index + 1}'>${note[0].replaceAll(/ /g, "&nbsp;")}</span>`;
-                                }
-                            });
-                            next(sentence);
-
-                            if (i == 0) {
-                                if (notes[0][0] == "[SPACE]") { // if this is the 1st sentence and is [SPACE], play music
-                                    target("audio").play();
-                                } else { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation then play music
-                                    await sleep(1000);
-                                    target("audio").play();
-                                }
-                            } else { // it's not the first sentence, wait because last sentence next()ed in advance
-                                await sleep(waitBase * 7 * 1000);
-                            }
-
-                            for (let i = 0; i < notes.length; i++) { // loop every chars
-                                const noteBeatLength = notes[i][1];
-                                const noteRealLength = noteBeatLength * clockBase;
-
-                                if (notes[i][0] != "[SPACE]" && lyricJumpSetting) {
-                                    jump(i + 1, noteRealLength * 1000);
-                                }
-
-                                if (i != notes.length - 1) {
-                                    await sleep(noteRealLength * 1000);
-                                } else { // now playing is last one
-                                    if (noteRealLength >= 2) {
-                                        waitBase = 0.2;
-                                    } else {
-                                        waitBase = noteRealLength / 10;
-                                    }
-
-                                    await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // give 7 waitBase to next() animation
-                                }
-                            }
-                        } else { // not array => it's a settings config
-                            if ("showTitle" in nowChecking) {
-                                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +nowChecking.showTitle;
-                            }
-                            if ("showDot" in nowChecking) {
-                                showDotSetting = nowChecking.showDot;
-                            }
-                            if ("showCircle" in nowChecking) {
-                                showCircleSetting = nowChecking.showCircle;
-                            }
-                            if ("lyricJump" in nowChecking) {
-                                lyricJumpSetting = nowChecking.lyricJump;
-                            }
-                            if ("backgroundColor" in nowChecking) {
-                                document.documentElement.style.setProperty('--backgroundColor', `${nowChecking.backgroundColor}`);
-                            }
-                            if ("lyricColor" in nowChecking) {
-                                document.documentElement.style.setProperty('--lyricColor', `${nowChecking.lyricColor}`);
-                            }
-                            if ("activeColor" in nowChecking) {
-                                document.documentElement.style.setProperty('--activeColor', `${nowChecking.activeColor}`);
+                                await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // give 7 waitBase to next() animation
                             }
                         }
                     } else { // the song is over
@@ -379,7 +345,7 @@
                 const verticalUsed = fontSize * 2;
                 const verticalMargin = (verticalTotal - verticalUsed) / 2;
 
-                if (showCircleSetting) {
+                if (showCircle) {
                     for (let i = 1; i <= len; i++) {
                         const f = x => Math.sqrt((len + 5) ** 2 - x ** 2);
                         const float = (len + 5 - f(i - (len / 2 + 0.5))) * 60;
