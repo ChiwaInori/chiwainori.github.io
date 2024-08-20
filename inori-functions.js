@@ -14,20 +14,11 @@
 */
 
 /**
- * Check if Inori Functions are available and get current version.
- * Use inori("next") to get the number of next bug fix version.
+ * Check if Inori Functions are available.
+ * @example inori() // If Inori Functions are available, get a log in console.
  */
-function inori(usage) {
-    const version = [
-        1, // Usually doesn't change
-        5, // Major updates
-        1, // Minor updates
-        22195 // Bug fixes, start from 10000, last + rand(1000, 6000)
-    ];
-
-    if (usage == "next") { return version[3] + rand(1000, 6000); }
-
-    log(`Inori Functions are available in current session.\nVersion: ${version[0]}.${version[1]}.${version[2]}.${version[3]}`);
+function inori() {
+    log(`Inori Functions are available in current session.`);
 }
 
 // GLOBAL USAGE
