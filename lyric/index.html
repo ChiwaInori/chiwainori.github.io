@@ -67,6 +67,7 @@
                 <br />
                 <p><strong id="loadFromFile" hide>已从 Lyric 文件中读取设置:</strong></p>
                 <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;<input id="showJump" type="checkbox" checked />歌词跳动 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
+                <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
                 <br />
                 <p id="content" hide></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
@@ -91,6 +92,10 @@
             <div id="lyricBlock" hide>
                 <h1 id="titleLine"></h1>
                 <h1 id="lyrics">&nbsp;</h1>
+                <div id="debugPanel" hide>
+                    <p>下一个音符: <button onclick="modify(-0.25)">-0.25</button><button onclick="modify(0.25)">+0.25</button>拍</p>
+                    <p><strong id="modifyResult" hide></strong></p>
+                </div>
             </div>
             <audio id="audio" src="" controls hide></audio>
         </div>
@@ -102,6 +107,7 @@
             let lyricJumpSetting = true;
             let waitBase = 0.2;
             let file, clockBase, lyric, len;
+            let currentPosition;
 
             copyTo("version", currentVersion);
 
@@ -244,6 +250,8 @@
 
                 fadeChange("startup", "lyricBlock");
 
+                if (target("showDebug").checked) { unhide("debugPanel"); }
+
                 await sleep(200); // if no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
                 
                 for (let i = 0; i < lyricArray.length + 1; i++) { // loop every sentence
@@ -289,15 +297,17 @@
                                 await sleep(waitBase * 7 * 1000);
                             }
 
-                            for (let i = 0; i < notes.length; i++) { // loop every chars
-                                const noteBeatLength = notes[i][1];
+                            for (let j = 0; j < notes.length; j++) { // loop every chars
+                                const noteBeatLength = notes[j][1];
                                 const noteRealLength = noteBeatLength * clockBase;
 
-                                if (notes[i][0] != "[SPACE]" && lyricJumpSetting) {
-                                    jump(i + 1, noteRealLength * 1000);
+                                if (notes[j][0] != "[SPACE]" && lyricJumpSetting) {
+                                    jump(j + 1, noteRealLength * 1000);
                                 }
 
-                                if (i != notes.length - 1) {
+                                currentPosition = [i, j];
+
+                                if (j != notes.length - 1) {
                                     await sleep(noteRealLength * 1000);
                                 } else { // now playing is last one
                                     if (noteRealLength >= 2) {
@@ -414,7 +424,7 @@
 
                 await sleep(200);
 
-                jumpTarget.style.transition = `all ${length / 1000}s ease`;
+                jumpTarget.style.transition = `all ${length / 1000 || 0.5}s ease`;
                 jumpTarget.style.left = `${jumpTarget.style.left.getNum() - xOffset}px`;
                 await sleep(1);
                 jumpTarget.style.top = `${jumpTarget.style.top.getNum() + yOffset}px`;
@@ -450,6 +460,29 @@
             }
 
             window.addEventListener("resize", getWordPos);
+
+            async function modify(value) {
+                const modifyTarget = file.lyrics[currentPosition[0]][currentPosition[1] + 1] ? [currentPosition[0], currentPosition[1] + 1] : [currentPosition[0] + 1, 0]; // if next char doesn't exist, go to next sentence
+
+                unhide("modifyResult");
+                if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] + value >= 0) { // normally, can increase / decrease
+                    file.lyrics[modifyTarget[0]][modifyTarget[1]][1] += value;
+
+                    colorTo("modifyResult", "var(--textColor-500)");
+                    copyTo("modifyResult", `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍`);
+                } else if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] != 0) { // if 0 < x < 0.25, only can decrease to 0
+                    file.lyrics[modifyTarget[0]][modifyTarget[1]][1] = 0;
+
+                    colorTo("modifyResult", "var(--textColor-500)");
+                    copyTo("modifyResult", `已 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 至 0 拍`);
+                } else { // if x == 0, cannot decrease
+                    colorTo("modifyResult", "var(--red)");
+                    copyTo("modifyResult", `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`);
+                }
+
+                await sleep(500);
+                fadeOut("modifyResult");
+            }
         </script>
     </div>
 </body>
