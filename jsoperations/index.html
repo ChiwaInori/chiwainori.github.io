@@ -137,7 +137,7 @@
             }
         }
 
-        const allConstants = document.querySelectorAll("#varList p");
+        const allConstants = query("#varList p");
         allConstants.forEach(line => {
             const constName = line.innerHTML.match(/\b[a-g]\b/g);
             const constValueString = line.innerHTML;

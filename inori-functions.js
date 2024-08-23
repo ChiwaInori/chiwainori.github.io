@@ -3,14 +3,13 @@
 /*
     Inori Function is a custom JavaScript library used in XTSGAMES.TOP for better coding.
     Most of the functions included are original created by XTSGAMES owner Chiwa Inori.
-    Inori Function is updating every time. You can use inori() to check current version.
 
     Index:
     Global Usage (8): sleep, seizure, copyright, paramURL, chance, Array.isolate, Array.remove, String.getCountOf
     Numeral Commands (4): rand, String.getNum, Number.transit, Number.toRange
     Console Log (1): log
     HTML Elements (15): target, query, copyFrom, copyValue, copyTo, addTo, styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange
-    Save & Load (2): save, load
+    Save & Load (3): save, load, loadJSON
 */
 
 /**
@@ -48,50 +47,51 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     function preventScroll(event) {
         event.preventDefault();
     }
-    
-    if (cnText != "toCN" && cnText != "toEN" && cnText != "close") {
-        document.querySelector("body").innerHTML += 
-            `<dialog id="cnSeizure" class="SEIZURE">
-                <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
-                <p>${cnText}</p>
-                <p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p>
-                <p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p>
-                <p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p>
-                <p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure('toEN')">EN</span></strong></p>
-                <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('close')">[继续]</span></strong></p>
-            </dialog>
-            <dialog id="enSeizure" class="SEIZURE">
-                <h3 style="color: var(--red);">! PHOTOSENSITIVE EPILEPSY WARNING !</h3>
-                <p>${enText}</p>
-                <p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p>
-                <p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p>
-                <p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p>
-                <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('toCN')">中文</span> | EN</strong></p>
-                <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('close')">[CONTINUE]</span></strong></p>
-            </dialog>`;
 
-        document.body.style.overflow = "hidden";
-        window.addEventListener("scroll", preventScroll, { passive: false });
-
-        document.querySelector("body *:not(.SEIZURE)").style.filter = "brightness(0.7)";
-
-        seizure("toCN");
-    }
-    if (cnText == "toCN") {
+    if (cnText == "_toCN") {
         target("cnSeizure").showModal();
         target("enSeizure").close();
-    } else if (cnText == "toEN") {
+    }
+    if (cnText == "_toEN") {
         target("cnSeizure").close();
         target("enSeizure").showModal();
-    } else if (cnText == "close") {
+    }
+    if (cnText == "_close") {
         target("cnSeizure").close();
         target("enSeizure").close();
 
         document.body.style.overflow = "";
-        window.removeEventListener("scroll", preventScroll, { passive: false });
+        window.removeEventListener("scroll", preventScroll);
 
-        document.querySelector("body *").style.filter = "brightness(1)";
+        query(".mainBody")[0].style.filter = "brightness(1)";
     }
+    if (cnText[0] == "_") { return; }
+
+    query("body")[0].innerHTML += 
+        `<dialog id="cnSeizure" class="SEIZURE">
+            <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
+            <p>${cnText}</p>
+            <p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p>
+            <p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p>
+            <p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p>
+            <p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure('_toEN')">EN</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[继续]</span></strong></p>
+        </dialog>
+        <dialog id="enSeizure" class="SEIZURE">
+            <h3 style="color: var(--red);">! PHOTOSENSITIVE EPILEPSY WARNING !</h3>
+            <p>${enText}</p>
+            <p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p>
+            <p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p>
+            <p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | EN</strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[CONTINUE]</span></strong></p>
+        </dialog>`;
+    
+    document.body.style.overflow = "hidden";
+    window.addEventListener("scroll", preventScroll, { passive: false });
+    query(".mainBody")[0].style.filter = "brightness(0.7)";
+
+    seizure("_toCN");
 }
 
 /**
@@ -120,7 +120,7 @@ function copyright(startYear, signature = "千和 いのり") {
  * @param {"get" | "set"} method - Are you getting or setting a param?
  * @param {string} name - The param name from URL
  * @param {any} value - The param value being set (only when using "set")
- * @return {string | null} The value of the param (only when using "get")
+ * @returns {string | null} The value of the param (only when using "get")
  * @example paramURL("get", "userID") // Return the value of ?userID=...
  */
 function paramURL(method, name, value = null) {
@@ -152,28 +152,36 @@ function chance(percent) {
 }
 
 /**
- * Deep clone (isolate) an array.
- * @returns {array} The deep clone result
+ * Deep clone (isolate) an array / object.
+ * @returns {object} The deep clone result
  * @example [1, 2, [3, 4]].isolate() // [1, 2, [3, 4]]
  */
-Array.prototype.isolate = function () {
-    let newArray = [];
+Object.prototype.isolate = function () {
+    const obj = this.valueOf();
 
-    this.forEach(arg => {
-        if (typeof arg == "object") { // Still an array
-            newArray.push(arg.isolate()); // Loop
-        } else {
-            newArray.push(arg);
-        }
+    if (obj === null || typeof obj != "object") { // Neither an array nor an object
+        return obj;
+    }
+
+    if (Array.isArray(obj)) { // Is an array
+        const arrIsolated = [];
+        obj.forEach((item, index) => {
+            arrIsolated[index] = item.isolate();
+        });
+        return arrIsolated;
+    }
+
+    const objIsolated = {}; // Is an object
+    Object.keys(obj).forEach(key => {
+        objIsolated[key] = obj[key].isolate();
     });
-
-    return newArray;
+    return objIsolated;
 }
 
 /**
- * Remove ONLY ONE specified target from an array.
+ * Remove ONLY ONE (the first one) specified target from an array.
  * @param {any} target - The target to remove
- * @returns {array} The array without (one of) the target(s)
+ * @returns {object} The array without (one of) the target(s)
  * @example [1, 2, 3].remove(2) // [1, 3]
  */
 Array.prototype.remove = function (target) {
@@ -193,7 +201,7 @@ Array.prototype.remove = function (target) {
 /**
  * Get the count of specified string in a string
  * @param {any} target - The target to count
- * @return {number} How many targets are in the string
+ * @returns {number} How many targets are in the string
  * @example "HelloWorld".getCountOf("l") // 3
  */
 String.prototype.getCountOf = function (target) {
@@ -209,7 +217,7 @@ String.prototype.getCountOf = function (target) {
  * @param {number} min - (<= max) The minimum value of the random integer
  * @param {number} max - (>= min) The maximum value of the random integer
  * @param {boolean} keepFloat - Keep the decimal point or not
- * @return {number} The result of randomized number
+ * @returns {number} The result of randomized number
  * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10]
  */
 function rand(min, max, keepFloat = false) {
@@ -232,7 +240,7 @@ function rand(min, max, keepFloat = false) {
 /**
  * Return a selected number in a string.
  * @param {number} order (>= 1) Which part of number you want (start from 1)
- * @return {number | null} The number from specified string in specified order
+ * @returns {number | null} The number from specified string in specified order
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
@@ -240,7 +248,8 @@ String.prototype.getNum = function (order = 1) {
     if (order <= 0) { throw new RangeError("Order cannot less than 1"); }
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
-    return numbersList != null ? +numbersList[order - 1] : null;
+
+    return numbersList ? +numbersList[order - 1] : null;
 }
 
 /**
@@ -248,7 +257,7 @@ String.prototype.getNum = function (order = 1) {
  * @param {number} from - The number where calculates from
  * @param {number} to - The number where calculates to
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
- * @return {number} A number in range and specified percentage
+ * @returns {number} A number in range and specified percentage
  * @example (0.6).transit(0, 10) // 6 (The number in [0, 10] and 60% of its range is 6)
  */
 Number.prototype.transit = function (from, to, disableRange = false) {
@@ -267,7 +276,7 @@ Number.prototype.transit = function (from, to, disableRange = false) {
  * @param {number} minBoundary - (<= maxBoundary) The boundary of minimum
  * @param {number} maxBoundary - (>= minBoundary) The boundary of maximum
  * @param {boolean} warnIfWorked - Should the function warn in console if itself worked
- * @return {number} The number been parsed into range
+ * @returns {number} The number been parsed into range
  * @example (120).toRange(0, 100) // 100 (120 is out of [0, 100], so output 100)
  */
 Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = false) {
@@ -297,7 +306,7 @@ function log(...args) {
 /**
  * Return an element in HTML.
  * @param {string} element - The id of target element
- * @return {HTMLElement | null} The element in HTML
+ * @returns {HTMLElement | null} The element in HTML
  * @example target("title").addEventListener(...) // Add an event listener to #title
  */
 function target(element) {
@@ -308,8 +317,9 @@ function target(element) {
 
 /**
  * Return queried element(s) in HTML.
+ * Do not forget to add [x] to get specified element because it returns a NodeList.
  * @param {string} element - The query input of target element
- * @return {NodeList} The element(s) in HTML
+ * @returns {NodeList} The element(s) in HTML
  * @example query(".paragraph") // List out all elements of .paragraph
  */
 function query(element) {
@@ -321,7 +331,7 @@ function query(element) {
 /**
  * Copy something from an element's innerHTML.
  * @param {string} element - The id of target element
- * @return {string} The innerHTML of the element
+ * @returns {string} The innerHTML of the element
  * @example copyFrom("title") // Return the innerHTML of #title
  */
 function copyFrom(element) {
@@ -333,7 +343,7 @@ function copyFrom(element) {
 /**
  * Copy something from an input's value.
  * @param {string} element - The id of target input
- * @return {string} The value of the element
+ * @returns {string} The value of the element
  * @example copyValue("range") // Return the value of #range
  */
 function copyValue(element) {
@@ -480,7 +490,7 @@ function unhide(element, display = "block", method = "id") {
 /**
  * Check a element is hidden or not.
  * @param {string} element - The id of target element
- * @return {boolean} The element is hidden or not
+ * @returns {boolean} The element is hidden or not
  * @example isHidden("title") // If #title is hidden, return true
  */
 function isHidden(element) {
@@ -509,38 +519,56 @@ async function transColor(element, color, time = 100, method = "id") {
         return;
     }
 
+    function getTempFuncId() {
+        const error = new Error();
+        const stackLines = error.stack.split('\n');
+        const callerLine = stackLines[2];
+        const callerFunctionName = callerLine.match(/at (<?\w+>?)/)[1]; // Get the name of parent function
+    
+        let id = 1;
+        while (query("style")[0].innerHTML.includes(`temp_${callerFunctionName}_${id}`)) {
+            id++;
+        }
+        return `temp_${callerFunctionName}_${id}`;
+    }
+
+    const tempFuncId = getTempFuncId();
+
     if (method == "id") {
-        target(element).classList.add("temp_transColor");
+        target(element).classList.add(tempFuncId);
     }
     if (method == "class") {
         query(`.${element}`).forEach(target => {
-            target.classList.add("temp_transColor");
+            target.classList.add(tempFuncId);
         });
     }
     if (method == "query") {
         query(element).forEach(target => {
-            target.classList.add("temp_transColor");
+            target.classList.add(tempFuncId);
         });
     }
-    document.querySelector("style").innerHTML += `.temp_transColor { transition: color ${time / 1000}s var(--transit); }`;
+    query("style")[0].innerHTML += `.${tempFuncId} { transition: color ${time / 1000}s var(--transit); }`; // Set a temp stylesheet
 
     colorTo(element, color, method);
 
     await sleep(time);
 
     if (method == "id") {
-        target(element).classList.remove("temp_transColor");
+        target(element).classList.remove(tempFuncId);
     }
     if (method == "class") {
         query(`.${element}`).forEach(target => {
-            target.classList.remove("temp_transColor");
+            target.classList.remove(tempFuncId);
         });
     }
     if (method == "query") {
         query(element).forEach(target => {
-            target.classList.remove("temp_transColor");
+            target.classList.remove(tempFuncId);
         });
     }
+    
+    const removeTarget = new RegExp(`\.${tempFuncId} {.*?}`, "g");
+    query("style")[0].innerHTML = query("style")[0].innerHTML.replaceAll(removeTarget, ""); // Remove the temp stylesheet
 }
 
 /**
@@ -672,13 +700,15 @@ function load(inputId, element = "file-content") {
  * Load a JSON file from input and return an object.
  * [WARNING] Don't forget to sleep(50) after loadJSON because load file needs time.
  * @param {string} inputId - The id of input where the file receives
- * @return {Promise} The promise included JSON
+ * @returns {Promise} The promise included JSON
  * @example loadJSON("fileInput").then(json => content = json) // Load JSON from #fileInput and copy the JSON object to content
  * @example loadJSON("fileInput").catch(e => { if (e.message.includes("Invalid") { ... } }) // Catch error from loadJSON
  */
 function loadJSON(inputId) {
+    if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
+
     return new Promise((resolve, reject) => {
-        const fileInput = document.getElementById(inputId);
+        const fileInput = target(inputId);
         const file = fileInput.files[0];
 
         if (file) {

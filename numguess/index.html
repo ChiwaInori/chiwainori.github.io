@@ -65,11 +65,11 @@
                 console.log(`Round ${round}: ${min} ~ ${max}, random-ed ${current}`);
             } else {
                 copyTo("guessYouChat", copyFrom("guessYouChat") + `\n<div id="guessYou${round}"><p style="color: #dd0000;"><strong>Bot: </strong>我无法猜出你的数字, 因为从你的回应中, 这个数字比 <strong>${max}</strong> 大, 比 <strong>${min}</strong> 小。</p></div>`);
-                var targetParagraphsH = document.querySelectorAll(`.guessYouR${max + "h"} p`);
+                var targetParagraphsH = query(`.guessYouR${max + "h"} p`);
                 targetParagraphsH.forEach(function (paragraphH) {
                     paragraphH.style.color = "#dd0000";
                 });
-                var targetParagraphsL = document.querySelectorAll(`.guessYouR${min + "l"} p`);
+                var targetParagraphsL = query(`.guessYouR${min + "l"} p`);
                 targetParagraphsL.forEach(function (paragraphL) {
                     paragraphL.style.color = "#dd0000";
                 });

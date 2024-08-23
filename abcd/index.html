@@ -164,7 +164,7 @@
             compare[5] = d2;
             compare[6] = d3;
             compare[7] = d4;
-            if (count.a != 0 && count.b != 0 && count.c != 0 && count.d != 0) {
+            if (count.a + count.b + count.c + count.d >= 4) {
                 change();
             }
         }
@@ -285,8 +285,8 @@
             }
         }
 
-        const handles = document.querySelectorAll('.handle');
-        const scrollbar = document.querySelector('.scrollbar');
+        const handles = query('.handle');
+        const scrollbar = query('.scrollbar')[0];
         // 创建每个区间的进度条
         const progress1 = document.createElement('div');
         const progress2 = document.createElement('div');

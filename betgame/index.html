@@ -97,11 +97,11 @@
             betTypeArray.forEach(type => {
                 if (balance >= type) {
                     for (let i = 0; i < 2; i++) {
-                        document.querySelectorAll(`.t${type}`)[i].disabled = false;
+                        query(`.t${type}`)[i].disabled = false;
                     }
                 } else {
                     for (let i = 0; i < 2; i++) {
-                        document.querySelectorAll(`.t${type}`)[i].disabled = true;
+                        query(`.t${type}`)[i].disabled = true;
                     }
                 }
             });
@@ -184,7 +184,7 @@
                 colorTo("win", "var(--red)");
                 colorTo("#balanceLine, #balanceLine *", "var(--red)", "query");
                 for (let i = 0; i < 14; i++) {
-                    document.querySelectorAll(`button`)[i].disabled = true;
+                    query(`button`)[i].disabled = true;
                 }
             }
             if (balance >= 100) {
@@ -192,7 +192,7 @@
                 colorTo("win", "var(--green)");
                 colorTo("#balanceLine, #balanceLine *", "var(--green)", "query");
                 for (let i = 0; i < 14; i++) {
-                    document.querySelectorAll(`button`)[i].disabled = true;
+                    query(`button`)[i].disabled = true;
                 }
             }
         }

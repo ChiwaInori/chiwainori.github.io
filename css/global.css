@@ -2,7 +2,8 @@
 
 :root {
     /* XTS BASIC COLORS */
-    /* These are basic colors of XTSGAMES. -500 colors are major colors in each section. */
+    /* These are basic colors of XTSGAMES and used in basic structures. -500 colors are major colors in each section. */
+
     --backgroundColor-500: #ffffdd;
     --backgroundColor-600: #ccccaa;
 
@@ -15,22 +16,40 @@
     --activeColor-800: #8899aa;
 
     /* XTS STANDARD COLORS */
-    /* These are verified to have great visibility on XTSGAMES. */
-    --pink: #ff86c3;
-    --lightRed: #ff5580;
-    --darkRed: #aa0000;
+    /* These are used to make website more colorful. They are verified to have great visibility on XTSGAMES. */
+
     --red: #dd0000;
-    --darkOrange: #ff8800;
-    --orange: #ffa800;
+    --orange: #ff8800;
     --yellow: #ffc800;
     --green: #00dd00;
-    --aqua: var(--activeColor-500);
+    --cyan: #44ddcc;
     --blue: #00a8ff;
+    --purple: #cc44ee;
+
+    --lightRed: #ff5580;
+    --lightOrange: #ffa800;
+    --lightYellow: #eedd55;
+    --lightGreen: #88ee88;
+    --lightCyan: #88dddd;
+    --lightBlue: var(--activeColor-400);
+    --lightPurple: #cc99dd;
+
+    --darkRed: #aa0000;
+    --darkOrange: #cc8822;
+    --darkYellow: #bbaa11;
+    --darkGreen: #11aa00;
+    --darkCyan: var(--activeColor-700);
     --darkBlue: #0000dd;
+    --darkPurple: #661188;
+
+    --pink: #ff86c3;
+    --aqua: var(--activeColor-500);
+
     --gray: var(--textColor-400);
 
     /* TIER COLORS (RED -> GREEN) */
     /* These colors are used in tables to show different values. */
+
     --tier-1: #ff1100;
     --tier-2: #ff4400;
     --tier-3: #ff7700;
@@ -40,7 +59,9 @@
     --tier-7: #aadd00;
     --tier-8: #77dd00;
     --tier-9: #44cc00;
-    --tier-10: #11aa00;
+    --tier-10: var(--darkGreen);
+
+    /* MISC */
 
     --transit: cubic-bezier(0.22, 0.61, 0.36, 1); /* Out Cubic */
 }
