@@ -9,7 +9,6 @@
     <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css" />
     <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop-center.css" />
     <style>
-
         :root {
             --backgroundColor: #ffffdd;
             --lyricColor: #99ccff;
@@ -65,8 +64,7 @@
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
                 <p>调试功能: 从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
                 <br />
-                <p><strong id="loadFromFile" hide>已从 Lyric 文件中读取设置:</strong></p>
-                <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;<input id="showJump" type="checkbox" checked />歌词跳动 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
+                <p id="settingsLine" hide><strong>已从 Lyric 文件中读取设置:</strong><br /><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;<input id="showJump" type="checkbox" checked />歌词跳动 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
                 <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
                 <br />
                 <p id="content" hide></p>
@@ -85,6 +83,7 @@
                         <p>如果是休息段 (伴奏), 在汉字的位置输入 <strong>[SPACE]</strong> <strong>([SPACE] 必须独立成句)</strong></p>
                         <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度</p>
                         <p>你还可以把一句歌词的数组改为一个<strong>对象</strong>，在这个对象中填入和 <strong>&quot;settings&quot; 一样的键</strong>，填写相应的值，将会在歌词播放到这里时更改指定的设置</p>
+                        <p class="STX">(注意: 不能把<strong>一个音符</strong>改为对象)</p>
                     </div>
                 </div>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
@@ -92,6 +91,7 @@
             <div id="lyricBlock" hide>
                 <h1 id="titleLine"></h1>
                 <h1 id="lyrics">&nbsp;</h1>
+                <p id="errorLine" style="color: var(--red);" hide></p>
                 <div id="debugPanel" hide>
                     <p>下一个音符: <button onclick="modify(-0.25)">-0.25</button><button onclick="modify(0.25)">+0.25</button>拍</p>
                     <p><strong id="modifyResult" hide></strong></p>
@@ -108,12 +108,13 @@
             let waitBase = 0.2;
             let file, clockBase, lyric, len;
             let currentPosition;
+            let fontText = "现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例";
 
             copyTo("version", currentVersion);
 
             target("fileInput").addEventListener("input", async () => {
                 loadJSON("fileInput").then(json => file = json).catch(e => {
-                    copyTo("display", `无效的 JSON 文件`);
+                    copyTo("display", e);
                     colorTo("display", "var(--red)");
                     return;
                 });
@@ -123,13 +124,13 @@
             });
             
             target("color-bg").addEventListener("input", function () {
-                document.documentElement.style.setProperty('--backgroundColor', `${this.value}`);
+                document.documentElement.style.setProperty("--backgroundColor", `${this.value}`);
             });
             target("color-lyric").addEventListener("input", function () {
-                document.documentElement.style.setProperty('--lyricColor', `${this.value}`);
+                document.documentElement.style.setProperty("--lyricColor", `${this.value}`);
             });
             target("color-active").addEventListener("input", function () {
-                document.documentElement.style.setProperty('--activeColor', `${this.value}`);
+                document.documentElement.style.setProperty("--activeColor", `${this.value}`);
             });
             
             target("showTitle").addEventListener("input", function () {
@@ -145,7 +146,7 @@
                 lyricJumpSetting = this.checked;
             });
 
-            target("audioFile").addEventListener("change", function (event) {
+            target("audioFile").addEventListener("change", (event) => {
                 const file = event.target.files[0];
                 const objectURL = URL.createObjectURL(file);
 
@@ -153,6 +154,9 @@
             });
 
             target("fontFile").addEventListener("change", function () {
+                fontText = copyFrom("fontTest");
+                copyTo("fontTest", "正在加载字体...");
+
                 const fileInput = this;
                 const file = fileInput.files[0];
 
@@ -166,15 +170,19 @@
                 } else {
                     target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "inherit";
                     query("style")[0].innerHTML += "#lyrics * { font-family: inherit; }";
+                    copyTo("fontTest", fontText);
                 }
             });
 
             function loadFont(url) {
-                const font = new FontFace('CustomFont', `url(${url})`);
-                font.load().then(function (loadedFont) {
+                const font = new FontFace("CustomFont", `url(${url})`);
+
+                font.load().then((loadedFont) => {
                     document.fonts.add(loadedFont);
+
                     target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
                     query("style")[0].innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
+                    copyTo("fontTest", fontText);
                 });
             }
 
@@ -197,56 +205,25 @@
                 clockBase = 60 / bpm; // bps
                 query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
-                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`);
+                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="playButton()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
 
-                const {showTitle, showDot, showCircle, lyricJump, backgroundColor, lyricColor, activeColor} = file.settings;
-                const defaultSettings = [false, true, true, true, "#ffffdd", "#99ccff", "#66a8ff"];
-                let notDefault = 0;
-                if (showTitle != undefined && showTitle != defaultSettings[0]) {
-                    notDefault = 1;
-                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = 1;
-                    target("showTitle").checked = true;
-                }
-                if (showDot != undefined && showDot != defaultSettings[1]) {
-                    notDefault = 1;
-                    showDotSetting = false;
-                    target("showDot").checked = false;
-                }
-                if (showCircle != undefined && showCircle != defaultSettings[2]) {
-                    notDefault = 1;
-                    showCircleSetting = false;
-                    target("showCircle").checked = false;
-                }
-                if (lyricJump != undefined && lyricJump != defaultSettings[3]) {
-                    notDefault = 1;
-                    lyricJumpSetting = false;
-                    target("showJump").checked = false;
-                }
-                if (backgroundColor != undefined && backgroundColor != defaultSettings[4]) {
-                    notDefault = 1;
-                    document.documentElement.style.setProperty('--backgroundColor', `${backgroundColor}`);
-                    target("color-bg").value = backgroundColor;
-                }
-                if (lyricColor != undefined && lyricColor != defaultSettings[5]) {
-                    notDefault = 1;
-                    document.documentElement.style.setProperty('--lyricColor', `${lyricColor}`);
-                    target("color-lyric").value = lyricColor;
-                }
-                if (activeColor != undefined && activeColor != defaultSettings[6]) {
-                    notDefault = 1;
-                    document.documentElement.style.setProperty('--activeColor', `${activeColor}`);
-                    target("color-active").value = activeColor;
-                }
+                updateSettings(file.settings);
+            }
 
-                if (notDefault) {
-                    unhide("loadFromFile");
-                }
+            function playButton() {
+                play().catch(() => {
+                    unhide("errorLine");
+                    copyTo("errorLine", `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。`);
+
+                    query(".mainBody")[0].style.transition = "all 0.5s var(--transit)";
+                    document.documentElement.style.setProperty("--backgroundColor", "#ffffdd");
+                })
             }
             
             async function play() {
                 target("audio").currentTime = +copyValue("audioStart");
-                const lyricArray = file["lyrics"];
+                const lyricArray = file.lyrics;
 
                 fadeChange("startup", "lyricBlock");
 
@@ -287,12 +264,10 @@
                             next(sentence);
 
                             if (i == 0) {
-                                if (notes[0][0] == "[SPACE]") { // if this is the 1st sentence and is [SPACE], play music
-                                    target("audio").play();
-                                } else { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation then play music
+                                if (notes[0][0] != "[SPACE]") { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
                                     await sleep(1000);
-                                    target("audio").play();
                                 }
+                                target("audio").play();
                             } else { // it's not the first sentence, wait because last sentence next()ed in advance
                                 await sleep(waitBase * 7 * 1000);
                             }
@@ -310,37 +285,13 @@
                                 if (j != notes.length - 1) {
                                     await sleep(noteRealLength * 1000);
                                 } else { // now playing is last one
-                                    if (noteRealLength >= 2) {
-                                        waitBase = 0.2;
-                                    } else {
-                                        waitBase = noteRealLength / 10;
-                                    }
+                                    waitBase = noteRealLength < 2 ? noteRealLength / 10 : 0.2;
 
                                     await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // give 7 waitBase to next() animation
                                 }
                             }
                         } else { // not array => it's a settings config
-                            if ("showTitle" in nowChecking) {
-                                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +nowChecking.showTitle;
-                            }
-                            if ("showDot" in nowChecking) {
-                                showDotSetting = nowChecking.showDot;
-                            }
-                            if ("showCircle" in nowChecking) {
-                                showCircleSetting = nowChecking.showCircle;
-                            }
-                            if ("lyricJump" in nowChecking) {
-                                lyricJumpSetting = nowChecking.lyricJump;
-                            }
-                            if ("backgroundColor" in nowChecking) {
-                                document.documentElement.style.setProperty('--backgroundColor', `${nowChecking.backgroundColor}`);
-                            }
-                            if ("lyricColor" in nowChecking) {
-                                document.documentElement.style.setProperty('--lyricColor', `${nowChecking.lyricColor}`);
-                            }
-                            if ("activeColor" in nowChecking) {
-                                document.documentElement.style.setProperty('--activeColor', `${nowChecking.activeColor}`);
-                            }
+                            updateSettings(nowChecking);
                         }
                     } else { // the song is over
                         len = 1;
@@ -482,6 +433,39 @@
 
                 await sleep(200);
                 fadeOut("modifyResult", 100);
+            }
+
+            function updateSettings(settingsObj) {
+                unhide("settingsLine");
+
+                if ("showTitle" in settingsObj) {
+                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +settingsObj.showTitle;
+                    target("showTitle").checked = settingsObj.showTitle;
+                }
+                if ("showDot" in settingsObj) {
+                    showDotSetting = settingsObj.showDot;
+                    target("showDot").checked = settingsObj.showDot;
+                }
+                if ("showCircle" in settingsObj) {
+                    showCircleSetting = settingsObj.showCircle;
+                    target("showCircle").checked = settingsObj.showCircle;
+                }
+                if ("lyricJump" in settingsObj) {
+                    lyricJumpSetting = settingsObj.lyricJump;
+                    target("showJump").checked = settingsObj.showJump;
+                }
+                if ("backgroundColor" in settingsObj) {
+                    document.documentElement.style.setProperty("--backgroundColor", `${settingsObj.backgroundColor}`);
+                    setValue("color-bg", settingsObj.backgroundColor);
+                }
+                if ("lyricColor" in settingsObj) {
+                    document.documentElement.style.setProperty("--lyricColor", `${settingsObj.lyricColor}`);
+                    setValue("color-lyric", settingsObj.lyricColor);
+                }
+                if ("activeColor" in settingsObj) {
+                    document.documentElement.style.setProperty("--activeColor", `${settingsObj.activeColor}`);
+                    setValue("color-active", settingsObj.activeColor);
+                }
             }
         </script>
     </div>

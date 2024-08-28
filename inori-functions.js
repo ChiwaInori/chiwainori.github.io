@@ -106,7 +106,7 @@ function copyright(startYear, signature = "千和 いのり") {
     if (document.getElementById("copyright") == null) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    if (thisYear < +startYear) { throw new Error("Cannot set a copyright starting from future"); }
+    if (thisYear < +startYear) { throw new RangeError("Cannot set a copyright starting from future"); }
 
     if (thisYear == +startYear) {
         copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
@@ -154,7 +154,7 @@ function chance(percent) {
 /**
  * Deep clone (isolate) an array / object.
  * @returns {object} The deep clone result
- * @example [1, 2, [3, 4]].isolate() // [1, 2, [3, 4]]
+ * @example [1, 2, [3, {id: 4}, 5]].isolate() // [1, 2, [3, {id: 4}, 5]]
  */
 Object.prototype.isolate = function () {
     const obj = this.valueOf();
@@ -263,7 +263,7 @@ String.prototype.getNum = function (order = 1) {
 Number.prototype.transit = function (from, to, disableRange = false) {
     if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
     if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
-    if (typeof disableRange != "boolean") { throw new Error(`disableRange must be a BOOLEAN`); }
+    if (typeof disableRange != "boolean") { throw new TypeError(`disableRange must be a BOOLEAN`); }
 
     const range = to - from;
 
@@ -281,8 +281,8 @@ Number.prototype.transit = function (from, to, disableRange = false) {
  */
 Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = false) {
     if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
-    if (typeof maxBoundary != "number") { throw new Error(`maxBoundary must be a NUMBER`); }
-    if (typeof warnIfWorked != "boolean") { throw new Error(`warnIfWorked must be a BOOLEAN`); }
+    if (typeof maxBoundary != "number") { throw new TypeError(`maxBoundary must be a NUMBER`); }
+    if (typeof warnIfWorked != "boolean") { throw new TypeError(`warnIfWorked must be a BOOLEAN`); }
     if (minBoundary > maxBoundary) { throw new RangeError(`Invalid minimum / maximum boundary number; minimum (${min}) should be less than maximum (${max})`); }
 
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
@@ -341,7 +341,7 @@ function copyFrom(element) {
 }
 
 /**
- * Copy something from an input's value.
+ * Copy the value of an input.
  * @param {string} element - The id of target input
  * @returns {string} The value of the element
  * @example copyValue("range") // Return the value of #range
@@ -374,6 +374,18 @@ function addTo(element, content) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
     target(element).innerHTML += content;
+}
+
+/**
+ * Set a value of an input.
+ * @param {string} element - The id of target input
+ * @param {any} content - The value to be set
+ * @example setValue("name", "David") // Set the value of #name to "David"
+ */
+function setValue(element, content) {
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+
+    target(element).value = content;
 }
 
 /**
