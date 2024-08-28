@@ -469,7 +469,7 @@
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] += value;
 
                     colorTo("modifyResult", "var(--textColor-500)");
-                    copyTo("modifyResult", `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍`);
+                    copyTo("modifyResult", `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍 (目前 ${file.lyrics[modifyTarget[0]][modifyTarget[1]][1]} 拍)`);
                 } else if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] != 0) { // if 0 < x < 0.25, only can decrease to 0
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] = 0;
 
@@ -480,8 +480,8 @@
                     copyTo("modifyResult", `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`);
                 }
 
-                await sleep(500);
-                fadeOut("modifyResult");
+                await sleep(200);
+                fadeOut("modifyResult", 100);
             }
         </script>
     </div>
