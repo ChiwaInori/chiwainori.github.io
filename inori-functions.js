@@ -5,14 +5,27 @@
     Most of the functions included are original created by XTSGAMES owner Chiwa Inori.
 
     Index:
-    Global Usage (8): sleep, seizure, copyright, paramURL, chance, Array.isolate, Array.remove, String.getCountOf
-    Numeral Commands (4): rand, String.getNum, Number.transit, Number.toRange
-    Console Log (1): log
+
+    Inori Basic (1): inori
+    Global Usage (7):
+        Commands (1): sleep
+        Website (2): seizure, copyright
+        URL Params (2): getURLparam, setURLparam
+        Console Log (2): log, warn
+    JS Commands (9):
+        Common (4): chance, Array.isolate, Array.remove, String.getCountOf
+        Numeral (5): 
+            Get Numbers (2): rand, String.getNum
+            Modify Numbers (3): Number.keep, Number.transit, Number.toRange
     HTML Elements (16):
         Target Elements (2): target, query
-        Input Value (2): copyFrom, copyValue
-        Output Value (3): copyTo, addTo, setValue
-        CSS Modifications (9): styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange
+        Interacts (5):
+            Input (2): copyFrom, copyValue
+            Output (3): copyTo, addTo, setValue
+        CSS Modifications (9):
+            Applications (4): styleTo, colorTo, hide, unhide
+            Confirmations (1): isHidden
+            Transitions (4): transColor, fadeOut, fadeIn, fadeChange
     Save & Load (3): save, load, loadJSON
 */
 
@@ -26,20 +39,23 @@ function inori() {
 
 // GLOBAL USAGE
 
+// GLOBAL USAGE / COMMANDS
+
 /**
  * Sleep a moment then execute following commands.
- * [ASYNC] Only available in async functions.
  * @param {number} time - (>= 0) Sleep time in milliseconds
- * @example sleep(1000) // Pause your commands for 1s
+ * @example await sleep(1000) // Pause your commands for 1s (also: sleep(1000).then(() => { ... }))
  */
 function sleep(time) {
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 0) { throw new RangeError("Cannot sleep less than 0 milliseconds"); }
+    if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
 
     if (time != 0) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
 }
+
+// GLOBAL USAGE / WEBSITE
 
 /**
  * Pop up a seizure warning in page.
@@ -100,48 +116,81 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
 
 /**
  * Create a copyright text in #copyright.
- * @param {number} startYear - (>= thisYear) The year that copyright starts
- * @param {string} signature - Who own the copyright
- * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2024
+ * @param {number} startYear - (<= new Date().getFullYear()) The year that copyright starts
+ * @param {any} signature - Who owns the copyright
+ * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2021
  */
-function copyright(startYear, signature = "千和 いのり") {
+function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> いのり") {
     if (typeof startYear != "number") { throw new TypeError(`startYear must be a NUMBER`); }
-    if (typeof signature != "string") { throw new TypeError(`signature must be a STRING`); }
     if (!target("copyright")) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    if (thisYear < +startYear) { throw new RangeError("Cannot set a copyright starting from future"); }
+    if (startYear > thisYear) { throw new RangeError(`startYear required (<= ${thisYear}), received ${startYear}`); }
 
-    if (thisYear == +startYear) {
+    if (startYear == thisYear) {
         copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
     } else {
         copyTo("copyright", `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`);
     }
 }
 
+// GLOBAL USAGE / URL PARAMS
+
 /**
- * Get or set the param from URL (.../...?param1=content1&param2=content2).
- * @param {"get" | "set"} method - Are you getting or setting a param?
- * @param {string} name - The param name from URL
- * @param {any} value - The param value being set (only when using "set")
- * @returns {string | null} The value of the param (only when using "get")
- * @example paramURL("get", "userID") // Return the value of ?userID=...
+ * Get the param from URL (.../...?param1=content1&param2=content2).
+ * @param {string} name - The param name to get from URL
+ * @returns {string | null} The value of the param
+ * @example getURLparam("userID") // Return the value of ?userID=...
  */
-function paramURL(method, name, value = null) {
-    if (method != "get" && method != "set") { throw new TypeError(`method must be "get" or "set"`); }
+function getURLparam(name) {
     if (typeof name != "string") { throw new TypeError(`name must be a STRING`); }
 
-    if (method == "get") {
-        return new URLSearchParams(window.location.search).get(name);
-    }
-    if (method == "set") {
-        if (!window.location.href.match(/\?/g)) {
-            window.location.href += `?${name}=${value}`;
-        } else {
-            window.location.href += `&${name}=${value}`;
-        }
+    return new URLSearchParams(window.location.search).get(name);
+}
+
+/**
+ * Set the param to URL (.../...?param1=content1&param2=content2).
+ * @param {string} name - The param name from URL
+ * @param {any} value - The param value being set
+ * @example setURLparam("result", "abcdef") // Redirect to .../...?result=abcdef
+ */
+function setURLparam(name, value = null) {
+    if (typeof name != "string") { throw new TypeError(`name must be a STRING`); }
+
+    if (!window.location.href.match(/\?/g)) {
+        window.location.href += `?${name}=${value}`;
+    } else {
+        window.location.href += `&${name}=${value}`;
     }
 }
+
+// GLOBAL USAGE / CONSOLE LOG
+
+/**
+ * Log variants in console by using less characters.
+ * @param {any} args - The variant to output in console
+ * @example log(score1, score2) // Output score1 and score2
+ */
+function log(...args) {
+    console.log(args.length == 1 ? args[0] : args);
+}
+
+/**
+ * Output a warn with stack information.
+ * @param {any} message - The content of warn message
+ * @example warn("Dangerous variant.") // Output a warn with stack.
+ */
+function warn(message) {
+    try {
+      throw new Error();
+    } catch (e) {
+        console.warn(e.stack.replaceAll(/Error/g, `Warn: ${message}`)
+            .replaceAll(/\n    at warn \(.*\)/g, "")
+            .replaceAll(/https?:\/\/.*\//g, ""));
+    }
+}
+
+// JS COMMANDS / COMMON
 
 /**
  * Return true in a specified chance.
@@ -214,7 +263,9 @@ String.prototype.getCountOf = function (target) {
     return splitString.length - 1;
 };
 
-// NUMERAL COMMANDS
+// JS COMMANDS / NUMERAL
+
+// JS COMMANDS / NUMERAL / GET NUMBERS
 
 /**
  * Return a random number.
@@ -228,7 +279,7 @@ function rand(min, max, keepFloat = false) {
     if (typeof min != "number") { throw new TypeError(`min must be a NUMBER`); }
     if (typeof max != "number") { throw new TypeError(`max must be a NUMBER`); }
     if (typeof keepFloat != "boolean") { throw new TypeError(`keepFloat must be a BOOLEAN`); }
-    if (min > max) { throw new RangeError(`Invalid minimum / maximum integer; minimum (${min}) should be less than maximum (${max})`); }
+    if (min > max) { throw new RangeError(`min required (<= ${max}), received ${min}`); }
 
     let range;
 
@@ -243,23 +294,39 @@ function rand(min, max, keepFloat = false) {
 
 /**
  * Return a selected number in a string.
- * @param {number} order (>= 1) Which part of number you want (start from 1)
+ * @param {number} order - (%1=0, >= 1) Which part of number you want (start from 1)
  * @returns {number | null} The number from specified string in specified order
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
     if (typeof order != "number") { throw new TypeError(`order must be a NUMBER`); }
-    if (order <= 0) { throw new RangeError("Order cannot less than 1"); }
+    if (order % 1 != 0) { throw new RangeError(`order required INTEGER (%1=0), received ${order}`); }
+    if (order < 1) { throw new RangeError(`order required (>= 1), received ${order}`); }
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
     return numbersList ? +numbersList[order - 1] : null;
 }
 
+// JS COMMANDS / NUMERAL / MODIFY NUMBERS
+
 /**
- * Return a number within given range and percentage.
- * @param {number} from - The number where calculates from
- * @param {number} to - The number where calculates to
+ * Keep a specified decimal place(s) to a number.
+ * @param {number} digit - (%1=0) How many decimal places to keep (0 to parseInt, negative to keep at the left of decimal point)
+ * @returns {number} The number kept specified decimal place(s)
+ * @example (123.456).keep(2) // 123.46
+ */
+Number.prototype.keep = function (digit) {
+    if (typeof digit != "number") { throw new TypeError(`digit must be a NUMBER`); }
+    if (digit % 1 != 0) { throw new RangeError(`digit required INTEGER (%1=0), received ${digit}`); }
+
+    return Math.round(this * (10 ** digit)) / (10 ** digit);
+}
+
+/**
+ * Scale a number to given range.
+ * @param {number} from - The number where scales from
+ * @param {number} to - The number where scales to
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @returns {number} A number in range and specified percentage
  * @example (0.6).transit(0, 10) // 6 (The number in [0, 10] and 60% of its range is 6)
@@ -287,25 +354,16 @@ Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = fa
     if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
     if (typeof maxBoundary != "number") { throw new TypeError(`maxBoundary must be a NUMBER`); }
     if (typeof warnIfWorked != "boolean") { throw new TypeError(`warnIfWorked must be a BOOLEAN`); }
-    if (minBoundary > maxBoundary) { throw new RangeError(`Invalid minimum / maximum boundary number; minimum (${min}) should be less than maximum (${max})`); }
+    if (minBoundary > maxBoundary) { throw new RangeError(`minBoundary required (<= ${maxBoundary}), received ${minBoundary}`); }
 
-    if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { console.warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
+    if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
 
     return Math.min(Math.max(this, minBoundary), maxBoundary);
 }
 
-// CONSOLE LOG
-
-/**
- * Log variants in console by using less characters.
- * @param {any} variant - The variant of log output
- * @example log(score1, score2) // Output score1 and score2
- */
-function log(...args) {
-    console.log(args.length == 1 ? args[0] : args);
-}
-
 // HTML ELEMENTS
+
+// HTML ELEMENTS / TARGET ELEMENTS
 
 /**
  * Return an element in HTML.
@@ -332,6 +390,10 @@ function query(element) {
     return document.querySelectorAll(element);
 }
 
+// HTML ELEMENTS / INTERACTS
+
+// HTML ELEMENTS / INTERACTS / INPUT
+
 /**
  * Copy something from an element's innerHTML.
  * @param {string} element - The id of target element
@@ -355,6 +417,8 @@ function copyValue(element) {
 
     return target(element).value;
 }
+
+// HTML ELEMENTS / INTERACTS / OUTPUT
 
 /**
  * Copy something to an element's innerHTML.
@@ -391,6 +455,10 @@ function setValue(element, content) {
 
     target(element).value = content;
 }
+
+// HTML ELEMENTS / CSS MODIFICATIONS
+
+// HTML ELEMENTS / CSS MODIFICATIONS / APPLICATIONS
 
 /**
  * Apply styles to an element.
@@ -503,6 +571,8 @@ function unhide(element, display = "block", method = "id") {
     }
 }
 
+// HTML ELEMENTS / CSS MODIFICATIONS / CONFIRMATIONS
+
 /**
  * Check a element is hidden or not.
  * @param {string} element - The id of target element
@@ -514,6 +584,8 @@ function isHidden(element) {
 
     return target(element).style.display == "none" || target(element).style.opacity === "0" || !!query(`#${element}[hide]`)[0] && target(element).style.display == "";
 }
+
+// HTML ELEMENTS / CSS MODIFICATIONS / TRANSITIONS
 
 /**
  * Turn an element's current color to another in transition.
@@ -528,7 +600,7 @@ async function transColor(element, color, time = 100, method = "id") {
     if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
-    if (time < 0) { throw new RangeError("Cannot change color in less than 0 milliseconds"); }
+    if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
 
     if (time == 0) {
         colorTo(element, color);
@@ -597,7 +669,12 @@ async function transColor(element, color, time = 100, method = "id") {
 async function fadeOut(element, doNotHide = false, time = 100) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError("Cannot fade out in less than 1 milliseconds"); }
+    if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
+
+    if (time == 0) {
+        hide(element);
+        return;
+    }
 
     let nowOpacity;
 
@@ -622,13 +699,18 @@ async function fadeOut(element, doNotHide = false, time = 100) {
 /**
  * Fade in an element.
  * @param {string} element - The id of target element
- * @param {number} time - (>= 1) The time length of fade out
+ * @param {number} time - (>= 1) The time length of fade in
  * @example fadeOut("title", 200) // Fade in #title in 0.2s.
  */
 async function fadeIn(element, time = 100) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError("Cannot fade in in less than 1 milliseconds"); }
+    if (time < 1) { throw new RangeError(`time required (>= 0), received ${time}`); }
+
+    if (time == 0) {
+        unhide(element);
+        return;
+    }
 
     let nowOpacity;
 
@@ -656,7 +738,13 @@ async function fadeChange(outElement, inElement, time = 200) {
     if (typeof outElement != "string") { throw new TypeError(`outElement must be a STRING`); }
     if (typeof inElement != "string") { throw new TypeError(`inElement must be a STRING`); }
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError("Cannot fade change in than 1 milliseconds"); }
+    if (time < 1) { throw new RangeError(`time required (>= 0), received ${time}`); }
+
+    if (time == 0) {
+        hide(outElement);
+        unhide(inElement);
+        return;
+    }
 
     fadeOut(outElement, false, time / 2);
     await sleep(time / 2 + 20);
@@ -696,7 +784,7 @@ function load(inputId, element = "file-content") {
     if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
 
-    target(inputId).addEventListener("change", (event) => {
+    target(inputId).addEventListener("change", event => {
         const file = event.target.files[0];
 
         if (file) {

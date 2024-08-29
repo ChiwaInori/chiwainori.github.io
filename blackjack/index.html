@@ -66,7 +66,7 @@
     </div>
     <script>
         const fullDeck = ["A", "A", "A", "A", "2", "2", "2", "2", "3", "3", "3", "3", "4", "4", "4", "4", "5", "5", "5", "5", "6", "6", "6", "6", "7", "7", "7", "7", "8", "8", "8", "8", "9", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "Q", "Q", "Q", "Q", "K", "K", "K", "K"];
-        let currentDeck = fullDeck;
+        let currentDeck = fullDeck.isolate();
         let playerHand = [];
         let dealerHand = [];
         let round = 0;
@@ -391,7 +391,7 @@
             drawStatus(true);
             standStatus(true);
 
-            currentDeck = fullDeck;
+            currentDeck = fullDeck.isolate();
             playerHand = [];
             dealerHand = [];
 

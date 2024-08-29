@@ -468,7 +468,7 @@
 
         const shipwarURL = "https://xtsgames.top/shipwar/?code=";
 
-        let onlineCode = paramURL("get", "code");
+        let onlineCode = getURLparam("code");
         if (onlineCode) {
             document.getElementById("code_type").value = onlineCode;
             hide("rules");

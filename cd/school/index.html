@@ -96,19 +96,12 @@
             <p id="cal1">辅助校准系统 <span onclick="cal()">&gt;&gt;&gt;</span></p>
             <p id="cal2" style="display: none;">辅助校准系统 | <input id="cali1" type="text" style="width: 30px;" />&nbsp;<input id="cali2" type="text" style="width: 30px;" /> <button id="subcal" onclick="submitcal()">确认</button> | <strong><span id="calresult"></span></strong></p>
             <br />
-            <p>Copyright &copy; <span id="thisyear"></span> Guigang JNZX 2310 (高一上 2313) XZY (千和 いのり). All Rights Reserved.</p>
+            <p id="copyright"></p>
             <!-- <p>Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY (xtsdcb69). All Rights Reserved.</p> -->
-            <script>
-                var date1 = new Date();
-                var thisyear = date1.getFullYear();
-                if (thisyear == 2021) {
-                    document.getElementById("thisyear").innerHTML = thisyear;
-                } else {
-                    document.getElementById("thisyear").innerHTML = "2021-" + thisyear;
-                }
-            </script>
         </div>
         <script>
+            copyright(2021, "Guigang JNZX 2310 (高一上 2313) XZY (<ruby>千和<rt>ちわ</rt></ruby> いのり)");
+
             timeUpdate();
             function timeUpdate() {
                 var date = new Date();
