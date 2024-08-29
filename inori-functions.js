@@ -2,6 +2,7 @@
 
 /*
     Inori Function is a custom JavaScript library used in XTSGAMES.TOP for better coding.
+
     Most of the functions included are original created by XTSGAMES owner Chiwa Inori.
     Most of them required other Inori Functions to work. Some functions can be also used in node environment.
 
@@ -198,7 +199,7 @@ function warn(message) {
 
 /**
  * Return true in a specified chance.
- * @param {number} percent - [0, 1] The chance of returning true
+ * @param {number} percent - The chance of returning true
  * @returns {boolean} true or false in specified chance
  * @example chance(0.6) // It has 60% chance to return true
  */
@@ -259,7 +260,7 @@ Array.prototype.remove = function (target) {
  * Get the count of specified string in a string
  * @param {any} target - The target to count
  * @returns {number} How many targets are in the string
- * @example "HelloWorld".getCountOf("l") // 3
+ * @example "Hello, World".getCountOf("l") // 3
  */
 String.prototype.getCountOf = function (target) {
     const splitString = this.split(target);
@@ -320,7 +321,7 @@ String.prototype.getNum = function (order = 1) {
  * @returns {number} The number kept specified decimal place(s)
  * @example (123.456).keep(2) // 123.46
  */
-Number.prototype.keep = function (digit) {
+Number.prototype.keep = function (digit = 0) {
     if (typeof digit != "number") { throw new TypeError(`digit must be a NUMBER`); }
     if (digit % 1 != 0) { throw new RangeError(`digit required INTEGER (%1=0), received ${digit}`); }
 
