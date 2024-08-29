@@ -8,7 +8,11 @@
     Global Usage (8): sleep, seizure, copyright, paramURL, chance, Array.isolate, Array.remove, String.getCountOf
     Numeral Commands (4): rand, String.getNum, Number.transit, Number.toRange
     Console Log (1): log
-    HTML Elements (15): target, query, copyFrom, copyValue, copyTo, addTo, styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange
+    HTML Elements (16):
+        Target Elements (2): target, query
+        Input Value (2): copyFrom, copyValue
+        Output Value (3): copyTo, addTo, setValue
+        CSS Modifications (9): styleTo, colorTo, hide, unhide, isHidden, transColor, fadeOut, fadeIn, fadeChange
     Save & Load (3): save, load, loadJSON
 */
 
@@ -103,7 +107,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
 function copyright(startYear, signature = "千和 いのり") {
     if (typeof startYear != "number") { throw new TypeError(`startYear must be a NUMBER`); }
     if (typeof signature != "string") { throw new TypeError(`signature must be a STRING`); }
-    if (document.getElementById("copyright") == null) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
+    if (!target("copyright")) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
     if (thisYear < +startYear) { throw new RangeError("Cannot set a copyright starting from future"); }
@@ -228,12 +232,12 @@ function rand(min, max, keepFloat = false) {
 
     let range;
 
-    if (!keepFloat) {
-        range = max - min + 1;
-        return Math.floor(Math.random() * range) + min;
-    } else {
+    if (keepFloat) {
         range = max - min;
         return Math.random() * range + min;
+    } else {
+        range = max - min + 1;
+        return Math.floor(Math.random() * range) + min;
     }
 }
 
