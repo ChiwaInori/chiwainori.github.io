@@ -3,6 +3,7 @@
 /*
     Inori Function is a custom JavaScript library used in XTSGAMES.TOP for better coding.
     Most of the functions included are original created by XTSGAMES owner Chiwa Inori.
+    Most of them required other Inori Functions to work. Some functions can be also used in node environment.
 
     Index:
 
@@ -44,6 +45,7 @@ function inori() {
 /**
  * Sleep a moment then execute following commands.
  * @param {number} time - (>= 0) Sleep time in milliseconds
+ * @returns {Promise} A setTimeout promise
  * @example await sleep(1000) // Pause your commands for 1s (also: sleep(1000).then(() => { ... }))
  */
 function sleep(time) {
