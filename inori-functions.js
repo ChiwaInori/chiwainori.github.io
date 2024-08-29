@@ -30,6 +30,8 @@
     Save & Load (3): save, load, loadJSON
 */
 
+// INORI BASIC
+
 /**
  * Check if Inori Functions are available.
  * @example inori() // If Inori Functions are available, get a log in console.
