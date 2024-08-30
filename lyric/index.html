@@ -6,8 +6,7 @@
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" media="not (hover: hover)" href="/css/mobile-center.css" />
-    <link rel="stylesheet" media="only screen and (hover: hover)" href="/css/desktop-center.css" />
+    <link rel="stylesheet" href="/css/type-center.css" />
     <style>
         :root {
             --backgroundColor: #ffffdd;
@@ -217,7 +216,7 @@
                     copyTo("errorLine", `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。`);
 
                     query(".mainBody")[0].style.transition = "all 0.5s var(--transit)";
-                    document.documentElement.style.setProperty("--backgroundColor", "#ffffdd");
+                    updateSettings({ backgroundColor: "#ffffdd" });
                 })
             }
             

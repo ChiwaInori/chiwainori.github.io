@@ -55,9 +55,7 @@ function sleep(time) {
     if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
     if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
 
-    if (time != 0) {
-        return new Promise(resolve => setTimeout(resolve, time));
-    }
+    return new Promise(resolve => setTimeout(resolve, time));
 }
 
 // GLOBAL USAGE / WEBSITE

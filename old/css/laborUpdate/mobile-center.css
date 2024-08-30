@@ -34,8 +34,7 @@ h3 {
     font-size: 38px;
 }
 
-h4,
-p {
+h4, p {
     font-size: 32px;
 }
 
@@ -103,6 +102,10 @@ input:disabled, button:disabled {
 
 select {
     border: 4px solid var(--activeColor-500);
+}
+
+ruby rt {
+    font-size: 18px;
 }
 
 .IFB {

@@ -1,0 +1,71 @@
+.title h1 {
+    margin: 20px 0px 20px 40px;
+}
+
+.title #center_title {
+    margin: 20px 0px 20px 0px;
+}
+
+body {
+    background-color: #FFFFDD;
+    background-repeat: no-repeat;
+}
+
+h1, h2, h3, h4, h5, h6, .content p, .links p, .copyright p, input, .content img, video, audio, button {
+    margin: 0px 0px 10px 40px;
+}
+
+ul li {
+    list-style: none;
+    margin: 0px 0px 0px 10px;
+}
+
+p, h1, h2, h3, h4, h5, h6, span {
+    color: #666666;
+}
+
+a:link, a:visited, .link {
+    color: #0000FF;
+}
+
+a:hover, .link:hover {
+    color: #0000AA;
+}
+
+a {
+    text-decoration: none;
+}
+
+blockquote p, blockquote h1, blockquote h2, blockquote h3, blockquote h4, blockquote h5, blockquote h6 {
+    font-style: italic;
+    color: #AAAAAA;
+}
+
+.list {
+    font-size: 10px;
+}
+
+table {
+    color: #666666;
+    margin: 0px 0px 10px 40px;
+}
+
+.border_table, .border_table tr th {
+    text-align: center;
+    border: 1px solid #666666;
+    border-collapse: collapse;
+}
+
+.navigation {
+    margin: -10px 0px 40px 0px;
+}
+
+.sticky_header {
+    background-color: #ffffdd;
+    position: sticky;
+    top: 0;
+}
+
+.hiddenlink:link, .hiddenlink:visited, .hiddenlink, .hiddenlink:hover {
+    color: #666666;
+}

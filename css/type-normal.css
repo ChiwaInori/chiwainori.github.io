@@ -1,0 +1,17 @@
+/* NORMAL FORMAT FOR DESKTOP */
+
+@media only screen and (hover: hover) {
+    .mainBody {
+        width: 840px;
+        min-height: 90%;
+    }
+}
+
+/* NORMAL FORMAT FOR MOBILE */
+
+@media not (hover: hover) {
+    .mainBody {
+        width: 95%;
+        min-height: 82%;
+    }
+}

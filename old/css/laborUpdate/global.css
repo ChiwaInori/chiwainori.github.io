@@ -1,0 +1,303 @@
+/* MAIN FORMAT FOR EVERY DEVICES */
+
+:root {
+    /* XTS BASIC COLORS */
+    /* These are basic colors of XTSGAMES and used in basic structures. -500 colors are major colors in each section. */
+
+    --backgroundColor-500: #ffffdd;
+    --backgroundColor-600: #ccccaa;
+
+    --textColor-400: #aaaaaa;
+    --textColor-500: #666666;
+
+    --activeColor-400: #99ccff;
+    --activeColor-500: #66a8ff;
+    --activeColor-700: #0088aa;
+    --activeColor-800: #8899aa;
+
+    /* XTS STANDARD COLORS */
+    /* These are used to make website more colorful. They are verified to have great visibility on XTSGAMES. */
+
+    --red: #dd0000;
+    --orange: #ff8800;
+    --yellow: #ffc800;
+    --green: #00dd00;
+    --cyan: #44ddcc;
+    --blue: #00a8ff;
+    --purple: #cc44ee;
+
+    --lightRed: #ff5580;
+    --lightOrange: #ffa800;
+    --lightYellow: #eedd55;
+    --lightGreen: #88ee88;
+    --lightCyan: #88dddd;
+    --lightBlue: var(--activeColor-400);
+    --lightPurple: #cc99dd;
+
+    --darkRed: #aa0000;
+    --darkOrange: #cc8822;
+    --darkYellow: #bbaa11;
+    --darkGreen: #11aa00;
+    --darkCyan: var(--activeColor-700);
+    --darkBlue: #0000dd;
+    --darkPurple: #661188;
+
+    --pink: #ff86c3;
+    --aqua: var(--activeColor-500);
+
+    --gray: var(--textColor-400);
+
+    /* TIER COLORS (RED -> GREEN) */
+    /* These colors are used in tables to show different values. */
+
+    --tier-1: #ff1100;
+    --tier-2: #ff4400;
+    --tier-3: #ff7700;
+    --tier-4: #ffaa00;
+    --tier-5: #ffdd00;
+    --tier-6: #dddd00;
+    --tier-7: #aadd00;
+    --tier-8: #77dd00;
+    --tier-9: #44cc00;
+    --tier-10: var(--darkGreen);
+
+    /* MISC */
+
+    --transit: cubic-bezier(0.22, 0.61, 0.36, 1); /* Out Cubic */
+}
+
+/* BASIC LAYOUT */
+
+body {
+    background-color: var(--backgroundColor-600);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.mainBody {
+    background-color: var(--backgroundColor-500);
+    padding: 30px 25px 30px 25px;
+    border-radius: 10px;
+    margin: 10px auto auto auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 95%;
+    max-width: 90%;
+}
+
+/* NORMAL ELEMENTS */
+
+.title h1 {
+    margin: auto 0px 0px 0px;
+}
+
+h1, h2, h3, h4, h5, h6, p, img, video, audio {
+    margin: auto 0px 10px 0px;
+}
+
+img, video {
+    border: 3px solid var(--activeColor-500);
+    margin: 2px;
+}
+
+input, button {
+    margin: auto 10px auto 10px;
+    border: 2px solid var(--activeColor-500);
+    background-color: #ffffff;
+    color: var(--activeColor-500);
+    transition: color 0.05s var(--transit);
+    font-weight: bold;
+}
+
+input {
+    cursor: text;
+}
+
+button {
+    cursor: pointer;
+}
+
+::placeholder {
+    color: var(--activeColor-800);
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:hover, input[type="radio"]:hover, button:hover {
+    background-color: #eeeeee;
+}
+
+input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
+    background-color: var(--activeColor-500);
+    content: '';
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"]:checked::before {
+    width: 5px;
+    height: 5px;
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+input[type="range"] {
+    appearance: none;
+    width: auto;
+    height: 6px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--activeColor-400);
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--activeColor-400);
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+button:active {
+    color: var(--activeColor-700);
+    background-color: #dddddd;
+}
+
+input:disabled, button:disabled {
+    border: 2px solid var(--textColor-400);
+    background-color: #dddddd;
+    color: var(--textColor-400);
+    cursor: not-allowed;
+}
+
+select {
+    margin: auto 10px auto 10px;
+    border: 2px solid var(--activeColor-500);
+    background-color: #ffffff;
+    color: var(--activeColor-500);
+}
+
+ruby rt {
+    font-size: 10px;
+}
+
+/* TEXT COLORS */
+
+p, h1, h2, h3, h4, h5, h6, span {
+    color: var(--textColor-500);
+}
+
+a:not(.HLK), .LNK {
+    color: var(--activeColor-500);
+    text-decoration: none;
+    transition: color 0.1s var(--transit);
+}
+
+a:not(.HLK):hover, .LNK:hover {
+    color: var(--activeColor-700);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* SPECIAL ELEMENTS IN XTSGAMES */
+
+blockquote * {
+    color: var(--textColor-400);
+    font-style: italic;
+}
+
+table {
+    color: var(--textColor-500);
+    margin: 0px 0px 10px 0px;
+}
+
+/* SPECIAL CLASSES IN XTSGAMES */
+
+/*
+.LNK {} (Link) is defined above
+*/
+
+*[hide] { /* Use "hide" in element directly to hide it. Example: <div id="secret" hide></div> */
+    display: none;
+}
+
+.STX { /* Small Texts */
+    font-size: 10px;
+}
+
+.IFB { /* Infobox */
+    margin: 16px 0px 16px 0px;
+    width: 350px;
+    padding: 16px;
+    text-align: center;
+}
+
+.LST { /* List */
+    font-size: 10px;
+}
+
+.ANT, .ANT * { /* Annotate */
+    font-size: 10px;
+    color: var(--textColor-400);
+}
+
+.BRT, .BRT tr * { /* Border Table */
+    border: 2px solid var(--textColor-500);
+    border-collapse: collapse;
+}
+
+.UBC { /* Unbold Cells (Table) */
+    font-weight: 500;
+}
+
+.SKH { /* Sticky Header */
+    background-color: var(--backgroundColor-500);
+    position: sticky;
+    top: 0;
+}
+
+.HLK:link, .HLK:visited, .HLK, .HLK:hover { /* Hidden Link */
+    color: var(--textColor-500);
+    text-decoration: none;
+}
+
+.SEIZURE { /* Seizure Warning */
+    background-color: var(--backgroundColor-500);
+    padding: 16px 32px 16px 32px;
+    border: 2px solid var(--textColor-500);
+    text-align: center;
+    width: 650px;
+}
