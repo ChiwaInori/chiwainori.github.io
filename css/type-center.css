@@ -7,19 +7,6 @@
         width: 100%;
         min-height: 90%;
     }
-    
-    .mainBody * {
-        text-align: center;
-    }
-    
-    table {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .IFB {
-        margin: 48px auto 16px auto;
-    }
 }
 
 /* CENTERED FORMAT FOR MOBILE */
@@ -31,17 +18,19 @@
         width: 95%;
         min-height: 82%;
     }
-    
-    .mainBody * {
-        text-align: center;
-    }
-    
-    table {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .IFB {
-        margin: 48px auto 16px auto;
-    }
+}
+
+/* COMMON CENTERED FORMAT */
+
+.mainBody * {
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+[class*="IFB"] {
+    margin: 48px auto 16px auto;
 }

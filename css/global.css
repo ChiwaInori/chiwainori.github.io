@@ -16,7 +16,7 @@
     --activeColor-800: #8899aa;
 
     /* XTS STANDARD COLORS */
-    /* These are used to make website more colorful. They are verified to have great visibility on XTSGAMES. */
+    /* These are used to make website more colorful. They are verified to have great or normal visibility on XTSGAMES. */
 
     --red: #dd0000;
     --orange: #ff8800;
@@ -74,7 +74,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    margin: 0px;
 }
 
 .mainBody {
@@ -100,6 +100,10 @@ h1, h2, h3, h4, h5, h6, p, img, video, audio {
 img, video {
     border: 3px solid var(--activeColor-500);
     margin: 2px;
+}
+
+img[style*="float: left"] {
+    margin-right: 8px;
 }
 
 input, button {
@@ -255,7 +259,7 @@ table {
 .LNK {} (Link) is defined above
 */
 
-*[hide] { /* Use "hide" in element directly to hide it. Example: <div id="secret" hide></div> */
+[hide] { /* Use "hide" in element directly to hide it. Example: <div id="secret" hide></div> */
     display: none;
 }
 
@@ -263,7 +267,7 @@ table {
     font-size: 10px;
 }
 
-.IFB { /* Infobox */
+[class*="IFB"] { /* Infobox; Individual colors is defined below */
     margin: 16px 0px 16px 0px;
     width: 350px;
     padding: 16px;
@@ -279,6 +283,10 @@ table {
     color: var(--textColor-400);
 }
 
+.CDE { /* Code */
+    font-family: "Consolas";
+}
+
 .BRT, .BRT tr * { /* Border Table */
     border: 2px solid var(--textColor-500);
     border-collapse: collapse;
@@ -291,7 +299,7 @@ table {
 .SKH { /* Sticky Header */
     background-color: var(--backgroundColor-500);
     position: sticky;
-    top: 0;
+    top: 0px;
 }
 
 .HLK:link, .HLK:visited, .HLK, .HLK:hover { /* Hidden Link */
@@ -305,6 +313,46 @@ table {
     border: 2px solid var(--textColor-500);
     text-align: center;
     width: 650px;
+}
+
+/* Infobox Colors */
+
+.IFB-Red { /* Archived */
+    border: 2px solid var(--red);
+    background-color: #ffbbbb;
+}
+.IFB-Yellow { /* Out of Date */
+    border: 2px solid var(--yellow);
+    background-color: #ffffbb;
+}
+.IFB-Green { /* Update */
+    border: 2px solid var(--green);
+    background-color: #bbffbb;
+}
+.IFB-Blue { /* Debug */
+    border: 2px solid var(--blue);
+    background-color: #bbffff;
+}
+
+.IFB-Red * {
+    color: var(--red);
+}
+.IFB-Yellow * {
+    color: var(--yellow);
+}
+.IFB-Green * {
+    color: var(--darkGreen);
+}
+.IFB-Blue * {
+    color: var(--blue);
+}
+
+[class*="IFB"] * {
+    margin-bottom: 5px;
+}
+
+[class*="IFB"] *:nth-child(2) {
+    margin-top: 10px;
 }
 
 /* MOBILE COMMON */
@@ -405,7 +453,7 @@ table {
         margin-bottom: -12px;
     }
     
-    .IFB {
+    [class*="IFB"] {
         width: 700px;
     }
 }

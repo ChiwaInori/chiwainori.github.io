@@ -7,7 +7,24 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-normal.css" />
-    <style></style>
+    <style>
+        .animatedBlock {
+            width: 30px;
+            height: 30px;
+            background-color: var(--aqua);
+            position: relative;
+            animation: move 2s var(--transit) infinite;
+        }
+
+        @keyframes move {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: 300px;
+            }
+        }
+    </style>
     <script src="/inori-functions.js"></script>
 </head>
 
@@ -19,10 +36,7 @@
         <h6><a href="../">XTSGAMES.TOP</a> &gt; <strong>这是一个导航栏</strong></h6>
     </div>
     <div class="content">
-        <div class="IFB" style="border: 2px solid #00aadd; background-color: #bbffff;">
-            <strong style="color: #00bbff;">这是一个 infobox</strong>
-            <p style="color: #00bbff; margin-top: 10px; margin-bottom: 5px;">对于某些特殊页面, infobox 将会给予一些提示.</p>
-        </div>
+        <div class="IFB-Blue"><p><strong>这是一个 Infobox</strong></p><p>对于某些特殊页面, Infobox 将会给予一些提示.</p><p>本页面列出了 XTSGAMES 中可能存在的内容以及特殊 CSS 外观以方便调试.</p></div>
         <p>这是一段文字。</p>
         <p id="a">这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。<strong>这是一段粗体文字。</strong>这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。这是一大段文字。<strong>这是一段粗体文字。这是一段粗体文字。</strong></p>
         <h1>这是一个 h1 标题</h1>
@@ -31,7 +45,7 @@
         <h4>这是一个 h4 标题</h4>
         <h5>这是一个 h5 标题</h5>
         <h6>这是一个 h6 标题</h6>
-        <p style="font-size: 10px;">这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。</p>
+        <p class="STX">这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。这是一段 10px 的文字。</p>
         <p class="ANT">这是一段小字注释。这是一段小字注释。这是一段小字注释。这是一段小字注释。这是一段小字注释。这是一段小字注释。这是一段小字注释。</p>
         <p><ruby>这<rt>zhè</rt></ruby><ruby>是<rt>shì</rt></ruby><ruby>一<rt>yí</rt></ruby><ruby>段<rt>duàn</rt></ruby><ruby>文<rt>wén</rt></ruby><ruby>字<rt>zì</rt></ruby>。<ruby>上<rt>うえ</rt></ruby>に<ruby>平仮名<rt>ひらがな</rt></ruby>がある。</p>
         <p><a href="/">这是一个链接。</a><a href="/">这是另一个链接。</a><a href="https://space.bilibili.com/74178478/#/" target="_blank">这个链接将带领你前往一个非 XTSGAMES.TOP 网站。</a></p>
@@ -39,13 +53,15 @@
         <div id="link">
             <p class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</p>
         </div>
-        <p><a href="lorem.html" download="LOREM.TXT">这是一段链接。点击他后将会下载这个页面。</a></p>
-        <p>在 HTML 标签中加上 hide 来隐藏一个元素。例如: &lt;span hide&gt;&lt;/span&gt; <span hide>正常情况下，你不应该看到这行字。</span></p>
+        <p><a href="lorem.html" download>这是一段下载链接。点击他后将会下载这个页面。</a></p>
+        <p>这是一串代码 <span class="CDE">console.log(&quot;Hello, World&quot;);</span></p>
+        <p>在 HTML 标签中加上 hide 来隐藏一个元素。例如: <span class="CDE">&lt;span hide&gt;&lt;/span&gt;</span> <span hide>正常情况下，你不应该看到这行字。</span></p>
         <p>这是一个输入栏<input />这是在输入栏后的文字</p>
         <p>这是很多个输入栏<input min="0" max="10" /><input value="默认输入" /><input placeholder="请在此输入..." /></p>
         <p>这是一个被禁用的输入栏<input value="你不能在此输入文字" disabled="true" /></p>
         <p>这是其他样式的输入<input type="checkbox" /><input type="range" /><input type="color" /><input type="date" /><input type="datetime-local"/></p>
         <p>这是一组单选选项<input type="radio" name="singleChoice" /><input type="radio" name="singleChoice" />这是另一组单选选项<input type="radio" name="anotherChoice" /><input type="radio" name="anotherChoice" /></p>
+        <p>XTSGAMES 有 2 类页面布局: <input type="radio" name="layoutType" onclick="query('link')[2].href = '/css/type-normal.css';" checked />常规布局 | <input type="radio" name="layoutType"onclick="query('link')[2].href = '/css/type-center.css';"  />中心布局</p>
         <p>这是一个下拉菜单
             <select>
                 <option value="choice1">这是第一个选项</option>
@@ -145,12 +161,12 @@
             </tr>
         </table>
         <div>
-            <p class="ANT">&lt;div&gt;</p>
-            <p class="ANT">&lt;div class=&quot;SKH&quot;&gt;</p>
+            <p class="ANT CDE">&lt;div&gt;</p>
+            <p class="ANT CDE">&lt;div class=&quot;SKH&quot;&gt;</p>
             <div class="SKH">
                 <h2>这是一个粘性标题</h2>
             </div>
-            <p class="ANT">&lt;/div&gt;</p>
+            <p class="ANT CDE">&lt;/div&gt;</p>
             <p>粘性标题标记的 div 的父 div 的内容在页面顶端时，粘性标题将会保持在顶端显示，直到父 div 的内容全部结束。</p>
             <p>粘性标题标记的 div 的父 div 的内容在页面顶端时，粘性标题将会保持在顶端显示，直到父 div 的内容全部结束。</p>
             <p>粘性标题标记的 div 的父 div 的内容在页面顶端时，粘性标题将会保持在顶端显示，直到父 div 的内容全部结束。</p>
@@ -163,10 +179,61 @@
             <p>粘性标题标记的 div 的父 div 的内容在页面顶端时，粘性标题将会保持在顶端显示，直到父 div 的内容全部结束。</p>
             <p>粘性标题标记的 div 的父 div 的内容在页面顶端时，粘性标题将会保持在顶端显示，直到父 div 的内容全部结束。</p>
             <p>粘性标题标记的 div 的父 div 的内容在页面顶端时，粘性标题将会保持在顶端显示，直到父 div 的内容全部结束。</p>
-            <p class="ANT">&lt;/div&gt;</p>
+            <p class="ANT CDE">&lt;/div&gt;</p>
         </div>
         <p><button onclick="seizure()">按钮</button>点击此按钮将会弹出一个 XTSGAMES 的光敏性癫痫警告弹窗。</p>
-        <p style="margin-bottom: 1000px;">&nbsp;</p>
+        <hr />
+        <p>下面列出了 XTSGAMES 的 CSS 定义的颜色。部分相同的颜色拥有不同的名称。</p>
+        <p class="ANT">前面中括号内的数字为 Microsoft Edge 给出的与默认背景颜色参考值减去 1 的对比度，最低为 0.</p>
+        <br />
+        <p style="color: var(--backgroundColor-500); background-color: var(--textColor-400)">[0] 这是一行浅黄色的文字。它是 XTSGAMES 的基本背景色。<span class="CDE" style="color: var(--backgroundColor-500);">var(--backgroundColor-500)</span></p>
+        <p style="color: var(--backgroundColor-600);">[0.61] 这是一行深黄色的文字。它是 XTSGAMES 的基本外背景色。<span class="CDE" style="color: var(--backgroundColor-600);">var(--backgroundColor-600)</span></p>
+        <p style="color: var(--textColor-400);">[1.27] 这是一行灰色的文字。它是 XTSGAMES 的灰色文字颜色。<span class="CDE" style="color: var(--textColor-400);">var(--textColor-400)</span></p>
+        <p style="color: var(--textColor-500);">[4.63] 这是一行黑色的文字。它是 XTSGAMES 的基本文字颜色。<span class="CDE" style="color: var(--textColor-500);">var(--textColor-500)</span></p>
+        <p style="color: var(--activeColor-400);">[0.65] 这是一行水色的文字。它是一些输入框的背景颜色。<span class="CDE" style="color: var(--activeColor-400);">var(--activeColor-400)</span></p>
+        <p style="color: var(--activeColor-500);">[1.39] 这是一行天蓝色的文字。它是链接的默认颜色。<span class="CDE" style="color: var(--activeColor-500);">var(--activeColor-500)</span></p>
+        <p style="color: var(--activeColor-700);">[3.03] 这是一行深蓝色的文字。它是鼠标放在链接上的颜色。<span class="CDE" style="color: var(--activeColor-700);">var(--activeColor-700)</span></p>
+        <p style="color: var(--activeColor-800);">[1.86] 这是一行深蓝灰色的文字。它是输入框占位符的颜色。<span class="CDE" style="color: var(--activeColor-800);">var(--activeColor-800)</span></p>
+        <br />
+        <p style="color: var(--red);">[4.05] 这是一行红色的文字。<span class="CDE" style="color: var(--red);">var(--red)</span></p>
+        <p style="color: var(--orange);">[1.34] 这是一行橙色的文字。<span class="CDE" style="color: var(--orange);">var(--orange)</span></p>
+        <p style="color: var(--yellow);">[0.52] 这是一行黄色的文字。<span class="CDE" style="color: var(--yellow);">var(--yellow)</span></p>
+        <p style="color: var(--green);">[0.81] 这是一行绿色的文字。<span class="CDE" style="color: var(--green);">var(--green)</span></p>
+        <p style="color: var(--cyan);">[0.65] 这是一行青色的文字。<span class="CDE" style="color: var(--cyan);">var(--cyan)</span></p>
+        <p style="color: var(--blue);">[1.56] 这是一行蓝色的文字。<span class="CDE" style="color: var(--blue);">var(--blue)</span></p>
+        <p style="color: var(--purple);">[2.65] 这是一行紫色的文字。<span class="CDE" style="color: var(--purple);">var(--purple)</span></p>
+        <p style="color: var(--lightRed);">[2] 这是一行浅红色的文字。<span class="CDE" style="color: var(--lightRed);">var(--lightRed)</span></p>
+        <p style="color: var(--lightOrange);">[0.89] 这是一行浅橙色的文字。<span class="CDE" style="color: var(--lightOrange);">var(--lightOrange)</span></p>
+        <p style="color: var(--lightYellow);">[0.36] 这是一行浅黄色的文字。<span class="CDE" style="color: var(--lightYellow);">var(--lightYellow)</span></p>
+        <p style="color: var(--lightGreen);">[0.4] 这是一行浅绿色的文字。<span class="CDE" style="color: var(--lightGreen);">var(--lightGreen)</span></p>
+        <p style="color: var(--lightCyan);">[0.53] 这是一行浅青色的文字。<span class="CDE" style="color: var(--lightCyan);">var(--lightCyan)</span></p>
+        <p style="color: var(--lightBlue);">[0.65] 这是一行浅蓝色的文字。<span class="CDE" style="color: var(--lightBlue);">var(--lightBlue)</span></p>
+        <p style="color: var(--lightPurple);">[1.24] 这是一行浅紫色的文字。<span class="CDE" style="color: var(--lightPurple);">var(--lightPurple)</span></p>
+        <p style="color: var(--darkRed);">[6.6] 这是一行深红色的文字。<span class="CDE" style="color: var(--darkRed);">var(--darkRed)</span></p>
+        <p style="color: var(--darkOrange);">[1.89] 这是一行深橙色的文字。<span class="CDE" style="color: var(--darkOrange);">var(--darkOrange)</span></p>
+        <p style="color: var(--darkYellow);">[1.32] 这是一行深黄色的文字。<span class="CDE" style="color: var(--darkYellow);">var(--darkYellow)</span></p>
+        <p style="color: var(--darkGreen);">[2.04] 这是一行深绿色的文字。<span class="CDE" style="color: var(--darkGreen);">var(--darkGreen)</span></p>
+        <p style="color: var(--darkCyan);">[3.03] 这是一行深青色的文字。<span class="CDE" style="color: var(--darkCyan);">var(--darkCyan)</span></p>
+        <p style="color: var(--darkBlue);">[9.07] 这是一行深蓝色的文字。<span class="CDE" style="color: var(--darkBlue);">var(--darkBlue)</span></p>
+        <p style="color: var(--darkPurple);">[9.29] 这是一行深紫色的文字。<span class="CDE" style="color: var(--darkPurple);">var(--darkPurple)</span></p>
+        <p style="color: var(--pink);">[1.17] 这是一行粉色的文字。<span class="CDE" style="color: var(--pink);">var(--pink)</span></p>
+        <p style="color: var(--aqua);">[1.39] 这是一行天蓝色的文字。<span class="CDE" style="color: var(--aqua);">var(--aqua)</span></p>
+        <p style="color: var(--gray);">[1.27] 这是一行灰色的文字。<span class="CDE" style="color: var(--gray);">var(--gray)</span></p>
+        <br />
+        <p style="color: var(--tier-1);">[2.86] 这是数据的第 1 阶 (最低) 的颜色的文字。<span class="CDE" style="color: var(--tier-1);">var(--tier-1)</span></p>
+        <p style="color: var(--tier-2);">[2.28] 这是数据的第 2 阶的颜色的文字。<span class="CDE" style="color: var(--tier-2);">var(--tier-2)</span></p>
+        <p style="color: var(--tier-3);">[1.61] 这是数据的第 3 阶的颜色的文字。<span class="CDE" style="color: var(--tier-3);">var(--tier-3)</span></p>
+        <p style="color: var(--tier-4);">[0.87] 这是数据的第 4 阶的颜色的文字。<span class="CDE" style="color: var(--tier-4);">var(--tier-4)</span></p>
+        <p style="color: var(--tier-5);">[0.32] 这是数据的第 5 阶的颜色的文字。<span class="CDE" style="color: var(--tier-5);">var(--tier-5)</span></p>
+        <p style="color: var(--tier-6);">[0.42] 这是数据的第 6 阶的颜色的文字。<span class="CDE" style="color: var(--tier-6);">var(--tier-6)</span></p>
+        <p style="color: var(--tier-7);">[0.57] 这是数据的第 7 阶的颜色的文字。<span class="CDE" style="color: var(--tier-7);">var(--tier-7)</span></p>
+        <p style="color: var(--tier-8);">[0.69] 这是数据的第 8 阶的颜色的文字。<span class="CDE" style="color: var(--tier-8);">var(--tier-8)</span></p>
+        <p style="color: var(--tier-9);">[1.08] 这是数据的第 9 阶的颜色的文字。<span class="CDE" style="color: var(--tier-9);">var(--tier-9)</span></p>
+        <p style="color: var(--tier-10);">[2.04] 这是数据的第 10 阶 (最高) 的颜色的文字。<span class="CDE" style="color: var(--tier-10);">var(--tier-10)</span></p>
+        <hr />
+        <p>这是 XTSGAMES 的默认过渡动画。你在许多地方可以看到它。</p>
+        <div class="animatedBlock"></div>
+        <span class="STX CDE">var(--transit) // cubic-bezier(0.22, 0.61, 0.36, 1)</span>
     </div>
     <script>
         function link() {
