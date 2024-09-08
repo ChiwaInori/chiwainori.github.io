@@ -12,6 +12,9 @@
             --backgroundColor: #ffffdd;
             --lyricColor: #99ccff;
             --activeColor: #66a8ff;
+
+            --isBorder: 0px;
+            --borderColor: #ffffdd;
         }
 
         .mainBody {
@@ -32,6 +35,7 @@
         #lyrics, #lyrics * {
             position: absolute;
             color: var(--lyricColor) !important;
+            -webkit-text-stroke: var(--isBorder) var(--borderColor);
             font-size: 100px;
             white-space: nowrap;
         }
@@ -61,10 +65,23 @@
                 <br />
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
-                <p>调试功能: 从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
                 <br />
-                <p id="settingsLine" hide><strong>已从 Lyric 文件中读取设置:</strong><br /><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;<input id="showJump" type="checkbox" checked />歌词跳动 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
+                <p id="settingsLine" hide>
+                    <strong>已从 Lyric 文件中读取设置:</strong><br />
+                    <input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;
+                    <input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;
+                    <input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;
+                    <input id="showJump" type="checkbox" checked />歌词跳动 | 
+                    背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;
+                    歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;
+                    激活颜色 <input id="color-active" type="color" value="#66a8ff" /> | 
+                    <input id="showBorder" type="checkbox" />显示歌词边框&nbsp;&nbsp;
+                    歌词边框颜色 <input id="color-border" type="color" value="#ffffdd" /><br />
+                </p>
+                <p><strong>调试功能</strong></p>
+                <p>从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
                 <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
+                <p><input id="allowKeys" type="checkbox" />允许使用方向键微调 (← -0.25 拍; → +0.25 拍) (微调时不会显示提示信息)</p>
                 <br />
                 <p id="content" hide></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
@@ -77,7 +94,17 @@
                         <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot;, &quot;lyrics&quot;</strong></p>
                         <p>其中 &quot;signature&quot; 的值一定为 <strong>&quot;xtsgames-lyric&quot;</strong>, &quot;version&quot; 的值为目前版本 <strong id="version"></strong></p>
                         <p><strong>3.</strong> &quot;musicInfo&quot; 的值为对象, 其中包括 <strong>&quot;title&quot;</strong> (字符串), <strong>&quot;author&quot;</strong> (字符串), <strong>&quot;bpm&quot;</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
-                        <p><strong>4.</strong> &quot;settings&quot; 的值为对象, 其中包括可选键 (不存在即使用默认设置) <strong>&quot;showTitle&quot;, &quot;showDot&quot;, &quot;showCircle&quot;, &quot;lyricJump&quot;</strong> (布尔值) 和 颜色 (格式为 &quot;#abcdef&quot;): <strong>&quot;backgroundColor&quot;, &quot;lyricColor&quot;, &quot;activeColor&quot;</strong> (字符串)</p>
+                        <p><strong>4.</strong> &quot;settings&quot; 的值为对象, 其中包括可选键 (不存在即使用默认设置) 
+                            <strong><ruby>&quot;showTitle&quot;<rt>显示网页标题</rt></ruby>, 
+                            <ruby>&quot;showDot&quot;<rt>休息段显示省略号</rt></ruby>, 
+                            <ruby>&quot;showCircle&quot;<rt>圆弧歌词</rt></ruby>, 
+                            <ruby>&quot;lyricJump&quot;<rt>歌词跳动</rt></ruby>,
+                            <ruby>&quot;showBorder&quot;<rt>显示歌词边框</rt></ruby></strong> (布尔值) 和 
+                            颜色 (格式为 &quot;#abcdef&quot;): 
+                            <strong><ruby>&quot;backgroundColor&quot;<rt>背景颜色</rt></ruby>, 
+                                <ruby>&quot;lyricColor&quot;<rt>歌词颜色</rt></ruby>, 
+                                <ruby>&quot;activeColor&quot;<rt>激活颜色</rt></ruby>,
+                                <ruby>&quot;borderColor&quot;<rt>歌词边框颜色</rt></ruby></strong> (字符串)</p>
                         <p><strong>5.</strong> &quot;lyrics&quot; 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一句歌词</strong>，一句歌词数组由<strong>若干个以下数组</strong>构成: <strong>[&quot;汉字(或单词音节)&quot;, 时长(以节拍为单位)]</strong> (一共有三层数组)</p>
                         <p>如果是休息段 (伴奏), 在汉字的位置输入 <strong>[SPACE]</strong> <strong>([SPACE] 必须独立成句)</strong></p>
                         <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度</p>
@@ -99,8 +126,8 @@
             <audio id="audio" src="" controls hide></audio>
         </div>
         <script>
-            const currentVersion = 103;
-            const alsoAccept = [102];
+            const currentVersion = 104;
+            const alsoAccept = [102, 103];
             let showDotSetting = true;
             let showCircleSetting = true;
             let lyricJumpSetting = true;
@@ -131,6 +158,9 @@
             target("color-active").addEventListener("input", function () {
                 document.documentElement.style.setProperty("--activeColor", `${this.value}`);
             });
+            target("color-border").addEventListener("input", function () {
+                document.documentElement.style.setProperty("--borderColor", `${this.value}`);
+            });
             
             target("showTitle").addEventListener("input", function () {
                 query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +this.checked;
@@ -143,6 +173,9 @@
             });
             target("showJump").addEventListener("input", function () {
                 lyricJumpSetting = this.checked;
+            });
+            target("showBorder").addEventListener("input", function () {
+                document.documentElement.style.setProperty("--isBorder", `${this.value ? "4px" : "0px"}`);
             });
 
             target("audioFile").addEventListener("change", (event) => {
@@ -227,6 +260,16 @@
                 fadeChange("startup", "lyricBlock");
 
                 if (target("showDebug").checked) { unhide("debugPanel"); }
+                if (target("allowKeys").checked) {
+                    window.addEventListener("keydown", event => {
+                        if (event.code == "ArrowLeft") {
+                            modify(-0.25);
+                        }
+                        if (event.code == "ArrowRight") {
+                            modify(+0.25);
+                        }
+                    });
+                }
 
                 await sleep(200); // if no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
                 
@@ -266,7 +309,9 @@
                                 if (notes[0][0] != "[SPACE]") { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
                                     await sleep(1000);
                                 }
-                                target("audio").play();
+                                target("audio").play().catch(() => {
+                                    warn("No audio file is selected in initial menu.");
+                                });
                             } else { // it's not the first sentence, wait because last sentence next()ed in advance
                                 await sleep(waitBase * 7 * 1000);
                             }
@@ -455,6 +500,10 @@
                     lyricJumpSetting = settingsObj.lyricJump;
                     target("showJump").checked = settingsObj.showJump;
                 }
+                if ("showBorder" in settingsObj) {
+                    document.documentElement.style.setProperty("--isBorder", `${settingsObj.showBorder ? "4px" : "0px"}`);
+                    target("showBorder").checked = settingsObj.showBorder;
+                }
                 if ("backgroundColor" in settingsObj) {
                     document.documentElement.style.setProperty("--backgroundColor", `${settingsObj.backgroundColor}`);
                     setValue("color-bg", settingsObj.backgroundColor);
@@ -466,6 +515,10 @@
                 if ("activeColor" in settingsObj) {
                     document.documentElement.style.setProperty("--activeColor", `${settingsObj.activeColor}`);
                     setValue("color-active", settingsObj.activeColor);
+                }
+                if ("borderColor" in settingsObj) {
+                    document.documentElement.style.setProperty("--borderColor", `${settingsObj.borderColor}`);
+                    setValue("color-border", settingsObj.borderColor);
                 }
             }
         </script>

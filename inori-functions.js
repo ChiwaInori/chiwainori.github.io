@@ -19,11 +19,11 @@
         Numeral (5): 
             Get Numbers (2): rand, String.getNum
             Modify Numbers (3): Number.keep, Number.transit, Number.toRange
-    HTML Elements (16):
+    HTML Elements (17):
         Target Elements (2): target, query
-        Interacts (5):
+        Interacts (6):
             Input (2): copyFrom, copyValue
-            Output (3): copyTo, addTo, setValue
+            Output (4): copyTo, addTo, setValue, applyAll
         CSS Modifications (9):
             Applications (4): styleTo, colorTo, hide, unhide
             Confirmations (1): isHidden
@@ -393,6 +393,7 @@ function query(element) {
     return document.querySelectorAll(element);
 }
 
+
 // HTML ELEMENTS / INTERACTS
 
 // HTML ELEMENTS / INTERACTS / INPUT
@@ -402,10 +403,10 @@ function query(element) {
  * @param {string} element - The id of target element
  * @returns {string} The innerHTML of the element
  * @example copyFrom("title") // Return the innerHTML of #title
- */
+*/
 function copyFrom(element) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-
+    
     return target(element).innerHTML;
 }
 
@@ -414,10 +415,10 @@ function copyFrom(element) {
  * @param {string} element - The id of target input
  * @returns {string} The value of the element
  * @example copyValue("range") // Return the value of #range
- */
+*/
 function copyValue(element) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-
+    
     return target(element).value;
 }
 
@@ -428,10 +429,10 @@ function copyValue(element) {
  * @param {string} element - The id of target element
  * @param {any} content - The content to copy to the element
  * @example copyTo("p1", "Hello") // Copy "Hello" to #p1
- */
+*/
 function copyTo(element, content) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-
+    
     target(element).innerHTML = content;
 }
 
@@ -440,10 +441,10 @@ function copyTo(element, content) {
  * @param {string} element - The id of target element
  * @param {any} content - The content to add to the element
  * @example copyTo("p1", "Hello") // Add "Hello" to #p1
- */
+*/
 function addTo(element, content) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-
+    
     target(element).innerHTML += content;
 }
 
@@ -452,11 +453,29 @@ function addTo(element, content) {
  * @param {string} element - The id of target input
  * @param {any} content - The value to be set
  * @example setValue("name", "David") // Set the value of #name to "David"
- */
+*/
 function setValue(element, content) {
     if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-
+    
     target(element).value = content;
+}
+
+/**
+ * Apply modifications to all queried element(s). It has same actions to query(element).forEach.
+ * @param {string} element - The query input of target element
+ * @param {function} callback - What should all queried elements do
+ * @example applyAll("p", (element, index) => { element.innerHTML = `${index + 1}. ${element.innerHTML}`; }) // Add a index number to all p
+ */
+function applyAll(element, callback) {
+    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    if (typeof callback != "function") { throw new TypeError(`callback must be a FUNCTION`); }
+
+    const queried = query(element);
+    const length = queried.length;
+
+    for (let i = 0; i < length; i++) {
+        callback(queried[i], i);
+    }
 }
 
 // HTML ELEMENTS / CSS MODIFICATIONS
@@ -479,12 +498,12 @@ function styleTo(element, style, method = "id") {
         target(element).style = style;
     }
     if (method == "class") {
-        query(`.${element}`).forEach(target => {
+        applyAll(`.${element}`, target => {
             target.style = style;
         });
     }
     if (method == "query") {
-        query(element).forEach(target => {
+        applyAll(element, target => {
             target.style = style;
         });
     }
@@ -506,12 +525,12 @@ function colorTo(element, color, method = "id") {
         target(element).style.color = color;
     }
     if (method == "class") {
-        query(`.${element}`).forEach(target => {
+        applyAll(`.${element}`, target => {
             target.style.color = color;
         });
     }
     if (method == "query") {
-        query(element).forEach(target => {
+        applyAll(element, target => {
             target.style.color = color;
         });
     }
@@ -531,13 +550,13 @@ function hide(element, method = "id") {
         target(element).style.display = "none";
     }
     if (method == "class") {
-        query(`.${element}`).forEach(target => {
+        applyAll(`.${element}`, target => {
             target.style.display = "none";
             target.style.opacity = 1;
         });
     }
     if (method == "query") {
-        query(element).forEach(target => {
+        applyAll(element, target => {
             target.style.display = "none";
             target.style.opacity = 1;
         });
@@ -561,13 +580,13 @@ function unhide(element, display = "block", method = "id") {
         target(element).style.opacity = 1;
     }
     if (method == "class") {
-        query(`.${element}`).forEach(target => {
+        applyAll(`.${element}`, target => {
             target.style.display = display;
             target.style.opacity = 1;
         });
     }
     if (method == "query") {
-        query(element).forEach(target => {
+        applyAll(element, target => {
             target.style.display = display;
             target.style.opacity = 1;
         });
@@ -629,12 +648,12 @@ async function transColor(element, color, time = 100, method = "id") {
         target(element).classList.add(tempFuncId);
     }
     if (method == "class") {
-        query(`.${element}`).forEach(target => {
+        applyAll(`.${element}`, target => {
             target.classList.add(tempFuncId);
         });
     }
     if (method == "query") {
-        query(element).forEach(target => {
+        applyAll(element, target => {
             target.classList.add(tempFuncId);
         });
     }
@@ -648,12 +667,12 @@ async function transColor(element, color, time = 100, method = "id") {
         target(element).classList.remove(tempFuncId);
     }
     if (method == "class") {
-        query(`.${element}`).forEach(target => {
+        applyAll(`.${element}`, target => {
             target.classList.remove(tempFuncId);
         });
     }
     if (method == "query") {
-        query(element).forEach(target => {
+        applyAll(element, target => {
             target.classList.remove(tempFuncId);
         });
     }
@@ -808,8 +827,7 @@ function load(inputId, element = "file-content") {
  * [WARNING] Don't forget to sleep(50) after loadJSON because load file needs time.
  * @param {string} inputId - The id of input where the file receives
  * @returns {Promise} The promise included JSON
- * @example loadJSON("fileInput").then(json => content = json) // Load JSON from #fileInput and copy the JSON object to content
- * @example loadJSON("fileInput").catch(e => { if (e.message.includes("Invalid") { ... } }) // Catch error from loadJSON
+ * @example loadJSON("fileInput").then(json => content = json).catch(e => { if (e.message.includes("Invalid") { ... } }) // Load JSON from #fileInput and copy the JSON object to content, and catch error from loadJSON
  */
 function loadJSON(inputId) {
     if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
