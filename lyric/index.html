@@ -179,7 +179,7 @@
                 document.documentElement.style.setProperty("--isBorder", `${this.value ? "4px" : "0px"}`);
             });
 
-            target("audioFile").addEventListener("change", (event) => {
+            target("audioFile").addEventListener("change", event => {
                 const file = event.target.files[0];
                 const objectURL = URL.createObjectURL(file);
 
@@ -210,7 +210,7 @@
             function loadFont(url) {
                 const font = new FontFace("CustomFont", `url(${url})`);
 
-                font.load().then((loadedFont) => {
+                font.load().then(loadedFont => {
                     document.fonts.add(loadedFont);
 
                     target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
@@ -235,7 +235,7 @@
                 hide("fileInput");
                 
                 const {title, author, bpm} = file.musicInfo;
-                clockBase = 60 / bpm; // bps
+                clockBase = 60 / bpm; // Beats per sec
                 query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
                 copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="playButton()">点击播放</button>`);
@@ -253,7 +253,7 @@
                     updateSettings({ backgroundColor: "#ffffdd" });
 
                     throw e;
-                })
+                });
             }
             
             async function play() {
@@ -274,18 +274,18 @@
                     });
                 }
 
-                await sleep(200); // if no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
+                await sleep(200); // If no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
                 
-                for (let i = 0; i < lyricArray.length + 1; i++) { // loop every sentence
-                    if (i != lyricArray.length) { // the song is not over
+                for (let i = 0; i < lyricArray.length + 1; i++) { // Loop every sentence
+                    if (i != lyricArray.length) { // The song is not over
                         const nowChecking = lyricArray[i];
-                        if (Array.isArray(lyricArray[i])) { // is array => is a sentence
+                        if (Array.isArray(lyricArray[i])) { // Is array => is a sentence
                             const notes = nowChecking; // [["沈", 1], ["ん", 0.5], ["で", 0.5], ["い", 0.25], ["た ", 1.75], ["味", 1.5], ["の", 0.5], ["な", 0.25], ["い", 0.5], ["日", 0.5], ["々", 0.5], ["で", 0.25], ["も", 1.5]]
                             let sentence = "";
 
                             len = notes.length;
 
-                            if (i == 0 && notes[0][0] != "[SPACE]") { // if the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
+                            if (i == 0 && notes[0][0] != "[SPACE]") { // If the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
                                 const noteBeatLength = notes[0][1];
                                 const noteRealLength = noteBeatLength * clockBase;
                                 if (noteRealLength >= 2) {
@@ -295,7 +295,7 @@
                                 }
                             }
 
-                            notes.forEach((note, index) => { // note: ["沈", 1], index: 0
+                            notes.forEach((note, index) => { // Note: ["沈", 1], index: 0
                                 if (note[0] == "[SPACE]") {
                                     if (showDotSetting) {
                                         sentence = "<span id='w-1'>...</span>";
@@ -309,17 +309,17 @@
                             next(sentence);
 
                             if (i == 0) {
-                                if (notes[0][0] != "[SPACE]") { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
+                                if (notes[0][0] != "[SPACE]") { // If this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
                                     await sleep(1000);
                                 }
                                 target("audio").play().catch(() => {
                                     warn("No audio file is selected in initial menu.");
                                 });
-                            } else { // it's not the first sentence, wait because last sentence next()ed in advance
+                            } else { // It's not the first sentence, wait because last sentence next()ed in advance
                                 await sleep(waitBase * 7 * 1000);
                             }
 
-                            for (let j = 0; j < notes.length; j++) { // loop every chars
+                            for (let j = 0; j < notes.length; j++) { // Loop every chars
                                 const noteBeatLength = notes[j][1];
                                 const noteRealLength = noteBeatLength * clockBase;
 
@@ -335,25 +335,25 @@
 
                                 if (j != notes.length - 1) {
                                     await sleep(noteRealLength * 1000);
-                                } else { // now playing is last one
+                                } else { // Now playing is last one
                                     waitBase = noteRealLength < 2 ? noteRealLength / 10 : 0.2;
 
-                                    await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // give 7 waitBase to next() animation
+                                    await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // Give 7 waitBase to next() animation
                                 }
                             }
-                        } else { // not array => it's a settings config
+                        } else { // Not array => it's a settings config
                             updateSettings(nowChecking);
                         }
-                    } else { // the song is over
+                    } else { // Yhe song is over
                         len = 1;
                         next("<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>");
-                        copyTo("controlLine", "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。")
+                        copyTo("controlLine", "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。");
                     }
                 }
             }
 
             function getWordPos() {
-                let fontSize = 100; // px
+                let fontSize = 100; // Pixels
                 const horizontalTotal = target("lyricBlock").offsetWidth;
                 const words = query("#lyrics *");
                 words.forEach(element => {
@@ -382,8 +382,8 @@
                 let currentX = horizontalMargin;
                 for (let i = 1; i <= len; i++) {
                     target(`w-${i}`).style.left = `${currentX}px`;
-                    let offset = target(`w-${i}`).offsetWidth;
-                    let space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
+                    const offset = target(`w-${i}`).offsetWidth;
+                    const space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
                     currentX += offset + space;
                 }
 
@@ -467,20 +467,20 @@
             window.addEventListener("resize", getWordPos);
 
             async function modify(value) {
-                const modifyTarget = file.lyrics[currentPosition[0]][currentPosition[1] + 1] ? [currentPosition[0], currentPosition[1] + 1] : [currentPosition[0] + 1, 0]; // if next char doesn't exist, go to next sentence
+                const modifyTarget = file.lyrics[currentPosition[0]][currentPosition[1] + 1] ? [currentPosition[0], currentPosition[1] + 1] : [currentPosition[0] + 1, 0]; // If next char doesn't exist, go to next sentence
 
                 unhide("modifyResult");
-                if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] + value >= 0) { // normally, can increase / decrease
+                if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] + value >= 0) { // Normally, can increase / decrease
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] += value;
 
                     colorTo("modifyResult", "var(--textColor-500)");
                     copyTo("modifyResult", `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍 (目前 ${file.lyrics[modifyTarget[0]][modifyTarget[1]][1]} 拍)`);
-                } else if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] != 0) { // if 0 < x < 0.25, only can decrease to 0
+                } else if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] != 0) { // If 0 < x < 0.25, only can decrease to 0
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] = 0;
 
                     colorTo("modifyResult", "var(--textColor-500)");
                     copyTo("modifyResult", `已 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 至 0 拍`);
-                } else { // if x == 0, cannot decrease
+                } else { // If x == 0, cannot decrease
                     colorTo("modifyResult", "var(--red)");
                     copyTo("modifyResult", `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`);
                 }

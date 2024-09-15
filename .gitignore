@@ -6,3 +6,7 @@ shipwar/top.txt
 
 mc/milkmappers/maps/qyflower/guide/
 mc/milkmappers/maps/qyflower/specialeggs/
+
+package.json
+package-lock.json
+node_modules/

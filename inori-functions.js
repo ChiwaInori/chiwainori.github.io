@@ -185,7 +185,7 @@ function log(...args) {
  */
 function warn(message) {
     try {
-      throw new Error();
+        throw new Error();
     } catch (e) {
         console.warn(e.stack.replaceAll(/Error/g, `Warn: ${message}`)
             .replaceAll(/\n    at warn \(.*\)/g, "")
@@ -232,7 +232,7 @@ Object.prototype.isolate = function () {
         objIsolated[key] = obj[key].isolate();
     });
     return objIsolated;
-}
+};
 
 /**
  * Remove ONLY ONE (the first one) specified target from an array.
@@ -241,8 +241,8 @@ Object.prototype.isolate = function () {
  * @example [1, 2, 3].remove(2) // [1, 3]
  */
 Array.prototype.remove = function (target) {
-    const index = this.indexOf(target); // this[index] is the (FIRST) target
-    let returnArray = [];
+    const index = this.indexOf(target); // The (FIRST) target is this[index]
+    const returnArray = [];
 
     for (let i = 0; i < index; i++) { // Push value that is before index
         returnArray.push(this[i]);
@@ -289,10 +289,10 @@ function rand(min, max, keepFloat = false) {
     if (keepFloat) {
         range = max - min;
         return Math.random() * range + min;
-    } else {
-        range = max - min + 1;
-        return Math.floor(Math.random() * range) + min;
     }
+
+    range = max - min + 1;
+    return Math.floor(Math.random() * range) + min;
 }
 
 /**
@@ -309,7 +309,7 @@ String.prototype.getNum = function (order = 1) {
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
     return numbersList ? +numbersList[order - 1] : null;
-}
+};
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
 
@@ -323,8 +323,8 @@ Number.prototype.keep = function (digit = 0) {
     if (typeof digit != "number") { throw new TypeError(`digit must be a NUMBER`); }
     if (digit % 1 != 0) { throw new RangeError(`digit required INTEGER (%1=0), received ${digit}`); }
 
-    return Math.round(this * (10 ** digit)) / (10 ** digit);
-}
+    return Math.round(this * 10 ** digit) / 10 ** digit;
+};
 
 /**
  * Scale a number to given range.
@@ -342,7 +342,7 @@ Number.prototype.transit = function (from, to, disableRange = false) {
     const range = to - from;
 
     return disableRange ? this * range + from : this.toRange(0, 1) * range + from;
-}
+};
 
 /**
  * Return a number within given range.
@@ -362,7 +362,7 @@ Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = fa
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
 
     return Math.min(Math.max(this, minBoundary), maxBoundary);
-}
+};
 
 // HTML ELEMENTS
 
@@ -392,7 +392,6 @@ function query(element) {
 
     return document.querySelectorAll(element);
 }
-
 
 // HTML ELEMENTS / INTERACTS
 
