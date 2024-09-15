@@ -19,6 +19,7 @@
 
         .mainBody {
             background-color: var(--backgroundColor);
+            transition: all 0.5s var(--transit);
         }
         
         #lyricBlock {
@@ -105,7 +106,7 @@
                                 <ruby>&quot;lyricColor&quot;<rt>歌词颜色</rt></ruby>, 
                                 <ruby>&quot;activeColor&quot;<rt>激活颜色</rt></ruby>,
                                 <ruby>&quot;borderColor&quot;<rt>歌词边框颜色</rt></ruby></strong> (字符串)</p>
-                        <p><strong>5.</strong> &quot;lyrics&quot; 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一句歌词</strong>，一句歌词数组由<strong>若干个以下数组</strong>构成: <strong>[&quot;汉字(或单词音节)&quot;, 时长(以节拍为单位)]</strong> (一共有三层数组)</p>
+                        <p><strong>5.</strong> &quot;lyrics&quot; 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一句歌词</strong>，一句歌词数组由<strong>若干个以下数组</strong>构成: <strong>[&quot;汉字(或单词音节)&quot;, 时长(以节拍为单位), { 设置(可选, 在播放到这个字时更改设置) }]</strong> (一共有三层数组)</p>
                         <p>如果是休息段 (伴奏), 在汉字的位置输入 <strong>[SPACE]</strong> <strong>([SPACE] 必须独立成句)</strong></p>
                         <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度</p>
                         <p>你还可以把一句歌词的数组改为一个<strong>对象</strong>，在这个对象中填入和 <strong>&quot;settings&quot; 一样的键</strong>，填写相应的值，将会在歌词播放到这里时更改指定的设置</p>
@@ -119,15 +120,15 @@
                 <h1 id="lyrics">&nbsp;</h1>
                 <p id="errorLine" style="color: var(--red);" hide></p>
                 <div id="debugPanel" hide>
-                    <p>下一个音符: <button onclick="modify(-0.25)">-0.25</button><button onclick="modify(0.25)">+0.25</button>拍</p>
+                    <p id="controlLine">下一个音符: <button onclick="modify(-0.25)">-0.25</button><button onclick="modify(0.25)">+0.25</button>拍</p>
                     <p><strong id="modifyResult" hide></strong></p>
                 </div>
             </div>
             <audio id="audio" src="" controls hide></audio>
         </div>
         <script>
-            const currentVersion = 104;
-            const alsoAccept = [102, 103];
+            const currentVersion = 105;
+            const alsoAccept = [102, 103, 104];
             let showDotSetting = true;
             let showCircleSetting = true;
             let lyricJumpSetting = true;
@@ -244,19 +245,21 @@
             }
 
             function playButton() {
-                play().catch(() => {
+                play().catch(e => {
                     unhide("errorLine");
-                    copyTo("errorLine", `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。`);
+                    copyTo("errorLine", `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`);
 
                     query(".mainBody")[0].style.transition = "all 0.5s var(--transit)";
                     updateSettings({ backgroundColor: "#ffffdd" });
+
+                    throw e;
                 })
             }
             
             async function play() {
-                target("audio").currentTime = +copyValue("audioStart");
                 const lyricArray = file.lyrics;
 
+                target("audio").currentTime = +copyValue("audioStart");
                 fadeChange("startup", "lyricBlock");
 
                 if (target("showDebug").checked) { unhide("debugPanel"); }
@@ -324,6 +327,10 @@
                                     jump(j + 1, noteRealLength * 1000);
                                 }
 
+                                if (notes[j][2]) {
+                                    updateSettings(notes[j][2]);
+                                }
+
                                 currentPosition = [i, j];
 
                                 if (j != notes.length - 1) {
@@ -340,6 +347,7 @@
                     } else { // the song is over
                         len = 1;
                         next("<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>");
+                        copyTo("controlLine", "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。")
                     }
                 }
             }
@@ -419,7 +427,9 @@
 
                 await sleep(200);
 
-                jumpTarget.style.transition = `all ${length / 1000 || 0.5}s ease`;
+                const returnTime = length / 1000 || 0.5;
+
+                jumpTarget.style.transition = `all ${Math.max(returnTime, clockBase)}s ease`;
                 jumpTarget.style.left = `${jumpTarget.style.left.getNum() - xOffset}px`;
                 await sleep(1);
                 jumpTarget.style.top = `${jumpTarget.style.top.getNum() + yOffset}px`;
@@ -520,6 +530,10 @@
                     document.documentElement.style.setProperty("--borderColor", `${settingsObj.borderColor}`);
                     setValue("color-border", settingsObj.borderColor);
                 }
+            }
+
+            function saveFile() {
+                save("xtsgames-lyrics.SONG-NAME.json", JSON.stringify(file));
             }
         </script>
     </div>
