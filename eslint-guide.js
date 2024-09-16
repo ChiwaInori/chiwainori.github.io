@@ -1,4 +1,5 @@
 // This file shows all XTSGAMES JavaScript format rules that is used ESLint.
+// Remember that ESLint errors / warns will only shown if there's not fatal errors exist (like missing quotes or what)
 
 let a = 1;
 
@@ -7,6 +8,10 @@ for (let i = 0; i < 5; i--) {
     console.log(true);
 }
 
+// Error: implicit-arrow-linebreak
+const linebreakArrow = value =>
+    value;
+
 // Error: no-bitwise
 const bitwise = a | 2;
 
@@ -14,6 +19,9 @@ const bitwise = a | 2;
 if (a = 1) {
     console.log(true);
 }
+
+// Error: no-delete-var
+delete bitwise;
 
 // Error: no-dupe-args
 function dupe(a, b, a) {
@@ -29,8 +37,8 @@ function hey() {
 let reg = new RegExp("[");
 
 // Error: no-misleading-character-class
-"👍 good".match(/^[👍]$/);
-"👍 good".match(/^[👍]$/u); // Surrogate pair is OK if with u flag
+"👍 good".match(/[👍]/);
+"👍 good".match(/[👍]/u); // Surrogate pair is OK if with u flag
 
 // Error: no-octal
 const octalNum = 061; // 49
@@ -38,10 +46,10 @@ const octalNum = 061; // 49
 // Error: no-regex-spaces
 reg = new RegExp("a   b");
 
-// Warn: no-self-assign
+// Error: no-self-assign
 a = a;
 
-// Warn: no-self-compare
+// Error: no-self-compare
 if (a == a) {
     console.log(true);
 }
@@ -49,8 +57,23 @@ if (a == a) {
 // Error: no-sequences
 a, a + 1;
 
+// Error: no-shadow
+for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
+        console.log(i);
+    }
+}
+
+// Error: no-shadow-restricted-names
+function NaN() {
+    console.log(NaN);
+}
+
 // Error: no-sparse-arrays
 const arrSparse = [1, , 2];
+
+// Error: no-template-curly-in-string
+const doubleStr = "Hello, ${name}!";
 
 // Error: no-unmodified-loop-condition
 while (a > 1) {
@@ -66,6 +89,15 @@ function example() {
 // Error: no-unused-expressions
 a + 1; // Maybe the coder wants "a += 1"
 
+// Error: no-useless-escape
+"abc".match(/\a/g);
+
+// Error: no-void
+console.log(void 0);
+
+// Error: prefer-template
+const notTemplate = "Hello, " + a + "!";
+
 // Error: space-infix-ops
 const num = a+++2;
 if (a>0) { console.log(true); }
@@ -80,11 +112,22 @@ if (typeof a == "Number") { // The type of a is "number", not "Number"
     console.log(true);
 }
 
+// Error: yoda
+if (1 < a) {
+    console.log(a);
+}
+
 // Warn: array-bracket-spacing
 const arr = [ 1 ];
 
 // Warn: arrow-parens
-const func = (e) => { return e; };
+const func2 = (e) => { return e; };
+
+// Warn: arrow-spacing
+const func3 = e=>{ return e; };
+
+// Warn: block-spacing
+if (a > 0) {console.log(a);}
 
 // Warn: brace-style
 if (a > 0)
@@ -105,6 +148,9 @@ const list = {
 
 // Warn: curly
 if (a > 0) console.log(true);
+
+// Warn: computed-property-spacing
+console.log(a[ 1 ]);
 
 // Warn: indent
 if (a > 0) {
@@ -176,16 +222,39 @@ function switches() {
 
 // Warn: no-unexpected-multiline
 a = 3
-(1 || 2);
+(1 || 2).toString();
 
 // Warn: no-unneeded-ternary
 const judge = a == 1 ? true : false;
 
+// Warn: no-useless-catch
+try {
+    a++;
+} catch (e) {
+    throw e;
+}
+
+// Warn: no-useless-concat
+const uselessConcat = "Hello, " + "World!";
+
 // Warn: no-var
 var b = 5;
 
+// Warn: object-curly-spacing
+const obj = {name: "John"};
+
 // Warn: operator-assignment
 a = a + 1;
+
+// Warn: padded-blocks
+if (a) {
+
+    console.log(a);
+
+}
+
+// Warn: prefer-arrow-callback
+window.addEventListener("keydown", function (event) { return event; });
 
 // Warn: prefer-const
 let notChanged = 7;
@@ -193,14 +262,37 @@ let notChanged = 7;
 // Warn: quotes
 const str = 'single quotes';
 
+// Warn: rest-spread-spacing
+function restSpread(... args) {
+    console.log(args);
+}
+
 // Warn: semi
 a = 9
+
+// Warn: semi-spacing
+a = 10 ; 
+
+// Warn: semi-style
+a = 11
+;
+
+// Warn: space-before-function-paren
+function named () {}
+const func1 = async() => {};
+const fun2 = function() {};
 
 // Warn: space-in-parens
 a = ( 1 + 2 ) / 3;
 
+// Warn: space-unary-ops
+a ++;
+
 // Warn: spaced-comment
 //No spaces after //
+
+// Warn: template-curly-spacing
+const numLine = `The number is ${ a }`;
 
 // Doesn't report an error or warn (but you shouldn't):
 

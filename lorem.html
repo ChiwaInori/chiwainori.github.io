@@ -240,7 +240,7 @@
     </div>
     <script>
         function link() {
-            copyTo("link", copyFrom("link") + `<p class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</p>`);
+            copyTo("link", `${copyFrom("link")}<p class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</p>`);
         }
     </script>
 </div></body>

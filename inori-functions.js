@@ -31,6 +31,8 @@
     Save & Load (3): save, load, loadJSON
 */
 
+/* eslint no-shadow: "off" */
+
 // INORI BASIC
 
 /**
@@ -188,7 +190,7 @@ function warn(message) {
         throw new Error();
     } catch (e) {
         console.warn(e.stack.replaceAll(/Error/g, `Warn: ${message}`)
-            .replaceAll(/\n    at warn \(.*\)/g, "")
+            .replaceAll(/\n {4}at warn \(.*\)/g, "")
             .replaceAll(/https?:\/\/.*\//g, ""));
     }
 }
@@ -630,7 +632,7 @@ async function transColor(element, color, time = 100, method = "id") {
 
     function getTempFuncId() {
         const error = new Error();
-        const stackLines = error.stack.split('\n');
+        const stackLines = error.stack.split("\n");
         const callerLine = stackLines[2];
         const callerFunctionName = callerLine.match(/at (<?\w+>?)/)[1]; // Get the name of parent function
     
@@ -676,7 +678,7 @@ async function transColor(element, color, time = 100, method = "id") {
         });
     }
     
-    const removeTarget = new RegExp(`\.${tempFuncId} {.*?}`, "g");
+    const removeTarget = new RegExp(`.${tempFuncId} {.*?}`, "g");
     query("style")[0].innerHTML = query("style")[0].innerHTML.replaceAll(removeTarget, ""); // Remove the temp stylesheet
 }
 

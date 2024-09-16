@@ -180,8 +180,8 @@
             });
 
             target("audioFile").addEventListener("change", event => {
-                const file = event.target.files[0];
-                const objectURL = URL.createObjectURL(file);
+                const audioFile = event.target.files[0];
+                const objectURL = URL.createObjectURL(audioFile);
 
                 target("audio").src = objectURL;
             });
@@ -191,15 +191,15 @@
                 copyTo("fontTest", "正在加载字体...");
 
                 const fileInput = this;
-                const file = fileInput.files[0];
+                const fontFile = fileInput.files[0];
 
-                if (file) {
+                if (fontFile) {
                     const reader = new FileReader();
                     reader.onload = function (event) {
                         const fontUrl = event.target.result;
                         loadFont(fontUrl);
                     };
-                    reader.readAsDataURL(file);
+                    reader.readAsDataURL(fontFile);
                 } else {
                     target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "inherit";
                     query("style")[0].innerHTML += "#lyrics * { font-family: inherit; }";
@@ -220,7 +220,7 @@
             }
 
             function extractInfo() {
-                const {signature, version} = file;
+                const { signature, version } = file;
                 if (signature != "xtsgames-lyric") {
                     copyTo("display", `错误的文件签名 (${signature})`);
                     colorTo("display", "var(--red)");
@@ -234,7 +234,7 @@
                 colorTo("display", "var(--textColor-500)");
                 hide("fileInput");
                 
-                const {title, author, bpm} = file.musicInfo;
+                const { title, author, bpm } = file.musicInfo;
                 clockBase = 60 / bpm; // Beats per sec
                 query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
