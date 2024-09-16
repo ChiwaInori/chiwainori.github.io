@@ -21,8 +21,8 @@
 
 ## Changing Variant's Type
 12. Use !!variant to turn into BOOLEAN (!!"thisIsTrue") (into a negative BOOLEAN use !variant)
-13. Use +variant to turn into NUMBER (+"2024") (parsing into a integer use ~~variant)
-14. Use ""+variant to turn into STRING (""+[1, 2, 3])
+13. Use +variant to turn into NUMBER (+"2024")
+14. Use template string to turn into STRING (`${[1, 2, 3]}`)
 
 ## etc.
 These rules are those that isn't restricted in ESLint.

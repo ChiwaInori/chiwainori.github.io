@@ -48,22 +48,22 @@
             docContent = docContent.replaceAll(/\n/g, "ん");
 
             for (let i = 0; i < 52; i++) {
-                docContent = docContent.replaceAll(new RegExp(englishChars[i], "g"), japaneseChars[i]); // to japanese
+                docContent = docContent.replaceAll(new RegExp(englishChars[i], "g"), japaneseChars[i]); // To japanese
             }
 
             if (direction == "backward") { 
                 for (let i = 0; i < 52; i++) {
-                    let target = i - 1; // backward 1
-                    if (target == 25) { target = 51; } // a -> z
-                    if (target == -1) { target = 25; } // A -> Z
+                    let target = i - 1; // Backward 1
+                    if (target == 25) { target = 51; } // Turn a -> z
+                    if (target == -1) { target = 25; } // Turn A -> Z
 
-                    docContent = docContent.replaceAll(new RegExp(japaneseChars[i], "g"), englishChars[target]); // back to english
+                    docContent = docContent.replaceAll(new RegExp(japaneseChars[i], "g"), englishChars[target]); // Back to english
                 }
             } else {
                 for (let i = 0; i < 52; i++) {
-                    let target = i + 1; // forward 1
-                    if (target == 26) { target = 0; } // Z -> A
-                    if (target == 52) { target = 26; } // z -> a
+                    let target = i + 1; // Forward 1
+                    if (target == 26) { target = 0; } // Turn Z -> A
+                    if (target == 52) { target = 26; } // Turn z -> a
 
                     docContent = docContent.replaceAll(new RegExp(japaneseChars[i], "g"), englishChars[target]);
                 }

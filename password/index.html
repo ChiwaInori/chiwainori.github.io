@@ -54,14 +54,14 @@
         const partLength = 6;
 
         let msLength = 16;
-        let msOptions = [true, true, true];
+        const msOptions = [true, true, true];
 
         function gen(type) {
             let password = "";
             
             if (type == "apple") {
                 for (let i = 0; i < passwordParts; i++) { // 3 parts of password abcdef-abcdef-abcdef
-                    for (let j = 0; j < partLength; j++) { // each part
+                    for (let j = 0; j < partLength; j++) { // Each part
                         const d = rand(1, 20);
 
                         if (d <= 16) {
@@ -81,7 +81,7 @@
 
             if (type == "ms") { // 20% number; 12% notes
                 // Calculate weight
-                let weight = [0, 0, 0];
+                const weight = [0, 0, 0];
                 if (msOptions[0]) { weight[0] = 60; }
                 if (msOptions[1]) { weight[1] = 20; }
                 if (msOptions[2]) { weight[2] = 20; }
@@ -96,9 +96,9 @@
                     const d = rand(0, 1, true);
                     
                     if (d <= percent[0]) { // Aa
-                        if (chance(0.5)) { // lower
+                        if (chance(0.5)) { // Lower
                             password += lowerAlphabet[rand(0, 25)];
-                        } else { // upper
+                        } else { // Upper
                             password += upperAlphabet[rand(0, 25)];
                         }
                     } else if (d <= percent[0] + percent[1]) { // 123

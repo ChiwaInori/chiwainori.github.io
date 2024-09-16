@@ -142,17 +142,17 @@
         <p id="wrong" style="color: #dd0000; display: none;">区间值错误: 必须以从小到大的顺序排序。</p>
     </div>
     <script>
-        let count = {
+        const count = {
             a: 0,
             b: 0,
             c: 0,
             d: 0
         };
         const optionTarget = ["a", "b", "c", "d"];
-        const optionAddition = ["u", "i", "o", "p"]
+        const optionAddition = ["u", "i", "o", "p"];
         const optionElement = ["Button", "Title", "Count", "Percent", "Analysis", "Diff", "Icon"];
         const optionArr = [1, 2, 3, 4];
-        let compare = [];
+        const compare = [];
 
         function updateCompare(d1, d2, d3, d4) {
             compare[0] = -d4;
@@ -170,7 +170,7 @@
 
         updateCompare(0.75, 1.25, 1.75, 2.25); // 使用 updateCompare(d1, d2, d3, d4) 来实时更改分析分层
 
-        document.addEventListener("keydown", (event) => {
+        document.addEventListener("keydown", event => {
             for (let i = 0; i < optionTarget.length; i++) {
                 if (event.key == optionTarget[i] || event.key == optionAddition[i]) {
                     option(optionArr[i]);
@@ -208,10 +208,10 @@
             copyTo("hint", "输入四个选项后，选项均衡提示将会出现。");
             hide("table");
             for (let i = 0; i < optionTarget.length; i++) {
-                let nowChange = optionTarget[i];
-                let total = count.a + count.b + count.c + count.d;
-                let average = total / 4;
-                let diff = count[nowChange] - average;
+                const nowChange = optionTarget[i];
+                const total = count.a + count.b + count.c + count.d;
+                const average = total / 4;
+                const diff = count[nowChange] - average;
 
                 copyTo(`${nowChange}Count`, count[nowChange]);
                 if (count.a != 0 || count.b != 0 || count.c != 0 || count.d != 0) {
@@ -222,7 +222,7 @@
                 }
 
                 if (total >= 4) {
-                    copyTo("hint", "按 R 来重置数据。")
+                    copyTo("hint", "按 R 来重置数据。");
                     optionElement.forEach(element => {
                         if (diff < compare[0]) {
                             copyTo(`${nowChange}Analysis`, `选项数量过少`);
@@ -284,19 +284,19 @@
             }
         }
 
-        const handles = query('.handle');
-        const scrollbar = query('.scrollbar')[0];
+        const handles = query(".handle");
+        const scrollbar = query(".scrollbar")[0];
         // 创建每个区间的进度条
-        const progress1 = document.createElement('div');
-        const progress2 = document.createElement('div');
-        const progress3 = document.createElement('div');
-        const progress4 = document.createElement('div');
-        const progress5 = document.createElement('div');
-        progress1.className = 'progress progress1';
-        progress2.className = 'progress progress2';
-        progress3.className = 'progress progress3';
-        progress4.className = 'progress progress4';
-        progress5.className = 'progress progress5';
+        const progress1 = document.createElement("div");
+        const progress2 = document.createElement("div");
+        const progress3 = document.createElement("div");
+        const progress4 = document.createElement("div");
+        const progress5 = document.createElement("div");
+        progress1.className = "progress progress1";
+        progress2.className = "progress progress2";
+        progress3.className = "progress progress3";
+        progress4.className = "progress progress4";
+        progress5.className = "progress progress5";
         scrollbar.appendChild(progress1);
         scrollbar.appendChild(progress2);
         scrollbar.appendChild(progress3);
@@ -304,15 +304,15 @@
         scrollbar.appendChild(progress5);
 
         handles.forEach(handle => {
-            handle.addEventListener('mousedown', startDrag);
+            handle.addEventListener("mousedown", startDrag);
         });
 
         function startDrag(event) {
-            const handle = event.target.closest('.handle');
+            const handle = event.target.closest(".handle");
             const initialX = event.clientX;
             const initialLeft = handle.offsetLeft;
-            function drag(event) {
-                const deltaX = event.clientX - initialX;
+            function drag(eventToDrag) {
+                const deltaX = eventToDrag.clientX - initialX;
                 let newLeft = initialLeft + deltaX;
                 // 确保handle在滚动条内移动
                 newLeft = Math.max(0, Math.min(newLeft, 500)); // 510px宽度减去handle的10px宽度
@@ -321,18 +321,18 @@
                 updateValue(handle.id, newLeft);
             }
             function stopDrag() {
-                document.removeEventListener('mousemove', drag);
-                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener("mousemove", drag);
+                document.removeEventListener("mouseup", stopDrag);
             }
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener("mousemove", drag);
+            document.addEventListener("mouseup", stopDrag);
         }
         
         function updateProgress() {
-            const handle1Left = document.getElementById('handle1').offsetLeft;
-            const handle2Left = document.getElementById('handle2').offsetLeft;
-            const handle3Left = document.getElementById('handle3').offsetLeft;
-            const handle4Left = document.getElementById('handle4').offsetLeft;
+            const handle1Left = document.getElementById("handle1").offsetLeft;
+            const handle2Left = document.getElementById("handle2").offsetLeft;
+            const handle3Left = document.getElementById("handle3").offsetLeft;
+            const handle4Left = document.getElementById("handle4").offsetLeft;
             progress1.style.width = `${handle1Left + 5}px`; // 5是handle宽度的一半
             progress2.style.left = `${handle1Left + 5}px`;
             progress2.style.width = `${handle2Left - handle1Left}px`;
@@ -351,10 +351,10 @@
         }
 
         function checkValue() {
-            let value1 = parseFloat(copyFrom("value1"));
-            let value2 = parseFloat(copyFrom("value2"));
-            let value3 = parseFloat(copyFrom("value3"));
-            let value4 = parseFloat(copyFrom("value4"));
+            const value1 = parseFloat(copyFrom("value1"));
+            const value2 = parseFloat(copyFrom("value2"));
+            const value3 = parseFloat(copyFrom("value3"));
+            const value4 = parseFloat(copyFrom("value4"));
             updateCompare(value1, value2, value3, value4);
             if (value1 > value2 || value2 > value3 || value3 > value4) {
                 unhide("wrong");

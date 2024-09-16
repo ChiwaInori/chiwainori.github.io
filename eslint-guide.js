@@ -1,5 +1,6 @@
 // This file shows all XTSGAMES JavaScript format rules that is used ESLint.
-// Remember that ESLint errors / warns will only shown if there's not fatal errors exist (like missing quotes or what)
+// Remember that ESLint errors / warns will be only shown if there's not fatal errors exist (like missing quotes or what)
+// To fix ESLint errors / warns automatically, use "npx eslint (FILE-NAME) --fix". Fixable errors / warns will be fixed.
 
 let a = 1;
 
@@ -139,7 +140,7 @@ if (a > 0)
 const a_variant = 1;
 
 // Warn: capitalized-comments
-// this is a line that doesn't start from cplitalized characters
+// this is a line that doesn't start from capitalized characters
 
 // Warn: comma-dangle
 const list = {

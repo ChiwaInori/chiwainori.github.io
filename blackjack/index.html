@@ -123,7 +123,7 @@
             if (!copyFrom("dealerLine").includes("已停牌")) {
                 dealerAct();
             } else {
-                drawStatus(playerTotal > targetPoint ? false : true);
+                drawStatus(!(playerTotal > targetPoint));
             }
         }
 
@@ -178,9 +178,8 @@
                 });
 
                 return counter;
-            } else { // Exchanger Used
-                return dealerTotal;
-            }
+            } // Exchanger Used
+            return dealerTotal;
         }
 
         function getDealerTotalLine() {
@@ -190,12 +189,10 @@
                 }
                 if (getDealerTotal() == 0) {
                     return "?";
-                } else {
-                    return `?+${getDealerTotal()}`;
-                }
-            } else {
-                return getDealerTotal();
-            }
+                } 
+                return `?+${getDealerTotal()}`;
+            } 
+            return getDealerTotal();
         }
 
         function drawStatus(boolean) {
@@ -240,7 +237,7 @@
                 addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
             }
 
-            drawStatus(playerTotal > targetPoint ? false : true);
+            drawStatus(!(playerTotal > targetPoint));
             standStatus(true);
             copyTo("status", "");
             dealerUsedPropThisTurn = false;
@@ -504,7 +501,6 @@
                 } else {
                     copyTo("propUsedEffects", "玩家 使用 打火机: 移除你的最后一张牌 <strong style='color: var(--red)'>(没有可移除的内容)</strong>");
                 }
-
             }
             if (prop.includes("小刀")) {
                 if (isHidden("dealerShield")) {
@@ -534,7 +530,7 @@
             }
     
             if (copyFrom("propList") == "") {
-                copyTo("propList", '<p style="color: var(--gray)">空</p>');
+                copyTo("propList", "<p style=\"color: var(--gray)\">空</p>");
             }
 
             await sleep(1000);
@@ -551,15 +547,13 @@
             }
 
             if (copyFrom("dealerLine").indexOf("[?]") >= 0 || dealerTotal == 0) {
-                    colorTo("dealerTotal", "var(--orange)");
+                colorTo("dealerTotal", "var(--orange)");
+            } else if (dealerTotal < targetPoint) {
+                colorTo("dealerTotal", "var(--blue)");
+            } else if (dealerTotal == targetPoint) {
+                colorTo("dealerTotal", "var(--green)");
             } else {
-                if (dealerTotal < targetPoint) {
-                    colorTo("dealerTotal", "var(--blue)");
-                } else if (dealerTotal == targetPoint) {
-                    colorTo("dealerTotal", "var(--green)");
-                } else {
-                    colorTo("dealerTotal", "var(--red)");
-                }
+                colorTo("dealerTotal", "var(--red)");
             }
         }
 

@@ -67,9 +67,9 @@
             fadeChange("targetVolume", "results");
             const reader = new FileReader();
 
-            reader.onload = (event) => {
+            reader.onload = event => {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                audioContext.decodeAudioData(event.target.result, (buffer) => {
+                audioContext.decodeAudioData(event.target.result, buffer => {
                     // 创建一个离线音频上下文
                     const offlineContext = new OfflineAudioContext(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
                     const source = offlineContext.createBufferSource();
@@ -78,11 +78,11 @@
                     // 创建增益节点来调整音量
                     const gainNode = offlineContext.createGain();
 
-                    let data = {
+                    const data = {
                         L: buffer.getChannelData(0),
                         R: buffer.getChannelData(1)
                     };
-                    let totalVolume = {
+                    const totalVolume = {
                         L: 0,
                         R: 0
                     };
@@ -113,9 +113,9 @@
                     source.start(0);
                 
                     // 渲染处理后的音频
-                    offlineContext.startRendering().then((renderedBuffer) => {
+                    offlineContext.startRendering().then(renderedBuffer => {
                         wav = audioBufferToWav(renderedBuffer);
-                        const blob = new Blob([new DataView(wav)], {type: "audio/wav" });
+                        const blob = new Blob([new DataView(wav)], { type: "audio/wav" });
                         const url = URL.createObjectURL(blob);
 
                         unhide("finalAudio");
@@ -129,43 +129,44 @@
         }
 
         function audioBufferToWav(buffer) {
-            let numOfChan = buffer.numberOfChannels,
-            length = buffer.length * numOfChan * 2 + 44,
-            bufferArr = new ArrayBuffer(length),
-            view = new DataView(bufferArr),
-            channels = [],
-            i, sample,
-            offset = 0,
-            pos = 0;
+            const numOfChan = buffer.numberOfChannels;
+            const length = buffer.length * numOfChan * 2 + 44;
+            const bufferArr = new ArrayBuffer(length);
+            const view = new DataView(bufferArr);
+            const channels = [];
+            let i, sample;
+            let offset = 0;
+            let pos = 0;
 
             // 头部信息
-            setUint32(0x46464952);                         // "RIFF"
-            setUint32(length - 8);                         // 文件大小
-            setUint32(0x45564157);                         // "WAVE"
+            setUint32(0x46464952); // "RIFF"
+            setUint32(length - 8); // 文件大小
+            setUint32(0x45564157); // "WAVE"
 
-            // fmt块
-            setUint32(0x20746d66);                         // "fmt " chunk
-            setUint32(16);                                 // 长度
-            setUint16(1);                                  // PCM格式
-            setUint16(numOfChan);                          // 声道数
-            setUint32(buffer.sampleRate);                  // 采样率
-            setUint32(buffer.sampleRate * 2 * numOfChan);  // 数据传输率
-            setUint16(numOfChan * 2);                      // 每样本字节数
-            setUint16(16);                                 // 位深
+            // FMT块
+            setUint32(0x20746d66); // "fmt" chunk
+            setUint32(16); // 长度
+            setUint16(1); // PCM格式
+            setUint16(numOfChan); // 声道数
+            setUint32(buffer.sampleRate); // 采样率
+            setUint32(buffer.sampleRate * 2 * numOfChan); // 数据传输率
+            setUint16(numOfChan * 2); // 每样本字节数
+            setUint16(16); // 位深
 
             // 数据块
-            setUint32(0x61746164);                         // "data" chunk
-            setUint32(length - pos - 4);                   // 数据长度
+            setUint32(0x61746164); // "data" chunk
+            setUint32(length - pos - 4); // 数据长度
 
             // 写入PCM数据
-            for (i = 0; i < buffer.numberOfChannels; i++)
-            channels.push(buffer.getChannelData(i));
+            for (i = 0; i < buffer.numberOfChannels; i++) {
+                channels.push(buffer.getChannelData(i));
+            }
 
             while (pos < length) {
                 for (i = 0; i < numOfChan; i++) {
                 // 小端字节序
                     sample = Math.max(-1, Math.min(1, channels[i][offset]));
-                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767).keep(0);
                     view.setInt16(pos, sample, true);
                     pos += 2;
                 }

@@ -122,28 +122,24 @@
             let nowNumber;
             if (!target("preventWin").checked) {
                 nowNumber = rand(1, 100);
-            } else {
-                if (balance + mult >= 100) {
-                    if (betType == "small") {
-                        nowNumber = rand(51, 100);
-                    } else {
-                        nowNumber = rand(1, 50);
-                    }
+            } else if (balance + mult >= 100) {
+                if (betType == "small") {
+                    nowNumber = rand(51, 100);
                 } else {
-                    let decider = rand(1, 10);
-                    if (decider <= 3) { // Correct
-                        if (betType == "small") {
-                            nowNumber = rand(1, 50);
-                        } else {
-                            nowNumber = rand(51, 100);
-                        }
-                    } else { // Wrong
-                        if (betType == "big") {
-                            nowNumber = rand(1, 50);
-                        } else {
-                            nowNumber = rand(51, 100);
-                        }
+                    nowNumber = rand(1, 50);
+                }
+            } else {
+                const decider = rand(1, 10);
+                if (decider <= 3) { // Correct
+                    if (betType == "small") {
+                        nowNumber = rand(1, 50);
+                    } else {
+                        nowNumber = rand(51, 100);
                     }
+                } else if (betType == "big") { // Wrong
+                    nowNumber = rand(1, 50);
+                } else {
+                    nowNumber = rand(51, 100);
                 }
             }
             copyTo("number", nowNumber);

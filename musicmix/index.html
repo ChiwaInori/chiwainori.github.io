@@ -59,9 +59,9 @@
         </div>
     </div>
     <script>
-        document.getElementById('music-1').addEventListener('change', function(event) {
+        document.getElementById("music-1").addEventListener("change", event => {
             const file1 = event.target.files[0];
-            const musicPlayer1 = document.getElementById('musicPlayer1');
+            const musicPlayer1 = document.getElementById("musicPlayer1");
             const objectURL1 = URL.createObjectURL(file1);
             musicPlayer1.src = objectURL1;
             fadeChange("chooseVocal", "displayVocal");
@@ -69,9 +69,9 @@
             unhide("chooseIns");
         });
 
-        document.getElementById('music-2').addEventListener('change', function(event) {
+        document.getElementById("music-2").addEventListener("change", event => {
             const file2 = event.target.files[0];
-            const musicPlayer2 = document.getElementById('musicPlayer2');
+            const musicPlayer2 = document.getElementById("musicPlayer2");
             const objectURL2 = URL.createObjectURL(file2);
             musicPlayer2.src = objectURL2;
             fadeChange("chooseIns", "displayIns");
@@ -105,54 +105,54 @@
             colorTo("insText", "#666666");
         }
 
-        document.getElementById('volumeControl').addEventListener('input', function(event) {
+        document.getElementById("volumeControl").addEventListener("input", event => {
             updateVolume();
         });
 
-        document.getElementById('timeControl').addEventListener('input', function(event) {
+        document.getElementById("timeControl").addEventListener("input", event => {
             controlTime();
         });
 
-        document.getElementById('offsetControl').addEventListener('input', function(event) {
+        document.getElementById("offsetControl").addEventListener("input", event => {
             controlOffset();
         });
 
         function updateVolume() {
-            var volume1 = parseInt(target("volumeControl").value) / 100;
-            var volume2 = 1 - volume1;
+            const volume1 = parseInt(target("volumeControl").value) / 100;
+            const volume2 = 1 - volume1;
             music1.volume = 1 - volume1;
             music2.volume = 1 - volume2;
             
-            if (music1.paused == false) {
-                var r_vocal = (1 - music1.volume) * 102;
-                var g_vocal = music1.volume * 119 + 102;
-                var b_vocal = (1 - music1.volume) * 102;
-                var r_ins = (1 - music2.volume) * 102;
-                var g_ins = music2.volume * 119 + 102;
-                var b_ins = (1 - music2.volume) * 102;
-                colorTo("vocalLine", `rgb(${r_vocal}, ${g_vocal}, ${b_vocal})`);
-                colorTo("vocalName", `rgb(${r_vocal}, ${g_vocal}, ${b_vocal})`);
-                colorTo("vocalText", `rgb(${r_vocal}, ${g_vocal}, ${b_vocal})`);
-                colorTo("insLine", `rgb(${r_ins}, ${g_ins}, ${b_ins})`);
-                colorTo("insName", `rgb(${r_ins}, ${g_ins}, ${b_ins})`);
-                colorTo("insText", `rgb(${r_ins}, ${g_ins}, ${b_ins})`);
+            if (!music1.paused) {
+                const rVocal = (1 - music1.volume) * 102;
+                const gVocal = music1.volume * 119 + 102;
+                const bVocal = (1 - music1.volume) * 102;
+                const rIns = (1 - music2.volume) * 102;
+                const gIns = music2.volume * 119 + 102;
+                const bIns = (1 - music2.volume) * 102;
+                colorTo("vocalLine", `rgb(${rVocal}, ${gVocal}, ${bVocal})`);
+                colorTo("vocalName", `rgb(${rVocal}, ${gVocal}, ${bVocal})`);
+                colorTo("vocalText", `rgb(${rVocal}, ${gVocal}, ${bVocal})`);
+                colorTo("insLine", `rgb(${rIns}, ${gIns}, ${bIns})`);
+                colorTo("insName", `rgb(${rIns}, ${gIns}, ${bIns})`);
+                colorTo("insText", `rgb(${rIns}, ${gIns}, ${bIns})`);
             }
         }
 
         function updateTime() {
-            var nowTime = music1.currentTime;
-            var totalTime = music1.duration;
+            const nowTime = music1.currentTime;
+            const totalTime = music1.duration;
 
             target("timeControl").max = totalTime;
             target("timeControl").value = nowTime;
 
-            var now_minutes = Math.floor(nowTime / 60);
-            var now_seconds = Math.floor(nowTime % 60);
-            var total_minutes = Math.floor(totalTime / 60);
-            var total_seconds = Math.floor(totalTime % 60);
+            const nowMinutes = Math.floor(nowTime / 60);
+            const nowSeconds = Math.floor(nowTime % 60);
+            const totalMinutes = Math.floor(totalTime / 60);
+            const totalSeconds = Math.floor(totalTime % 60);
 
-            copyTo("timeNow", `${now_minutes}:${now_seconds < 10 ? '0' : ''}${now_seconds}`);
-            copyTo("timeTotal", `${total_minutes}:${total_seconds < 10 ? '0' : ''}${total_seconds}`);
+            copyTo("timeNow", `${nowMinutes}:${nowSeconds < 10 ? "0" : ""}${nowSeconds}`);
+            copyTo("timeTotal", `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`);
 
             if (nowTime == totalTime) {
                 hide("stopButton");
@@ -169,40 +169,42 @@
         setInterval("updateTime()", "100");
 
         function controlTime() {
-            var nowTime = target("timeControl").value;
-            var nowOffset = parseFloat(copyFrom("offsetNow"));
+            const nowTime = target("timeControl").value;
+            const nowOffset = parseFloat(copyFrom("offsetNow"));
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;
         }
 
         function controlOffset() {
-            var nowTime = target("timeControl").value;
-            var nowOffset = (target("offsetControl").value / 1000 - 1).toFixed(3);
-            copyTo("offsetNow", `${nowOffset > 0 ? '+' : ''}${nowOffset}`);
+            const nowTime = target("timeControl").value;
+            const nowOffset = (target("offsetControl").value / 1000 - 1).toFixed(3);
+            copyTo("offsetNow", `${nowOffset > 0 ? "+" : ""}${nowOffset}`);
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;
         }
 
         function setOffset(buttonRel) {
-            var nowTime = target("timeControl").value;
+            const nowTime = target("timeControl").value;
+            let nowOffset;
             
             if (buttonRel == -2) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.01);
+                nowOffset = parseFloat(copyFrom("offsetNow")) - 0.01;
             }
             if (buttonRel == -1) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) - 0.001);
+                nowOffset = parseFloat(copyFrom("offsetNow")) - 0.001;
             }
             if (buttonRel == 0) {
-                var nowOffset = 0;
+                nowOffset = 0;
             }
             if (buttonRel == 1) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.001);
+                nowOffset = parseFloat(copyFrom("offsetNow")) + 0.001;
             }
             if (buttonRel == 2) {
-                var nowOffset = (parseFloat(copyFrom("offsetNow")) + 0.01);
+                nowOffset = parseFloat(copyFrom("offsetNow")) + 0.01;
             }
             target("offsetControl").value = (nowOffset + 1) * 1000;
-            var nowOffset = nowOffset.toFixed(3);
+            nowOffset = nowOffset.toFixed(3);
+
             copyTo("offsetNow", `${nowOffset > 0 ? "+" : ""}${nowOffset}`);
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;

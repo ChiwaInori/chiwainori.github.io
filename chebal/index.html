@@ -5,9 +5,9 @@
     <title>化学方程式配平 - XTSGAMES</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="../css/global.css" />
-    <link rel="stylesheet" media="not (hover: hover)" href="../css/mobile.css" />
-    <link rel="stylesheet" media="only screen and (hover: hover)" href="../css/desktop.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
     <script src="../inori-functions.js"></script>
 </head>
 
@@ -41,7 +41,7 @@
         let reaction;
         let reactionExpanded;
         let items;
-        let itemsBalance = {
+        const itemsBalance = {
             before: [],
             after: []
         };
@@ -65,7 +65,7 @@
 
         function expandFormula(formula) {
             // 用正则表达式替换括号内的内容
-            let expandedFormula = formula.replace(/\(([^)]+)\)(\d+)/g, (match, content, number) => {
+            const expandedFormula = formula.replace(/\(([^)]+)\)(\d+)/g, (match, content, number) => {
                 return content.repeat(Number(number));
             });
 
@@ -110,8 +110,8 @@
                 const atomCounts = countAtoms(reactionTry);
 
                 if (objectsAreEqual(atomCounts.left, atomCounts.right)) {
-                    let final = combineFormula(numberArray, reaction);
-                    let result = `该方程式的配平结果: <strong>${final}</strong>`
+                    const final = combineFormula(numberArray, reaction);
+                    let result = `该方程式的配平结果: <strong>${final}</strong>`;
                     result = result.replace(/([A-z]|\))([0-9])/g, "$1<sub>$2</sub>") /* 改下标 */
                         .replace(/([+=>])1/g, "$1") /* 去掉计量数为 1 的 */
                         .replace(/^1/g, "$1"); /* 去掉开头计量数为 1 的 */
@@ -159,7 +159,7 @@
         function numbersUp(max) {
             numberArray[numberArray.length - 1]++;
             while (numberArray.indexOf(max + 1) >= 0) {
-                let overNumberIndex = numberArray.indexOf(max + 1);
+                const overNumberIndex = numberArray.indexOf(max + 1);
                 numberArray[overNumberIndex] = 1;
                 numberArray[overNumberIndex - 1]++;
             }
@@ -168,12 +168,12 @@
         }
 
         function objectsAreEqual(obj1, obj2) {
-            let keys1 = Object.keys(obj1);
-            let keys2 = Object.keys(obj2);
+            const keys1 = Object.keys(obj1);
+            const keys2 = Object.keys(obj2);
             if (keys1.length !== keys2.length) {
                 return false;
             }
-            for (let key of keys1) {
+            for (const key of keys1) {
                 if (obj1[key] !== obj2[key]) {
                     return false;
                 }
@@ -182,7 +182,7 @@
         }
 
         function countAtoms(equation) {
-            const [leftSide, rightSide] = equation.split('=');
+            const [leftSide, rightSide] = equation.split("=");
             const leftAtoms = countAtomsOnSide(leftSide);
             const rightAtoms = countAtomsOnSide(rightSide);
 
@@ -206,7 +206,7 @@
                 const atoms = formula.match(/[A-Z][a-z]?\d*/g);
 
                 atoms.forEach(atom => {
-                    const [_, element, count] = atom.match(/([A-Z][a-z]*)(\d*)/);
+                    const [_a, element, count] = atom.match(/([A-Z][a-z]*)(\d*)/);
                     const atomCount = parseInt(count) || 1;
                     const totalAtoms = factor * atomCount;
                     if (atomCounts[element]) {
@@ -221,9 +221,9 @@
         }
 
         function combineFormula(numbers, formula) { // [2, 1, 2] "H2+O2=H2O"
-            let left = formula.split("=")[0].split("+"); // length: 2
-            let right = formula.split("=")[1].split("+"); // length: 1
-            let combined = [];
+            const left = formula.split("=")[0].split("+"); // Length: 2
+            const right = formula.split("=")[1].split("+"); // Length: 1
+            const combined = [];
             for (let i = 0; i < left.length + right.length; i++) {
                 if (i < left.length) {
                     combined.push(numbers[i] + left[i]);
@@ -234,11 +234,11 @@
             let result = "";
             for (let i = 0; i < combined.length; i++) {
                 if (i < left.length - 1 || i > left.length - 1 && i != left.length + right.length - 1) {
-                    result = result + combined[i] + "+";
+                    result = `${result}${combined[i]}+`;
                 } else if (i == left.length - 1) {
-                    result = result + combined[i] + "=<span style='margin-left: -5px; color: rgb(0, 221, 0);'>=</span><span style='margin-left: -5px; color: rgb(0, 221, 0);'>=</span>";
+                    result = `${result}${combined[i]}=<span style='margin-left: -5px; color: rgb(0, 221, 0);'>=</span><span style='margin-left: -5px; color: rgb(0, 221, 0);'>=</span>`;
                 } else {
-                    result = result + combined[i];
+                    result += combined[i];
                 }
             }
             return result;

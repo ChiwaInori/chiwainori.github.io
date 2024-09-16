@@ -113,7 +113,11 @@
         });
         
         function roll(times) {
-            times == 1 ? hide("more", "class") : unhide("more", "table-cell", "class");
+            if (times == 1) {
+                hide("more", "class");
+            } else {
+                unhide("more", "table-cell", "class");
+            }
 
             for (let i = 1; i <= times; i++) {
                 rollTimes++;
@@ -130,20 +134,20 @@
 
                 let jpnName;
 
-                if (target("group").value != "normal" && d <= 0.007) { // special
+                if (target("group").value != "normal" && d <= 0.007) { // Special
                     jpnName = getSpecial(target("group").value);
                     colorTo(`result${i}`, "#e050f0");
                     star3out++;
                     pickup = true;
-                } else if (d <= 0.03) { // star3
+                } else if (d <= 0.03) { // Star3
                     jpnName = target("group").value == "normal" ? star3[rand(0, star3.length - 1)] : star3.remove(getSpecial(target("group").value))[rand(0, star3.length - 2)];
                     colorTo(`result${i}`, "#e050f0");
                     star3out++;
-                } else if (d <= 0.185 + 0.03) { // star2
+                } else if (d <= 0.185 + 0.03) { // Star2
                     jpnName = star2[rand(0, star2.length - 1)];
                     colorTo(`result${i}`, "#ffc800");
                     star2out++;
-                } else { // star1
+                } else { // Star1
                     jpnName = star1[rand(0, star1.length - 1)];
                     colorTo(`result${i}`, "#00a8ff");
                     star1out++;
@@ -154,7 +158,7 @@
                 target(`img${i}`).src = `images/266px-${engName}.webp`;
 
                 if (pickup) {
-                    addTo(`result${i}`, " <span style='font-size:24px; color: #e050f0;'>(PICKUP!)</span>")
+                    addTo(`result${i}`, " <span style='font-size:24px; color: #e050f0;'>(PICKUP!)</span>");
                 }
             }
 
