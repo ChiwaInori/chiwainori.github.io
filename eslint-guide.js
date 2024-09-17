@@ -280,8 +280,8 @@ a = 11
 
 // Warn: space-before-function-paren
 function named () {}
-const func1 = async() => {};
-const fun2 = function() {};
+const arrow = async() => {};
+const anonymous = function() {};
 
 // Warn: space-in-parens
 a = ( 1 + 2 ) / 3;

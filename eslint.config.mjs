@@ -70,7 +70,7 @@ const ruleList = {
     "semi": "warn",
     "semi-spacing": ["warn", { "before": false, "after": true }],
     "semi-style": "warn",
-    "space-before-function-paren": ["warn", { "anonymous": "always", "named": "never", "asyncArrow": "always" }],
+    "space-before-function-paren": ["warn", { "named": "never", "anonymous": "always", "asyncArrow": "always" }],
     "space-in-parens": "warn",
     "space-unary-ops": "warn",
     "spaced-comment": "warn",

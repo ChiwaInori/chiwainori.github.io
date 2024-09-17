@@ -80,7 +80,8 @@
                     歌词边框颜色 <input id="color-border" type="color" value="#ffffdd" /><br />
                 </p>
                 <p><strong>调试功能</strong></p>
-                <p>从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
+                <p>从第<input id="lyricStart" type="number" style="width: 48px;" value="0" />句歌词开始播放 (从 0 开始数)</p>
+                <p>从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放 <button id="previewMusicButton" onclick="previewMusic()">预览</button></p>
                 <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
                 <p><input id="allowKeys" type="checkbox" />允许使用方向键微调 (← -0.25 拍; → +0.25 拍) (微调时不会显示提示信息)</p>
                 <br />
@@ -92,7 +93,7 @@
                     <div id="helpGroup" hide>
                         <h3>如何制作 XTSGAMES Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个 JSON 文件</p>
-                        <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot;, &quot;lyrics&quot;</strong></p>
+                        <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot; (可选), &quot;lyrics&quot;</strong></p>
                         <p>其中 &quot;signature&quot; 的值一定为 <strong>&quot;xtsgames-lyric&quot;</strong>, &quot;version&quot; 的值为目前版本 <strong id="version"></strong></p>
                         <p><strong>3.</strong> &quot;musicInfo&quot; 的值为对象, 其中包括 <strong>&quot;title&quot;</strong> (字符串), <strong>&quot;author&quot;</strong> (字符串), <strong>&quot;bpm&quot;</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
                         <p><strong>4.</strong> &quot;settings&quot; 的值为对象, 其中包括可选键 (不存在即使用默认设置) 
@@ -113,6 +114,7 @@
                         <p class="STX">(注意: 不能把<strong>一个音符</strong>改为对象)</p>
                     </div>
                 </div>
+                <p>该网页在 1920 * 1080 的显示屏上效果最佳。</p>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
             </div>
             <div id="lyricBlock" hide>
@@ -125,10 +127,11 @@
                 </div>
             </div>
             <audio id="audio" src="" controls hide></audio>
+            <audio id="audioPreview" src="" controls hide></audio>
         </div>
         <script>
-            const currentVersion = 105;
-            const alsoAccept = [102, 103, 104];
+            const currentVersion = 106;
+            const alsoAccept = [102, 103, 104, 105];
             let showDotSetting = true;
             let showCircleSetting = true;
             let lyricJumpSetting = true;
@@ -184,6 +187,7 @@
                 const objectURL = URL.createObjectURL(audioFile);
 
                 target("audio").src = objectURL;
+                target("audioPreview").src = objectURL;
             });
 
             target("fontFile").addEventListener("change", function () {
@@ -238,10 +242,10 @@
                 clockBase = 60 / bpm; // Beats per sec
                 query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
-                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="playButton()">点击播放</button>`);
+                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button id="startButton" onclick="playButton()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
 
-                updateSettings(file.settings);
+                updateSettings(file.settings || {});
             }
 
             function playButton() {
@@ -258,8 +262,9 @@
             
             async function play() {
                 const lyricArray = file.lyrics;
+                const startLyric = +copyValue("lyricStart") || 0;
 
-                target("audio").currentTime = +copyValue("audioStart");
+                target("audio").currentTime = +copyValue("audioStart") || 0;
                 fadeChange("startup", "lyricBlock");
 
                 if (target("showDebug").checked) { unhide("debugPanel"); }
@@ -276,7 +281,7 @@
 
                 await sleep(200); // If no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
                 
-                for (let i = 0; i < lyricArray.length + 1; i++) { // Loop every sentence
+                for (let i = startLyric; i < lyricArray.length + 1; i++) { // Loop every sentence
                     if (i != lyricArray.length) { // The song is not over
                         const nowChecking = lyricArray[i];
                         if (Array.isArray(lyricArray[i])) { // Is array => is a sentence
@@ -285,7 +290,7 @@
 
                             len = notes.length;
 
-                            if (i == 0 && notes[0][0] != "[SPACE]") { // If the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
+                            if (i == startLyric && notes[0][0] != "[SPACE]") { // If the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
                                 const noteBeatLength = notes[0][1];
                                 const noteRealLength = noteBeatLength * clockBase;
                                 if (noteRealLength >= 2) {
@@ -308,7 +313,7 @@
                             });
                             next(sentence);
 
-                            if (i == 0) {
+                            if (i == startLyric) {
                                 if (notes[0][0] != "[SPACE]") { // If this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
                                     await sleep(1000);
                                 }
@@ -534,6 +539,23 @@
 
             function saveFile() {
                 save("xtsgames-lyrics.SONG-NAME.json", JSON.stringify(file));
+            }
+
+            async function previewMusic() {
+                target("audioPreview").currentTime = +copyValue("audioStart") || 0;
+                target("audioPreview").play();
+                target("previewMusicButton").disabled = true;
+                if (target("startButton")) {
+                    target("startButton").disabled = true;
+                }
+                
+                await sleep(2000);
+
+                target("audioPreview").pause();
+                target("previewMusicButton").disabled = false;
+                if (target("startButton")) {
+                    target("startButton").disabled = false;
+                }
             }
         </script>
     </div>

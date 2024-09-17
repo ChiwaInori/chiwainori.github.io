@@ -36,7 +36,14 @@
         <p><input id="f-normal" name="format" type="radio" checked />常规格式<span id="showTopFormat"> | <input id="f-json" name="format" type="radio" />JSON 格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)<span hide> | <input id="f-top" name="format" type="radio" /> .top 文件格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)</span></span></p>
         <p class="STX">更改上面的内容将会重置已记录的节拍。</p>
         <br />
-        <p>确定好上面的数据后，按下 <strong>空格键 (Space)</strong> 来量化节拍。</p>
+        <div id="jsonLyric" hide>
+            <p>使用 JSON 格式时，你可以在下方输入歌词，指定位置的字符串将被自动替换。</p>
+            <p><strong>注意: 使用斜杠 / 划分<span style="text-decoration: underline;">每一个</span>汉字、音节或空格。</strong></p>
+            <p><input id="lyricLine" style="width: 512px;" /></p>
+            <p class="STX" style="margin-left: 11px;">^^ 唱到目前显示的第一个字就按下 Enter!</p>
+            <br />
+        </div>
+        <p>确定好上面的数据后，按下 <strong>回车键 (Enter)</strong> 来量化节拍。</p>
         </p>
         <p>按下 <strong>R</strong> 来换行 (不会算作一个音符)，按下 <strong>退格键 (Backspace)</strong> 重置已记录的节拍。</p>
         <p><button id="playButton" onclick="play()" disabled>播放</button> <span id="returnOk" style="color: var(--green)" hide>换行已就绪</span><span id="returnReady" style="color: var(--red)" hide>换行将会在下一个音符被按下时执行</span></p>
@@ -103,7 +110,7 @@
         });
 
         document.addEventListener("keydown", event => {
-            if (event.code == "Space") {
+            if (event.code == "Enter") {
                 spacePressed();
             }
             if (event.code == "KeyR") {
@@ -133,6 +140,11 @@
             target("playButton").disabled = true;
             hide("returnOk");
             hide("returnReady");
+            if (target("f-json").checked) {
+                unhide("jsonLyric");
+            } else {
+                hide("jsonLyric");
+            }
         }
 
         function spacePressed() {
@@ -145,7 +157,18 @@
                     addTo("result", `<span id="w-${pressCount}">@&nbsp;</span>`);
                 }
                 if (format == "json") {
-                    addTo("result", `<span id="w-${pressCount}">[["@",&nbsp;</span>`);
+                    let char = "@";
+                    const lyricLine = copyValue("lyricLine");
+                    if (lyricLine) {
+                        const firstSlashIndex = lyricLine.indexOf("/");
+                        const beforeSlash = lyricLine.slice(0, firstSlashIndex);
+                        const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
+
+                        char = beforeSlash;
+                        setValue("lyricLine", afterSlash);
+                    }
+
+                    addTo("result", `<span id="w-${pressCount}">[["${char}",&nbsp;</span>`);
                 }
                 if (format == "top") {
                     addTo("result", `<span id="w-${pressCount}">@</span>`);
@@ -175,14 +198,25 @@
                 if (format == "json") {
                     hide("returnOk");
                     const original = copyFrom("result");
+
+                    let char = "@";
+                    const lyricLine = copyValue("lyricLine");
+                    if (lyricLine) {
+                        const firstSlashIndex = lyricLine.indexOf("/") > 0 ? lyricLine.indexOf("/") : lyricLine.length;
+                        const beforeSlash = lyricLine.slice(0, firstSlashIndex);
+                        const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
+
+                        char = beforeSlash;
+                        setValue("lyricLine", afterSlash);
+                    }
                     
                     if (returnReady) {
                         returnReady = false;
                         hide("returnReady");
                         
-                        copyTo("result", `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["@",&nbsp;</span>`);
+                        copyTo("result", `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["${char}",&nbsp;</span>`);
                     } else {
-                        copyTo("result", `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["@",&nbsp;</span>`);
+                        copyTo("result", `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["${char}",&nbsp;</span>`);
                     }
                 }
                 if (format == "top") {
