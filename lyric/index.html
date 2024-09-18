@@ -555,13 +555,19 @@
                 if (file) {
                     const startLine = file.lyrics[this.value];
 
-                    startLine.forEach(note => {
-                        if (note[0] == "[SPACE]") {
-                            target("previewLyric").innerHTML += `...`;
-                        } else {
-                            target("previewLyric").innerHTML += `${note[0]}`;
-                        }
-                    });
+                    if (!startLine) {
+                        target("previewLyric").innerHTML += `(无效歌词行)`;
+                    } else if (!Array.isArray(startLine)) {
+                        target("previewLyric").innerHTML += `{ 歌词设置 }`;
+                    } else {
+                        startLine.forEach(note => {
+                            if (note[0] == "[SPACE]") {
+                                target("previewLyric").innerHTML += `...`;
+                            } else {
+                                target("previewLyric").innerHTML += `${note[0]}`;
+                            }
+                        });
+                    }
                 }
             });
 
