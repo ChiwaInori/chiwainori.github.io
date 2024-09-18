@@ -1,8 +1,10 @@
 // This file shows all XTSGAMES JavaScript format rules that is used ESLint.
-// Remember that ESLint errors / warns will be only shown if there's not fatal errors exist (like missing quotes or what)
+// Remember that ESLint errors / warns will be only shown if there's not fatal errors exist (like missing quotes or what).
 // To fix ESLint errors / warns automatically, use "npx eslint (FILE-NAME) --fix". Fixable errors / warns will be fixed.
 
 let a = 1;
+
+// Remember all codes listed below are those that you SHOULDN'T DO in XTSGAMES.
 
 // Error: for-direction
 for (let i = 0; i < 5; i--) {
@@ -143,8 +145,17 @@ const a_variant = 1;
 // this is a line that doesn't start from capitalized characters
 
 // Warn: comma-dangle
-const list = {
+const list1 = {
     count: 5,
+};
+
+// Warn: comma-spacing
+console.log(a,b);
+
+// Warn: comma-style
+const list2 = {
+    json: true
+    , yaml: false
 };
 
 // Warn: curly
@@ -152,6 +163,9 @@ if (a > 0) console.log(true);
 
 // Warn: computed-property-spacing
 console.log(a[ 1 ]);
+
+// Warn: func-call-spacing
+console.log (a);
 
 // Warn: indent
 if (a > 0) {

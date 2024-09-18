@@ -40,6 +40,11 @@
             font-size: 100px;
             white-space: nowrap;
         }
+
+        #previewLyric {
+            color: var(--lyricColor) !important;
+            -webkit-text-stroke: var(--isBorder) var(--borderColor);
+        }
     </style>
     <script src="/inori-functions.js"></script>
 </head>
@@ -67,9 +72,9 @@
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
                 <br />
-                <p id="settingsLine" hide>
-                    <strong>已从 Lyric 文件中读取设置:</strong><br />
-                    <input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;
+                <div id="settingsLine" hide>
+                    <p><strong>已从 Lyric 文件中读取设置:</strong></p>
+                    <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;
                     <input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;
                     <input id="showCircle" type="checkbox" checked />圆弧歌词&nbsp;&nbsp;
                     <input id="showJump" type="checkbox" checked />歌词跳动 | 
@@ -77,11 +82,13 @@
                     歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;
                     激活颜色 <input id="color-active" type="color" value="#66a8ff" /> | 
                     <input id="showBorder" type="checkbox" />显示歌词边框&nbsp;&nbsp;
-                    歌词边框颜色 <input id="color-border" type="color" value="#ffffdd" /><br />
-                </p>
+                    歌词边框颜色 <input id="color-border" type="color" value="#ffffdd" /></p>
+                    <br />
+                </div>
                 <p><strong>调试功能</strong></p>
                 <p>从第<input id="lyricStart" type="number" style="width: 48px;" value="0" />句歌词开始播放 (从 0 开始数)</p>
-                <p>从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放 <button id="previewMusicButton" onclick="previewMusic()">预览</button></p>
+                <p id="previewLyric"></p>
+                <p>从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放 <button id="previewMusicButton" onclick="previewMusic()" disabled>预览</button><strong id="previewCD">&nbsp;&nbsp;</strong></p>
                 <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
                 <p><input id="allowKeys" type="checkbox" />允许使用方向键微调 (← -0.25 拍; → +0.25 拍) (微调时不会显示提示信息)</p>
                 <br />
@@ -188,6 +195,7 @@
 
                 target("audio").src = objectURL;
                 target("audioPreview").src = objectURL;
+                target("previewMusicButton").disabled = false;
             });
 
             target("fontFile").addEventListener("change", function () {
@@ -218,7 +226,7 @@
                     document.fonts.add(loadedFont);
 
                     target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
-                    query("style")[0].innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
+                    query("style")[0].innerHTML += "#lyrics *, #previewLyric { font-family: 'CustomFont'; }";
                     copyTo("fontTest", fontText);
                 });
             }
@@ -541,6 +549,22 @@
                 save("xtsgames-lyrics.SONG-NAME.json", JSON.stringify(file));
             }
 
+            target("lyricStart").addEventListener("input", function () {
+                copyTo("previewLyric", "");
+
+                if (file) {
+                    const startLine = file.lyrics[this.value];
+
+                    startLine.forEach(note => {
+                        if (note[0] == "[SPACE]") {
+                            target("previewLyric").innerHTML += `...`;
+                        } else {
+                            target("previewLyric").innerHTML += `${note[0]}`;
+                        }
+                    });
+                }
+            });
+
             async function previewMusic() {
                 target("audioPreview").currentTime = +copyValue("audioStart") || 0;
                 target("audioPreview").play();
@@ -549,13 +573,18 @@
                     target("startButton").disabled = true;
                 }
                 
-                await sleep(2000);
+                copyTo("previewCD", "2");
+                await sleep(1000);
+
+                copyTo("previewCD", "1");
+                await sleep(1000);
 
                 target("audioPreview").pause();
                 target("previewMusicButton").disabled = false;
                 if (target("startButton")) {
                     target("startButton").disabled = false;
                 }
+                copyTo("previewCD", "&nbsp;&nbsp;");
             }
         </script>
     </div>
