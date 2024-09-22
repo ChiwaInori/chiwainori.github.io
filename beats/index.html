@@ -21,6 +21,7 @@
     <div class="content">
         <p>此页面可以帮助你获得音符与音符之间以节拍为单位的时长。</p>
         <p>BPM <input id="bpmInput" style="width: 48px;" type="number" value="80" /> | 量化精度 <select id="precisionList">
+            <option value="original">保留原数据</option>
             <option value="5">0.0625</option>
             <option value="4">0.125</option>
             <option value="3" selected>0.25</option>
@@ -67,9 +68,13 @@
         });
         target("precisionList").addEventListener("input", function () {
             if (!showAsFraction) {
-                precision = 1 / 2 ** (+this.value - 1);
+                if (this.value == "original") {
+                    precision = "original";
+                } else {
+                    precision = 1 / 2 ** (+this.value - 1);
+                }
             }
-            target("precisionListFraction").value = this.value;
+            target("precisionListFraction").value = this.value == "original" ? 3 : this.value;
             reset();
         });
 
@@ -181,15 +186,21 @@
                 const diff = (nowTime - lastPressTime) / 1000; // Seconds
 
                 const costBeats = diff / clockBase; // 1 / 0.75 == 1.33333
-                let includedPrecision = Math.floor(costBeats / precision); // 1.33333 / 0.25 == 5.33332, floor to 5
+                let beatResult;
 
-                const exceededBeats = costBeats - includedPrecision * precision; //  1.33333 - 5 * 0.25 == 0.08333
-                if (exceededBeats >= precision / 2) { // Parse to nearby
-                    includedPrecision++;
-                }
+                if (precision == "original") {
+                    beatResult = costBeats.keep(4);
+                } else {
+                    let includedPrecision = Math.floor(costBeats / precision); // 1.33333 / 0.25 == 5.33332, floor to 5
+
+                    const exceededBeats = costBeats - includedPrecision * precision; //  1.33333 - 5 * 0.25 == 0.08333
+                    if (exceededBeats >= precision / 2) { // Parse to nearby
+                        includedPrecision++;
+                    }
                 
-                let beatResult = includedPrecision * precision; // 5 * 0.25 = 1.25, final result
-                if (showAsFraction) { beatResult = toFraction(beatResult); }
+                    beatResult = includedPrecision * precision; // 5 * 0.25 = 1.25, final result
+                    if (showAsFraction) { beatResult = toFraction(beatResult); }
+                }
                 
                 if (format == "normal") {
                     hide("returnOk");
