@@ -93,8 +93,8 @@
                 <p><input id="allowKeys" type="checkbox" />允许使用方向键微调 (← -0.25 拍; → +0.25 拍) (微调时不会显示提示信息)</p>
                 <br />
                 <p id="content" hide></p>
-                <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
-                <p style="color: var(--red)">如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
+                <p>目前该网页歌词的淡入动画有一定概率出错影响观赏效果。</p>
+                <p>如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
                     <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
                     <div id="helpGroup" hide>
@@ -121,6 +121,8 @@
                         <p class="STX">(注意: 不能把<strong>一个音符</strong>改为对象)</p>
                     </div>
                 </div>
+                <p><strong>2024.9.22 更新</strong> - 更新了计时器，现在歌词不会随着时间而增大误差 <strong>(在以前, <ruby>所有歌词都会越放越慢<rt>也可能因为电脑性能不同而出现其他现象</rt></ruby>)</strong>; 中途 CPU 暂时卡顿也可以继续播放</p>
+                <p class="STX">这意味着以前制作的歌词文件可能需要重新更改部分音符时长</p>
                 <p>该网页在 1920 * 1080 的显示屏上效果最佳。</p>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
             </div>
@@ -288,6 +290,11 @@
                 }
 
                 await sleep(200); // If no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
+
+                const noteTime = {
+                    start: null,
+                    end: null
+                };
                 
                 for (let i = startLyric; i < lyricArray.length + 1; i++) { // Loop every sentence
                     if (i != lyricArray.length) { // The song is not over
@@ -328,13 +335,19 @@
                                 target("audio").play().catch(() => {
                                     warn("No audio file is selected in initial menu.");
                                 });
+                                noteTime.end = new Date().getTime() / 1000;
+                                testStart = new Date().getTime();
+                                log(testStart);
                             } else { // It's not the first sentence, wait because last sentence next()ed in advance
                                 await sleep(waitBase * 7 * 1000);
                             }
 
                             for (let j = 0; j < notes.length; j++) { // Loop every chars
                                 const noteBeatLength = notes[j][1];
-                                const noteRealLength = noteBeatLength * clockBase;
+
+                                noteTime.start = noteTime.end;
+                                noteTime.end = noteTime.start + noteBeatLength * clockBase;
+                                const noteRealLength = Math.max(noteTime.end - new Date().getTime() / 1000, 0); // To avoid negative time because of cpu overload
 
                                 if (notes[j][0] != "[SPACE]" && lyricJumpSetting) {
                                     jump(j + 1, noteRealLength * 1000);
@@ -357,7 +370,7 @@
                         } else { // Not array => it's a settings config
                             updateSettings(nowChecking);
                         }
-                    } else { // Yhe song is over
+                    } else { // The song is over
                         len = 1;
                         next("<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>");
                         copyTo("controlLine", "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。");
