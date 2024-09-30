@@ -630,56 +630,47 @@ async function transColor(element, color, time = 100, method = "id") {
         return;
     }
 
-    function getTempFuncId() {
-        const error = new Error();
-        const stackLines = error.stack.split("\n");
-        const callerLine = stackLines[2];
-        const callerFunctionName = callerLine.match(/at (<?\w+>?)/)[1]; // Get the name of parent function
-    
-        let id = 1;
-        while (query("style")[0].innerHTML.includes(`temp_${callerFunctionName}_${id}`)) {
-            id++;
-        }
-        return `temp_${callerFunctionName}_${id}`;
+    let id = 1;
+    while (target(`style#temp${id}`)) {
+        id++;
     }
-
-    const tempFuncId = getTempFuncId();
+    const styleElement = document.createElement("style");
+    styleElement.textContent = `.tempTransColor${id} { transition: color ${time / 1000}s var(--transit); }`;
+    document.head.appendChild(styleElement);
 
     if (method == "id") {
-        target(element).classList.add(tempFuncId);
+        target(element).classList.add(`tempTransColor${id}`);
     }
     if (method == "class") {
         applyAll(`.${element}`, target => {
-            target.classList.add(tempFuncId);
+            target.classList.add(`tempTransColor${id}`);
         });
     }
     if (method == "query") {
         applyAll(element, target => {
-            target.classList.add(tempFuncId);
+            target.classList.add(`tempTransColor${id}`);
         });
     }
-    query("style")[0].innerHTML += `.${tempFuncId} { transition: color ${time / 1000}s var(--transit); }`; // Set a temp stylesheet
 
     colorTo(element, color, method);
 
     await sleep(time);
 
     if (method == "id") {
-        target(element).classList.remove(tempFuncId);
+        target(element).classList.remove(`tempTransColor${id}`);
     }
     if (method == "class") {
         applyAll(`.${element}`, target => {
-            target.classList.remove(tempFuncId);
+            target.classList.remove(`tempTransColor${id}`);
         });
     }
     if (method == "query") {
         applyAll(element, target => {
-            target.classList.remove(tempFuncId);
+            target.classList.remove(`tempTransColor${id}`);
         });
     }
     
-    const removeTarget = new RegExp(`.${tempFuncId} {.*?}`, "g");
-    query("style")[0].innerHTML = query("style")[0].innerHTML.replaceAll(removeTarget, ""); // Remove the temp stylesheet
+    document.head.removeChild(styleElement);
 }
 
 /**
@@ -737,7 +728,10 @@ async function fadeIn(element, time = 100) {
 
     let nowOpacity;
 
-    unhide(element);
+    if (target(element).style.display == "none" || query(`${element}[hide]`)) {
+        unhide(element); target(element).style.opacity = 0;
+    }
+    
     if (target(element).style.opacity != "") {
         nowOpacity = +target(element).style.opacity;
     } else {
