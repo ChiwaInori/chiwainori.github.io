@@ -4,11 +4,11 @@
     /* XTS BASIC COLORS */
     /* These are basic colors of XTSGAMES and used in basic structures. -500 colors are major colors in each section. */
 
-    --backgroundColor-500: #ffffdd;
-    --backgroundColor-600: #ccccaa;
+    --backgroundColor-500: #eeffff;
+    --backgroundColor-600: #aaccdd;
 
-    --textColor-400: #aaaaaa;
-    --textColor-500: #666666;
+    --textColor-400: #99aaaa;
+    --textColor-500: #556677;
 
     --activeColor-400: #99ccff;
     --activeColor-500: #66a8ff;
@@ -85,16 +85,6 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     width: 95%;
     max-width: 90%;
-}
-
-@font-face {
-    font-family: "lolifont";
-    src: url("/lolifont.ttf") format("truetype");
-    font-display: swap;
-}
-
-* {
-    font-family: "lolifont";
 }
 
 /* NORMAL ELEMENTS */
