@@ -51,7 +51,7 @@
         <h1 style="margin-bottom: 20px; text-align: center; margin-left: 0px;">军舰大战</h1>
     </div>
     <div class="navigation">
-        <h6 style="margin-bottom: 20px; text-align: center; margin-left: 0px;"><a href="../">XTSGAMES.TOP</a> &gt; <strong>军舰大战</strong></h6>
+        <h6 style="margin-bottom: 20px; text-align: center; margin-left: 0px;"><a href="../">ChiwaInori.top</a> &gt; <strong>军舰大战</strong></h6>
     </div>
     <div class="content">
         <div id="rules">
@@ -4091,7 +4091,7 @@
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
-                document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + cache + ".";
+                document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg." + random_seed + cache + ".";
                 document.getElementById("code_from_friend").value = "";
                 if (document.getElementById("online_code").innerHTML.indexOf("NaN") > -1) {
                     document.getElementById("online_finish").style.display = "none";
@@ -5329,7 +5329,7 @@
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
-                document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + cache + ".";
+                document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg." + random_seed + cache + ".";
                 document.getElementById("code_from_friend").value = "";
                 if (document.getElementById("online_code").innerHTML.indexOf("NaN") > -1) {
                     document.getElementById("online_finish").style.display = "none";
@@ -5500,7 +5500,7 @@
                 var currentId2 = "7" + currentText2[19] + currentText2[20];
             }
 
-            var saveinfo = "xtsgames-shipwar.100." + stage + p1_1 + p1_2 + p1_3 + p1_4 + p1_5 + p1_6 + p1_7 + p1_8 + p1_9 + p1_10 + p1_11 + p1_12 + p1_13 + p1_14 + p1_15 + p1_16 + p1_17 + p1_18 + p1_19 + p1_20 + p1_21 + p1_22 + p1_23 + p1_24 + p1_25 + p1_26 + p1_27 + p1_28 + p1_29 + p1_30 + p1_31 + p1_32 + p1_33 + p1_34 + p1_35 + p1_36 + p2_1 + p2_2 + p2_3 + p2_4 + p2_5 + p2_6 + p2_7 + p2_8 + p2_9 + p2_10 + p2_11 + p2_12 + p2_13 + p2_14 + p2_15 + p2_16 + p2_17 + p2_18 + p2_19 + p2_20 + p2_21 + p2_22 + p2_23 + p2_24 + p2_25 + p2_26 + p2_27 + p2_28 + p2_29 + p2_30 + p2_31 + p2_32 + p2_33 + p2_34 + p2_35 + p2_36 + currentId1 + currentId2 + ".";
+            var saveinfo = "chiwainori-shipwar.100." + stage + p1_1 + p1_2 + p1_3 + p1_4 + p1_5 + p1_6 + p1_7 + p1_8 + p1_9 + p1_10 + p1_11 + p1_12 + p1_13 + p1_14 + p1_15 + p1_16 + p1_17 + p1_18 + p1_19 + p1_20 + p1_21 + p1_22 + p1_23 + p1_24 + p1_25 + p1_26 + p1_27 + p1_28 + p1_29 + p1_30 + p1_31 + p1_32 + p1_33 + p1_34 + p1_35 + p1_36 + p2_1 + p2_2 + p2_3 + p2_4 + p2_5 + p2_6 + p2_7 + p2_8 + p2_9 + p2_10 + p2_11 + p2_12 + p2_13 + p2_14 + p2_15 + p2_16 + p2_17 + p2_18 + p2_19 + p2_20 + p2_21 + p2_22 + p2_23 + p2_24 + p2_25 + p2_26 + p2_27 + p2_28 + p2_29 + p2_30 + p2_31 + p2_32 + p2_33 + p2_34 + p2_35 + p2_36 + currentId1 + currentId2 + ".";
             
             var textToWrite = saveinfo;
             var blob = new Blob([textToWrite], { type: "text/plain" });
@@ -5508,7 +5508,7 @@
             a.style.display = "none";
             var url = window.URL.createObjectURL(blob);
             a.href = url;
-            a.download = "xtsgames-shipwar.top";
+            a.download = "chiwainori-shipwar.top";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -5535,7 +5535,7 @@
             var version = saveinfo[17] + saveinfo[18] + saveinfo[19];
             var middle = saveinfo[20];
             var end = saveinfo[100];
-            if (root == "xtsgames-shipwar." && middle == "." && version == "100" && end == ".") {
+            if (root == "chiwainori-shipwar." && middle == "." && version == "100" && end == ".") {
                 document.getElementById("p1_placebig_b1").style = "display: none;";
                 document.getElementById("p1_placebig_b2").style = "display: none;";
                 document.getElementById("p1_placebig_b3").style = "display: none;";
@@ -5924,7 +5924,7 @@
             } else {
                 var first = 1;
             }
-            document.getElementById("online_code").innerHTML = `<span style="color: var(--gray);">${shipwarURL}</span>xtsgames-shipwar.olg.` + first + random_seed + big_pos + ".";
+            document.getElementById("online_code").innerHTML = `<span style="color: var(--gray);">${shipwarURL}</span>chiwainori-shipwar.olg.` + first + random_seed + big_pos + ".";
         }
 
         function online_code_enter() {
@@ -6055,19 +6055,19 @@
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
-                document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + cache + ".";
+                document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg." + random_seed + cache + ".";
                 document.getElementById("code_from_friend").value = "";
                 if (document.getElementById("online_code").innerHTML.indexOf("NaN") > -1) {
                     document.getElementById("online_finish").style.display = "none";
                 }
                 if (document.getElementById("online_code").innerHTML.indexOf("e+") > -1) { // 数字过大变成科学计数法了
                     if (cache1[0] == "2") {
-                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg.000" + cache1 + ".";
+                        document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg.000" + cache1 + ".";
                     } else {
                         var firststep = parseInt(cache1[0] + cache1[1] + cache1[2]); // 第一步, 即 '102206207208209210211212213214' 中的 '102'
                         var firststep = (firststep + random_seed) * random_seed;
                         var other = cache1.slice(3); // 其他, 即 '102206207208209210211212213214' 中的 '206207208209210211212213214'
-                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + firststep + "000" + other + ".";
+                        document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg." + random_seed + firststep + "000" + other + ".";
                     }
                 }
             }
@@ -6128,19 +6128,19 @@
                 document.getElementById("var_cache").innerHTML = "";
                 var random_seed = Math.floor(Math.random() * 90) + 10; // 10 ~ 99
                 var cache = (cache + random_seed) * random_seed;
-                document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + cache + ".";
+                document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg." + random_seed + cache + ".";
                 document.getElementById("code_from_friend").value = "";
                 if (document.getElementById("online_code").innerHTML.indexOf("NaN") > -1) {
                     document.getElementById("online_finish").style.display = "none";
                 }
                 if (document.getElementById("online_code").innerHTML.indexOf("e+") > -1) { // 数字过大变成科学计数法了
                     if (cache1[0] == "2") {
-                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg.000" + cache1 + ".";
+                        document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg.000" + cache1 + ".";
                     } else {
                         var firststep = parseInt(cache1[0] + cache1[1] + cache1[2]); // 第一步, 即 '102206207208209210211212213214' 中的 '102'
                         var firststep = (firststep + random_seed) * random_seed;
                         var other = cache1.slice(3); // 其他, 即 '102206207208209210211212213214' 中的 '206207208209210211212213214'
-                        document.getElementById("online_code").innerHTML = "xtsgames-shipwar.olg." + random_seed + firststep + "000" + other + "."; // 000 前加密存储, 后明文存储
+                        document.getElementById("online_code").innerHTML = "chiwainori-shipwar.olg." + random_seed + firststep + "000" + other + "."; // 000 前加密存储, 后明文存储
                     }
                 }
             }
@@ -6196,7 +6196,7 @@
 
         function online_continue() {
             document.getElementById("online_b1").disabled = true;
-            if (document.getElementById("code_from_friend").value == document.getElementById("online_code").innerText || document.getElementById("code_from_friend").value == document.getElementById("online_code").innerHTML.match(/xtsgames-shipwar.*/g)) {
+            if (document.getElementById("code_from_friend").value == document.getElementById("online_code").innerText || document.getElementById("code_from_friend").value == document.getElementById("online_code").innerHTML.match(/chiwainori-shipwar.*/g)) {
                 document.getElementById("online_same").style.display = "block";
                 document.getElementById("online_b1").disabled = true;
                 document.getElementById("confirm").style.display = "inline-block";

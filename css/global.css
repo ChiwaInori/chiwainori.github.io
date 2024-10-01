@@ -1,8 +1,8 @@
 /* MAIN FORMAT FOR EVERY DEVICES */
 
 :root {
-    /* XTS BASIC COLORS */
-    /* These are basic colors of XTSGAMES and used in basic structures. -500 colors are major colors in each section. */
+    /* CHIWA BASIC COLORS */
+    /* These are basic colors of ChiwaInori.top and used in basic structures. -500 colors are major colors in each section. */
 
     --backgroundColor-500: #eeffff;
     --backgroundColor-600: #aaccdd;
@@ -15,8 +15,8 @@
     --activeColor-700: #0088aa;
     --activeColor-800: #8899aa;
 
-    /* XTS STANDARD COLORS */
-    /* These are used to make website more colorful. They are verified to have great or normal visibility on XTSGAMES. */
+    /* CHIWA STANDARD COLORS */
+    /* These are used to make website more colorful. They are verified to have great or normal visibility on ChiwaInori.top. */
 
     --red: #dd0000;
     --orange: #ff8800;
@@ -241,7 +241,7 @@ a:not(.HLK):hover, .LNK:hover {
     font-weight: bold;
 }
 
-/* SPECIAL ELEMENTS IN XTSGAMES */
+/* SPECIAL ELEMENTS IN ChiwaInori.top */
 
 blockquote * {
     color: var(--textColor-400);
@@ -253,7 +253,7 @@ table {
     margin: 0px 0px 10px 0px;
 }
 
-/* SPECIAL CLASSES IN XTSGAMES */
+/* SPECIAL CLASSES IN ChiwaInori.top */
 
 /*
 .LNK {} (Link) is defined above

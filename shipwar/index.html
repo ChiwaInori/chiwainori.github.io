@@ -51,7 +51,7 @@
         <h1 style="margin-bottom: 20px; text-align: center; margin-left: 0px;">军舰大战</h1>
     </div>
     <div class="navigation">
-        <h6 style="margin-bottom: 20px; text-align: center; margin-left: 0px;"><a href="../">XTSGAMES.TOP</a> &gt; <strong>军舰大战</strong></h6>
+        <h6 style="margin-bottom: 20px; text-align: center; margin-left: 0px;"><a href="../">ChiwaInori.top</a> &gt; <strong>军舰大战</strong></h6>
     </div>
     <div class="content">
         <div id="rules">
@@ -728,7 +728,7 @@
                 const codeToShow = (cache + randomSeed) * randomSeed;
 
                 cache = "";
-                copyTo("online_code", "xtsgames-shipwar.olg." + randomSeed + codeToShow + ".");
+                copyTo("online_code", "chiwainori-shipwar.olg." + randomSeed + codeToShow + ".");
                 target("code_from_friend").value = "";
                 if (copyFrom("online_code").indexOf("NaN") > -1) {
                     hide("online_finish");
@@ -829,7 +829,7 @@
                 const codeToShow = (cache + randomSeed) * randomSeed;
 
                 cache = "";
-                copyTo("online_code", "xtsgames-shipwar.olg." + randomSeed + codeToShow + ".");
+                copyTo("online_code", "chiwainori-shipwar.olg." + randomSeed + codeToShow + ".");
                 target("code_from_friend").value = "";
                 if (copyFrom("online_code").indexOf("NaN") > -1) {
                     hide("online_finish");
@@ -990,12 +990,12 @@
             }
 
             const data = {
-                signature: "xtsgames-shipwar",
+                signature: "chiwainori-shipwar",
                 version: currentVersion,
                 data: `${stage}${p1Situation}${p2Situation}${currentId1}${currentId2}`
             }
 
-            save("xtsgames-shipwar.json", JSON.stringify(data));
+            save("chiwainori-shipwar.json", JSON.stringify(data));
         }
 
         async function loadGame() {
@@ -1009,7 +1009,7 @@
             await sleep(50);
             const {signature, version, data} = file;
 
-            if (signature == "xtsgames-shipwar" &&  version == currentVersion) {
+            if (signature == "chiwainori-shipwar" &&  version == currentVersion) {
                 const stage = data[0];
                 
                 if (stage == "0") { p1Round1(); }
@@ -1109,7 +1109,7 @@
                 styleTo("saveButton", "display: block; margin-left: 48%;");
             } else {
                 styleTo("text1", "font-size: 10px; color: #dd0000;");
-                if (signature != "xtsgames-shipwar") {
+                if (signature != "chiwainori-shipwar") {
                     copyTo("text1", `错误的文件签名 (${signature})`);
                 } else if (version != currentVersion) {
                     copyTo("text1", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
@@ -1159,7 +1159,7 @@
             } else {
                 first = 1;
             }
-            copyTo("online_code", `<span style="color: var(--gray);">${shipwarURL}</span>xtsgames-shipwar.olg.${first}${randomSeed}${bigPos}.`);
+            copyTo("online_code", `<span style="color: var(--gray);">${shipwarURL}</span>chiwainori-shipwar.olg.${first}${randomSeed}${bigPos}.`);
         }
 
         function onlineCodeEnter() {
@@ -1228,20 +1228,20 @@
             const codeToShow = (parseInt(cache) + randomSeed) * randomSeed;
             log(cache, randomSeed, codeToShow); //                                        ['114221', 88, 10059192]
             //                                                                                  v 
-            copyTo("online_code", `xtsgames-shipwar.olg.${randomSeed}${codeToShow}.`);  // 变成别的数字
+            copyTo("online_code", `chiwainori-shipwar.olg.${randomSeed}${codeToShow}.`);  // 变成别的数字
             target("code_from_friend").value = "";
             if (copyFrom("online_code").indexOf("NaN") > -1) {
                 hide("online_finish");
             }
             if (copyFrom("online_code").indexOf("e+") > -1) { // 数字过大变成科学计数法了
                 if (cache[0] == "2") {
-                    copyTo("online_code", "xtsgames-shipwar.olg.000" + cache + ".");
+                    copyTo("online_code", "chiwainori-shipwar.olg.000" + cache + ".");
                 } else {
                     let firstStep = parseInt(cache.slice(0, 3)); // 第一步, 即 '102206207208209210211212213214' 中的 '102'
                     firstStep = (firstStep + randomSeed) * randomSeed;
                     const other = cache.slice(3); // 其他, 即 '102206207208209210211212213214' 中的 '206207208209210211212213214'
 
-                    copyTo("online_code", `xtsgames-shipwar.olg.${randomSeed}${firstStep}000${other}.`); // 000 前加密存储, 后明文存储
+                    copyTo("online_code", `chiwainori-shipwar.olg.${randomSeed}${firstStep}000${other}.`); // 000 前加密存储, 后明文存储
                 }
             }
             cache = "";
@@ -1318,7 +1318,7 @@
 
         function onlineContinue() {
             target("online_b1").disabled = true;
-            if (target("code_from_friend").value == target("online_code").innerText || target("code_from_friend").value == copyFrom("online_code").match(/xtsgames-shipwar.*/g)) {
+            if (target("code_from_friend").value == target("online_code").innerText || target("code_from_friend").value == copyFrom("online_code").match(/chiwainori-shipwar.*/g)) {
                 unhide("online_same");
                 target("online_b1").disabled = true;
                 unhide("confirm", "inline-block");

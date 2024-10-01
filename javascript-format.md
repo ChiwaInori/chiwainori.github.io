@@ -1,4 +1,4 @@
-# While coding in JavaScript in XTSGAMES, the following rules should be followed:
+# While coding in JavaScript in ChiwaInori.top, the following rules should be followed:
 
 ## Basic Format
 1. Do not use other languages' characters if they are not necessary (even in annotation)
@@ -27,6 +27,6 @@
 These rules are those that isn't restricted in ESLint.
 
 # Epilogue
-The creation of these rules is to keep code format unified. Have fun coding in XTSGAMES!
-by Chiwa Inori (xtsdcb69), XTSGAMES
+The creation of these rules is to keep code format unified. Have fun coding in ChiwaInori.top!
+by Chiwa Inori (xtsdcb69), ChiwaInori.top
 Created at 2024.6.27 12:28, Last modified at 2024.9.18 11:47

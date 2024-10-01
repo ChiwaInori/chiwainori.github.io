@@ -1,10 +1,10 @@
-// This file shows all XTSGAMES JavaScript format rules that is used ESLint.
+// This file shows all ChiwaInori.top JavaScript format rules that is used ESLint.
 // Remember that ESLint errors / warns will be only shown if there's not fatal errors exist (like missing quotes or what).
 // To fix ESLint errors / warns automatically, use "npx eslint (FILE-NAME) --fix". Fixable errors / warns will be fixed.
 
 let a = 1;
 
-// Remember all codes listed below are those that you SHOULDN'T DO in XTSGAMES.
+// Remember all codes listed below are those that you SHOULDN'T DO in ChiwaInori.top.
 
 // Error: for-direction
 for (let i = 0; i < 5; i--) {

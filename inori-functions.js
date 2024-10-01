@@ -1,9 +1,9 @@
 // INORI FUNCTIONS
 
 /*
-    Inori Function is a custom JavaScript library used in XTSGAMES.TOP for better coding.
+    Inori Function is a custom JavaScript library used in ChiwaInori.top for better coding.
 
-    Most of the functions included are original created by XTSGAMES owner Chiwa Inori.
+    Most of the functions included are original created by ChiwaInori.top owner Chiwa Inori.
     Most of them required other Inori Functions to work. Some functions can be also used in node environment.
 
     Index:

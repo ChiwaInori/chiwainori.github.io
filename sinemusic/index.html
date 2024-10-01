@@ -29,7 +29,7 @@
             <p>若要制作一个 XTS 正弦波音乐文件，请参照以下格式:</p>
             <p>在一个 .json 文件中:</p>
             <p><strong>1.</strong> 在根对象中创建以下键: <strong>"signature", "version", "musicInfo", "notes"</strong></p>
-            <p>其中 "signature" 的值一定为 <strong>"xtsgames-sinemusic"</strong>, "version" 的值为目前版本 <strong id="version"></strong></p>
+            <p>其中 "signature" 的值一定为 <strong>"chiwainori-sinemusic"</strong>, "version" 的值为目前版本 <strong id="version"></strong></p>
             <p><strong>2.</strong> "musicInfo" 的值为对象, 其中包括 <strong>"title"</strong> (字符串), <strong>"author"</strong> (字符串), <strong>"bpm"</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
             <p><strong>3.</strong> "notes" 的值为<strong>数组</strong>，该数组中的每一个<strong>数组</strong>就是<strong>一个音符</strong>，由以下数据构成: <strong>["音高", 时长(以节拍为单位)]</strong> (一共有两层数组)</p>
             <p>音高要按照如下格式输入: <strong>第几个八度</strong>+<strong>哪个音</strong>+<strong>升降记号</strong> (例如 4d# 意为第 4 个八度 (有效范围为 0a ~ 8c) 的 D# 音 (降记号用 * 表示))</p>
@@ -70,7 +70,7 @@
         function read() {
             const { signature, version } = file;
 
-            if (signature != "xtsgames-sinemusic") {
+            if (signature != "chiwainori-sinemusic") {
                 unhide("wrong");
                 copyTo("wrong", `错误的文件签名 (${signature})`);
                 return;

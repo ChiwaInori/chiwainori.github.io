@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>2310 班随机选人 - ChiwaInori.top</title>
-    <link rel="shortcut icon" href="https://xtsgames.top/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-center.css" />
     <style></style>
@@ -41,7 +41,7 @@
             </span></p>
         <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong></p>
         <audio id="click" src="../click.mp3" style="display: none;" preload="auto"></audio>
-        <p id="showChanceLine" class="LNK" onclick="fadeChange('showChanceLine', 'chanceTable')">点击显示每位同学被抽中的概率</p>
+        <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
         <p id="chanceTable" hide></p>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
@@ -96,6 +96,7 @@
         let currentMode = "dynamic";
         let skipAnimation = false;
         let idNow = "";
+        let chanceMode = "all";
 
         function changeMode(mode) {
             currentMode = mode;
@@ -107,7 +108,7 @@
                 hide(`s-${toHide}`);
             });
             unhide(`s-${mode}`);
-            updateChance(mode);
+            updateChance();
         }
 
         target("skipAnimation").addEventListener("change", function () {
@@ -120,6 +121,8 @@
             });
             
             let animationList;
+
+            if (type != chanceMode) { updateChance(type == "all" ? "all" : "sex"); }
 
             if (currentMode == "true") {
                 nowRolling = type == "all" ? fullList.all[rand(0, fullList.all.length - 1)] : type == "boy" ? fullList.boy[rand(0, fullList.boy.length - 1)] : fullList.girl[rand(0, fullList.girl.length - 1)];
@@ -175,7 +178,8 @@
             applyAll("#buttonLine button, #findBySex button, #findByIdLine button:nth-child(-n+7)", target => {
                 target.disabled = false;
             });
-            updateChance();
+
+            updateChance(type == "all" ? "all" : "sex");
         }
 
         async function animate(flashNames, flashColor, toColor, type) {
@@ -274,41 +278,91 @@
             target("click").play();
         }
 
-        function updateChance() {
-            if (!copyFrom("chanceTable")) {
+        function revealChance() {
+            fadeChange("showChanceLine", "chanceTable");
+            target("name").style.marginBottom = "116px";
+        }
+
+        function updateChance(showType) {
+            copyTo("chanceTable", "");
+            if (!showType) { showType = chanceMode; }
+
+            if (showType == "all") {
+                copyTo("chanceTable", "<span class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</span><br />");
                 fullList.all.forEach((name, index) => {
                     const id = index + 1;
                     addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
                 });
-            }
 
-            if (currentMode == "true") {
-                for (let i = 1; i <= fullList.all.length; i++) {
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList.all.length * 100).keep(5)}%`);
+                if (currentMode == "true") {
+                    for (let i = 1; i <= fullList.all.length; i++) {
+                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList.all.length * 100).keep(5)}%`);
+                    }
                 }
-            }
-            if (currentMode == "dynamic") {
-                let totalWeight = 0;
-                dynamicList.weight.all.forEach(weightNum => {
-                    totalWeight += weightNum;
+                if (currentMode == "dynamic") {
+                    let totalWeight = 0;
+                    dynamicList.weight.all.forEach(weightNum => {
+                        totalWeight += weightNum;
+                    });
+                    dynamicList.weight.all.forEach((weightNum, index) => {
+                        const i = index + 1;
+                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / totalWeight * 100).keep(5)}%`);
+                    });
+                }
+                if (currentMode == "false") {
+                    const nowLeftChance = 1 / remainingList.all.length;
+                    for (let i = 1; i <= fullList.all.length; i++) {
+                        if (remainingList.all.includes(fullList.all[i - 1])) {
+                            copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(nowLeftChance * 100).keep(5)}%`);
+                        } else {
+                            copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
+                        }
+                    }
+                }
+            } else { // Show chance rolled by sex
+                copyTo("chanceTable", "<span class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</span><br />");
+                fullList.all.forEach((name, index) => {
+                    const id = index + 1;
+                    addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}" style="color: ${!girlId.includes(id) ? "var(--blue)" : "var(--pink)"}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
                 });
-                dynamicList.weight.all.forEach((weightNum, index) => {
-                    const i = index + 1;
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / totalWeight * 100).keep(5)}%`);
-                });
-            }
-            if (currentMode == "false") {
-                const nowLeftChance = 1 / remainingList.all.length;
-                for (let i = 1; i <= fullList.all.length; i++) {
-                    if (remainingList.all.includes(fullList.all[i - 1])) {
-                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(nowLeftChance * 100).keep(5)}%`);
-                    } else {
-                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
+
+                if (currentMode == "true") {
+                    for (let i = 1; i <= fullList.all.length; i++) {
+                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList[!girlId.includes(i) ? "boy" : "girl"].length * 100).keep(5)}%`);
+                    }
+                }
+                if (currentMode == "dynamic") {
+                    const totalWeight = {
+                        boy: 0,
+                        girl: 0
+                    };
+                    dynamicList.weight.boy.forEach(weightNum => {
+                        totalWeight.boy += weightNum;
+                    });
+                    dynamicList.weight.girl.forEach(weightNum => {
+                        totalWeight.girl += weightNum;
+                    });
+
+                    dynamicList.weight.all.forEach((weightNum, index) => {
+                        const i = index + 1;
+                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / (girlId.includes(i) ? totalWeight.girl : totalWeight.boy) * 100).keep(5)}%`);
+                    });
+                }
+                if (currentMode == "false") {
+                    for (let i = 1; i <= fullList.all.length; i++) {
+                        const nowLeftChance = 1 / remainingList[!girlId.includes(i) ? "boy" : "girl"].length;
+                        if (remainingList[!girlId.includes(i) ? "boy" : "girl"].includes(fullList.all[i - 1])) {
+                            copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(nowLeftChance * 100).keep(5)}%`);
+                        } else {
+                            copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
+                        }
                     }
                 }
             }
+
+            chanceMode = showType;
         }
-        updateChance();
+        updateChance("all");
     </script>
 </div></body>
 

@@ -59,7 +59,7 @@
         </div>
         <div class="content">
             <div id="startup">
-                <h1>在下方选中 XTSGAMES Lyric 文件来播放动态歌词</h1>
+                <h1>在下方选中 ChiwaInori.top Lyric 文件来播放动态歌词</h1>
                 <p><input id="fileInput" type="file" accept=".json" /></p>
                 <h3 id="display"></h3>
                 <p class="STX">如果你的 Lyric 文件是 .top 格式, 请在本网页的地址后面加上 /../archive_101.html 以尝试在支持 .top 的版本中加载.</p>
@@ -96,12 +96,12 @@
                 <p>目前该网页歌词的淡入动画有一定概率出错影响观赏效果。</p>
                 <p>如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
-                    <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
+                    <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 ChiwaInori.top Lyric 文件的方式</p>
                     <div id="helpGroup" hide>
-                        <h3>如何制作 XTSGAMES Lyric 文件</h3>
+                        <h3>如何制作 ChiwaInori.top Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个 JSON 文件</p>
                         <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot; (可选), &quot;lyrics&quot;</strong></p>
-                        <p>其中 &quot;signature&quot; 的值一定为 <strong>&quot;xtsgames-lyric&quot;</strong>, &quot;version&quot; 的值为目前版本 <strong id="version"></strong></p>
+                        <p>其中 &quot;signature&quot; 的值一定为 <strong>&quot;chiwainori-lyric&quot;</strong>, &quot;version&quot; 的值为目前版本 <strong id="version"></strong></p>
                         <p><strong>3.</strong> &quot;musicInfo&quot; 的值为对象, 其中包括 <strong>&quot;title&quot;</strong> (字符串), <strong>&quot;author&quot;</strong> (字符串), <strong>&quot;bpm&quot;</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
                         <p><strong>4.</strong> &quot;settings&quot; 的值为对象, 其中包括可选键 (不存在即使用默认设置) 
                             <strong><ruby>&quot;showTitle&quot;<rt>显示网页标题</rt></ruby>, 
@@ -236,7 +236,7 @@
 
             function extractInfo() {
                 const { signature, version } = file;
-                if (signature != "xtsgames-lyric") {
+                if (signature != "chiwainori-lyric") {
                     copyTo("display", `错误的文件签名 (${signature})`);
                     colorTo("display", "var(--red)");
                     return;
@@ -251,7 +251,7 @@
                 
                 const { title, author, bpm } = file.musicInfo;
                 clockBase = 60 / bpm; // Beats per sec
-                query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
+                query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - ChiwaInori.top`;
 
                 copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button id="startButton" onclick="playButton()">点击播放</button>`);
                 copyTo("titleLine", `"${title}" - ${author}`);
@@ -560,7 +560,7 @@
             }
 
             function saveFile() {
-                save("xtsgames-lyrics.SONG-NAME.json", JSON.stringify(file));
+                save("ChiwaInori.top-lyrics.SONG-NAME.json", JSON.stringify(file));
             }
 
             target("lyricStart").addEventListener("input", function () {
