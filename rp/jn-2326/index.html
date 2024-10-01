@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>2310 班随机选人 - XTSGAMES</title>
+    <title>江南 2326 班随机选人 - XTSGAMES</title>
     <link rel="shortcut icon" href="https://xtsgames.top/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-center.css" />
@@ -13,7 +13,7 @@
 
 <body><div class="mainBody">
     <div class="title">
-        <h1>2310 班随机选人</h1>
+        <h1>江南 2326 班随机选人</h1>
     </div>
     <div class="content">
         <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 140px;">点击下方按钮进行随机选人</h1>
@@ -23,11 +23,11 @@
         <p id="buttonLine"><button onclick="roll('all')">随机选人</button><button style="margin-left: 420px;" onclick="roll('all')">随机选人</button><button style="margin-left: 450px;" onclick="roll('all')">随机选人</button></p>
         <br />
         <p>
-            <span id="findBySex">
+            <span id="findBySex" hide>
                 <button style="color: var(--blue); border-color: 2px solid var(--blue);" onclick="roll('boy')">选男生</button>
                 <button style="color: var(--pink); border-color: 2px solid var(--aqua);" onclick="roll('girl')">选女生</button>
             </span>
-            <span id="findByIdLine"><strong id="findById" style="color: #666666;" onclick="findByIdReset()">按学号找人</strong> 
+            <span id="findByIdLine" hide><strong id="findById" style="color: #666666;" onclick="findByIdReset()">按学号找人</strong> 
                 <button id="b-0" onclick="num(0)">0</button>
                 <button id="b-1" onclick="num(1)">1</button>
                 <button id="b-2" onclick="num(2)">2</button>
@@ -45,7 +45,7 @@
         <p id="chanceTable" hide></p>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
-        <p style="color: var(--gray);">2310 班成员名单及学号根据高一下学期 3 月月考成绩单进行录入。所有同学都有同等被抽中的机会。</p>
+        <p style="color: var(--gray);">江南 2326 班成员名单根据高一下学期期末考试成绩单以及 谭显桀 同学的口述进行录入。所有同学都有同等被抽中的机会。</p>
         <p style="color: var(--gray);"><strong>真随机</strong>将会在每次抽取时从全班名单中随机选择一名同学，<strong>每次每人抽到的概率都固定</strong>。</p>
         <p style="color: var(--gray);"><strong>动态随机</strong>会根据每个人被抽到的次数对抽中的概率进行加权，<strong>被抽到次数多的人再抽到的概率将会降低</strong>。</p>
         <p style="color: var(--gray);"><strong>伪随机</strong>将会在抽到一名同学后将其从名单中剔除，直到所有同学都被抽取过一次，<strong>确保 55 次抽取中不会出现重复</strong>。</p>
@@ -58,12 +58,12 @@
         copyright(2024, "Guigang JNZX 2310 XZY (千和 いのり)");
 
         const fullList = {
-            all: ["徐子洋", "覃帝创", "赖宝升", "何星辉", "黄政睿", "陆格里", "杨联贵", "廖达举", "蒋子莹", "张建涛", "施奎", "黄相茗", "林峭好", "温文雅", "钟子宁", "党希琳", "杨柠豪", "吴美萍", "谢焌宇", "戴欣彤", "杨思扬", "刘乐谦", "周坤怡", "郑翼联", "黄纤媛", "黄振航", "邓家宝", "陆禹熹", "周福文", "蒋杰胜", "苏正恩", "蒙盈盈", "郑育明", "陈广榕", "廖晓雪", "黄文贝", "吴静玉", "蒙志为", "叶滨华", "邓桢", "麦诚铭", "梁瀚菲", "林思颖", "李永仲", "邱琦康", "甘永稳", "覃耀泓", "李杰", "杨凯琪", "韦国胜", "邱振鑫", "覃飞娴", "谭铮", "霍然", "练昆林"],
+            all: ["李铭心", "刘丹薇", "吕思钰", "蒙可欣", "李思睿", "陈春锦", "蒙家欣", "陆轩茹", "谭显桀", "韦晓丹", "李满婷", "李庚庭", "胡兴华", "覃火莹", "李萌", "吕玉欣", "刘心雨", "谭钟慧", "李桂军", "谢诗雅", "闭桂萍", "谢慧霞", "梁怡", "罗寿明", "罗媛", "朱柳焕", "韦嘉燕", "梁洁蕾", "李晨烨", "熊可欣", "谭乔予", "黄嘉艳", "麦思宇", "陈丹阳", "许庆", "罗宇航", "叶桐希", "蒙柏丽", "潘佳映", "冼柏君", "闫安琪", "周海龙", "陆清清", "戚楚金", "杨卓萱", "李安琪", "谭富超", "梁旖芳", "莫颖姗", "陈婕瑛", "黄嘉睿", "叶子堃", "杨雯萱", "甘甜", "田静"],
             boy: [],
             girl: []
         };
         
-        const girlId = [9, 13, 14, 16, 18, 19, 20, 23, 25, 28, 32, 35, 36, 37, 42, 43, 47, 49, 52, 54];
+        const girlId = [];
         fullList.all.forEach((name, index) => {
             if (!girlId.includes(index + 1)) {
                 fullList.boy.push(fullList.all[index]);
@@ -277,6 +277,7 @@
 
         function updateChance() {
             if (!copyFrom("chanceTable")) {
+                addTo("chanceTable", `此表不按学号排序。<br />`);
                 fullList.all.forEach((name, index) => {
                     const id = index + 1;
                     addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
