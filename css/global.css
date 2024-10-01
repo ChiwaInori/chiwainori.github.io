@@ -87,6 +87,16 @@ body {
     max-width: 90%;
 }
 
+@font-face {
+    font-family: "lolifont";
+    src: url("/lolifont.ttf") format("truetype");
+    font-display: swap;
+}
+
+* {
+    font-family: "lolifont";
+}
+
 /* NORMAL ELEMENTS */
 
 .title h1 {
@@ -97,7 +107,7 @@ h1, h2, h3, h4, h5, h6, p, img, video, audio {
     margin: auto 0px 10px 0px;
 }
 
-img, video {
+img:not([class*="NBM"]), video:not([class*="NBM"]) {
     border: 3px solid var(--activeColor-500);
     margin: 2px;
 }
@@ -257,6 +267,10 @@ table {
 
 /*
 .LNK {} (Link) is defined above
+*/
+
+/*
+.NBM {} (No Border Media) is defined above
 */
 
 [hide] { /* Use "hide" in element directly to hide it. Example: <div id="secret" hide></div> */
