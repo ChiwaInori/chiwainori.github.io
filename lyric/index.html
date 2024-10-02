@@ -33,7 +33,7 @@
             color: var(--lyricColor);
         }
         
-        #lyrics, #lyrics * {
+        #lyrics, #lyrics *, #translations {
             position: absolute;
             color: var(--lyricColor) !important;
             -webkit-text-stroke: var(--isBorder) var(--borderColor);
@@ -100,7 +100,7 @@
                     <div id="helpGroup" hide>
                         <h3>如何制作 ChiwaInori.top Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个 JSON 文件</p>
-                        <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot; (可选), &quot;lyrics&quot;</strong></p>
+                        <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot; (可选), &quot;lyrics&quot;, &quot;translations&quot; (歌词翻译, 可选)</strong></p>
                         <p>其中 &quot;signature&quot; 的值一定为 <strong>&quot;chiwainori-lyric&quot;</strong>, &quot;version&quot; 的值为目前版本 <strong id="version"></strong></p>
                         <p><strong>3.</strong> &quot;musicInfo&quot; 的值为对象, 其中包括 <strong>&quot;title&quot;</strong> (字符串), <strong>&quot;author&quot;</strong> (字符串), <strong>&quot;bpm&quot;</strong> (数字), 分别填写歌曲的 标题，作者，每分钟节拍数</p>
                         <p><strong>4.</strong> &quot;settings&quot; 的值为对象, 其中包括可选键 (不存在即使用默认设置) 
@@ -119,6 +119,7 @@
                         <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度</p>
                         <p>你还可以把一句歌词的数组改为一个<strong>对象</strong>，在这个对象中填入和 <strong>&quot;settings&quot; 一样的键</strong>，填写相应的值，将会在歌词播放到这里时更改指定的设置</p>
                         <p class="STX">(注意: 不能把<strong>一个音符</strong>改为对象)</p>
+                        <p><strong>6.</strong> &quot;translations&quot; 的值为<strong>数组</strong>，该数组中的每一个<strong>字符串</strong>就是一句歌词的翻译，顺序与 &quot;lyrics&quot; 对应</p>
                     </div>
                 </div>
                 <p><strong>2024.9.22 更新</strong> - 更新了计时器，现在歌词不会随着时间而增大误差 <strong>(在以前, <ruby>所有歌词都会越放越慢<rt>也可能因为电脑性能不同而出现其他现象</rt></ruby>)</strong>; 中途 CPU 暂时卡顿也可以继续播放</p>
@@ -130,6 +131,7 @@
             <div id="lyricBlock" hide>
                 <h1 id="titleLine"></h1>
                 <h1 id="lyrics">&nbsp;</h1>
+                <h1 id="translations">&nbsp;</h1>
                 <p id="errorLine" style="color: var(--red);" hide></p>
                 <div id="debugPanel" hide>
                     <p id="controlLine">下一个音符: <button onclick="modify(-0.25)">-0.25</button><button onclick="modify(0.25)">+0.25</button>拍</p>
@@ -140,8 +142,8 @@
             <audio id="audioPreview" src="" controls hide></audio>
         </div>
         <script>
-            const currentVersion = 106;
-            const alsoAccept = [102, 103, 104, 105];
+            const currentVersion = 107;
+            const alsoAccept = [102, 103, 104, 105, 106];
             let showDotSetting = true;
             let showCircleSetting = true;
             let lyricJumpSetting = true;
@@ -336,6 +338,9 @@
                                 }
                             });
                             next(sentence);
+                            if ("translations" in file) {
+                                nextTranslation(file.translations[i] ? i : -1);
+                            }
 
                             if (i == startLyric) {
                                 if (notes[0][0] != "[SPACE]") { // If this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
@@ -345,8 +350,6 @@
                                     warn("No audio file is selected in initial menu.");
                                 });
                                 noteTime.end = new Date().getTime() / 1000;
-                                testStart = new Date().getTime();
-                                log(testStart);
                             } else { // It's not the first sentence, wait because last sentence next()ed in advance
                                 await sleep(waitBase * 7 * 1000);
                             }
@@ -401,7 +404,7 @@
                 for (let i = 1; i <= len; i++) {
                     width += target(`w-${i}`).offsetWidth;
                 }
-                while (width > horizontalTotal - 64 && fontSize > 10) {
+                while (width > horizontalTotal - 256 && fontSize > 10) {
                     fontSize -= 10;
                     words.forEach(element => {
                         element.style.fontSize = `${fontSize}px`;
@@ -420,7 +423,7 @@
                 for (let i = 1; i <= len; i++) {
                     target(`w-${i}`).style.left = `${currentX}px`;
                     const offset = target(`w-${i}`).offsetWidth;
-                    const space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
+                    const space = target(`w-${i}`).innerHTML == " " ? target(`w-${i}`).offsetWidth : 2;
                     currentX += offset + space;
                 }
 
@@ -459,7 +462,6 @@
             async function jump(fromIndex, toIndex, length) {
                 const jumpLength = 50;
 
-                // Old: const jumpTarget = target(`w-${index}`);
                 const jumpTargets = [];
                 for (let i = fromIndex; i <= toIndex; i++) {
                     jumpTargets.push(target(`w-${i}`));
@@ -605,13 +607,16 @@
                     } else if (!Array.isArray(startLine)) {
                         target("previewLyric").innerHTML += `{ 歌词设置 }`;
                     } else {
-                        startLine.forEach(note => {
+                        startLine.forEach((note, index) => {
                             if (note[0] == "[SPACE]") {
                                 target("previewLyric").innerHTML += `...`;
                             } else {
-                                target("previewLyric").innerHTML += `${note[0]}`;
+                                target("previewLyric").innerHTML += note[0];
                             }
                         });
+                        if ("translations" in file) {
+                            target("previewLyric").innerHTML += ` (${file.translations[this.value] || "[无翻译]"})`;
+                        }
                     }
                 }
             });
@@ -636,6 +641,58 @@
                     target("startButton").disabled = false;
                 }
                 copyTo("previewCD", "&nbsp;&nbsp;");
+            }
+
+            async function nextTranslation(sentenceOrder) {
+                const slideOffset = 15;
+                const element = target("translations");
+
+                await sleep(1);
+                element.style.transition = `all ${waitBase * 3}s var(--transit)`;
+                element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                element.style.opacity = 0;
+
+                await sleep(waitBase * 1 * 1000);
+                copyTo("translations", sentenceOrder >= 0 ? file.translations[sentenceOrder].replaceAll(/ /g, "&nbsp;") : "&nbsp;");
+                element.style.transition = "";
+                getTranslationPos();
+                element.style.opacity = 0;
+                element.style.top = `${element.style.top.getNum() + slideOffset}px`;
+                await sleep(1);
+                element.style.transition = `all ${waitBase * 3}s var(--transit)`;
+                element.style.opacity = 1;
+                element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+            }
+
+            function getTranslationPos() {
+                let fontSize = 40; // Pixels
+                const horizontalTotal = target("lyricBlock").offsetWidth;
+                const words = query("#translations");
+                words.forEach(element => {
+                    element.style.fontSize = `${fontSize}px`;
+                });
+                
+                let width = target("translations").offsetWidth;
+                while (width > horizontalTotal - 256 && fontSize > 10) {
+                    fontSize -= 10;
+                    words.forEach(element => {
+                        element.style.fontSize = `${fontSize}px`;
+                    });
+                    width = 0;
+                    for (let i = 1; i <= len; i++) {
+                        width = target("translations").offsetWidth;
+                    }
+                }
+                
+                // HORIZONTAL
+                const horizontalUsed = width;
+                const horizontalMargin = (horizontalTotal - horizontalUsed) / 2;
+                target("translations").style.left = `${horizontalMargin}px`;
+
+                // VERTICAL
+                const verticalTotal = target("lyricBlock").offsetHeight;
+                const verticalMargin = verticalTotal * 0.7;
+                target("translations").style.top = `${verticalMargin}px`;
             }
         </script>
     </div>
