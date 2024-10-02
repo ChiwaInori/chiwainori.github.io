@@ -68,6 +68,12 @@
                 <p>你可以选择一个<strong>字体文件</strong>，它将被应用于动态歌词。</p>
                 <p><input id="fontFile" type="file" accept=".ttf, .otf, .woff, .woff2" /></p>
                 <p id="fontTest" contenteditable>现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例</p>
+                <p id="translationFontLine" class="LNK" onclick="fadeChange('translationFontLine', 'transLationFontInput')" hide>点击此处单独设置翻译文本的字体</p>
+                <div id="transLationFontInput" hide>
+                    <p>你可以选择一个<strong>字体文件</strong>，它将被应用于歌词翻译。</p>
+                    <p><input id="fontFileTranslation" type="file" accept=".ttf, .otf, .woff, .woff2" /></p>
+                    <p id="fontTestTranslation" contenteditable>现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例</p>
+                </div>
                 <br />
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
@@ -151,6 +157,7 @@
             let file, clockBase, lyric, len;
             let currentPosition;
             let fontText = "现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例";
+            let fontTextTranslation = "现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例";
 
             copyTo("version", currentVersion);
 
@@ -233,6 +240,40 @@
                     target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
                     query("style")[0].innerHTML += "#lyrics *, #previewLyric { font-family: 'CustomFont'; }";
                     copyTo("fontTest", fontText);
+                    if ("translations" in file) {
+                        unhide("translationFontLine");
+                    }
+                });
+            }
+
+            target("fontFileTranslation").addEventListener("change", function () {
+                fontTextTranslation = copyFrom("fontTestTranslation");
+                copyTo("fontTestTranslation", "正在加载字体...");
+
+                const fileInput = this;
+                const fontFile = fileInput.files[0];
+
+                if (fontFile) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const fontUrl = event.target.result;
+                        loadFontTranslation(fontUrl);
+                    };
+                    reader.readAsDataURL(fontFile);
+                } else {
+                    target("translations").style.fontFamily = "inherit";
+                    copyTo("fontTestTranslation", fontTextTranslation);
+                }
+            });
+
+            function loadFontTranslation(url) {
+                const font = new FontFace("CustomFontTranslation", `url(${url})`);
+
+                font.load().then(loadedFont => {
+                    document.fonts.add(loadedFont);
+
+                    target("translations").style.fontFamily = target("fontTestTranslation").style.fontFamily = "CustomFontTranslation";
+                    copyTo("fontTestTranslation", fontTextTranslation);
                 });
             }
 
@@ -259,6 +300,9 @@
                 copyTo("titleLine", `"${title}" - ${author}`);
 
                 updateSettings(file.settings || {});
+                if ("translations" in file && target("fontFile").files[0]) {
+                    unhide("translationFontLine");
+                }
             }
 
             function playButton() {

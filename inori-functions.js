@@ -9,8 +9,8 @@
     Index:
 
     Inori Basic (1): inori
-    Global Usage (7):
-        Commands (1): sleep
+    Global Usage (8):
+        Commands (1): sleep, overload
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
@@ -58,6 +58,25 @@ function sleep(time) {
     if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
 
     return new Promise(resolve => setTimeout(resolve, time));
+}
+
+/**
+ * Overload CPU to temporarily stop code for test.
+ * @param {number} time - (> 0) Overload time in milliseconds
+ * @example overload(1000) // Overload CPU for 1s (Most of codes will be paused)
+ */
+function overload(time) {
+    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    if (time <= 0) { throw new RangeError(`time required (> 0), received ${time}`); }
+
+    const startTime = Date.now();
+    const endTime = startTime + time;
+
+    while (Date.now() < endTime) {
+        for (let i = 0; i < 10 ** 8; i++) {
+            Math.sqrt(i);
+        }
+    }
 }
 
 // GLOBAL USAGE / WEBSITE
