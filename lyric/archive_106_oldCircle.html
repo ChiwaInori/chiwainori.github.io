@@ -304,10 +304,7 @@
                             const notes = nowChecking; // [["沈", 1], ["ん", 0.5], ["で", 0.5], ["い", 0.25], ["た ", 1.75], ["味", 1.5], ["の", 0.5], ["な", 0.25], ["い", 0.5], ["日", 0.5], ["々", 0.5], ["で", 0.25], ["も", 1.5]]
                             let sentence = "";
 
-                            len = 0;
-                            notes.forEach(note => {
-                                len += note[0].length;
-                            });
+                            len = notes.length;
 
                             if (i == startLyric && notes[0][0] != "[SPACE]") { // If the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
                                 const noteBeatLength = notes[0][1];
@@ -319,20 +316,15 @@
                                 }
                             }
 
-                            let nowIndex = 1;
                             notes.forEach((note, index) => { // Note: ["沈", 1], index: 0
                                 if (note[0] == "[SPACE]") {
-                                    len = 1;
                                     if (showDotSetting) {
                                         sentence = "<span id='w-1'>...</span>";
                                     } else {
                                         sentence = "<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>";
                                     }
                                 } else {
-                                    for (let j = 0; j < note[0].length; j++) {
-                                        sentence += `<span id='w-${nowIndex}'>${note[0][j].replaceAll(/ /g, "&nbsp;")}</span>`;
-                                        nowIndex++;
-                                    }
+                                    sentence += `<span id='w-${index + 1}'>${note[0].replaceAll(/ /g, "&nbsp;")}</span>`;
                                 }
                             });
                             next(sentence);
@@ -351,7 +343,6 @@
                                 await sleep(waitBase * 7 * 1000);
                             }
 
-                            let jumpFrom = 1;
                             for (let j = 0; j < notes.length; j++) { // Loop every chars
                                 const noteBeatLength = notes[j][1];
 
@@ -360,8 +351,7 @@
                                 const noteRealLength = Math.max(noteTime.end - new Date().getTime() / 1000, 0); // To avoid negative time because of cpu overload
 
                                 if (notes[j][0] != "[SPACE]" && lyricJumpSetting) {
-                                    jump(jumpFrom, jumpFrom + notes[j][0].length - 1, noteRealLength * 1000);
-                                    jumpFrom += notes[j][0].length;
+                                    jump(j + 1, noteRealLength * 1000);
                                 }
 
                                 if (notes[j][2]) {
@@ -401,7 +391,7 @@
                 for (let i = 1; i <= len; i++) {
                     width += target(`w-${i}`).offsetWidth;
                 }
-                while (width > horizontalTotal - 64 && fontSize > 10) {
+                while (width > horizontalTotal - 42 && fontSize > 10) {
                     fontSize -= 10;
                     words.forEach(element => {
                         element.style.fontSize = `${fontSize}px`;
@@ -426,28 +416,21 @@
 
                 // VERTICAL
                 const verticalTotal = target("lyricBlock").offsetHeight;
-                const verticalUsed = showCircleSetting ? width / 8 : fontSize * 2;
-                const verticalMargin = showCircleSetting ? verticalTotal * 0.3 : (verticalTotal - verticalUsed) / 2;
+                const verticalUsed = fontSize * 2;
+                const verticalMargin = (verticalTotal - verticalUsed) / 2;
 
                 if (showCircleSetting) {
-                    const circle = { center: [horizontalUsed / 2, -(((horizontalUsed / 2) ** 2 - verticalUsed ** 2) / (2 * verticalUsed))] };
-                    circle.radius = Math.sqrt(circle.center[0] ** 2 + (-circle.center[1] + verticalUsed) ** 2);
-
-                    const getY = x => Math.sqrt(circle.radius ** 2 - (x - circle.center[0]) ** 2) + circle.center[1];
-                    const getTheta = x => Math.asin((horizontalUsed / 2 - x) / circle.radius);
-
-                    let calWidthLeft = 0;
                     for (let i = 1; i <= len; i++) {
-                        calWidthRight = calWidthLeft + target(`w-${i}`).offsetWidth;
-                        calWidthCenter = (calWidthLeft + calWidthRight) / 2;
+                        const f = x => Math.sqrt((len + 5) ** 2 - x ** 2);
+                        const float = (len + 5 - f(i - (len / 2 + 0.5))) * 60;
+                        target(`w-${i}`).style.top = `${verticalMargin + float}px`;
+                    }
 
-                        const float = getY(calWidthCenter);
-                        target(`w-${i}`).style.top = `${verticalMargin + (getY(horizontalUsed / 2) - float)}px`;
-                        calWidthLeft = calWidthRight;
-
-                        // ROTATE
-                        const radian = -getTheta(calWidthCenter);
-                        target(`w-${i}`).style.transform = `rotate(${radian}rad)`;
+                    // ROTATE
+                    for (let i = 1; i <= len; i++) {
+                        const g = x => Math.sqrt((len + 5) ** 2 - x ** 2);
+                        const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 16;
+                        target(`w-${i}`).style.transform = `rotate(${degree}deg)`;
                     }
                 } else {
                     for (let i = 1; i <= len; i++) {
@@ -456,42 +439,28 @@
                 }
             }
 
-            async function jump(fromIndex, toIndex, length) {
+            async function jump(index, length) {
                 const jumpLength = 50;
+                const jumpTarget = target(`w-${index}`);
+                const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum() : 0;
+                const xOffset = Math.sin(targetRotation / 180 * Math.PI) * jumpLength;
+                const yOffset = Math.cos(targetRotation / 180 * Math.PI) * jumpLength;
 
-                // Old: const jumpTarget = target(`w-${index}`);
-                const jumpTargets = [];
-                for (let i = fromIndex; i <= toIndex; i++) {
-                    jumpTargets.push(target(`w-${i}`));
-                }
-                const centerTarget = target(`w-${Math.round((fromIndex + toIndex) / 2)}`);
-
-                const targetRotation = centerTarget.style.transform != "" ? centerTarget.style.transform.getNum() : 0;
-                const xOffset = Math.sin(targetRotation) * jumpLength;
-                const yOffset = Math.cos(targetRotation) * jumpLength;
-
-                jumpTargets.forEach(element => {
-                    element.style.transition = "all 0.2s var(--transit)";
-                    element.style.left = `${element.style.left.getNum() + xOffset}px`;
-                });
+                jumpTarget.style.transition = "all 0.2s var(--transit)";
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum() + xOffset}px`;
                 await sleep(1);
-                jumpTargets.forEach(element => {
-                    element.style.top = `${element.style.top.getNum() - yOffset}px`;
-                    element.style.color = "var(--activeColor) !important";
-                });
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum() - yOffset}px`;
+                jumpTarget.style.color = "var(--activeColor) !important";
 
                 await sleep(200);
 
                 const returnTime = length / 1000 || 0.5;
-                jumpTargets.forEach(element => {
-                    element.style.transition = `all ${Math.max(returnTime, 0.75)}s ease`;
-                    element.style.left = `${element.style.left.getNum() - xOffset}px`;
-                });
+
+                jumpTarget.style.transition = `all ${Math.max(returnTime, 0.75)}s ease`;
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum() - xOffset}px`;
                 await sleep(1);
-                jumpTargets.forEach(element => {
-                    element.style.top = `${element.style.top.getNum() + yOffset}px`;
-                    element.style.color = "var(--lyricColor)";
-                });
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum() + yOffset}px`;
+                jumpTarget.style.color = "var(--lyricColor)";
             }
 
             async function next(sentence) {
