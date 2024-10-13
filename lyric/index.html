@@ -420,7 +420,7 @@
                                 if (j != notes.length - 1) {
                                     await sleep(noteRealLength * 1000);
                                 } else { // Now playing is last one
-                                    waitBase = noteRealLength < 2 ? noteRealLength / 10 : 0.2;
+                                    waitBase = Math.min(noteRealLength / 10, 0.2);
 
                                     await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // Give 7 waitBase to next() animation
                                 }
@@ -637,7 +637,7 @@
             }
 
             function saveFile() {
-                save("ChiwaInori.top-lyrics.SONG-NAME.json", JSON.stringify(file));
+                save("SONG-NAME.chiwainori-lyric.json", JSON.stringify(file));
             }
 
             target("lyricStart").addEventListener("input", function () {
