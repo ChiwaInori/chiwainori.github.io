@@ -14,11 +14,11 @@
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (9):
+    JS Commands (10):
         Common (4): chance, Array.isolate, Array.remove, String.getCountOf
-        Numeral (5): 
+        Numeral (6): 
             Get Numbers (2): rand, String.getNum
-            Modify Numbers (3): Number.keep, Number.transit, Number.toRange
+            Modify Numbers (3): Number.keep, Number.range, Number.transit, Number.toRange
     HTML Elements (17):
         Target Elements (2): target, query
         Interacts (6):
@@ -345,6 +345,24 @@ Number.prototype.keep = function (digit = 0) {
     if (digit % 1 != 0) { throw new RangeError(`digit required INTEGER (%1=0), received ${digit}`); }
 
     return Math.round(this * 10 ** digit) / 10 ** digit;
+};
+
+/**
+ * Check the number is in given interval or not
+ * @param {number} min - The minimum value of interval
+ * @param {number} max - The maximum value of interval
+ * @param {"CC" | "CO" | "OC" | "OO"} method - The border type of interval (Close [a, b] or Open (a, b))
+ * @returns {boolean} Is the number in the given range
+ * @example (5),range(0, 5, "OO") // false (not in (0, 5) range)
+ */
+Number.prototype.range = function (min, max, method = "CC") {
+    if (min > max) { throw new RangeError(`min required (<= ${max}), received ${min}`); }
+    if (method != "CC" && method != "CO" && method != "OC" && method != "OO") { throw new TypeError(`method must be "CC" or "CO" or "OC" or "OO"`); }
+
+    if (method == "CC") { return this >= min && this <= max; }
+    if (method == "CO") { return this >= min && this < max; }
+    if (method == "OC") { return this > min && this <= max; }
+    if (method == "OO") { return this > min && this < max; }
 };
 
 /**
