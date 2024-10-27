@@ -349,20 +349,28 @@ Number.prototype.keep = function (digit = 0) {
 
 /**
  * Check the number is in given interval or not
- * @param {number} min - The minimum value of interval
- * @param {number} max - The maximum value of interval
- * @param {"CC" | "CO" | "OC" | "OO"} method - The border type of interval (Close [a, b] or Open (a, b))
- * @returns {boolean} Is the number in the given range
- * @example (5),range(0, 5, "OO") // false (not in (0, 5) range)
+ * @param {array} borderValue - The border value of interval
+ * @param {number | undefined} borderValue[0] - The minimum value of interval
+ * @param {number | undefined} borderValue[1] - The maximum value of interval
+ * @param {array} intervalType -The border type of interval
+ * @param {boolean} intervalType[0] - The left border of interval (true: closed; false: open)
+ * @param {boolean} intervalType[1] - The right border of interval (true: closed; false: open)
+ * @returns {boolean} Is the number in the given interval
+ * @example (5).range([0, 5], [true, false]) // false (not in [0, 5) range)
  */
-Number.prototype.range = function (min, max, method = "CC") {
-    if (min > max) { throw new RangeError(`min required (<= ${max}), received ${min}`); }
-    if (method != "CC" && method != "CO" && method != "OC" && method != "OO") { throw new TypeError(`method must be "CC" or "CO" or "OC" or "OO"`); }
+Number.prototype.range = function (borderValue, intervalType = [true, true]) {
+    if (typeof borderValue != "object") { throw new TypeError(`borderValue must be an ARRAY`); }
+    if (typeof borderValue[0] != "number" && typeof borderValue[0] != "undefined") { throw new TypeError(`borderValue[0] must be a NUMBER or UNDEFINED`); }
+    if (typeof borderValue[1] != "number" && typeof borderValue[1] != "undefined") { throw new TypeError(`borderValue[1] must be a NUMBER or UNDEFINED`); }
+    if (typeof intervalType != "object") { throw new TypeError(`intervalType must be an ARRAY`); }
+    if (typeof intervalType[0] != "boolean") { throw new TypeError(`intervalType[0] must be a BOOLEAN`); }
+    if (typeof intervalType[1] != "boolean") { throw new TypeError(`intervalType[1] must be a BOOLEAN`); }
+    if (borderValue[0] > borderValue[1]) { throw new RangeError(`borderValue[0] required (<= ${borderValue[1]}), received ${borderValue[0]}`); }
 
-    if (method == "CC") { return this >= min && this <= max; }
-    if (method == "CO") { return this >= min && this < max; }
-    if (method == "OC") { return this > min && this <= max; }
-    if (method == "OO") { return this > min && this < max; }
+    if (borderValue[0] == undefined) { borderValue[0] = -Infinity; }
+    if (borderValue[1] == undefined) { borderValue[1] = Infinity; }
+
+    return (intervalType[0] ? this >= borderValue[0] : this > borderValue[0]) && (intervalType[1] ? this <= borderValue[1] : this < borderValue[1]);
 };
 
 /**
