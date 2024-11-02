@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>恶魔轮盘 子弹记录 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/inori-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>恶魔轮盘 子弹记录</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>恶魔轮盘 子弹记录</strong></h6>
+    </div>
+    <div class="content">
+        <div id="startTxt">
+            <p>此页面可以帮助你记下 恶魔轮盘 (Buckshot Roulette) 中的子弹情况。</p>
+            <br />
+        </div>
+        <p id="welcomeTxt"><strong>请先输入子弹数量以继续:</strong></p>
+        <p><img src="./Live_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="color: #ff7c7c; font-size: 22px;"><strong>实弹</strong></span>&nbsp;<input id="liveCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="liveCountTxt" style="font-size: 32px; color: #ff7c7c;"></span></strong></p>
+        <p><img id="imgBlank" src="./Blank_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="font-size: 22px;"><strong>空弹</strong></span>&nbsp;<input id="blankCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="blankCountTxt" style="font-size: 32px;"></span></strong></p>
+        <button id="startButton" onclick="start()" disabled="true">继续</button>
+        <p id="nowOrder" style="display: none;">0</p>
+        <p id="telHints" style="display: none;"></p>
+        <p id="telModifiedLive" style="display: none;"></p>
+        <p id="telModifiedBlank" style="display: none;"></p>
+        <div id="gamePhase" style="display: none;">
+            <p>请在你 / 庄家每次射击 / 喝酒后，按下下方相应的按钮。</p>
+            <h3>下一次射击: <span style="color: #ff7c7c">实 <span id="liveChance" style="color: #ff7c7c"></span>%<span style="color: #aaaaaa;"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: #aaaaaa; display: none;">(电话已更改概率)</span></h3>
+            <h5>电话: 第<input id="telOrder" style="width: 12px; margin-left: 0px;"/>发子弹 ... &lt;<input type="radio" name="tel" id="telLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: #ff7c7c">实</span> / <input type="radio" name="tel" id="telBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="confirmTel()">确认</button></h5>
+            <br />
+            <h4><span style="margin-left: 128px; margin-right: 128px; color: #ff7c7c;">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
+            <h4>常规发射</h4>
+            <button id="shootNormalLive" style="height: 256px; width: 256px;" onclick="shoot(1)">常规发射 | <span style="color: #ff7c7c;">实弹</span></button>
+            <button id="shootNormalBlank" style="height: 256px; width: 256px;" onclick="shoot(2)">常规发射 | 空弹</button>
+            <br />
+            <h4 style="color: #007700;">使用转换器</h4>
+            <h6>* 注: 对于两个 &quot;<span style="color: #007700;">使用转换器</span>&quot; 的按钮，根据发射出的实际子弹类型选择 <span style="color: #ff7c7c;">实弹</span> 或 空弹，而不是选择转换前的类型。</h6>
+            <button id="shootInvertLive" style="height: 256px; width: 256px;" onclick="shoot(3)"><span style="color: #007700;">使用转换器</span> | <span style="color: #ff7c7c;">实弹</span></button>
+            <button id="shootInvertBlank" style="height: 256px; width: 256px;" onclick="shoot(4)"><span style="color: #007700;">使用转换器</span> | 空弹</button>
+        </div>
+    </div>
+    <script>
+        target("liveCount").addEventListener("input", updateStartButton);
+
+        target("blankCount").addEventListener("input", updateStartButton);
+
+        function updateStartButton() {
+            const liveCount = target("liveCount").value;
+            const blankCount = target("blankCount").value;
+            if (liveCount != "" && blankCount != "") {
+                target("startButton").disabled = false;
+            }
+        }
+
+        function start() {
+            const liveCount = parseInt(target("liveCount").value);
+            const blankCount = parseInt(target("blankCount").value);
+            fadeOut("liveCount");
+            fadeOut("blankCount");
+            fadeOut("startTxt");
+            fadeOut("startButton");
+            fadeChange("welcomeTxt", "gamePhase");
+            unhide("liveCountTxt", "inline");
+            unhide("blankCountTxt", "inline");
+            copyTo("liveCountTxt", liveCount);
+            copyTo("blankCountTxt", blankCount);
+            shoot(0);
+        }
+
+        function shoot(type) {
+            target("shootNormalLive").disabled = false;
+            target("shootInvertBlank").disabled = false;
+            target("shootNormalBlank").disabled = false;
+            target("shootInvertLive").disabled = false;
+
+            let liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
+            let blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
+            if (copyFrom("telModifiedLive") == "") {
+                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+            } else {
+                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+            }
+            if (copyFrom("telModifiedBlank") == "") {
+                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+            } else {
+                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+            }
+            var nowOrder = parseInt(copyFrom("nowOrder"));
+            const telHints = copyFrom("telHints");
+            if (type == 1 || type == 4) {
+                liveCount--;
+                if (telHints.indexOf(`${nowOrder}`) == -1) {
+                    telModifiedLiveCount--;
+                }
+            }
+            if (type == 2 || type == 3) {
+                blankCount--;
+                if (telHints.indexOf(`${nowOrder}`) == -1) {
+                    telModifiedBlankCount--;
+                }
+            }
+            copyTo("telModifiedLive", telModifiedLiveCount);
+            copyTo("telModifiedBlank", telModifiedBlankCount);
+            if (liveCount != 0) {
+                copyTo("liveCountTxt", liveCount);
+            } else {
+                copyTo("liveCountTxt", "已打完");
+                colorTo("liveCountTxt", "#dd0000");
+                target("shootNormalLive").disabled = true;
+                target("shootInvertBlank").disabled = true;
+            }
+            if (blankCount != 0) {
+                copyTo("blankCountTxt", blankCount);
+            } else {
+                copyTo("blankCountTxt", "已打完");
+                colorTo("blankCountTxt", "#dd0000");
+                target("shootInvertLive").disabled = true;
+                target("shootNormalBlank").disabled = true;
+            }
+            const totalShells = telModifiedLiveCount + telModifiedBlankCount;
+            var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
+            var blankChance = 100 - liveChance;
+            var liveChance = liveChance || 0;
+            var blankChance = blankChance || 0;
+            copyTo("liveChance", liveChance);
+            copyTo("blankChance", blankChance);
+            hide("confirmed");
+            var nowOrder = nowOrder + 1;
+            copyTo("nowOrder", nowOrder);
+            if (telHints.indexOf(`${nowOrder}l`) >= 0) {
+                copyTo("liveChance", 100);
+                copyTo("blankChance", 0);
+                unhide("confirmed", "inline");
+                colorTo("confirmed", "#ff7c7c");
+            }
+            if (telHints.indexOf(`${nowOrder}b`) >= 0) {
+                copyTo("liveChance", 0);
+                copyTo("blankChance", 100);
+                unhide("confirmed", "inline");
+                colorTo("confirmed", "#666666");
+            }
+
+            if (copyFrom("liveChance") == 100) {
+                target("shootInvertLive").disabled = true;
+                target("shootNormalBlank").disabled = true;
+            }
+            if (copyFrom("liveChance") == 0) {
+                target("shootInvertBlank").disabled = true;
+                target("shootNormalLive").disabled = true;
+            }
+
+            const totalShellsBeforeTel = liveCount + blankCount;
+            var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
+            var liveChanceBeforeTel = liveChanceBeforeTel || 0;
+            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
+                unhide("changed", "inline");
+            } else {
+                hide("changed");
+            }
+            log(liveChance, "liveChance");
+            log(liveChanceBeforeTel, "liveChanceBeforeTel");
+        }
+
+        function confirmTel() {
+            const liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
+            const blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
+            const nowOrder = parseInt(copyFrom("nowOrder"));
+            const telOrder = parseInt(target("telOrder").value) + nowOrder - 1;
+            if (copyFrom("telModifiedLive") == "") {
+                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+            } else {
+                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+            }
+            if (copyFrom("telModifiedBlank") == "") {
+                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+            } else {
+                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+            }
+            if (target("telLive").checked == true) {
+                copyTo("telHints", `${copyFrom("telHints")} ${telOrder}l`);
+                telModifiedLiveCount--;
+            } else {
+                copyTo("telHints", `${copyFrom("telHints")} ${telOrder}b`);
+                telModifiedBlankCount--;
+            }
+            const totalShells = telModifiedLiveCount + telModifiedBlankCount;
+            var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
+            var blankChance = 100 - liveChance;
+            var liveChance = liveChance || 0;
+            var blankChance = blankChance || 0;
+            copyTo("liveChance", liveChance);
+            copyTo("blankChance", blankChance);
+            copyTo("telModifiedLive", telModifiedLiveCount);
+            copyTo("telModifiedBlank", telModifiedBlankCount);
+
+            const totalShellsBeforeTel = liveCount + blankCount;
+            var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
+            var liveChanceBeforeTel = liveChanceBeforeTel || 0;
+            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
+                unhide("changed", "inline");
+            } else {
+                hide("changed");
+            }
+            log(liveChance, "liveChance");
+            log(liveChanceBeforeTel, "liveChanceBeforeTel");
+
+            if (copyFrom("liveChance") == 100) {
+                target("shootInvertLive").disabled = true;
+                target("shootNormalBlank").disabled = true;
+            }
+            if (copyFrom("liveChance") == 0) {
+                target("shootInvertBlank").disabled = true;
+                target("shootNormalLive").disabled = true;
+            }
+        }
+    </script>
+</div></body>
+
+</html>

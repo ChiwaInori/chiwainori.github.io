@@ -7,7 +7,28 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-normal.css" />
-    <style></style>
+    <style>
+        :root {
+            --live: #ff7c7c;
+            --blank: var(--textColor-500);
+            --unknown: var(--textColor-400);
+            --convert: #007700;
+        }
+
+        .telephoneHintsGroup h6 {
+            color: var(--textColor-400);
+        }
+
+        .shootButton {
+            height: 256px;
+            width: 256px;
+        }
+
+        .converted {
+            text-decoration: underline;
+            text-decoration-color: var(--convert);
+        }
+    </style>
     <script src="/inori-functions.js"></script>
 </head>
 
@@ -21,48 +42,63 @@
     <div class="content">
         <div id="startTxt">
             <p>此页面可以帮助你记下 恶魔轮盘 (Buckshot Roulette) 中的子弹情况。</p>
+            <p>本页面同样适用于多人模式。</p>
             <br />
         </div>
         <p id="welcomeTxt"><strong>请先输入子弹数量以继续:</strong></p>
-        <p><img src="./Live_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="color: #ff7c7c; font-size: 22px;"><strong>实弹</strong></span>&nbsp;<input id="liveCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="liveCountTxt" style="font-size: 32px; color: #ff7c7c;"></span></strong></p>
+        <p><img src="./Live_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="color: var(--live); font-size: 22px;"><strong>实弹</strong></span>&nbsp;<input id="liveCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="liveCountTxt" style="font-size: 32px; color: var(--live);"></span></strong></p>
         <p><img id="imgBlank" src="./Blank_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="font-size: 22px;"><strong>空弹</strong></span>&nbsp;<input id="blankCount" style="width: 16px; height: 20px;" />&nbsp;<strong><span id="blankCountTxt" style="font-size: 32px;"></span></strong></p>
         <button id="startButton" onclick="start()" disabled="true">继续</button>
-        <p id="nowOrder" style="display: none;">0</p>
-        <p id="telHints" style="display: none;"></p>
-        <p id="telModifiedLive" style="display: none;"></p>
-        <p id="telModifiedBlank" style="display: none;"></p>
         <div id="gamePhase" style="display: none;">
-            <p>请在你 / 庄家每次射击 / 喝酒后，按下下方相应的按钮。</p>
-            <h3>下一次射击: <span style="color: #ff7c7c">实 <span id="liveChance" style="color: #ff7c7c"></span>%<span style="color: #aaaaaa;"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: #aaaaaa; display: none;">(电话已更改概率)</span></h3>
-            <h5>电话: 第<input id="telOrder" style="width: 8px; margin-left: 0px;"/>发子弹 ... &lt;<input type="radio" name="tel" id="telLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: #ff7c7c">实</span> / <input type="radio" name="tel" id="telBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="confirmTel()">确认</button></h5>
+            <p>请在你 / 庄家 (其他玩家) 每次射击 / 喝酒后，按下下方相应的按钮。</p>
+            <h2>下一次射击: <span style="color: var(--live)">实 <span id="liveChance" style="color: var(--live)"></span>%<span style="color: var(--textColor-400);"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: #aaaaaa; display: none;">(电话已更改概率)</span></h3>
+            <h4 id="bulletLine"></h4>
+            <h5>电话: 第<input id="telephoneOrder" style="width: 12px; margin-left: 0px;"/>发子弹 ... &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="telephone()">确认</button></h5>
+            <div id="telephoneHintsGroup"></div>
             <br />
-            <h4><span style="margin-left: 128px; margin-right: 128px; color: #ff7c7c;">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
+            <h4><span style="margin-left: 128px; margin-right: 128px; color: var(--live);">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
             <h4>常规发射</h4>
-            <button id="shootNormalLive" style="height: 256px; width: 256px;" onclick="shoot(1)">常规发射 | <span style="color: #ff7c7c;">实弹</span></button>
-            <button id="shootNormalBlank" style="height: 256px; width: 256px;" onclick="shoot(2)">常规发射 | 空弹</button>
+            <button id="shootNormalLive" class="shootButton liveButton" onclick="shoot(1)">常规发射 | <span style="color: var(--live);">实弹</span></button>
+            <button id="shootNormalBlank" class="shootButton blankButton" onclick="shoot(2)">常规发射 | 空弹</button>
             <br />
             <h4 style="color: #007700;">使用转换器</h4>
-            <h6>* 注: 对于两个 &quot;<span style="color: #007700;">使用转换器</span>&quot; 的按钮，根据发射出的实际子弹类型选择 <span style="color: #ff7c7c;">实弹</span> 或 空弹，而不是选择转换前的类型。</h6>
-            <button id="shootInvertLive" style="height: 256px; width: 256px;" onclick="shoot(3)"><span style="color: #007700;">使用转换器</span> | <span style="color: #ff7c7c;">实弹</span></button>
-            <button id="shootInvertBlank" style="height: 256px; width: 256px;" onclick="shoot(4)"><span style="color: #007700;">使用转换器</span> | 空弹</button>
+            <h6>* 注: 对于两个 &quot;<span style="color: #007700;">使用转换器</span>&quot; 的按钮，根据发射出的实际子弹类型选择 <span style="color: var(--live);">实弹</span> 或 空弹，而不是选择转换前的类型。</h6>
+            <button id="shootInvertLive" class="shootButton blankButton" onclick="shoot(3)"><span style="color: var(--convert);">使用转换器</span> | <span style="color: var(--live);">实弹</span></button>
+            <button id="shootInvertBlank" class="shootButton liveButton" onclick="shoot(4)"><span style="color: var(--convert);">使用转换器</span> | 空弹</button>
         </div>
     </div>
     <script>
+        const bullets = {
+            total: 0,
+            left: {
+                live: 0,
+                blank: 0
+            },
+            telephoneModified: {
+                live: 0,
+                blank: 0
+            }
+        };
+        const telephoneHints = {};
+        let nowRound = 0;
+
         target("liveCount").addEventListener("input", updateStartButton);
 
         target("blankCount").addEventListener("input", updateStartButton);
 
         function updateStartButton() {
-            var liveCount = target("liveCount").value;
-            var blankCount = target("blankCount").value;
-            if (liveCount != "" && blankCount != "") {
+            const liveCount = +copyValue("liveCount");
+            const blankCount = +copyValue("blankCount");
+            if (liveCount >= 0 && blankCount >= 0 && liveCount + blankCount >= 1) {
                 target("startButton").disabled = false;
             }
         }
 
         function start() {
-            var liveCount = parseInt(target("liveCount").value);
-            var blankCount = parseInt(target("blankCount").value);
+            bullets.left.live = bullets.telephoneModified.live = +copyValue("liveCount");
+            bullets.left.blank = bullets.telephoneModified.blank = +copyValue("blankCount");
+            bullets.total = bullets.left.live + bullets.left.blank;
+
             fadeOut("liveCount");
             fadeOut("blankCount");
             fadeOut("startTxt");
@@ -70,155 +106,138 @@
             fadeChange("welcomeTxt", "gamePhase");
             unhide("liveCountTxt", "inline");
             unhide("blankCountTxt", "inline");
-            copyTo("liveCountTxt", liveCount);
-            copyTo("blankCountTxt", blankCount);
+            copyTo("liveCountTxt", bullets.left.live);
+            copyTo("blankCountTxt", bullets.left.blank);
+
+            generateLine();
             shoot(0);
         }
 
         function shoot(type) {
-            target("shootNormalLive").disabled = false;
-            target("shootInvertBlank").disabled = false;
-            target("shootNormalBlank").disabled = false;
-            target("shootInvertLive").disabled = false;
+            applyAll(".shootButton", element => element.disabled = false);
+            
+            if (type == 1) { bullets.left.live--; updateLine("live", false); }
+            if (type == 2) { bullets.left.blank--; updateLine("blank", false); }
+            if (type == 3) { bullets.left.blank--; updateLine("blank", true); }
+            if (type == 4) { bullets.left.live--; updateLine("live", true); }
+            
+            nowRound++;
+            const revealed = nowRound in telephoneHints;
+            if (!(nowRound - 1 in telephoneHints)) {
+                if (type == 1 || type == 4) { bullets.telephoneModified.live--; }
+                if (type == 2 || type == 3) { bullets.telephoneModified.blank--; }
+            } else if (target(`hint-${nowRound}`)) {
+                colorTo(`hint-${nowRound}`, "var(--red)");
+            }
 
-            var liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
-            var blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
-            if (copyFrom("telModifiedLive") == "") {
-                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
-            } else {
-                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+            if (nowRound >= 2 && target(`hint-${nowRound - 1}`)) {
+                colorTo(`hint-${nowRound - 1}`, "var(--textColor-400)");
             }
-            if (copyFrom("telModifiedBlank") == "") {
-                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
-            } else {
-                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
-            }
-            var nowOrder = parseInt(copyFrom("nowOrder"));
-            var telHints = copyFrom("telHints");
-            if (type == 1 || type == 4) {
-                liveCount--;
-                if (telHints.indexOf(`${nowOrder}`) == -1) {
-                    telModifiedLiveCount--;
-                }
-            }
-            if (type == 2 || type == 3) {
-                blankCount--;
-                if (telHints.indexOf(`${nowOrder}`) == -1) {
-                    telModifiedBlankCount--;
-                }
-            }
-            copyTo("telModifiedLive", telModifiedLiveCount);
-            copyTo("telModifiedBlank", telModifiedBlankCount);
-            if (liveCount != 0) {
-                copyTo("liveCountTxt", liveCount);
+
+            if (bullets.left.live != 0) {
+                copyTo("liveCountTxt", bullets.left.live);
             } else {
                 copyTo("liveCountTxt", "已打完");
                 colorTo("liveCountTxt", "#dd0000");
-                target("shootNormalLive").disabled = true;
-                target("shootInvertBlank").disabled = true;
+                target("shootNormalLive").disabled = target("shootInvertBlank").disabled = true;
+
+                for (let i = nowRound; i <= bullets.total; i++) {
+                    colorTo(`line-${i}`, `var(--blank)`);
+                }
             }
-            if (blankCount != 0) {
-                copyTo("blankCountTxt", blankCount);
+
+            if (bullets.left.blank != 0) {
+                copyTo("blankCountTxt", bullets.left.blank);
             } else {
                 copyTo("blankCountTxt", "已打完");
                 colorTo("blankCountTxt", "#dd0000");
-                target("shootInvertLive").disabled = true;
-                target("shootNormalBlank").disabled = true;
-            }
-            var totalShells = telModifiedLiveCount + telModifiedBlankCount;
-            var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
-            var blankChance = 100 - liveChance;
-            var liveChance = liveChance || 0;
-            var blankChance = blankChance || 0;
-            copyTo("liveChance", liveChance);
-            copyTo("blankChance", blankChance);
-            hide("confirmed");
-            var nowOrder = nowOrder + 1;
-            copyTo("nowOrder", nowOrder);
-            if (telHints.indexOf(`${nowOrder}l`) >= 0) {
-                copyTo("liveChance", 100);
-                copyTo("blankChance", 0);
-                unhide("confirmed", "inline");
-                colorTo("confirmed", "#ff7c7c");
-            }
-            if (telHints.indexOf(`${nowOrder}b`) >= 0) {
-                copyTo("liveChance", 0);
-                copyTo("blankChance", 100);
-                unhide("confirmed", "inline");
-                colorTo("confirmed", "#666666");
-            }
+                target("shootInvertLive").disabled = target("shootNormalBlank").disabled = true;
 
-            if (copyFrom("liveChance") == 100) {
-                target("shootInvertLive").disabled = true;
-                target("shootNormalBlank").disabled = true;
+                for (let i = nowRound; i <= bullets.total; i++) {
+                    colorTo(`line-${i}`, `var(--live)`);
+                }
             }
-            if (copyFrom("liveChance") == 0) {
-                target("shootInvertBlank").disabled = true;
-                target("shootNormalLive").disabled = true;
-            }
-
-            var totalShellsBeforeTel = liveCount + blankCount;
-            var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
-            var liveChanceBeforeTel = liveChanceBeforeTel || 0;
-            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
-                unhide("changed", "inline");
-            } else {
-                hide("changed");
-            }
-            log(liveChance, "liveChance");
-            log(liveChanceBeforeTel, "liveChanceBeforeTel");
+            
+            updateChance(revealed);
         }
 
-        function confirmTel() {
-            var liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
-            var blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
-            var nowOrder = parseInt(copyFrom("nowOrder"));
-            var telOrder = parseInt(target("telOrder").value) + nowOrder - 1;
-            if (copyFrom("telModifiedLive") == "") {
-                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+        function telephone() {
+            const orderId = +copyValue("telephoneOrder");
+            const absoluteId = orderId + nowRound - 1;
+            const isLive = target("telephoneLive").checked;
+
+            telephoneHints[absoluteId] = isLive;
+            if (isLive) {
+                bullets.telephoneModified.live--;
             } else {
-                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+                bullets.telephoneModified.blank--;
             }
-            if (copyFrom("telModifiedBlank") == "") {
-                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+
+            setValue("telephoneOrder", "");
+            addTo("telephoneHintsGroup", `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`);
+            colorTo(`line-${absoluteId}`, `var(--${isLive ? "live" : "blank"})`);
+            updateChance(nowRound in telephoneHints);
+        }
+
+        function updateChance(revealed) {
+            let liveChance;
+            const noLeft = bullets.telephoneModified.live != 0 || bullets.telephoneModified.blank != 0;
+
+            if (revealed) {
+                const isLive = telephoneHints[nowRound];
+                liveChance = isLive ? 100 : 0;
+                colorTo("confirmed", `var(--${isLive ? "live" : "blank"})`);
             } else {
-                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+                const bulletsLeft = bullets.telephoneModified.live + bullets.telephoneModified.blank;
+                liveChance = noLeft ? parseInt(bullets.telephoneModified.live / bulletsLeft * 100) : 0;
             }
-            if (target("telLive").checked == true) {
-                copyTo("telHints", copyFrom("telHints") + ` ${telOrder}l`);
-                telModifiedLiveCount--;
-            } else {
-                copyTo("telHints", copyFrom("telHints") + ` ${telOrder}b`);
-                telModifiedBlankCount--;
-            }
-            var totalShells = telModifiedLiveCount + telModifiedBlankCount;
-            var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
-            var blankChance = 100 - liveChance;
-            var liveChance = liveChance || 0;
-            var blankChance = blankChance || 0;
+            const blankChance = noLeft ? 100 - liveChance : 0;
+
             copyTo("liveChance", liveChance);
             copyTo("blankChance", blankChance);
-            copyTo("telModifiedLive", telModifiedLiveCount);
-            copyTo("telModifiedBlank", telModifiedBlankCount);
+            if (revealed) { unhide("confirmed", "inline"); } else { hide("confirmed", "id"); }
 
-            var totalShellsBeforeTel = liveCount + blankCount;
-            var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
-            var liveChanceBeforeTel = liveChanceBeforeTel || 0;
-            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
-                unhide("changed", "inline");
-            } else {
-                hide("changed");
-            }
-            log(liveChance, "liveChance");
-            log(liveChanceBeforeTel, "liveChanceBeforeTel");
-
-            if (copyFrom("liveChance") == 100) {
+            if (liveChance == 100) {
                 target("shootInvertLive").disabled = true;
                 target("shootNormalBlank").disabled = true;
             }
-            if (copyFrom("liveChance") == 0) {
+            if (blankChance == 100) {
                 target("shootInvertBlank").disabled = true;
                 target("shootNormalLive").disabled = true;
+            }
+
+            const chanceModified = bullets.left.live != bullets.telephoneModified.live || bullets.left.blank != bullets.telephoneModified.blank;
+            if (chanceModified && !revealed) { unhide("changed", "inline"); } else { hide("changed", "id"); }
+
+            if (bullets.telephoneModified.live == 0) {
+                for (let i = 1; i <= bullets.total; i++) {
+                    if (target(`line-${i}`).style.color == "var(--unknown)") { colorTo(`line-${i}`, "var(--blank)"); }
+                }
+            }
+            if (bullets.telephoneModified.blank == 0) {
+                for (let i = 1; i <= bullets.total; i++) {
+                    if (target(`line-${i}`).style.color == "var(--unknown)") { colorTo(`line-${i}`, "var(--live)"); }
+                }
+            }
+        }
+
+        function generateLine() {
+            for (let i = 1; i <= bullets.total; i++) {
+                addTo("bulletLine", `<span id="line-${i}">[${i}]</span>&nbsp;`);
+                colorTo(`line-${i}`, "var(--unknown)");
+            }
+            copyTo("line-1", `<ruby>${copyFrom("line-1")}<rt style="color: var(--red)">NEXT</rt></ruby>`);
+        }
+
+        function updateLine(type, converted) {
+            colorTo(`line-${nowRound}`, `var(--${type})`);
+            if (converted) { addTo(`line-${nowRound}`, `<span style="color: var(--convert)">&gt;!</span>`); }
+
+            copyTo("bulletLine", copyFrom("bulletLine").replaceAll(/NEXT/g, ""));
+            if (nowRound + 1 <= bullets.total) {
+                copyTo(`line-${nowRound + 1}`, `<ruby>${copyFrom(`line-${nowRound + 1}`)}<rt style="color: var(--red)">NEXT</rt></ruby>`);
+            } else {
+                addTo("bulletLine", "<span style='color: var(--green);'>&lt;FINISHED&gt;</span>");
             }
         }
     </script>
