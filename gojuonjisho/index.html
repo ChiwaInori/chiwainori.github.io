@@ -46,6 +46,10 @@
         const kana = [["あ", "ア"], ["い", "イ"], ["う", "ウ"], ["え", "エ"], ["お", "オ"], ["か", "カ", "が", "ガ"], ["き", "キ", "ぎ", "ギ"], ["く", "ク", "ぐ", "グ"], ["け", "ケ", "げ", "ゲ"], ["こ", "コ", "ご", "ゴ"], ["さ", "サ", "ざ", "ザ"], ["し", "シ", "じ", "ジ"], ["す", "ス", "ず", "ズ"], ["せ", "セ", "ぜ", "ゼ"], ["そ", "ソ", "ぞ", "ゾ"], ["た", "タ", "だ", "ダ"], ["ち", "チ", "ぢ", "ヂ"], ["つ", "ツ", "づ", "ヅ"], ["て", "テ", "で", "デ"], ["と", "ト", "ど", "ド"], ["な", "ナ"], ["に", "ニ"], ["ぬ", "ヌ"], ["ね", "ネ"], ["の", "ノ"], ["は", "ハ", "ば", "バ", "ぱ", "パ"], ["ひ", "ヒ", "び", "ビ", "ぴ", "ピ"], ["ふ", "フ", "ぶ", "ブ", "ぷ", "プ"], ["へ", "ヘ", "べ", "ベ", "ぺ", "ペ"], ["ほ", "ホ", "ぼ", "ボ", " ぽ", "ポ"], ["ま", "マ"], ["み", "ミ"], ["む", "ム"], ["め", "メ"], ["も", "モ"], ["や", "ヤ"], ["ゆ", "ユ"], ["よ", "ヨ"], ["ら", "ラ"], ["り", "リ"], ["る", "ル"], ["れ", "レ"], ["ろ", "ロ"], ["わ", "ワ"], ["を", "ヲ"], ["ん", "ン"]];
         const timeUsed = [];
         let nowOrder, orderToCheck;
+        const locked = {
+            keyLR: true,
+            keyD: false
+        };
 
         function start() {
             fadeChange("welcome", "game");
@@ -55,15 +59,17 @@
 
         function press(key) {
             if (key == "ArrowDown") {
-                if (!isHidden("startup")) {
-                    startTimer = new Date().getTime();
-                    hide("startup");
-                    unhide("gameText");
+                if (!locked.keyD) {
+                    locked.keyLR = false;
+                    if (!isHidden("startup")) {
+                        startTimer = new Date().getTime();
+                        hide("startup");
+                        unhide("gameText");
+                    }
                     gameGen();
-                } else {
-                    gameGen();
+                    locked.keyD = true;
                 }
-            } else {
+            } else if (!locked.keyLR) {
                 const correctCheck = orderToCheck == 0 && (key == "ArrowLeft" && nowOrder[0] < nowOrder[1] || key == "ArrowRight" && nowOrder[0] > nowOrder[1]) || orderToCheck == 1 && (key == "ArrowLeft" && nowOrder[0] > nowOrder[1] || key == "ArrowRight" && nowOrder[0] < nowOrder[1]) || nowOrder[0] == nowOrder[1];
                 if (correctCheck) {
                     const nowTime = new Date().getTime();
@@ -76,6 +82,8 @@
                 } else { // Wrong
                     copyTo("resultLine", `回答错误 - 按下 下方向键 或 点击这行文字 继续`);
                     colorTo("resultLine", "var(--red)");
+                    locked.keyLR = true;
+                    locked.keyD = false;
 
                     colorTo(`option-${key == "ArrowLeft" ? 2 : 1}`, "var(--red)");
                 }
@@ -88,6 +96,7 @@
                     let totalTime = 0;
                     timeUsed.forEach(num => totalTime += num);
                     const avgTime = totalTime / 20;
+                    locked.keyLR = locked.keyD = true;
 
                     copyTo("finalLine", `测试结束! 正确率 ${correct * 5}%, 平均用时 ${avgTime} ms`);
                 }
