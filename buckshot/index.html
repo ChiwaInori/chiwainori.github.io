@@ -52,7 +52,7 @@
         <div id="gamePhase" style="display: none;">
             <p>请在你 / 庄家 (其他玩家) 每次射击 / 喝酒后，按下下方相应的按钮。</p>
             <h2>下一次射击: <span style="color: var(--live)">实 <span id="liveChance" style="color: var(--live)"></span>%<span style="color: var(--textColor-400);"> || </span><span>空 <span id="blankChance"></span>% <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: #aaaaaa; display: none;">(电话已更改概率)</span></h3>
-            <h4 id="bulletLine"></h4>
+            <h4 id="bulletLine">子弹顺序: </h4>
             <h5>电话: 第<input id="telephoneOrder" style="width: 12px; margin-left: 0px;"/>发子弹 ... &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button onclick="telephone()">确认</button></h5>
             <div id="telephoneHintsGroup"></div>
             <br />
