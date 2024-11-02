@@ -14,11 +14,11 @@
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (10):
+    JS Commands (12):
         Common (4): chance, Array.isolate, Array.remove, String.getCountOf
-        Numeral (6): 
-            Get Numbers (2): rand, String.getNum
-            Modify Numbers (3): Number.keep, Number.range, Number.transit, Number.toRange
+        Numeral (8): 
+            Get Numbers (3): rand, seed, String.getNum
+            Modify Numbers (4): Number.keep, Number.range, Number.percentage, Number.transit, Number.toRange
     HTML Elements (17):
         Target Elements (2): target, query
         Interacts (6):
@@ -317,6 +317,29 @@ function rand(min, max, keepFloat = false) {
 }
 
 /**
+ * Return a seeded random number.
+ * @param {any} value - The seed of random number
+ * @param {number[]} key - The key to generate a random number
+ * @returns {number} A seeded random number ranged in [0, 1)
+ * @example seed("Hello", [7, 5, 3, 2]) // 0.06893690832939114 (A seeded random number)
+ */
+function seed(value, key = [38.9321, 25.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
+    if (typeof key != "object") { throw new TypeError(`key must be an ARRAY`); }
+    if (key.length == 0) { throw new TypeError(`key must be NOT EMPTY`); }
+    key.forEach((element, index) => { if (typeof element != "number") { throw new TypeError(`key[${index}] must be a NUMBER`); } });
+
+    const seedValue = `${(typeof value).toUpperCase()}.${value}`;
+
+    let number = 0;
+    for (let i = 0; i < seedValue.length; i++) {
+        number += key[seedValue.charCodeAt(i) % key.length];
+    }
+    number = number * Math.E % 1;
+
+    return number;
+}
+
+/**
  * Return a selected number in a string.
  * @param {number} order - (%1=0, >= 1) Which part of number you want (start from 1)
  * @returns {number | null} The number from specified string in specified order
@@ -349,10 +372,10 @@ Number.prototype.keep = function (digit = 0) {
 
 /**
  * Check the number is in given interval or not
- * @param {array} borderValue - The border value of interval
+ * @param {number[] | undefined[]} borderValue - The border value of interval
  * @param {number | undefined} borderValue[0] - The minimum value of interval
  * @param {number | undefined} borderValue[1] - The maximum value of interval
- * @param {array} intervalType -The border type of interval
+ * @param {boolean[]} intervalType -The border type of interval
  * @param {boolean} intervalType[0] - The left border of interval (true: closed; false: open)
  * @param {boolean} intervalType[1] - The right border of interval (true: closed; false: open)
  * @returns {boolean} Is the number in the given interval
@@ -374,12 +397,30 @@ Number.prototype.range = function (borderValue, intervalType = [true, true]) {
 };
 
 /**
- * Scale a number to given range.
+ * Scale a number to a percentage in given range. (The reverse function of Number.transit)
+ * @param {number} from - The number where scales from
+ * @param {number} to - The number where scales to
+ * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
+ * @returns {number} A percentage in range and specified number
+ * @example (6).percentage(0, 10) // 0.6 (6 is the 60% in [0, 10])
+ */
+Number.prototype.percentage = function (from, to, disableRange = false) {
+    if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
+    if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
+    if (typeof disableRange != "boolean") { throw new TypeError(`disableRange must be a BOOLEAN`); }
+
+    const range = to - from;
+
+    return disableRange ? (this - from) / range : ((this - from) / range).toRange(0, 1);
+};
+
+/**
+ * Scale a percentage to given range. (The reverse function of Number.percentage)
  * @param {number} from - The number where scales from
  * @param {number} to - The number where scales to
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @returns {number} A number in range and specified percentage
- * @example (0.6).transit(0, 10) // 6 (The number in [0, 10] and 60% of its range is 6)
+ * @example (0.6).transit(0, 10) // 6 (The 60% of  [0, 10] is 6)
  */
 Number.prototype.transit = function (from, to, disableRange = false) {
     if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
@@ -393,7 +434,7 @@ Number.prototype.transit = function (from, to, disableRange = false) {
 
 /**
  * Return a number within given range.
- * If the number is out of range, a warning message will be provided.
+ * If the number is out of range, a warning message can be provided.
  * @param {number} minBoundary - (<= maxBoundary) The boundary of minimum
  * @param {number} maxBoundary - (>= minBoundary) The boundary of maximum
  * @param {boolean} warnIfWorked - Should the function warn in console if itself worked
