@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>2310 班生日列表 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-center.css" />
+    <style>
+        #next * {
+            font-size: 64px;
+        }
+
+        #remaining * {
+            font-size: 20px;
+        }
+    </style>
+    <script src="/inori-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>2310 班生日列表</h1>
+    </div>
+    <div class="content">
+        <br />
+        <h2>下一个生日:</h2>
+        <div id="next"></div>
+        <br />
+        <div id="remaining"></div>
+    </div>
+    <script>
+        const birthList = [
+            ["徐子洋", 2007, 12, 12],
+            ["覃帝创", 2008, 2, 23],
+            ["赖宝升", 2007, 9, 24],
+            ["何星辉", 2007, 10, 11],
+            ["黄政睿", 2007, 7, 29],
+            ["陆格里", 2007, 11, 2],
+            ["杨联贵", 2008, 1, 24],
+            ["廖达举", 2007, 11, 24],
+            ["蒋子莹", 2008, 7, 30],
+            ["张建涛", 2008, 7, 4],
+            ["施奎", 2007, 11, 11],
+            ["黄相茗", 2007, 9, 12],
+            ["林峭好", 2008, 1, 17],
+            ["温文雅", 2007, 6, 19],
+            ["钟子宁", 2007, 10, 7],
+            ["党希琳", 2008, 4, 9],
+            ["杨柠豪", 2008, 6, 22],
+            ["吴美萍", 2007, 11, 22],
+            ["谢焌宇", 2008, 12, 10],
+            ["戴欣彤", 2007, 10, 6],
+            ["杨思扬", 2007, 8, 8],
+            ["刘乐谦", 2007, 10, 9],
+            ["周坤怡", 2007, 7, 17],
+            ["郑翼联", 2007, 8, 12],
+            ["黄纤媛", 2007, 12, 27],
+            ["黄振航", 2007, 11, 2],
+            ["邓家宝", 2008, 2, 9],
+            ["陆禹熹", 2007, 11, 30],
+            ["周福文", 2007, 6, 17],
+            ["蒋杰胜", 2008, 8, 28],
+            ["苏正恩", 2007, 11, 12],
+            ["蒙盈盈", 2008, 6, 10],
+            ["郑育明", 2007, 8, 14],
+            ["陈广榕", 2008, 6, 27],
+            ["廖晓雪", 2007, 7, 31],
+            ["黄文贝", 2008, 2, 7],
+            ["吴静玉", 2007, 10, 17],
+            ["蒙志为", 2008, 3, 31],
+            ["叶滨华", 2007, 10, 18],
+            ["邓桢", 2008, 6, 9],
+            ["麦诚铭", 2008, 3, 1],
+            ["梁瀚菲", 2008, 8, 22],
+            ["林思颖", 2007, 11, 4],
+            ["李永仲", 2008, 10, 5],
+            ["邱琦康", 2007, 3, 16],
+            ["甘永稳", 2007, 12, 11],
+            ["覃耀泓", 2007, 8, 20],
+            ["李杰", 2008, 6, 22],
+            ["杨凯琪", 2007, 6, 3],
+            ["韦国胜", 2008, 3, 13],
+            ["邱振鑫", 2008, 3, 8],
+            ["覃飞娴", 2007, 11, 13],
+            ["谭铮", 2007, 9, 30],
+            ["霍然", 2007, 8, 14],
+            ["练昆林", 2008, 4, 30]
+        ];
+        const toBirth = [];
+        let isNext = 1;
+        
+        function getDaysLeft(year, month, day) {
+            const targetDate = new Date(year, month - 1, day);
+            const currentDate = new Date();
+
+            currentDate.setHours(0, 0, 0, 0);
+            targetDate.setHours(0, 0, 0, 0);
+
+            const timeDifference = targetDate - currentDate;
+            const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            return daysDifference;
+        }
+
+        birthList.forEach(element => {
+            let nextBirthYear = element[1];
+
+            while (getDaysLeft(nextBirthYear, element[2], element[3]) < 0) {
+                nextBirthYear++;
+            }
+            toBirth.push(getDaysLeft(nextBirthYear, element[2], element[3]));
+        });
+
+        for (let i = 0; i <= 366; i++) {
+            let triggered;
+
+            while (toBirth.indexOf(i) >= 0) {
+                const index = toBirth.indexOf(i);
+                const isToday = i == 0;
+                const target = {
+                    name: birthList[index][0],
+                    birth: `${birthList[index][1]}.${birthList[index][2]}.${birthList[index][3]}`
+                };
+
+                addTo(isNext ? "next" : "remaining", `<p ${isToday ? "style='color: var(--green);'" : ""}>${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天)</p>`);
+
+                toBirth[index] = -1;
+                triggered = true;
+            }
+
+            if (triggered) { isNext = 0; }
+        }
+    </script>
+</div></body>
+
+</html>
