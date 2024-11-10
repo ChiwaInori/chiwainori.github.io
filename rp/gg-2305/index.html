@@ -202,6 +202,7 @@
             copyTo("name", currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling);
             await sleep(800);
             transColor("name", toColor, 200);
+            logName();
         }
 
         async function animateSkip(isById, toColor, type) {
@@ -210,6 +211,7 @@
             copyTo("name", isById ? nowRolling : currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling);
             colorTo("name", toColor);
             fadeIn("name");
+            if (!isById) { logName(); }
         }
 
         async function num(number) {
@@ -229,6 +231,7 @@
                 nowRolling = `${fullList.all[+idNow - 1]} <span style='font-size: 32px;'>${idNow}</span>`;
                 transColor("findById", "var(--textColor-500)");
                 await animateSkip(true, "var(--textColor-500)");
+                logName(fullList.all[+idNow - 1]);
                 idNow = "";
 
                 target(`b-0`).disabled = false;
@@ -364,6 +367,14 @@
             chanceMode = showType;
         }
         updateChance("all");
+
+        function logName(byIdName) {
+            if (byIdName) {
+                log(byIdName, "byId");
+            } else {
+                log(nowRolling, currentMode, chanceMode == "all" ? "all" : target("name").style.color == "var(--blue)" ? "boy" : "girl");
+            }
+        }
     </script>
 </div></body>
 
