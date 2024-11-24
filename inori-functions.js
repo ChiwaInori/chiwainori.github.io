@@ -321,18 +321,19 @@ function rand(min, max, keepFloat = false) {
  * @param {any} value - The seed of random number
  * @param {number[]} key - The key to generate a random number
  * @returns {number} A seeded random number ranged in [0, 1)
- * @example seed("Hello", [7, 5, 3, 2]) // 0.06893690832939114 (A seeded random number)
+ * @example seed("Hello", [7, 5, 3, 2]) // 0.37862787908366613 (A seeded random number)
  */
 function seed(value, key = [38.9321, 25.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
     if (typeof key != "object") { throw new TypeError(`key must be an ARRAY`); }
     if (key.length == 0) { throw new TypeError(`key must be NOT EMPTY`); }
     key.forEach((element, index) => { if (typeof element != "number") { throw new TypeError(`key[${index}] must be a NUMBER`); } });
 
-    const seedValue = `${(typeof value).toUpperCase()}.${value}`;
+    const seedValue = `${(typeof value).toUpperCase()}.${JSON.stringify(value)}`;
 
     let number = 0;
     for (let i = 0; i < seedValue.length; i++) {
         number += key[seedValue.charCodeAt(i) % key.length];
+        if (number > 10 ** 8) { number = key[0]; }
     }
     number = number * Math.E % 1;
 
