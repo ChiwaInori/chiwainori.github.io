@@ -104,7 +104,7 @@ function _range(number, range) {
 function sleep(time) {
     _range(time, ">= 0");
     if (time == 0) { return; }
-    
+
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
@@ -429,10 +429,10 @@ Number.prototype.keep = function (digit = 0) {
  * @example (5).range([0, 5], [true, false]) // false (not in [0, 5) range)
  */
 Number.prototype.range = function (borderValue, intervalType = [true, true]) {
-    _type(borderValue, "object");
+    _type(borderValue, "array");
     _type(borderValue[0] != "number | undefined");
     _type(borderValue[1] != "number | undefined");
-    _type(intervalType, "object");
+    _type(intervalType, "array");
     _type(intervalType[0], "boolean");
     _type(intervalType[1], "boolean");
     
