@@ -103,17 +103,19 @@ function _range(number, range) {
  */
 function sleep(time) {
     _range(time, ">= 0");
-
+    if (time == 0) { return; }
+    
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
 /**
  * Overload CPU to temporarily stop code for test. (Not recommended unless doing stress test)
- * @param {number} time - (> 0) Overload time in milliseconds
+ * @param {number} time - (>= 0) Overload time in milliseconds
  * @example overload(1000) // Overload CPU for 1s (Most of codes will be paused)
  */
 function overload(time) {
     _range(time, ">= 0");
+    if (time == 0) { return; }
 
     const startTime = Date.now();
     const endTime = startTime + time;
