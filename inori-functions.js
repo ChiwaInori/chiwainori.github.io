@@ -10,7 +10,7 @@
 
     Inori Basic (1): inori
     Global Usage (9):
-        Parameter Judgement (2): type, range
+        Parameter Judgement (2): _type, _range
         Commands (1): sleep, overload
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
