@@ -9,16 +9,18 @@
     Index:
 
     Inori Basic (1): inori
-    Global Usage (8):
+    Global Usage (9):
+        Parameter Judgement (2): type, range
         Commands (1): sleep, overload
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (12):
+    JS Commands (13):
         Common (4): chance, Array.isolate, Array.remove, String.getCountOf
-        Numeral (8): 
+        Numeral (9): 
             Get Numbers (3): rand, seed, String.getNum
             Modify Numbers (4): Number.keep, Number.range, Number.percentage, Number.transit, Number.toRange
+            Math Extension (2): logan, root
     HTML Elements (17):
         Target Elements (2): target, query
         Interacts (6):
@@ -41,9 +43,55 @@
  */
 function inori() {
     log(`Inori Functions are available in current session.`);
+    if (typeof global != "undefined") { warn(`You are running Inori Functions in Node.js environment. Some functions are unavailable.`); }
 }
 
 // GLOBAL USAGE
+
+// GLOBAL USAGE / PARAMETER JUDGEMENT
+
+/**
+ * Judge a parameter is in given type of not. If false, throw an error.
+ * When a number is need to be judged with a range, _type() can be omitted.
+ * @param {any} param - The parameter needed to be judged
+ * @param {string} type - The given type (also accepts "array"; type freely is allowed but not suggested (like "sTRinG, bOOLEANnumber"))
+ */
+function _type(param, type) {
+    if (typeof type != "string") { throw new TypeError(`STRING required; received ${JSON.stringify(type)}`); }
+    
+    type = type.toLowerCase();
+    if (type.includes("any")) { return; }
+    if (type.includes("array") && Array.isArray(param)) { return; }
+
+    if (!type.includes(typeof param)) {
+        throw new TypeError(`${type.toUpperCase()} required; received ${JSON.stringify(param)}`);
+    }
+}
+
+/**
+ * Judge a number is in given range or not. If false, throw an error
+ * When a number is need to be judged with a range, _type() can be omitted.
+ * @param {number} number - The number needed to be judged
+ * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...))
+ */
+function _range(number, range) {
+    _type(number, "number");
+    _type(range, "string");
+
+    if (range == "%1=0") {
+        if (number % 1 != 0) {
+            throw new RangeError(`%1=0 required; received ${number}`);
+        }
+        return;
+    }
+    
+    const judgement = range.match(/[^0-9.-]/g).toString().replaceAll(",", "");
+    const value = range.match(/[0-9.-]/g).toString().replaceAll(",", "");
+
+    if (!eval(`${number} ${judgement} ${value}`)) {
+        throw new RangeError(`${judgement}${value} required; received ${number}`);
+    }
+}
 
 // GLOBAL USAGE / COMMANDS
 
@@ -54,26 +102,24 @@ function inori() {
  * @example await sleep(1000) // Pause your commands for 1s (also: sleep(1000).then(() => { ... }))
  */
 function sleep(time) {
-    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
+    _range(time, ">= 0");
 
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
 /**
- * Overload CPU to temporarily stop code for test.
+ * Overload CPU to temporarily stop code for test. (Not recommended unless doing stress test)
  * @param {number} time - (> 0) Overload time in milliseconds
  * @example overload(1000) // Overload CPU for 1s (Most of codes will be paused)
  */
 function overload(time) {
-    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time <= 0) { throw new RangeError(`time required (> 0), received ${time}`); }
+    _range(time, ">= 0");
 
     const startTime = Date.now();
     const endTime = startTime + time;
 
     while (Date.now() < endTime) {
-        for (let i = 0; i < 10 ** 8; i++) {
+        for (let i = 0; i < 1e8; i++) {
             Math.sqrt(i);
         }
     }
@@ -145,7 +191,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
  * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2021
  */
 function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> いのり") {
-    if (typeof startYear != "number") { throw new TypeError(`startYear must be a NUMBER`); }
+    _range(startYear, "%1=0");
     if (!target("copyright")) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
@@ -167,7 +213,7 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
  * @example getURLparam("userID") // Return the value of ?userID=...
  */
 function getURLparam(name) {
-    if (typeof name != "string") { throw new TypeError(`name must be a STRING`); }
+    _type(name, "string");
 
     return new URLSearchParams(window.location.search).get(name);
 }
@@ -179,7 +225,7 @@ function getURLparam(name) {
  * @example setURLparam("result", "abcdef") // Redirect to .../...?result=abcdef
  */
 function setURLparam(name, value = null) {
-    if (typeof name != "string") { throw new TypeError(`name must be a STRING`); }
+    _type(name, "string");
 
     if (!window.location.href.match(/\?/g)) {
         window.location.href += `?${name}=${value}`;
@@ -223,7 +269,7 @@ function warn(message) {
  * @example chance(0.6) // It has 60% chance to return true
  */
 function chance(percent) {
-    if (typeof percent != "number") { throw new TypeError(`percent must be a NUMBER`); }
+    _type(percent, "number");
 
     return rand(0, 1, true) <= percent;
 }
@@ -300,10 +346,9 @@ String.prototype.getCountOf = function (target) {
  * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10]
  */
 function rand(min, max, keepFloat = false) {
-    if (typeof min != "number") { throw new TypeError(`min must be a NUMBER`); }
-    if (typeof max != "number") { throw new TypeError(`max must be a NUMBER`); }
-    if (typeof keepFloat != "boolean") { throw new TypeError(`keepFloat must be a BOOLEAN`); }
-    if (min > max) { throw new RangeError(`min required (<= ${max}), received ${min}`); }
+    _range(min, `<= ${max}`);
+    _range(max, `>= ${min}`);
+    _type(keepFloat, "boolean");
 
     let range;
 
@@ -324,16 +369,16 @@ function rand(min, max, keepFloat = false) {
  * @example seed("Hello", [7, 5, 3, 2]) // 0.37862787908366613 (A seeded random number)
  */
 function seed(value, key = [38.9321, 25.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
-    if (typeof key != "object") { throw new TypeError(`key must be an ARRAY`); }
+    _type(key, "array");
     if (key.length == 0) { throw new TypeError(`key must be NOT EMPTY`); }
-    key.forEach((element, index) => { if (typeof element != "number") { throw new TypeError(`key[${index}] must be a NUMBER`); } });
+    key.forEach(element => { _type(element, "number"); });
 
     const seedValue = `${(typeof value).toUpperCase()}.${JSON.stringify(value)}`;
 
     let number = 0;
     for (let i = 0; i < seedValue.length; i++) {
         number += key[seedValue.charCodeAt(i) % key.length];
-        if (number > 10 ** 8) { number = key[0]; }
+        if (number > Number.MAX_SAFE_INTEGER / Math.E) { number = key[0]; }
     }
     number = number * Math.E % 1;
 
@@ -347,9 +392,9 @@ function seed(value, key = [38.9321, 25.8102, 33.9644, 13.5316, 26.0933, 36.2477
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
-    if (typeof order != "number") { throw new TypeError(`order must be a NUMBER`); }
-    if (order % 1 != 0) { throw new RangeError(`order required INTEGER (%1=0), received ${order}`); }
-    if (order < 1) { throw new RangeError(`order required (>= 1), received ${order}`); }
+    _type(order, "number");
+    _range(order, "%1=0");
+    _range(order, ">= 1");
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
@@ -365,8 +410,7 @@ String.prototype.getNum = function (order = 1) {
  * @example (123.456).keep(2) // 123.46
  */
 Number.prototype.keep = function (digit = 0) {
-    if (typeof digit != "number") { throw new TypeError(`digit must be a NUMBER`); }
-    if (digit % 1 != 0) { throw new RangeError(`digit required INTEGER (%1=0), received ${digit}`); }
+    _range(digit, "%1=0");
 
     return Math.round(this * 10 ** digit) / 10 ** digit;
 };
@@ -374,8 +418,8 @@ Number.prototype.keep = function (digit = 0) {
 /**
  * Check the number is in given interval or not
  * @param {number[] | undefined[]} borderValue - The border value of interval
- * @param {number | undefined} borderValue[0] - The minimum value of interval
- * @param {number | undefined} borderValue[1] - The maximum value of interval
+ * @param {number | undefined} borderValue[0] - (<= borderValue[1]) The minimum value of interval
+ * @param {number | undefined} borderValue[1] - (>= borderValue[0]) The maximum value of interval
  * @param {boolean[]} intervalType -The border type of interval
  * @param {boolean} intervalType[0] - The left border of interval (true: closed; false: open)
  * @param {boolean} intervalType[1] - The right border of interval (true: closed; false: open)
@@ -383,17 +427,18 @@ Number.prototype.keep = function (digit = 0) {
  * @example (5).range([0, 5], [true, false]) // false (not in [0, 5) range)
  */
 Number.prototype.range = function (borderValue, intervalType = [true, true]) {
-    if (typeof borderValue != "object") { throw new TypeError(`borderValue must be an ARRAY`); }
-    if (typeof borderValue[0] != "number" && typeof borderValue[0] != "undefined") { throw new TypeError(`borderValue[0] must be a NUMBER or UNDEFINED`); }
-    if (typeof borderValue[1] != "number" && typeof borderValue[1] != "undefined") { throw new TypeError(`borderValue[1] must be a NUMBER or UNDEFINED`); }
-    if (typeof intervalType != "object") { throw new TypeError(`intervalType must be an ARRAY`); }
-    if (typeof intervalType[0] != "boolean") { throw new TypeError(`intervalType[0] must be a BOOLEAN`); }
-    if (typeof intervalType[1] != "boolean") { throw new TypeError(`intervalType[1] must be a BOOLEAN`); }
-    if (borderValue[0] > borderValue[1]) { throw new RangeError(`borderValue[0] required (<= ${borderValue[1]}), received ${borderValue[0]}`); }
-
+    _type(borderValue, "object");
+    _type(borderValue[0] != "number | undefined");
+    _type(borderValue[1] != "number | undefined");
+    _type(intervalType, "object");
+    _type(intervalType[0], "boolean");
+    _type(intervalType[1], "boolean");
+    
     if (borderValue[0] == undefined) { borderValue[0] = -Infinity; }
     if (borderValue[1] == undefined) { borderValue[1] = Infinity; }
-
+    _range(borderValue[0], `<= ${borderValue[1]}`);
+    _range(borderValue[1], `>= ${borderValue[0]}`);
+    
     return (intervalType[0] ? this >= borderValue[0] : this > borderValue[0]) && (intervalType[1] ? this <= borderValue[1] : this < borderValue[1]);
 };
 
@@ -406,9 +451,9 @@ Number.prototype.range = function (borderValue, intervalType = [true, true]) {
  * @example (6).percentage(0, 10) // 0.6 (6 is the 60% in [0, 10])
  */
 Number.prototype.percentage = function (from, to, disableRange = false) {
-    if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
-    if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
-    if (typeof disableRange != "boolean") { throw new TypeError(`disableRange must be a BOOLEAN`); }
+    _type(from, "number");
+    _type(to, "number");
+    _type(disableRange, "boolean");
 
     const range = to - from;
 
@@ -424,9 +469,9 @@ Number.prototype.percentage = function (from, to, disableRange = false) {
  * @example (0.6).transit(0, 10) // 6 (The 60% of  [0, 10] is 6)
  */
 Number.prototype.transit = function (from, to, disableRange = false) {
-    if (typeof from != "number") { throw new TypeError(`from must be a NUMBER`); }
-    if (typeof to != "number") { throw new TypeError(`to must be a NUMBER`); }
-    if (typeof disableRange != "boolean") { throw new TypeError(`disableRange must be a BOOLEAN`); }
+    _type(from, "number");
+    _type(to, "number");
+    _type(disableRange, "boolean");
 
     const range = to - from;
 
@@ -443,14 +488,45 @@ Number.prototype.transit = function (from, to, disableRange = false) {
  * @example (120).toRange(0, 100) // 100 (120 is out of [0, 100], so output 100)
  */
 Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = false) {
-    if (typeof minBoundary != "number") { throw new TypeError(`minBoundary must be a NUMBER`); }
-    if (typeof maxBoundary != "number") { throw new TypeError(`maxBoundary must be a NUMBER`); }
-    if (typeof warnIfWorked != "boolean") { throw new TypeError(`warnIfWorked must be a BOOLEAN`); }
-    if (minBoundary > maxBoundary) { throw new RangeError(`minBoundary required (<= ${maxBoundary}), received ${minBoundary}`); }
+    _range(minBoundary, `<= ${maxBoundary}`);
+    _range(maxBoundary, `>= ${minBoundary}`);
+    _type(warnIfWorked, "boolean");
 
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
 
     return Math.min(Math.max(this, minBoundary), maxBoundary);
+};
+
+// JS COMMANDS / NUMERAL / MATH EXTENSION
+// This is a extension of math formulas for JavaScript.
+
+/**
+ * Calculate a logarithm of natural with base.
+ * @param {number} base - (> 0)
+ * @param {number} natural - (> 0)
+ * @returns {number}
+ */
+Math.logan = (base, natural) => {
+    _range(base, "> 0");
+    _range(natural, "> 0");
+
+    return Math.log(natural) / Math.log(base);
+};
+
+/**
+ * Calculate a specified root of given number.
+ * @param {number} root - (!= 0)
+ * @param {number} number
+ * @returns {number}
+ */
+Math.root = (root, number) => {
+    _range(root, "!= 0");
+    _type(number, "number");
+    
+    if (number >= 0) {
+        return number ** (1 / root);
+    }
+    return -((-number) ** (1 / root));
 };
 
 // HTML ELEMENTS
@@ -464,7 +540,7 @@ Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = fa
  * @example target("title").addEventListener(...) // Add an event listener to #title
  */
 function target(element) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
 
     return document.getElementById(element);
 }
@@ -477,7 +553,7 @@ function target(element) {
  * @example query(".paragraph") // List out all elements of .paragraph
  */
 function query(element) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
 
     return document.querySelectorAll(element);
 }
@@ -493,7 +569,7 @@ function query(element) {
  * @example copyFrom("title") // Return the innerHTML of #title
 */
 function copyFrom(element) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
     
     return target(element).innerHTML;
 }
@@ -505,7 +581,7 @@ function copyFrom(element) {
  * @example copyValue("range") // Return the value of #range
 */
 function copyValue(element) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
     
     return target(element).value;
 }
@@ -519,7 +595,7 @@ function copyValue(element) {
  * @example copyTo("p1", "Hello") // Copy "Hello" to #p1
 */
 function copyTo(element, content) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
     
     target(element).innerHTML = content;
 }
@@ -531,7 +607,7 @@ function copyTo(element, content) {
  * @example copyTo("p1", "Hello") // Add "Hello" to #p1
 */
 function addTo(element, content) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
     
     target(element).innerHTML += content;
 }
@@ -543,7 +619,7 @@ function addTo(element, content) {
  * @example setValue("name", "David") // Set the value of #name to "David"
 */
 function setValue(element, content) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
     
     target(element).value = content;
 }
@@ -555,8 +631,8 @@ function setValue(element, content) {
  * @example applyAll("p", (element, index) => { element.innerHTML = `${index + 1}. ${element.innerHTML}`; }) // Add a index number to all p
  */
 function applyAll(element, callback) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof callback != "function") { throw new TypeError(`callback must be a FUNCTION`); }
+    _type(element, "string");
+    _type(callback, "function");
 
     const queried = query(element);
     const length = queried.length;
@@ -578,8 +654,8 @@ function applyAll(element, callback) {
  * @example styleTo(".main title", "margin-left: 64px;", "query") // The left margin of <title> in <... class="main"> will be 64px
  */
 function styleTo(element, style, method = "id") {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof style != "string") { throw new TypeError(`style must be a STRING`); }
+    _type(element, "string");
+    _type(style, "string");
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
@@ -605,8 +681,8 @@ function styleTo(element, style, method = "id") {
  * @example colorTo(".main title", "#ff0000", "query") // The color of <title> in <... class="main"> will be red
  */
 function colorTo(element, color, method = "id") {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
+    _type(element, "string");
+    _type(color, "string");
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
@@ -631,7 +707,7 @@ function colorTo(element, color, method = "id") {
  * @example hide(".main title", "query") // <title> in <... class="main"> will be hidden
  */
 function hide(element, method = "id") {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
@@ -659,8 +735,8 @@ function hide(element, method = "id") {
  * @example unhide(".main title", "inline-block", "query") // Show <title> in <... class="main"> in inline-block
  */
 function unhide(element, display = "block", method = "id") {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof display != "string") { throw new TypeError(`display must be a STRING`); }
+    _type(element, "string");
+    _type(display, "string");
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
 
     if (method == "id") {
@@ -690,7 +766,7 @@ function unhide(element, display = "block", method = "id") {
  * @example isHidden("title") // If #title is hidden, return true
  */
 function isHidden(element) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(element, "string");
 
     return target(element).style.display == "none" || target(element).style.opacity === "0" || !!query(`#${element}[hide]`)[0] && target(element).style.display == "";
 }
@@ -701,16 +777,15 @@ function isHidden(element) {
  * Turn an element's current color to another in transition.
  * @param {string} element - The id of target element
  * @param {string} color - The target color of transition
- * @param {number} time - （>= 0) The time length of transition in milliseconds
+ * @param {number} time -（>= 0) The time length of transition in milliseconds
  * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
  * @example transColor("title", "#00dd00") // Turn the color of title to green in transition.
  */
 async function transColor(element, color, time = 100, method = "id") {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof color != "string") { throw new TypeError(`color must be a STRING`); }
-    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
+    _type(element, "string");
+    _type(color, "string");
+    _range(time, ">= 0");
     if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
-    if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
 
     if (time == 0) {
         colorTo(element, color);
@@ -764,13 +839,13 @@ async function transColor(element, color, time = 100, method = "id") {
  * Fade out an element.
  * @param {string} element - The id of target element
  * @param {boolean} doNotHide - Do not hide the element after fading out (keep a blank space for the element)
- * @param {number} time - (>= 1) The time length of fade out
+ * @param {number} time - (>= 0) The time length of fade out
  * @example fadeOut("title", false, 200) // Fade out #title in 0.2s.
  */
 async function fadeOut(element, doNotHide = false, time = 100) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 0) { throw new RangeError(`time required (>= 0), received ${time}`); }
+    _type(element, "string");
+    _type(doNotHide, "boolean");
+    _range(time, ">= 0");
 
     if (time == 0) {
         hide(element);
@@ -800,13 +875,12 @@ async function fadeOut(element, doNotHide = false, time = 100) {
 /**
  * Fade in an element.
  * @param {string} element - The id of target element
- * @param {number} time - (>= 1) The time length of fade in
+ * @param {number} time - (>= 0) The time length of fade in
  * @example fadeOut("title", 200) // Fade in #title in 0.2s.
  */
 async function fadeIn(element, time = 100) {
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
-    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError(`time required (>= 0), received ${time}`); }
+    _type(element, "string");
+    _range(time, ">= 0");
 
     if (time == 0) {
         unhide(element);
@@ -835,14 +909,13 @@ async function fadeIn(element, time = 100) {
  * Fade out an element and fade in another element.
  * @param {string} outElement - The id of target element to fade out
  * @param {string} inElement - The id of target element to fade in 
- * @param {number} time - (>= 1) The total time length of whole change session
+ * @param {number} time - (>= 0) The total time length of whole change session
  * @example fadeChange("title", "secondTitle", 500) // Fade out #title in 0.25s and fade in #secondTitle in 0.25s.
  */
 async function fadeChange(outElement, inElement, time = 200) {
-    if (typeof outElement != "string") { throw new TypeError(`outElement must be a STRING`); }
-    if (typeof inElement != "string") { throw new TypeError(`inElement must be a STRING`); }
-    if (typeof time != "number") { throw new TypeError(`time must be a NUMBER`); }
-    if (time < 1) { throw new RangeError(`time required (>= 0), received ${time}`); }
+    _type(outElement, "string");
+    _type(inElement, "string");
+    _range(time, ">= 0");
 
     if (time == 0) {
         hide(outElement);
@@ -864,7 +937,7 @@ async function fadeChange(outElement, inElement, time = 200) {
  * @example save("readme.txt", "Please read this file.") // It'll download a file named readme.txt with "Please read this file."
  */
 function save(fileName, content) {
-    if (typeof fileName != "string") { throw new TypeError(`fileName must be a STRING`); }
+    _type(fileName, "string");
 
     const blob = new Blob([content], { type: "text/plain" });
     const a = document.createElement("a");
@@ -885,8 +958,8 @@ function save(fileName, content) {
  * @example load("top-file", "fileInfo") // When a file is selected in <input id="top-file" />, its content will be copied to #fileInfo.
  */
 function load(inputId, element = "file-content") {
-    if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
-    if (typeof element != "string") { throw new TypeError(`element must be a STRING`); }
+    _type(inputId, "string");
+    _type(element, "string");
 
     target(inputId).addEventListener("change", event => {
         const file = event.target.files[0];
@@ -912,7 +985,7 @@ function load(inputId, element = "file-content") {
  * @example loadJSON("fileInput").then(json => content = json).catch(e => { if (e.message.includes("Invalid") { ... } }) // Load JSON from #fileInput and copy the JSON object to content, and catch error from loadJSON
  */
 function loadJSON(inputId) {
-    if (typeof inputId != "string") { throw new TypeError(`inputId must be a STRING`); }
+    _type(inputId, "string");
 
     return new Promise((resolve, reject) => {
         const fileInput = target(inputId);
