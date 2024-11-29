@@ -196,7 +196,7 @@ function setURLparam(name, value = null) {
  * @example log(score1, score2) // Output score1 and score2
  */
 function log(...args) {
-    console.log(args.length == 1 ? args[0] : args);
+    console.log(...args);
 }
 
 /**
