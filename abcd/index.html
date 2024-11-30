@@ -230,43 +230,43 @@
                             styleTo(`${nowChange}Button`, "color: #0000dd; border: 2px solid #0000dd;");
                             colorTo(`${nowChange}${element}`, "#0000dd");
                         }
-                        if (diff >= compare[0] && diff < compare[1]) {
+                        if (diff.range(compare[0], compare[1], true, false)) {
                             copyTo(`${nowChange}Analysis`, `选项数量少`);
                             copyTo(`${nowChange}Icon`, `↓↓`);
                             styleTo(`${nowChange}Button`, "color: #0088ff; border: 2px solid #0088ff;");
                             colorTo(`${nowChange}${element}`, "#0088ff");
                         }
-                        if (diff >= compare[1] && diff < compare[2]) {
+                        if (diff.range(compare[1], compare[2], true, false)) {
                             copyTo(`${nowChange}Analysis`, `选项数量较少`);
                             copyTo(`${nowChange}Icon`, `↓`);
                             styleTo(`${nowChange}Button`, "color: #00ddff; border: 2px solid #00ddff;");
                             colorTo(`${nowChange}${element}`, "#00ddff");
                         }
-                        if (diff >= compare[2] && diff < compare[3]) {
+                        if (diff.range(compare[2], compare[3], true, false)) {
                             copyTo(`${nowChange}Analysis`, `选项数量偏少`);
                             copyTo(`${nowChange}Icon`, `√↓`);
                             styleTo(`${nowChange}Button`, "color: #00ddaa; border: 2px solid #00ddaa;");
                             colorTo(`${nowChange}${element}`, "#00ddaa");
                         }
-                        if (diff >= compare[3] && diff <= compare[4]) {
+                        if (diff.range(compare[3], compare[4])) {
                             copyTo(`${nowChange}Analysis`, `选项数量合适`);
                             copyTo(`${nowChange}Icon`, `√`);
                             styleTo(`${nowChange}Button`, "color: #00dd00; border: 2px solid #00dd00;");
                             colorTo(`${nowChange}${element}`, "#00dd00");
                         }
-                        if (diff > compare[4] && diff <= compare[5]) {
+                        if (diff.range(compare[4], compare[5], false, true)) {
                             copyTo(`${nowChange}Analysis`, `选项数量偏多`);
                             copyTo(`${nowChange}Icon`, `√↑`);
                             styleTo(`${nowChange}Button`, "color: #aadd00; border: 2px solid #aadd00;");
                             colorTo(`${nowChange}${element}`, "#aadd00");
                         }
-                        if (diff > compare[5] && diff <= compare[6]) {
+                        if (diff.range(compare[5], compare[6], false, true)) {
                             copyTo(`${nowChange}Analysis`, `选项数量较多`);
                             copyTo(`${nowChange}Icon`, `↑`);
                             styleTo(`${nowChange}Button`, "color: #ffdd00; border: 2px solid #ffdd00;");
                             colorTo(`${nowChange}${element}`, "#ffdd00");
                         }
-                        if (diff > compare[6] && diff <= compare[7]) {
+                        if (diff.range(compare[6], compare[7], false, true)) {
                             copyTo(`${nowChange}Analysis`, `选项数量多`);
                             copyTo(`${nowChange}Icon`, `↑↑`);
                             styleTo(`${nowChange}Button`, "color: #ff8800; border: 2px solid #ff8800;");

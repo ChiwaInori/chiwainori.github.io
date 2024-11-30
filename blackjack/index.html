@@ -694,14 +694,14 @@
             // Dealer AI
 
             // Pen Thoughts
-            if (closestPossibility >= targetPoint - 3 && closestPossibility <= targetPoint) { // Player near 21
+            if (closestPossibility.range(targetPoint - 3, targetPoint)) { // Player near 21
                 dealerPropThought.pen -= ((closestPossibility - (targetPoint - 3)) / 3).transit(0.3, 0.6);
             }
             if (dealerTotal == 21) { // Dealer is 21
                 dealerPropThought.pen -= 1000;
             }
-            if (dealerTotal >= 22 && dealerTotal <= 24 && targetPoint == 21) { // Dealer over 21
-                dealerPropThought.pen += ((dealerTotal - 22) / 2).transit(0.8, 1);
+            if (dealerTotal.range(22, 24) && targetPoint == 21) { // Dealer over 21
+                dealerPropThought.pen += dealerTotal.percentage(22, 24).transit(0.8, 1);
             }
 
             if (targetPoint == 24) { dealerPropThought.pen = 0; } // Already target 24, don't waste
@@ -710,8 +710,8 @@
             if (playerHand.length >= 2) { // Last card of player is known
                 dealerPropThought.exchanger += 0.2; // Random exchange
                 const afterExchange = valuationHandWithoutA(dealerHand) + dealerHand.toString().getCountOf("A") + playerHand[playerHand.length - 1]; // If exchange, the value of dealer's
-                if (afterExchange >= 16 && afterExchange <= 21) { // Exchange gets a good value
-                    dealerPropThought.exchanger += ((afterExchange - 18) / 3).transit(0.4, 1);
+                if (afterExchange.range(16, 21)) { // Exchange gets a good value
+                    dealerPropThought.exchanger += afterExchange.percentage(18, 21).transit(0.4, 1);
                 }
                 if (afterExchange <= 21 && dealerTotal >= 22) { // Exchange reduces hand
                     dealerPropThought.exchanger += 0.8;
@@ -724,13 +724,13 @@
             }
 
             // Lighter Thoughts
-            if (dealerTotal >= 15 && dealerTotal <= 20) { // Near 21, burn a card and try again
-                dealerPropThought.lighter += ((dealerTotal - 17) / 3).transit(0.4, 0);
+            if (dealerTotal.range(15, 20)) { // Near 21, burn a card and try again
+                dealerPropThought.lighter += dealerTotal.percentage(17, 20).transit(0.4, 0);
             }
             if (dealerTotal == 21) { // Just 21, don't burn
                 dealerPropThought.lighter -= 1000;
             }
-            if (dealerTotal >= 22 && dealerTotal <= 24) { // Over 21, burn if not using a pen
+            if (dealerTotal.range(22, 24)) { // Over 21, burn if not using a pen
                 dealerPropThought.lighter = 1 - dealerPropThought.pen;
             }
             if (dealerTotal >= 25) { // Over 24, burn immediately
@@ -741,8 +741,8 @@
             if (closestPossibility >= targetPoint) { // Player over the target
                 dealerPropThought.knife += 0.5;
             }
-            if (dealerTotal >= 17 && dealerTotal <= 20) { // Dealer near 21
-                dealerPropThought.knife += ((dealerTotal - 17) / 3).transit(0.2, 0.9);
+            if (dealerTotal.range(17, 20)) { // Dealer near 21
+                dealerPropThought.knife += dealerTotal.percentage(17, 20).transit(0.2, 0.9);
             }
             if (dealerTotal == 21) { // Dealer is 21
                 dealerPropThought.knife += 1;
@@ -755,16 +755,16 @@
             }
 
             // Shield Thoughts
-            if (closestPossibility >= targetPoint - 3 && closestPossibility <= targetPoint) { // Player near target
+            if (closestPossibility.range(targetPoint - 3, targetPoint)) { // Player near target
                 dealerPropThought.shield += ((closestPossibility - 16) / 8).transit(0.1, 0.7);
             }
             if (closestPossibility >= targetPoint) { // Player might over target
                 dealerPropThought.shield -= ((closestPossibility - targetPoint) / 4).transit(0.1, 0.4);
             }
-            if (dealerTotal >= 13 && dealerTotal <= 17) { // Dealer is less
+            if (dealerTotal.range(13, 17)) { // Dealer is less
                 dealerPropThought.shield += 0.3;
             }
-            if (dealerTotal >= 18 && dealerTotal <= 20) { // Dealer is near 21
+            if (dealerTotal.range(18, 20)) { // Dealer is near 21
                 dealerPropThought.shield -= 0.2;
             }
             if (dealerTotal == 21) { // Dealer is 21
@@ -779,7 +779,7 @@
 
             // Peach Thoughts
             if (dealerHealth <= 4) { // Dealer health is not full
-                dealerPropThought.peach += ((dealerHealth - 1) / 3).transit(1, 0.4);
+                dealerPropThought.peach += dealerHealth.percentage(1, 4).transit(1, 0.4);
             }
 
             if (dealerProps.indexOf("Pen") >= 0 && chance(dealerPropThought.pen)) { dealerUseProp(1); }

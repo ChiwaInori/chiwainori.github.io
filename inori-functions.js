@@ -4,9 +4,9 @@
     Inori Function is a custom JavaScript library used in ChiwaInori.top for better coding.
 
     Most of the functions included are original created by ChiwaInori.top owner Chiwa Inori.
-    Most of them required other Inori Functions to work. Some functions can be also used in node environment.
+    Most of them required other Inori Functions to work. Some functions can be also used in Node.js environment.
 
-    Index:
+    Index: (The "p" below means "prototype")
 
     Inori Basic (1): inori
     Global Usage (9):
@@ -15,12 +15,11 @@
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (13):
-        Common (4): chance, Array.isolate, Array.remove, String.getCountOf
-        Numeral (9): 
-            Get Numbers (3): rand, seed, String.getNum
-            Modify Numbers (4): Number.keep, Number.range, Number.percentage, Number.transit, Number.toRange
-            Math Extension (2): logan, root
+    JS Commands (11):
+        Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
+        Numeral (7): 
+            Get Numbers (3): rand, seed, String.p.getNum
+            Modify Numbers (4): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange
     HTML Elements (17):
         Target Elements (2): target, query
         Interacts (6):
@@ -85,8 +84,8 @@ function _range(number, range) {
         return;
     }
     
-    const judgement = range.match(/[^0-9.-]/g).toString().replaceAll(",", "");
-    const value = range.match(/[0-9.-]/g).toString().replaceAll(",", "");
+    const judgement = range.match(/[^0-9.-]/g).join("");
+    const value = range.match(/[0-9.-]/g).join("");
 
     if (!eval(`${number} ${judgement} ${value}`)) {
         throw new RangeError(`${judgement}${value} required; received ${number}`);
@@ -418,29 +417,20 @@ Number.prototype.keep = function (digit = 0) {
 
 /**
  * Check the number is in given interval or not
- * @param {number[] | undefined[]} borderValue - The border value of interval
- * @param {number | undefined} borderValue[0] - (<= borderValue[1]) The minimum value of interval
- * @param {number | undefined} borderValue[1] - (>= borderValue[0]) The maximum value of interval
- * @param {boolean[]} intervalType -The border type of interval
- * @param {boolean} intervalType[0] - The left border of interval (true: closed; false: open)
- * @param {boolean} intervalType[1] - The right border of interval (true: closed; false: open)
+ * @param {number} min - (<= max) The minimum value of interval
+ * @param {number} min - (>= min) The maximum value of interval
+ * @param {boolean} minType - The left border of interval (true: closed; false: open)
+ * @param {boolean} minType - The right border of interval (true: closed; false: open)
  * @returns {boolean} Is the number in the given interval
- * @example (5).range([0, 5], [true, false]) // false (not in [0, 5) range)
+ * @example (5).range[0, 5, true, false) // false (not in [0, 5) range)
  */
-Number.prototype.range = function (borderValue, intervalType = [true, true]) {
-    _type(borderValue, "array");
-    _type(borderValue[0] != "number | undefined");
-    _type(borderValue[1] != "number | undefined");
-    _type(intervalType, "array");
-    _type(intervalType[0], "boolean");
-    _type(intervalType[1], "boolean");
-    
-    if (borderValue[0] == undefined) { borderValue[0] = -Infinity; }
-    if (borderValue[1] == undefined) { borderValue[1] = Infinity; }
-    _range(borderValue[0], `<= ${borderValue[1]}`);
-    _range(borderValue[1], `>= ${borderValue[0]}`);
-    
-    return (intervalType[0] ? this >= borderValue[0] : this > borderValue[0]) && (intervalType[1] ? this <= borderValue[1] : this < borderValue[1]);
+Number.prototype.range = function (min, max, minType = true, maxType = true) {
+    _range(min, `<= ${max}`);
+    _range(max, `>= ${min}`);
+    _type(minType, "boolean");
+    _type(maxType, "boolean");
+
+    return (minType ? this >= min : this > min) && (maxType ? this <= max : this < max);
 };
 
 /**
@@ -496,38 +486,6 @@ Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = fa
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
 
     return Math.min(Math.max(this, minBoundary), maxBoundary);
-};
-
-// JS COMMANDS / NUMERAL / MATH EXTENSION
-// This is a extension of math formulas for JavaScript.
-
-/**
- * Calculate a logarithm of natural with base.
- * @param {number} base - (> 0)
- * @param {number} natural - (> 0)
- * @returns {number}
- */
-Math.logan = (base, natural) => {
-    _range(base, "> 0");
-    _range(natural, "> 0");
-
-    return Math.log(natural) / Math.log(base);
-};
-
-/**
- * Calculate a specified root of given number.
- * @param {number} root - (!= 0)
- * @param {number} number
- * @returns {number}
- */
-Math.root = (root, number) => {
-    _range(root, "!= 0");
-    _type(number, "number");
-    
-    if (number >= 0) {
-        return number ** (1 / root);
-    }
-    return -((-number) ** (1 / root));
 };
 
 // HTML ELEMENTS

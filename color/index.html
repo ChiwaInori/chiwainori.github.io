@@ -13,7 +13,7 @@
         }
 
         input[type="range"] {
-            width: 256px;
+            width: 506px;
             height: 8px;
         }
 
@@ -220,7 +220,7 @@
             // Paint ColorBlock
             styleTo("colorBlock", `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`);
 
-            if (rgb.r >= 116 && rgb.r <= 156 && rgb.g >= 116 && rgb.g <= 156 && rgb.b >= 116 && rgb.b <= 156) {
+            if (rgb.r.range(116, 156) && rgb.g.range(116, 156) && rgb.b.range(116, 156)) {
                 styleTo("mainBody", `background-color: #222222;`, "class");
             } else {
                 styleTo("mainBody", `background-color: #888888;`, "class");
@@ -272,8 +272,8 @@
             copyTo("code-hsv", `hsv(${hsv.h}, ${hsv.s}, ${hsv.v})`);
 
             colorTo("hsv-h-value", `rgb(${HSV2RGB(hsv.h, 100, 100)["r"]}, ${HSV2RGB(hsv.h, 100, 100)["g"]}, ${HSV2RGB(hsv.h, 100, 100)["b"]})`);
-            colorTo("hsv-s-value", `rgb(${(hsv.s / 100).transit(204, 0)}, ${(hsv.s / 100).transit(204, 255)}, ${(hsv.s / 100).transit(204, 255)})`);
-            colorTo("hsv-v-value", `rgb(0, ${(hsv.v / 100).transit(0, 255)}, ${(hsv.v / 100).transit(0, 255)})`);
+            colorTo("hsv-s-value", `rgb(${hsv.s.percentage(0, 100).transit(204, 0)}, ${hsv.s.percentage(0, 100).transit(204, 255)}, ${hsv.s.percentage(0, 100).transit(204, 255)})`);
+            colorTo("hsv-v-value", `rgb(0, ${hsv.v.percentage(0, 100).transit(0, 255)}, ${hsv.v.percentage(0, 100).transit(0, 255)})`);
             colorTo("code-hsv", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
 
             // HSL
@@ -287,8 +287,8 @@
             copyTo("code-hsl", `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`);
 
             colorTo("hsl-h-value", `rgb(${HSL2RGB(hsl.h, 100, 50)["r"]}, ${HSL2RGB(hsl.h, 100, 50)["g"]}, ${HSL2RGB(hsl.h, 100, 50)["b"]})`);
-            colorTo("hsl-s-value", `rgb(${(hsl.s / 100).transit(204, 0)}, ${(hsl.s / 100).transit(204, 255)}, ${(hsl.s / 100).transit(204, 255)})`);
-            colorTo("hsl-l-value", `rgb(${(hsl.l / 100).transit(0, 255)}, ${(hsl.l / 100).transit(0, 255)}, ${(hsl.l / 100).transit(0, 255)})`);
+            colorTo("hsl-s-value", `rgb(${hsl.s.percentage(0, 100).transit(204, 0)}, ${hsl.s.percentage(0, 100).transit(204, 255)}, ${hsl.s.percentage(0, 100).transit(204, 255)})`);
+            colorTo("hsl-l-value", `rgb(${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)})`);
             colorTo("code-hsl", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
         }
 
@@ -371,23 +371,23 @@
 
             let rPrime, gPrime, bPrime;
 
-            if (h >= 0 && h < 60) {
+            if (h.range(0, 60, true, false)) {
                 rPrime = c;
                 gPrime = x;
                 bPrime = 0;
-            } else if (h >= 60 && h < 120) {
+            } else if (h.range(60, 120, true, false)) {
                 rPrime = x;
                 gPrime = c;
                 bPrime = 0;
-            } else if (h >= 120 && h < 180) {
+            } else if (h.range(120, 180, true, false)) {
                 rPrime = 0;
                 gPrime = c;
                 bPrime = x;
-            } else if (h >= 180 && h < 240) {
+            } else if (h.range(180, 240, true, false)) {
                 rPrime = 0;
                 gPrime = x;
                 bPrime = c;
-            } else if (h >= 240 && h < 300) {
+            } else if (h.range(240, 300, true, false)) {
                 rPrime = x;
                 gPrime = 0;
                 bPrime = c;
