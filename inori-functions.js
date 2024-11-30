@@ -51,26 +51,26 @@ function inori() {
 // GLOBAL USAGE / PARAMETER JUDGEMENT
 
 /**
- * Judge a parameter is in given type of not. If false, throw an error.
- * When a number is need to be judged with a range, _type() can be omitted.
+ * Judge a parameter is in given type of not. If not, throw an error.
  * @param {any} param - The parameter needed to be judged
  * @param {string} type - The given type (also accepts "array"; type freely is allowed but not suggested (like "sTRinG, bOOLEANnumber"))
- */
+*/
 function _type(param, type) {
-    if (typeof type != "string") { throw new TypeError(`STRING required; received ${JSON.stringify(type)}`); }
+    if (typeof type != "string") { throw new TypeError(`STRING required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(type)}`); }
     
     type = type.toLowerCase();
     if (type.includes("any")) { return; }
     if (type.includes("array") && Array.isArray(param)) { return; }
-
+    
     if (!type.includes(typeof param)) {
-        throw new TypeError(`${type.toUpperCase()} required; received ${JSON.stringify(param)}`);
+        throw new TypeError(`${type.toUpperCase()} required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(param)}`);
     }
 }
 
+// When a number is need to be judged with a range, _type() can be omitted. Its type will be judged in _range()'s _type().
+
 /**
- * Judge a number is in given range or not. If false, throw an error
- * When a number is need to be judged with a range, _type() can be omitted.
+ * Judge a number is in given range or not. If not, throw an error.
  * @param {number} number - The number needed to be judged
  * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...))
  */
@@ -394,7 +394,6 @@ function seed(value, key = [38.9321, 25.8102, 33.9644, 13.5316, 26.0933, 36.2477
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
-    _type(order, "number");
     _range(order, "%1=0");
     _range(order, ">= 1");
 

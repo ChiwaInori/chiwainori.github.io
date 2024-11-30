@@ -23,6 +23,9 @@ if (a = 1) {
     console.log(true);
 }
 
+// Error: no-const-assign
+bitwise = 6;
+
 // Error: no-delete-var
 delete bitwise;
 

@@ -6,6 +6,7 @@ const ruleList = {
     "implicit-arrow-linebreak": "error",
     "no-bitwise": "error",
     "no-cond-assign": "error",
+    "no-const-assign": "error",
     "no-delete-var": "error",
     "no-dupe-args": "error",
     "no-func-assign": "error",
