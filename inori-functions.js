@@ -9,17 +9,17 @@
     Index: (The "p" below means "prototype")
 
     Inori Basic (1): inori
-    Global Usage (9):
+    Global Usage (10):
         Parameter Judgement (2): _type, _range
-        Commands (1): sleep, overload
+        Commands (2): sleep, overload
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
     JS Commands (11):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
-        Numeral (7): 
+        Numeral (8): 
             Get Numbers (3): rand, seed, String.p.getNum
-            Modify Numbers (4): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange
+            Modify Numbers (5): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange
     HTML Elements (17):
         Target Elements (2): target, query
         Interacts (6):
@@ -53,6 +53,7 @@ function inori() {
  * Judge a parameter is in given type of not. If not, throw an error.
  * @param {any} param - The parameter needed to be judged
  * @param {string} type - The given type (also accepts "array"; type freely is allowed but not suggested (like "sTRinG, bOOLEANnumber"))
+ * @example _type("1", "number") // Throw a TypeError
 */
 function _type(param, type) {
     if (typeof type != "string") { throw new TypeError(`STRING required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(type)}`); }
@@ -72,6 +73,7 @@ function _type(param, type) {
  * Judge a number is in given range or not. If not, throw an error.
  * @param {number} number - The number needed to be judged
  * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...))
+ * @example _range(0, ">= 1") // Throw a RangeError
  */
 function _range(number, range) {
     _type(number, "number");
@@ -303,13 +305,31 @@ Object.prototype.isolate = function () {
 };
 
 /**
- * Remove ONLY ONE (the first one) specified target from an array.
+ * Return an array with the nth specified target removed.
  * @param {any} target - The target to remove
- * @returns {object} The array without (one of) the target(s)
- * @example [1, 2, 3].remove(2) // [1, 3]
+ * @param {number} nth - (%1=0, >= 1) The nth specified target to remove
+ * @returns {any[]} The array without (one of) the target(s)
+ * @example [1, 2, 3, 4, 3].remove(3, 2) // [1, 2, 3, 4]
  */
-Array.prototype.remove = function (target) {
-    const index = this.indexOf(target); // The (FIRST) target is this[index]
+Array.prototype.remove = function (target, nth = 1) {
+    _range(nth, "%1=0");
+    _range(nth, ">= 1");
+    
+    let n = 0;
+    let index;
+    for (let i = 0; i < this.length; i++) {
+        if (this[i] == target) {
+            n++;
+        }
+        if (n == nth) {
+            index = i;
+            break;
+        }
+        if (i == this.length - 1 && n < nth) {
+            return this.isolate();
+        }
+    }
+
     const returnArray = [];
 
     for (let i = 0; i < index; i++) { // Push value that is before index
@@ -563,7 +583,7 @@ function copyTo(element, content) {
  * Add something to an element's innerHTML.
  * @param {string} element - The id of target element
  * @param {any} content - The content to add to the element
- * @example copyTo("p1", "Hello") // Add "Hello" to #p1
+ * @example addTo("p1", "Hello") // Add "Hello" to #p1
 */
 function addTo(element, content) {
     _type(element, "string");
@@ -835,7 +855,7 @@ async function fadeOut(element, doNotHide = false, time = 100) {
  * Fade in an element.
  * @param {string} element - The id of target element
  * @param {number} time - (>= 0) The time length of fade in
- * @example fadeOut("title", 200) // Fade in #title in 0.2s.
+ * @example fadeIn("title", 200) // Fade in #title in 0.2s.
  */
 async function fadeIn(element, time = 100) {
     _type(element, "string");
