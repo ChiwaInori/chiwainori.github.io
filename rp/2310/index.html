@@ -99,6 +99,8 @@
         fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
         if (getURLparam("rollTimes")) {
+            hide("rollPanel");
+
             dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
             dynamicList.times.all.forEach((times, index) => {
                 order += times;
@@ -115,13 +117,13 @@
             order++;
 
             const code = getURLparam("code");
-            const targetVerify = seed(dynamicList.times.all, [parseInt(code, 16) / 1000, (parseInt(code, 16) - 1) / 1000, (parseInt(code, 16) - 16) / 1000]);
+            const targetVerify = seed(dynamicList.times.all, [parseInt(code, 16) / 1000, parseInt(code, 16) / 1000 - 1, parseInt(code, 16) / 1000 - 16]);
             if (targetVerify == getURLparam("verify")) {
                 unhide("readSuccess");
                 copyTo("saveTime", new Date(+getURLparam("time")));
+                unhide("rollPanel");
             } else {
                 unhide("validationInvalid");
-                hide("rollPanel");
             }
         } else {
             fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
@@ -158,6 +160,7 @@
             applyAll("#buttonLine button, #findBySex button, #findByIdLine button", target => {
                 target.disabled = true;
             });
+            hide("saveId");
 
             let animationList;
         
@@ -442,10 +445,11 @@
 
         function saveFile() {
             const id = rand(0, 0x10000).toString(16).toUpperCase().padStart(4, "0");
-            const verify = seed(dynamicList.times.all, [parseInt(id, 16) / 1000, (parseInt(id, 16) - 1) / 1000, (parseInt(id, 16) - 16) / 1000]);
+            const verify = seed(dynamicList.times.all, [parseInt(id, 16) / 1000, parseInt(id, 16) / 1000 - 1, parseInt(id, 16) / 1000 - 16]);
 
             // eslint-disable-next-line no-useless-escape
             save(`2310 班随机选人_${id}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = 'http://chiwainori.top/rp/2310/?rollTimes=${dynamicList.times.all}&code=${id}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
+            unhide("saveId", "inline");
             copyTo("saveId", `保存代码: <strong>${id}</strong>`);
         }
     </script>

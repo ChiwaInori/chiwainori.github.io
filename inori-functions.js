@@ -387,23 +387,22 @@ function rand(min, max, keepFloat = false) {
  * @param {any} value - The seed of random number
  * @param {number[]} key - The key to generate a random number
  * @returns {number} A seeded random number ranged in [0, 1)
- * @example seed("Hello", [7, 5, 3, 2]) // 0.37862787908366613 (A seeded random number)
+ * @example seed("Hello", [2, 3, 5, 7]) // 0.19005963127801806 (A seeded random number)
  */
-function seed(value, key = [38.9321, 25.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
+function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
     _type(key, "array");
     if (key.length == 0) { throw new TypeError(`key must be NOT EMPTY`); }
     key.forEach(element => { _type(element, "number"); });
 
-    const seedValue = `${(typeof value).toUpperCase()}.${JSON.stringify(value)}`;
+    const seedValue = JSON.stringify(value);
 
     let number = 0;
     for (let i = 0; i < seedValue.length; i++) {
-        number += key[seedValue.charCodeAt(i) % key.length];
+        number += seedValue.charCodeAt(i) * key[i % key.length];
         if (number > Number.MAX_SAFE_INTEGER / Math.E) { number = key[0]; }
     }
-    number = number * Math.E % 1;
 
-    return number;
+    return Math.abs(number * Math.E % 1);
 }
 
 /**
