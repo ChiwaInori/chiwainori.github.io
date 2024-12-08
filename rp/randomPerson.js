@@ -8,7 +8,7 @@ let chanceMode = "all";
 let order = 0;
 let temp;
 
-log("输入 hint() 来查看关于抽取历史的解读。");
+hint();
 copyright(2024, "Guigang JNZX 2310 XZY (千和 いのり)");
 target("skipAnimation").addEventListener("change", function () {
     skipAnimation = this.checked;
