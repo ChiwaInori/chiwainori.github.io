@@ -117,10 +117,10 @@
             order++;
 
             const code = getURLparam("code");
-            const targetVerify = seed(dynamicList.times.all, [parseInt(code, 16) / 1000, parseInt(code, 16) / 1000 - 1, parseInt(code, 16) / 1000 - 16]);
+            const targetVerify = seed(dynamicList.times.all, [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
             if (targetVerify == getURLparam("verify")) {
                 unhide("readSuccess");
-                copyTo("saveTime", new Date(+getURLparam("time")));
+                copyTo("saveTime", new Date(Number(getURLparam("time"))));
                 unhide("rollPanel");
             } else {
                 unhide("validationInvalid");
@@ -193,7 +193,18 @@
                         break;
                     }
                 }
-                temp = { weightList: { original: dynamicList.weight[type].isolate(), sum: sumList, result: { index: sumList.length - 1, classId: fullList.all.indexOf(nowRolling) + 1 } }, totalWeight: totalWeight, selectedWeight: selectedWeight };
+                temp = {
+                    weightList: {
+                        original: dynamicList.weight[type].isolate(),
+                        sum: sumList,
+                        result: {
+                            index: sumList.length - 1,
+                            classId: fullList.all.indexOf(nowRolling) + 1
+                        }
+                    },
+                    totalWeight: totalWeight, 
+                    selectedWeight: selectedWeight
+                };
                 animationList = fullList[type];
                 updateWeight(nowRolling);
             }
@@ -283,11 +294,11 @@
                 transColor("findById", "var(--orange)");
             } else {
                 idNow += number;
-                temp = +idNow;
-                nowRolling = `${fullList.all[+idNow - 1]} <span style='font-size: 32px;'>${idNow}</span>`;
+                temp = Number(idNow);
+                nowRolling = `${fullList.all[Number(idNow - 1)]} <span style='font-size: 32px;'>${idNow}</span>`;
                 transColor("findById", "var(--textColor-500)");
                 await animateSkip(true, "var(--textColor-500)");
-                logName(fullList.all[+idNow - 1]);
+                logName(fullList.all[Number(idNow - 1)]);
                 idNow = "";
             
                 target(`b-0`).disabled = false;
@@ -320,7 +331,7 @@
                 dynamicList.times.girl[rolledInGirl]++;
             }
         
-            const calWeight = times => Math.min(3 ** (dynamicList.totalAvg - times), Number.MAX_SAFE_INTEGER);
+            const calWeight = times => Math.min(5 ** (dynamicList.totalAvg - times), Number.MAX_VALUE);
         
             for (let i = 0; i < dynamicList.weight.all.length; i++) { // Calculate the new weight
                 dynamicList.weight.all[i] = calWeight(dynamicList.times.all[i]);
@@ -444,13 +455,14 @@
 第 6 位: 抽取时是否跳过了动画: 'NO-SKIP' 未跳过; 'SKIPPED' 跳过`);
 
         function saveFile() {
-            const id = rand(0, 0x10000).toString(16).toUpperCase().padStart(4, "0");
-            const verify = seed(dynamicList.times.all, [parseInt(id, 16) / 1000, parseInt(id, 16) / 1000 - 1, parseInt(id, 16) / 1000 - 16]);
+            const id = rand(0, 0xffff);
+            const idHex = id.toBase(16).padStart(4, "0");
+            const verify = seed(dynamicList.times.all, [id / 1000, id / 1000 - 1, id / 1000 - 16]);
 
             // eslint-disable-next-line no-useless-escape
-            save(`2310 班随机选人_${id}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = 'http://chiwainori.top/rp/2310/?rollTimes=${dynamicList.times.all}&code=${id}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
+            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = 'http://chiwainori.top/rp/2310/?rollTimes=${dynamicList.times.all}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
             unhide("saveId", "inline");
-            copyTo("saveId", `保存代码: <strong>${id}</strong>`);
+            copyTo("saveId", `保存代码: <strong>${idHex}</strong>`);
         }
     </script>
 </div></body>

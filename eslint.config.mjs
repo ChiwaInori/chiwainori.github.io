@@ -10,6 +10,7 @@ const ruleList = {
     "no-delete-var": "error",
     "no-dupe-args": "error",
     "no-func-assign": "error",
+    "no-implicit-coercion": "error",
     "no-invalid-regexp": "error",
     "no-misleading-character-class": "error",
     "no-octal": "error",

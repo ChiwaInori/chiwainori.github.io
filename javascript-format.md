@@ -18,11 +18,6 @@
 9. If a variant is only used in one function, declare it inside the function
 10. Declare variant with using less lines: "let name, sex, age;" "const [first, second, third] = array.split(".");
 
-## Changing Variant's Type
-11. Use !!variant to turn into BOOLEAN (!!"thisIsTrue") (into a negative BOOLEAN use !variant)
-12. Use +variant to turn into NUMBER (+"2024")
-13. Use template string to turn into STRING (`${[1, 2, 3]}`)
-
 ## etc.
 These rules are those that isn't restricted in ESLint.
 

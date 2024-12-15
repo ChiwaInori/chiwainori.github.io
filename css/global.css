@@ -4,7 +4,7 @@
     /* CHIWA BASIC COLORS */
     /* These are basic colors of ChiwaInori.top and used in basic structures. -500 colors are major colors in each section. */
 
-    --backgroundColor-500: #f0f8ff;
+    --backgroundColor-500: #f0f8ff; /* aliceblue */
     --backgroundColor-600: #aaccdd;
 
     --textColor-400: #99aaaa;

@@ -19,7 +19,7 @@
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
         Numeral (8): 
             Get Numbers (3): rand, seed, String.p.getNum
-            Modify Numbers (5): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange
+            Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, Number.p.toInt / BigInt.p.toInt, String.p.transInt
     HTML Elements (17):
         Target Elements (2): target, query
         Interacts (6):
@@ -72,26 +72,33 @@ function _type(param, type) {
 /**
  * Judge a number is in given range or not. If not, throw an error.
  * @param {number} number - The number needed to be judged
- * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...))
+ * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...); combination allowed (">=1 | <= 2"))
  * @example _range(0, ">= 1") // Throw a RangeError
  */
 function _range(number, range) {
-    _type(number, "number");
+    _type(number, "number | bigint");
     _type(range, "string");
 
-    if (range == "%1=0") {
-        if (number % 1 != 0) {
-            throw new RangeError(`%1=0 required; received ${number}`);
-        }
-        return;
-    }
-    
-    const judgement = range.match(/[^0-9.-]/g).join("");
-    const value = range.match(/[0-9.-]/g).join("");
+    const requirements = range.split(" | ");
 
-    if (!eval(`${number} ${judgement} ${value}`)) {
-        throw new RangeError(`${judgement}${value} required; received ${number}`);
-    }
+    requirements.forEach(requirement => { 
+        if (requirement == "%1=0") {
+            if (typeof number == "number" && number % 1 != 0) {
+                throw new RangeError(`%1=0 required; received ${number}`);
+            }
+            if (typeof number == "bigint" && number % 1n != 0n) {
+                throw new RangeError(`%1=0 required; received ${number}`);
+            }
+            return;
+        }
+        
+        if (requirement.includes("== ") && number != requirement.split(" ")[1]) { throw new RangeError(`==${requirement.split(" ")[1]} required; received ${number}`); }
+        if (requirement.includes("!= ") && number == requirement.split(" ")[1]) { throw new RangeError(`!=${requirement.split(" ")[1]} required; received ${number}`); }
+        if (requirement.includes(">= ") && number < requirement.split(" ")[1]) { throw new RangeError(`>=${requirement.split(" ")[1]} required; received ${number}`); }
+        if (requirement.includes("> ") && number <= requirement.split(" ")[1]) { throw new RangeError(`>${requirement.split(" ")[1]} required; received ${number}`); }
+        if (requirement.includes("<= ") && number > requirement.split(" ")[1]) { throw new RangeError(`<=${requirement.split(" ")[1]} required; received ${number}`); }
+        if (requirement.includes("< ") && number >= requirement.split(" ")[1]) { throw new RangeError(`<${requirement.split(" ")[1]} required; received ${number}`); }
+    });
 }
 
 // GLOBAL USAGE / COMMANDS
@@ -307,13 +314,12 @@ Object.prototype.isolate = function () {
 /**
  * Return an array with the nth specified target removed.
  * @param {any} target - The target to remove
- * @param {number} nth - (%1=0, >= 1) The nth specified target to remove
+ * @param {number} nth - (%1=0 | >= 1) The nth specified target to remove
  * @returns {any[]} The array without (one of) the target(s)
  * @example [1, 2, 3, 4, 3].remove(3, 2) // [1, 2, 3, 4]
  */
 Array.prototype.remove = function (target, nth = 1) {
-    _range(nth, "%1=0");
-    _range(nth, ">= 1");
+    _range(nth, "%1=0 | >= 1");
     
     let n = 0;
     let index;
@@ -355,6 +361,11 @@ String.prototype.getCountOf = function (target) {
 };
 
 // JS COMMANDS / NUMERAL
+/* Hint: These functions aren't affected by precision loss of JavaScript.
+    seed
+    BigInt.p.toBase
+    String.p.transBase
+*/
 
 // JS COMMANDS / NUMERAL / GET NUMBERS
 
@@ -399,7 +410,7 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
     let number = 0;
     for (let i = 0; i < seedValue.length; i++) {
         number += seedValue.charCodeAt(i) * key[i % key.length];
-        if (number > Number.MAX_SAFE_INTEGER / Math.E) { number = key[0]; }
+        if (number > Number.MAX_SAFE_INTEGER / Math.E || number < Number.MIN_SAFE_INTEGER / Math.E) { number = key[0]; }
     }
 
     return Math.abs(number * Math.E % 1);
@@ -407,17 +418,16 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
 
 /**
  * Return a selected number in a string.
- * @param {number} order - (%1=0, >= 1) Which part of number you want (start from 1)
+ * @param {number} order - (%1=0 | >= 1) Which part of number you want (start from 1)
  * @returns {number | null} The number from specified string in specified order
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
 String.prototype.getNum = function (order = 1) {
-    _range(order, "%1=0");
-    _range(order, ">= 1");
+    _range(order, "%1=0 | >= 1");
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
-    return numbersList ? +numbersList[order - 1] : null;
+    return numbersList ? Number(numbersList[order - 1]) : null;
 };
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
@@ -505,6 +515,88 @@ Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = fa
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
 
     return Math.min(Math.max(this, minBoundary), maxBoundary);
+};
+
+/**
+ * Parse a non-negative decimal integer into specified system. (To prevent precision loss for large number, input BigInt)
+ * @param {number} int - (%1=0 | >= 2 | <= 36) The specified system
+ * @param {undefined} _ - The param position to prevent mistyping
+ * @returns {string} The number parsed into specified system
+ * @example (601).toBase(16) // "259" (turned 601 into 0x259)
+ */
+Number.prototype.toBase = function (int, _) {
+    if (_ !== undefined) { throw new TypeError("When using Number.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
+    _range(this.valueOf(), "%1=0 | >= 0");
+    _range(int, "%1=0 | >= 2 | <= 36");
+
+    return BigInt(this).toBase(int);
+};
+BigInt.prototype.toBase = function (int, _) {
+    if (_ !== undefined) { throw new TypeError("When using BigInt.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
+    _range(this.valueOf(), "%1=0 | >= 0");
+    _range(int, "%1=0 | >= 2 | <= 36");
+
+    const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    const modList = [];
+    let nowRemaining = this;
+
+    while (nowRemaining != 0n) {
+        modList.push(String(nowRemaining % BigInt(int)));
+        nowRemaining /= BigInt(int);
+    }
+    if (!modList[0]) { modList.push(0); }
+
+    modList.reverse();
+    modList.forEach((number, index) => {
+        modList[index] = numberList[number];
+    });
+
+    return modList.join("");
+};
+
+/**
+ * Parse a non-negative integer string from a system into specified system. (BigInt used: no precision loss)
+ * @param {number} fromBase - (%1=0 | >= 2 | <= 36) The original specified system
+ * @param {number} toBase - (%1=0 | >= 2 | <= 36) The target specified system
+ * @param {number} keepDigit - (%1=0 | >= 1) The digits to keep at least (for example, "00ABC" kept 5 digits)
+ * @returns {string} The number parsed into specified system
+ * @example "CHIWACHIRASE".transBase(36, 10) // "1643534305147807070"
+ */
+String.prototype.transBase = function (fromBase, toBase, keepDigit = -1) {
+    if (toBase === undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
+    _range(fromBase, "%1=0 | >= 2 | <= 36");
+    _range(toBase, "%1=0 | >= 2 | <= 36");
+    _range(toBase, "%1=0 | >= 1");
+
+    if (fromBase == 10) {
+        return BigInt(this).toBase(toBase);
+    } else if (toBase == 10) {
+        const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+        const digits = this.split("");
+        const equalDigits = [];
+        const digitWeight = [];
+        let result = 0n;
+
+        digits.forEach(digit => {
+            const equalValue = BigInt(numberList.indexOf(digit));
+            try { _range(equalValue, `< ${fromBase}`); } catch (e) { throw new RangeError(`Received number ${digit} (${equalValue}) when parsing from ${fromBase} integer system`); }
+
+            equalDigits.push(equalValue);
+        });
+        for (let i = 0; i < this.length; i++) {
+            digitWeight.unshift(BigInt(fromBase) ** BigInt(i));
+        }
+
+        for (let i = 0; i < this.length; i++) {
+            result += equalDigits[i] * digitWeight[i];
+        }
+        result = String(result);
+        if (keepDigit != -1 && result.length < keepDigit) { result = result.padStart(keepDigit, "0"); }
+
+        return result;
+    }
+    return this.valueOf().transBase(fromBase, 10).transBase(10, toBase);
 };
 
 // HTML ELEMENTS
@@ -746,7 +838,7 @@ function unhide(element, display = "block", method = "id") {
 function isHidden(element) {
     _type(element, "string");
 
-    return target(element).style.display == "none" || target(element).style.opacity === "0" || !!query(`#${element}[hide]`)[0] && target(element).style.display == "";
+    return target(element).style.display == "none" || target(element).style.opacity === "0" || Boolean(query(`#${element}[hide]`)[0]) && target(element).style.display == "";
 }
 
 // HTML ELEMENTS / CSS MODIFICATIONS / TRANSITIONS
@@ -833,7 +925,7 @@ async function fadeOut(element, doNotHide = false, time = 100) {
     let nowOpacity;
 
     if (target(element).style.opacity != "") {
-        nowOpacity = +target(element).style.opacity;
+        nowOpacity = Number(target(element).style.opacity);
     } else {
         nowOpacity = 1;
     }
@@ -872,7 +964,7 @@ async function fadeIn(element, time = 100) {
     }
     
     if (target(element).style.opacity != "") {
-        nowOpacity = +target(element).style.opacity;
+        nowOpacity = Number(target(element).style.opacity);
     } else {
         nowOpacity = 0;
     }

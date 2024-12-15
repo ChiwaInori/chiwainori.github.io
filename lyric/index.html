@@ -186,7 +186,7 @@
             });
             
             target("showTitle").addEventListener("input", function () {
-                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +this.checked;
+                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = Number(this.checked);
             });
             target("showDot").addEventListener("input", function () {
                 showDotSetting = this.checked;
@@ -319,9 +319,9 @@
             
             async function play() {
                 const lyricArray = file.lyrics;
-                const startLyric = +copyValue("lyricStart") || 0;
+                const startLyric = Number(copyValue("lyricStart")) || 0;
 
-                target("audio").currentTime = +copyValue("audioStart") || 0;
+                target("audio").currentTime = Number(copyValue("audioStart")) || 0;
                 fadeChange("startup", "lyricBlock");
 
                 if (target("showDebug").checked) { unhide("debugPanel"); }
@@ -551,7 +551,7 @@
                     element.style.opacity = 0;
                 });
 
-                await sleep(waitBase * 1 * 1000);
+                await sleep(waitBase * 1000);
                 copyTo("lyrics", sentence);
                 getWordPos();
 
@@ -597,7 +597,7 @@
                 unhide("settingsLine");
 
                 if ("showTitle" in settingsObj) {
-                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +settingsObj.showTitle;
+                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = Number(settingsObj.showTitle);
                     target("showTitle").checked = settingsObj.showTitle;
                 } else {
                     query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = 0;
@@ -666,7 +666,7 @@
             });
 
             async function previewMusic() {
-                target("audioPreview").currentTime = +copyValue("audioStart") || 0;
+                target("audioPreview").currentTime = Number(copyValue("audioStart")) || 0;
                 target("audioPreview").play();
                 target("previewMusicButton").disabled = true;
                 if (target("startButton")) {
@@ -696,7 +696,7 @@
                 element.style.top = `${element.style.top.getNum() - slideOffset}px`;
                 element.style.opacity = 0;
 
-                await sleep(waitBase * 1 * 1000);
+                await sleep(waitBase * 1000);
                 copyTo("translations", sentenceOrder >= 0 ? file.translations[sentenceOrder].replaceAll(/ /g, "&nbsp;") : "&nbsp;");
                 element.style.transition = "";
                 getTranslationPos();

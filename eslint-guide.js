@@ -39,6 +39,12 @@ function hey() {
     hey = 1;
 }
 
+// Error: no-implicit-coercion
+console.log(!!a);
+console.log(+a);
+// eslint-disable-next-line prefer-template
+console.log("" + a);
+
 // Error: no-invalid-regexp
 let reg = new RegExp("[");
 
@@ -203,7 +209,7 @@ function newFunc() {
 }
 
 // Warn: no-extra-boolean-cast
-if (!!a) {
+if (Boolean(a)) {
     console.log(true);
 }
 
