@@ -518,85 +518,88 @@ Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = fa
 };
 
 /**
- * Parse a non-negative decimal integer into specified system. (To prevent precision loss for large number, input BigInt)
- * @param {number} int - (%1=0 | >= 2 | <= 36) The specified system
- * @param {undefined} _ - The param position to prevent mistyping
- * @returns {string} The number parsed into specified system
- * @example (601).toBase(16) // "259" (turned 601 into 0x259)
- */
-Number.prototype.toBase = function (int, _) {
-    if (_ !== undefined) { throw new TypeError("When using Number.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
-    _range(this.valueOf(), "%1=0 | >= 0");
-    _range(int, "%1=0 | >= 2 | <= 36");
-
-    return BigInt(this).toBase(int);
-};
-BigInt.prototype.toBase = function (int, _) {
-    if (_ !== undefined) { throw new TypeError("When using BigInt.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
-    _range(this.valueOf(), "%1=0 | >= 0");
-    _range(int, "%1=0 | >= 2 | <= 36");
-
-    const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-    const modList = [];
-    let nowRemaining = this;
-
-    while (nowRemaining != 0n) {
-        modList.push(String(nowRemaining % BigInt(int)));
-        nowRemaining /= BigInt(int);
-    }
-    if (!modList[0]) { modList.push(0); }
-
-    modList.reverse();
-    modList.forEach((number, index) => {
-        modList[index] = numberList[number];
-    });
-
-    return modList.join("");
-};
-
-/**
- * Parse a non-negative integer string from a system into specified system. (BigInt used: no precision loss)
- * @param {number} fromBase - (%1=0 | >= 2 | <= 36) The original specified system
- * @param {number} toBase - (%1=0 | >= 2 | <= 36) The target specified system
- * @param {number} keepDigit - (%1=0 | >= 1) The digits to keep at least (for example, "00ABC" kept 5 digits)
- * @returns {string} The number parsed into specified system
+ * Parse a non-negative integer string from a base into another base. (BigInt used: no precision loss)
+ * @param {number} fromBase - (%1=0 | >= 2 | <= 36) The original base
+ * @param {number} toBase - (%1=0 | >= 2 | <= 36) The target base
+ * @returns {string} The number string parsed into another base
  * @example "CHIWACHIRASE".transBase(36, 10) // "1643534305147807070"
- */
-String.prototype.transBase = function (fromBase, toBase, keepDigit = -1) {
-    if (toBase === undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
+*/
+String.prototype.transBase = function (fromBase, toBase) {
+    if (toBase == undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
+    if (this.match(/\.[0-9]/g)) { throw new RangeError(`%1=0 required; received ${this}`); }
+    if (this.match(/-[^0]/g)) { throw new RangeError(`>= 0 required; received ${this}`); }
     _range(fromBase, "%1=0 | >= 2 | <= 36");
     _range(toBase, "%1=0 | >= 2 | <= 36");
-    _range(toBase, "%1=0 | >= 1");
+    
+    const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
     if (fromBase == 10) {
-        return BigInt(this).toBase(toBase);
-    } else if (toBase == 10) {
-        const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        const firstAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
+        if (firstAlphabet) { throw new RangeError(`Received number ${firstAlphabet} (${numberList.indexOf(firstAlphabet)}) when parsing from base 10`); }
 
-        const digits = this.split("");
+        const modList = [];
+        let nowRemaining = BigInt(this.replaceAll(".", ""));
+        
+        while (nowRemaining != 0n) {
+            modList.push(String(nowRemaining % BigInt(toBase)));
+            nowRemaining /= BigInt(toBase);
+        }
+        if (!modList[0]) { modList.push(0); }
+    
+        modList.reverse();
+        modList.forEach((number, index) => {
+            modList[index] = numberList[number];
+        });
+    
+        return modList.join("");
+    } else if (toBase == 10) {
+        const digits = this.replaceAll(".", "").split("");
         const equalDigits = [];
         const digitWeight = [];
-        let result = 0n;
-
+        
         digits.forEach(digit => {
             const equalValue = BigInt(numberList.indexOf(digit));
-            try { _range(equalValue, `< ${fromBase}`); } catch (e) { throw new RangeError(`Received number ${digit} (${equalValue}) when parsing from ${fromBase} integer system`); }
-
+            try { _range(equalValue, `< ${fromBase}`); } catch (e) { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
+            
             equalDigits.push(equalValue);
         });
         for (let i = 0; i < this.length; i++) {
             digitWeight.unshift(BigInt(fromBase) ** BigInt(i));
         }
-
+        
+        let result = 0n;
         for (let i = 0; i < this.length; i++) {
             result += equalDigits[i] * digitWeight[i];
         }
-        result = String(result);
-        if (keepDigit != -1 && result.length < keepDigit) { result = result.padStart(keepDigit, "0"); }
-
-        return result;
+        
+        return String(result);
     }
     return this.valueOf().transBase(fromBase, 10).transBase(10, toBase);
+};
+
+/**
+ * Parse a non-negative decimal integer into another base. (To prevent precision loss for large number, input BigInt)
+ * This is actually a String.p.transBase, but simplified for Number and BigInt.
+ * @param {number} int - (%1=0 | >= 2 | <= 36) The target base
+ * @param {undefined} _ - The param position to prevent mistyping
+ * @returns {string} The number string parsed into another base
+ * @example (601).toBase(16) // "259" (turned 601 into 0x259)
+ */
+Number.prototype.toBase = function (base, _) {
+    if (_ != undefined) { throw new TypeError("When using Number.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
+    _range(this.valueOf(), "%1=0 | >= 0");
+    _range(base, "%1=0 | >= 2 | <= 36");
+
+    if (this > Number.MAX_SAFE_INTEGER || this < Number.MIN_SAFE_INTEGER) { warn(`${this} reaches the safe integer, which may cause precision loss. If available, use BigInt or String instead.`); }
+
+    return String(this).transBase(10, base);
+};
+BigInt.prototype.toBase = function (base, _) {
+    if (_ != undefined) { throw new TypeError("When using BigInt.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
+    _range(this.valueOf(), "%1=0 | >= 0");
+    _range(base, "%1=0 | >= 2 | <= 36");
+
+    return String(this).transBase(10, base);
 };
 
 // HTML ELEMENTS

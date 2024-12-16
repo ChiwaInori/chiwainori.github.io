@@ -112,7 +112,7 @@
                 if (objectsAreEqual(atomCounts.left, atomCounts.right)) {
                     const final = combineFormula(numberArray, reaction);
                     let result = `该方程式的配平结果: <strong>${final}</strong>`;
-                    result = result.replace(/([A-z]|\))([0-9])/g, "$1<sub>$2</sub>") /* 改下标 */
+                    result = result.replace(/([A-Za-z]|\))([0-9])/g, "$1<sub>$2</sub>") /* 改下标 */
                         .replace(/([+=>])1/g, "$1") /* 去掉计量数为 1 的 */
                         .replace(/^1/g, "$1"); /* 去掉开头计量数为 1 的 */
                     copyTo("result", result);
