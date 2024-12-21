@@ -86,7 +86,9 @@
             ["覃飞娴", 2007, 11, 13],
             ["谭铮", 2007, 9, 30],
             ["霍然", 2007, 8, 14],
-            ["练昆林", 2008, 4, 30]
+            ["练昆林", 2008, 4, 30],
+            ["何叶", 2000, 5, 26],
+            ["杨秋菊", 1995, 8, 29]
         ];
         const toBirth = [];
         let isNext = 1;
@@ -110,6 +112,7 @@
             while (getDaysLeft(nextBirthYear, element[2], element[3]) < 0) {
                 nextBirthYear++;
             }
+            element.push(nextBirthYear);
             toBirth.push(getDaysLeft(nextBirthYear, element[2], element[3]));
         });
 
@@ -121,10 +124,11 @@
                 const isToday = i == 0;
                 const target = {
                     name: birthList[index][0],
-                    birth: `${birthList[index][1]}.${birthList[index][2]}.${birthList[index][3]}`
+                    birth: `${birthList[index][1]}.${birthList[index][2]}.${birthList[index][3]}`,
+                    age: birthList[index][4] - birthList[index][1]
                 };
 
-                addTo(isNext ? "next" : "remaining", `<p ${isToday ? "style='color: var(--green);'" : ""}>${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天)</p>`);
+                addTo(isNext ? "next" : "remaining", `<p ${isToday ? "style='color: var(--green);'" : ""}>${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)</p>`);
 
                 toBirth[index] = -1;
                 triggered = true;

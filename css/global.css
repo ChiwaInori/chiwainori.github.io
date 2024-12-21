@@ -249,6 +249,7 @@ blockquote * {
 }
 
 table {
+    display: table;
     color: var(--textColor-500);
     margin: 0px 0px 10px 0px;
 }

@@ -15,16 +15,17 @@
         Website (2): seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (11):
+    JS Commands (20):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
+        Logic Judgement (9): Logic.TRUE, Logic.FALSE, Logic.NOT, Logic.OR, Logic.AND, Logic.NOR, Logic.NAND, Logic.XOR, Logic.XNOR
         Numeral (8): 
             Get Numbers (3): rand, seed, String.p.getNum
             Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, Number.p.toInt / BigInt.p.toInt, String.p.transInt
-    HTML Elements (17):
+    HTML Elements (18):
         Target Elements (2): target, query
-        Interacts (6):
+        Interacts (7):
             Input (2): copyFrom, copyValue
-            Output (4): copyTo, addTo, setValue, applyAll
+            Output (5): copyTo, addBefore, addTo, setValue, applyAll
         CSS Modifications (9):
             Applications (4): styleTo, colorTo, hide, unhide
             Confirmations (1): isHidden
@@ -360,6 +361,29 @@ String.prototype.getCountOf = function (target) {
     return splitString.length - 1;
 };
 
+// JS COMMANDS / LOGIC JUDGEMENT
+
+const Logic = {
+    /** * @returns {boolean} Always return true */
+    TRUE: () => true,
+    /** * @returns {boolean} Always return false */
+    FALSE: () => false,
+    /** * @returns {boolean} Return the reverse boolean */
+    NOT: input => !input,
+    /** * @returns {boolean} When true exists, return true */
+    OR: (...input) => input.map(Boolean).includes(true),
+    /** * @returns {boolean} When all are true, return true */
+    AND: (...input) => !input.map(Boolean).includes(false),
+    /** * @returns {boolean} When all are false, return true */
+    NOR: (...input) => !input.map(Boolean).includes(true),
+    /** * @returns {boolean} When false exists, return true */
+    NAND: (...input) => input.map(Boolean).includes(false),
+    /** * @returns {boolean} When true and false both exists, return true */
+    XOR: (...input) => input.map(Boolean).includes(true) && input.map(Boolean).includes(false),
+    /** * @returns {boolean} When only true or false exists, return true */
+    XNOR: (...input) => input.map(Boolean).includes(true) && !input.map(Boolean).includes(false) || !input.map(Boolean).includes(true) && input.map(Boolean).includes(false)
+};
+
 // JS COMMANDS / NUMERAL
 /* Hint: These functions aren't affected by precision loss of JavaScript.
     seed
@@ -418,16 +442,16 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
 
 /**
  * Return a selected number in a string.
- * @param {number} order - (%1=0 | >= 1) Which part of number you want (start from 1)
+ * @param {number} nth - (%1=0 | >= 1) Which part of number you want (start from 1)
  * @returns {number | null} The number from specified string in specified order
  * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
  */
-String.prototype.getNum = function (order = 1) {
-    _range(order, "%1=0 | >= 1");
+String.prototype.getNum = function (nth = 1) {
+    _range(nth, "%1=0 | >= 1");
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
-    return numbersList ? Number(numbersList[order - 1]) : null;
+    return numbersList ? Number(numbersList[nth - 1]) : null;
 };
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
@@ -534,11 +558,11 @@ String.prototype.transBase = function (fromBase, toBase) {
     const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
     if (fromBase == 10) {
-        const firstAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
-        if (firstAlphabet) { throw new RangeError(`Received number ${firstAlphabet} (${numberList.indexOf(firstAlphabet)}) when parsing from base 10`); }
+        const firstIsAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
+        if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base 10`); }
 
         const modList = [];
-        let nowRemaining = BigInt(this.replaceAll(".", ""));
+        let nowRemaining = BigInt(this.toUpperCase().replaceAll(".", ""));
         
         while (nowRemaining != 0n) {
             modList.push(String(nowRemaining % BigInt(toBase)));
@@ -552,19 +576,21 @@ String.prototype.transBase = function (fromBase, toBase) {
         });
     
         return modList.join("");
-    } else if (toBase == 10) {
-        const digits = this.replaceAll(".", "").split("");
+    }
+    
+    if (toBase == 10) {
+        const digits = this.toUpperCase().replaceAll(".", "").split("");
         const equalDigits = [];
         const digitWeight = [];
         
         digits.forEach(digit => {
             const equalValue = BigInt(numberList.indexOf(digit));
-            try { _range(equalValue, `< ${fromBase}`); } catch (e) { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
+            try { _range(equalValue, `< ${fromBase}`); } catch { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
             
             equalDigits.push(equalValue);
         });
-        for (let i = 0; i < this.length; i++) {
-            digitWeight.unshift(BigInt(fromBase) ** BigInt(i));
+        for (let i = 0n; i < this.length; i++) {
+            digitWeight.unshift(BigInt(fromBase) ** i);
         }
         
         let result = 0n;
@@ -574,6 +600,7 @@ String.prototype.transBase = function (fromBase, toBase) {
         
         return String(result);
     }
+
     return this.valueOf().transBase(fromBase, 10).transBase(10, toBase);
 };
 
@@ -671,6 +698,18 @@ function copyTo(element, content) {
     _type(element, "string");
     
     target(element).innerHTML = content;
+}
+
+/**
+ * Add something to the start of an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @param {any} content - The content to add to the element
+ * @example addBefore("p1", "Title: ") // Add "Title" to the start of #p1
+*/
+function addBefore(element, content) {
+    _type(element, "string");
+    
+    copyTo(element, `${content}${copyFrom(element)}`);
 }
 
 /**
@@ -948,22 +987,23 @@ async function fadeOut(element, doNotHide = false, time = 100) {
 /**
  * Fade in an element.
  * @param {string} element - The id of target element
+ * @param {string} display - The type of display
  * @param {number} time - (>= 0) The time length of fade in
  * @example fadeIn("title", 200) // Fade in #title in 0.2s.
  */
-async function fadeIn(element, time = 100) {
+async function fadeIn(element, display = "block", time = 100) {
     _type(element, "string");
     _range(time, ">= 0");
 
     if (time == 0) {
-        unhide(element);
+        unhide(element, display);
         return;
     }
 
     let nowOpacity;
 
     if (target(element).style.display == "none" || query(`${element}[hide]`)) {
-        unhide(element); target(element).style.opacity = 0;
+        unhide(element, display); target(element).style.opacity = 0;
     }
     
     if (target(element).style.opacity != "") {
@@ -982,23 +1022,24 @@ async function fadeIn(element, time = 100) {
  * Fade out an element and fade in another element.
  * @param {string} outElement - The id of target element to fade out
  * @param {string} inElement - The id of target element to fade in 
+ * @param {string} display - The type of display
  * @param {number} time - (>= 0) The total time length of whole change session
  * @example fadeChange("title", "secondTitle", 500) // Fade out #title in 0.25s and fade in #secondTitle in 0.25s.
  */
-async function fadeChange(outElement, inElement, time = 200) {
+async function fadeChange(outElement, inElement, display = "block", time = 200) {
     _type(outElement, "string");
     _type(inElement, "string");
     _range(time, ">= 0");
 
     if (time == 0) {
         hide(outElement);
-        unhide(inElement);
+        unhide(inElement, display);
         return;
     }
 
     fadeOut(outElement, false, time / 2);
     await sleep(time / 2 + 20);
-    fadeIn(inElement, time / 2);
+    fadeIn(inElement, display, time / 2);
 }
 
 // SAVE & LOAD

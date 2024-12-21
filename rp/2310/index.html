@@ -24,7 +24,9 @@
         </div>
         <div id="rollPanel">
             <p id="readSuccess" style="color: var(--green);" hide>已成功读取 <strong id="saveTime"></strong> 动态随机抽取进度</p>
+            <p id="nextBirthday"></p>
             <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 140px;">点击下方按钮进行随机选人</h1>
+            <p id="dynamic-chance-doyouknow" style="font-size: 24px;">&nbsp;</p>
             <p id="s-true" style="margin-left: -26px; display: none;"><strong><ruby>真随机<rt>固定概率</rt></ruby> | <a class="LNK"onclick="changeMode('dynamic')"><ruby>动态随机<rt>动态加权概率</rt></ruby></a> | <a class="LNK"onclick="changeMode('false')"><ruby>伪随机<rt>无重复抽取</rt></ruby></a></strong></p>
             <p id="s-dynamic" style="margin-left: -26px;"><strong><a class="LNK" onclick="changeMode('true')"><ruby>真随机<rt>固定概率</rt></ruby></a> | <ruby>动态随机<rt>动态加权概率</rt></ruby> | <a class="LNK" onclick="changeMode('false')"><ruby>伪随机<rt>无重复抽取</rt></ruby></a></strong></p>
             <p id="s-false" style="margin-left: -26px; display: none;"><strong><a class="LNK" onclick="changeMode('true')"><ruby>真随机<rt>固定概率</rt></ruby></a> | <a class="LNK" onclick="changeMode('dynamic')"><ruby>动态随机<rt>动态加权概率</rt></ruby></a> | <ruby>伪随机<rt>无重复抽取</rt></ruby></strong></p>
@@ -51,6 +53,7 @@
             <audio id="click" src="../click.mp3" style="display: none;" preload="auto"></audio>
             <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
             <p id="chanceTable" hide></p>
+            <div id="chanceTableDynamicDiv" hide><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
             <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="saveId"></strong></p>
         </div>
         <br />
@@ -94,7 +97,8 @@
                 boy: [],
                 girl: []
             },
-            totalAvg: 0
+            totalAvg: 0,
+            repeatProhibit: [0, 0, 0, 0, 0]
         };
         fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
@@ -102,22 +106,16 @@
             hide("rollPanel");
 
             dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
-            dynamicList.times.all.forEach((times, index) => {
-                order += times;
-                if (!girlId.includes(index + 1)) {
-                    dynamicList.weight.boy.push(1);
-                    dynamicList.times.boy.push(dynamicList.times.all[index]);
-                } else {
-                    dynamicList.weight.girl.push(1);
-                    dynamicList.times.girl.push(dynamicList.times.all[index]);
-                }
-            });
+            dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+
+            dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
             order--;
             updateWeight();
             order++;
+            dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
 
             const code = getURLparam("code");
-            const targetVerify = seed(dynamicList.times.all, [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
+            const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
             if (targetVerify == getURLparam("verify")) {
                 unhide("readSuccess");
                 copyTo("saveTime", new Date(Number(getURLparam("time"))));
@@ -138,6 +136,8 @@
         let skipAnimation = false;
         let idNow = "";
         let chanceMode = "all";
+        let showChance = false;
+        let thisChance;
         
         function changeMode(mode) {
             currentMode = mode;
@@ -172,6 +172,7 @@
                     : type == "boy" ? { real: fullList.boy.indexOf(nowRolling), classId: fullList.all.indexOf(nowRolling) + 1 }
                         : { real: fullList.girl.indexOf(nowRolling), classId: fullList.all.indexOf(nowRolling) + 1 };
                 animationList = fullList[type];
+                thisChance = 1 / fullList.all.length;
             }
             if (currentMode == "dynamic") {
                 let totalWeight = 0;
@@ -190,6 +191,7 @@
                     if (nowWeight >= selectedWeight) {
                         nowRolling = fullList[type][i];
                         selectedPosition = i;
+                        thisChance = dynamicList.weight[type][i] / totalWeight;
                         break;
                     }
                 }
@@ -203,7 +205,12 @@
                         }
                     },
                     totalWeight: totalWeight, 
-                    selectedWeight: selectedWeight
+                    selectedWeight: selectedWeight,
+                    source: {
+                        rollTimes: dynamicList.times.all,
+                        totalAvg: dynamicList.totalAvg,
+                        repeatProhibit: dynamicList.repeatProhibit.isolate()
+                    }
                 };
                 animationList = fullList[type];
                 updateWeight(nowRolling);
@@ -213,6 +220,7 @@
                 temp = type == "all" ? { real: remainingList.all.indexOf(nowRolling), classId: fullList.all.indexOf(nowRolling) + 1, remaining: remainingList.all.isolate() }
                     : type == "boy" ? { real: remainingList.boy.indexOf(nowRolling), classId: fullList.all.indexOf(nowRolling) + 1, remaining: remainingList.boy.isolate() }
                         : { real: remainingList.girl.indexOf(nowRolling), classId: fullList.all.indexOf(nowRolling) + 1, remaining: remainingList.girl.isolate() };
+                thisChance = type == "all" ? 1 / remainingList.all.length : type == "boy" ? 1 / remainingList.boy.length : 1 / remainingList.girl.length;
                 animationList = fullList[type];
                 animationList = remainingList[type];
             }
@@ -243,12 +251,15 @@
         
             applyAll("#buttonLine button, #findBySex button, #findByIdLine button:nth-child(-n+7)", target => {
                 target.disabled = false;
+                fadeIn("dynamic-chance-doyouknow");
+                copyTo("dynamic-chance-doyouknow", doYouKnow(thisChance, type));
             });
         
             updateChance(type == "all" ? "all" : "sex");
         }
 
         async function animate(flashNames, flashColor, toColor, type) {
+            fadeOut("dynamic-chance-doyouknow", true);
             await fadeOut("name", true);
             colorTo("name", flashColor);
             fadeIn("name");
@@ -291,14 +302,17 @@
                         target(`b-${i}`).disabled = false;
                     }
                 }
-                transColor("findById", "var(--orange)");
+                copyTo("findById", "点此以取消");
+                transColor("findById", "var(--red)");
             } else {
                 idNow += number;
                 temp = Number(idNow);
                 nowRolling = `${fullList.all[Number(idNow - 1)]} <span style='font-size: 32px;'>${idNow}</span>`;
+                copyTo("findById", "按学号找人");
                 transColor("findById", "var(--textColor-500)");
                 await animateSkip(true, "var(--textColor-500)");
-                logName(fullList.all[Number(idNow - 1)]);
+                logName(1, fullList.all[Number(idNow - 1)]);
+                fadeOut("dynamic-chance-doyouknow", true);
                 idNow = "";
             
                 target(`b-0`).disabled = false;
@@ -310,6 +324,7 @@
 
         function findByIdReset() {
             idNow = "";
+            copyTo("findById", "按学号找人");
             transColor("findById", "var(--textColor-500)");
             target(`b-0`).disabled = false;
             for (let i = 6; i <= 9; i++) {
@@ -321,26 +336,33 @@
             dynamicList.totalAvg = (order + 1) / fullList.all.length;
         
             const rolledInAll = fullList.all.indexOf(whoIsRolled);
-            const rolledInBoy = fullList.boy.indexOf(whoIsRolled);
-            const rolledInGirl = fullList.girl.indexOf(whoIsRolled);
         
-            dynamicList.times.all[rolledInAll]++; // Add rolled times to the people who is rolled
-            if (rolledInBoy >= 0) {
-                dynamicList.times.boy[rolledInBoy]++;
-            } else {
-                dynamicList.times.girl[rolledInGirl]++;
+            if (rolledInAll != -1) { dynamicList.times.all[rolledInAll]++; } // Add rolled times to the people who is rolled
+            dynamicList.times.boy = [];
+            dynamicList.times.girl = [];
+            for (let i = 0; i < dynamicList.times.all.length; i++) {
+                dynamicList.times[!girlId.includes(i + 1) ? "boy" : "girl"].push(dynamicList.times.all[i]);
             }
+
+            dynamicList.repeatProhibit.pop();
+            dynamicList.repeatProhibit.unshift(fullList.all.indexOf(whoIsRolled) + 1);
         
-            const calWeight = times => Math.min(5 ** (dynamicList.totalAvg - times), Number.MAX_VALUE);
-        
-            for (let i = 0; i < dynamicList.weight.all.length; i++) { // Calculate the new weight
-                dynamicList.weight.all[i] = calWeight(dynamicList.times.all[i]);
-            }
-            for (let i = 0; i < dynamicList.weight.boy.length; i++) {
-                dynamicList.weight.boy[i] = calWeight(dynamicList.times.boy[i]);
-            }
-            for (let i = 0; i < dynamicList.weight.girl.length; i++) {
-                dynamicList.weight.girl[i] = calWeight(dynamicList.times.girl[i]);
+            const prohibitRatio = index => {
+                const classId = index + 1;
+                if (classId == dynamicList.repeatProhibit[0]) { return 0.9; }
+                if (classId == dynamicList.repeatProhibit[1]) { return 0.8; }
+                if (classId == dynamicList.repeatProhibit[2]) { return 0.7; }
+                if (classId == dynamicList.repeatProhibit[3]) { return 0.5; }
+                if (classId == dynamicList.repeatProhibit[4]) { return 0.2; }
+                return 0;
+            };
+            const calWeight = (times, ratio) => Math.min(5 ** (dynamicList.totalAvg - times), Number.MAX_VALUE) * (1 - ratio);
+
+            dynamicList.weight.all = dynamicList.times.all.map((times, index) => calWeight(times, prohibitRatio(index)));
+            dynamicList.weight.boy = [];
+            dynamicList.weight.girl = [];
+            for (let i = 0; i < dynamicList.times.all.length; i++) {
+                dynamicList.weight[!girlId.includes(i + 1) ? "boy" : "girl"].push(dynamicList.weight.all[i]);
             }
         }
 
@@ -350,20 +372,79 @@
         }
 
         function revealChance() {
-            fadeChange("showChanceLine", "chanceTable");
+            showChance = true;
+            if (currentMode == "dynamic") {
+                fadeChange("showChanceLine", "chanceTableDynamicDiv");
+            } else {
+                fadeChange("showChanceLine", "chanceTable");
+            }
             target("name").style.marginBottom = "116px";
         }
 
         function updateChance(showType) {
             copyTo("chanceTable", "");
+            copyTo("chanceTableDynamicBody", "");
             if (!showType) { showType = chanceMode; }
         
             if (showType == "all") {
                 copyTo("chanceTable", "<span class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</span><br />");
-                fullList.all.forEach((name, index) => {
-                    const id = index + 1;
-                    addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
-                });
+                copyTo("chanceTableDynamicDiv", "<p class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</p><table id=\"chanceTableDynamic\"><tbody id=\"chanceTableDynamicBody\"></tbody></table><p>总权重: <strong id=\"total-weight\"></strong></p>");
+                if (currentMode != "dynamic") {
+                    fullList.all.forEach((name, index) => {
+                        const id = index + 1;
+                        addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
+                    });
+                    if (showChance) {
+                        unhide("chanceTable");
+                        hide("chanceTableDynamicDiv");
+                    }
+                } else {
+                    addTo("chanceTableDynamicBody", `<tr>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>概率</th>
+                            <th>次数</th>
+                            <th>权重</th>
+                            <th>重抽抑制</th>
+                            <th>|</th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>概率</th>
+                            <th>次数</th>
+                            <th>权重</th>
+                            <th>重抽抑制</th>
+                        </tr>`);
+                    const half = Math.ceil(fullList.all.length / 2);
+                    fullList.all.forEach((_, index) => {
+                        const id = index + 1;
+                        const name1 = fullList.all[index];
+                        const name2 = fullList.all[index + half];
+                        if (id <= half) {
+                            addTo("chanceTableDynamicBody", `<tr>
+                                    <td id="d-chance-${id}-id">[${id < 10 ? `0${id}` : id}]</td>
+                                    <td id="d-chance-${id}-name">${name1}</td>
+                                    <th id="d-chance-${id}-chance"></th>
+                                    <td id="d-chance-${id}-times"></td>
+                                    <td id="d-chance-${id}-weight"></td>
+                                    <td id="d-chance-${id}-repeat"></td>
+                                    <td>|</td>
+                                    ${id + half <= fullList.all.length ? `
+                                        <td id="d-chance-${id + half}-id">[${id + half < 10 ? `0${id + half}` : id + half}]</td>
+                                        <td id="d-chance-${id + half}-name">${name2}</td>
+                                        <th id="d-chance-${id + half}-chance"></th>
+                                        <td id="d-chance-${id + half}-times"></td>
+                                        <td id="d-chance-${id + half}-weight"></td>
+                                        <td id="d-chance-${id + half}-repeat"></td>`
+                // eslint-disable-next-line indent
+                                        : ""}
+                            </tr>`);
+                        }
+                    });
+                    if (showChance) {
+                        hide("chanceTable");
+                        unhide("chanceTableDynamicDiv");
+                    }
+                }
             
                 if (currentMode == "true") {
                     for (let i = 1; i <= fullList.all.length; i++) {
@@ -375,9 +456,40 @@
                     dynamicList.weight.all.forEach(weightNum => {
                         totalWeight += weightNum;
                     });
+                    copyTo("total-weight", totalWeight.keep(3));
+
+                    const getColor = value => {
+                        const total = fullList.all.length;
+
+                        if (value.range(0, 50 / total)) {
+                            return Math.log10(value).percentage(-1, Math.log10(50 / total)).transit(130, 100);
+                        }
+                        if (value.range(50 / total, 100 / total)) {
+                            return value.percentage(50 / total, 100 / total).transit(100, 70);
+                        }
+                        return value.percentage(100 / total, 8).transit(70, 0);
+                    };
+
                     dynamicList.weight.all.forEach((weightNum, index) => {
                         const i = index + 1;
-                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / totalWeight * 100).keep(5)}%`);
+
+                        const chance = (weightNum / totalWeight * 100).keep(5);
+                        copyTo(`d-chance-${i}-chance`, `${chance}%`);
+
+                        colorTo(`d-chance-${i}-chance`, `hsl(${getColor(chance)}, 100%, 45%)`);
+
+                        copyTo(`d-chance-${i}-times`, dynamicList.times.all[index]);
+                        copyTo(`d-chance-${i}-weight`, dynamicList.weight.all[index].keep(3));
+
+                        copyTo(`d-chance-${i}-repeat`, "0%");
+                        colorTo(`d-chance-${i}-repeat`, "var(--textColor-500)");
+                        colorTo(`d-chance-${i}-weight`, "var(--textColor-500)");
+                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
+                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
+                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
+                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
+                        if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); }
+                        if (dynamicList.repeatProhibit.includes(i)) { colorTo(`d-chance-${i}-repeat`, "var(--red)"); colorTo(`d-chance-${i}-weight`, "var(--red)"); }
                     });
                 }
                 if (currentMode == "false") {
@@ -392,14 +504,68 @@
                 }
             } else { // Show chance rolled by sex
                 copyTo("chanceTable", "<span class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</span><br />");
-                fullList.all.forEach((name, index) => {
-                    const id = index + 1;
-                    addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}" style="color: ${!girlId.includes(id) ? "var(--blue)" : "var(--pink)"}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
-                });
+                copyTo("chanceTableDynamicDiv", "<p class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</p><table id=\"chanceTableDynamic\"><tbody id=\"chanceTableDynamicBody\"></tbody></table><p>总权重: <strong id=\"total-weight\"></strong></p>");
+                if (currentMode != "dynamic") {
+                    fullList.all.forEach((name, index) => {
+                        const id = index + 1;
+                        addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
+                    });
+                    if (showChance) {
+                        unhide("chanceTable");
+                        hide("chanceTableDynamicDiv");
+                    }
+                } else {
+                    addTo("chanceTableDynamicBody", `<tr>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>概率</th>
+                            <th>次数</th>
+                            <th>权重</th>
+                            <th>重抽抑制</th>
+                            <th>|</th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>概率</th>
+                            <th>次数</th>
+                            <th>权重</th>
+                            <th>重抽抑制</th>
+                        </tr>`);
+                    const half = Math.ceil(fullList.all.length / 2);
+                    fullList.all.forEach((_, index) => {
+                        const id = index + 1;
+                        const name1 = fullList.all[index];
+                        const name2 = fullList.all[index + half];
+                        if (id <= half) {
+                            addTo("chanceTableDynamicBody", `<tr>
+                                    <td id="d-chance-${id}-id">[${id < 10 ? `0${id}` : id}]</td>
+                                    <td id="d-chance-${id}-name">${name1}</td>
+                                    <th id="d-chance-${id}-chance"></th>
+                                    <td id="d-chance-${id}-times"></td>
+                                    <td id="d-chance-${id}-weight"></td>
+                                    <td id="d-chance-${id}-repeat"></td>
+                                    <td>|</td>
+                                    ${id + half <= fullList.all.length ? `
+                                        <td id="d-chance-${id + half}-id">[${id + half < 10 ? `0${id + half}` : id + half}]</td>
+                                        <td id="d-chance-${id + half}-name">${name2}</td>
+                                        <th id="d-chance-${id + half}-chance"></th>
+                                        <td id="d-chance-${id + half}-times"></td>
+                                        <td id="d-chance-${id + half}-weight"></td>
+                                        <td id="d-chance-${id + half}-repeat"></td>`
+                // eslint-disable-next-line indent
+                                        : ""}
+                            </tr>`);
+                        }
+                    });
+                    if (showChance) {
+                        hide("chanceTable");
+                        unhide("chanceTableDynamicDiv");
+                    }
+                }
             
                 if (currentMode == "true") {
                     for (let i = 1; i <= fullList.all.length; i++) {
                         copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList[!girlId.includes(i) ? "boy" : "girl"].length * 100).keep(5)}%`);
+                        colorTo(`chance-${i < 10 ? `0${i}` : i}`, !girlId.includes(i) ? "var(--blue)" : "var(--pink)");
                     }
                 }
                 if (currentMode == "dynamic") {
@@ -413,10 +579,28 @@
                     dynamicList.weight.girl.forEach(weightNum => {
                         totalWeight.girl += weightNum;
                     });
-                
+                    copyTo("total-weight", `<span style="color: var(--blue)">${totalWeight.boy.keep(3)}</span> / <span style="color: var(--pink)">${totalWeight.girl.keep(3)}</span>`);
+
                     dynamicList.weight.all.forEach((weightNum, index) => {
                         const i = index + 1;
-                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / (girlId.includes(i) ? totalWeight.girl : totalWeight.boy) * 100).keep(5)}%`);
+                        const boyGirlIndex = fullList.boy.indexOf(fullList.all[index]) != -1 ? fullList.boy.indexOf(fullList.all[index]) : fullList.girl.indexOf(fullList.all[index]);
+
+                        const chance = (weightNum / totalWeight[!girlId.includes(index + 1) ? "boy" : "girl"] * 100).keep(5);
+                        copyTo(`d-chance-${i}-chance`, `${chance}%`);
+                        colorTo(`d-chance-${i}-chance`, !girlId.includes(index + 1) ? "var(--blue)" : "var(--pink)");
+
+                        copyTo(`d-chance-${i}-times`, dynamicList.times[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex]);
+                        copyTo(`d-chance-${i}-weight`, dynamicList.weight[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex].keep(3));
+                        
+                        copyTo(`d-chance-${i}-repeat`, "0%");
+                        colorTo(`d-chance-${i}-repeat`, "var(--textColor-500)");
+                        colorTo(`d-chance-${i}-weight`, "var(--textColor-500)");
+                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
+                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
+                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
+                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
+                        if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); }
+                        if (dynamicList.repeatProhibit.includes(i)) { colorTo(`d-chance-${i}-repeat`, "var(--red)"); colorTo(`d-chance-${i}-weight`, "var(--red)"); }
                     });
                 }
                 if (currentMode == "false") {
@@ -427,6 +611,7 @@
                         } else {
                             copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
                         }
+                        colorTo(`chance-${i < 10 ? `0${i}` : i}`, !girlId.includes(i) ? "var(--blue)" : "var(--pink)");
                     }
                 }
             }
@@ -435,34 +620,151 @@
         }
         updateChance("all");
 
-        function logName(byIdName) {
-            if (byIdName) {
-                log(++order, byIdName, "BY-ID", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
-            } else {
+        function cr(id) {
+            updateWeight(fullList.all[id - 1]);
+            updateChance(chanceMode == "all" ? "all" : "sex");
+            logName(2, fullList.all[id - 1], id);
+        }
+
+        function doYouKnow(chance, type) {
+            const chancePercent = (chance * 100).keep(5);
+            const close = 1.2;
+
+            let startSentence = `抽中 ${nowRolling} 的概率为 <strong style="color: ${type == "all" ? chancePercent <= 0.6 * close ? "var(--lightOrange)" : "var(--textColor-500)" : type == "boy" ? "var(--blue)" : "var(--pink)"}">${chancePercent == 0 ? `≤ 0.00001` : chancePercent}%</strong>`;
+            colorTo("dynamic-chance-doyouknow", "var(--textColor-500)");
+
+            if (chancePercent == 0) {
+                return startSentence;
+            }
+
+            if (chancePercent <= 0.256) {
+                colorTo("dynamic-chance-doyouknow", "var(--lightOrange)");
+                if (chancePercent.range(0.128, 0.256)) {
+                    return startSentence += ": <strong>小于</strong> CS2 单抽出金概率";
+                }
+                const nearestCoinProbability = function (targetProbability) {
+                    let n = 0;
+                    let currentProbability = 1;
+                    while (Math.abs(currentProbability - targetProbability) > Math.abs(currentProbability / 2 - targetProbability)) {
+                        n++;
+                        currentProbability /= 2;
+                    }
+                    return n;
+                };
+                return startSentence += `: <strong>小于</strong> CS2 单抽出金概率, 约为硬币<strong>连续 ${nearestCoinProbability(chancePercent / 100)} 次正面</strong>概率`;
+            }
+            if (chancePercent <= 0.256 * close) {
+                colorTo("dynamic-chance-doyouknow", "var(--lightOrange)");
+                return startSentence += ": 接近 CS2 单抽出金概率";
+            }
+
+            if (chancePercent <= 0.6) {
+                colorTo("dynamic-chance-doyouknow", "var(--lightOrange)");
+                return startSentence += ": <strong>小于</strong>原神单抽出金概率";
+            }
+            if (chancePercent <= 0.6 * close) {
+                colorTo("dynamic-chance-doyouknow", "var(--lightOrange)");
+                return startSentence += ": 接近原神单抽出金概率";
+            }
+            if (chancePercent.range(0.6 * close, 1)) {
+                return startSentence += ": 约为连续抛出硬币正面 7 次概率";
+            }
+
+            // 
+
+            if (chancePercent.range(20, 40)) {
+                return startSentence += ": 约为单选题蒙对概率";
+            }
+            if (chancePercent.range(40, 60)) {
+                return startSentence += ": 约为硬币抛出背面概率";
+            }
+
+            return startSentence;
+        }
+
+        function logName(mode, p2, p3) {
+            if (mode == 0 || mode == undefined) { // Default
                 log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : target("name").style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
+            }
+            if (mode == 1) { // By ID
+                log(++order, p2, "BY-ID", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
+            }
+            if (mode == 2) { // Console Roll
+                log(++order, p2, "CONSOLE", p3, skipAnimation ? "SKIPPED" : "NO-SKIP");
             }
         }
 
         log(`关于随机抽人历史记录的解读
 第 1 位: 抽取次数 (从 1 开始)
 第 2 位: 抽到的人
-第 3 位: 抽取方式: 'TRUE' 真随机; 'DYNAMIC' 动态随机; 'FALSE' 伪随机, 'BY-ID' 按学号找人
+第 3 位: 抽取方式: 'TRUE' 真随机; 'DYNAMIC' 动态随机; 'FALSE' 伪随机; 'BY-ID' 按学号找人; 'CONSOLE' 控制台抽取
 第 4 位 ('BY-ID' 没有此项): 抽取范围: 'ALL' 全体; 'BOY' 男生; 'GIRL' 女生
-第 5 位 ('BY-ID' 没有此项): 抽取信息 (注意 JavaScript 中计数从 0 开始，所以下面部分数据会有 1 的差距)
+第 5 位: 抽取信息 (注意 JavaScript 中计数从 0 开始，所以下面部分数据会有 1 的差距)
   真随机: classId: 抽到的人的学号; real: 电脑真正随机到的数字
   动态随机: selectWeight: 随机到的权重; totalWeight: 抽取范围内总权重; weightList: { original: 原始权重表; result: { index: 第一个累计权重大于随即权重的序号; classId: 该序号对应的人的学号 } sum: 累计权重表 }
   伪随机: classId: 抽到的人的学号; real: 电脑真正随机到的数字; remaining: 抽取时的抽取范围 (剩余人员列表)
+  按学号找人/控制台抽取: 学号
 第 6 位: 抽取时是否跳过了动画: 'NO-SKIP' 未跳过; 'SKIPPED' 跳过`);
 
         function saveFile() {
             const id = rand(0, 0xffff);
             const idHex = id.toBase(16).padStart(4, "0");
-            const verify = seed(dynamicList.times.all, [id / 1000, id / 1000 - 1, id / 1000 - 16]);
+            const verify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [id / 1000, id / 1000 - 1, id / 1000 - 16]);
 
             // eslint-disable-next-line no-useless-escape
-            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = 'http://chiwainori.top/rp/2310/?rollTimes=${dynamicList.times.all}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
+            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = 'http://chiwainori.top/rp/2310/?rollTimes=${dynamicList.times.all}&repeat=${dynamicList.repeatProhibit}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
             unhide("saveId", "inline");
             copyTo("saveId", `保存代码: <strong>${idHex}</strong>`);
+        }
+
+        // BIRTH 2310
+
+        const birthList = [["徐子洋", 2007, 12, 12], ["覃帝创", 2008, 2, 23], ["赖宝升", 2007, 9, 24], ["何星辉", 2007, 10, 11], ["黄政睿", 2007, 7, 29], ["陆格里", 2007, 11, 2], ["杨联贵", 2008, 1, 24], ["廖达举", 2007, 11, 24], ["蒋子莹", 2008, 7, 30], ["张建涛", 2008, 7, 4], ["施奎", 2007, 11, 11], ["黄相茗", 2007, 9, 12], ["林峭好", 2008, 1, 17], ["温文雅", 2007, 6, 19], ["钟子宁", 2007, 10, 7], ["党希琳", 2008, 4, 9], ["杨柠豪", 2008, 6, 22], ["吴美萍", 2007, 11, 22], ["谢焌宇", 2008, 12, 10], ["戴欣彤", 2007, 10, 6], ["杨思扬", 2007, 8, 8], ["刘乐谦", 2007, 10, 9], ["周坤怡", 2007, 7, 17], ["郑翼联", 2007, 8, 12], ["黄纤媛", 2007, 12, 27], ["黄振航", 2007, 11, 2], ["邓家宝", 2008, 2, 9], ["陆禹熹", 2007, 11, 30], ["周福文", 2007, 6, 17], ["蒋杰胜", 2008, 8, 28], ["苏正恩", 2007, 11, 12], ["蒙盈盈", 2008, 6, 10], ["郑育明", 2007, 8, 14], ["陈广榕", 2008, 6, 27], ["廖晓雪", 2007, 7, 31], ["黄文贝", 2008, 2, 7], ["吴静玉", 2007, 10, 17], ["蒙志为", 2008, 3, 31], ["叶滨华", 2007, 10, 18], ["邓桢", 2008, 6, 9], ["麦诚铭", 2008, 3, 1], ["梁瀚菲", 2008, 8, 22], ["林思颖", 2007, 11, 4], ["李永仲", 2008, 10, 5], ["邱琦康", 2007, 3, 16], ["甘永稳", 2007, 12, 11], ["覃耀泓", 2007, 8, 20], ["李杰", 2008, 6, 22], ["杨凯琪", 2007, 6, 3], ["韦国胜", 2008, 3, 13], ["邱振鑫", 2008, 3, 8], ["覃飞娴", 2007, 11, 13], ["谭铮", 2007, 9, 30], ["霍然", 2007, 8, 14], ["练昆林", 2008, 4, 30],
+            ["何叶", 2000, 5, 26], ["杨秋菊", 1995, 8, 29]];
+        const toBirth = [];
+        
+        function getDaysLeft(year, month, day) {
+            const targetDate = new Date(year, month - 1, day);
+            const currentDate = new Date();
+
+            currentDate.setHours(0, 0, 0, 0);
+            targetDate.setHours(0, 0, 0, 0);
+
+            const timeDifference = targetDate - currentDate;
+            const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            return daysDifference;
+        }
+
+        birthList.forEach(element => {
+            let nextBirthYear = element[1];
+
+            while (getDaysLeft(nextBirthYear, element[2], element[3]) < 0) {
+                nextBirthYear++;
+            }
+            element.push(nextBirthYear);
+            toBirth.push(getDaysLeft(nextBirthYear, element[2], element[3]));
+        });
+
+        for (let i = 0; i <= 366; i++) {
+            let triggered;
+
+            while (toBirth.indexOf(i) >= 0) {
+                const index = toBirth.indexOf(i);
+                const isToday = i == 0;
+                const target = {
+                    name: birthList[index][0],
+                    birth: `${birthList[index][1]}.${birthList[index][2]}.${birthList[index][3]}`,
+                    age: birthList[index][4] - birthList[index][1]
+                };
+
+                addTo("nextBirthday", `<p ${isToday ? "style='color: var(--green); font-weight: 900; font-size: 32px;'>&gt; 今天生日: " : ">下一个生日: "}${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)${isToday ? " &lt;" : ""}</p>`);
+
+                toBirth[index] = -1;
+                triggered = true;
+            }
+
+            if (triggered) { break; }
         }
     </script>
 </div></body>

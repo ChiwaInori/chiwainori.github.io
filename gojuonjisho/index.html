@@ -70,7 +70,7 @@
                     locked.keyD = true;
                 }
             } else if (!locked.keyLR) {
-                const correctCheck = orderToCheck == 0 && (key == "ArrowLeft" && nowOrder[0] < nowOrder[1] || key == "ArrowRight" && nowOrder[0] > nowOrder[1]) || orderToCheck == 1 && (key == "ArrowLeft" && nowOrder[0] > nowOrder[1] || key == "ArrowRight" && nowOrder[0] < nowOrder[1]) || nowOrder[0] == nowOrder[1];
+                const correctCheck = orderToCheck == 0 && Logic.XNOR(key == "ArrowLeft", nowOrder[0] < nowOrder[1]) || orderToCheck == 1 && Logic.XNOR(key == "ArrowLeft", nowOrder[0] > nowOrder[1]) || nowOrder[0] == nowOrder[1];
                 if (correctCheck) {
                     const nowTime = new Date().getTime();
                     const costTime = nowTime - startTimer;
