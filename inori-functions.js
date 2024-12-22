@@ -17,10 +17,10 @@
         Console Log (2): log, warn
     JS Commands (20):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
-        Logic Judgement (9): Logic.TRUE, Logic.FALSE, Logic.NOT, Logic.OR, Logic.AND, Logic.NOR, Logic.NAND, Logic.XOR, Logic.XNOR
+        Logic Judgement (9): Logic.NOR, Logic.NAND, Logic.XOR, Logic.XNOR
         Numeral (8): 
             Get Numbers (3): rand, seed, String.p.getNum
-            Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, Number.p.toInt / BigInt.p.toInt, String.p.transInt
+            Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
     HTML Elements (18):
         Target Elements (2): target, query
         Interacts (7):
@@ -82,23 +82,22 @@ function _range(number, range) {
 
     const requirements = range.split(" | ");
 
-    requirements.forEach(requirement => { 
-        if (requirement == "%1=0") {
+    requirements.forEach(req => { 
+        if (req == "%1=0") {
             if (typeof number == "number" && number % 1 != 0) {
                 throw new RangeError(`%1=0 required; received ${number}`);
             }
             if (typeof number == "bigint" && number % 1n != 0n) {
                 throw new RangeError(`%1=0 required; received ${number}`);
             }
-            return;
         }
         
-        if (requirement.includes("== ") && number != requirement.split(" ")[1]) { throw new RangeError(`==${requirement.split(" ")[1]} required; received ${number}`); }
-        if (requirement.includes("!= ") && number == requirement.split(" ")[1]) { throw new RangeError(`!=${requirement.split(" ")[1]} required; received ${number}`); }
-        if (requirement.includes(">= ") && number < requirement.split(" ")[1]) { throw new RangeError(`>=${requirement.split(" ")[1]} required; received ${number}`); }
-        if (requirement.includes("> ") && number <= requirement.split(" ")[1]) { throw new RangeError(`>${requirement.split(" ")[1]} required; received ${number}`); }
-        if (requirement.includes("<= ") && number > requirement.split(" ")[1]) { throw new RangeError(`<=${requirement.split(" ")[1]} required; received ${number}`); }
-        if (requirement.includes("< ") && number >= requirement.split(" ")[1]) { throw new RangeError(`<${requirement.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("== ") && number != req.split(" ")[1]) { throw new RangeError(`==${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("!= ") && number == req.split(" ")[1]) { throw new RangeError(`!=${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes(">= ") && number < req.split(" ")[1]) { throw new RangeError(`>=${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("> ") && number <= req.split(" ")[1]) { throw new RangeError(`>${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("<= ") && number > req.split(" ")[1]) { throw new RangeError(`<=${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("< ") && number >= req.split(" ")[1]) { throw new RangeError(`<${req.split(" ")[1]} required; received ${number}`); }
     });
 }
 
@@ -197,7 +196,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
 
 /**
  * Create a copyright text in #copyright.
- * @param {number} startYear - (<= new Date().getFullYear()) The year that copyright starts
+ * @param {number} startYear - (%1=0 | <= new Date().getFullYear()) The year that copyright starts
  * @param {any} signature - Who owns the copyright
  * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2021
  */
@@ -206,7 +205,7 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
     if (!target("copyright")) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    if (startYear > thisYear) { throw new RangeError(`startYear required (<= ${thisYear}), received ${startYear}`); }
+    _range(startYear, `%1=0 | <= ${new Date().getFullYear()}`);
 
     if (startYear == thisYear) {
         copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
@@ -364,16 +363,6 @@ String.prototype.getCountOf = function (target) {
 // JS COMMANDS / LOGIC JUDGEMENT
 
 const Logic = {
-    /** * @returns {boolean} Always return true */
-    TRUE: () => true,
-    /** * @returns {boolean} Always return false */
-    FALSE: () => false,
-    /** * @returns {boolean} Return the reverse boolean */
-    NOT: input => !input,
-    /** * @returns {boolean} When true exists, return true */
-    OR: (...input) => input.map(Boolean).includes(true),
-    /** * @returns {boolean} When all are true, return true */
-    AND: (...input) => !input.map(Boolean).includes(false),
     /** * @returns {boolean} When all are false, return true */
     NOR: (...input) => !input.map(Boolean).includes(true),
     /** * @returns {boolean} When false exists, return true */
@@ -559,7 +548,7 @@ String.prototype.transBase = function (fromBase, toBase) {
 
     if (fromBase == 10) {
         const firstIsAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
-        if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base 10`); }
+        if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base ${fromBase}`); }
 
         const modList = [];
         let nowRemaining = BigInt(this.toUpperCase().replaceAll(".", ""));
