@@ -38,18 +38,18 @@
                     <button style="color: var(--pink); border-color: 2px solid var(--aqua);" onclick="roll('girl')">选女生</button>
                 </span>
                 <span id="findByIdLine"><strong id="findById" style="color: #666666;" onclick="findByIdReset()">按学号找人</strong> 
-                    <button id="b-0" onclick="num(0)">0</button>
-                    <button id="b-1" onclick="num(1)">1</button>
-                    <button id="b-2" onclick="num(2)">2</button>
-                    <button id="b-3" onclick="num(3)">3</button>
-                    <button id="b-4" onclick="num(4)">4</button>
-                    <button id="b-5" onclick="num(5)">5</button>
-                    <button id="b-6" onclick="num(6)" disabled="disabled">6</button>
-                    <button id="b-7" onclick="num(7)" disabled="disabled">7</button>
-                    <button id="b-8" onclick="num(8)" disabled="disabled">8</button>
-                    <button id="b-9" onclick="num(9)" disabled="disabled">9</button>
+                    <button id="b-0" class="idButton" onclick="num(0)" disabled="disabled">0</button>
+                    <button id="b-1" class="idButton" onclick="num(1)" disabled="disabled">1</button>
+                    <button id="b-2" class="idButton" onclick="num(2)" disabled="disabled">2</button>
+                    <button id="b-3" class="idButton" onclick="num(3)" disabled="disabled">3</button>
+                    <button id="b-4" class="idButton" onclick="num(4)" disabled="disabled">4</button>
+                    <button id="b-5" class="idButton" onclick="num(5)" disabled="disabled">5</button>
+                    <button id="b-6" class="idButton" onclick="num(6)" disabled="disabled">6</button>
+                    <button id="b-7" class="idButton" onclick="num(7)" disabled="disabled">7</button>
+                    <button id="b-8" class="idButton" onclick="num(8)" disabled="disabled">8</button>
+                    <button id="b-9" class="idButton" onclick="num(9)" disabled="disabled">9</button>
                 </span></p>
-            <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong></p>
+            <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="rollTeachers" type="checkbox" style="margin-left: 0px;" /> <strong>抽取科任老师</strong></p>
             <audio id="click" src="../click.mp3" style="display: none;" preload="auto"></audio>
             <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
             <p id="chanceTable" hide></p>
@@ -61,7 +61,8 @@
         <p style="color: var(--gray);">2310 班成员名单及学号根据高一下学期 3 月月考成绩单进行录入。所有同学都有同等被抽中的机会。</p>
         <p style="color: var(--gray);"><strong>真随机</strong>将会在每次抽取时从全班名单中随机选择一名同学，<strong>每次每人抽到的概率都固定</strong>。</p>
         <p style="color: var(--gray);"><strong>动态随机</strong>会根据每个人被抽到的次数对抽中的概率进行加权，<strong>被抽到次数多的人再抽到的概率将会降低</strong>。</p>
-        <p style="color: var(--gray);"><strong>伪随机</strong>将会在抽到一名同学后将其从名单中剔除，直到所有同学都被抽取过一次，<strong>确保 55 次抽取中不会出现重复</strong>。</p>
+        <p class="ANT">权重: 以 5 为底数，(目前全班平均被抽到的次数 - 每个人被抽到的次数) 为指数的结果; 重抽抑制: 最近 5 个被抽到的人，权重将分别减少 90%, 80%, 70%, 50%, 20%</p>
+        <p style="color: var(--gray);"><strong>伪随机</strong>将会在抽到一名同学后将其从名单中剔除，直到所有同学都被抽取过一次，<strong>确保 <span id="availableTimes" style="color: var(--gray);"></span> 次抽取中不会出现重复</strong>。</p>
         <p style="color: var(--gray);">抽人过程的动画根据目前可能抽到的同学显示，不影响最终的抽取结果。</p>
         <br />
         <h6 style="color: var(--gray);">除选人动画的音效和网页字体外，适用以下版权:</h6>
@@ -78,62 +79,76 @@
         let order = 0;
         
         const girlId = [9, 13, 14, 16, 18, 19, 20, 23, 25, 28, 32, 35, 36, 37, 42, 43, 47, 49, 52, 54];
-        fullList.all.forEach((_, index) => {
-            if (!girlId.includes(index + 1)) {
-                fullList.boy.push(fullList.all[index]);
-            } else {
-                fullList.girl.push(fullList.all[index]);
-            }
-        });
-        
-        const dynamicList = {
-            times: {
-                all: [],
-                boy: [],
-                girl: []
-            },
-            weight: {
-                all: [],
-                boy: [],
-                girl: []
-            },
-            totalAvg: 0,
-            repeatProhibit: [0, 0, 0, 0, 0]
+        let dynamicList, remainingList;
+        const teachers = {
+            list: ["何叶", "张薇", "杨秋菊", "黄孙忠", "何琼芬", "丘仕琴", "胡兆宣", "林小玲", "甘海", "罗静", "梁泸尹"], // 蓝燕琴, 甘立德, 朱庆梅, 黄丽珊
+            girlId: [56, 57, 58, 60, 61, 63, 65, 66]
         };
-        fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
-        if (getURLparam("rollTimes")) {
-            hide("rollPanel");
+        function initialize() {
+            fullList.boy = [];
+            fullList.girl = [];
 
-            dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
-            dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+            fullList.all.forEach((_, index) => {
+                if (!girlId.includes(index + 1)) {
+                    fullList.boy.push(fullList.all[index]);
+                } else {
+                    fullList.girl.push(fullList.all[index]);
+                }
+            });
 
-            dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
-            order--;
-            updateWeight();
-            order++;
-            dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
+            dynamicList = {
+                times: {
+                    all: [],
+                    boy: [],
+                    girl: []
+                },
+                weight: {
+                    all: [],
+                    boy: [],
+                    girl: []
+                },
+                totalAvg: 0,
+                repeatProhibit: [0, 0, 0, 0, 0]
+            };
+            fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
-            const code = getURLparam("code");
-            const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
-            if (targetVerify == getURLparam("verify")) {
-                unhide("readSuccess");
-                copyTo("saveTime", new Date(Number(getURLparam("time"))));
-                unhide("rollPanel");
+            if (getURLparam("rollTimes")) {
+                hide("rollPanel");
+
+                dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
+                dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+
+                dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
+                order--;
+                updateWeight();
+                order++;
+                dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
+
+                const code = getURLparam("code");
+                const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
+                if (targetVerify == getURLparam("verify")) {
+                    unhide("readSuccess");
+                    copyTo("saveTime", new Date(Number(getURLparam("time"))));
+                    unhide("rollPanel");
+                } else {
+                    unhide("validationInvalid");
+                }
             } else {
-                unhide("validationInvalid");
+                fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
+                fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
             }
-        } else {
-            fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
-            fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
+
+            remainingList = fullList.isolate();
+            copyTo("availableTimes", fullList.all.length);
         }
-        
-        const remainingList = fullList.isolate();
+        initialize();
         
         let nowRolling;
         
         let currentMode = "dynamic";
         let skipAnimation = false;
+        let rollTeachers = false;
         let idNow = "";
         let chanceMode = "all";
         let showChance = false;
@@ -154,6 +169,20 @@
 
         target("skipAnimation").addEventListener("change", function () {
             skipAnimation = this.checked;
+        });
+
+        target("rollTeachers").addEventListener("change", function () {
+            rollTeachers = this.checked;
+            if (this.checked) {
+                fullList.all.push(...teachers.list);
+                girlId.push(...teachers.girlId);
+            } else {
+                teachers.list.forEach(() => { fullList.all.pop(); });
+                teachers.girlId.forEach(() => { girlId.pop(); });
+            }
+            initialize();
+            updateChance("all");
+            confirmId();
         });
 
         async function roll(type) {
@@ -249,10 +278,11 @@
                 }
             }
         
-            applyAll("#buttonLine button, #findBySex button, #findByIdLine button:nth-child(-n+7)", target => {
+            applyAll("#buttonLine button, #findBySex button", target => {
                 target.disabled = false;
                 fadeIn("dynamic-chance-doyouknow");
                 copyTo("dynamic-chance-doyouknow", doYouKnow(thisChance, type));
+                confirmId();
             });
         
             updateChance(type == "all" ? "all" : "sex");
@@ -264,12 +294,12 @@
             colorTo("name", flashColor);
             fadeIn("name");
         
-            const flashTimes = currentMode == "false" && remainingList[type].length == 1 ? 0 : rand(8, 15);
+            const flashTimes = currentMode == "false" && remainingList[type].length == 1 || fullList[type].length == 1 ? 0 : rand(8, 15);
             const timer = index => ((0.7 / flashTimes * index) ** 2 + 0.1 - flashTimes / 200) / 1.5;
             let lastAnimated;
 
             for (let i = 1; i <= flashTimes; i++) {
-                const animateName = lastAnimated = flashNames.remove(lastAnimated)[rand(0, flashNames.length - 2)];
+                const animateName = lastAnimated = flashNames.remove(lastAnimated)[rand(0, Math.max(flashNames.length - 2, 0))];
                 copyTo("name", currentMode == "false" ? `${animateName} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : animateName);
                 playClick();
                 await sleep(timer(i) * 1000);
@@ -294,14 +324,7 @@
         async function num(number) {
             if (idNow == "") {
                 idNow += number;
-                if (number == 0) {
-                    target(`b-0`).disabled = true;
-                }
-                if (number <= 4) {
-                    for (let i = 6; i <= 9; i++) {
-                        target(`b-${i}`).disabled = false;
-                    }
-                }
+                confirmId(number);
                 copyTo("findById", "点此以取消");
                 transColor("findById", "var(--red)");
             } else {
@@ -315,12 +338,29 @@
                 fadeOut("dynamic-chance-doyouknow", true);
                 idNow = "";
             
-                target(`b-0`).disabled = false;
-                for (let i = 6; i <= 9; i++) {
-                    target(`b-${i}`).disabled = true;
+                confirmId();
+            }
+        }
+
+        function confirmId(currentNum) {
+            if (currentNum == undefined) {
+                const tens = Math.ceil(fullList.all.length / 10);
+
+                applyAll(".idButton", e => e.disabled = true);
+                for (let i = 0; i < tens; i++) {
+                    target(`b-${i}`).disabled = false;
+                }
+            } else {
+                for (let i = 0; i <= 9; i++) {
+                    if (fullList.all[Number(String(currentNum) + String(i)) - 1]) {
+                        target(`b-${i}`).disabled = false;
+                    } else {
+                        target(`b-${i}`).disabled = true;
+                    }
                 }
             }
         }
+        confirmId();
 
         function findByIdReset() {
             idNow = "";
@@ -349,11 +389,11 @@
         
             const prohibitRatio = index => {
                 const classId = index + 1;
-                if (classId == dynamicList.repeatProhibit[0]) { return 0.9; }
-                if (classId == dynamicList.repeatProhibit[1]) { return 0.8; }
-                if (classId == dynamicList.repeatProhibit[2]) { return 0.7; }
-                if (classId == dynamicList.repeatProhibit[3]) { return 0.5; }
                 if (classId == dynamicList.repeatProhibit[4]) { return 0.2; }
+                if (classId == dynamicList.repeatProhibit[3]) { return 0.5; }
+                if (classId == dynamicList.repeatProhibit[2]) { return 0.7; }
+                if (classId == dynamicList.repeatProhibit[1]) { return 0.8; }
+                if (classId == dynamicList.repeatProhibit[0]) { return 0.9; }
                 return 0;
             };
             const calWeight = (times, ratio) => Math.min(5 ** (dynamicList.totalAvg - times), Number.MAX_VALUE) * (1 - ratio);
@@ -484,11 +524,11 @@
                         copyTo(`d-chance-${i}-repeat`, "0%");
                         colorTo(`d-chance-${i}-repeat`, "var(--textColor-500)");
                         colorTo(`d-chance-${i}-weight`, "var(--textColor-500)");
-                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
-                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
-                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
-                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
                         if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); }
+                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
+                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
+                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
+                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
                         if (dynamicList.repeatProhibit.includes(i)) { colorTo(`d-chance-${i}-repeat`, "var(--red)"); colorTo(`d-chance-${i}-weight`, "var(--red)"); }
                     });
                 }
@@ -595,11 +635,11 @@
                         copyTo(`d-chance-${i}-repeat`, "0%");
                         colorTo(`d-chance-${i}-repeat`, "var(--textColor-500)");
                         colorTo(`d-chance-${i}-weight`, "var(--textColor-500)");
-                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
-                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
-                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
-                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
                         if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); }
+                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
+                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
+                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
+                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
                         if (dynamicList.repeatProhibit.includes(i)) { colorTo(`d-chance-${i}-repeat`, "var(--red)"); colorTo(`d-chance-${i}-weight`, "var(--red)"); }
                     });
                 }
@@ -621,19 +661,24 @@
         updateChance("all");
 
         function cr(id) {
-            updateWeight(fullList.all[id - 1]);
-            updateChance(chanceMode == "all" ? "all" : "sex");
-            logName(2, fullList.all[id - 1], id);
+            if (fullList.all[id - 1]) {
+                updateWeight(fullList.all[id - 1]);
+                updateChance(chanceMode == "all" ? "all" : "sex");
+                logName(2, fullList.all[id - 1], id);
+            } else {
+                throw new ReferenceError(`No ID ${id} target found`);
+            }
         }
 
         function doYouKnow(chance, type) {
             const chancePercent = (chance * 100).keep(5);
             const close = 1.2;
 
-            let startSentence = `抽中 ${nowRolling} 的概率为 <strong style="color: ${type == "all" ? chancePercent <= 0.6 * close ? "var(--lightOrange)" : "var(--textColor-500)" : type == "boy" ? "var(--blue)" : "var(--pink)"}">${chancePercent == 0 ? `≤ 0.00001` : chancePercent}%</strong>`;
+            let startSentence = `抽中 ${nowRolling} 的概率为 <strong style="color: ${type == "all" ? chancePercent <= 0.6 * close ? "var(--lightOrange)" : "var(--textColor-500)" : type == "boy" ? "var(--blue)" : "var(--pink)"}">${chancePercent == 0 ? `&lt; 0.00001` : chancePercent}%</strong>`;
             colorTo("dynamic-chance-doyouknow", "var(--textColor-500)");
 
             if (chancePercent == 0) {
+                colorTo("dynamic-chance-doyouknow", "var(--lightOrange)");
                 return startSentence;
             }
 
@@ -684,13 +729,13 @@
 
         function logName(mode, p2, p3) {
             if (mode == 0 || mode == undefined) { // Default
-                log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : target("name").style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
+                log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : target("name").style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP", !rollTeachers ? "STUDENT" : "TEACHER");
             }
             if (mode == 1) { // By ID
-                log(++order, p2, "BY-ID", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
+                log(++order, p2, "BY-ID", temp, skipAnimation ? "SKIPPED" : "NO-SKIP", !rollTeachers ? "STUDENT" : "TEACHER");
             }
             if (mode == 2) { // Console Roll
-                log(++order, p2, "CONSOLE", p3, skipAnimation ? "SKIPPED" : "NO-SKIP");
+                log(++order, p2, "CONSOLE", p3, skipAnimation ? "SKIPPED" : "NO-SKIP", !rollTeachers ? "STUDENT" : "TEACHER");
             }
         }
 
@@ -704,7 +749,8 @@
   动态随机: selectWeight: 随机到的权重; totalWeight: 抽取范围内总权重; weightList: { original: 原始权重表; result: { index: 第一个累计权重大于随即权重的序号; classId: 该序号对应的人的学号 } sum: 累计权重表 }
   伪随机: classId: 抽到的人的学号; real: 电脑真正随机到的数字; remaining: 抽取时的抽取范围 (剩余人员列表)
   按学号找人/控制台抽取: 学号
-第 6 位: 抽取时是否跳过了动画: 'NO-SKIP' 未跳过; 'SKIPPED' 跳过`);
+第 6 位: 抽取时是否跳过了动画: 'NO-SKIP' 未跳过; 'SKIPPED' 跳过
+第 7 位: 抽取范围是否包括科任老师: 'STUDENT' 仅学生; 'TEACHER' 包括老师`);
 
         function saveFile() {
             const id = rand(0, 0xffff);
