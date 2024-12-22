@@ -54,7 +54,7 @@
             <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
             <p id="chanceTable" hide></p>
             <div id="chanceTableDynamicDiv" hide><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
-            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="saveId"></strong></p>
+            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="save-line">点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="saveId"></strong></span></p>
         </div>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
@@ -84,7 +84,8 @@
             list: ["何叶", "张薇", "杨秋菊", "黄孙忠", "何琼芬", "丘仕琴", "胡兆宣", "林小玲", "甘海", "罗静", "梁泸尹"], // 蓝燕琴, 甘立德, 朱庆梅, 黄丽珊
             girlId: [56, 57, 58, 60, 61, 63, 65, 66]
         };
-
+        
+        let rollTeachers = false;
         function initialize() {
             fullList.boy = [];
             fullList.girl = [];
@@ -113,7 +114,7 @@
             };
             fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
-            if (getURLparam("rollTimes")) {
+            if (getURLparam("rollTimes") && order == 0) {
                 hide("rollPanel");
 
                 dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
@@ -148,7 +149,6 @@
         
         let currentMode = "dynamic";
         let skipAnimation = false;
-        let rollTeachers = false;
         let idNow = "";
         let chanceMode = "all";
         let showChance = false;
@@ -180,6 +180,7 @@
                 teachers.list.forEach(() => { fullList.all.pop(); });
                 teachers.girlId.forEach(() => { girlId.pop(); });
             }
+            copyTo("save-line", this.checked ? "抽取科任老师时不支持保存。" : `点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="saveId"></strong>`);
             initialize();
             updateChance("all");
             confirmId();
@@ -189,7 +190,7 @@
             applyAll("#buttonLine button, #findBySex button, #findByIdLine button", target => {
                 target.disabled = true;
             });
-            hide("saveId");
+            if (!rollTeachers) { hide("saveId"); }
 
             let animationList;
         
