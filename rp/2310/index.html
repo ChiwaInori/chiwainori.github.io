@@ -502,6 +502,9 @@
                     const getColor = value => {
                         const total = fullList.all.length;
 
+                        if (value == 0) {
+                            return 130;
+                        }
                         if (value.range(0, 50 / total)) {
                             return Math.log10(value).percentage(-1, Math.log10(50 / total)).transit(130, 100);
                         }
@@ -525,12 +528,11 @@
                         copyTo(`d-chance-${i}-repeat`, "0%");
                         colorTo(`d-chance-${i}-repeat`, "var(--textColor-500)");
                         colorTo(`d-chance-${i}-weight`, "var(--textColor-500)");
-                        if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); }
-                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
-                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
-                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
-                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
-                        if (dynamicList.repeatProhibit.includes(i)) { colorTo(`d-chance-${i}-repeat`, "var(--red)"); colorTo(`d-chance-${i}-weight`, "var(--red)"); }
+                        if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-5)"); colorTo(`d-chance-${i}-weight`, "var(--tier-5)"); }
+                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-4)"); colorTo(`d-chance-${i}-weight`, "var(--tier-4)"); }
+                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-3)"); colorTo(`d-chance-${i}-weight`, "var(--tier-3)"); }
+                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-2)"); colorTo(`d-chance-${i}-weight`, "var(--tier-2)"); }
+                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-1)"); colorTo(`d-chance-${i}-weight`, "var(--tier-1)"); }
                     });
                 }
                 if (currentMode == "false") {
@@ -634,14 +636,11 @@
                         copyTo(`d-chance-${i}-weight`, dynamicList.weight[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex].keep(3));
 
                         copyTo(`d-chance-${i}-repeat`, "0%");
-                        colorTo(`d-chance-${i}-repeat`, "var(--textColor-500)");
-                        colorTo(`d-chance-${i}-weight`, "var(--textColor-500)");
-                        if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); }
-                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); }
-                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); }
-                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); }
-                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); }
-                        if (dynamicList.repeatProhibit.includes(i)) { colorTo(`d-chance-${i}-repeat`, "var(--red)"); colorTo(`d-chance-${i}-weight`, "var(--red)"); }
+                        if (i == dynamicList.repeatProhibit[4]) { copyTo(`d-chance-${i}-repeat`, "-20%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-5)"); colorTo(`d-chance-${i}-weight`, "var(--tier-5)"); }
+                        if (i == dynamicList.repeatProhibit[3]) { copyTo(`d-chance-${i}-repeat`, "-50%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-4)"); colorTo(`d-chance-${i}-weight`, "var(--tier-4)"); }
+                        if (i == dynamicList.repeatProhibit[2]) { copyTo(`d-chance-${i}-repeat`, "-70%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-3)"); colorTo(`d-chance-${i}-weight`, "var(--tier-3)"); }
+                        if (i == dynamicList.repeatProhibit[1]) { copyTo(`d-chance-${i}-repeat`, "-80%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-2)"); colorTo(`d-chance-${i}-weight`, "var(--tier-2)"); }
+                        if (i == dynamicList.repeatProhibit[0]) { copyTo(`d-chance-${i}-repeat`, "-90%"); colorTo(`d-chance-${i}-repeat`, "var(--tier-1)"); colorTo(`d-chance-${i}-weight`, "var(--tier-1)"); }
                     });
                 }
                 if (currentMode == "false") {
