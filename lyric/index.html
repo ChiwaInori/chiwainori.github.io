@@ -512,17 +512,17 @@
                 }
                 const centerTarget = target(`w-${Math.round((fromIndex + toIndex) / 2)}`);
 
-                const targetRotation = centerTarget.style.transform != "" ? centerTarget.style.transform.getNum() : 0;
+                const targetRotation = centerTarget.style.transform != "" ? centerTarget.style.transform.getNum()[0] : 0;
                 const xOffset = Math.sin(targetRotation) * jumpLength;
                 const yOffset = Math.cos(targetRotation) * jumpLength;
 
                 jumpTargets.forEach(element => {
                     element.style.transition = "all 0.2s var(--transit)";
-                    element.style.left = `${element.style.left.getNum() + xOffset}px`;
+                    element.style.left = `${element.style.left.getNum()[0] + xOffset}px`;
                 });
                 await sleep(1);
                 jumpTargets.forEach(element => {
-                    element.style.top = `${element.style.top.getNum() - yOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] - yOffset}px`;
                     element.style.color = "var(--activeColor) !important";
                 });
 
@@ -531,11 +531,11 @@
                 const returnTime = length / 1000 || 0.5;
                 jumpTargets.forEach(element => {
                     element.style.transition = `all ${Math.max(returnTime, 0.75)}s ease`;
-                    element.style.left = `${element.style.left.getNum() - xOffset}px`;
+                    element.style.left = `${element.style.left.getNum()[0] - xOffset}px`;
                 });
                 await sleep(1);
                 jumpTargets.forEach(element => {
-                    element.style.top = `${element.style.top.getNum() + yOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] + yOffset}px`;
                     element.style.color = "var(--lyricColor)";
                 });
             }
@@ -547,7 +547,7 @@
                 const current = query("#lyrics *");
                 current.forEach(element => {
                     element.style.transition = `all ${waitBase * 3}s var(--transit)`;
-                    element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
                     element.style.opacity = 0;
                 });
 
@@ -558,13 +558,13 @@
                 const after = query("#lyrics *");
                 after.forEach(element => {
                     element.style.opacity = 0;
-                    element.style.top = `${element.style.top.getNum() + slideOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] + slideOffset}px`;
                 });
                 await sleep(1);
                 after.forEach(element => {
                     element.style.transition = `all ${waitBase * 3}s var(--transit)`;
                     element.style.opacity = 1;
-                    element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
                 });
             }
 
@@ -693,7 +693,7 @@
 
                 await sleep(1);
                 element.style.transition = `all ${waitBase * 3}s var(--transit)`;
-                element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
                 element.style.opacity = 0;
 
                 await sleep(waitBase * 1000);
@@ -701,11 +701,11 @@
                 element.style.transition = "";
                 getTranslationPos();
                 element.style.opacity = 0;
-                element.style.top = `${element.style.top.getNum() + slideOffset}px`;
+                element.style.top = `${element.style.top.getNum()[0] + slideOffset}px`;
                 await sleep(1);
                 element.style.transition = `all ${waitBase * 3}s var(--transit)`;
                 element.style.opacity = 1;
-                element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
             }
 
             function getTranslationPos() {

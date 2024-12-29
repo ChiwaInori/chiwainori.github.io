@@ -252,13 +252,13 @@
             if (playNow != pressCount) {
                 let waitTime;
                 if (format == "normal") {
-                    waitTime = copyFrom(`w-${playNow + 1}`).getNum();
+                    waitTime = copyFrom(`w-${playNow + 1}`).getNum()[0];
                 }
                 if (format == "json") {
-                    waitTime = copyFrom(`w-${playNow}`).getNum();
+                    waitTime = copyFrom(`w-${playNow}`).getNum()[0];
                 }
                 if (format == "top") {
-                    waitTime = copyFrom(`w-${playNow}`).replaceAll(/'/g, ".").getNum();
+                    waitTime = copyFrom(`w-${playNow}`).replaceAll(/'/g, ".").getNum()[0];
                 }
 
                 await sleep(waitTime * clockBase * 1000);

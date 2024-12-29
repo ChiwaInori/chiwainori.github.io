@@ -371,22 +371,22 @@
             async function jump(index, length) {
                 const jumpLength = 50;
                 const jumpTarget = target(`w-${index}`);
-                const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum() : 0;
+                const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum()[0] : 0;
                 const xOffset = Math.sin(targetRotation / 180 * Math.PI) * jumpLength;
                 const yOffset = Math.cos(targetRotation / 180 * Math.PI) * jumpLength;
 
                 jumpTarget.style.transition = "all 0.2s var(--transit)";
-                jumpTarget.style.left = `${jumpTarget.style.left.getNum() + xOffset}px`;
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum()[0] + xOffset}px`;
                 await sleep(1);
-                jumpTarget.style.top = `${jumpTarget.style.top.getNum() - yOffset}px`;
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum()[0] - yOffset}px`;
                 jumpTarget.style.color = "var(--activeColor) !important";
 
                 await sleep(200);
 
                 jumpTarget.style.transition = `all ${length / 1000}s ease`;
-                jumpTarget.style.left = `${jumpTarget.style.left.getNum() - xOffset}px`;
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum()[0] - xOffset}px`;
                 await sleep(1);
-                jumpTarget.style.top = `${jumpTarget.style.top.getNum() + yOffset}px`;
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum()[0] + yOffset}px`;
                 jumpTarget.style.color = "var(--lyricColor)";
             }
 
@@ -397,7 +397,7 @@
                 const current = query("#lyrics *");
                 current.forEach(element => {
                     element.style.transition = `all ${waitBase * 3}s var(--transit)`;
-                    element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
                     element.style.opacity = 0;
                 });
 
@@ -408,13 +408,13 @@
                 const after = query("#lyrics *");
                 after.forEach(element => {
                     element.style.opacity = 0;
-                    element.style.top = `${element.style.top.getNum() + slideOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] + slideOffset}px`;
                 });
                 await sleep(1);
                 after.forEach(element => {
                     element.style.transition = `all ${waitBase * 3}s var(--transit)`;
                     element.style.opacity = 1;
-                    element.style.top = `${element.style.top.getNum() - slideOffset}px`;
+                    element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
                 });
             }
 

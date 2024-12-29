@@ -431,16 +431,16 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
 
 /**
  * Return a selected number in a string.
- * @param {number} nth - (%1=0 | >= 1) Which part of number you want (start from 1)
- * @returns {number | null} The number from specified string in specified order
- * @example "589brg13d7.4gh,-2.6eru".getNum(3) // 7.4 (It'll collect ["589", "13", "7.4", "-2.6"])
+ * @param {boolean} doNotNumber - Should the function return string array instead of number array (to avoid precision loss)
+ * @returns {number[] | string[] | null} The number array from specified string
+ * @example "589brg13d7.4gh,-2.6eru".getNum()[3] // 7.4 (It'll collect [589, 13, 7.4, -2.6])
  */
-String.prototype.getNum = function (nth = 1) {
-    _range(nth, "%1=0 | >= 1");
+String.prototype.getNum = function (doNotNumber = false) {
+    _type(doNotNumber, "boolean");
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
-    return numbersList ? Number(numbersList[nth - 1]) : null;
+    return doNotNumber ? numbersList : numbersList.map(Number);
 };
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
@@ -453,6 +453,12 @@ String.prototype.getNum = function (nth = 1) {
  */
 Number.prototype.keep = function (digit = 0) {
     _range(digit, "%1=0");
+    
+    if (!this.range(1e-6, 1e21)) {
+        const [mantissa, exponent] = String(this).getNum();
+
+        return Number(`${mantissa.keep(digit)}e${exponent}`);
+    }
 
     return Math.round(this * 10 ** digit) / 10 ** digit;
 };

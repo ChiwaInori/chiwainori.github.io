@@ -85,9 +85,9 @@
                     var speed = speed || 30;
                     var colorFrom = target(element).style.color || "rgb(102, 102, 102)";
                     var colorTo = toColor;
-                    var rFrom = parseInt(colorFrom.getNum(1));
-                    var gFrom = parseInt(colorFrom.getNum(2));
-                    var bFrom = parseInt(colorFrom.getNum(3));
+                    var rFrom = parseInt(colorFrom.getNum()[1]);
+                    var gFrom = parseInt(colorFrom.getNum()[2]);
+                    var bFrom = parseInt(colorFrom.getNum()[3]);
                     var rTo = parseInt(colorTo.substr(1, 2), 16);
                     var gTo = parseInt(colorTo.substr(3, 2), 16);
                     var bTo = parseInt(colorTo.substr(5, 2), 16);
@@ -97,9 +97,9 @@
                     var b_diff = (bTo - bFrom) / step;
                     var st = setInterval(function () {
                         var nowColor = target(element).style.color || "rgb(102, 102, 102)";
-                        var r_now = parseInt(nowColor.getNum(1));
-                        var g_now = parseInt(nowColor.getNum(2));
-                        var b_now = parseInt(nowColor.getNum(3));
+                        var r_now = parseInt(nowColor.getNum()[1]);
+                        var g_now = parseInt(nowColor.getNum()[2]);
+                        var b_now = parseInt(nowColor.getNum()[3]);
                         var rToColor = (r_now + r_diff).toFixed(0);
                         var gToColor = (g_now + g_diff).toFixed(0);
                         var bToColor = (b_now + b_diff).toFixed(0);
