@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>浏览器通知 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/inori-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>浏览器通知</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>浏览器通知</strong></h6>
+    </div>
+    <div class="content">
+        <p><strong>浏览器通知权限: <span id="notificationPermissionLine" style="color: var(--green)"></span></strong><button id="requestPermissionButton" onclick="requestPermission()">授权</button></p>
+        <br />
+        <div id="notificationContent">
+            <p>测试通知 <button id="btn-test" onclick="notification(0)">测试</button></p>
+        </div>
+    </div>
+    <script>
+        function permissionCheck() {
+            if (Notification.permission == "granted") {
+                copyTo("notificationPermissionLine", "允许 (granted)");
+                colorTo("notificationPermissionLine", "var(--green)");
+                hide("requestPermissionButton");
+                styleTo("notificationContent", "opacity: 1;");
+                applyAll("#notificationContent button", element => element.disabled = false);
+            } else { 
+                if (Notification.permission == "default") {
+                    copyTo("notificationPermissionLine", "未授权 (default)");
+                    colorTo("notificationPermissionLine", "var(--orange)");
+                }
+                if (Notification.permission == "denied") {
+                    copyTo("notificationPermissionLine", "拒绝 (denied)");
+                    colorTo("notificationPermissionLine", "var(--red)");
+                    hide("requestPermissionButton");
+                }
+                styleTo("notificationContent", "opacity: 0.5;");
+                applyAll("#notificationContent button", element => element.disabled = true);
+            }
+        }
+        permissionCheck();
+
+        function requestPermission() {
+            if (Notification.permission != "granted") {
+                Notification.requestPermission().then(permissionCheck);
+            }
+        }
+
+        function notification(id) {
+            if (id == 0) {
+                showNotification("浏览器通知", "这是一个测试浏览器通知状态的通知");
+            }
+        }
+
+        function showNotification(title, content) {
+            new Notification(title, { body: content, icon: "/favicon.png" });
+        }
+    </script>
+</div></body>
+
+</html>
