@@ -19,7 +19,7 @@
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>日文假名输入</strong></h6>
     </div>
     <div class="content">
-        <p>本页面可以帮助你在部分不方便使用日语输入法的场合输入日语假名 (不能输入汉字).</p>
+        <p>本页面可以帮助你在部分不方便使用日语输入法的场合使用罗马音输入日语假名 (不能输入汉字).</p>
         <p>使用斜杠 / 在 平假名-片假名 之间切换。</p>
         <p><input id="input" /></p>
         <p><strong id="result"></strong></p>
@@ -157,7 +157,7 @@
                         .replaceAll(/e/g, "え")
                         .replaceAll(/o/g, "お");
                 } else { // Katakana
-                    result += part.replaceAll(/([xl]tsu|([^aiueon]))\1/g, "ッ")
+                    result += part.replaceAll(/([xl]tsu|([^aiueon]))\1/g, "ッ$2")
                         .replaceAll(/kya/g, "キャ") // Youon
                         .replaceAll(/kyu/g, "キュ")
                         .replaceAll(/kyo/g, "キョ")
