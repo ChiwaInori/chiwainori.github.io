@@ -54,7 +54,7 @@
             <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
             <p id="chanceTable" hide></p>
             <div id="chanceTableDynamicDiv" hide><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
-            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="save-line">点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="saveId"></strong></span></p>
+            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="save-line">点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="noTeachersSaved" hide>(保存时不会保存老师抽取进度)</span><span id="saveId"></strong></span></p>
         </div>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
@@ -79,71 +79,65 @@
         let order = 0;
         
         const girlId = [9, 13, 14, 16, 18, 19, 20, 23, 25, 28, 32, 35, 36, 37, 42, 43, 47, 49, 52, 54];
-        let dynamicList, remainingList;
         const teachers = {
             list: ["何叶", "张薇", "杨秋菊", "黄孙忠", "何琼芬", "丘仕琴", "胡兆宣", "林小玲", "甘海", "罗静", "梁泸尹"], // 蓝燕琴, 甘立德, 朱庆梅, 黄丽珊
             girlId: [56, 57, 58, 60, 61, 63, 65, 66]
         };
         
         let rollTeachers = false;
-        function initialize() {
-            fullList.boy = [];
-            fullList.girl = [];
 
-            fullList.all.forEach((_, index) => {
-                if (!girlId.includes(index + 1)) {
-                    fullList.boy.push(fullList.all[index]);
-                } else {
-                    fullList.girl.push(fullList.all[index]);
-                }
-            });
-
-            dynamicList = {
-                times: {
-                    all: [],
-                    boy: [],
-                    girl: []
-                },
-                weight: {
-                    all: [],
-                    boy: [],
-                    girl: []
-                },
-                totalAvg: 0,
-                repeatProhibit: [0, 0, 0, 0, 0]
-            };
-            fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
-
-            if (getURLparam("rollTimes") && order == 0) {
-                hide("rollPanel");
-
-                dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
-                dynamicList.times.all.forEach(rollTimes => order += rollTimes);
-
-                dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
-                order--;
-                updateWeight();
-                order++;
-                dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
-
-                const code = getURLparam("code");
-                const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
-                if (targetVerify == getURLparam("verify")) {
-                    unhide("readSuccess");
-                    copyTo("saveTime", new Date(Number(getURLparam("time"))));
-                    unhide("rollPanel");
-                } else {
-                    unhide("validationInvalid");
-                }
+        fullList.all.forEach((_, index) => {
+            if (!girlId.includes(index + 1)) {
+                fullList.boy.push(fullList.all[index]);
             } else {
-                fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
-                fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
+                fullList.girl.push(fullList.all[index]);
             }
+        });
 
-            remainingList = fullList.isolate();
-            copyTo("availableTimes", fullList.all.length);
+        const dynamicList = {
+            times: {
+                all: [],
+                boy: [],
+                girl: []
+            },
+            weight: {
+                all: [],
+                boy: [],
+                girl: []
+            },
+            totalAvg: 0,
+            repeatProhibit: [0, 0, 0, 0, 0]
+        };
+        fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
+
+        if (getURLparam("rollTimes") && order == 0) {
+            hide("rollPanel");
+
+            dynamicList.times.all = Array(...getURLparam("rollTimes").split(",").map(Number));
+            dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+
+            dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
+            order--;
+            updateWeight();
+            order++;
+            dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
+
+            const code = getURLparam("code");
+            const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
+            if (targetVerify == getURLparam("verify")) {
+                unhide("readSuccess");
+                copyTo("saveTime", new Date(Number(getURLparam("time"))));
+                unhide("rollPanel");
+            } else {
+                unhide("validationInvalid");
+            }
+        } else {
+            fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
+            fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
         }
-        initialize();
+
+        const remainingList = fullList.isolate();
+        copyTo("availableTimes", fullList.all.length);
         
         let nowRolling;
         
@@ -175,13 +169,27 @@
             rollTeachers = this.checked;
             if (this.checked) {
                 fullList.all.push(...teachers.list);
+                teachers.list.forEach(() => { dynamicList.times.all.push(0); });
                 girlId.push(...teachers.girlId);
+
+                for (let i = fullList.all.length - teachers.list.length; i < fullList.all.length; i++) {
+                    if (!girlId.includes(i + 1)) {
+                        fullList.boy.push(fullList.all[i]);
+                        dynamicList.times.boy.push(0);
+                    } else {
+                        fullList.girl.push(fullList.all[i]);
+                        dynamicList.times.girl.push(0);
+                    }
+                }
             } else {
-                teachers.list.forEach(() => { fullList.all.pop(); });
-                teachers.girlId.forEach(() => { girlId.pop(); });
+                teachers.list.forEach(() => { fullList.all.pop(); dynamicList.times.all.pop(); });
+                for (let i = 0; i < teachers.list.length - teachers.girlId.length; i++) {
+                    dynamicList.times.boy.pop(); 
+                }
+                teachers.girlId.forEach(() => { girlId.pop(); dynamicList.times.girl.pop(); });
             }
-            copyTo("save-line", this.checked ? "抽取科任老师时不支持保存。" : `点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="saveId"></strong>`);
-            initialize();
+            toggleDisplay("noTeachersSaved", this.checked, "inline");
+            updateWeight(null, true);
             updateChance("all");
             confirmId();
         });
@@ -373,7 +381,7 @@
             }
         }
 
-        function updateWeight(whoIsRolled) {
+        function updateWeight(whoIsRolled, dontCycleRepeat = false) {
             dynamicList.totalAvg = (order + 1) / fullList.all.length;
         
             const rolledInAll = fullList.all.indexOf(whoIsRolled);
@@ -385,8 +393,10 @@
                 dynamicList.times[!girlId.includes(i + 1) ? "boy" : "girl"].push(dynamicList.times.all[i]);
             }
 
-            dynamicList.repeatProhibit.pop();
-            dynamicList.repeatProhibit.unshift(fullList.all.indexOf(whoIsRolled) + 1);
+            if (!dontCycleRepeat) {
+                dynamicList.repeatProhibit.pop();
+                dynamicList.repeatProhibit.unshift(fullList.all.indexOf(whoIsRolled) + 1);
+            }
         
             const prohibitRatio = index => {
                 const classId = index + 1;
@@ -755,10 +765,14 @@
         function saveFile() {
             const id = rand(0, 0xffff);
             const idHex = id.toBase(16).padStart(4, "0");
-            const verify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [id / 1000, id / 1000 - 1, id / 1000 - 16]);
+            const saveInfo = {
+                rollTimes: dynamicList.times.all.slice(0, 56),
+                repeatProhibit: dynamicList.repeatProhibit.map(x => x <= fullList.all.length - (rollTeachers ? teachers.list.length : 0) ? x : 0)
+            };
+            const verify = seed([saveInfo.rollTimes, saveInfo.repeatProhibit], [id / 1000, id / 1000 - 1, id / 1000 - 16]);
 
             // eslint-disable-next-line no-useless-escape
-            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = 'http://chiwainori.top/rp/2310/?rollTimes=${dynamicList.times.all}&repeat=${dynamicList.repeatProhibit}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
+            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = '${host()}/?rollTimes=${saveInfo.rollTimes}&repeat=${saveInfo.repeatProhibit}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
             unhide("saveId", "inline");
             copyTo("saveId", `保存代码: <strong>${idHex}</strong>`);
         }

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>浏览器通知 - ChiwaInori.top</title>
+    <title>学校铃声通知 - ChiwaInori.top</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
@@ -13,16 +13,24 @@
 
 <body><div class="mainBody">
     <div class="title">
-        <h1>浏览器通知</h1>
+        <h1>学校铃声通知</h1>
     </div>
     <div class="navigation">
-        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>浏览器通知</strong></h6>
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>学校铃声通知</strong></h6>
     </div>
     <div class="content">
         <p><strong>浏览器通知权限: <span id="notificationPermissionLine" style="color: var(--green)"></span></strong><button id="requestPermissionButton" onclick="requestPermission()">授权</button></p>
         <br />
+        <p>[现在时间] <span id="time" style="font-size: 48px;"></span> <span id="offset">(未经校准)</span></p>
+        <p>校准时间 <input id="calibrateInput" placeholder="hhmmss" /><button onclick="calibrate()">校准</button><button id="saveButton" onclick="saveFile()" disabled>保存校准过的文件</button></p>
+        <br />
+        <p id="noPermission" style="color: var(--orange)">ChiwaInori.top 目前没有推送通知的权限。</p>
         <div id="notificationContent">
             <p>测试通知 <button id="btn-test" onclick="notification(0)">测试</button></p>
+            <p><input id="n-prepare" type="checkbox" checked /> 预备上课通知 (<span id="timeTable-prepare"></span>)</p>
+            <p><input id="n-start" type="checkbox" checked /> 正式上课通知 (<span id="timeTable-start"></span>)</p>
+            <p><input id="n-prepareOver" type="checkbox" /> 预备下课通知 (<span id="timeTable-prepareOver"></span>)</p>
+            <p><input id="n-over" type="checkbox" checked /> 下课通知 (<span id="timeTable-over"></span>)</p>
         </div>
     </div>
     <script>
@@ -31,6 +39,8 @@
                 copyTo("notificationPermissionLine", "允许 (granted)");
                 colorTo("notificationPermissionLine", "var(--green)");
                 hide("requestPermissionButton");
+                copyTo("noPermission", "为确保最佳效果, 请关闭浏览器的标签页休眠功能。");
+                colorTo("noPermission", "var(--textColor-500)");
                 styleTo("notificationContent", "opacity: 1;");
                 applyAll("#notificationContent button", element => element.disabled = false);
             } else { 
@@ -41,6 +51,8 @@
                 if (Notification.permission == "denied") {
                     copyTo("notificationPermissionLine", "拒绝 (denied)");
                     colorTo("notificationPermissionLine", "var(--red)");
+                    copyTo("noPermission", "ChiwaInori.top 没有推送通知的权限。");
+                    colorTo("noPermission", "var(--red)");
                     hide("requestPermissionButton");
                 }
                 styleTo("notificationContent", "opacity: 0.5;");
@@ -55,14 +67,118 @@
             }
         }
 
-        function notification(id) {
+        function showNotification(title, content) {
+            new Notification(title, { body: content, icon: "/favicon.png" });
+        }
+
+        async function notification(id, nowTime) {
             if (id == 0) {
-                showNotification("浏览器通知", "这是一个测试浏览器通知状态的通知");
+                showNotification("学校铃声通知", "这是一个测试浏览器通知权限状态的通知");
+            }
+            if (id == 1) {
+                showNotification("学校铃声通知", `${nowTime} 预备上课`);
+            }
+            if (id == 2) {
+                showNotification("学校铃声通知", `${nowTime} 上课`);
+            }
+            if (id == 21) {
+                showNotification("学校铃声通知", `${nowTime} 预备下课 (1 分钟)`);
+            }
+            if (id == 3) {
+                showNotification("学校铃声通知", `${nowTime} 下课`);
+                await sleep(1000);
+                showNotification("学校铃声通知", `${nowTime} 下课`);
+                await sleep(2000);
+                showNotification("学校铃声通知", `${nowTime} 下课`);
+                await sleep(1000);
+                showNotification("学校铃声通知", `${nowTime} 下课`);
             }
         }
 
-        function showNotification(title, content) {
-            new Notification(title, { body: content, icon: "/favicon.png" });
+        const time = {
+            last: new Date().getTime(),
+            next: null,
+            offset: 0,
+            awaitNext: true
+        };
+        const timeTable = {
+            prepare: [[6, 35], [7, 18], [8, 28], [9, 18], [10, 8], [11, 3], [15, 43], [16, 33], [19, 38], [21, 38]],
+            start: [[6, 40], [7, 20], [8, 30], [9, 20], [10, 10], [11, 5], [14, 20], [14, 30], [14, 55], [15, 45], [16, 35], [18, 30], [19, 10], [19, 40], [20, 40], [21, 40]],
+            prepareOver: [[7, 59], [9, 9], [9, 59], [10, 49], [11, 44], [11, 58], [15, 34], [16, 24], [17, 14], [19, 29], [20, 29], [21, 29], [22, 19]],
+            over: [[8, 0], [9, 10], [10, 0], [10, 50], [11, 45], [11, 59], [15, 35], [16, 25], [17, 15], [19, 30], [20, 30], [21, 30], [22, 20]]
+        };
+        copyTo("timeTable-prepare", timeTable.prepare.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
+        copyTo("timeTable-start", timeTable.start.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
+        copyTo("timeTable-prepareOver", timeTable.prepareOver.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
+        copyTo("timeTable-over", timeTable.over.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
+
+        if (getURLparam("offset")) {
+            time.offset = Number(getURLparam("offset"));
+            copyTo("offset", ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`);
+            target("saveButton").disabled = false;
+        }
+        timeUpdate();
+
+        async function timeUpdate() {
+            time.next = time.last + 1000;
+            const now = new Date().getTime();
+            const diff = time.next - now;
+            const currentTime = new Date(now + time.offset).toLocaleTimeString();
+            copyTo("time", currentTime);
+            checkEvent(...currentTime.split(":").map(Number));
+
+            await sleep(diff < 0 ? 0 : diff);
+            if (time.awaitNext) {
+                time.last = time.next;
+                timeUpdate();
+            }
+        }
+
+        async function calibrate() {
+            const [h, m, s] = copyValue("calibrateInput").padEnd(6, "0").match(/.{1,2}/g).map(Number);
+            const now = new Date();
+            const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, s);
+
+            time.offset = targetTime.getTime() - now.getTime();
+            copyTo("offset", ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`);
+            target("saveButton").disabled = false;
+
+            time.last = now.getTime();
+            time.next = time.last + 1000;
+            time.awaitNext = false;
+
+            const diff = time.next - now.getTime();
+            copyTo("time", new Date(now.getTime() + time.offset).toLocaleTimeString());
+
+            await sleep(diff < 0 ? 0 : diff);
+            time.last = time.next;
+            time.awaitNext = true;
+            timeUpdate();
+        }
+
+        function checkEvent(h, m, s) {
+            const timeText = `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+            const timeCheck = JSON.stringify([h, m]);
+
+            if (s == 0) {
+                if (target("n-prepare").checked && JSON.stringify(timeTable.prepare).includes(timeCheck)) {
+                    notification(1, timeText);
+                }
+                if (target("n-start").checked && JSON.stringify(timeTable.start).includes(timeCheck)) {
+                    notification(2, timeText);
+                }
+                if (target("n-prepareOver").checked && JSON.stringify(timeTable.prepareOver).includes(timeCheck)) {
+                    notification(21, timeText);
+                }
+                if (target("n-over").checked && JSON.stringify(timeTable.over).includes(timeCheck)) {
+                    notification(3, timeText);
+                }
+            }
+        }
+
+        function saveFile() {
+            // eslint-disable-next-line no-useless-escape
+            save("学校铃声通知.html", `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = '${host()}/schooltimer/?offset=${time.offset}';<\/script>`);
         }
     </script>
 </div></body>

@@ -9,25 +9,25 @@
     Index: (The "p" below means "prototype")
 
     Inori Basic (1): inori
-    Global Usage (10):
+    Global Usage (11):
         Parameter Judgement (2): _type, _range
         Commands (2): sleep, overload
-        Website (2): seizure, copyright
+        Website (3): host, seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (20):
+    JS Commands (18):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
-        Logic Judgement (9): Logic.NOR, Logic.NAND, Logic.XOR, Logic.XNOR
-        Numeral (8): 
+        Logic Judgement (4): Logic.NOR, Logic.NAND, Logic.XOR, Logic.XNOR
+        Numeral (10): 
             Get Numbers (3): rand, seed, String.p.getNum
             Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
-    HTML Elements (18):
+    HTML Elements (19):
         Target Elements (2): target, query
         Interacts (7):
             Input (2): copyFrom, copyValue
             Output (5): copyTo, addBefore, addTo, setValue, applyAll
-        CSS Modifications (9):
-            Applications (4): styleTo, colorTo, hide, unhide
+        CSS Modifications (10):
+            Applications (5): styleTo, colorTo, hide, unhide, toggleDisplay
             Confirmations (1): isHidden
             Transitions (4): transColor, fadeOut, fadeIn, fadeChange
     Save & Load (3): save, load, loadJSON
@@ -136,6 +136,15 @@ function overload(time) {
 }
 
 // GLOBAL USAGE / WEBSITE
+
+/**
+ * Return a string of current page's host with protocol.
+ * @returns {string} The host with protocol of current page
+ * @example host() // "https://chiwainori.top"
+ */
+function host() {
+    return window.location.href.split("/").slice(0, 3).join("/");
+}
 
 /**
  * Pop up a seizure warning in page.
@@ -440,7 +449,7 @@ String.prototype.getNum = function (doNotNumber = false) {
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
-    return doNotNumber ? numbersList : numbersList.map(Number);
+    return numbersList ? doNotNumber ? numbersList : numbersList.map(Number) : null;
 };
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
@@ -861,6 +870,25 @@ function unhide(element, display = "block", method = "id") {
             target.style.display = display;
             target.style.opacity = 1;
         });
+    }
+}
+
+/**
+ * Hide or unhide an element by condition.
+ * @param {string} element  - The id of target element
+ * @param {any} condition - The condition to hide or unhide the element (if true, unhide)
+ * @param {string} display - The type of display if unhide
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ */
+function toggleDisplay(element, condition, display = "block", method = "id") {
+    _type(element, "string");
+    _type(display, "string");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (condition) {
+        unhide(element, display, method);
+    } else {
+        hide(element, method);
     }
 }
 
