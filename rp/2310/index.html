@@ -169,24 +169,28 @@
             rollTeachers = this.checked;
             if (this.checked) {
                 fullList.all.push(...teachers.list);
+                remainingList.all.push(...teachers.list);
                 teachers.list.forEach(() => { dynamicList.times.all.push(0); });
                 girlId.push(...teachers.girlId);
 
                 for (let i = fullList.all.length - teachers.list.length; i < fullList.all.length; i++) {
                     if (!girlId.includes(i + 1)) {
                         fullList.boy.push(fullList.all[i]);
+                        remainingList.boy.push(fullList.all[i]);
                         dynamicList.times.boy.push(0);
                     } else {
                         fullList.girl.push(fullList.all[i]);
+                        remainingList.girl.push(fullList.all[i]);
                         dynamicList.times.girl.push(0);
                     }
                 }
             } else {
-                teachers.list.forEach(() => { fullList.all.pop(); dynamicList.times.all.pop(); });
+                teachers.list.forEach(() => { fullList.all.pop(); dynamicList.times.all.pop(); remainingList.all.pop(); });
                 for (let i = 0; i < teachers.list.length - teachers.girlId.length; i++) {
                     dynamicList.times.boy.pop(); 
+                    remainingList.boy.pop();
                 }
-                teachers.girlId.forEach(() => { girlId.pop(); dynamicList.times.girl.pop(); });
+                teachers.girlId.forEach(() => { girlId.pop(); dynamicList.times.girl.pop(); remainingList.girl.pop(); });
             }
             toggleDisplay("noTeachersSaved", this.checked, "inline");
             updateWeight(null, true);
@@ -245,7 +249,7 @@
                     totalWeight: totalWeight, 
                     selectedWeight: selectedWeight,
                     source: {
-                        rollTimes: dynamicList.times.all,
+                        rollTimes: dynamicList.times.all.isolate(),
                         totalAvg: dynamicList.totalAvg,
                         repeatProhibit: dynamicList.repeatProhibit.isolate()
                     }

@@ -131,7 +131,7 @@
         
     </div>
     <script>
-        seizure("当你快速滑动本页面上的滚动条时，页面的<strong>布局颜色可能会快速改变</strong>。", "When you quickly swipe the scroll bar on this page, <strong>the layout color of the page may change quickly</strong>.");
+        seizure("当你快速滑动本页面上的滚动条时，页面的<strong>布局颜色可能会快速改变</strong>。", "When you quickly swipe the scroll bar on this page, <strong>the layout color of the page may change quickly</strong>.", "このページでスクロールバーを素早く動かすと、<strong>ページのレイアウトの色が急に変わっちゃうことがあるよ</strong>！");
 
         const targets = ["choose", "adjust", "img"];
         const spaces = ["rgb", "cmyk", "hsv", "hsl"];
@@ -162,37 +162,37 @@
             if (!isHidden("choose-hsl")) { nowControlling = "HSL"; }
 
             if (nowControlling == "RGB") {
-                rgb.r = +copyValue("rgb-r");
-                rgb.g = +copyValue("rgb-g");
-                rgb.b = +copyValue("rgb-b");
+                rgb.r = Number(copyValue("rgb-r"));
+                rgb.g = Number(copyValue("rgb-g"));
+                rgb.b = Number(copyValue("rgb-b"));
 
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
                 hsv = RGB2HSV(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "CMYK") {
-                cmyk.c = +copyValue("cmyk-c");
-                cmyk.m = +copyValue("cmyk-m");
-                cmyk.y = +copyValue("cmyk-y");
-                cmyk.k = +copyValue("cmyk-k");
+                cmyk.c = Number(copyValue("cmyk-c"));
+                cmyk.m = Number(copyValue("cmyk-m"));
+                cmyk.y = Number(copyValue("cmyk-y"));
+                cmyk.k = Number(copyValue("cmyk-k"));
 
                 rgb = CMYK2RGB(cmyk.c, cmyk.m, cmyk.y, cmyk.k);
                 hsv = RGB2HSV(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "HSV") {
-                hsv.h = +copyValue("hsv-h");
-                hsv.s = +copyValue("hsv-s");
-                hsv.v = +copyValue("hsv-v");
+                hsv.h = Number(copyValue("hsv-h"));
+                hsv.s = Number(copyValue("hsv-s"));
+                hsv.v = Number(copyValue("hsv-v"));
 
                 rgb = HSV2RGB(hsv.h, hsv.s, hsv.v);
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "HSL") {
-                hsl.h = +copyValue("hsl-h");
-                hsl.s = +copyValue("hsl-s");
-                hsl.l = +copyValue("hsl-l");
+                hsl.h = Number(copyValue("hsl-h"));
+                hsl.s = Number(copyValue("hsl-s"));
+                hsl.l = Number(copyValue("hsl-l"));
 
                 rgb = HSL2RGB(hsl.h, hsl.s, hsl.l);
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);

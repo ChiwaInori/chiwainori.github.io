@@ -6,20 +6,76 @@
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/type-normal.css" />
-    <style></style>
+    <link rel="stylesheet" href="/css/type-center.css" />
+    <style>
+        .mainBody {
+            width: 20%;
+            min-height: 0px;
+            position: relative; /* 确保子元素可以相对于此定位 */
+        }
+
+        .title * {
+            color: var(--red);
+        }
+
+        /* 可拖动的 div */
+        .draggable {
+            position: absolute;
+            text-align: center;
+            user-select: none; /* 防止文字被选中 */
+            transition: left 0.4s var(--transit), top 0.4s var(--transit);
+        }
+    </style>
     <script src="/inori-functions.js"></script>
 </head>
 
-<body><div class="mainBody">
+<body><div class="mainBody draggable">
     <div class="title">
         <h1>404</h1>
         <h2>Not Found</h2>
     </div>
     <div class="content">
-        <p>在此地址配置的站点不包含请求的文件。 </p>
-        <p>请确保您请求的 URL 是正确的。</p>
+        <p>你想找的页面可能偷偷溜走了呢~&nbsp;&nbsp;&nbsp;<strong id="emoticonLine"></strong></p>
+        <p><strong><a href="/">回到主页</a></strong></p>
     </div>
+    <script>
+        const emoticons = ["(っ °Д °;)っ", "ヽ(*。>Д<)o゜", "(；′⌒`)", "o(TヘTo)", "o(；△；)o"];
+        copyTo("emoticonLine", emoticons[rand(0, emoticons.length - 1)]);
+
+        // 拖动逻辑
+        const draggable = query(".draggable")[0];
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        // 记录初始位置
+        const initialLeft = draggable.offsetLeft;
+        const initialTop = draggable.offsetTop;
+        
+        // 鼠标按下事件
+        draggable.addEventListener("mousedown", e => {
+            isDragging = true;
+            offsetX = e.clientX - draggable.offsetLeft;
+            offsetY = e.clientY - draggable.offsetTop;
+            draggable.style.transition = "none"; // 拖动时禁用动画
+        });
+        // 鼠标移动事件
+        document.addEventListener("mousemove", e => {
+            if (isDragging) {
+                draggable.style.left = `${e.clientX - offsetX}px`;
+                draggable.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+        // 鼠标松开事件
+        document.addEventListener("mouseup", () => {
+            if (isDragging) {
+                isDragging = false;
+                draggable.style.transition = "left 0.4s var(--transit), top 0.4s var(--transit)"; // 启用动画
+                // 回到初始位置
+                draggable.style.left = `${initialLeft}px`;
+                draggable.style.top = `${initialTop}px`;
+            }
+        });
+    </script>
 </div></body>
 
 </html>

@@ -152,7 +152,7 @@ function host() {
  * @param {any} enText - The custom text for English
  * @example seizure("本页面包含闪烁内容。", "This page includes flashing content.") // Create a seizure warning in specified text.
  */
-function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>") {
+function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
     function preventScroll(event) {
         event.preventDefault();
     }
@@ -160,14 +160,22 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     if (cnText == "_toCN") {
         target("cnSeizure").showModal();
         target("enSeizure").close();
+        target("jpSeizure").close();
     }
     if (cnText == "_toEN") {
         target("cnSeizure").close();
         target("enSeizure").showModal();
+        target("jpSeizure").close();
+    }
+    if (cnText == "_toJP") {
+        target("cnSeizure").close();
+        target("enSeizure").close();
+        target("jpSeizure").showModal();
     }
     if (cnText == "_close") {
         target("cnSeizure").close();
         target("enSeizure").close();
+        target("jpSeizure").close();
 
         document.body.style.overflow = "";
         window.removeEventListener("scroll", preventScroll);
@@ -183,7 +191,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
             <p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p>
             <p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p>
             <p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p>
-            <p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure('_toEN')">EN</span></strong></p>
+            <p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure('_toEN')">EN</span> | <span class="LNK" onclick="seizure('_toJP')">日本語</span></strong></p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[继续]</span></strong></p>
         </dialog>
         <dialog id="enSeizure" class="SEIZURE">
@@ -192,8 +200,18 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
             <p>A very small number of people may <strong>experience epilepsy symptoms</strong> when they see specific visual images (including flickering effects or patterns) on this page.</p>
             <p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p>
             <p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | EN</strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | EN | <span class="LNK" onclick="seizure('_toJP')">日本語</span></strong></p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[CONTINUE]</span></strong></p>
+        </dialog>
+        <dialog id="jpSeizure" class="SEIZURE">
+            <h3 style="color: var(--red);">! 光感性てんかん注意 !</h3>
+            <p>${jpText}</p>
+            <p>ほんの一部の人が、特定のビジュアル（例えばピカピカした光や模様）を見たときに、<strong>てんかん症状が出ちゃう</strong>ことがあるんだ…。</p>
+            <p>もし家族や身近な人に、似た症状が出たことがある人がいたら、このページを操作する前にお医者さんに相談してね！</p>
+            <p>それから、自分で<strong>見ていてめまい、視界がぼやける、目や顔がピクピクする、手足がけいれんする、方向感覚がなくなる、混乱しちゃう、意識がなくなっちゃう…</strong>なんてことがあったら、<strong>すぐに閲覧をやめて、お医者さんに相談しようね</strong>！</p>
+            <p>安全第一だよ、おにいちゃん (おねえちゃん)！<strong>(´；ω；\`)</strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | <span class="LNK" onclick="seizure('_toEN')">EN</span> | 日本語</strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[進む]</span></strong></p>
         </dialog>`;
     
     document.body.style.overflow = "hidden";
@@ -449,7 +467,7 @@ String.prototype.getNum = function (doNotNumber = false) {
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
-    return numbersList ? doNotNumber ? numbersList : numbersList.map(Number) : null;
+    return numbersList && (doNotNumber ? numbersList : numbersList.map(Number));
 };
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
