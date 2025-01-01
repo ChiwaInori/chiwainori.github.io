@@ -1,4 +1,12 @@
+/* INORI CSS - GLOBAL */
+
+/*
+    This is a global style sheet used in ChiwaInori.top.
+    The rules in each element below should follow this order: Color, Display, Width, Height, Padding, Border, Margin, Others.
+*/
+
 /* MAIN FORMAT FOR EVERY DEVICES */
+/* Those rules overridden in mobile sector are only used in desktop. */
 
 :root {
     /* CHIWA BASIC COLORS */
@@ -73,18 +81,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0px;
 }
 
 .mainBody {
     background-color: var(--backgroundColor-500);
+    min-height: 90vh;
     padding: 30px 25px 30px 25px;
     border-radius: 10px;
-    margin: 10px auto auto auto;
+    margin: 10px auto 10px auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    width: 95%;
-    max-width: 90%;
 }
 
 /* NORMAL ELEMENTS */
@@ -107,10 +114,10 @@ img[style*="float: left"] {
 }
 
 input, button {
+    color: var(--activeColor-500);
+    background-color: #ffffff;
     margin: auto 10px auto 10px;
     border: 2px solid var(--activeColor-500);
-    background-color: #ffffff;
-    color: var(--activeColor-500);
     transition: color 0.05s var(--transit);
     font-weight: bold;
 }
@@ -128,9 +135,9 @@ button {
 }
 
 input[type="checkbox"] {
-    appearance: none;
     width: 12px;
     height: 12px;
+    appearance: none;
     cursor: pointer;
 }
 
@@ -140,11 +147,11 @@ input[type="checkbox"]:hover, input[type="radio"]:hover, button:hover {
 
 input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
     background-color: var(--activeColor-500);
-    content: '';
     display: block;
     position: relative;
     top: 50%;
     left: 50%;
+    content: '';
     transform: translate(-50%, -50%);
 }
 
@@ -154,10 +161,10 @@ input[type="checkbox"]:checked::before {
 }
 
 input[type="radio"] {
-    appearance: none;
     width: 14px;
     height: 14px;
     border-radius: 50%;
+    appearance: none;
     cursor: pointer;
 }
 
@@ -168,29 +175,29 @@ input[type="radio"]:checked::before {
 }
 
 input[type="range"] {
-    appearance: none;
+    background: #ffffff;
     width: auto;
     height: 4px;
-    background: #ffffff;
+    appearance: none;
     cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-    appearance: none;
+    background: var(--activeColor-400);
     width: 12px;
     height: 12px;
-    background: var(--activeColor-400);
     border-radius: 50%;
+    appearance: none;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
 
 input[type="range"]::-moz-range-thumb {
-    appearance: none;
+    background: var(--activeColor-400);
     width: 12px;
     height: 12px;
-    background: var(--activeColor-400);
     border-radius: 50%;
+    appearance: none;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
@@ -206,17 +213,17 @@ button:active {
 }
 
 input:disabled, button:disabled {
-    border: 2px solid var(--textColor-400);
-    background-color: #dddddd;
     color: var(--textColor-400);
+    background-color: #dddddd;
+    border: 2px solid var(--textColor-400);
     cursor: not-allowed;
 }
 
 select {
-    margin: auto 10px auto 10px;
-    border: 2px solid var(--activeColor-500);
-    background-color: #ffffff;
     color: var(--activeColor-500);
+    background-color: #ffffff;
+    border: 2px solid var(--activeColor-500);
+    margin: auto 10px auto 10px;
 }
 
 ruby rt {
@@ -273,10 +280,10 @@ table {
 }
 
 [class*="IFB"] { /* Infobox; Individual colors is defined below */
-    margin: 16px 0px 16px 0px;
+    text-align: center;
     width: 350px;
     padding: 16px;
-    text-align: center;
+    margin: 16px 0px 16px 0px;
 }
 
 .LST { /* List */
@@ -284,8 +291,8 @@ table {
 }
 
 .ANT, .ANT * { /* Annotate */
-    font-size: 10px;
     color: var(--textColor-400);
+    font-size: 10px;
 }
 
 .CDE { /* Code */
@@ -314,29 +321,29 @@ table {
 
 .SEIZURE { /* Seizure Warning */
     background-color: var(--backgroundColor-500);
-    padding: 16px 32px 16px 32px;
-    border: 2px solid var(--textColor-500);
     text-align: center;
     width: 650px;
+    padding: 16px 32px 16px 32px;
+    border: 2px solid var(--textColor-500);
 }
 
 /* Infobox Colors */
 
 .IFB-Red { /* Archived */
+    background-color: #ff9999;
     border: 2px solid var(--red);
-    background-color: #ffbbbb;
 }
 .IFB-Yellow { /* Out of Date */
+    background-color: #ffff99;
     border: 2px solid var(--yellow);
-    background-color: #ffffbb;
 }
 .IFB-Green { /* Update */
+    background-color: #99ff99;
     border: 2px solid var(--green);
-    background-color: #bbffbb;
 }
 .IFB-Blue { /* Debug */
+    background-color: #99ffff;
     border: 2px solid var(--blue);
-    background-color: #bbffff;
 }
 
 .IFB-Red * {
@@ -363,6 +370,13 @@ table {
 /* MOBILE COMMON */
 
 @media not (hover: hover) {
+    .mainBody {
+        width: 90%;
+        min-height: 90vh;
+        border-radius: 20px;
+        margin: 20px auto 20px auto;
+    }
+
     h1 {
         font-size: 64px;
     }
@@ -392,16 +406,16 @@ table {
     }
     
     input {
-        font-size: 24px;
         width: 192px;
         height: 20px;
         border: 4px solid var(--activeColor-500);
+        font-size: 24px;
     }
 
     button {
-        font-size: 24px;
         height: 40px;
         border: 4px solid var(--activeColor-500);
+        font-size: 24px;
     }
     
     input[type="checkbox"] {
@@ -454,8 +468,8 @@ table {
     }
     
     ruby rt {
-        font-size: 18px;
         margin-bottom: -12px;
+        font-size: 18px;
     }
     
     [class*="IFB"] {

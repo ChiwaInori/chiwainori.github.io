@@ -146,6 +146,28 @@ function host() {
     return window.location.href.split("/").slice(0, 3).join("/");
 }
 
+/* Auto Navigation Bar (Unconfirmed)
+function navigate() {
+    const dict = {
+        mc: "Minecraft",
+        opc: "Old Players Club"
+    };
+
+    const urlSplit = window.location.href.split("/").slice(3, -1);
+    if (!urlSplit[0] || !query(".navigation")[0]) { return; }
+
+    let string = query(".title h1")[0].innerHTML;
+
+    for (let i = urlSplit.length - 1; i >= 0; i--) {
+        string = `${i == 0 ? "" : " &gt; "}${i == urlSplit.length - 1 ? "" : `<a href="${"../".repeat(urlSplit.length - i - 1)}">${dict[urlSplit[i]] || dict[`_${urlSplit[i]}`] || urlSplit[i]}</a>`}${string}`;
+    }
+    string = `<a href="${host()}">ChiwaInori.top</a> &gt; ${string}`;
+
+    query(".navigation h6")[0].innerHTML = string;
+}
+window.addEventListener("load", navigate);
+*/
+
 /**
  * Pop up a seizure warning in page.
  * @param {any} cnText - The custom text for Chinese
