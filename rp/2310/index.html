@@ -770,7 +770,7 @@
             const id = rand(0, 0xffff);
             const idHex = id.toBase(16).padStart(4, "0");
             const saveInfo = {
-                rollTimes: dynamicList.times.all.slice(0, 55),
+                rollTimes: dynamicList.times.all.slice(0, fullList.all.length - (rollTeachers ? teachers.list.length : 0)),
                 repeatProhibit: dynamicList.repeatProhibit.map(x => x <= fullList.all.length - (rollTeachers ? teachers.list.length : 0) ? x : 0)
             };
             const verify = seed([saveInfo.rollTimes, saveInfo.repeatProhibit], [id / 1000, id / 1000 - 1, id / 1000 - 16]);
