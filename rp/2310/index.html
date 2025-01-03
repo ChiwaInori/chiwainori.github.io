@@ -776,7 +776,7 @@
             const verify = seed([saveInfo.rollTimes, saveInfo.repeatProhibit], [id / 1000, id / 1000 - 1, id / 1000 - 16]);
 
             // eslint-disable-next-line no-useless-escape
-            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = '${host()}/?rollTimes=${saveInfo.rollTimes}&repeat=${saveInfo.repeatProhibit}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
+            save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = '${host()}/rp/2310/?rollTimes=${saveInfo.rollTimes}&repeat=${saveInfo.repeatProhibit}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
             unhide("saveId", "inline");
             copyTo("saveId", `保存代码: <strong>${idHex}</strong>`);
         }
