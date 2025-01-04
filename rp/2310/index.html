@@ -322,6 +322,10 @@
                 copyTo("dynamic-chance-doyouknow", doYouKnow(thisChance, type));
                 confirmId();
             });
+            if (autosave) {
+                copyTo("autosaveDescription", `(已保存至 ${nowRolling})`);
+                colorTo("autosaveDescription", "var(--green)");
+            }
         
             updateChance(type == "all" ? "all" : "sex");
         }
