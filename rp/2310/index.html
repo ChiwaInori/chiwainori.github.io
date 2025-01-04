@@ -23,7 +23,7 @@
             <h1 style="font-size: 48px;"><a href="https://chiwainori.top/rp/2310/">点击跳转至在线抽取网站</a></h1>
         </div>
         <div id="rollPanel">
-            <p id="readSuccess" style="color: var(--green);" hide>已成功读取 <strong id="saveTime"></strong> 动态随机抽取进度</p>
+            <p id="readSuccess" style="color: var(--green);" hide>已成功读取 <strong id="saveTime"></strong> 动态随机抽取进度 <span id="isAutosave" style="color: var(--green)" hide>(自动保存)</span></p>
             <p id="nextBirthday"></p>
             <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 140px;">点击下方按钮进行随机选人</h1>
             <p id="dynamic-chance-doyouknow" style="font-size: 24px;">&nbsp;</p>
@@ -54,7 +54,8 @@
             <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
             <p id="chanceTable" hide></p>
             <div id="chanceTableDynamicDiv" hide><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
-            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="save-line">点击<button onclick="saveFile()">保存</button>目前<strong>动态随机</strong>抽取进度 <span id="noTeachersSaved" hide>(保存时不会保存老师抽取进度)</span><span id="saveId"></strong></span></p>
+            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="autosave"><input id="autosaveCheckbox" type="checkbox" checked />自动保存 <span id="autosaveDescription">(动态随机抽取将会自动保存到浏览器中)</span></span> <button id="deleteAutosave" onclick="deleteAutosave()" hide>删除自动保存数据</button></p>
+            <p><span id="save-line">点击<button onclick="saveFile()">手动保存</button>目前<strong>动态随机</strong>抽取进度 <span id="noTeachersSaved" hide>(保存时不会保存老师抽取进度)</span><span id="saveId"></strong></span></p>
         </div>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
@@ -118,7 +119,7 @@
 
             dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
             order--;
-            updateWeight();
+            updateWeight(null, true);
             order++;
             dynamicList.repeatProhibit = Array(...getURLparam("repeat").split(",").map(Number));
 
@@ -131,6 +132,19 @@
             } else {
                 unhide("validationInvalid");
             }
+        } else if (localStorage.getItem("rp_2310_rollTimes")) {
+            dynamicList.times.all = Array(...localStorage.getItem("rp_2310_rollTimes").split(",").map(Number));
+            dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+
+            dynamicList.repeatProhibit = Array(...localStorage.getItem("rp_2310_repeat").split(",").map(Number));
+            order--;
+            updateWeight(null, true);
+            order++;
+
+            unhide("readSuccess");
+            copyTo("saveTime", new Date(Number(localStorage.getItem("rp_2310_saveTime"))));
+            unhide("isAutosave", "inline");
+            unhide("deleteAutosave", "inline");
         } else {
             fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
             fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
@@ -146,6 +160,7 @@
         let idNow = "";
         let chanceMode = "all";
         let showChance = false;
+        let autosave = true;
         let thisChance;
         
         function changeMode(mode) {
@@ -196,6 +211,16 @@
             updateWeight(null, true);
             updateChance("all");
             confirmId();
+        });
+
+        target("autosaveCheckbox").addEventListener("change", function () {
+            autosave = this.checked;
+            copyTo("autosaveDescription", autosave ? "(动态随机抽取将会自动保存到浏览器中)" : "(抽取将不会自动保存)");
+
+            if (!autosave) {
+                colorTo("autosave", "var(--textColor-400)");
+                colorTo("autosaveDescription", "var(--textColor-400)");
+            }
         });
 
         async function roll(type) {
@@ -418,6 +443,12 @@
             dynamicList.weight.girl = [];
             for (let i = 0; i < dynamicList.times.all.length; i++) {
                 dynamicList.weight[!girlId.includes(i + 1) ? "boy" : "girl"].push(dynamicList.weight.all[i]);
+            }
+
+            if (!dontCycleRepeat && autosave) {
+                localStorage.setItem("rp_2310_rollTimes", dynamicList.times.all);
+                localStorage.setItem("rp_2310_repeat", dynamicList.repeatProhibit);
+                localStorage.setItem("rp_2310_saveTime", new Date().getTime());
             }
         }
 
@@ -779,6 +810,13 @@
             save(`2310 班随机选人_${idHex}.html`, `<p>正在加载 2310 班随机选人，请稍等...</p><script>window.location.href = '${host()}/rp/2310/?rollTimes=${saveInfo.rollTimes}&repeat=${saveInfo.repeatProhibit}&code=${idHex}&time=${new Date().getTime()}&verify=${verify}';<\/script>`);
             unhide("saveId", "inline");
             copyTo("saveId", `保存代码: <strong>${idHex}</strong>`);
+        }
+
+        function deleteAutosave() {
+            localStorage.removeItem("rp_2310_rollTimes");
+            localStorage.removeItem("rp_2310_repeat");
+            localStorage.removeItem("rp_2310_saveTime");
+            location.reload();
         }
 
         // BIRTH 2310

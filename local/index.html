@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title id="title">title - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/inori-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1 id="title-title">title-title</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>你在 ChiwaInori.top 上的本地数据</strong></h6>
+    </div>
+    <div class="content" id="content">
+    </div>
+    <script>
+        copyTo("title", `你在 ${host()} 上的本地数据 - ChiwaInori.top`);
+        copyTo("title-title", `你在 ${host()} 上的本地数据`);
+
+        const local = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            local.push([key, value]);
+        }
+
+        if (!local[0]) {
+            copyTo("content", `<p>你在 ${host()} 上没有任何本地数据。</p>`);
+        } else {
+            copyTo("content", `<p>你在 ${host()} 上的本地数据:</p>`);
+            local.forEach((item, index) => addTo("content", `<p><span style="color: var(--gray);">${item[0]}: ${item[1]}</span>&nbsp;<button onclick="clearItems(${index})">删除</button></p>`));
+            addTo("content", `<p><button onclick="clearItems()">清除所有本地数据</button></p>`);
+        }
+
+        function clearItems(index) {
+            if (!index) {
+                const confirmPop = confirm("你确定要清除所有本地数据吗？");
+                if (confirmPop) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            } else {
+                localStorage.removeItem(local[index][0]);
+                location.reload();
+            }
+        }
+    </script>
+</div></body>
+
+</html>
