@@ -35,9 +35,9 @@
     </div>
     <div class="content">
         <h3 id="choose-rgb">RGB | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
-        <h3 id="choose-cmyk" hide><span onclick="turn('rgb')" class="LNK">RGB</span> | CMYK | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
-        <h3 id="choose-hsv" hide><span onclick="turn('rgb')" class="LNK">RGB</span> | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | HSV | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
-        <h3 id="choose-hsl" hide><span onclick="turn('rgb')" class="LNK">RGB</span> | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | <span onclick="turn('hsv')" class="LNK">HSV</span> | HSL</h3>
+        <h3 id="choose-cmyk" hidden><span onclick="turn('rgb')" class="LNK">RGB</span> | CMYK | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
+        <h3 id="choose-hsv" hidden><span onclick="turn('rgb')" class="LNK">RGB</span> | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | HSV | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
+        <h3 id="choose-hsl" hidden><span onclick="turn('rgb')" class="LNK">RGB</span> | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | <span onclick="turn('hsv')" class="LNK">HSV</span> | HSL</h3>
 
         <table id="adjust-rgb">
             <tr>
@@ -57,7 +57,7 @@
             </tr>
         </table>
 
-        <table id="adjust-cmyk" hide>
+        <table id="adjust-cmyk" hidden>
             <tr>
                 <th style="color: #00ffff;">C / 青, Cyan</th>
                 <th><input id="cmyk-c" type="range" min="0" max="100" step="1" value="0" oninput="changeColor()" /></th>
@@ -80,7 +80,7 @@
             </tr>
         </table>
 
-        <table id="adjust-hsv" hide>
+        <table id="adjust-hsv" hidden>
             <tr>
                 <th style="background: linear-gradient(to right, #ff0000, #ff0000, #ffff00, #00ff00, #0000ff, #ff00ff, #ff00ff); background-clip: text; color: transparent;">H / 色相, Hue</th>
                 <th><input id="hsv-h" type="range" min="0" max="359" step="1" value="0" oninput="changeColor()" /></th>
@@ -98,7 +98,7 @@
             </tr>
         </table>
 
-        <table id="adjust-hsl" hide>
+        <table id="adjust-hsl" hidden>
             <tr>
                 <th style="background: linear-gradient(to right, #ff0000, #ff0000, #ffff00, #00ff00, #0000ff, #ff00ff, #ff00ff); background-clip: text; color: transparent;">H / 色相, Hue</th>
                 <th><input id="hsl-h" type="range" min="0" max="359" step="1" value="0" oninput="changeColor()" /></th>
@@ -119,9 +119,9 @@
         <br />
         <div id="colorBlock" style="float: left; margin-right: 16px;"></div>
         <img id="img-rgb" src="rgb.png" width="200" />
-        <img id="img-cmyk" src="cmyk.png" width="200" hide />
-        <img id="img-hsv" src="hsv.png" width="200" hide />
-        <img id="img-hsl" src="hsl.png" width="200" hide />
+        <img id="img-cmyk" src="cmyk.png" width="200" hidden />
+        <img id="img-hsv" src="hsv.png" width="200" hidden />
+        <img id="img-hsl" src="hsl.png" width="200" hidden />
         <table>
             <tr><th id="code-rgb" style="color: #000000;">rgb(0, 0, 0) / #000000</th></tr>
             <tr><th id="code-cmyk" style="color: #000000;">cmyk(0, 0, 0, 100)</th></tr>

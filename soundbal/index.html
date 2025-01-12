@@ -25,12 +25,12 @@
             <p>请在下方选择音频文件:</p>
             <p><input type="file" id="audioFile" accept="audio/*" /></p>
         </div>
-        <div id="targetVolume" hide>
+        <div id="targetVolume" hidden>
             <p>请输入目标音量值: <input type="number" id="volume" value="90" style="width: 32px;" />dB</p>
             <p class="STX">注意: 设置过大或过小都可能导致音频失真。</p>
             <button id="deal" onclick="adjustVolume()">处理音频</button>
         </div>
-        <div id="results" hide>
+        <div id="results" hidden>
             <p id="finalAudio"><audio id="audioPlayer" controls></audio></p>
             <p><button onclick="save(`${musicName.replace(/\.[^/.]+$/, '')}_Modified.wav`, wav)">下载音频</button></p>
             <p style="color: var(--red)">注意: 使用本页面获得的音频文件的占用空间可能较大。如在意该问题，我们推荐使用如格式工厂之类的格式转换文件处理。</p>

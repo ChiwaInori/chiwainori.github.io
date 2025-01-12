@@ -72,7 +72,7 @@
                 <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
                 <br />
-                <div id="settingsLine" hide>
+                <div id="settingsLine" hidden>
                     <p><strong>已从 Lyric 文件中读取设置:</strong></p>
                     <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;
                     <input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;
@@ -92,12 +92,12 @@
                 <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
                 <p><input id="allowKeys" type="checkbox" />允许使用方向键微调 (← -0.25 拍; → +0.25 拍) (微调时不会显示提示信息)</p>
                 <br />
-                <p id="content" hide></p>
+                <p id="content" hidden></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
                 <p style="color: var(--red)">如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
                     <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
-                    <div id="helpGroup" hide>
+                    <div id="helpGroup" hidden>
                         <h3>如何制作 XTSGAMES Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个 JSON 文件</p>
                         <p><strong>2.</strong> 在根对象中创建以下键: <strong>&quot;signature&quot;, &quot;version&quot;, &quot;musicInfo&quot;, &quot;settings&quot; (可选), &quot;lyrics&quot;</strong></p>
@@ -124,17 +124,17 @@
                 <p>该网页在 1920 * 1080 的显示屏上效果最佳。</p>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
             </div>
-            <div id="lyricBlock" hide>
+            <div id="lyricBlock" hidden>
                 <h1 id="titleLine"></h1>
                 <h1 id="lyrics">&nbsp;</h1>
-                <p id="errorLine" style="color: var(--red);" hide></p>
-                <div id="debugPanel" hide>
+                <p id="errorLine" style="color: var(--red);" hidden></p>
+                <div id="debugPanel" hidden>
                     <p id="controlLine">下一个音符: <button onclick="modify(-0.25)">-0.25</button><button onclick="modify(0.25)">+0.25</button>拍</p>
-                    <p><strong id="modifyResult" hide></strong></p>
+                    <p><strong id="modifyResult" hidden></strong></p>
                 </div>
             </div>
-            <audio id="audio" src="" controls hide></audio>
-            <audio id="audioPreview" src="" controls hide></audio>
+            <audio id="audio" src="" controls hidden></audio>
+            <audio id="audioPreview" src="" controls hidden></audio>
         </div>
         <script>
             const currentVersion = 106;

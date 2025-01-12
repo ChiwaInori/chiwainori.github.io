@@ -23,11 +23,11 @@
         <p id="buttonLine"><button onclick="roll('all')">随机选人</button><button style="margin-left: 420px;" onclick="roll('all')">随机选人</button><button style="margin-left: 450px;" onclick="roll('all')">随机选人</button></p>
         <br />
         <p>
-            <span id="findBySex" hide>
+            <span id="findBySex" hidden>
                 <button style="color: var(--blue); border-color: 2px solid var(--blue);" onclick="roll('boy')">选男生</button>
                 <button style="color: var(--pink); border-color: 2px solid var(--aqua);" onclick="roll('girl')">选女生</button>
             </span>
-            <span id="findByIdLine" hide><strong id="findById" style="color: #666666;" onclick="findByIdReset()">按学号找人</strong> 
+            <span id="findByIdLine" hidden><strong id="findById" style="color: #666666;" onclick="findByIdReset()">按学号找人</strong> 
                 <button id="b-0" onclick="num(0)">0</button>
                 <button id="b-1" onclick="num(1)">1</button>
                 <button id="b-2" onclick="num(2)">2</button>
@@ -42,7 +42,7 @@
         <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong></p>
         <audio id="click" src="../click.mp3" style="display: none;" preload="auto"></audio>
         <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
-        <p id="chanceTable" hide></p>
+        <p id="chanceTable" hidden></p>
         <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。</p>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>

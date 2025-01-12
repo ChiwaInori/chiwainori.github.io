@@ -1,4 +1,4 @@
-/* INORI CSS - GLOBAL */
+/* CHIWA CSS - GLOBAL */
 
 /*
     This is a global style sheet used in ChiwaInori.top.
@@ -256,7 +256,6 @@ blockquote * {
 }
 
 table {
-    display: table;
     color: var(--textColor-500);
     margin: 0px 0px 10px 0px;
 }
@@ -270,10 +269,6 @@ table {
 /*
 .NBM {} (No Border Media) is defined above
 */
-
-[hide] { /* Use "hide" in element directly to hide it. Example: <div id="secret" hide></div> */
-    display: none;
-}
 
 .STX { /* Small Texts */
     font-size: 10px;

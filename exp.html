@@ -1,0 +1,175 @@
+<link rel="stylesheet" href="/css/global.css" />
+<link rel="stylesheet" href="/css/type-normal.css" />
+<script src="/inori-functions.js"></script>
+<style>
+    #element::before {
+    content: "This is the before content";
+    display: block; /* 或者 inline-block, 根据需要调整 */
+}
+
+</style>
+
+<head></head>
+
+<body><div class="mainBody">
+
+<!-- EXPERIMENTAL CODES -->
+
+<p id="link"></p>
+<p id="element">123123213</p>
+<p id="abc"></p>
+
+<script>
+    copyTo("link", window.location.href);
+
+    function divideOld(a, b, calSteps) { // 穷举法算 a / b
+        if (a > b || a < 0 || b == 0 || b < 0 || calSteps < 1 || calSteps % 1 != 0) { throw new RangeError(); }
+        const pending = [];
+        for (let i = 0; i < calSteps; i++) {
+            pending.push(rand(0, 1, true));
+        }
+
+        const diff = [];
+        pending.forEach(num => {
+            diff.push(Math.abs(a - b * num));
+        });
+
+        let nowLowest = diff[0];
+        let nowLowestIndex = 0;
+        for (let i = 1; i < calSteps; i++) {
+            if (diff[i] < nowLowest) {
+                nowLowest = diff[i];
+                nowLowestIndex = i;
+            }
+        }
+
+        return pending[nowLowestIndex];
+    }
+
+    function inoriSort(arr) { // Bubble Sort | O(n^2)
+        const returnArray = arr;
+        let sorted = false;
+
+        while (!sorted) {
+            sorted = true;
+            for (let i = 0; i < returnArray.length - 1; i++) {
+                if (returnArray[i] > returnArray[i + 1]) {
+                    [returnArray[i], returnArray[i + 1]] = [returnArray[i + 1], returnArray[i]];
+                    sorted = false;
+                }
+            }
+        }
+
+        return returnArray;
+    }
+    const toBeSorted = [7, 2, 6, 4, 8, 3, 9, 1, 5];
+    log(`Final Result: ${inoriSort(toBeSorted)}`);
+
+    const Physics = {
+        c: 299792458,
+        e: 	1.602176487e-19,
+        G: 6.67428e-11,
+        g: 9.80665,
+        k: 9e9,
+        NA: 6.02214179e23,
+        R: 8.314472,
+        Vm: 22.413996e-3
+    };
+    Physics.gravity = (m1, m2, r) => Physics.G * m1 * m2 / r ** 2;
+
+    Math.PHI = 1.618033988749895;
+    Math.fac = int => {
+        if (int == 0) { return 1; }
+
+        let result = 1;
+        for (let i = int; i >= 1; i--) {
+            result *= i;
+        }
+        return result;
+    };
+    Math.inp = (v1, v2) => {
+        let result = 0;
+        for (let i = 0; i < v1.length; i++) {
+            result += v1[i] * v2[i];
+        }
+        return result;
+    };
+    Math.otp = (v1, v2) => {};
+    Math.A = (m, n) => {
+        return Math.fac(m) / Math.fac(m - n);
+    };
+    Math.C = (m, n) => {
+        return Math.fac(m) / Math.fac(n) / Math.fac(m - n);
+    };
+
+    // JS COMMANDS / NUMERAL / MATH EXTENSION
+    // This is a extension of math formulas for JavaScript.
+
+    /**
+     * Calculate a logarithm of natural with base.
+     * @param {number} base - (> 0)
+     * @param {number} natural - (> 0)
+     * @returns {number}
+     */
+    Math.logan = (base, natural) => {
+        _range(base, "> 0");
+        _range(natural, "> 0");
+
+        return Math.log(natural) / Math.log(base);
+    };
+
+    /**
+     * Calculate a specified root of given number.
+     * @param {number} root - (!= 0)
+     * @param {number} number
+     * @returns {number}
+     */
+    Math.root = (root, number) => {
+        _range(root, "!= 0");
+        _type(number, "number");
+
+        if (number >= 0) {
+            return number ** (1 / root);
+        }
+        return -((-number) ** (1 / root));
+    };
+
+    class Decimal {
+        constructor(value, exponent) {
+            this.value = BigInt(String(value).split(".").join(""));
+            this.exponent = exponent || String(value).includes(".") ? BigInt(String(value).split(".")[1].length) : 0n;
+        }
+
+        simplify() {
+            let value = this.value;
+            let exponent = this.exponent;
+
+            while (value % 10n == 0n && exponent >= 0) {
+                value /= 10n;
+                exponent--;
+            }
+
+            return new Decimal(value, exponent);
+        }
+    }
+
+    function add(arr) {
+        const result = [];
+        for (let i = 0; i < arr.length; i += 2) {
+            if (arr[i + 1] == undefined) {
+                result.push(arr[i]);
+            } else {
+                result.push(arr[i] + arr[i + 1]);
+            }
+        }
+        return result;
+    }
+
+    const obj = {
+        get text() {
+            return copyFrom("element");
+        }
+    };
+
+    const a = cs("#element");
+</script>

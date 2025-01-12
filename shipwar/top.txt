@@ -1,0 +1,15 @@
+example: xtsgames-shipwar.100.00000000000000002000001000000000100000001000000000001200000000010010000006C34C3.
+
+[0] ~ [16] : Root verify. Must be "xtsgames-shipwar."
+[17] ~ [19] : Version of top file
+[20] : Middle verify. Must be "."
+
+[21] : Status. 0 = P1 placesmall; 1 = P1 attack; 2 = P2 placesmall; 3 = P2 attack
+[22] ~ [57] : P1 situation. From A1 A2 A3 ... ~ F6. 0 = empty; 1 = small; 2 = big;
+[58] ~ [93] : P2 situation.
+[94] : P1 hint text. 0 = empty ([91], [92] will also be "0"); 1 = 战列舰已部署; 2 = 未发现敌方军舰; 3 = 敌方打空; 4 = 已击毁敌方一艘战列舰!; 5 = 已击毁敌方母舰!; 6 = 我方一艘战列舰已被击毁!; 7 = 我方母舰已被击毁!
+[95] ~ [96] : P1 hint position. If [90] = "0", both will be "0".
+[97] : P2 hint text.
+[98] ~ [99] : P2 hint position.
+
+[100] : End verify. Must be "."

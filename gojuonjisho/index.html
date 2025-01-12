@@ -27,11 +27,11 @@
             <p>你可以通过点击对应假名或按下左右方向键 (推荐) 来选择。</p>
             <p><button onclick="start()">开始</button></p>
         </div>
-        <div id="game" hide>
+        <div id="game" hidden>
             <div id="startup">
                 <h1 style="font-size: 80px; margin-top: 300px;" onclick="press('ArrowDown')">按下 下方向键 或 点击这行文字 开始测试</h1>
             </div>
-            <div id="gameText" hide>
+            <div id="gameText" hidden>
                 <h1 style="font-size: 60px; margin-top: 200px;"><span id="order"></span>. 选择五十音序中 更靠<strong id="question" style="color: var(--red);"></strong> 的一个假名</h1>
                 <h1 style="font-size: 120px; margin-top: 50px;"><strong id="option-1" onclick="press('ArrowLeft')">あ</strong>&nbsp;&nbsp;&nbsp;<strong id="option-2" onclick="press('ArrowRight')">い</strong></h1>
                 <h1 id="resultLine" onclick="gameGen()"></h1>
@@ -70,7 +70,8 @@
                     locked.keyD = true;
                 }
             } else if (!locked.keyLR) {
-                const correctCheck = orderToCheck == 0 && Logic.XNOR(key == "ArrowLeft", nowOrder[0] < nowOrder[1]) || orderToCheck == 1 && Logic.XNOR(key == "ArrowLeft", nowOrder[0] > nowOrder[1]) || nowOrder[0] == nowOrder[1];
+                // eslint-disable-next-line no-extra-parens
+                const correctCheck = orderToCheck == 0 && (key == "ArrowLeft") == (nowOrder[0] < nowOrder[1]) || orderToCheck == 1 && (key == "ArrowLeft") == (nowOrder[0] > nowOrder[1]) || nowOrder[0] == nowOrder[1];
                 if (correctCheck) {
                     const nowTime = new Date().getTime();
                     const costTime = nowTime - startTimer;

@@ -64,15 +64,15 @@
                 <p><input id="audioFile" type="file" accept="audio/*" /></p>
                 <p>调试功能: 从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
                 <br />
-                <p><strong id="loadFromFile" hide>已从 Lyric 文件中读取设置:</strong></p>
+                <p><strong id="loadFromFile" hidden>已从 Lyric 文件中读取设置:</strong></p>
                 <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
                 <br />
-                <p id="content" hide></p>
+                <p id="content" hidden></p>
                 <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
                 <p style="color: var(--red)">如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
                     <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
-                    <div id="helpGroup" hide>
+                    <div id="helpGroup" hidden>
                         <h3>如何制作 XTSGAMES Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个空白文件，将后缀名设置为 <strong>.top</strong> , 然后使用记事本 (或其他软件) 打开</p>
                         <p><strong>2.</strong> 输入以下基本内容: <strong>xtsgames-lyric.101.</strong></p>
@@ -92,11 +92,11 @@
                 </div>
                 <p>如引用此页面的动画，请标注此网页链接。</p>
             </div>
-            <div id="lyricBlock" hide>
+            <div id="lyricBlock" hidden>
                 <h1 id="titleLine"></h1>
                 <h1 id="lyrics">&nbsp;</h1>
             </div>
-            <audio id="audio" src="" controls hide></audio>
+            <audio id="audio" src="" controls hidden></audio>
         </div>
         <script>
             const currentVersion = 101;

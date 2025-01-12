@@ -1,14 +1,12 @@
-old/_abandoned/
-private/
-exp.html
+package.json
+package-lock.json
+node_modules/
 
-shipwar/top.txt
+private/
+old/_abandoned/
 
 mc/milkmappers/maps/qyflower/guide/
 mc/milkmappers/maps/qyflower/specialeggs/
 
-package.json
-package-lock.json
-node_modules/
 
 schoolcosts/

@@ -16,14 +16,14 @@
         <h1>2310 班随机选人</h1>
     </div>
     <div class="content">
-        <div id="validationInvalid" hide>
+        <div id="validationInvalid" hidden>
             <h1 style="color: var(--red); font-size: 64px;"><strong>读取的动态随机抽取进度无法通过验证</strong></h1>
             <h1 style="color: var(--red); font-size: 48px;">这表示已保存的抽取进度可能遭到篡改。</h1>
             <h1 style="color: var(--red); font-size: 48px;">为保证抽取公平性，读取进度已终止。</h1>
             <h1 style="font-size: 48px;"><a href="https://chiwainori.top/rp/2310/">点击跳转至在线抽取网站</a></h1>
         </div>
         <div id="rollPanel">
-            <p id="readSuccess" style="color: var(--green);" hide>已成功读取 <strong id="saveTime"></strong> 动态随机抽取进度 <span id="isAutosave" style="color: var(--green)" hide>(自动保存)</span></p>
+            <p id="readSuccess" style="color: var(--green);" hidden>已成功读取 <strong id="saveTime"></strong> 动态随机抽取进度 <span id="isAutosave" style="color: var(--green)" hidden>(自动保存)</span></p>
             <p id="nextBirthday"></p>
             <h1 id="name" style="font-size: 120px; margin-top: 250px; margin-bottom: 140px;">点击下方按钮进行随机选人</h1>
             <p id="dynamic-chance-doyouknow" style="font-size: 24px;">&nbsp;</p>
@@ -52,10 +52,10 @@
             <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="rollTeachers" type="checkbox" style="margin-left: 0px;" /> <strong>抽取科任老师</strong></p>
             <audio id="click" src="../click.mp3" style="display: none;" preload="auto"></audio>
             <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
-            <p id="chanceTable" hide></p>
-            <div id="chanceTableDynamicDiv" hide><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
-            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="autosave"><input id="autosaveCheckbox" type="checkbox" checked />自动保存 <span id="autosaveDescription">(动态随机抽取将会自动保存到浏览器中)</span></span> <button id="deleteAutosave" onclick="deleteAutosave()" hide>删除自动保存数据</button></p>
-            <p><span id="save-line">点击<button onclick="saveFile()">手动保存</button>目前<strong>动态随机</strong>抽取进度 <span id="noTeachersSaved" hide>(保存时不会保存老师抽取进度)</span><span id="saveId"></strong></span></p>
+            <p id="chanceTable" hidden></p>
+            <div id="chanceTableDynamicDiv" hidden><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
+            <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="autosave"><input id="autosaveCheckbox" type="checkbox" checked />自动保存 <span id="autosaveDescription">(动态随机抽取将会自动保存到浏览器中)</span></span> <button id="deleteAutosave" onclick="deleteAutosave()" hidden>删除自动保存数据</button></p>
+            <p><span id="save-line">点击<button onclick="saveFile()">手动保存</button>目前<strong>动态随机</strong>抽取进度 <span id="noTeachersSaved" hidden>(保存时不会保存老师抽取进度)</span><span id="saveId"></strong></span></p>
         </div>
         <br />
         <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>

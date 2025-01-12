@@ -27,17 +27,17 @@
             <option value="3" selected>0.25</option>
             <option value="2">0.5</option>
             <option value="1">1</option>
-        </select><select id="precisionListFraction" hide>
+        </select><select id="precisionListFraction" hidden>
             <option value="5">1/16</option>
             <option value="4">1/8</option>
             <option value="3" selected>1/4</option>
             <option value="2">1/2</option>
             <option value="1">1</option>
         </select><input id="showAsFraction" type="checkbox" /> 以分数显示</p>
-        <p><input id="f-normal" name="format" type="radio" checked />常规格式<span id="showTopFormat"> | <input id="f-json" name="format" type="radio" />JSON 格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)<span hide> | <input id="f-top" name="format" type="radio" /> .top 文件格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)</span></span></p>
+        <p><input id="f-normal" name="format" type="radio" checked />常规格式<span id="showTopFormat"> | <input id="f-json" name="format" type="radio" />JSON 格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)<span hidden> | <input id="f-top" name="format" type="radio" /> .top 文件格式 (适用于 <a href="../lyric/">动态歌词显示</a>, <a href="../sinemusic/">XTS 正弦波音乐</a>)</span></span></p>
         <p class="STX">更改上面的内容将会重置已记录的节拍。</p>
         <br />
-        <div id="jsonLyric" hide>
+        <div id="jsonLyric" hidden>
             <p>使用 JSON 格式时，你可以在下方输入歌词，指定位置的字符串将被自动替换。</p>
             <p><strong>注意: 使用斜杠 / 划分<span style="text-decoration: underline;">每一个</span>汉字、音节或空格。</strong></p>
             <p><input id="lyricLine" style="width: 512px;" /></p>
@@ -47,7 +47,7 @@
         <p>确定好上面的数据后，按下 <strong>回车键 (Enter)</strong> 来量化节拍。</p>
         </p>
         <p>按下 <strong>R</strong> 来换行 (不会算作一个音符)，按下 <strong>退格键 (Backspace)</strong> 重置已记录的节拍。</p>
-        <p><button id="playButton" onclick="play()" disabled>播放</button> <span id="returnOk" style="color: var(--green)" hide>换行已就绪</span><span id="returnReady" style="color: var(--red)" hide>换行将会在下一个音符被按下时执行</span></p>
+        <p><button id="playButton" onclick="play()" disabled>播放</button> <span id="returnOk" style="color: var(--green)" hidden>换行已就绪</span><span id="returnReady" style="color: var(--red)" hidden>换行将会在下一个音符被按下时执行</span></p>
         <p id="result" style="word-wrap: break-word;"></p>
     </div>
     <script>
