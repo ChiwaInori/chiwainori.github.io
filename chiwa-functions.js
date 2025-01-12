@@ -664,10 +664,10 @@ BigInt.prototype.toBase = function (base, _) {
 
 // HTML ELEMENTS
 
-// ChiwaSet: A new object with custom information of a element.
+// ChiwaSet: A new object with custom information of a element. Convenient for some specified values / functions.
 class ChiwaSet {
     constructor(element, nth = 0) {
-        this.el = document.querySelectorAll(element)[nth];
+        this.el = document.querySelectorAll(element)[nth] || null;
     }
 
     // Get Editable Attributes
@@ -713,10 +713,7 @@ class ChiwaSet {
 
     /**
      * Hide or unhide an element by condition.
-     * @param {string} element  - The id of target element
      * @param {any} condition - The condition to hide or unhide the element (if true, unhide)
-     * @param {string} display - The type of display if unhide
-     * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
      */
     toggleDisplay() { }
 
@@ -736,15 +733,15 @@ class ChiwaSet {
 /**
  * Get a ChiwaSet of target element.
  * @param {string} element - The query string of element
- * @param {number} nth - (%1=0 | >= 0) The nth specified target to get
- * @returns {ChiwaSet | null} A ChiwaSet with common attributes.
+ * @param {number} index - (%1=0 | >= 0) The nth specified target to get
+ * @returns {ChiwaSet} A ChiwaSet with common attributes.
  * @example cs("h1") // Get a ChiwaSet of the first h1 in page
  */
-function cs(element, nth = 0) {
+function cs(element, index = 0) {
     _type(element, "string");
-    _range(nth, "%1=0 | >= 0");
+    _range(index, "%1=0 | >= 0");
 
-    return new ChiwaSet(element, nth) || null;
+    return new ChiwaSet(element, index);
 }
 
 /**
