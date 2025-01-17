@@ -261,37 +261,46 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
 
 // GLOBAL USAGE / URL PARAM
 
-const urlParam = {
-    /**
-     * Set the param to URL (.../...?key1=value1&key2=value2).
-     * @param {string} name - The key of param
-     * @param {any} value - The value being set
-     * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
-     */
-    setItem(key, value = null) {
+const urlParam = {};
+
+/**
+ * Set the param to URL (.../...?key1=value1&key2=value2).
+ * @param {string} name - The key of param
+ * @param {any} value - The value being set
+ * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
+ */
+Object.defineProperty(urlParam, "setItem", {
+    enumerable: false,
+    value: (key, value = null) => {
         _type(key, "string");
 
         history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
-    },
+    }
+});
 
-    /**
-     * Get the param from URL (.../...?key1=value1&key2=value2).
-     * @param {string} key - The param key to get from URL
-     * @returns {string | null} The value of the param
-     * @example urlParam.getItem("userID") // Return the value of ?userID=...
-     */
-    getItem(key) {
+/**
+ * Get the param from URL (.../...?key1=value1&key2=value2).
+ * @param {string} key - The param key to get from URL
+ * @returns {string | null} The value of the param
+ * @example urlParam.getItem("userID") // Return the value of ?userID=...
+ */
+Object.defineProperty(urlParam, "getItem", {
+    enumerable: false,
+    value: key => {
         _type(key, "string");
 
         return new URLSearchParams(window.location.search).get(key);
-    },
+    }
+});
 
-    /**
-     * Get all param from URL (.../...?key1=value1&key2=value2).
-     * @returns {object} A object with all params
-     * @example urlParam.getAll() // Return a object with all params
-     */
-    getAll() {
+/**
+ * Get all param from URL (.../...?key1=value1&key2=value2).
+ * @returns {object} A object with all params
+ * @example urlParam.getAll() // Return a object with all params
+ */
+Object.defineProperty(urlParam, "getAll", {
+    enumerable: false,
+    value: () => {
         const obj = {};
 
         if (window.location.href.includes("?")) {
@@ -303,29 +312,35 @@ const urlParam = {
         }
 
         return obj;
-    },
+    }
+});
 
-    /**
-     * Remove a param from URL (.../...?key1=value1&key2=value2).
-     * @param {string} key - The param key to remove from URL
-     * @example urlParam.removeItem("result") // Update URL bar without "result" param
-     */
-    removeItem(key) {
+/**
+ * Remove a param from URL (.../...?key1=value1&key2=value2).
+ * @param {string} key - The param key to remove from URL
+ * @example urlParam.removeItem("result") // Update URL bar without "result" param
+ */
+Object.defineProperty(urlParam, "removeItem", {
+    enumerable: false,
+    value: key => {
         _type(key, "string");
 
         const searchParams = new URLSearchParams(window.location.search);
         searchParams.delete(key);
 
         history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
-    },
+    }
+});
 
-    /**
-     * Generate a string of current URL and values in obj.
-     * @param {object} obj  - The params to be added to URL
-     * @returns {string} A string with current URL added with values in obj
-     * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
-     */
-    generate(obj) {
+/**
+ * Generate a string of current URL and values in obj.
+ * @param {object} obj  - The params to be added to URL
+ * @returns {string} A string with current URL added with values in obj
+ * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
+ */
+Object.defineProperty(urlParam, "generate", {
+    enumerable: false,
+    value: obj => {
         let url = window.location.href;
 
         for (const keyValue in obj) {
@@ -333,16 +348,19 @@ const urlParam = {
         }
 
         return url;
-    },
+    }
+});
 
-    /**
-     * Clear all param from URL.
-     * @example urlParam.clear() // All characters after "?" in URL bar will be removed
-     */
-    clear() {
+/**
+ * Clear all param from URL.
+ * @example urlParam.clear() // All characters after "?" in URL bar will be removed
+ */
+Object.defineProperty(urlParam, "clear", {
+    enumerable: false,
+    value: () => {
         history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
     }
-};
+});
 
 // GLOBAL USAGE / CONSOLE LOG
 
