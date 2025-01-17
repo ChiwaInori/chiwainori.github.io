@@ -43,7 +43,8 @@
             }
         }
     </style>
-    <script src="/inori-functions.js"></script>
+    <script src="/chiwa-functions.js"></script>
+    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -461,7 +462,7 @@
 
         const shipwarURL = "https://xtsgames.top/shipwar/?code=";
 
-        let onlineCode = getURLparam("code");
+        let onlineCode = urlParam.getItem("code");
         if (onlineCode) {
             document.getElementById("code_type").value = onlineCode;
             hide("rules");

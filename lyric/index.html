@@ -46,7 +46,8 @@
             -webkit-text-stroke: var(--isBorder) var(--borderColor);
         }
     </style>
-    <script src="/inori-functions.js"></script>
+    <script src="/chiwa-functions.js"></script>
+    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body>
@@ -690,6 +691,7 @@
             async function nextTranslation(sentenceOrder) {
                 const slideOffset = 15;
                 const element = target("translations");
+                getTranslationPos();
 
                 await sleep(1);
                 element.style.transition = `all ${waitBase * 3}s var(--transit)`;

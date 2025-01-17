@@ -1,28 +1,30 @@
-// INORI FUNCTIONS
+// CHIWA FUNCTIONS
 
 /*
-    Inori Function is a custom JavaScript library used in ChiwaInori.top for better coding.
+    Chiwa Functions is a custom JavaScript library used in ChiwaInori.top for better coding.
 
     Most of the functions included are original created by ChiwaInori.top owner Chiwa Inori.
-    Most of them required other Inori Functions to work. Some functions can be also used in Node.js environment.
+    Most of them required other Chiwa Functions to work. Some functions can be also used in Node.js environment.
+
+    Originally called Inori Functions, its name had been changed along with a major update (2025.1) related to HTML Elements.
+    Due to something same both exists in Chiwa and Inori, Chiwa Functions will have conflict with Inori Functions.
 
     Index: (The "p" below means "prototype")
 
-    Inori Basic (1): inori
+    Chiwa Basic (1): chiwa
     Global Usage (11):
         Parameter Judgement (2): _type, _range
         Commands (2): sleep, overload
         Website (3): host, seizure, copyright
         URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
-    JS Commands (18):
+    JS Commands (14):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
-        Logic Judgement (4): Logic.NOR, Logic.NAND, Logic.XOR, Logic.XNOR
         Numeral (10): 
             Get Numbers (3): rand, seed, String.p.getNum
             Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
-    HTML Elements (19):
-        Target Elements (2): target, query
+    HTML Elements (20):
+        Target Elements (3): cs, target, query
         Interacts (7):
             Input (2): copyFrom, copyValue
             Output (5): copyTo, addBefore, addTo, setValue, applyAll
@@ -35,15 +37,15 @@
 
 /* eslint no-shadow: "off" */
 
-// INORI BASIC
+// CHIWA BASIC
 
 /**
- * Check if Inori Functions are available.
- * @example inori() // If Inori Functions are available, get a log in console.
+ * Check if Chiwa Functions is available.
+ * @example chiwa() // If Chiwa Functions is available, get a log in console.
  */
-function inori() {
-    log(`Inori Functions are available in current session.`);
-    if (typeof global != "undefined") { warn(`You are running Inori Functions in Node.js environment. Some functions are unavailable.`); }
+function chiwa() {
+    log(`Chiwa Functions is available in current session.`);
+    if (typeof global != "undefined") { warn(`You are running Chiwa Functions in Node.js environment. Some functions are unavailable.`); }
 }
 
 // GLOBAL USAGE
@@ -409,21 +411,8 @@ String.prototype.getCountOf = function (target) {
     return splitString.length - 1;
 };
 
-// JS COMMANDS / LOGIC JUDGEMENT
-
-const Logic = {
-    /** * @returns {boolean} When all are false, return true */
-    NOR: (...input) => !input.map(Boolean).includes(true),
-    /** * @returns {boolean} When false exists, return true */
-    NAND: (...input) => input.map(Boolean).includes(false),
-    /** * @returns {boolean} When true and false both exists, return true */
-    XOR: (...input) => input.map(Boolean).includes(true) && input.map(Boolean).includes(false),
-    /** * @returns {boolean} When only true or false exists, return true */
-    XNOR: (...input) => input.map(Boolean).includes(true) && !input.map(Boolean).includes(false) || !input.map(Boolean).includes(true) && input.map(Boolean).includes(false)
-};
-
 // JS COMMANDS / NUMERAL
-/* Hint: These functions aren't affected by precision loss of JavaScript.
+/* Hint: In Chiwa Functions, these functions aren't affected by precision loss of JavaScript.
     seed
     BigInt.p.toBase
     String.p.transBase
@@ -503,7 +492,7 @@ String.prototype.getNum = function (doNotNumber = false) {
 Number.prototype.keep = function (digit = 0) {
     _range(digit, "%1=0");
     
-    if (!this.range(1e-6, 1e21)) {
+    if (!Math.abs(this).range(1e-6, 1e21)) {
         const [mantissa, exponent] = String(this).getNum();
 
         return Number(`${mantissa.keep(digit)}e${exponent}`);
@@ -519,7 +508,7 @@ Number.prototype.keep = function (digit = 0) {
  * @param {boolean} minType - The left border of interval (true: closed; false: open)
  * @param {boolean} minType - The right border of interval (true: closed; false: open)
  * @returns {boolean} Is the number in the given interval
- * @example (5).range[0, 5, true, false) // false (not in [0, 5) range)
+ * @example (5).range(0, 5, true, false) // false (not in [0, 5) range)
  */
 Number.prototype.range = function (min, max, minType = true, maxType = true) {
     _range(min, `<= ${max}`);
@@ -675,7 +664,85 @@ BigInt.prototype.toBase = function (base, _) {
 
 // HTML ELEMENTS
 
+// ChiwaSet: A new object with custom information of a element. Convenient for some specified values / functions.
+class ChiwaSet {
+    constructor(element, nth = 0) {
+        this.el = document.querySelectorAll(element)[nth] || null;
+    }
+
+    // Get Editable Attributes
+    get html() { return this.el.innerHTML; }
+    get text() { return this.el.innerText; }
+    get style() { return this.el.style.cssText; }
+    get color() { return this.el.style.color; }
+    get value() { return this.el.value || null; }
+    get checked() { return this.el.checked || null; }
+    
+    // Get Uneditable Attributes
+    get isHidden() { return this.el.style.display == "none" || this.el.style.opacity == "0" || this.el.hidden && this.el.style.display == ""; }
+    
+    // Set Editable Attributes
+    set html(value) { this.el.innerHTML = value; }
+    set text(value) { this.el.innerText = value; }
+    set style(value) { this.el.style.cssText = value; }
+    // Another: set hide(value) { this.el.style.display = value == true ? "none" : value == false ? "block" : value; }
+    set color(value) { this.el.style.color = value; }
+    set value(value) { this.el.value = value; }
+    set checked(value) { this.el.checked = value; }
+
+    // Element Functions
+    // These are functions to modify element in ChiwaSet, while they were originally independent function in Inori Functions
+
+    /**
+     * Hide the element.
+     * @example { ChiwaSet }.hide() // Hide the element
+     */
+    hide() {
+        this.el.style.display = "none";
+    }
+
+    /**
+     * Show the element with expected display method.
+     * @param {string} display - The type of display
+     * @example { ChiwaSet }.unhide("inline") // Show the element as "inline"
+     */
+    unhide(display = "block") {
+        _type(display, "string");
+        this.el.style.display = display;
+    }
+
+    /**
+     * Hide or unhide an element by condition.
+     * @param {any} condition - The condition to hide or unhide the element (if true, unhide)
+     */
+    toggleDisplay() { }
+
+    async transColor() { }
+    async fadeOut() { }
+    async fadeIn() { }
+    async fadeChange() { }
+
+    /* TODO
+        1. finish those functions
+        2. combine getURLparam, setURLparam => URLparam.getItem, URLparam.setItem, URLparam.removeItem, URLparam.clear
+    */
+}
+
 // HTML ELEMENTS / TARGET ELEMENTS
+
+/**
+ * Get a ChiwaSet of target element.
+ * @param {string} element - The query string of element
+ * @param {number} index - (%1=0 | >= 0) The nth specified target to get
+ * @returns {ChiwaSet} A ChiwaSet with common attributes.
+ * @example cs("h1") // Get a ChiwaSet of the first h1 in page
+ */
+function cs(element, index = 0) {
+    _type(element, "string");
+    _range(index, "%1=0 | >= 0");
+
+    return new ChiwaSet(element, index);
+}
 
 /**
  * Return an element in HTML.

@@ -16,7 +16,8 @@
             font-size: 40px;
         }
     </style>
-    <script src="/inori-functions.js"></script>
+    <script src="/chiwa-functions.js"></script>
+    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -100,13 +101,13 @@
         let star2out = 0;
         let star3out = 0;
 
-        target("group").addEventListener("change", function () {
+        target("#group").addEventListener("change", function () {
             const banners = ["minori", "20240814_01", "shigureHotSpring", "20240814_02", "meru", "20240807_01", "cherino", "20230419_01", "marina", "20230419_02"];
             const index = banners.indexOf(this.value);
 
             if (index >= 0) {
                 unhide("banner");
-                target("banner").src = `banners/300px-Lobby_Banner_${banners[index + 1]}.webp`;
+                target("#banner").src = `banners/300px-Lobby_Banner_${banners[index + 1]}.webp`;
             } else {
                 hide("banner");
             }
@@ -134,13 +135,13 @@
 
                 let jpnName;
 
-                if (target("group").value != "normal" && d <= 0.007) { // Special
-                    jpnName = getSpecial(target("group").value);
+                if (target("#group").value != "normal" && d <= 0.007) { // Special
+                    jpnName = getSpecial(target("#group").value);
                     colorTo(`result${i}`, "#e050f0");
                     star3out++;
                     pickup = true;
                 } else if (d <= 0.03) { // Star3
-                    jpnName = target("group").value == "normal" ? star3[rand(0, star3.length - 1)] : star3.remove(getSpecial(target("group").value))[rand(0, star3.length - 2)];
+                    jpnName = target("#group").value == "normal" ? star3[rand(0, star3.length - 1)] : star3.remove(getSpecial(target("#group").value))[rand(0, star3.length - 2)];
                     colorTo(`result${i}`, "#e050f0");
                     star3out++;
                 } else if (d <= 0.185 + 0.03) { // Star2

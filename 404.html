@@ -31,7 +31,7 @@
             transition: left 0.4s var(--transit), top 0.4s var(--transit);
         }
     </style>
-    <script src="/inori-functions.js"></script>
+    <script src="/chiwa-functions.js"></script>
 </head>
 
 <body><div class="mainBody draggable">
@@ -45,10 +45,10 @@
     </div>
     <script>
         const emoticons = ["(っ °Д °;)っ", "ヽ(*。>Д<)o゜", "(；′⌒`)", "o(TヘTo)", "o(；△；)o"];
-        copyTo("emoticonLine", emoticons[rand(0, emoticons.length - 1)]);
+        cws("#emoticonLine").text = emoticons[rand(0, emoticons.length - 1)];
 
         // 拖动逻辑
-        const draggable = query(".draggable")[0];
+        const draggable = cws(".draggable").el;
         let isDragging = false;
         let offsetX, offsetY;
 
