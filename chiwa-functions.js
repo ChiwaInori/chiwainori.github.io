@@ -12,9 +12,9 @@
     Index: (The "p" below means "prototype")
 
     Chiwa Basic (1): chiwa
-    Global Usage (15):
+    Global Usage (16):
         Parameter Judgement (2): _type, _range
-        Commands (2): sleep, overload
+        Commands (3): sleep, overload, nonEnum
         Website (3): host, seizure, copyright
         urlParam (6): { setItem, getItem, getAll, removeItem, generate, clear }
         Console Log (2): log, warn
@@ -130,6 +130,21 @@ function overload(time) {
         }
     }
 }
+
+/**
+ * Add a non-enumerable property to a object
+ * @param {string} key - The key of the property
+ * @param {any} value - The value of the property
+ * @example obj.nonEnum("func", () => {}) // Add a non-enumerable function to obj
+ */
+Object.defineProperty(Object.prototype, "nonEnum", {
+    value: function (key, value) {
+        _type(key, "string");
+        
+        Object.defineProperty(this, key, { value, enumerable: false });
+    },
+    enumerable: false
+});
 
 // GLOBAL USAGE / WEBSITE
 
@@ -269,13 +284,10 @@ const urlParam = {};
  * @param {any} value - The value being set
  * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
  */
-Object.defineProperty(urlParam, "setItem", {
-    enumerable: false,
-    value: (key, value = null) => {
-        _type(key, "string");
+urlParam.nonEnum("setItem", (key, value = null) => {
+    _type(key, "string");
 
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
-    }
+    history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
 });
 
 /**
@@ -284,13 +296,10 @@ Object.defineProperty(urlParam, "setItem", {
  * @returns {string | null} The value of the param
  * @example urlParam.getItem("userID") // Return the value of ?userID=...
  */
-Object.defineProperty(urlParam, "getItem", {
-    enumerable: false,
-    value: key => {
-        _type(key, "string");
+urlParam.nonEnum("getItem", key => {
+    _type(key, "string");
 
-        return new URLSearchParams(window.location.search).get(key);
-    }
+    return new URLSearchParams(window.location.search).get(key);
 });
 
 /**
@@ -298,21 +307,18 @@ Object.defineProperty(urlParam, "getItem", {
  * @returns {object} A object with all params
  * @example urlParam.getAll() // Return a object with all params
  */
-Object.defineProperty(urlParam, "getAll", {
-    enumerable: false,
-    value: () => {
-        const obj = {};
+urlParam.nonEnum("getAll", () => {
+    const obj = {};
 
-        if (window.location.href.includes("?")) {
-            const paramList = window.location.href.split("?")[1].split("&");
+    if (window.location.href.includes("?")) {
+        const paramList = window.location.href.split("?")[1].split("&");
 
-            for (const keyValue of paramList) {
-                obj[keyValue.split("=")[0]] = keyValue.split("=")[1];
-            }
+        for (const keyValue of paramList) {
+            obj[keyValue.split("=")[0]] = keyValue.split("=")[1];
         }
-
-        return obj;
     }
+
+    return obj;
 });
 
 /**
@@ -320,16 +326,13 @@ Object.defineProperty(urlParam, "getAll", {
  * @param {string} key - The param key to remove from URL
  * @example urlParam.removeItem("result") // Update URL bar without "result" param
  */
-Object.defineProperty(urlParam, "removeItem", {
-    enumerable: false,
-    value: key => {
-        _type(key, "string");
+urlParam.nonEnum("removeItem", key => {
+    _type(key, "string");
 
-        const searchParams = new URLSearchParams(window.location.search);
-        searchParams.delete(key);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete(key);
 
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
-    }
+    history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
 });
 
 /**
@@ -338,28 +341,22 @@ Object.defineProperty(urlParam, "removeItem", {
  * @returns {string} A string with current URL added with values in obj
  * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
  */
-Object.defineProperty(urlParam, "generate", {
-    enumerable: false,
-    value: obj => {
-        let url = window.location.href;
+urlParam.nonEnum("generate", obj => {
+    let url = window.location.href;
 
-        for (const keyValue in obj) {
-            url += `${url.includes("?") ? "&" : "?"}${keyValue}=${obj[keyValue]}`;
-        }
-
-        return url;
+    for (const keyValue in obj) {
+        url += `${url.includes("?") ? "&" : "?"}${keyValue}=${obj[keyValue]}`;
     }
+
+    return url;
 });
 
 /**
  * Clear all param from URL.
  * @example urlParam.clear() // All characters after "?" in URL bar will be removed
  */
-Object.defineProperty(urlParam, "clear", {
-    enumerable: false,
-    value: () => {
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
-    }
+urlParam.nonEnum("clear", () => {
+    history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
 });
 
 // GLOBAL USAGE / CONSOLE LOG
@@ -407,29 +404,26 @@ function chance(percent) {
  * @returns {object} The deep clone result
  * @example [1, 2, [3, {id: 4}, 5]].isolate() // [1, 2, [3, {id: 4}, 5]]
  */
-Object.defineProperty(Object.prototype, "isolate", {
-    enumerable: false,
-    value: function () {
-        const obj = this.valueOf();
-    
-        if (obj === null || typeof obj != "object") { // Neither an array nor an object
-            return obj;
-        }
-    
-        if (Array.isArray(obj)) { // Is an array
-            const arrIsolated = [];
-            obj.forEach((item, index) => {
-                arrIsolated[index] = item.isolate();
-            });
-            return arrIsolated;
-        }
-    
-        const objIsolated = {}; // Is an object
-        Object.keys(obj).forEach(key => {
-            objIsolated[key] = obj[key].isolate();
-        });
-        return objIsolated;
+Object.prototype.nonEnum("isolate", function () {
+    const obj = this.valueOf();
+
+    if (obj === null || typeof obj != "object") { // Neither an array nor an object
+        return obj;
     }
+
+    if (Array.isArray(obj)) { // Is an array
+        const arrIsolated = [];
+        obj.forEach((item, index) => {
+            arrIsolated[index] = item.isolate();
+        });
+        return arrIsolated;
+    }
+
+    const objIsolated = {}; // Is an object
+    Object.keys(obj).forEach(key => {
+        objIsolated[key] = obj[key].isolate();
+    });
+    return objIsolated;
 });
 
 /**
@@ -439,37 +433,34 @@ Object.defineProperty(Object.prototype, "isolate", {
  * @returns {any[]} The array without (one of) the target(s)
  * @example [1, 2, 3, 4, 3].remove(3, 2) // [1, 2, 3, 4]
  */
-Object.defineProperty(Array.prototype, "remove", {
-    enumerable: false,
-    value: function (target, nth = 1) {
-        _range(nth, "%1=0 | >= 1");
-        
-        let n = 0;
-        let index;
-        for (let i = 0; i < this.length; i++) {
-            if (this[i] == target) {
-                n++;
-            }
-            if (n == nth) {
-                index = i;
-                break;
-            }
-            if (i == this.length - 1 && n < nth) {
-                return this.isolate();
-            }
-        }
+Array.prototype.nonEnum("remove", function (target, nth = 1) {
+    _range(nth, "%1=0 | >= 1");
     
-        const returnArray = [];
-    
-        for (let i = 0; i < index; i++) { // Push value that is before index
-            returnArray.push(this[i]);
+    let n = 0;
+    let index;
+    for (let i = 0; i < this.length; i++) {
+        if (this[i] == target) {
+            n++;
         }
-        for (let i = index + 1; i < this.length; i++) { // Push value that is after index
-            returnArray.push(this[i]);
+        if (n == nth) {
+            index = i;
+            break;
         }
-    
-        return returnArray;
+        if (i == this.length - 1 && n < nth) {
+            return this.isolate();
+        }
     }
+
+    const returnArray = [];
+
+    for (let i = 0; i < index; i++) { // Push value that is before index
+        returnArray.push(this[i]);
+    }
+    for (let i = index + 1; i < this.length; i++) { // Push value that is after index
+        returnArray.push(this[i]);
+    }
+
+    return returnArray;
 });
 
 /**
@@ -478,13 +469,10 @@ Object.defineProperty(Array.prototype, "remove", {
  * @returns {number} How many targets are in the string
  * @example "Hello, World".getCountOf("l") // 3
  */
-Object.defineProperty(String.prototype, "getCountOf", {
-    enumerable: false,
-    value: function (target) {
-        const splitString = this.split(target);
-    
-        return splitString.length - 1;
-    }
+String.prototype.nonEnum("getCountOf", function (target) {
+    const splitString = this.split(target);
+
+    return splitString.length - 1;
 });
 
 // JS COMMANDS / NUMERAL
@@ -549,15 +537,12 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
  * @returns {number[] | string[] | null} The number array from specified string
  * @example "589brg13d7.4gh,-2.6eru".getNum()[3] // 7.4 (It'll collect [589, 13, 7.4, -2.6])
  */
-Object.defineProperty(String.prototype, "getNum", {
-    enumerable: false,
-    value: function (doNotNumber = false) {
-        _type(doNotNumber, "boolean");
-    
-        const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
-    
-        return numbersList && (doNotNumber ? numbersList : numbersList.map(Number));
-    }
+String.prototype.nonEnum("getNum", function (doNotNumber = false) {
+    _type(doNotNumber, "boolean");
+
+    const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
+
+    return numbersList && (doNotNumber ? numbersList : numbersList.map(Number));
 });
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
@@ -568,19 +553,16 @@ Object.defineProperty(String.prototype, "getNum", {
  * @returns {number} The number kept specified decimal place(s)
  * @example (123.456).keep(2) // 123.46
  */
-Object.defineProperty(Number.prototype, "keep", {
-    enumerable: false,
-    value: function (digit = 0) {
-        _range(digit, "%1=0");
-        
-        if (!Math.abs(this).range(1e-6, 1e21)) {
-            const [mantissa, exponent] = String(this).getNum();
+Number.prototype.nonEnum("keep", function (digit = 0) {
+    _range(digit, "%1=0");
     
-            return Number(`${mantissa.keep(digit)}e${exponent}`);
-        }
-    
-        return Math.round(this * 10 ** digit) / 10 ** digit;
+    if (!Math.abs(this).range(1e-6, 1e21)) {
+        const [mantissa, exponent] = String(this).getNum();
+
+        return Number(`${mantissa.keep(digit)}e${exponent}`);
     }
+
+    return Math.round(this * 10 ** digit) / 10 ** digit;
 });
 
 /**
@@ -592,16 +574,13 @@ Object.defineProperty(Number.prototype, "keep", {
  * @returns {boolean} Is the number in the given interval
  * @example (5).range(0, 5, true, false) // false (not in [0, 5) range)
  */
-Object.defineProperty(Number.prototype, "range", {
-    enumerable: false,
-    value: function (min, max, minType = true, maxType = true) {
-        _range(min, `<= ${max}`);
-        _range(max, `>= ${min}`);
-        _type(minType, "boolean");
-        _type(maxType, "boolean");
-    
-        return (minType ? this >= min : this > min) && (maxType ? this <= max : this < max);
-    }
+Number.prototype.nonEnum("range", function (min, max, minType = true, maxType = true) {
+    _range(min, `<= ${max}`);
+    _range(max, `>= ${min}`);
+    _type(minType, "boolean");
+    _type(maxType, "boolean");
+
+    return (minType ? this >= min : this > min) && (maxType ? this <= max : this < max);
 });
 
 /**
@@ -612,17 +591,14 @@ Object.defineProperty(Number.prototype, "range", {
  * @returns {number} A percentage in range and specified number
  * @example (6).percentage(0, 10) // 0.6 (6 is the 60% in [0, 10])
  */
-Object.defineProperty(Number.prototype, "percentage", {
-    enumerable: false,
-    value: function (from, to, disableRange = false) {
-        _type(from, "number");
-        _type(to, "number");
-        _type(disableRange, "boolean");
-    
-        const range = to - from;
-    
-        return disableRange ? (this - from) / range : ((this - from) / range).toRange(0, 1);
-    }
+Number.prototype.nonEnum("percentage", function (from, to, disableRange = false) {
+    _type(from, "number");
+    _type(to, "number");
+    _type(disableRange, "boolean");
+
+    const range = to - from;
+
+    return disableRange ? (this - from) / range : ((this - from) / range).toRange(0, 1);
 });
 
 /**
@@ -633,17 +609,14 @@ Object.defineProperty(Number.prototype, "percentage", {
  * @returns {number} A number in range and specified percentage
  * @example (0.6).transit(0, 10) // 6 (The 60% of  [0, 10] is 6)
  */
-Object.defineProperty(Number.prototype, "transit", {
-    enumerable: false,
-    value: function (from, to, disableRange = false) {
-        _type(from, "number");
-        _type(to, "number");
-        _type(disableRange, "boolean");
-    
-        const range = to - from;
-    
-        return disableRange ? this * range + from : this.toRange(0, 1) * range + from;
-    }
+Number.prototype.nonEnum("transit", function (from, to, disableRange = false) {
+    _type(from, "number");
+    _type(to, "number");
+    _type(disableRange, "boolean");
+
+    const range = to - from;
+
+    return disableRange ? this * range + from : this.toRange(0, 1) * range + from;
 });
 
 /**
@@ -655,17 +628,14 @@ Object.defineProperty(Number.prototype, "transit", {
  * @returns {number} The number been parsed into range
  * @example (120).toRange(0, 100) // 100 (120 is out of [0, 100], so output 100)
  */
-Object.defineProperty(Number.prototype, "toRange", {
-    enumerable: false,
-    value: function (minBoundary, maxBoundary, warnIfWorked = false) {
-        _range(minBoundary, `<= ${maxBoundary}`);
-        _range(maxBoundary, `>= ${minBoundary}`);
-        _type(warnIfWorked, "boolean");
+Number.prototype.nonEnum("toRange", function (minBoundary, maxBoundary, warnIfWorked = false) {
+    _range(minBoundary, `<= ${maxBoundary}`);
+    _range(maxBoundary, `>= ${minBoundary}`);
+    _type(warnIfWorked, "boolean");
     
-        if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
+    if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
     
-        return Math.min(Math.max(this, minBoundary), maxBoundary);
-    }
+    return Math.min(Math.max(this, minBoundary), maxBoundary);
 });
 
 /**
@@ -675,63 +645,60 @@ Object.defineProperty(Number.prototype, "toRange", {
  * @returns {string} The number string parsed into another base
  * @example "CHIWACHIRASE".transBase(36, 10) // "1643534305147807070"
 */
-Object.defineProperty(String.prototype, "transBase", {
-    enumerable: false,
-    value: function (fromBase, toBase) {
-        if (toBase == undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
-        if (this.match(/\.[0-9]/g)) { throw new RangeError(`%1=0 required; received ${this}`); }
-        if (this.match(/-[^0]/g)) { throw new RangeError(`>= 0 required; received ${this}`); }
-        _range(fromBase, "%1=0 | >= 2 | <= 36");
-        _range(toBase, "%1=0 | >= 2 | <= 36");
-        
-        const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+String.prototype.nonEnum("transBase", function (fromBase, toBase) {
+    if (toBase == undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
+    if (this.match(/\.[0-9]/g)) { throw new RangeError(`%1=0 required; received ${this}`); }
+    if (this.match(/-[^0]/g)) { throw new RangeError(`>= 0 required; received ${this}`); }
+    _range(fromBase, "%1=0 | >= 2 | <= 36");
+    _range(toBase, "%1=0 | >= 2 | <= 36");
     
-        if (fromBase == 10) {
-            const firstIsAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
-            if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base ${fromBase}`); }
-    
-            const modList = [];
-            let nowRemaining = BigInt(this.toUpperCase().replaceAll(".", ""));
-            
-            while (nowRemaining != 0n) {
-                modList.push(String(nowRemaining % BigInt(toBase)));
-                nowRemaining /= BigInt(toBase);
-            }
-            if (!modList[0]) { modList.push(0); }
+    const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+    if (fromBase == 10) {
+        const firstIsAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
+        if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base ${fromBase}`); }
+
+        const modList = [];
+        let nowRemaining = BigInt(this.toUpperCase().replaceAll(".", ""));
         
-            modList.reverse();
-            modList.forEach((number, index) => {
-                modList[index] = numberList[number];
-            });
-        
-            return modList.join("");
+        while (nowRemaining != 0n) {
+            modList.push(String(nowRemaining % BigInt(toBase)));
+            nowRemaining /= BigInt(toBase);
         }
-        
-        if (toBase == 10) {
-            const digits = this.toUpperCase().replaceAll(".", "").split("");
-            const equalDigits = [];
-            const digitWeight = [];
-            
-            digits.forEach(digit => {
-                const equalValue = BigInt(numberList.indexOf(digit));
-                try { _range(equalValue, `< ${fromBase}`); } catch { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
-                
-                equalDigits.push(equalValue);
-            });
-            for (let i = 0n; i < this.length; i++) {
-                digitWeight.unshift(BigInt(fromBase) ** i);
-            }
-            
-            let result = 0n;
-            for (let i = 0; i < this.length; i++) {
-                result += equalDigits[i] * digitWeight[i];
-            }
-            
-            return String(result);
-        }
+        if (!modList[0]) { modList.push(0); }
     
-        return this.valueOf().transBase(fromBase, 10).transBase(10, toBase);
+        modList.reverse();
+        modList.forEach((number, index) => {
+            modList[index] = numberList[number];
+        });
+    
+        return modList.join("");
     }
+    
+    if (toBase == 10) {
+        const digits = this.toUpperCase().replaceAll(".", "").split("");
+        const equalDigits = [];
+        const digitWeight = [];
+        
+        digits.forEach(digit => {
+            const equalValue = BigInt(numberList.indexOf(digit));
+            try { _range(equalValue, `< ${fromBase}`); } catch { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
+            
+            equalDigits.push(equalValue);
+        });
+        for (let i = 0n; i < this.length; i++) {
+            digitWeight.unshift(BigInt(fromBase) ** i);
+        }
+        
+        let result = 0n;
+        for (let i = 0; i < this.length; i++) {
+            result += equalDigits[i] * digitWeight[i];
+        }
+        
+        return String(result);
+    }
+
+    return this.valueOf().transBase(fromBase, 10).transBase(10, toBase);
 });
 
 /**
@@ -742,27 +709,21 @@ Object.defineProperty(String.prototype, "transBase", {
  * @returns {string} The number string parsed into another base
  * @example (601).toBase(16) // "259" (turned 601 into 0x259)
  */
-Object.defineProperty(Number.prototype, "toBase", {
-    enumerable: false,
-    value: function (base, _) {
-        if (_ != undefined) { throw new TypeError("When using Number.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
-        _range(this.valueOf(), "%1=0 | >= 0");
-        _range(base, "%1=0 | >= 2 | <= 36");
+Number.prototype.nonEnum("toBase", function (base, _) {
+    if (_ != undefined) { throw new TypeError("When using Number.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
+    _range(this.valueOf(), "%1=0 | >= 0");
+    _range(base, "%1=0 | >= 2 | <= 36");
     
-        if (this > Number.MAX_SAFE_INTEGER || this < Number.MIN_SAFE_INTEGER) { warn(`${this} reaches the safe integer, which may cause precision loss. If available, use BigInt or String instead.`); }
+    if (this > Number.MAX_SAFE_INTEGER || this < Number.MIN_SAFE_INTEGER) { warn(`${this} reaches the safe integer, which may cause precision loss. If available, use BigInt or String instead.`); }
     
-        return String(this).transBase(10, base);
-    }
+    return String(this).transBase(10, base);
 });
-Object.defineProperty(BigInt.prototype, "toBase", {
-    enumerable: false,
-    value: function (base, _) {
-        if (_ != undefined) { throw new TypeError("When using BigInt.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
-        _range(this.valueOf(), "%1=0 | >= 0");
-        _range(base, "%1=0 | >= 2 | <= 36");
+BigInt.prototype.nonEnum("toBase", function (base, _) {
+    if (_ != undefined) { throw new TypeError("When using BigInt.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
+    _range(this.valueOf(), "%1=0 | >= 0");
+    _range(base, "%1=0 | >= 2 | <= 36");
     
-        return String(this).transBase(10, base);
-    }
+    return String(this).transBase(10, base);
 });
 
 // HTML ELEMENTS
