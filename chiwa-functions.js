@@ -39,7 +39,7 @@
  */
 function chiwa() {
     log(`Chiwa Functions is available in current session.`);
-    if (typeof global != "undefined") { warn(`You are running Chiwa Functions in Node.js environment. Some functions are unavailable.`); }
+    if (typeof document == "undefined") { warn(`You are running Chiwa Functions in Node.js environment. Some functions are unavailable.`); }
 }
 
 // GLOBAL USAGE
