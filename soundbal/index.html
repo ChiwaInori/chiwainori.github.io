@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -41,23 +40,23 @@
         <p class="ANT">&quot;音量平衡工具 - ChiwaInori.top&quot; 仅为一款处理音频的工具，不负责、承担任何的版权问题。您的音频版权取决于音频自身的版权方，在使用音频前请确保本人已悉知该音频本身相关的版权事项，如若由此产生任何纠纷，ChiwaInori.top 概不负责。</p>
     </div>
     <script>
-        const fileInput = target("audioFile");
-        const audioPlayer = target("audioPlayer");
+        const fileInput = cws("#audioFile").el;
+        const audioPlayer = cws("#audioPlayer").el;
 
         const defaultTarget = 90;
 
         let musicFile;
         let musicName;
         let targetVolume = dB2Linear(defaultTarget); // 0.2 86.02059991327963
-        target("volume").value = defaultTarget;
-        target("audioFile").addEventListener("input", () => {
+        cws("#volume").el.value = defaultTarget;
+        cws("#audioFile").el.addEventListener("input", () => {
             musicFile = fileInput.files[0];
             musicName = fileInput.files[0].name;
             fadeChange("chooseFile", "targetVolume");
         });
-        target("volume").addEventListener("input", function () {
+        cws("#volume").el.addEventListener("input", function () {
             if (+this.value >= 0) {
-                target("deal").disabled = false;
+                cws("#deal").el.disabled = false;
                 targetVolume = dB2Linear(+this.value);
             }
         });
@@ -119,7 +118,7 @@
                         const blob = new Blob([new DataView(wav)], { type: "audio/wav" });
                         const url = URL.createObjectURL(blob);
 
-                        unhide("finalAudio");
+                        cws("#finalAudio").unhide();
                     
                         audioPlayer.src = url;
                         audioPlayer.play();

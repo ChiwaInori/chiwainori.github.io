@@ -24,7 +24,6 @@
         }
     </style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body id="body"><div class="mainBody">
@@ -148,52 +147,52 @@
             targets.forEach(target => {
                 spaces.forEach(space => {
                     if (colorspace == space) {
-                        unhide(`${target}-${space}`);
+                        cws(`#${target}-${space}`).unhide();
                     } else {
-                        hide(`${target}-${space}`);
+                        cws(`#${target}-${space}`).hide();
                     }
                 });
             });
         }
 
         function changeColor() {
-            if (!isHidden("choose-rgb")) { nowControlling = "RGB"; }
-            if (!isHidden("choose-cmyk")) { nowControlling = "CMYK"; }
-            if (!isHidden("choose-hsv")) { nowControlling = "HSV"; }
-            if (!isHidden("choose-hsl")) { nowControlling = "HSL"; }
+            if (!cws("#choose-rgb").hidden) { nowControlling = "RGB"; }
+            if (!cws("#choose-cmyk").hidden) { nowControlling = "CMYK"; }
+            if (!cws("#choose-hsv").hidden) { nowControlling = "HSV"; }
+            if (!cws("#choose-hsl").hidden) { nowControlling = "HSL"; }
 
             if (nowControlling == "RGB") {
-                rgb.r = Number(copyValue("rgb-r"));
-                rgb.g = Number(copyValue("rgb-g"));
-                rgb.b = Number(copyValue("rgb-b"));
+                rgb.r = Number(cws("#rgb-r").value);
+                rgb.g = Number(cws("#rgb-g").value);
+                rgb.b = Number(cws("#rgb-b").value);
 
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
                 hsv = RGB2HSV(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "CMYK") {
-                cmyk.c = Number(copyValue("cmyk-c"));
-                cmyk.m = Number(copyValue("cmyk-m"));
-                cmyk.y = Number(copyValue("cmyk-y"));
-                cmyk.k = Number(copyValue("cmyk-k"));
+                cmyk.c = Number(cws("#cmyk-c").value);
+                cmyk.m = Number(cws("#cmyk-m").value);
+                cmyk.y = Number(cws("#cmyk-y").value);
+                cmyk.k = Number(cws("#cmyk-k").value);
 
                 rgb = CMYK2RGB(cmyk.c, cmyk.m, cmyk.y, cmyk.k);
                 hsv = RGB2HSV(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "HSV") {
-                hsv.h = Number(copyValue("hsv-h"));
-                hsv.s = Number(copyValue("hsv-s"));
-                hsv.v = Number(copyValue("hsv-v"));
+                hsv.h = Number(cws("#hsv-h").value);
+                hsv.s = Number(cws("#hsv-s").value);
+                hsv.v = Number(cws("#hsv-v").value);
 
                 rgb = HSV2RGB(hsv.h, hsv.s, hsv.v);
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "HSL") {
-                hsl.h = Number(copyValue("hsl-h"));
-                hsl.s = Number(copyValue("hsl-s"));
-                hsl.l = Number(copyValue("hsl-l"));
+                hsl.h = Number(cws("#hsl-h").value);
+                hsl.s = Number(cws("#hsl-s").value);
+                hsl.l = Number(cws("#hsl-l").value);
 
                 rgb = HSL2RGB(hsl.h, hsl.s, hsl.l);
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
@@ -219,78 +218,78 @@
             if (hsl.h == 360) { hsl.h = 0; }
             
             // Paint ColorBlock
-            styleTo("colorBlock", `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`);
+            cws("#colorBlock").style = `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`;
 
             if (rgb.r.range(116, 156) && rgb.g.range(116, 156) && rgb.b.range(116, 156)) {
-                styleTo("mainBody", `background-color: #222222;`, "class");
+                applyAll(".mainBody", el => cws(el).style = `background-color: #222222;`);
             } else {
-                styleTo("mainBody", `background-color: #888888;`, "class");
+                applyAll(".mainBody", el => cws(el).style = `background-color: #888888;`);
             }
 
             // Update everyone's color
 
             // RGB
-            target("rgb-r").value = rgb.r;
-            target("rgb-g").value = rgb.g;
-            target("rgb-b").value = rgb.b;
+            cws("#rgb-r").el.value = rgb.r;
+            cws("#rgb-g").el.value = rgb.g;
+            cws("#rgb-b").el.value = rgb.b;
 
-            copyTo("rgb-r-value", `${rgb.r} / ${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}`);
-            copyTo("rgb-g-value", `${rgb.g} / ${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}`);
-            copyTo("rgb-b-value", `${rgb.b} / ${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`);
-            copyTo("code-rgb", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) / #${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`);
+            cws("#rgb-r-value").html = `${rgb.r} / ${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}`;
+            cws("#rgb-g-value").html = `${rgb.g} / ${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}`;
+            cws("#rgb-b-value").html = `${rgb.b} / ${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
+            cws("#code-rgb").html = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) / #${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
 
-            colorTo("rgb-r-value", `rgb(${rgb.r}, 0, 0)`);
-            colorTo("rgb-g-value", `rgb(0, ${rgb.g}, 0)`);
-            colorTo("rgb-b-value", `rgb(0, 0, ${rgb.b})`);
-            colorTo("code-rgb", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+            cws("#rgb-r-value").color = `rgb(${rgb.r}, 0, 0)`;
+            cws("#rgb-g-value").color = `rgb(0, ${rgb.g}, 0)`;
+            cws("#rgb-b-value").color = `rgb(0, 0, ${rgb.b})`;
+            cws("#code-rgb").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // CMYK
-            target("cmyk-c").value = cmyk.c;
-            target("cmyk-m").value = cmyk.m;
-            target("cmyk-y").value = cmyk.y;
-            target("cmyk-k").value = cmyk.k;
+            cws("#cmyk-c").el.value = cmyk.c;
+            cws("#cmyk-m").el.value = cmyk.m;
+            cws("#cmyk-y").el.value = cmyk.y;
+            cws("#cmyk-k").el.value = cmyk.k;
 
-            copyTo("cmyk-c-value", cmyk.c);
-            copyTo("cmyk-m-value", cmyk.m);
-            copyTo("cmyk-y-value", cmyk.y);
-            copyTo("cmyk-k-value", cmyk.k);
-            copyTo("code-cmyk", `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k})`);
+            cws("#cmyk-c-value").html = cmyk.c;
+            cws("#cmyk-m-value").html = cmyk.m;
+            cws("#cmyk-y-value").html = cmyk.y;
+            cws("#cmyk-k-value").html = cmyk.k;
+            cws("#code-cmyk").html = `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k})`;
 
-            colorTo("cmyk-c-value", `rgb(${CMYK2RGB(cmyk.c, 0, 0, 0)["r"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["g"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["b"]})`);
-            colorTo("cmyk-m-value", `rgb(${CMYK2RGB(0, cmyk.m, 0, 0)["r"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["g"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["b"]})`);
-            colorTo("cmyk-y-value", `rgb(${CMYK2RGB(0, 0, cmyk.y, 0)["r"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["g"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["b"]})`);
-            colorTo("cmyk-k-value", `rgb(${CMYK2RGB(0, 0, 0, cmyk.k)["r"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["g"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["b"]})`);
-            colorTo("code-cmyk", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+            cws("#cmyk-c-value").color = `rgb(${CMYK2RGB(cmyk.c, 0, 0, 0)["r"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["g"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["b"]})`;
+            cws("#cmyk-m-value").color = `rgb(${CMYK2RGB(0, cmyk.m, 0, 0)["r"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["g"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["b"]})`;
+            cws("#cmyk-y-value").color = `rgb(${CMYK2RGB(0, 0, cmyk.y, 0)["r"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["g"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["b"]})`;
+            cws("#cmyk-k-value").color = `rgb(${CMYK2RGB(0, 0, 0, cmyk.k)["r"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["g"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["b"]})`;
+            cws("#code-cmyk").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // HSV
-            target("hsv-h").value = hsv.h;
-            target("hsv-s").value = hsv.s;
-            target("hsv-v").value = hsv.v;
+            cws("#hsv-h").el.value = hsv.h;
+            cws("#hsv-s").el.value = hsv.s;
+            cws("#hsv-v").el.value = hsv.v;
 
-            copyTo("hsv-h-value", `${hsv.h}°`);
-            copyTo("hsv-s-value", hsv.s);
-            copyTo("hsv-v-value", hsv.v);
-            copyTo("code-hsv", `hsv(${hsv.h}, ${hsv.s}, ${hsv.v})`);
+            cws("#hsv-h-value").html = `${hsv.h}°`;
+            cws("#hsv-s-value").html = hsv.s;
+            cws("#hsv-v-value").html = hsv.v;
+            cws("#code-hsv").html = `hsv(${hsv.h}, ${hsv.s}, ${hsv.v})`;
 
-            colorTo("hsv-h-value", `rgb(${HSV2RGB(hsv.h, 100, 100)["r"]}, ${HSV2RGB(hsv.h, 100, 100)["g"]}, ${HSV2RGB(hsv.h, 100, 100)["b"]})`);
-            colorTo("hsv-s-value", `rgb(${hsv.s.percentage(0, 100).transit(204, 0)}, ${hsv.s.percentage(0, 100).transit(204, 255)}, ${hsv.s.percentage(0, 100).transit(204, 255)})`);
-            colorTo("hsv-v-value", `rgb(0, ${hsv.v.percentage(0, 100).transit(0, 255)}, ${hsv.v.percentage(0, 100).transit(0, 255)})`);
-            colorTo("code-hsv", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+            cws("#hsv-h-value").color = `rgb(${HSV2RGB(hsv.h, 100, 100)["r"]}, ${HSV2RGB(hsv.h, 100, 100)["g"]}, ${HSV2RGB(hsv.h, 100, 100)["b"]})`;
+            cws("#hsv-s-value").color = `rgb(${hsv.s.percentage(0, 100).transit(204, 0)}, ${hsv.s.percentage(0, 100).transit(204, 255)}, ${hsv.s.percentage(0, 100).transit(204, 255)})`;
+            cws("#hsv-v-value").color = `rgb(0, ${hsv.v.percentage(0, 100).transit(0, 255)}, ${hsv.v.percentage(0, 100).transit(0, 255)})`;
+            cws("#code-hsv").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // HSL
-            target("hsl-h").value = hsl.h;
-            target("hsl-s").value = hsl.s;
-            target("hsl-l").value = hsl.l;
+            cws("#hsl-h").el.value = hsl.h;
+            cws("#hsl-s").el.value = hsl.s;
+            cws("#hsl-l").el.value = hsl.l;
 
-            copyTo("hsl-h-value", `${hsl.h}°`);
-            copyTo("hsl-s-value", hsl.s);
-            copyTo("hsl-l-value", hsl.l);
-            copyTo("code-hsl", `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`);
+            cws("#hsl-h-value").html = `${hsl.h}°`;
+            cws("#hsl-s-value").html = hsl.s;
+            cws("#hsl-l-value").html = hsl.l;
+            cws("#code-hsl").html = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
 
-            colorTo("hsl-h-value", `rgb(${HSL2RGB(hsl.h, 100, 50)["r"]}, ${HSL2RGB(hsl.h, 100, 50)["g"]}, ${HSL2RGB(hsl.h, 100, 50)["b"]})`);
-            colorTo("hsl-s-value", `rgb(${hsl.s.percentage(0, 100).transit(204, 0)}, ${hsl.s.percentage(0, 100).transit(204, 255)}, ${hsl.s.percentage(0, 100).transit(204, 255)})`);
-            colorTo("hsl-l-value", `rgb(${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)})`);
-            colorTo("code-hsl", `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+            cws("#hsl-h-value").color = `rgb(${HSL2RGB(hsl.h, 100, 50)["r"]}, ${HSL2RGB(hsl.h, 100, 50)["g"]}, ${HSL2RGB(hsl.h, 100, 50)["b"]})`;
+            cws("#hsl-s-value").color = `rgb(${hsl.s.percentage(0, 100).transit(204, 0)}, ${hsl.s.percentage(0, 100).transit(204, 255)}, ${hsl.s.percentage(0, 100).transit(204, 255)})`;
+            cws("#hsl-l-value").color = `rgb(${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)})`;
+            cws("#code-hsl").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
         }
 
         function RGB2CMYK(r, g, b) {

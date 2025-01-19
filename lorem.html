@@ -30,6 +30,7 @@
         }
     </style>
     <script src="/chiwa-functions.js"></script>
+    <script src="/old/js/inori/inori-compatible-init.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -70,7 +71,7 @@
         <p>这是一个被禁用的输入栏<input value="你不能在此输入文字" disabled="true" /></p>
         <p>这是其他样式的输入<input type="checkbox" /><input type="range" /><input type="color" /><input type="date" /><input type="datetime-local"/></p>
         <p>这是一组单选选项<input type="radio" name="singleChoice" /><input type="radio" name="singleChoice" />这是另一组单选选项<input type="radio" name="anotherChoice" /><input type="radio" name="anotherChoice" /></p>
-        <p>ChiwaInori.top 有 2 类页面布局: <input type="radio" name="layoutType" onclick="query('link')[2].href = '/css/type-normal.css';" checked /><ruby>常规布局<rt>normal</rt></ruby> | <input type="radio" name="layoutType"onclick="query('link')[2].href = '/css/type-center.css';"  /><ruby>中心布局<rt>center</rt></ruby></p>
+        <p>ChiwaInori.top 有 2 类页面布局: <input type="radio" name="layoutType" onclick="cws('link', 2).el.href = '/css/type-normal.css';" checked /><ruby>常规布局<rt>normal</rt></ruby> | <input type="radio" name="layoutType"onclick="cws('link', 2).el.href = '/css/type-center.css';"  /><ruby>中心布局<rt>center</rt></ruby></p>
         <p>这是一个下拉菜单
             <select>
                 <option value="choice1">这是第一个选项</option>

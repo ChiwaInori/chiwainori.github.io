@@ -23,9 +23,9 @@
         Numeral (10): 
             Get Numbers (3): rand, seed, String.p.getNum
             Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
-    HTML Elements (8):
+    HTML Elements (9):
         ChiwaSet (6): { (accessible attributes), hide, unhide, transColor, fadeOut, fadeIn }, cws
-        Accessibility (2): applyAll, fadeChange
+        Accessibility (3): query, applyAll, fadeChange
     Save & Load (3): save, load, loadJSON
 */
 
@@ -140,7 +140,7 @@ function overload(time) {
 Object.defineProperty(Object.prototype, "nonEnum", {
     value: function (key, value) {
         _type(key, "string");
-        
+
         Object.defineProperty(this, key, { value, enumerable: false });
     },
     enumerable: false
@@ -165,16 +165,16 @@ function navigate() {
     };
 
     const urlSplit = window.location.href.split("/").slice(3, -1);
-    if (!urlSplit[0] || !query(".navigation")[0]) { return; }
+    if (!urlSplit[0] || !cws(".navigation").el) { return; }
 
-    let string = query(".title h1")[0].innerHTML;
+    let string = cws(".title h1").el.innerHTML;
 
     for (let i = urlSplit.length - 1; i >= 0; i--) {
         string = `${i == 0 ? "" : " &gt; "}${i == urlSplit.length - 1 ? "" : `<a href="${"../".repeat(urlSplit.length - i - 1)}">${dict[urlSplit[i]] || dict[`_${urlSplit[i]}`] || urlSplit[i]}</a>`}${string}`;
     }
     string = `<a href="${host()}">ChiwaInori.top</a> &gt; ${string}`;
 
-    query(".navigation h6")[0].innerHTML = string;
+    cws(".navigation h6").el.innerHTML = string;
 }
 window.addEventListener("load", navigate);
 */
@@ -190,34 +190,19 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
         event.preventDefault();
     }
 
-    if (cnText == "_toCN") {
-        target("cnSeizure").showModal();
-        target("enSeizure").close();
-        target("jpSeizure").close();
+    if (cnText[0] == "_") {
+        applyAll(".SEIZURE", el => cws(el).el.close());
+        if (cnText != "_close") {
+            cws(`#${cnText[3]}${cnText[4]}Seizure`).el.showModal();
+        } else {
+            document.body.style.overflow = "";
+            window.removeEventListener("scroll", preventScroll);
+            cws(".mainBody").el.style.filter = "brightness(1)";
+        }
+        return;
     }
-    if (cnText == "_toEN") {
-        target("cnSeizure").close();
-        target("enSeizure").showModal();
-        target("jpSeizure").close();
-    }
-    if (cnText == "_toJP") {
-        target("cnSeizure").close();
-        target("enSeizure").close();
-        target("jpSeizure").showModal();
-    }
-    if (cnText == "_close") {
-        target("cnSeizure").close();
-        target("enSeizure").close();
-        target("jpSeizure").close();
 
-        document.body.style.overflow = "";
-        window.removeEventListener("scroll", preventScroll);
-
-        query(".mainBody")[0].style.filter = "brightness(1)";
-    }
-    if (cnText[0] == "_") { return; }
-
-    query("body")[0].innerHTML += 
+    cws("body").html += 
         `<dialog id="cnSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
             <p>${cnText}</p>
@@ -249,7 +234,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     
     document.body.style.overflow = "hidden";
     window.addEventListener("scroll", preventScroll, { passive: false });
-    query(".mainBody")[0].style.filter = "brightness(0.7)";
+    cws(".mainBody").style.filter = "brightness(0.7)";
 
     seizure("_toCN");
 }
@@ -262,16 +247,12 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
  */
 function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> いのり") {
     _range(startYear, "%1=0");
-    if (!target("copyright")) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
+    if (!cws("#copyright").el) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    _range(startYear, `%1=0 | <= ${new Date().getFullYear()}`);
+    _range(startYear, `%1=0 | <= ${thisYear}`);
 
-    if (startYear == thisYear) {
-        copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
-    } else {
-        copyTo("copyright", `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`);
-    }
+    cws("#copyright").text = `Copyright © ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
 }
 
 // GLOBAL USAGE / URL PARAM
@@ -655,8 +636,8 @@ String.prototype.nonEnum("transBase", function (fromBase, toBase) {
     const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
     if (fromBase == 10) {
-        const firstIsAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
-        if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base ${fromBase}`); }
+        const firstAlphabet = this.match(/[A-Za-z]/g)?.[0];
+        if (firstAlphabet) { throw new RangeError(`Received number ${firstAlphabet} (${numberList.indexOf(firstAlphabet)}) when parsing from base ${fromBase}`); }
 
         const modList = [];
         let nowRemaining = BigInt(this.toUpperCase().replaceAll(".", ""));
@@ -731,36 +712,38 @@ BigInt.prototype.nonEnum("toBase", function (base, _) {
 // ChiwaSet: A new class with custom information of a element. Convenient for some specified values / functions.
 class ChiwaSet {
     constructor(element, index = 0) {
-        _type(element, "string");
+        _type(element, "string | object");
         _range(index, "%1=0 | >= 0");
         
-        this.el = document.querySelectorAll(element)[index];
-        this.querier = element;
-
-        if (!this.el) { throw new ReferenceError(`Cannot find "${element}" (index ${index}) in page`); }
+        this.el = element instanceof HTMLElement ? element : document.querySelectorAll(element)[index] ?? null;
     }
 
-    // Get Editable Attributes
+    // Get / Set Editable Attributes
     get html() { return this.el.innerHTML; }
+    set html(value) { this.el.innerHTML = value; }
+
     get text() { return this.el.innerText; }
-    get style() { return this.el.style.cssText; }
-    get color() { return this.el.style.color; }
-    get value() { return this.el.value || null; }
-    get checked() { return this.el.checked || null; }
-    get disabled() { return this.el.disabled || null; }
+    set text(value) { this.el.innerText = value; }
+
+    get style() { return this.el.style; }
+    set style(value) { this.el.style = value; }
+
+    get color() { return this.style.color; }
+    set color(value) { this.style.color = value; }
+
+    get value() { return this.el.value ?? null; }
+    set value(value) { this.el.value = value; }
+
+    get checked() { return this.el.checked ?? null; }
+    set checked(value) { this.el.checked = value; }
+
+    get disabled() { return this.el.disabled ?? null; }
+    set disabled(value) { this.el.disabled = value; }
     
     // Get Uneditable Attributes
-    get hidden() { return this.el.style.display == "none" || this.el.style.opacity == "0" || this.el.hidden && this.el.style.display == ""; }
+    get hidden() { return this.style.display == "none" || this.style.opacity == "0" || this.el.hidden && this.style.display == ""; }
     
     // Set Editable Attributes
-    set html(value) { this.el.innerHTML = value; }
-    set text(value) { this.el.innerText = value; }
-    set style(value) { this.el.style.cssText = value; }
-    // Another: set hide(value) { this.el.style.display = value == true ? "none" : value == false ? "block" : value; }
-    set color(value) { this.el.style.color = value; }
-    set value(value) { this.el.value = value; }
-    set checked(value) { this.el.checked = value; }
-    set disabled(value) { this.el.disabled = value; }
 
     // Element Functions
     // These are functions to modify element in ChiwaSet, while they were originally independent function in Inori Functions
@@ -770,7 +753,7 @@ class ChiwaSet {
      * @example { ChiwaSet }.hide() // Hide the element
      */
     hide() {
-        this.el.style.display = "none";
+        this.style.display = "none";
     }
 
     /**
@@ -780,7 +763,8 @@ class ChiwaSet {
      */
     unhide(display = "block") {
         _type(display, "string");
-        this.el.style.display = display;
+
+        this.style.display = display;
     }
 
     /**
@@ -815,7 +799,8 @@ class ChiwaSet {
         }
 
         let id = 1;
-        while (cws(`style#temp${id}`)) {
+        while (cws(`style#temp${id}`).el) {
+            log(id);
             id++;
         }
         const styleElement = document.createElement("style");
@@ -825,7 +810,7 @@ class ChiwaSet {
         this.el.classList.add(`tempTransColor${id}`);
         this.color = color;
 
-        await sleep(time);
+        await sleep(time / 1000);
 
         this.el.classList.remove(`tempTransColor${id}`);
         document.head.removeChild(styleElement);
@@ -835,31 +820,31 @@ class ChiwaSet {
      * Fade out an element.
      * @param {number} time - (>= 0) The time length of fade out
      * @param {boolean} doNotHide - Do not hide the element after fading out (keep a blank space for the element)
-     * @example { ChiwaSet }.fadeOut(200) // Fade out in 0.2s.
+     * @example { ChiwaSet }.fadeOut(undefined, 200) // Fade out in 0.2s.
      */
-    async fadeOut(time = 100, doNotHide = false) {
-        _range(time, ">= 0");
+    async fadeOut(doNotHide = false, time = 100) {
         _type(doNotHide, "boolean");
+        _range(time, ">= 0");
 
         if (time == 0) {
             if (!doNotHide) {
                 this.hide();
             }
-            this.el.style.opacity = 0;
+            this.style.opacity = 0;
         }
 
-        let nowOpacity = this.el.style.opacity != "" ? Number(this.el.style.opacity) : 1;
+        let nowOpacity = this.style.opacity != "" ? Number(this.style.opacity) : 1;
 
         while (nowOpacity > 0) {
             nowOpacity -= 0.05;
-            this.el.style.opacity = nowOpacity;
+            this.style.opacity = nowOpacity;
             await sleep(time / 20);
         }
         if (nowOpacity <= 0) {
             if (!doNotHide) {
                 this.hide();
             }
-            this.el.style.opacity = 0;
+            this.style.opacity = 0;
         }
     }
 
@@ -878,16 +863,16 @@ class ChiwaSet {
             return;
         }
 
-        let nowOpacity = this.el.style.opacity != "" ? Number(this.el.style.opacity) : 0;
+        let nowOpacity = this.style.opacity != "" ? Number(this.style.opacity) : 0;
 
-        if (this.el.style.display == "none" || cws(`${this.querier}[hidden]`)) {
+        if (this.style.display == "none" || this.el.hidden) {
             this.unhide(display);
-            this.el.style.opacity = 0;
+            this.style.opacity = 0;
         }
 
         while (nowOpacity < 1) {
             nowOpacity += 0.05;
-            this.el.style.opacity = nowOpacity;
+            this.style.opacity = nowOpacity;
             await sleep(time / 20);
         }
     }
@@ -897,19 +882,14 @@ class ChiwaSet {
 
 /**
  * Get a ChiwaSet of target element.
- * @param {string} element - The query string of element
+ * @param {string | object} element - The query string of element or an element
  * @param {number} index - (%1=0 | >= 0) The nth specified target to get
  * @returns {ChiwaSet} A ChiwaSet with common attributes.
- * @example cs("h1") // Get a ChiwaSet of the first h1 in page
+ * @example cws("h1") // Get a ChiwaSet of the first h1 in page
  */
 function cws(element, index = 0) {
-    _type(element, "string");
+    _type(element, "string | object");
     _range(index, "%1=0 | >= 0");
-
-    if (!document.querySelectorAll(element)[index]) {
-        warn(`Cannot find "${element}" (index ${index}) in page. Returning null.`);
-        return null;
-    }
 
     return new ChiwaSet(element, index);
 }
@@ -917,10 +897,23 @@ function cws(element, index = 0) {
 // HTML ELEMENTS / ACCESSIBILITY
 
 /**
+ * Return queried element(s) in HTML.
+ * Do not forget to add [x] to get specified element because it returns a NodeList.
+ * @param {string} element - The query input of target element
+ * @returns {NodeList} The element(s) in HTML
+ * @example query(".paragraph") // List out all elements of .paragraph
+ */
+function query(element) {
+    _type(element, "string");
+
+    return document.querySelectorAll(element);
+}
+
+/**
  * Apply modifications to all queried element(s). It has same actions to query(element).forEach.
  * @param {string} element - The query input of target element
  * @param {function} callback - What should all queried elements do
- * @example applyAll("p", (element, index) => { element.innerHTML = `${index + 1}. ${element.innerHTML}`; }) // Add a index number to all p
+ * @example applyAll("p", (el, i) => cws(el).text = `${i + 1}. ${cws(el).text}`) // Add a index number to all p
  */
 function applyAll(element, callback) {
     _type(element, "string");
@@ -949,12 +942,11 @@ async function fadeChange(outElement, inElement, display = "block", time = 200) 
 
     if (time == 0) {
         cws(`#${outElement}`).hide();
-        hide(outElement);
         cws(`#${inElement}`).unhide(display);
         return;
     }
 
-    cws(`#${outElement}`).fadeOut(time / 2);
+    cws(`#${outElement}`).fadeOut(undefined, time / 2);
     await sleep(time / 2 + 20);
     cws(`#${inElement}`).fadeIn(display, time / 2);
 }
@@ -992,18 +984,18 @@ function load(inputId, element = "file-content") {
     _type(inputId, "string");
     _type(element, "string");
 
-    target(inputId).addEventListener("change", event => {
+    cws(`#${inputId}`).el.addEventListener("change", event => {
         const file = event.target.files[0];
 
         if (file) {
             const reader = new FileReader();
 
             reader.onload = function (event) {
-                target(element).textContent = event.target.result;
+                cws(`#${element}`).el.textContent = event.target.result;
             };
             reader.readAsText(file);
         } else {
-            target(element).textContent = "";
+            cws(`#${element}`).el.textContent = "";
         }
     });
 }
@@ -1019,7 +1011,7 @@ function loadJSON(inputId) {
     _type(inputId, "string");
 
     return new Promise((resolve, reject) => {
-        const fileInput = target(inputId);
+        const fileInput = cws(`#${inputId}`).el;
         const file = fileInput.files[0];
 
         if (file) {

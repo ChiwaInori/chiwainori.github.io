@@ -47,7 +47,6 @@
         }
     </style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body>
@@ -148,12 +147,12 @@
             let currentPosition;
             let fontText = "现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例";
 
-            copyTo("version", currentVersion);
+            cws("#version").html = currentVersion;
 
-            target("fileInput").addEventListener("input", async () => {
+            cws("#fileInput").el.addEventListener("input", async () => {
                 loadJSON("fileInput").then(json => file = json).catch(e => {
-                    copyTo("display", e);
-                    colorTo("display", "var(--red)");
+                    cws("#display").html = e;
+                    cws("#display").color = "var(--red)";
                     return;
                 });
 
@@ -161,47 +160,47 @@
                 extractInfo();
             });
             
-            target("color-bg").addEventListener("input", function () {
+            cws("#color-bg").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--backgroundColor", `${this.value}`);
             });
-            target("color-lyric").addEventListener("input", function () {
+            cws("#color-lyric").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--lyricColor", `${this.value}`);
             });
-            target("color-active").addEventListener("input", function () {
+            cws("#color-active").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--activeColor", `${this.value}`);
             });
-            target("color-border").addEventListener("input", function () {
+            cws("#color-border").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--borderColor", `${this.value}`);
             });
             
-            target("showTitle").addEventListener("input", function () {
-                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +this.checked;
+            cws("#showTitle").el.addEventListener("input", function () {
+                cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = +this.checked;
             });
-            target("showDot").addEventListener("input", function () {
+            cws("#showDot").el.addEventListener("input", function () {
                 showDotSetting = this.checked;
             });
-            target("showCircle").addEventListener("input", function () {
+            cws("#showCircle").el.addEventListener("input", function () {
                 showCircleSetting = this.checked;
             });
-            target("showJump").addEventListener("input", function () {
+            cws("#showJump").el.addEventListener("input", function () {
                 lyricJumpSetting = this.checked;
             });
-            target("showBorder").addEventListener("input", function () {
+            cws("#showBorder").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--isBorder", `${this.value ? "4px" : "0px"}`);
             });
 
-            target("audioFile").addEventListener("change", event => {
+            cws("#audioFile").el.addEventListener("change", event => {
                 const audioFile = event.target.files[0];
                 const objectURL = URL.createObjectURL(audioFile);
 
-                target("audio").src = objectURL;
-                target("audioPreview").src = objectURL;
-                target("previewMusicButton").disabled = false;
+                cws("#audio").el.src = objectURL;
+                cws("#audioPreview").el.src = objectURL;
+                cws("#previewMusicButton").el.disabled = false;
             });
 
-            target("fontFile").addEventListener("change", function () {
-                fontText = copyFrom("fontTest");
-                copyTo("fontTest", "正在加载字体...");
+            cws("#fontFile").el.addEventListener("change", function () {
+                fontText = cws("#fontTest").html;
+                cws("#fontTest").html = "正在加载字体...";
 
                 const fileInput = this;
                 const fontFile = fileInput.files[0];
@@ -214,9 +213,9 @@
                     };
                     reader.readAsDataURL(fontFile);
                 } else {
-                    target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "inherit";
-                    query("style")[0].innerHTML += "#lyrics * { font-family: inherit; }";
-                    copyTo("fontTest", fontText);
+                    cws("#titleLine").el.style.fontFamily = cws("#fontTest").el.style.fontFamily = "inherit";
+                    cws("style", 0).el.innerHTML += "#lyrics * { font-family: inherit; }";
+                    cws("#fontTest").html = fontText;
                 }
             });
 
@@ -226,43 +225,43 @@
                 font.load().then(loadedFont => {
                     document.fonts.add(loadedFont);
 
-                    target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
-                    query("style")[0].innerHTML += "#lyrics *, #previewLyric { font-family: 'CustomFont'; }";
-                    copyTo("fontTest", fontText);
+                    cws("#titleLine").el.style.fontFamily = cws("#fontTest").el.style.fontFamily = "CustomFont";
+                    cws("style", 0).el.innerHTML += "#lyrics *, #previewLyric { font-family: 'CustomFont'; }";
+                    cws("#fontTest").html = fontText;
                 });
             }
 
             function extractInfo() {
                 const { signature, version } = file;
                 if (signature != "xtsgames-lyric") {
-                    copyTo("display", `错误的文件签名 (${signature})`);
-                    colorTo("display", "var(--red)");
+                    cws("#display").html = `错误的文件签名 (${signature})`;
+                    cws("#display").color = "var(--red)";
                     return;
                 }
                 if (version != currentVersion && !alsoAccept.includes(version)) {
-                    copyTo("display", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
-                    colorTo("display", "var(--red)");
+                    cws("#display").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
+                    cws("#display").color = "var(--red)";
                     return;
                 }
-                colorTo("display", "var(--textColor-500)");
-                hide("fileInput");
+                cws("#display").color = "var(--textColor-500)";
+                cws("#fileInput").hide();
                 
                 const { title, author, bpm } = file.musicInfo;
                 clockBase = 60 / bpm; // Beats per sec
-                query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
+                cws("title", 0).el.innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
-                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button id="startButton" onclick="playButton()">点击播放</button>`);
-                copyTo("titleLine", `"${title}" - ${author}`);
+                cws("#display").html = `已读取: "${title}" - ${author}. BPM: ${bpm}. <button id="startButton" onclick="playButton()">点击播放</button>`;
+                cws("#titleLine").html = `"${title}" - ${author}`;
 
                 updateSettings(file.settings || {});
             }
 
             function playButton() {
                 play().catch(e => {
-                    unhide("errorLine");
-                    copyTo("errorLine", `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`);
+                    cws("#errorLine").unhide();
+                    cws("#errorLine").html = `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`;
 
-                    query(".mainBody")[0].style.transition = "all 0.5s var(--transit)";
+                    cws(".mainBody", 0).el.style.transition = "all 0.5s var(--transit)";
                     updateSettings({ backgroundColor: "#ffffdd" });
 
                     throw e;
@@ -271,13 +270,13 @@
             
             async function play() {
                 const lyricArray = file.lyrics;
-                const startLyric = +copyValue("lyricStart") || 0;
+                const startLyric = +cws("#lyricStart").value || 0;
 
-                target("audio").currentTime = +copyValue("audioStart") || 0;
+                cws("#audio").el.currentTime = +cws("#audioStart").value || 0;
                 fadeChange("startup", "lyricBlock");
 
-                if (target("showDebug").checked) { unhide("debugPanel"); }
-                if (target("allowKeys").checked) {
+                if (cws("#showDebug").el.checked) { cws("#debugPanel").unhide(); }
+                if (cws("#allowKeys").el.checked) {
                     window.addEventListener("keydown", event => {
                         if (event.code == "ArrowLeft") {
                             modify(-0.25);
@@ -326,7 +325,7 @@
                                 if (notes[0][0] != "[SPACE]") { // If this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
                                     await sleep(1000);
                                 }
-                                target("audio").play().catch(() => {
+                                cws("#audio").el.play().catch(() => {
                                     warn("No audio file is selected in initial menu.");
                                 });
                             } else { // It's not the first sentence, wait because last sentence next()ed in advance
@@ -361,14 +360,14 @@
                     } else { // Yhe song is over
                         len = 1;
                         next("<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>");
-                        copyTo("controlLine", "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。");
+                        cws("#controlLine").html = "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。";
                     }
                 }
             }
 
             function getWordPos() {
                 let fontSize = 100; // Pixels
-                const horizontalTotal = target("lyricBlock").offsetWidth;
+                const horizontalTotal = cws("#lyricBlock").el.offsetWidth;
                 const words = query("#lyrics *");
                 words.forEach(element => {
                     element.style.fontSize = `${fontSize}px`;
@@ -376,7 +375,7 @@
                 
                 let width = 0;
                 for (let i = 1; i <= len; i++) {
-                    width += target(`w-${i}`).offsetWidth;
+                    width += cws(`#w-${i}`).el.offsetWidth;
                 }
                 while (width > horizontalTotal - 42 && fontSize > 10) {
                     fontSize -= 10;
@@ -385,7 +384,7 @@
                     });
                     width = 0;
                     for (let i = 1; i <= len; i++) {
-                        width += target(`w-${i}`).offsetWidth;
+                        width += cws(`#w-${i}`).el.offsetWidth;
                     }
                 }
                 
@@ -395,14 +394,14 @@
 
                 let currentX = horizontalMargin;
                 for (let i = 1; i <= len; i++) {
-                    target(`w-${i}`).style.left = `${currentX}px`;
-                    const offset = target(`w-${i}`).offsetWidth;
-                    const space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
+                    cws(`#w-${i}`).el.style.left = `${currentX}px`;
+                    const offset = cws(`#w-${i}`).el.offsetWidth;
+                    const space = cws(`#w-${i}`).el.innerHTML == " " ? 16 : 2;
                     currentX += offset + space;
                 }
 
                 // VERTICAL
-                const verticalTotal = target("lyricBlock").offsetHeight;
+                const verticalTotal = cws("#lyricBlock").el.offsetHeight;
                 const verticalUsed = fontSize * 2;
                 const verticalMargin = (verticalTotal - verticalUsed) / 2;
 
@@ -410,25 +409,25 @@
                     for (let i = 1; i <= len; i++) {
                         const f = x => Math.sqrt((len + 5) ** 2 - x ** 2);
                         const float = (len + 5 - f(i - (len / 2 + 0.5))) * 60;
-                        target(`w-${i}`).style.top = `${verticalMargin + float}px`;
+                        cws(`#w-${i}`).el.style.top = `${verticalMargin + float}px`;
                     }
 
                     // ROTATE
                     for (let i = 1; i <= len; i++) {
                         const g = x => Math.sqrt((len + 5) ** 2 - x ** 2);
                         const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 16;
-                        target(`w-${i}`).style.transform = `rotate(${degree}deg)`;
+                        cws(`#w-${i}`).el.style.transform = `rotate(${degree}deg)`;
                     }
                 } else {
                     for (let i = 1; i <= len; i++) {
-                        target(`w-${i}`).style.top = `${verticalMargin}px`;
+                        cws(`#w-${i}`).el.style.top = `${verticalMargin}px`;
                     }
                 }
             }
 
             async function jump(index, length) {
                 const jumpLength = 50;
-                const jumpTarget = target(`w-${index}`);
+                const jumpTarget = cws(`#w-${index}`).el;
                 const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum()[0] : 0;
                 const xOffset = Math.sin(targetRotation / 180 * Math.PI) * jumpLength;
                 const yOffset = Math.cos(targetRotation / 180 * Math.PI) * jumpLength;
@@ -462,7 +461,7 @@
                 });
 
                 await sleep(waitBase * 1 * 1000);
-                copyTo("lyrics", sentence);
+                cws("#lyrics").html = sentence;
                 getWordPos();
 
                 const after = query("#lyrics *");
@@ -483,66 +482,66 @@
             async function modify(value) {
                 const modifyTarget = file.lyrics[currentPosition[0]][currentPosition[1] + 1] ? [currentPosition[0], currentPosition[1] + 1] : [currentPosition[0] + 1, 0]; // If next char doesn't exist, go to next sentence
 
-                unhide("modifyResult");
+                cws("#modifyResult").unhide();
                 if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] + value >= 0) { // Normally, can increase / decrease
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] += value;
 
-                    colorTo("modifyResult", "var(--textColor-500)");
-                    copyTo("modifyResult", `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍 (目前 ${file.lyrics[modifyTarget[0]][modifyTarget[1]][1]} 拍)`);
+                    cws("#modifyResult").color = "var(--textColor-500)";
+                    cws("#modifyResult").html = `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍 (目前 ${file.lyrics[modifyTarget[0]][modifyTarget[1]][1]} 拍)`;
                 } else if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] != 0) { // If 0 < x < 0.25, only can decrease to 0
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] = 0;
 
-                    colorTo("modifyResult", "var(--textColor-500)");
-                    copyTo("modifyResult", `已 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 至 0 拍`);
+                    cws("#modifyResult").color = "var(--textColor-500)";
+                    cws("#modifyResult").html = `已 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 至 0 拍`;
                 } else { // If x == 0, cannot decrease
-                    colorTo("modifyResult", "var(--red)");
-                    copyTo("modifyResult", `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`);
+                    cws("#modifyResult").color = "var(--red)";
+                    cws("#modifyResult").html = `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`;
                 }
 
                 await sleep(200);
-                fadeOut("modifyResult", 100);
+                cws("#modifyResult").fadeOut(false, 100);
             }
 
             function updateSettings(settingsObj) {
-                unhide("settingsLine");
+                cws("#settingsLine").unhide();
 
                 if ("showTitle" in settingsObj) {
-                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +settingsObj.showTitle;
-                    target("showTitle").checked = settingsObj.showTitle;
+                    cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = +settingsObj.showTitle;
+                    cws("#showTitle").el.checked = settingsObj.showTitle;
                 } else {
-                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = 0;
+                    cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = 0;
                 }
                 if ("showDot" in settingsObj) {
                     showDotSetting = settingsObj.showDot;
-                    target("showDot").checked = settingsObj.showDot;
+                    cws("#showDot").el.checked = settingsObj.showDot;
                 }
                 if ("showCircle" in settingsObj) {
                     showCircleSetting = settingsObj.showCircle;
-                    target("showCircle").checked = settingsObj.showCircle;
+                    cws("#showCircle").el.checked = settingsObj.showCircle;
                 }
                 if ("lyricJump" in settingsObj) {
                     lyricJumpSetting = settingsObj.lyricJump;
-                    target("showJump").checked = settingsObj.showJump;
+                    cws("#showJump").el.checked = settingsObj.showJump;
                 }
                 if ("showBorder" in settingsObj) {
                     document.documentElement.style.setProperty("--isBorder", `${settingsObj.showBorder ? "4px" : "0px"}`);
-                    target("showBorder").checked = settingsObj.showBorder;
+                    cws("#showBorder").el.checked = settingsObj.showBorder;
                 }
                 if ("backgroundColor" in settingsObj) {
                     document.documentElement.style.setProperty("--backgroundColor", `${settingsObj.backgroundColor}`);
-                    setValue("color-bg", settingsObj.backgroundColor);
+                    cws("#color-bg").value = settingsObj.backgroundColor;
                 }
                 if ("lyricColor" in settingsObj) {
                     document.documentElement.style.setProperty("--lyricColor", `${settingsObj.lyricColor}`);
-                    setValue("color-lyric", settingsObj.lyricColor);
+                    cws("#color-lyric").value = settingsObj.lyricColor;
                 }
                 if ("activeColor" in settingsObj) {
                     document.documentElement.style.setProperty("--activeColor", `${settingsObj.activeColor}`);
-                    setValue("color-active", settingsObj.activeColor);
+                    cws("#color-active").value = settingsObj.activeColor;
                 }
                 if ("borderColor" in settingsObj) {
                     document.documentElement.style.setProperty("--borderColor", `${settingsObj.borderColor}`);
-                    setValue("color-border", settingsObj.borderColor);
+                    cws("#color-border").value = settingsObj.borderColor;
                 }
             }
 
@@ -550,22 +549,22 @@
                 save("xtsgames-lyrics.SONG-NAME.json", JSON.stringify(file));
             }
 
-            target("lyricStart").addEventListener("input", function () {
-                copyTo("previewLyric", "");
+            cws("#lyricStart").el.addEventListener("input", function () {
+                cws("#previewLyric").html = "";
 
                 if (file) {
                     const startLine = file.lyrics[this.value];
 
                     if (!startLine) {
-                        target("previewLyric").innerHTML += `(无效歌词行)`;
+                        cws("#previewLyric").el.innerHTML += `(无效歌词行)`;
                     } else if (!Array.isArray(startLine)) {
-                        target("previewLyric").innerHTML += `{ 歌词设置 }`;
+                        cws("#previewLyric").el.innerHTML += `{ 歌词设置 }`;
                     } else {
                         startLine.forEach(note => {
                             if (note[0] == "[SPACE]") {
-                                target("previewLyric").innerHTML += `...`;
+                                cws("#previewLyric").el.innerHTML += `...`;
                             } else {
-                                target("previewLyric").innerHTML += `${note[0]}`;
+                                cws("#previewLyric").el.innerHTML += `${note[0]}`;
                             }
                         });
                     }
@@ -573,25 +572,25 @@
             });
 
             async function previewMusic() {
-                target("audioPreview").currentTime = +copyValue("audioStart") || 0;
-                target("audioPreview").play();
-                target("previewMusicButton").disabled = true;
-                if (target("startButton")) {
-                    target("startButton").disabled = true;
+                cws("#audioPreview").el.currentTime = +cws("#audioStart").value || 0;
+                cws("#audioPreview").el.play();
+                cws("#previewMusicButton").el.disabled = true;
+                if (cws("#startButton").el) {
+                    cws("#startButton").el.disabled = true;
                 }
                 
-                copyTo("previewCD", "2");
+                cws("#previewCD").html = "2";
                 await sleep(1000);
 
-                copyTo("previewCD", "1");
+                cws("#previewCD").html = "1";
                 await sleep(1000);
 
-                target("audioPreview").pause();
-                target("previewMusicButton").disabled = false;
-                if (target("startButton")) {
-                    target("startButton").disabled = false;
+                cws("#audioPreview").el.pause();
+                cws("#previewMusicButton").el.disabled = false;
+                if (cws("#startButton").el) {
+                    cws("#startButton").el.disabled = false;
                 }
-                copyTo("previewCD", "&nbsp;&nbsp;");
+                cws("#previewCD").html = "&nbsp;&nbsp;";
             }
         </script>
     </div>

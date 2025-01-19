@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
     <script src="../opc.js"></script>
 </head>
 
@@ -71,7 +70,7 @@
         </div>
     </div>
     <script>
-        const bDay = copyFrom("birthday-text").match(/[0-9]+/g);
+        const bDay = cws("#birthday-text").html.match(/[0-9]+/g);
         getAge(bDay[0], bDay[1], bDay[2]);
     </script>
 </div></body>

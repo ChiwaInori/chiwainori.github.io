@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -37,26 +36,26 @@
     <script>
         function permissionCheck() {
             if (Notification.permission == "granted") {
-                copyTo("notificationPermissionLine", "允许 (granted)");
-                colorTo("notificationPermissionLine", "var(--green)");
-                hide("requestPermissionButton");
-                copyTo("noPermission", "为确保最佳效果, 请关闭浏览器的标签页休眠功能。");
-                colorTo("noPermission", "var(--textColor-500)");
-                styleTo("notificationContent", "opacity: 1;");
+                cws("#notificationPermissionLine").html = "允许 (granted)";
+                cws("#notificationPermissionLine").color = "var(--green)";
+                cws("#requestPermissionButton").hide();
+                cws("#noPermission").html = "为确保最佳效果, 请关闭浏览器的标签页休眠功能。";
+                cws("#noPermission").color = "var(--textColor-500)";
+                cws("#notificationContent").style = "opacity: 1;";
                 applyAll("#notificationContent button", element => element.disabled = false);
             } else { 
                 if (Notification.permission == "default") {
-                    copyTo("notificationPermissionLine", "未授权 (default)");
-                    colorTo("notificationPermissionLine", "var(--orange)");
+                    cws("#notificationPermissionLine").html = "未授权 (default)";
+                    cws("#notificationPermissionLine").color = "var(--orange)";
                 }
                 if (Notification.permission == "denied") {
-                    copyTo("notificationPermissionLine", "拒绝 (denied)");
-                    colorTo("notificationPermissionLine", "var(--red)");
-                    copyTo("noPermission", "ChiwaInori.top 没有推送通知的权限。");
-                    colorTo("noPermission", "var(--red)");
-                    hide("requestPermissionButton");
+                    cws("#notificationPermissionLine").html = "拒绝 (denied)";
+                    cws("#notificationPermissionLine").color = "var(--red)";
+                    cws("#noPermission").html = "ChiwaInori.top 没有推送通知的权限。";
+                    cws("#noPermission").color = "var(--red)";
+                    cws("#requestPermissionButton").hide();
                 }
-                styleTo("notificationContent", "opacity: 0.5;");
+                cws("#notificationContent").style = "opacity: 0.5;";
                 applyAll("#notificationContent button", element => element.disabled = true);
             }
         }
@@ -108,15 +107,15 @@
             prepareOver: [[7, 59], [9, 9], [9, 59], [10, 49], [11, 44], [11, 58], [15, 34], [16, 24], [17, 14], [19, 29], [20, 29], [21, 29], [22, 19]],
             over: [[8, 0], [9, 10], [10, 0], [10, 50], [11, 45], [11, 59], [15, 35], [16, 25], [17, 15], [19, 30], [20, 30], [21, 30], [22, 20]]
         };
-        copyTo("timeTable-prepare", timeTable.prepare.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
-        copyTo("timeTable-start", timeTable.start.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
-        copyTo("timeTable-prepareOver", timeTable.prepareOver.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
-        copyTo("timeTable-over", timeTable.over.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / "));
+        cws("#timeTable-prepare").html = timeTable.prepare.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cws("#timeTable-start").html = timeTable.start.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cws("#timeTable-prepareOver").html = timeTable.prepareOver.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cws("#timeTable-over").html = timeTable.over.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
 
         if (urlParam.getItem("offset")) {
             time.offset = Number(urlParam.getItem("offset"));
-            copyTo("offset", ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`);
-            target("saveButton").disabled = false;
+            cws("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
+            cws("#saveButton").el.disabled = false;
         }
         timeUpdate();
 
@@ -125,7 +124,7 @@
             const now = new Date().getTime();
             const diff = time.next - now;
             const currentTime = new Date(now + time.offset).toLocaleTimeString();
-            copyTo("time", currentTime);
+            cws("#time").html = currentTime;
             checkEvent(...currentTime.split(":").map(Number));
 
             await sleep(diff < 0 ? 0 : diff);
@@ -136,20 +135,20 @@
         }
 
         async function calibrate() {
-            const [h, m, s] = copyValue("calibrateInput").padEnd(6, "0").match(/.{1,2}/g).map(Number);
+            const [h, m, s] = cws("#calibrateInput").value.padEnd(6, "0").match(/.{1,2}/g).map(Number);
             const now = new Date();
             const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, s);
 
             time.offset = targetTime.getTime() - now.getTime();
-            copyTo("offset", ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`);
-            target("saveButton").disabled = false;
+            cws("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
+            cws("#saveButton").el.disabled = false;
 
             time.last = now.getTime();
             time.next = time.last + 1000;
             time.awaitNext = false;
 
             const diff = time.next - now.getTime();
-            copyTo("time", new Date(now.getTime() + time.offset).toLocaleTimeString());
+            cws("#time").html = new Date(now.getTime() + time.offset).toLocaleTimeString();
 
             await sleep(diff < 0 ? 0 : diff);
             time.last = time.next;
@@ -162,16 +161,16 @@
             const timeCheck = JSON.stringify([h, m]);
 
             if (s == 0) {
-                if (target("n-prepare").checked && JSON.stringify(timeTable.prepare).includes(timeCheck)) {
+                if (cws("#n-prepare").el.checked && JSON.stringify(timeTable.prepare).includes(timeCheck)) {
                     notification(1, timeText);
                 }
-                if (target("n-start").checked && JSON.stringify(timeTable.start).includes(timeCheck)) {
+                if (cws("#n-start").el.checked && JSON.stringify(timeTable.start).includes(timeCheck)) {
                     notification(2, timeText);
                 }
-                if (target("n-prepareOver").checked && JSON.stringify(timeTable.prepareOver).includes(timeCheck)) {
+                if (cws("#n-prepareOver").el.checked && JSON.stringify(timeTable.prepareOver).includes(timeCheck)) {
                     notification(21, timeText);
                 }
-                if (target("n-over").checked && JSON.stringify(timeTable.over).includes(timeCheck)) {
+                if (cws("#n-over").el.checked && JSON.stringify(timeTable.over).includes(timeCheck)) {
                     notification(3, timeText);
                 }
             }

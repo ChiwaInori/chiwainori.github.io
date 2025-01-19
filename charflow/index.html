@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -38,12 +37,12 @@
         let docContent = "[TYPE HERE]";
         let backwardChar = null;
 
-        target("doc").addEventListener("input", function () {
+        cws("#doc").el.addEventListener("input", function () {
             docContent = this.innerText;
         });
 
-        target("doc").addEventListener("click", updateCursor);
-        target("doc").addEventListener("keydown", updateCursor);
+        cws("#doc").el.addEventListener("click", updateCursor);
+        cws("#doc").el.addEventListener("keydown", updateCursor);
 
         function change(direction) {
             docContent = docContent.replaceAll(/\n/g, "ん");
@@ -72,7 +71,7 @@
 
             docContent = docContent.replaceAll(/ん/g, "\n");
 
-            target("doc").innerText = docContent;
+            cws("#doc").el.innerText = docContent;
         }
 
         async function updateCursor() {
@@ -89,8 +88,8 @@
                 backwardChar = null;
             }
 
-            copyTo("alphabet", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
-            copyTo("alphabet", copyFrom("alphabet").replace(backwardChar, `<strong style="color: var(--green);">${backwardChar}</strong>`));
+            cws("#alphabet").html = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+            cws("#alphabet").html = cws("#alphabet").html.replace(backwardChar, `<strong style="color: var(--green);">${backwardChar}</strong>`);
         }
     </script>
 </div></body>

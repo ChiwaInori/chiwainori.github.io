@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -26,7 +25,7 @@
         <p><strong id="result"></strong></p>
     </div>
     <script>
-        target("input").addEventListener("input", function () {
+        cws("#input").el.addEventListener("input", function () {
             const inputValue = this.value.toLowerCase().split("/");
             let result = "";
             
@@ -287,7 +286,7 @@
             });
             result = result.replaceAll(/-/g, "ー");
 
-            copyTo("result", result);
+            cws("#result").html = result;
         });
     </script>
 </div></body>

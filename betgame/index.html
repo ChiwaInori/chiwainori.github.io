@@ -25,7 +25,6 @@
         }
     </style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -90,18 +89,18 @@
         let betType;
 
         function updateBalance() {
-            copyTo("balance", balance);
+            cws("#balance").html = balance;
         }
 
         function updateButton() {
             betTypeArray.forEach(type => {
                 if (balance >= type) {
                     for (let i = 0; i < 2; i++) {
-                        query(`.t${type}`)[i].disabled = false;
+                        cws(`.t${type}`, i).el.disabled = false;
                     }
                 } else {
                     for (let i = 0; i < 2; i++) {
-                        query(`.t${type}`)[i].disabled = true;
+                        cws(`.t${type}`, i).el.disabled = true;
                     }
                 }
             });
@@ -121,7 +120,7 @@
 
         function betRoll() {
             let nowNumber;
-            if (!target("preventWin").checked) {
+            if (!cws("#preventWin").el.checked) {
                 nowNumber = rand(1, 100);
             } else if (balance + mult >= 100) {
                 if (betType == "small") {
@@ -143,29 +142,29 @@
                     nowNumber = rand(51, 100);
                 }
             }
-            copyTo("number", nowNumber);
+            cws("#number").html = nowNumber;
 
             if (nowNumber <= 50) {
-                colorTo("number", "var(--blue)");
+                cws("#number").color = "var(--blue)";
                 if (betType == "small") {
                     balance += mult;
-                    copyTo("result", `你赌对了! +$${mult}`);
-                    colorTo("result", "var(--green)");
+                    cws("#result").html = `你赌对了! +$${mult}`;
+                    cws("#result").color = "var(--green)";
                 } else {
                     balance -= mult;
-                    copyTo("result", `你赌错了! -$${mult}`);
-                    colorTo("result", "var(--red)");
+                    cws("#result").html = `你赌错了! -$${mult}`;
+                    cws("#result").color = "var(--red)";
                 }
             } else {
-                colorTo("number", "var(--pink)");
+                cws("#number").color = "var(--pink)";
                 if (betType == "big") {
                     balance += mult;
-                    copyTo("result", `你赌对了! +$${mult}`);
-                    colorTo("result", "var(--green)");
+                    cws("#result").html = `你赌对了! +$${mult}`;
+                    cws("#result").color = "var(--green)";
                 } else {
                     balance -= mult;
-                    copyTo("result", `你赌错了! -$${mult}`);
-                    colorTo("result", "var(--red)");
+                    cws("#result").html = `你赌错了! -$${mult}`;
+                    cws("#result").color = "var(--red)";
                 }
             }
             
@@ -176,19 +175,19 @@
 
         function checkStatus() {
             if (balance <= 0) {
-                copyTo("win", "你破产了!");
-                colorTo("win", "var(--red)");
-                colorTo("#balanceLine, #balanceLine *", "var(--red)", "query");
+                cws("#win").html = "你破产了!";
+                cws("#win").color = "var(--red)";
+                applyAll("#balanceLine, #balanceLine *", el => cws(el).color = "var(--red)");
                 for (let i = 0; i < 14; i++) {
-                    query(`button`)[i].disabled = true;
+                    cws(`button`, i).el.disabled = true;
                 }
             }
             if (balance >= 100) {
-                copyTo("win", "你胜利了!");
-                colorTo("win", "var(--green)");
-                colorTo("#balanceLine, #balanceLine *", "var(--green)", "query");
+                cws("#win").html = "你胜利了!";
+                cws("#win").color = "var(--green)";
+                applyAll("#balanceLine, #balanceLine *", el => cws(el).color = "var(--green)");
                 for (let i = 0; i < 14; i++) {
-                    query(`button`)[i].disabled = true;
+                    cws(`button`, i).el.disabled = true;
                 }
             }
         }

@@ -38,7 +38,6 @@
         }
     </style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body>
@@ -108,42 +107,42 @@
             let lyric, len;
 
             load("fileInput", "content");
-            target("fileInput").addEventListener("input", async () => {
+            cws("#fileInput").el.addEventListener("input", async () => {
                 await sleep(50);
-                fileContent = copyFrom("content").replaceAll(/\r/g, "").replaceAll(/\n/g, "");
+                fileContent = cws("#content").html.replaceAll(/\r/g, "").replaceAll(/\n/g, "");
                 extractInfo();
             });
             
-            target("color-bg").addEventListener("input", function () {
+            cws("#color-bg").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty('--backgroundColor', `${this.value}`);
             });
-            target("color-lyric").addEventListener("input", function () {
+            cws("#color-lyric").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty('--lyricColor', `${this.value}`);
             });
-            target("color-active").addEventListener("input", function () {
+            cws("#color-active").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty('--activeColor', `${this.value}`);
             });
             
-            target("showTitle").addEventListener("input", function () {
-                query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = +this.checked;
+            cws("#showTitle").el.addEventListener("input", function () {
+                cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = +this.checked;
             });
 
-            target("showDot").addEventListener("input", function () {
+            cws("#showDot").el.addEventListener("input", function () {
                 showDot = this.checked;
             });
 
-            target("showCircle").addEventListener("input", function () {
+            cws("#showCircle").el.addEventListener("input", function () {
                 showCircle = this.checked;
             });
 
-            target("audioFile").addEventListener("change", function (event) {
+            cws("#audioFile").el.addEventListener("change", function (event) {
                 const file = event.target.files[0];
                 const objectURL = URL.createObjectURL(file);
 
-                target("audio").src = objectURL;
+                cws("#audio").el.src = objectURL;
             });
 
-            target("fontFile").addEventListener("change", function () {
+            cws("#fontFile").el.addEventListener("change", function () {
                 const fileInput = this;
                 const file = fileInput.files[0];
 
@@ -155,8 +154,8 @@
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "inherit";
-                    query("style")[0].innerHTML += "#lyrics * { font-family: inherit; }";
+                    cws("#titleLine").el.style.fontFamily = cws("#fontTest").el.style.fontFamily = "inherit";
+                    cws("style", 0).el.innerHTML += "#lyrics * { font-family: inherit; }";
                 }
             });
 
@@ -164,8 +163,8 @@
                 const font = new FontFace('CustomFont', `url(${url})`);
                 font.load().then(function (loadedFont) {
                     document.fonts.add(loadedFont);
-                    target("titleLine").style.fontFamily = target("fontTest").style.fontFamily = "CustomFont";
-                    query("style")[0].innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
+                    cws("#titleLine").el.style.fontFamily = cws("#fontTest").el.style.fontFamily = "CustomFont";
+                    cws("style", 0).el.innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
                 });
             }
 
@@ -173,23 +172,23 @@
                 const [signature, version, messages, settings] = fileContent.split(".");
 
                 if (signature != "xtsgames-lyric") {
-                    copyTo("display", `错误的文件签名 (${signature})`);
-                    colorTo("display", "var(--red)");
+                    cws("#display").html = `错误的文件签名 (${signature})`;
+                    cws("#display").color = "var(--red)";
                     return;
                 }
                 if (version != currentVersion) {
-                    copyTo("display", `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`);
-                    colorTo("display", "var(--red)");
+                    cws("#display").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
+                    cws("#display").color = "var(--red)";
                     return;
                 }
-                hide("fileInput");
+                cws("#fileInput").hide();
                 
                 const [title, author, bpm] = messages.split(",");
                 clockBase = 60 / bpm; // bps
-                query("title")[0].innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
+                cws("title", 0).el.innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
 
-                copyTo("display", `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`);
-                copyTo("titleLine", `"${title}" - ${author}`);
+                cws("#display").html = `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`;
+                cws("#titleLine").html = `"${title}" - ${author}`;
 
                 const [isTitle, isDot, isCircle, bgColor, lyricColor, activeColor] = settings.split(",");
                 const defaultSettings = ["false", "true", "true", "#ffffdd", "#99ccff", "#66a8ff"];
@@ -197,42 +196,42 @@
 
                 if (isTitle != "" && isTitle != defaultSettings[0]) {
                     notDefault = 1;
-                    query(".title *")[0].style.opacity = query(".navigation *")[0].style.opacity = 0;
-                    target("showTitle").checked = false;
+                    cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = 0;
+                    cws("#showTitle").el.checked = false;
                 }
                 if (isDot != "" && isDot != defaultSettings[1]) {
                     notDefault = 1;
                     showDot = false;
-                    target("showDot").checked = false;
+                    cws("#showDot").el.checked = false;
                 }
                 if (isCircle != "" && isCircle != defaultSettings[2]) {
                     notDefault = 1;
                     showCircle = false;
-                    target("showCircle").checked = false;
+                    cws("#showCircle").el.checked = false;
                 }
                 if (bgColor != "" && bgColor != defaultSettings[3]) {
                     notDefault = 1;
                     document.documentElement.style.setProperty('--backgroundColor', `${bgColor}`);
-                    target("color-bg").value = bgColor;
+                    cws("#color-bg").el.value = bgColor;
                 }
                 if (lyricColor != "" && lyricColor != defaultSettings[4]) {
                     notDefault = 1;
                     document.documentElement.style.setProperty('--lyricColor', `${lyricColor}`);
-                    target("color-lyric").value = lyricColor;
+                    cws("#color-lyric").el.value = lyricColor;
                 }
                 if (activeColor != "" && activeColor != defaultSettings[5]) {
                     notDefault = 1;
                     document.documentElement.style.setProperty('--activeColor', `${activeColor}`);
-                    target("color-active").value = activeColor;
+                    cws("#color-active").el.value = activeColor;
                 }
 
                 if (notDefault) {
-                    unhide("loadFromFile");
+                    cws("#loadFromFile").unhide();
                 }
             }
             
             async function play() {
-                target("audio").currentTime = +copyValue("audioStart");
+                cws("#audio").el.currentTime = +cws("#audioStart").value;
                 const lyricArray = fileContent.split(".")[4].split("/"); // 沈,1;ん,0'5;で,0'5;い,0'25;た\,1'75;味,1'5;の,0'5;な,0'25;い,0'5;日,0'5;々,0'5;で,0'25;も,1'5
 
                 fadeChange("startup", "lyricBlock");
@@ -271,10 +270,10 @@
 
                         if (i == 0) {
                             if (lyricArray[i].includes("[SPACE]")) { // if this is the 1st sentence and is [SPACE], play music
-                                target("audio").play();
+                                cws("#audio").el.play();
                             } else { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation then play music
                                 await sleep(1000);
-                                target("audio").play();
+                                cws("#audio").el.play();
                             }
                         }
                         
@@ -311,7 +310,7 @@
 
             function getWordPos() {
                 let fontSize = 100; // px
-                const horizontalTotal = target("lyricBlock").offsetWidth;
+                const horizontalTotal = cws("#lyricBlock").el.offsetWidth;
                 const words = query("#lyrics *");
                 words.forEach(element => {
                     element.style.fontSize = `${fontSize}px`;
@@ -319,7 +318,7 @@
                 
                 let width = 0;
                 for (let i = 1; i <= len; i++) {
-                    width += target(`w-${i}`).offsetWidth;
+                    width += cws(`#w-${i}`).el.offsetWidth;
                 }
                 while (width > horizontalTotal - 42 && fontSize > 10) {
                     fontSize -= 10;
@@ -328,7 +327,7 @@
                     });
                     width = 0;
                     for (let i = 1; i <= len; i++) {
-                        width += target(`w-${i}`).offsetWidth;
+                        width += cws(`#w-${i}`).el.offsetWidth;
                     }
                 }
                 
@@ -338,14 +337,14 @@
 
                 let currentX = horizontalMargin;
                 for (let i = 1; i <= len; i++) {
-                    target(`w-${i}`).style.left = `${currentX}px`;
-                    let offset = target(`w-${i}`).offsetWidth;
-                    let space = target(`w-${i}`).innerHTML == " " ? 16 : 2;
+                    cws(`#w-${i}`).el.style.left = `${currentX}px`;
+                    let offset = cws(`#w-${i}`).el.offsetWidth;
+                    let space = cws(`#w-${i}`).el.innerHTML == " " ? 16 : 2;
                     currentX += offset + space;
                 }
 
                 // VERTICAL
-                const verticalTotal = target("lyricBlock").offsetHeight;
+                const verticalTotal = cws("#lyricBlock").el.offsetHeight;
                 const verticalUsed = fontSize * 2;
                 const verticalMargin = (verticalTotal - verticalUsed) / 2;
 
@@ -353,25 +352,25 @@
                     for (let i = 1; i <= len; i++) {
                         const f = x => Math.sqrt((len + 5) ** 2 - x ** 2);
                         const float = (len + 5 - f(i - (len / 2 + 0.5))) * 60;
-                        target(`w-${i}`).style.top = `${verticalMargin + float}px`;
+                        cws(`#w-${i}`).el.style.top = `${verticalMargin + float}px`;
                     }
 
                     // ROTATE
                     for (let i = 1; i <= len; i++) {
                         const g = x => Math.sqrt((len + 5) ** 2 - x ** 2);
                         const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 16;
-                        target(`w-${i}`).style.transform = `rotate(${degree}deg)`;
+                        cws(`#w-${i}`).el.style.transform = `rotate(${degree}deg)`;
                     }
                 } else {
                     for (let i = 1; i <= len; i++) {
-                        target(`w-${i}`).style.top = `${verticalMargin}px`;
+                        cws(`#w-${i}`).el.style.top = `${verticalMargin}px`;
                     }
                 }
             }
 
             async function jump(index, length) {
                 const jumpLength = 50;
-                const jumpTarget = target(`w-${index}`);
+                const jumpTarget = cws(`#w-${index}`).el;
                 const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum()[0] : 0;
                 const xOffset = Math.sin(targetRotation / 180 * Math.PI) * jumpLength;
                 const yOffset = Math.cos(targetRotation / 180 * Math.PI) * jumpLength;
@@ -403,7 +402,7 @@
                 });
 
                 await sleep(waitBase * 1 * 1000);
-                copyTo("lyrics", sentence);
+                cws("#lyrics").html = sentence;
                 getWordPos();
 
                 const after = query("#lyrics *");

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-center.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -70,17 +69,17 @@
         const dynamicList = returnInformation.dynamicList.isolate();
         
         function updateChance(showType) { // Redeclare because sex select not supported.
-            copyTo("chanceTable", "");
+            cws("#chanceTable").html = "";
             if (!showType) { showType = chanceMode; }
 
             fullList.all.forEach((name, index) => {
                 const id = index + 1;
-                addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
+                cws("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
             });
 
             if (currentMode == "true") {
                 for (let i = 1; i <= fullList.all.length; i++) {
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList.all.length * 100).keep(5)}%`);
+                    cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList.all.length * 100).keep(5)}%`;
                 }
             }
             if (currentMode == "dynamic") {
@@ -90,16 +89,16 @@
                 });
                 dynamicList.weight.all.forEach((weightNum, index) => {
                     const i = index + 1;
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / totalWeight * 100).keep(5)}%`);
+                    cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(weightNum / totalWeight * 100).keep(5)}%`;
                 });
             }
             if (currentMode == "false") {
                 const nowLeftChance = 1 / remainingList.all.length;
                 for (let i = 1; i <= fullList.all.length; i++) {
                     if (remainingList.all.includes(fullList.all[i - 1])) {
-                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(nowLeftChance * 100).keep(5)}%`);
+                        cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
                     } else {
-                        copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
+                        cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
                     }
                 }
             }

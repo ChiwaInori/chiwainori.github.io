@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -101,7 +100,7 @@
             fadeChange("welcome", "game");
             updateHealth();
             getThreshold();
-            copyTo("round", ++round);
+            cws("#round").html = ++round;
         }
 
         function draw() {
@@ -109,7 +108,7 @@
 
             currentDeck = currentDeck.remove(drawnCard); // Remove the drawn card from deck
             playerHand.push(drawnCard); // Add it to player's hand
-            addTo("playerLine", `${drawnCard} `);
+            cws("#playerLine").html += `${drawnCard} `;
 
             if (!isNaN(drawnCard)) { // 2 ~ 10 is drawn
                 playerTotalWithoutA += parseInt(drawnCard);
@@ -121,7 +120,7 @@
             drawStatus(false);
             if (chance(0.25)) { getProp(); }
 
-            if (!copyFrom("dealerLine").includes("已停牌")) {
+            if (!cws("#dealerLine").html.includes("已停牌")) {
                 dealerAct();
             } else {
                 drawStatus(!(playerTotal > targetPoint));
@@ -154,15 +153,15 @@
         }
 
         function updateTotal() {
-            copyTo("playerTotal", playerTotal);
-            copyTo("dealerTotal", `${getDealerTotalLine()}`);
+            cws("#playerTotal").html = playerTotal;
+            cws("#dealerTotal").html = `${getDealerTotalLine()}`;
 
             repaint();
             drawStatus(false);
         }
 
         function getDealerTotal() {
-            if (copyFrom("dealerLine").indexOf("[?]") >= 0) {
+            if (cws("#dealerLine").html.indexOf("[?]") >= 0) {
                 const checkArray = dealerHand.slice(1);
                 let counter = 0;
 
@@ -184,7 +183,7 @@
         }
 
         function getDealerTotalLine() {
-            if (copyFrom("dealerLine").indexOf("[?]") >= 0) {
+            if (cws("#dealerLine").html.indexOf("[?]") >= 0) {
                 if (dealerTotal == 0) {
                     return "0";
                 }
@@ -198,22 +197,22 @@
 
         function drawStatus(boolean) {
             if (boolean) {
-                target("drawButton").disabled = false;
-                styleTo("drawButton", "color: var(--green); border: 2px solid var(--green);");
+                cws("#drawButton").el.disabled = false;
+                cws("#drawButton").style = "color: var(--green); border: 2px solid var(--green);";
             } else {
-                target("drawButton").disabled = true;
-                styleTo("drawButton", "color: var(--gray); border: 2px solid var(--gray);");
+                cws("#drawButton").el.disabled = true;
+                cws("#drawButton").style = "color: var(--gray); border: 2px solid var(--gray);";
             }
         }
 
         function standStatus(boolean) {
             const propButtons = query(".propButton");
 
-            target("standButton").disabled = !boolean;
+            cws("#standButton").el.disabled = !boolean;
             if (boolean) {
-                styleTo("standButton", "color: var(--red); border: 2px solid var(--red);");
+                cws("#standButton").style = "color: var(--red); border: 2px solid var(--red);";
             } else {
-                styleTo("standButton", "color: var(--gray); border: 2px solid var(--gray);");
+                cws("#standButton").style = "color: var(--gray); border: 2px solid var(--gray);";
             }
 
             for (let i = 0; i < propButtons.length; i++) {
@@ -223,8 +222,8 @@
 
         async function dealerAct() {
             standStatus(false);
-            copyTo("status", "庄家思考中...");
-            colorTo("status", "var(--aqua)");
+            cws("#status").html = "庄家思考中...";
+            cws("#status").color = "var(--aqua)";
 
             await sleep(rand(500, 1000));
             dealerThinkProp();
@@ -235,12 +234,12 @@
             }
 
             if (dealerTotal >= standThreshold) {
-                addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
+                cws("#dealerLine").html += "<span style='color: var(--red)'>已停牌</span>";
             }
 
             drawStatus(!(playerTotal > targetPoint));
             standStatus(true);
-            copyTo("status", "");
+            cws("#status").html = "";
             dealerUsedPropThisTurn = false;
         }
 
@@ -250,10 +249,10 @@
             currentDeck = currentDeck.remove(drawnCard);
             dealerHand.push(drawnCard);
             if (dealerTotal == 0) {
-                addTo("dealerLine", `[?] `);
+                cws("#dealerLine").html += `[?] `;
                 dealerFirstDrawn = drawnCard;
             } else {
-                addTo("dealerLine", `${drawnCard} `);
+                cws("#dealerLine").html += `${drawnCard} `;
             }
 
             if (!isNaN(drawnCard)) {
@@ -277,27 +276,27 @@
             playerHealth = playerHealth.toRange(0, 5);
             dealerHealth = dealerHealth.toRange(0, 5);
 
-            copyTo("playerHealth", "");
-            copyTo("dealerHealth", "");
+            cws("#playerHealth").html = "";
+            cws("#dealerHealth").html = "";
 
             for (let i = 1; i <= playerHealth; i++) {
-                addTo("playerHealth", heartFull);
+                cws("#playerHealth").html += heartFull;
             }
             for (let i = 1; i <= 5 - playerHealth; i++) {
-                addTo("playerHealth", heartEmpty);
+                cws("#playerHealth").html += heartEmpty;
             }
             for (let i = 1; i <= dealerHealth; i++) {
-                addTo("dealerHealth", heartFull);
+                cws("#dealerHealth").html += heartFull;
             }
             for (let i = 1; i <= 5 - dealerHealth; i++) {
-                addTo("dealerHealth", heartEmpty);
+                cws("#dealerHealth").html += heartEmpty;
             }
         }
 
         function stand() {
             drawStatus(false);
             standStatus(false);
-            addTo("playerLine", "<span style='color: var(--red)'>已停牌</span>");
+            cws("#playerLine").html += "<span style='color: var(--red)'>已停牌</span>";
 
             if (dealerTotal < standThreshold) {
                 dealerActAfterPlayerStand();
@@ -307,8 +306,8 @@
         }
 
         async function dealerActAfterPlayerStand() {
-            copyTo("status", "庄家思考中...");
-            colorTo("status", "var(--aqua)");
+            cws("#status").html = "庄家思考中...";
+            cws("#status").color = "var(--aqua)";
 
             await sleep(rand(500, 1000));
             dealerThinkProp();
@@ -319,7 +318,7 @@
             if (dealerTotal >= standThreshold) {
                 await sleep(rand(500, 1000));
                 dealerThinkProp();
-                addTo("dealerLine", "<span style='color: var(--red)'>已停牌</span>");
+                cws("#dealerLine").html += "<span style='color: var(--red)'>已停牌</span>";
 
                 result();
             } else {
@@ -328,47 +327,47 @@
         }
 
         async function result() {
-            copyTo("status", "结算中...");
-            colorTo("status", "var(--blue)");
+            cws("#status").html = "结算中...";
+            cws("#status").color = "var(--blue)";
             dealerUsedPropThisTurn = false;
             await sleep(rand(2000, 3000));
 
-            copyTo("dealerTotal", dealerTotal);
-            copyTo("dealerLine", `${copyFrom("dealerLine").replace(/\[\?\]/, dealerFirstDrawn)}`);
+            cws("#dealerTotal").html = dealerTotal;
+            cws("#dealerLine").html = `${cws("#dealerLine").html.replace(/\[\?\]/, dealerFirstDrawn)}`;
 
             if (dealerTotal < targetPoint) {
-                colorTo("dealerTotal", "var(--blue)");
+                cws("#dealerTotal").color = "var(--blue)";
             } else if (dealerTotal == targetPoint) {
-                colorTo("dealerTotal", "var(--green)");
+                cws("#dealerTotal").color = "var(--green)";
             } else {
-                colorTo("dealerTotal", "var(--red)");
+                cws("#dealerTotal").color = "var(--red)";
             }
 
             if (playerTotal <= targetPoint && dealerTotal <= targetPoint && playerTotal != dealerTotal) {
                 if (playerTotal > dealerTotal) {
-                    copyTo("status", "<strong>你赢了!</strong>");
-                    colorTo("status", "var(--yellow)");
+                    cws("#status").html = "<strong>你赢了!</strong>";
+                    cws("#status").color = "var(--yellow)";
                     dealerHealth -= dealerTakingDamage;
                 } else {
-                    copyTo("status", "<strong>你输了!</strong>");
-                    colorTo("status", "var(--red)");
+                    cws("#status").html = "<strong>你输了!</strong>";
+                    cws("#status").color = "var(--red)";
                     playerHealth -= playerTakingDamage;
                 }
             }
             if (playerTotal > targetPoint && dealerTotal <= targetPoint || playerTotal <= targetPoint && dealerTotal > targetPoint) {
                 if (playerTotal > targetPoint) {
-                    copyTo("status", "<strong>你输了!</strong>");
-                    colorTo("status", "var(--red)");
+                    cws("#status").html = "<strong>你输了!</strong>";
+                    cws("#status").color = "var(--red)";
                     playerHealth -= playerTakingDamage;
                 } else {
-                    copyTo("status", "<strong>你赢了!</strong>");
-                    colorTo("status", "var(--yellow)");
+                    cws("#status").html = "<strong>你赢了!</strong>";
+                    cws("#status").color = "var(--yellow)";
                     dealerHealth -= dealerTakingDamage;
                 }
             }
             if (playerTotal == dealerTotal || playerTotal > targetPoint && dealerTotal > targetPoint) {
-                copyTo("status", "平局");
-                colorTo("status", "var(--textColor-500)");
+                cws("#status").html = "平局";
+                cws("#status").color = "var(--textColor-500)";
             }
 
             await sleep(3000);
@@ -403,68 +402,68 @@
             dealerTakingDamage = 1;
             targetPoint = 21;
 
-            copyTo("playerLine", `<span id="playerTotal" style="color: var(--blue)">0</span> : </strong>`);
-            copyTo("dealerLine", `<span id="dealerTotal" style="color: var(--orange)">0</span> : </strong>`);
-            copyTo("currentTarget", 21);
-            hide("playerKnife");
-            hide("playerShield");
-            hide("dealerKnife");
-            hide("dealerShield");
-            copyTo("status", "");
-            copyTo("round", ++round);
+            cws("#playerLine").html = `<span id="playerTotal" style="color: var(--blue)">0</span> : </strong>`;
+            cws("#dealerLine").html = `<span id="dealerTotal" style="color: var(--orange)">0</span> : </strong>`;
+            cws("#currentTarget").html = 21;
+            cws("#playerKnife").hide();
+            cws("#playerShield").hide();
+            cws("#dealerKnife").hide();
+            cws("#dealerShield").hide();
+            cws("#status").html = "";
+            cws("#round").html = ++round;
         }
 
         function win(who) {
             if (who == 0) { // Dealer Win
-                copyTo("status", "<strong>庄家胜利!</strong>");
-                colorTo("status", "var(--red)");
+                cws("#status").html = "<strong>庄家胜利!</strong>";
+                cws("#status").color = "var(--red)";
             } else { // Player Win
-                copyTo("status", "<strong>玩家胜利!</strong>");
-                colorTo("status", "var(--yellow)");
+                cws("#status").html = "<strong>玩家胜利!</strong>";
+                cws("#status").color = "var(--yellow)";
             }
         }
 
         function getProp() {
             const d = rand(1, 6);
 
-            if (copyFrom("propList").includes("空")) {
-                copyTo("propList", "");
+            if (cws("#propList").html.includes("空")) {
+                cws("#propList").html = "";
             }
 
             if (d == 1) { // Pen
-                addTo("propList", `<p id="propLine${++propID}"><strong>钢笔</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 将点数上限从 21 改为 24</p>`);
+                cws("#propList").html += `<p id="propLine${++propID}"><strong>钢笔</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 将点数上限从 21 改为 24</p>`;
             }
             if (d == 2) { // Exchanger
-                addTo("propList", `<p id="propLine${++propID}"><strong>交换器</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 将你的最后一张牌和庄家的最后一张牌互换</p>`);
+                cws("#propList").html += `<p id="propLine${++propID}"><strong>交换器</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 将你的最后一张牌和庄家的最后一张牌互换</p>`;
             }
             if (d == 3) { // Lighter
-                addTo("propList", `<p id="propLine${++propID}"><strong>打火机</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 移除你的最后一张牌</p>`);
+                cws("#propList").html += `<p id="propLine${++propID}"><strong>打火机</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 移除你的最后一张牌</p>`;
             }
             if (d == 4) { // Knife
-                addTo("propList", `<p id="propLine${++propID}"><strong>小刀</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 如果这一局你胜利，则对庄家造成额外 1 点伤害</p>`);
+                cws("#propList").html += `<p id="propLine${++propID}"><strong>小刀</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 如果这一局你胜利，则对庄家造成额外 1 点伤害</p>`;
             }
             if (d == 5) { // Shield
-                addTo("propList", `<p id="propLine${++propID}"><strong>盾牌</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 如果这一局你失败，抵挡 1 点伤害</p>`);
+                cws("#propList").html += `<p id="propLine${++propID}"><strong>盾牌</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 如果这一局你失败，抵挡 1 点伤害</p>`;
             }
             if (d == 6) { // Peach
-                addTo("propList", `<p id="propLine${++propID}"><strong>桃</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 回复 1 点生命值</p>`);
+                cws("#propList").html += `<p id="propLine${++propID}"><strong>桃</strong><button class="propButton" onclick="useProp(${propID})">使用</button>- 回复 1 点生命值</p>`;
             }
         }
 
         async function useProp(id) {
-            const prop = copyFrom(`propLine${id}`);
+            const prop = cws(`#propLine${id}`).html;
 
-            target(`propLine${id}`).remove();
-            unhide("propUsedEffects");
-            colorTo("propUsedEffects", "var(--blue)");
+            cws(`#propLine${id}`).el.remove();
+            cws("#propUsedEffects").unhide();
+            cws("#propUsedEffects").color = "var(--blue)";
 
             if (prop.includes("钢笔")) {
                 targetPoint = 24;
-                copyTo("currentTarget", 24);
+                cws("#currentTarget").html = 24;
                 repaint();
                 if (playerTotal <= 21) { drawStatus(true); }
 
-                copyTo("propUsedEffects", "玩家 使用 钢笔: 点数上限从 21 改为 24");
+                cws("#propUsedEffects").html = "玩家 使用 钢笔: 点数上限从 21 改为 24";
             }
             if (prop.includes("交换器")) {
                 if (playerHand.length != 0 && dealerHand.length != 0) {
@@ -473,8 +472,8 @@
                     
                     playerHand[playerHand.length - 1] = dealerLast;
                     dealerHand[dealerHand.length - 1] = playerLast;
-                    copyTo("playerLine", copyFrom("playerLine").replace(/[^ ]* $/, `${dealerLast} `));
-                    copyTo("dealerLine", copyFrom("dealerLine").replace(/[^ ]* (<span style="color: var\(--red\)">已停牌<\/span>)?$/, `${playerLast} $1`));
+                    cws("#playerLine").html = cws("#playerLine").html.replace(/[^ ]* $/, `${dealerLast} `);
+                    cws("#dealerLine").html = cws("#dealerLine").html.replace(/[^ ]* (<span style="color: var\(--red\)">已停牌<\/span>)?$/, `${playerLast} $1`);
 
                     playerTotalWithoutA = valuationHandWithoutA(playerHand);
                     dealerTotalWithoutA = valuationHandWithoutA(dealerHand);
@@ -483,78 +482,78 @@
                     updateTotal();
                     if (playerTotal <= 21) { drawStatus(true); }
 
-                    copyTo("propUsedEffects", "玩家 使用 交换器: 你的最后一张牌和庄家的最后一张牌互换");
+                    cws("#propUsedEffects").html = "玩家 使用 交换器: 你的最后一张牌和庄家的最后一张牌互换";
                 } else {
-                    copyTo("propUsedEffects", "玩家 使用 交换器: 你的最后一张牌和庄家的最后一张牌互换 <strong style='color: var(--red)'>(没有可移除的内容)</strong>");
+                    cws("#propUsedEffects").html = "玩家 使用 交换器: 你的最后一张牌和庄家的最后一张牌互换 <strong style='color: var(--red)'>(没有可移除的内容)</strong>";
                 }
             }
             if (prop.includes("打火机")) {
                 if (playerHand.length != 0) {
                     playerHand.pop();
-                    copyTo("playerLine", copyFrom("playerLine").replace(/[^ ]* $/, ""));
+                    cws("#playerLine").html = cws("#playerLine").html.replace(/[^ ]* $/, "");
 
                     playerTotalWithoutA = valuationHandWithoutA(playerHand);
                     checkA();
                     updateTotal();
                     if (playerTotal <= 21) { drawStatus(true); }
 
-                    copyTo("propUsedEffects", "玩家 使用 打火机: 移除你的最后一张牌");
+                    cws("#propUsedEffects").html = "玩家 使用 打火机: 移除你的最后一张牌";
                 } else {
-                    copyTo("propUsedEffects", "玩家 使用 打火机: 移除你的最后一张牌 <strong style='color: var(--red)'>(没有可移除的内容)</strong>");
+                    cws("#propUsedEffects").html = "玩家 使用 打火机: 移除你的最后一张牌 <strong style='color: var(--red)'>(没有可移除的内容)</strong>";
                 }
             }
             if (prop.includes("小刀")) {
-                if (isHidden("dealerShield")) {
+                if (cws("#dealerShield").hidden) {
                     dealerTakingDamage = 2;
                 } else {
                     dealerTakingDamage = 1;
                 }
-                unhide("playerKnife", "inline");
+                cws("#playerKnife").unhide("inline");
 
-                copyTo("propUsedEffects", "玩家 使用 小刀: 如果这一局你胜利，则对庄家造成额外 1 点伤害");
+                cws("#propUsedEffects").html = "玩家 使用 小刀: 如果这一局你胜利，则对庄家造成额外 1 点伤害";
             }
             if (prop.includes("盾牌")) {
-                if (isHidden("dealerKnife")) {
+                if (cws("#dealerKnife").hidden) {
                     playerTakingDamage = 0;
                 } else {
                     playerTakingDamage = 1;
                 }
-                unhide("playerShield", "inline");
+                cws("#playerShield").unhide("inline");
 
-                copyTo("propUsedEffects", "玩家 使用 盾牌: 如果这一局你失败，抵挡 1 点伤害");
+                cws("#propUsedEffects").html = "玩家 使用 盾牌: 如果这一局你失败，抵挡 1 点伤害";
             }
             if (prop.includes("桃")) {
                 playerHealth = (++playerHealth).toRange(0, 5);
                 updateHealth();
 
-                copyTo("propUsedEffects", "玩家 使用 桃: 回复 1 点生命值");
+                cws("#propUsedEffects").html = "玩家 使用 桃: 回复 1 点生命值";
             }
     
-            if (copyFrom("propList") == "") {
-                copyTo("propList", "<p style=\"color: var(--gray)\">空</p>");
+            if (cws("#propList").html == "") {
+                cws("#propList").html = "<p style=\"color: var(--gray)\">空</p>";
             }
 
             await sleep(1000);
-            fadeOut("propUsedEffects", true);
+            cws("#propUsedEffects").fadeOut(true);
         }
 
         function repaint() {
             if (playerTotal < targetPoint) {
-                colorTo("playerTotal", "var(--blue)");
+                cws("#playerTotal").color = "var(--blue)";
             } else if (playerTotal == targetPoint) {
-                colorTo("playerTotal", "var(--green)");
+                cws("#playerTotal").color = "var(--green)";
             } else {
-                colorTo("playerTotal", "var(--red)");
+                cws("#playerTotal").color = "var(--red)";
             }
 
-            if (copyFrom("dealerLine").indexOf("[?]") >= 0 || dealerTotal == 0) {
-                colorTo("dealerTotal", "var(--orange)");
+            if (cws("#dealerLine").html.indexOf("[?]") >= 0 || dealerTotal == 0) {
+                cws("#dealerTotal").color = "var(--orange)";
             } else if (dealerTotal < targetPoint) {
-                colorTo("dealerTotal", "var(--blue)");
+                cws("#dealerTotal").color = "var(--blue)";
             } else if (dealerTotal == targetPoint) {
-                colorTo("dealerTotal", "var(--green)");
+                cws("#dealerTotal").color = "var(--green)";
             } else {
-                colorTo("dealerTotal", "var(--red)");
+                cws("#dealerTotal").color = "var(--red)";
             }
         }
 
@@ -578,17 +577,17 @@
             if (dealerUsedPropThisTurn) { // If dealer tried to use many props in a turn, give space time to show every hint
                 await sleep(1020);
             }
-            unhide("propUsedEffects");
-            colorTo("propUsedEffects", "var(--red)");
+            cws("#propUsedEffects").unhide();
+            cws("#propUsedEffects").color = "var(--red)";
 
             if (prop == 1) {
                 targetPoint = 24;
-                copyTo("currentTarget", 24);
+                cws("#currentTarget").html = 24;
                 repaint();
-                if (playerTotal <= 21 && !copyFrom("playerLine").indexOf("已停牌")) { drawStatus(true); }
+                if (playerTotal <= 21 && !cws("#playerLine").html.indexOf("已停牌")) { drawStatus(true); }
         
                 dealerProps = dealerProps.remove("Pen");
-                copyTo("propUsedEffects", "庄家 使用 钢笔: 点数上限从 21 改为 24");
+                cws("#propUsedEffects").html = "庄家 使用 钢笔: 点数上限从 21 改为 24";
             }
             if (prop == 2) {
                 const playerLast = playerHand[playerHand.length - 1];
@@ -596,8 +595,8 @@
 
                 playerHand[playerHand.length - 1] = dealerLast;
                 dealerHand[dealerHand.length - 1] = playerLast;
-                copyTo("playerLine", copyFrom("playerLine").replace(/[^ ]* (<span style="color: var\(--red\)">已停牌<\/span>)?$/, `${dealerLast} $1`));
-                copyTo("dealerLine", copyFrom("dealerLine").replace(/[^ ]* $/, `${playerLast} `));
+                cws("#playerLine").html = cws("#playerLine").html.replace(/[^ ]* (<span style="color: var\(--red\)">已停牌<\/span>)?$/, `${dealerLast} $1`);
+                cws("#dealerLine").html = cws("#dealerLine").html.replace(/[^ ]* $/, `${playerLast} `);
 
                 playerTotalWithoutA = valuationHandWithoutA(playerHand);
                 dealerTotalWithoutA = valuationHandWithoutA(dealerHand);
@@ -606,56 +605,56 @@
                 updateTotal();
 
                 dealerProps = dealerProps.remove("Exchanger");
-                copyTo("propUsedEffects", "庄家 使用 交换器: 庄家的最后一张牌和玩家的最后一张牌互换");
+                cws("#propUsedEffects").html = "庄家 使用 交换器: 庄家的最后一张牌和玩家的最后一张牌互换";
             }
             if (prop == 3) {
                 if (dealerHand.length != 0) {
                     dealerHand.pop();
-                    copyTo("dealerLine", copyFrom("dealerLine").replace(/[^ ]* $/, ""));
+                    cws("#dealerLine").html = cws("#dealerLine").html.replace(/[^ ]* $/, "");
 
                     dealerTotalWithoutA = valuationHandWithoutA(dealerHand);
                     checkA();
                     updateTotal();
 
-                    copyTo("propUsedEffects", "庄家 使用 打火机: 移除庄家的最后一张牌");
+                    cws("#propUsedEffects").html = "庄家 使用 打火机: 移除庄家的最后一张牌";
                 } else {
-                    copyTo("propUsedEffects", "庄家 使用 打火机: 移除庄家的最后一张牌 <strong style='color: var(--red)'>(没有可移除的内容)</strong>");
+                    cws("#propUsedEffects").html = "庄家 使用 打火机: 移除庄家的最后一张牌 <strong style='color: var(--red)'>(没有可移除的内容)</strong>";
                 }
                 dealerProps = dealerProps.remove("Lighter");
             }
             if (prop == 4) {
-                if (isHidden("playerShield")) {
+                if (cws("#playerShield").hidden) {
                     playerTakingDamage = 2;
                 } else {
                     playerTakingDamage = 1;
                 }
-                unhide("dealerKnife", "inline");
+                cws("#dealerKnife").unhide("inline");
 
                 dealerProps = dealerProps.remove("Knife");
-                copyTo("propUsedEffects", "庄家 使用 小刀: 如果这一局庄家胜利，则对玩家造成额外 1 点伤害");
+                cws("#propUsedEffects").html = "庄家 使用 小刀: 如果这一局庄家胜利，则对玩家造成额外 1 点伤害";
             }
             if (prop == 5) {
-                if (isHidden("playerKnife")) {
+                if (cws("#playerKnife").hidden) {
                     dealerTakingDamage = 0;
                 } else {
                     dealerTakingDamage = 1;
                 }
-                unhide("dealerShield", "inline");
+                cws("#dealerShield").unhide("inline");
 
                 dealerProps = dealerProps.remove("Shield");
-                copyTo("propUsedEffects", "庄家 使用 盾牌: 如果这一局庄家失败，抵挡 1 点伤害");
+                cws("#propUsedEffects").html = "庄家 使用 盾牌: 如果这一局庄家失败，抵挡 1 点伤害";
             }
             if (prop == 6) {
                 dealerHealth = (++dealerHealth).toRange(0, 5);
                 updateHealth();
 
                 dealerProps = dealerProps.remove("Peach");
-                copyTo("propUsedEffects", "庄家 使用 桃: 回复 1 点生命值");
+                cws("#propUsedEffects").html = "庄家 使用 桃: 回复 1 点生命值";
             }
 
             dealerUsedPropThisTurn = true;
             await sleep(2000);
-            fadeOut("propUsedEffects", true);
+            cws("#propUsedEffects").fadeOut(true);
         }
 
         function dealerGetProp() {
@@ -751,7 +750,7 @@
             if (dealerTotal >= 22) { // Dealer over 21
                 dealerPropThought.knife -= 1000;
             }
-            if (isHidden("dealerKnife")) { // Dealer already have Knife
+            if (cws("#dealerKnife").hidden) { // Dealer already have Knife
                 dealerPropThought.knife -= 1000;
             }
 
@@ -774,7 +773,7 @@
             if (dealerTotal >= 22) { // Dealer over 21
                 dealerPropThought.shield += 0.3;
             }
-            if (isHidden("dealerShield")) { // Dealer already have Shield
+            if (cws("#dealerShield").hidden) { // Dealer already have Shield
                 dealerPropThought.shield -= 1000;
             }
 

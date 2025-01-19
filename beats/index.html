@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -62,12 +61,12 @@
         let returnReady = false;
         let showAsFraction = false;
 
-        target("bpmInput").addEventListener("input", function () {
+        cws("#bpmInput").el.addEventListener("input", function () {
             bpm = +this.value;
             clockBase = 60 / bpm;
             reset();
         });
-        target("precisionList").addEventListener("input", function () {
+        cws("#precisionList").el.addEventListener("input", function () {
             if (!showAsFraction) {
                 if (this.value == "original") {
                     precision = "original";
@@ -75,43 +74,43 @@
                     precision = 1 / 2 ** (+this.value - 1);
                 }
             }
-            target("precisionListFraction").value = this.value == "original" ? 3 : this.value;
+            cws("#precisionListFraction").el.value = this.value == "original" ? 3 : this.value;
             reset();
         });
 
-        target("f-normal").addEventListener("change", () => {
+        cws("#f-normal").el.addEventListener("change", () => {
             format = "normal";
             reset();
         });
-        target("f-json").addEventListener("change", () => {
+        cws("#f-json").el.addEventListener("change", () => {
             format = "json";
             reset();
         });
-        target("f-top").addEventListener("change", () => {
+        cws("#f-top").el.addEventListener("change", () => {
             format = "top";
             reset();
         });
 
-        target("showAsFraction").addEventListener("change", function () {
+        cws("#showAsFraction").el.addEventListener("change", function () {
             showAsFraction = this.checked;
             if (showAsFraction) {
-                hide("precisionList");
-                hide("showTopFormat");
-                unhide("precisionListFraction", "inline");
+                cws("#precisionList").hide();
+                cws("#showTopFormat").hide();
+                cws("#precisionListFraction").unhide("inline");
                 format = "normal";
-                target("f-normal").checked = true;
+                cws("#f-normal").el.checked = true;
             } else {
-                unhide("precisionList", "inline");
-                unhide("showTopFormat", "inline");
-                hide("precisionListFraction");
+                cws("#precisionList").unhide("inline");
+                cws("#showTopFormat").unhide("inline");
+                cws("#precisionListFraction").hide();
             }
             reset();
         });
-        target("precisionListFraction").addEventListener("input", function () {
+        cws("#precisionListFraction").el.addEventListener("input", function () {
             if (showAsFraction) {
                 precision = 1 / 2 ** (+this.value - 1);
             }
-            target("precisionList").value = this.value;
+            cws("#precisionList").el.value = this.value;
             reset();
         });
 
@@ -121,16 +120,16 @@
             }
             if (event.code == "KeyR") {
                 if (format == "normal") {
-                    addTo("result", "<br />");
-                    unhide("returnOk", "inline");
+                    cws("#result").html += "<br />";
+                    cws("#returnOk").unhide("inline");
                 }
                 if (format == "json") {
                     returnReady = true;
-                    unhide("returnReady", "inline");
+                    cws("#returnReady").unhide("inline");
                 }
                 if (format == "top") {
                     returnReady = true;
-                    unhide("returnReady", "inline");
+                    cws("#returnReady").unhide("inline");
                 }
             }
             if (event.code == "Backspace") {
@@ -142,14 +141,14 @@
             lastPressTime = undefined;
             returnReady = false;
             pressCount = 0;
-            copyTo("result", "");
-            target("playButton").disabled = true;
-            hide("returnOk");
-            hide("returnReady");
-            if (target("f-json").checked) {
-                unhide("jsonLyric");
+            cws("#result").html = "";
+            cws("#playButton").el.disabled = true;
+            cws("#returnOk").hide();
+            cws("#returnReady").hide();
+            if (cws("#f-json").el.checked) {
+                cws("#jsonLyric").unhide();
             } else {
-                hide("jsonLyric");
+                cws("#jsonLyric").hide();
             }
         }
 
@@ -160,29 +159,29 @@
             
             if (pressCount == 1) { // First press
                 if (format == "normal") {
-                    addTo("result", `<span id="w-${pressCount}">@&nbsp;</span>`);
+                    cws("#result").html += `<span id="w-${pressCount}">@&nbsp;</span>`;
                 }
                 if (format == "json") {
                     let char = "@";
-                    const lyricLine = copyValue("lyricLine");
+                    const lyricLine = cws("#lyricLine").value;
                     if (lyricLine) {
                         const firstSlashIndex = lyricLine.indexOf("/");
                         const beforeSlash = lyricLine.slice(0, firstSlashIndex);
                         const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
 
                         char = beforeSlash;
-                        setValue("lyricLine", afterSlash);
+                        cws("#lyricLine").value = afterSlash;
                     }
 
-                    addTo("result", `<span id="w-${pressCount}">[["${char}",&nbsp;</span>`);
+                    cws("#result").html += `<span id="w-${pressCount}">[["${char}",&nbsp;</span>`;
                 }
                 if (format == "top") {
-                    addTo("result", `<span id="w-${pressCount}">@</span>`);
+                    cws("#result").html += `<span id="w-${pressCount}">@</span>`;
                 }
 
                 startTime = nowTime;
                 lastPressTime = nowTime;
-                target("playButton").disabled = false;
+                cws("#playButton").el.disabled = false;
             } else { // Later press
                 const diff = (nowTime - lastPressTime) / 1000; // Seconds
 
@@ -204,42 +203,42 @@
                 }
                 
                 if (format == "normal") {
-                    hide("returnOk");
-                    addTo("result", `<span id="w-${pressCount}""><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`);
+                    cws("#returnOk").hide();
+                    cws("#result").html += `<span id="w-${pressCount}""><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`;
                 }
                 if (format == "json") {
-                    hide("returnOk");
-                    const original = copyFrom("result");
+                    cws("#returnOk").hide();
+                    const original = cws("#result").html;
 
                     let char = "@";
-                    const lyricLine = copyValue("lyricLine");
+                    const lyricLine = cws("#lyricLine").value;
                     if (lyricLine) {
                         const firstSlashIndex = lyricLine.indexOf("/") > 0 ? lyricLine.indexOf("/") : lyricLine.length;
                         const beforeSlash = lyricLine.slice(0, firstSlashIndex);
                         const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
 
                         char = beforeSlash;
-                        setValue("lyricLine", afterSlash);
+                        cws("#lyricLine").value = afterSlash;
                     }
                     
                     if (returnReady) {
                         returnReady = false;
-                        hide("returnReady");
+                        cws("#returnReady").hide();
                         
-                        copyTo("result", `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["${char}",&nbsp;</span>`);
+                        cws("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["${char}",&nbsp;</span>`;
                     } else {
-                        copyTo("result", `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["${char}",&nbsp;</span>`);
+                        cws("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["${char}",&nbsp;</span>`;
                     }
                 }
                 if (format == "top") {
-                    const original = copyFrom("result");
-                    copyTo("result", `${original.slice(0, original.length - 7)},<strong>${`${beatResult}`.replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`);
+                    const original = cws("#result").html;
+                    cws("#result").html = `${original.slice(0, original.length - 7)},<strong>${`${beatResult}`.replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`;
                     
                     if (returnReady) {
                         returnReady = false;
-                        hide("returnReady");
+                        cws("#returnReady").hide();
                         
-                        const text = copyFrom("result");
+                        const text = cws("#result").html;
                         const semicolons = text.getCountOf(";");
                         
                         const splitBySemi = text.split(";");
@@ -249,7 +248,7 @@
                             beforeLastSemi += `${splitBySemi[i]}${hasSemi}`; // Add everything excluding last 1 semis (; ... are excluded)
                         }
                         
-                        copyTo("result", `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`);
+                        cws("#result").html = `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`;
                     }
                 }
                 
@@ -260,21 +259,21 @@
         async function play() {
             playNow++;
             if (playNow >= 2) {
-                target(`w-${playNow - 1}`).style.textDecoration = "none";
+                cws(`#w-${playNow - 1}`).el.style.textDecoration = "none";
             }
-            colorTo(`w-${playNow}`, "var(--red)");
-            target(`w-${playNow}`).style.textDecoration = "underline";
+            cws(`#w-${playNow}`).color = "var(--red)";
+            cws(`#w-${playNow}`).el.style.textDecoration = "underline";
 
             if (playNow != pressCount) {
                 let waitTime;
                 if (format == "normal") {
-                    waitTime = copyFrom(`w-${playNow + 1}`).getNum()[0];
+                    waitTime = cws(`#w-${playNow + 1}`).html.getNum()[0];
                 }
                 if (format == "json") {
-                    waitTime = copyFrom(`w-${playNow}`).getNum()[0];
+                    waitTime = cws(`#w-${playNow}`).html.getNum()[0];
                 }
                 if (format == "top") {
-                    waitTime = copyFrom(`w-${playNow}`).replaceAll(/'/g, ".").getNum()[0];
+                    waitTime = cws(`#w-${playNow}`).html.replaceAll(/'/g, ".").getNum()[0];
                 }
 
                 await sleep(waitTime * clockBase * 1000);
@@ -282,9 +281,9 @@
             } else {
                 await sleep(1500);
                 for (let i = 1; i <= pressCount; i++) {
-                    colorTo(`w-${i}`, "var(--textColor-500)");
+                    cws(`#w-${i}`).color = "var(--textColor-500)";
                 }
-                target(`w-${playNow}`).style.textDecoration = "none";
+                cws(`#w-${playNow}`).el.style.textDecoration = "none";
                 playNow = 0;
             }
         }

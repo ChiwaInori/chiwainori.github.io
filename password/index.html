@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -77,7 +76,7 @@
                         password += "-";
                     }
                 }
-                copyTo("result-apple", password);
+                cws("#result-apple").html = password;
             }
 
             if (type == "ms") { // 20% number; 12% notes
@@ -108,31 +107,31 @@
                         password += notes[rand(0, 4)];
                     }
                 }
-                copyTo("result-ms", password);
+                cws("#result-ms").html = password;
             }
         }
 
         async function copy(type) {
-            const password = copyFrom(`result-${type}`); 
-            colorTo(`result-${type}`, "var(--green)");
+            const password = cws(`#result-${type}`).html; 
+            cws(`#result-${type}`).color = "var(--green)";
             await sleep(1);
-            transColor(`result-${type}`, "var(--textColor-500)", 1000); 
+            cws(`#result-${type}`).cws("#var(--textColor-500)").transColor(1000); 
 
             navigator.clipboard.writeText(password);
         }
 
-        target("ms-slider").addEventListener("input", function () {
-            copyTo("ms-length", this.value);
+        cws("#ms-slider").el.addEventListener("input", function () {
+            cws("#ms-length").html = this.value;
             msLength = +this.value;
         });
 
-        target("ms-aa").addEventListener("change", function () {
+        cws("#ms-aa").el.addEventListener("change", function () {
             msOptions[0] = this.checked;
         });
-        target("ms-123").addEventListener("change", function () {
+        cws("#ms-123").el.addEventListener("change", function () {
             msOptions[1] = this.checked;
         });
-        target("ms-notes").addEventListener("change", function () {
+        cws("#ms-notes").el.addEventListener("change", function () {
             msOptions[2] = this.checked;
         });
 

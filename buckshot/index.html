@@ -36,7 +36,6 @@
         }
     </style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -102,10 +101,10 @@
         let nowRound = 0;
 
         function updateStartButton() {
-            const liveCount = +copyValue("liveCount");
-            const blankCount = +copyValue("blankCount");
+            const liveCount = Number(cws("#liveCount").value);
+            const blankCount = Number(cws("#blankCount").value);
             if (liveCount >= 0 && blankCount >= 0 && liveCount + blankCount >= 1) {
-                target("startButton").disabled = false;
+                cws("#startButton").el.disabled = false;
             }
         }
 
@@ -114,10 +113,10 @@
             bullets.telephoneModified = bullets.left.isolate();
 
             fadeChange("welcome", "gamePhase");
-            unhide("liveCountTxt", "inline");
-            unhide("blankCountTxt", "inline");
-            copyTo("liveCountTxt", bullets.left.live);
-            copyTo("blankCountTxt", bullets.left.blank);
+            cws("#liveCountTxt").unhide("inline");
+            cws("#blankCountTxt").unhide("inline");
+            cws("#liveCountTxt").html = bullets.left.live;
+            cws("#blankCountTxt").html = bullets.left.blank;
 
             generateLine();
             shoot(0);
@@ -138,34 +137,34 @@
                 if (type == 2 || type == 3) { bullets.telephoneModified.blank--; }
             }
             if (nowRound in telephoneHints) {
-                colorTo(`hint-${nowRound}`, "var(--red)");
+                cws(`#hint-${nowRound}`).color = "var(--red)";
             }
 
-            if (nowRound >= 2 && target(`hint-${nowRound - 1}`)) {
-                colorTo(`hint-${nowRound - 1}`, "var(--textColor-400)");
+            if (nowRound >= 2 && cws(`#hint-${nowRound - 1}`).el) {
+                cws(`#hint-${nowRound - 1}`).color = "var(--textColor-400)";
             }
 
             if (bullets.left.live != 0) {
-                copyTo("liveCountTxt", bullets.left.live);
+                cws("#liveCountTxt").html = bullets.left.live;
             } else {
-                copyTo("liveCountTxt", "已打完");
-                colorTo("liveCountTxt", "#dd0000");
-                target("shootNormalLive").disabled = target("shootInvertBlank").disabled = true;
+                cws("#liveCountTxt").html = "已打完";
+                cws("#liveCountTxt").color = "#dd0000";
+                cws("#shootNormalLive").el.disabled = cws("#shootInvertBlank").el.disabled = true;
 
                 for (let i = nowRound; i <= bullets.total; i++) {
-                    colorTo(`line-${i}`, `var(--blank)`);
+                    cws(`#line-${i}`).color = `var(--blank)`;
                 }
             }
 
             if (bullets.left.blank != 0) {
-                copyTo("blankCountTxt", bullets.left.blank);
+                cws("#blankCountTxt").html = bullets.left.blank;
             } else {
-                copyTo("blankCountTxt", "已打完");
-                colorTo("blankCountTxt", "#dd0000");
-                target("shootInvertLive").disabled = target("shootNormalBlank").disabled = true;
+                cws("#blankCountTxt").html = "已打完";
+                cws("#blankCountTxt").color = "#dd0000";
+                cws("#shootInvertLive").el.disabled = cws("#shootNormalBlank").el.disabled = true;
 
                 for (let i = nowRound; i <= bullets.total; i++) {
-                    colorTo(`line-${i}`, `var(--live)`);
+                    cws(`#line-${i}`).color = `var(--live)`;
                 }
             }
             
@@ -173,9 +172,9 @@
         }
 
         function telephone() {
-            const orderId = +copyValue("telephoneOrder");
+            const orderId = Number(cws("#telephoneOrder").value);
             const absoluteId = orderId + nowRound - 1;
-            const isLive = target("telephoneLive").checked;
+            const isLive = cws("#telephoneLive").el.checked;
 
             telephoneHints[absoluteId] = isLive;
             if (isLive) {
@@ -184,9 +183,9 @@
                 bullets.telephoneModified.blank--;
             }
 
-            setValue("telephoneOrder", "");
-            addTo("telephoneHintsGroup", `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`);
-            colorTo(`line-${absoluteId}`, `var(--${isLive ? "live" : "blank"})`);
+            cws("#telephoneOrder").value = "";
+            cws("#telephoneHintsGroup").html += `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`;
+            cws(`#line-${absoluteId}`).color = `var(--${isLive ? "live" : "blank"})`;
             updateChance(nowRound in telephoneHints);
         }
 
@@ -197,88 +196,88 @@
             if (revealed) {
                 const isLive = telephoneHints[nowRound];
                 liveChance = isLive ? 100 : 0;
-                colorTo("confirmed", `var(--${isLive ? "live" : "blank"})`);
+                cws("#confirmed").color = `var(--${isLive ? "live" : "blank"})`;
             } else {
                 const bulletsLeft = bullets.telephoneModified.live + bullets.telephoneModified.blank;
                 liveChance = noLeft ? parseInt(bullets.telephoneModified.live / bulletsLeft * 100) : 0;
             }
             const blankChance = bullets.left.live + bullets.left.blank != 0 ? 100 - liveChance : 0;
 
-            copyTo("liveChance", liveChance);
-            copyTo("blankChance", blankChance);
-            if (revealed) { unhide("confirmed", "inline"); } else { hide("confirmed", "id"); }
+            cws("#liveChance").html = liveChance;
+            cws("#blankChance").html = blankChance;
+            if (revealed) { cws("#confirmed").unhide("inline"); } else { cws("#confirmed", "id").hide(); }
 
-            copyTo("advantage-live", liveChance >= blankChance ? "<" : "|");
-            colorTo("advantage-live", liveChance >= blankChance ? "var(--lightOrange)" : "var(--gray)");
-            copyTo("advantage-blank", liveChance < blankChance ? ">" : "|");
-            colorTo("advantage-blank", liveChance < blankChance ? "var(--lightOrange)" : "var(--gray)");
+            cws("#advantage-live").html = liveChance >= blankChance ? "<" : "|";
+            cws("#advantage-live").color = liveChance >= blankChance ? "var(--lightOrange)" : "var(--gray)";
+            cws("#advantage-blank").html = liveChance < blankChance ? ">" : "|";
+            cws("#advantage-blank").color = liveChance < blankChance ? "var(--lightOrange)" : "var(--gray)";
 
             if (liveChance == 100) {
-                target("shootInvertLive").disabled = true;
-                target("shootNormalBlank").disabled = true;
+                cws("#shootInvertLive").el.disabled = true;
+                cws("#shootNormalBlank").el.disabled = true;
 
-                copyTo("advantage-live", "<");
-                colorTo("advantage-live", "var(--green)");
-                copyTo("advantage-blank", "|");
-                colorTo("advantage-blank", "var(--gray)");
+                cws("#advantage-live").html = "<";
+                cws("#advantage-live").color = "var(--green)";
+                cws("#advantage-blank").html = "|";
+                cws("#advantage-blank").color = "var(--gray)";
             }
             if (blankChance == 100) {
-                target("shootInvertBlank").disabled = true;
-                target("shootNormalLive").disabled = true;
+                cws("#shootInvertBlank").el.disabled = true;
+                cws("#shootNormalLive").el.disabled = true;
 
-                copyTo("advantage-live", "|");
-                colorTo("advantage-live", "var(--gray)");
-                copyTo("advantage-blank", ">");
-                colorTo("advantage-blank", "var(--green)");
+                cws("#advantage-live").html = "|";
+                cws("#advantage-live").color = "var(--gray)";
+                cws("#advantage-blank").html = ">";
+                cws("#advantage-blank").color = "var(--green)";
             }
             if (liveChance == 0 && blankChance == 0) {
-                copyTo("advantage-live", "|");
-                colorTo("advantage-live", "var(--gray)");
-                copyTo("advantage-blank", "|");
-                colorTo("advantage-blank", "var(--gray)");
+                cws("#advantage-live").html = "|";
+                cws("#advantage-live").color = "var(--gray)";
+                cws("#advantage-blank").html = "|";
+                cws("#advantage-blank").color = "var(--gray)";
             }
 
             const chanceModified = bullets.left.live != bullets.telephoneModified.live || bullets.left.blank != bullets.telephoneModified.blank;
-            if (chanceModified && !revealed) { unhide("changed", "inline"); } else { hide("changed", "id"); }
+            if (chanceModified && !revealed) { cws("#changed").unhide("inline"); } else { cws("#changed", "id").hide(); }
 
             if (bullets.telephoneModified.live == 0) {
                 for (let i = 1; i <= bullets.total; i++) {
-                    if (target(`line-${i}`).style.color == "var(--unknown)") { colorTo(`line-${i}`, "var(--blank)"); }
+                    if (cws(`#line-${i}`).el.style.color == "var(--unknown)") { cws(`#line-${i}`).color = "var(--blank)"; }
                 }
             }
             if (bullets.telephoneModified.blank == 0) {
                 for (let i = 1; i <= bullets.total; i++) {
-                    if (target(`line-${i}`).style.color == "var(--unknown)") { colorTo(`line-${i}`, "var(--live)"); }
+                    if (cws(`#line-${i}`).el.style.color == "var(--unknown)") { cws(`#line-${i}`).color = "var(--live)"; }
                 }
             }
 
-            copyTo("telephoneOrder", "");
-            target("telephoneButton").disabled = true;
+            cws("#telephoneOrder").html = "";
+            cws("#telephoneButton").el.disabled = true;
             for (let i = 2; i <= bullets.left.live + bullets.left.blank; i++) {
                 if (!(i + nowRound - 1 in telephoneHints)) {
-                    addTo("telephoneOrder", `<option value="${i}">${i}</option>`);
-                    target("telephoneButton").disabled = false;
+                    cws("#telephoneOrder").html += `<option value="${i}">${i}</option>`;
+                    cws("#telephoneButton").el.disabled = false;
                 }
             }
         }
 
         function generateLine() {
             for (let i = 1; i <= bullets.total; i++) {
-                addTo("bulletLine", `<span id="line-${i}">[${i}]</span>&nbsp;`);
-                colorTo(`line-${i}`, "var(--unknown)");
+                cws("#bulletLine").html += `<span id="line-${i}">[${i}]</span>&nbsp;`;
+                cws(`#line-${i}`).color = "var(--unknown)";
             }
-            copyTo("line-1", `<ruby>${copyFrom("line-1")}<rt style="color: var(--red)">NEXT</rt></ruby>`);
+            cws("#line-1").html = `<ruby>${cws("#line-1").html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
         }
 
         function updateLine(type, converted) {
-            colorTo(`line-${nowRound}`, `var(--${type})`);
-            if (converted) { addTo(`line-${nowRound}`, `<span style="color: var(--convert)">&gt;!</span>`); }
+            cws(`#line-${nowRound}`).color = `var(--${type})`;
+            if (converted) { cws(`#line-${nowRound}`).html += `<span style="color: var(--convert)">&gt;!</span>`; }
 
-            copyTo("bulletLine", copyFrom("bulletLine").replaceAll(/NEXT/g, ""));
+            cws("#bulletLine").html = cws("#bulletLine").html.replaceAll(/NEXT/g, "");
             if (nowRound + 1 <= bullets.total) {
-                copyTo(`line-${nowRound + 1}`, `<ruby>${copyFrom(`line-${nowRound + 1}`)}<rt style="color: var(--red)">NEXT</rt></ruby>`);
+                cws(`#line-${nowRound + 1}`).html = `<ruby>${cws(`#line-${nowRound + 1}`).html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
             } else {
-                addTo("bulletLine", "<span style='color: var(--green);'>&lt;FIN&gt;</span>");
+                cws("#bulletLine").html += "<span style='color: var(--green);'>&lt;FIN&gt;</span>";
             }
         }
 
@@ -286,34 +285,34 @@
             bullets.left.live = count;
 
             for (let i = 1; i <= count - 1; i++) {
-                addTo("select-blank", `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`);
+                cws("#select-blank").html += `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`;
             }
-            addTo("select-blank", `<span style="color: var(--live)">&nbsp;[${count}]&nbsp;</span>`);
+            cws("#select-blank").html += `<span style="color: var(--live)">&nbsp;[${count}]&nbsp;</span>`;
             for (let i = count + 1; i <= 10; i++) {
-                addTo("select-blank", `<span style="color: var(--gray)" onclick="chooseBlank(${i - count})">&nbsp;[${i - count}]&nbsp;</span>`);
+                cws("#select-blank").html += `<span style="color: var(--gray)" onclick="chooseBlank(${i - count})">&nbsp;[${i - count}]&nbsp;</span>`;
             }
 
-            hide("select-live-div");
-            unhide("select-blank-div");
+            cws("#select-live-div").hide();
+            cws("#select-blank-div").unhide();
         }
 
         function chooseBlank(count) {
             bullets.left.blank = count;
 
             for (let i = 1; i <= bullets.left.live - 1; i++) {
-                addTo("select-blank-final", `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`);
+                cws("#select-blank-final").html += `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`;
             }
-            addTo("select-blank-final", `<span style="color: var(--live)">&nbsp;[${bullets.left.live}]&nbsp;</span>`);
+            cws("#select-blank-final").html += `<span style="color: var(--live)">&nbsp;[${bullets.left.live}]&nbsp;</span>`;
             for (let i = bullets.left.live + 1; i <= bullets.left.live + bullets.left.blank - 1; i++) {
-                addTo("select-blank-final", `<span style="color: var(--blank)">&nbsp;[-]&nbsp;</span>`);
+                cws("#select-blank-final").html += `<span style="color: var(--blank)">&nbsp;[-]&nbsp;</span>`;
             }
-            addTo("select-blank-final", `<span style="color: var(--blank)">&nbsp;[${bullets.left.blank}]&nbsp;</span>`);
+            cws("#select-blank-final").html += `<span style="color: var(--blank)">&nbsp;[${bullets.left.blank}]&nbsp;</span>`;
             for (let i = bullets.left.live + bullets.left.blank + 1; i <= 10; i++) {
-                addTo("select-blank-final", `<span style="color: var(--gray)">&nbsp;[-]&nbsp;</span>`);
+                cws("#select-blank-final").html += `<span style="color: var(--gray)">&nbsp;[-]&nbsp;</span>`;
             }
 
-            hide("select-blank");
-            unhide("select-blank-final");
+            cws("#select-blank").hide();
+            cws("#select-blank-final").unhide();
             
             start();
         }

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -49,53 +48,53 @@
         </div>
     </div>
     <script>
-        target("liveCount").addEventListener("input", updateStartButton);
+        cws("#liveCount").el.addEventListener("input", updateStartButton);
 
-        target("blankCount").addEventListener("input", updateStartButton);
+        cws("#blankCount").el.addEventListener("input", updateStartButton);
 
         function updateStartButton() {
-            const liveCount = target("liveCount").value;
-            const blankCount = target("blankCount").value;
+            const liveCount = cws("#liveCount").el.value;
+            const blankCount = cws("#blankCount").el.value;
             if (liveCount != "" && blankCount != "") {
-                target("startButton").disabled = false;
+                cws("#startButton").el.disabled = false;
             }
         }
 
         function start() {
-            const liveCount = parseInt(target("liveCount").value);
-            const blankCount = parseInt(target("blankCount").value);
+            const liveCount = parseInt(cws("#liveCount").el.value);
+            const blankCount = parseInt(cws("#blankCount").el.value);
             fadeOut("liveCount");
             fadeOut("blankCount");
             fadeOut("startTxt");
             fadeOut("startButton");
             fadeChange("welcomeTxt", "gamePhase");
-            unhide("liveCountTxt", "inline");
-            unhide("blankCountTxt", "inline");
-            copyTo("liveCountTxt", liveCount);
-            copyTo("blankCountTxt", blankCount);
+            cws("#liveCountTxt").unhide("inline");
+            cws("#blankCountTxt").unhide("inline");
+            cws("#liveCountTxt").html = liveCount;
+            cws("#blankCountTxt").html = blankCount;
             shoot(0);
         }
 
         function shoot(type) {
-            target("shootNormalLive").disabled = false;
-            target("shootInvertBlank").disabled = false;
-            target("shootNormalBlank").disabled = false;
-            target("shootInvertLive").disabled = false;
+            cws("#shootNormalLive").el.disabled = false;
+            cws("#shootInvertBlank").el.disabled = false;
+            cws("#shootNormalBlank").el.disabled = false;
+            cws("#shootInvertLive").el.disabled = false;
 
-            let liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
-            let blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
-            if (copyFrom("telModifiedLive") == "") {
-                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+            let liveCount = parseInt(cws("#liveCountTxt").html) || 0;
+            let blankCount = parseInt(cws("#blankCountTxt").html) || 0;
+            if (cws("#telModifiedLive").html == "") {
+                var telModifiedLiveCount = parseInt(cws("#liveCountTxt").html);
             } else {
-                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+                var telModifiedLiveCount = parseInt(cws("#telModifiedLive").html);
             }
-            if (copyFrom("telModifiedBlank") == "") {
-                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+            if (cws("#telModifiedBlank").html == "") {
+                var telModifiedBlankCount = parseInt(cws("#blankCountTxt").html);
             } else {
-                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+                var telModifiedBlankCount = parseInt(cws("#telModifiedBlank").html);
             }
-            var nowOrder = parseInt(copyFrom("nowOrder"));
-            const telHints = copyFrom("telHints");
+            var nowOrder = parseInt(cws("#nowOrder").html);
+            const telHints = cws("#telHints").html;
             if (type == 1 || type == 4) {
                 liveCount--;
                 if (telHints.indexOf(`${nowOrder}`) == -1) {
@@ -108,88 +107,88 @@
                     telModifiedBlankCount--;
                 }
             }
-            copyTo("telModifiedLive", telModifiedLiveCount);
-            copyTo("telModifiedBlank", telModifiedBlankCount);
+            cws("#telModifiedLive").html = telModifiedLiveCount;
+            cws("#telModifiedBlank").html = telModifiedBlankCount;
             if (liveCount != 0) {
-                copyTo("liveCountTxt", liveCount);
+                cws("#liveCountTxt").html = liveCount;
             } else {
-                copyTo("liveCountTxt", "已打完");
-                colorTo("liveCountTxt", "#dd0000");
-                target("shootNormalLive").disabled = true;
-                target("shootInvertBlank").disabled = true;
+                cws("#liveCountTxt").html = "已打完";
+                cws("#liveCountTxt").color = "#dd0000";
+                cws("#shootNormalLive").el.disabled = true;
+                cws("#shootInvertBlank").el.disabled = true;
             }
             if (blankCount != 0) {
-                copyTo("blankCountTxt", blankCount);
+                cws("#blankCountTxt").html = blankCount;
             } else {
-                copyTo("blankCountTxt", "已打完");
-                colorTo("blankCountTxt", "#dd0000");
-                target("shootInvertLive").disabled = true;
-                target("shootNormalBlank").disabled = true;
+                cws("#blankCountTxt").html = "已打完";
+                cws("#blankCountTxt").color = "#dd0000";
+                cws("#shootInvertLive").el.disabled = true;
+                cws("#shootNormalBlank").el.disabled = true;
             }
             const totalShells = telModifiedLiveCount + telModifiedBlankCount;
             var liveChance = parseInt(telModifiedLiveCount / totalShells * 100);
             var blankChance = 100 - liveChance;
             var liveChance = liveChance || 0;
             var blankChance = blankChance || 0;
-            copyTo("liveChance", liveChance);
-            copyTo("blankChance", blankChance);
-            hide("confirmed");
+            cws("#liveChance").html = liveChance;
+            cws("#blankChance").html = blankChance;
+            cws("#confirmed").hide();
             var nowOrder = nowOrder + 1;
-            copyTo("nowOrder", nowOrder);
+            cws("#nowOrder").html = nowOrder;
             if (telHints.indexOf(`${nowOrder}l`) >= 0) {
-                copyTo("liveChance", 100);
-                copyTo("blankChance", 0);
-                unhide("confirmed", "inline");
-                colorTo("confirmed", "#ff7c7c");
+                cws("#liveChance").html = 100;
+                cws("#blankChance").html = 0;
+                cws("#confirmed").unhide("inline");
+                cws("#confirmed").color = "#ff7c7c";
             }
             if (telHints.indexOf(`${nowOrder}b`) >= 0) {
-                copyTo("liveChance", 0);
-                copyTo("blankChance", 100);
-                unhide("confirmed", "inline");
-                colorTo("confirmed", "#666666");
+                cws("#liveChance").html = 0;
+                cws("#blankChance").html = 100;
+                cws("#confirmed").unhide("inline");
+                cws("#confirmed").color = "#666666";
             }
 
-            if (copyFrom("liveChance") == 100) {
-                target("shootInvertLive").disabled = true;
-                target("shootNormalBlank").disabled = true;
+            if (cws("#liveChance").html == 100) {
+                cws("#shootInvertLive").el.disabled = true;
+                cws("#shootNormalBlank").el.disabled = true;
             }
-            if (copyFrom("liveChance") == 0) {
-                target("shootInvertBlank").disabled = true;
-                target("shootNormalLive").disabled = true;
+            if (cws("#liveChance").html == 0) {
+                cws("#shootInvertBlank").el.disabled = true;
+                cws("#shootNormalLive").el.disabled = true;
             }
 
             const totalShellsBeforeTel = liveCount + blankCount;
             var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
             var liveChanceBeforeTel = liveChanceBeforeTel || 0;
-            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
-                unhide("changed", "inline");
+            if (liveChanceBeforeTel != liveChance && cws("#confirmed").el.style.display == "none") {
+                cws("#changed").unhide("inline");
             } else {
-                hide("changed");
+                cws("#changed").hide();
             }
             log(liveChance, "liveChance");
             log(liveChanceBeforeTel, "liveChanceBeforeTel");
         }
 
         function confirmTel() {
-            const liveCount = parseInt(copyFrom("liveCountTxt")) || 0;
-            const blankCount = parseInt(copyFrom("blankCountTxt")) || 0;
-            const nowOrder = parseInt(copyFrom("nowOrder"));
-            const telOrder = parseInt(target("telOrder").value) + nowOrder - 1;
-            if (copyFrom("telModifiedLive") == "") {
-                var telModifiedLiveCount = parseInt(copyFrom("liveCountTxt"));
+            const liveCount = parseInt(cws("#liveCountTxt").html) || 0;
+            const blankCount = parseInt(cws("#blankCountTxt").html) || 0;
+            const nowOrder = parseInt(cws("#nowOrder").html);
+            const telOrder = parseInt(cws("#telOrder").el.value) + nowOrder - 1;
+            if (cws("#telModifiedLive").html == "") {
+                var telModifiedLiveCount = parseInt(cws("#liveCountTxt").html);
             } else {
-                var telModifiedLiveCount = parseInt(copyFrom("telModifiedLive"));
+                var telModifiedLiveCount = parseInt(cws("#telModifiedLive").html);
             }
-            if (copyFrom("telModifiedBlank") == "") {
-                var telModifiedBlankCount = parseInt(copyFrom("blankCountTxt"));
+            if (cws("#telModifiedBlank").html == "") {
+                var telModifiedBlankCount = parseInt(cws("#blankCountTxt").html);
             } else {
-                var telModifiedBlankCount = parseInt(copyFrom("telModifiedBlank"));
+                var telModifiedBlankCount = parseInt(cws("#telModifiedBlank").html);
             }
-            if (target("telLive").checked == true) {
-                copyTo("telHints", `${copyFrom("telHints")} ${telOrder}l`);
+            if (cws("#telLive").el.checked == true) {
+                cws("#telHints").html = `${cws("#telHints").html} ${telOrder}l`;
                 telModifiedLiveCount--;
             } else {
-                copyTo("telHints", `${copyFrom("telHints")} ${telOrder}b`);
+                cws("#telHints").html = `${cws("#telHints").html} ${telOrder}b`;
                 telModifiedBlankCount--;
             }
             const totalShells = telModifiedLiveCount + telModifiedBlankCount;
@@ -197,29 +196,29 @@
             var blankChance = 100 - liveChance;
             var liveChance = liveChance || 0;
             var blankChance = blankChance || 0;
-            copyTo("liveChance", liveChance);
-            copyTo("blankChance", blankChance);
-            copyTo("telModifiedLive", telModifiedLiveCount);
-            copyTo("telModifiedBlank", telModifiedBlankCount);
+            cws("#liveChance").html = liveChance;
+            cws("#blankChance").html = blankChance;
+            cws("#telModifiedLive").html = telModifiedLiveCount;
+            cws("#telModifiedBlank").html = telModifiedBlankCount;
 
             const totalShellsBeforeTel = liveCount + blankCount;
             var liveChanceBeforeTel = parseInt(liveCount / totalShellsBeforeTel * 100);
             var liveChanceBeforeTel = liveChanceBeforeTel || 0;
-            if (liveChanceBeforeTel != liveChance && target("confirmed").style.display == "none") {
-                unhide("changed", "inline");
+            if (liveChanceBeforeTel != liveChance && cws("#confirmed").el.style.display == "none") {
+                cws("#changed").unhide("inline");
             } else {
-                hide("changed");
+                cws("#changed").hide();
             }
             log(liveChance, "liveChance");
             log(liveChanceBeforeTel, "liveChanceBeforeTel");
 
-            if (copyFrom("liveChance") == 100) {
-                target("shootInvertLive").disabled = true;
-                target("shootNormalBlank").disabled = true;
+            if (cws("#liveChance").html == 100) {
+                cws("#shootInvertLive").el.disabled = true;
+                cws("#shootNormalBlank").el.disabled = true;
             }
-            if (copyFrom("liveChance") == 0) {
-                target("shootInvertBlank").disabled = true;
-                target("shootNormalLive").disabled = true;
+            if (cws("#liveChance").html == 0) {
+                cws("#shootInvertBlank").el.disabled = true;
+                cws("#shootNormalLive").el.disabled = true;
             }
         }
     </script>

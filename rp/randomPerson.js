@@ -10,7 +10,7 @@ let temp;
 
 hint();
 copyright(2024, "Guigang JNZX 2310 XZY (千和 いのり)");
-target("skipAnimation").addEventListener("change", function () {
+cws("#skipAnimation").el.addEventListener("change", function () {
     skipAnimation = this.checked;
 });
     
@@ -58,9 +58,9 @@ function changeMode(mode) {
     modeList = modeList.remove(mode);
     
     modeList.forEach(toHide => {
-        hide(`s-${toHide}`);
+        cws(`#s-${toHide}`).hide();
     });
-    unhide(`s-${mode}`);
+    cws(`#s-${mode}`).unhide();
     updateChance();
 }
 
@@ -145,9 +145,9 @@ async function roll(type) {
 }
 
 async function animate(flashNames, flashColor, toColor, type) {
-    await fadeOut("name", true);
-    colorTo("name", flashColor);
-    fadeIn("name");
+    await cws("#name").fadeOut(true);
+    cws("#name").color = flashColor;
+    cws("#name").fadeIn();
 
     const flashTimes = currentMode == "false" && remainingList[type].length == 1 ? 0 : rand(8, 15);
     const timer = index => ((0.7 / flashTimes * index) ** 2 + 0.1 - flashTimes / 200) / 1.5;
@@ -155,24 +155,24 @@ async function animate(flashNames, flashColor, toColor, type) {
     
     for (let i = 1; i <= flashTimes; i++) {
         const animateName = lastAnimated = flashNames.remove(lastAnimated)[rand(0, flashNames.length - 2)];
-        copyTo("name", currentMode == "false" ? `${animateName} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : animateName);
+        cws("#name").html = currentMode == "false" ? `${animateName} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : animateName;
         playClick();
         await sleep(timer(i) * 1000);
     }
     
     if (lastAnimated != nowRolling) { playClick(); }
-    copyTo("name", currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling);
+    cws("#name").html = currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling;
     await sleep(800);
-    transColor("name", toColor, 200);
+    cws("#name").transColor(toColor, 200);
     logName();
 }
 
 async function animateSkip(isById, toColor, type) {
-    await fadeOut("name", true);
+    await cws("#name").fadeOut(true);
     playClick();
-    copyTo("name", isById ? nowRolling : currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling);
-    colorTo("name", toColor);
-    fadeIn("name");
+    cws("#name").html = isById ? nowRolling : currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling;
+    cws("#name").color = toColor;
+    cws("#name").fadeIn();
     if (!isById) { logName(); }
 }
 
@@ -180,36 +180,36 @@ async function num(number) {
     if (idNow == "") {
         idNow += number;
         if (number == 0) {
-            target(`b-0`).disabled = true;
+            cws(`#b-0`).el.disabled = true;
         }
         if (number <= 4) {
             for (let i = 6; i <= 9; i++) {
-                target(`b-${i}`).disabled = false;
+                cws(`#b-${i}`).el.disabled = false;
             }
         }
-        transColor("findById", "var(--orange)");
+        cws("#findById").transColor("var(--orange)");
     } else {
         idNow += number;
         temp = +idNow;
         nowRolling = `${fullList.all[+idNow - 1]} <span style='font-size: 32px;'>${idNow}</span>`;
-        transColor("findById", "var(--textColor-500)");
+        cws("#findById").transColor("var(--textColor-500)");
         await animateSkip(true, "var(--textColor-500)");
         logName(fullList.all[+idNow - 1]);
         idNow = "";
 
-        target(`b-0`).disabled = false;
+        cws(`#b-0`).el.disabled = false;
         for (let i = 6; i <= 9; i++) {
-            target(`b-${i}`).disabled = true;
+            cws(`#b-${i}`).el.disabled = true;
         }
     }
 }
 
 function findByIdReset() {
     idNow = "";
-    transColor("findById", "var(--textColor-500)");
-    target(`b-0`).disabled = false;
+    cws("#findById").transColor("var(--textColor-500)");
+    cws(`#b-0`).el.disabled = false;
     for (let i = 6; i <= 9; i++) {
-        target(`b-${i}`).disabled = true;
+        cws(`#b-${i}`).el.disabled = true;
     }
 }
 
@@ -241,29 +241,29 @@ function updateWeight(whoIsRolled) {
 }
 
 function playClick() {
-    target("click").currentTime = 0.026;
-    target("click").play();
+    cws("#click").el.currentTime = 0.026;
+    cws("#click").el.play();
 }
 
 function revealChance() {
     fadeChange("showChanceLine", "chanceTable");
-    target("name").style.marginBottom = "116px";
+    cws("#name").el.style.marginBottom = "116px";
 }
 
 function updateChance(showType) {
-    copyTo("chanceTable", "");
+    cws("#chanceTable").html = "";
     if (!showType) { showType = chanceMode; }
 
     if (showType == "all") {
-        copyTo("chanceTable", "<span class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</span><br />");
+        cws("#chanceTable").html = "<span class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</span><br />";
         fullList.all.forEach((name, index) => {
             const id = index + 1;
-            addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
+            cws("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
         });
 
         if (currentMode == "true") {
             for (let i = 1; i <= fullList.all.length; i++) {
-                copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList.all.length * 100).keep(5)}%`);
+                cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList.all.length * 100).keep(5)}%`;
             }
         }
         if (currentMode == "dynamic") {
@@ -273,29 +273,29 @@ function updateChance(showType) {
             });
             dynamicList.weight.all.forEach((weightNum, index) => {
                 const i = index + 1;
-                copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / totalWeight * 100).keep(5)}%`);
+                cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(weightNum / totalWeight * 100).keep(5)}%`;
             });
         }
         if (currentMode == "false") {
             const nowLeftChance = 1 / remainingList.all.length;
             for (let i = 1; i <= fullList.all.length; i++) {
                 if (remainingList.all.includes(fullList.all[i - 1])) {
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(nowLeftChance * 100).keep(5)}%`);
+                    cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
                 } else {
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
+                    cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
                 }
             }
         }
     } else { // Show chance rolled by sex
-        copyTo("chanceTable", "<span class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</span><br />");
+        cws("#chanceTable").html = "<span class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</span><br />";
         fullList.all.forEach((name, index) => {
             const id = index + 1;
-            addTo("chanceTable", `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}" style="color: ${!basicInformation.girlId.includes(id) ? "var(--blue)" : "var(--pink)"}"></span> ${id % 10 == 0 ? `<br />` : ""}`);
+            cws("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}" style="color: ${!basicInformation.girlId.includes(id) ? "var(--blue)" : "var(--pink)"}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
         });
 
         if (currentMode == "true") {
             for (let i = 1; i <= fullList.all.length; i++) {
-                copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(1 / fullList[!basicInformation.girlId.includes(i) ? "boy" : "girl"].length * 100).keep(5)}%`);
+                cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList[!basicInformation.girlId.includes(i) ? "boy" : "girl"].length * 100).keep(5)}%`;
             }
         }
         if (currentMode == "dynamic") {
@@ -312,16 +312,16 @@ function updateChance(showType) {
 
             dynamicList.weight.all.forEach((weightNum, index) => {
                 const i = index + 1;
-                copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(weightNum / (basicInformation.girlId.includes(i) ? totalWeight.girl : totalWeight.boy) * 100).keep(5)}%`);
+                cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(weightNum / (basicInformation.girlId.includes(i) ? totalWeight.girl : totalWeight.boy) * 100).keep(5)}%`;
             });
         }
         if (currentMode == "false") {
             for (let i = 1; i <= fullList.all.length; i++) {
                 const nowLeftChance = 1 / remainingList[!basicInformation.girlId.includes(i) ? "boy" : "girl"].length;
                 if (remainingList[!basicInformation.girlId.includes(i) ? "boy" : "girl"].includes(fullList.all[i - 1])) {
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `${(nowLeftChance * 100).keep(5)}%`);
+                    cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
                 } else {
-                    copyTo(`chance-${i < 10 ? `0${i}` : i}`, `0%`);
+                    cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
                 }
             }
         }
@@ -334,7 +334,7 @@ function logName(byIdName) {
     if (byIdName) {
         log(++order, byIdName, "BY-ID", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
     } else {
-        log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : target("name").style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
+        log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : cws("#name").el.style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP");
     }
 }
 

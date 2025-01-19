@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="/css/global.css" />
 <link rel="stylesheet" href="/css/type-normal.css" />
 <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 <style>
     #element::before {
     content: "This is the before content";
@@ -21,7 +20,7 @@
 <p id="abc"></p>
 
 <script>
-    copyTo("link", window.location.href);
+    cws("#link").html = window.location.href;
 
     function divideOld(a, b, calSteps) { // 穷举法算 a / b
         if (a > b || a < 0 || b == 0 || b < 0 || calSteps < 1 || calSteps % 1 != 0) { throw new RangeError(); }
@@ -168,7 +167,7 @@
 
     const obj = {
         get text() {
-            return copyFrom("element");
+            return cws("#element").html;
         }
     };
 

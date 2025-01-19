@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title> - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <!-- <div class="title">
+        <h1></h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong></strong></h6>
+    </div> -->
+    <div class="content">
+        <p>页面包含年龄限制内容。请输入你的出生日期以继续:</p>
+        <p>出生日期
+            <select id="select-year"></select>年
+            <select id="select-month"></select>月
+            <select id="select-day"></select>日
+            <button onclick="continuePage()">继续</button>
+        </p>
+    </div>
+    <script>
+        for (let i = new Date().getFullYear(); i >= 1840; i--) {
+            cws("#select-year").html += `<option value="${i}">${i}</option>`;
+        }
+        for (let i = 1; i <= 12; i++) {
+            cws("#select-month").html += `<option value="${i}">${i}</option>`;
+        }
+        for (let i = 1; i <= 31; i++) {
+            cws("#select-day").html += `<option value="${i}">${i}</option>`;
+        }
+
+        function continuePage() {
+            const now = new Date();
+            const nowArr = [now.getFullYear(), now.getMonth() + 1, now.getDate()];
+
+            const year = cws("#select-year").value;
+            const month = cws("#select-month").value;
+            const day = cws("#select-day").value;
+
+            let success = false;
+
+            if (year <= nowArr[0] - 19) {
+                success = true;
+            }
+            if (year == nowArr[0] - 18) {
+                if (month < nowArr[1]) {
+                    success = true;
+                }
+                if (month == nowArr[1]) {
+                    if (day <= nowArr[2]) {
+                        success = true;
+                    }
+                }
+            }
+
+            window.location.href = `https://www.bilibili.com/video/${success ? "BV1Mt411X7fr" : "BV1b6DBYoEw3"}/`;
+        }
+    </script>
+</div></body>
+
+</html>

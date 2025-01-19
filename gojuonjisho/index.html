@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/type-center.css" />
     <style></style>
     <script src="/chiwa-functions.js"></script>
-    <script src="/old/js/inori/inori-compatible.js"></script>
 </head>
 
 <body><div class="mainBody">
@@ -62,10 +61,10 @@
             if (key == "ArrowDown") {
                 if (!locked.keyD) {
                     locked.keyLR = false;
-                    if (!isHidden("startup")) {
+                    if (!cws("#startup").hidden) {
                         startTimer = new Date().getTime();
-                        hide("startup");
-                        unhide("gameText");
+                        cws("#startup").hide();
+                        cws("#gameText").unhide();
                     }
                     gameGen();
                     locked.keyD = true;
@@ -79,15 +78,15 @@
 
                     timeUsed.push(costTime);
                     correct++;
-                    copyTo("resultLine", `回答正确! 用时 ${costTime} ms`);
-                    colorTo("resultLine", "var(--green)");
+                    cws("#resultLine").html = `回答正确! 用时 ${costTime} ms`;
+                    cws("#resultLine").color = "var(--green)";
                 } else { // Wrong
-                    copyTo("resultLine", `回答错误 - 按下 下方向键 或 点击这行文字 继续`);
-                    colorTo("resultLine", "var(--red)");
+                    cws("#resultLine").html = `回答错误 - 按下 下方向键 或 点击这行文字 继续`;
+                    cws("#resultLine").color = "var(--red)";
                     locked.keyLR = true;
                     locked.keyD = false;
 
-                    colorTo(`option-${key == "ArrowLeft" ? 2 : 1}`, "var(--red)");
+                    cws(`#option-${key == "ArrowLeft" ? 2 : 1}`).color = "var(--red)";
                 }
 
                 if (nowQuestion <= 19) {
@@ -100,17 +99,17 @@
                     const avgTime = totalTime / 20;
                     locked.keyLR = locked.keyD = true;
 
-                    copyTo("finalLine", `测试结束! 正确率 ${correct * 5}%, 平均用时 ${avgTime} ms`);
+                    cws("#finalLine").html = `测试结束! 正确率 ${correct * 5}%, 平均用时 ${avgTime} ms`;
                 }
             }
         }
 
         function gameGen() {
-            if (copyFrom("resultLine") == "回答错误 - 按下 下方向键 或 点击这行文字 继续") { copyTo("resultLine", ""); }
-            colorTo(`option-1`, "var(--textColor-500)");
-            colorTo(`option-2`, "var(--textColor-500)");
+            if (cws("#resultLine").html == "回答错误 - 按下 下方向键 或 点击这行文字 继续") { cws("#resultLine").html = ""; }
+            cws(`#option-1`).color = "var(--textColor-500)";
+            cws(`#option-2`).color = "var(--textColor-500)";
             startTimer = new Date().getTime();
-            copyTo("order", ++nowQuestion);
+            cws("#order").html = ++nowQuestion;
 
             const num1 = rand(0, 45);
             const num2 = rand(0, 45);
@@ -120,9 +119,9 @@
             const char1 = kana[num1][rand(0, kana[num1].length - 1)];
             const char2 = kana[num2][rand(0, kana[num2].length - 1)];
             
-            copyTo("option-1", char1);
-            copyTo("option-2", char2);
-            copyTo("question", orderToCheck == 0 ? "前" : "后");
+            cws("#option-1").html = char1;
+            cws("#option-2").html = char2;
+            cws("#question").html = orderToCheck == 0 ? "前" : "后";
         }
     </script>
 </div></body>
