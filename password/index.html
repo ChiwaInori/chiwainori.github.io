@@ -114,8 +114,8 @@
         async function copy(type) {
             const password = cws(`#result-${type}`).html; 
             cws(`#result-${type}`).color = "var(--green)";
-            await sleep(1);
-            cws(`#result-${type}`).cws("#var(--textColor-500)").transColor(1000); 
+            await sleep(10);
+            cws(`#result-${type}`).transColor("var(--textColor-500)", 1000); 
 
             navigator.clipboard.writeText(password);
         }
