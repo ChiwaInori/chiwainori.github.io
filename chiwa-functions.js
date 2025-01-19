@@ -7,7 +7,6 @@
     Most of them required other Chiwa Functions to work. Some functions can be also used in Node.js environment.
 
     Originally called Inori Functions, its name had been changed along with a major update (2025.1.17) related to HTML Elements.
-    Inori Compatible in old/js/inori is also used in some pages, and it can work with Chiwa Functions due to compatibility is required in such a huge website. However, they shouldn't be used in new projects anymore.
 
     Index: (The "p" below means "prototype")
 
@@ -16,7 +15,7 @@
         Parameter Judgement (2): _type, _range
         Commands (3): sleep, overload, nonEnum
         Website (3): host, seizure, copyright
-        urlParam (6): { setItem, getItem, getAll, removeItem, generate, clear }
+        URL Param (6): urlParam { setItem, getItem, getAll, removeItem, generate, clear }
         Console Log (2): log, warn
     JS Commands (14):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
@@ -24,7 +23,7 @@
             Get Numbers (3): rand, seed, String.p.getNum
             Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
     HTML Elements (9):
-        ChiwaSet (6): { (accessible attributes), hide, unhide, transColor, fadeOut, fadeIn }, cws
+        ChiwaSet (6): ChiwaSet { (accessible attributes), hide, unhide, transColor, fadeOut, fadeIn }, cws
         Accessibility (3): query, applyAll, fadeChange
     Save & Load (3): save, load, loadJSON
 */
