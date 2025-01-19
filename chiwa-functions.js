@@ -257,88 +257,88 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
 
 // GLOBAL USAGE / URL PARAM
 
-const urlParam = {};
+const urlParam = new function urlParam() {
+    /**
+     * Set the param to URL (.../...?key1=value1&key2=value2).
+     * @param {string} name - The key of param
+     * @param {any} value - The value being set
+     * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
+     */
+    this.nonEnum("setItem", (key, value = null) => {
+        _type(key, "string");
 
-/**
- * Set the param to URL (.../...?key1=value1&key2=value2).
- * @param {string} name - The key of param
- * @param {any} value - The value being set
- * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
- */
-urlParam.nonEnum("setItem", (key, value = null) => {
-    _type(key, "string");
+        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
+    });
 
-    history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
-});
+    /**
+     * Get the param from URL (.../...?key1=value1&key2=value2).
+     * @param {string} key - The param key to get from URL
+     * @returns {string | null} The value of the param
+     * @example urlParam.getItem("userID") // Return the value of ?userID=...
+     */
+    this.nonEnum("getItem", key => {
+        _type(key, "string");
 
-/**
- * Get the param from URL (.../...?key1=value1&key2=value2).
- * @param {string} key - The param key to get from URL
- * @returns {string | null} The value of the param
- * @example urlParam.getItem("userID") // Return the value of ?userID=...
- */
-urlParam.nonEnum("getItem", key => {
-    _type(key, "string");
+        return new URLSearchParams(window.location.search).get(key);
+    });
 
-    return new URLSearchParams(window.location.search).get(key);
-});
+    /**
+     * Get all param from URL (.../...?key1=value1&key2=value2).
+     * @returns {object} A object with all params
+     * @example urlParam.getAll() // Return a object with all params
+     */
+    this.nonEnum("getAll", () => {
+        const obj = {};
 
-/**
- * Get all param from URL (.../...?key1=value1&key2=value2).
- * @returns {object} A object with all params
- * @example urlParam.getAll() // Return a object with all params
- */
-urlParam.nonEnum("getAll", () => {
-    const obj = {};
+        if (window.location.href.includes("?")) {
+            const paramList = window.location.href.split("?")[1].split("&");
 
-    if (window.location.href.includes("?")) {
-        const paramList = window.location.href.split("?")[1].split("&");
-
-        for (const keyValue of paramList) {
-            obj[keyValue.split("=")[0]] = keyValue.split("=")[1];
+            for (const keyValue of paramList) {
+                obj[keyValue.split("=")[0]] = keyValue.split("=")[1];
+            }
         }
-    }
 
-    return obj;
-});
+        return obj;
+    });
 
-/**
- * Remove a param from URL (.../...?key1=value1&key2=value2).
- * @param {string} key - The param key to remove from URL
- * @example urlParam.removeItem("result") // Update URL bar without "result" param
- */
-urlParam.nonEnum("removeItem", key => {
-    _type(key, "string");
+    /**
+     * Remove a param from URL (.../...?key1=value1&key2=value2).
+     * @param {string} key - The param key to remove from URL
+     * @example urlParam.removeItem("result") // Update URL bar without "result" param
+     */
+    this.nonEnum("removeItem", key => {
+        _type(key, "string");
 
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.delete(key);
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.delete(key);
 
-    history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
-});
+        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
+    });
 
-/**
- * Generate a string of current URL and values in obj.
- * @param {object} obj  - The params to be added to URL
- * @returns {string} A string with current URL added with values in obj
- * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
- */
-urlParam.nonEnum("generate", obj => {
-    let url = window.location.href;
+    /**
+     * Generate a string of current URL and values in obj.
+     * @param {object} obj  - The params to be added to URL
+     * @returns {string} A string with current URL added with values in obj
+     * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
+     */
+    this.nonEnum("generate", obj => {
+        let url = window.location.href;
 
-    for (const keyValue in obj) {
-        url += `${url.includes("?") ? "&" : "?"}${keyValue}=${obj[keyValue]}`;
-    }
+        for (const keyValue in obj) {
+            url += `${url.includes("?") ? "&" : "?"}${keyValue}=${obj[keyValue]}`;
+        }
 
-    return url;
-});
+        return url;
+    });
 
-/**
- * Clear all param from URL.
- * @example urlParam.clear() // All characters after "?" in URL bar will be removed
- */
-urlParam.nonEnum("clear", () => {
-    history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
-});
+    /**
+     * Clear all param from URL.
+     * @example urlParam.clear() // All characters after "?" in URL bar will be removed
+     */
+    this.nonEnum("clear", () => {
+        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
+    });
+};
 
 // GLOBAL USAGE / CONSOLE LOG
 
