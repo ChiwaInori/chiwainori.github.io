@@ -252,7 +252,7 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
     const thisYear = new Date().getFullYear();
     _range(startYear, `%1=0 | <= ${thisYear}`);
 
-    cws("#copyright").text = `Copyright © ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
+    cws("#copyright").html = `Copyright © ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
 }
 
 // GLOBAL USAGE / URL PARAM
