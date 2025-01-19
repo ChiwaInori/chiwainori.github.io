@@ -194,11 +194,11 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     if (cnText[0] == "_") {
         applyAll(".SEIZURE", el => cws(el).el.close());
         if (cnText != "_close") {
-            cws(`#${cnText[3]}${cnText[4]}Seizure`).el.showModal();
+            cws(`#${cnText.slice(3).toLowerCase()}Seizure`).el.showModal();
         } else {
             document.body.style.overflow = "";
             window.removeEventListener("scroll", preventScroll);
-            cws(".mainBody").el.style.filter = "brightness(1)";
+            cws(".mainBody").style.filter = "brightness(1)";
         }
         return;
     }
@@ -233,8 +233,8 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[進む]</span></strong></p>
         </dialog>`;
     
-    document.body.style.overflow = "hidden";
     window.addEventListener("scroll", preventScroll, { passive: false });
+    cws("body").style.overflow = "hidden";
     cws(".mainBody").style.filter = "brightness(0.7)";
 
     seizure("_toCN");
