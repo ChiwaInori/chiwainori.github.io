@@ -2,9 +2,17 @@
 // Remember that ESLint errors / warns will be only shown if there's not fatal errors exist (like missing quotes or what).
 // To fix ESLint errors / warns automatically, use "npx eslint (FILE-NAME) --fix". Fixable errors / warns will be fixed.
 
-let a = 1;
-
 // Remember all codes listed below are those that you SHOULDN'T DO in ChiwaInori.top.
+
+// Some rules are ignored (but also shouldn't do):
+
+// Ignored: no-undef
+imNotDefined = 6;
+
+// Ignored: no-unused
+const imUnused = 1;
+
+// Detail reasons are in eslint.config.mjs
 
 // Error: for-direction
 for (let i = 0; i < 5; i--) {
@@ -42,8 +50,7 @@ function hey() {
 // Error: no-implicit-coercion
 console.log(!!a);
 console.log(+a);
-// eslint-disable-next-line prefer-template
-console.log("" + a);
+console.log(a += "");
 
 // Error: no-invalid-regexp
 let reg = new RegExp("[");
@@ -159,7 +166,7 @@ const list1 = {
 };
 
 // Warn: comma-spacing
-console.log(a,b);
+console.log(a,bitwise);
 
 // Warn: comma-style
 const list2 = {
@@ -262,7 +269,7 @@ try {
 const uselessConcat = "Hello, " + "World!";
 
 // Warn: no-var
-var b = 5;
+var a = 5;
 
 // Warn: object-curly-spacing
 const obj = {name: "John"};
@@ -318,12 +325,4 @@ a ++;
 // Warn: template-curly-spacing
 const numLine = `The number is ${ a }`;
 
-// Doesn't report an error or warn (but you shouldn't):
-
-// Ignored: no-undef
-imNotDefined = 3;
-
-// Ignored: no-unused
-const imNotUsed = 6;
-
-// Detailed reasons are in /eslint.config.mjs
+// Warn: eol-last

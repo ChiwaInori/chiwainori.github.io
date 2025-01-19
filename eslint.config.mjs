@@ -45,6 +45,7 @@ const ruleList = {
     "comma-style": "warn",
     "computed-property-spacing": "warn",
     "curly": "warn",
+    "eol-last": ["warn", "never"],
     "func-call-spacing": "warn",
     "indent": ["warn", 4],
     "keyword-spacing": "warn",
@@ -85,9 +86,9 @@ const ruleList = {
     We use these methods to identify "error" or "warn":
         "error": Some formats that will cause errors, make codes very confused, or might be an typing error
         "warn": Other formats that isn't too dangerous, but not good for unified format
-    Doesn't use some rules:
+    Doesn't use some rules (but also shouldn't do):
         "no-undef": some are defined in inori-functions.js
-        "no-unused": some are used in <button onclick="..."></button>
+        "no-unused-var": some are used in <button onclick="..."></button>
     For examples, see /eslint-guide.js
 */
 

@@ -47,27 +47,29 @@ function chiwa() {
 // GLOBAL USAGE / PARAMETER JUDGEMENT
 
 /**
- * Judge a parameter is in given type of not. If not, throw an error.
+ * Judge a parameter is in given type of not. If not, throw a TypeError.
  * @param {any} param - The parameter needed to be judged
- * @param {string} type - The given type (also accepts "array"; type freely is allowed but not suggested (like "sTRinG, bOOLEANnumber"))
+ * @param {string} type - The given type (also accepts "array"; use "number | boolean" to accept multiple types)
  * @example _type("1", "number") // Throw a TypeError
 */
 function _type(param, type) {
-    if (typeof type != "string") { throw new TypeError(`STRING required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(type)}`); }
+    const isCircular = (typeof param == "object" || typeof type == "object") && (obj => { try { JSON.stringify(obj); return false; } catch (e) { return e.message.match(/(?<=')(.*)(?=' closes the circle)/g)[0]; } });
+
+    if (typeof type != "string") { throw new TypeError(`STRING required; received target type is ${typeof param == "bigint" ? `${param}n` : isCircular(type) ? `a circular OBJECT (${isCircular(type)}↺)` : JSON.stringify(type)}`); }
     
     type = type.toLowerCase();
     if (type.includes("any")) { return; }
     if (type.includes("array") && Array.isArray(param)) { return; }
     
     if (!type.includes(typeof param)) {
-        throw new TypeError(`${type.toUpperCase()} required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(param)}`);
+        throw new TypeError(`${type.toUpperCase()} required; received ${typeof param == "bigint" ? `${param}n` : isCircular(param) ? `a circular OBJECT (${isCircular(param)}↺)` : JSON.stringify(param)}`);
     }
 }
 
 // When a number is need to be judged with a range, _type() can be omitted. Its type will be judged in _range()'s _type().
 
 /**
- * Judge a number is in given range or not. If not, throw an error.
+ * Judge a number is in given range or not. If not, throw a RangeError.
  * @param {number} number - The number needed to be judged
  * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...); combination allowed (">=1 | <= 2"))
  * @example _range(0, ">= 1") // Throw a RangeError
@@ -709,7 +711,9 @@ BigInt.prototype.nonEnum("toBase", function (base, _) {
 
 // HTML ELEMENTS
 
-// ChiwaSet: A new class with custom information of a element. Convenient for some specified values / functions.
+// HTML ELEMENTS / CHIWASET
+
+// ChiwaSet: A new class with custom information of a single element. Convenient for some specified values / functions.
 class ChiwaSet {
     constructor(element, index = 0) {
         _type(element, "string | object");
@@ -878,8 +882,6 @@ class ChiwaSet {
     }
 }
 
-// HTML ELEMENTS / TARGET ELEMENTS
-
 /**
  * Get a ChiwaSet of target element.
  * @param {string | object} element - The query string of element or an element
@@ -895,6 +897,7 @@ function cws(element, index = 0) {
 }
 
 // HTML ELEMENTS / ACCESSIBILITY
+// ChiwaSet can only be used for a single element. To apply changes to multiple elements, use accessibility functions below.
 
 /**
  * Return queried element(s) in HTML.
