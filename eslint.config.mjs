@@ -45,7 +45,6 @@ const ruleList = {
     "comma-style": "warn",
     "computed-property-spacing": "warn",
     "curly": "warn",
-    "eol-last": ["warn", "never"],
     "func-call-spacing": "warn",
     "indent": ["warn", 4],
     "keyword-spacing": "warn",

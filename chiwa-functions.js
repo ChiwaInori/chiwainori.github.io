@@ -80,7 +80,7 @@ function _range(number, range) {
 
     const requirements = range.split(" | ");
 
-    requirements.forEach(req => { 
+    requirements.forEach(req => {
         if (req == "%1=0") {
             if (typeof number == "number" && number % 1 != 0) {
                 throw new RangeError(`%1=0 required; received ${number}`);

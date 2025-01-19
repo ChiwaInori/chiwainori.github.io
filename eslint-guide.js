@@ -4,16 +4,6 @@
 
 // Remember all codes listed below are those that you SHOULDN'T DO in ChiwaInori.top.
 
-// Some rules are ignored (but also shouldn't do):
-
-// Ignored: no-undef
-imNotDefined = 6;
-
-// Ignored: no-unused
-const imUnused = 1;
-
-// Detail reasons are in eslint.config.mjs
-
 // Error: for-direction
 for (let i = 0; i < 5; i--) {
     console.log(true);
@@ -323,6 +313,14 @@ a ++;
 //No spaces after //
 
 // Warn: template-curly-spacing
-const numLine = `The number is ${ a }`;
+const numLine = `The number is ${a}`;
 
-// Warn: eol-last
+// Some rules are ignored (but also shouldn't do):
+
+// Ignored: no-undef
+imNotDefined = 6;
+
+// Ignored: no-unused
+const imUnused = 1;
+
+// Detail reasons are in eslint.config.mjs
