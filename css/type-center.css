@@ -10,6 +10,10 @@
     .mainBody {
         width: 90%;
     }
+
+    [class*="IFB"] {
+        width: 91%;
+    }
 }
 
 /* CENTERED FORMAT FOR MOBILE */
@@ -26,8 +30,4 @@
 
 table {
     margin: 0px auto;
-}
-
-[class*="IFB"] {
-    margin: 48px auto 16px auto;
 }

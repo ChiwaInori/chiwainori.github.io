@@ -10,15 +10,10 @@
     .mainBody {
         width: 840px;
     }
-
-    [class*="IFB"] {
-        width: 856px;
-    }
 }
 
 /* NORMAL FORMAT FOR MOBILE */
 
-@media not (hover: hover) {
-    
-}
-
+/* @media not (hover: hover) {
+    ...
+} */

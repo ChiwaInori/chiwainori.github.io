@@ -40,7 +40,7 @@
         }
 
         function clearItems(index) {
-            if (!index) {
+            if (index === undefined) {
                 const confirmPop = confirm("你确定要清除所有本地数据吗？");
                 if (confirmPop) {
                     localStorage.clear();

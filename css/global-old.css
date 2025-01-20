@@ -80,7 +80,6 @@ body {
     background-color: var(--backgroundColor-600);
     display: flex;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
     min-height: 100vh;
     margin: 0px;
@@ -88,11 +87,10 @@ body {
 
 .mainBody {
     background-color: var(--backgroundColor-500);
-    /* min-height: 90vh; */
+    min-height: 90vh;
     padding: 30px 25px 30px 25px;
     border-radius: 10px;
     margin: 10px auto 10px auto;
-    flex: 100%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -266,14 +264,22 @@ table {
 
 /*
 .LNK {} (Link) is defined above
+*/
+
+/*
 .NBM {} (No Border Media) is defined above
-.IFB {} (Infobox) is defined below
 */
 
 .STX { /* Small Texts */
     font-size: 10px;
 }
 
+[class*="IFB"] { /* Infobox; Individual colors is defined below */
+    text-align: center;
+    width: 350px;
+    padding: 16px;
+    margin: 16px 0px 16px 0px;
+}
 
 .LST { /* List */
     font-size: 10px;
@@ -316,14 +322,10 @@ table {
     border: 2px solid var(--textColor-500);
 }
 
-/* Infobox Styles */
+/* Infobox Colors */
 
-[class*="IFB"] { /* Infobox */
-    text-align: center;
-    padding: 10px 16px 6px 16px;
+[class*="IFB"] {
     border-radius: 10px;
-    margin: 16px 0px 0px 0px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .IFB-Red { /* Archived */
@@ -470,8 +472,7 @@ table {
     }
     
     [class*="IFB"] {
-        width: 91%;
+        width: 700px;
         border-width: 6px;
-        border-radius: 20px;
     }
 }

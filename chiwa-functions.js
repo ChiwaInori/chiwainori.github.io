@@ -158,6 +158,15 @@ function host() {
     return window.location.href.split("/").slice(0, 3).join("/");
 }
 
+/**
+ * Return a string of current page's site directory.
+ * @returns {string} The site directory with "_" of current page
+ * @example siteId() // "mc_opc_xts" if in https://chiwainori.top/mc/opc/xts/
+ */
+function siteId() {
+    return window.location.href.split("/").slice(3).join("_").replaceAll(/html$/g, "").slice(0, -1);
+}
+
 /* Auto Navigation Bar (Unconfirmed)
 function navigate() {
     const dict = {
@@ -186,7 +195,8 @@ window.addEventListener("load", navigate);
  * @param {any} enText - The custom text for English
  * @example seizure("本页面包含闪烁内容。", "This page includes flashing content.") // Create a seizure warning in specified text.
  */
-function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
+async function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
+    const visited = localStorage.getItem(`${siteId()}_seizure`);
     function preventScroll(event) {
         event.preventDefault();
     }
@@ -195,6 +205,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
         applyAll(".SEIZURE", el => cws(el).el.close());
         if (cnText != "_close") {
             cws(`#${cnText.slice(3).toLowerCase()}Seizure`).el.showModal();
+            if (!visited) { localStorage.setItem(`${siteId()}_seizure`, "1"); }
         } else {
             document.body.style.overflow = "";
             window.removeEventListener("scroll", preventScroll);
@@ -211,7 +222,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
             <p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p>
             <p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p>
             <p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure('_toEN')">EN</span> | <span class="LNK" onclick="seizure('_toJP')">日本語</span></strong></p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[继续]</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "2s 后关闭" : "继续"}]</span></strong></p>
         </dialog>
         <dialog id="enSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! PHOTOSENSITIVE EPILEPSY WARNING !</h3>
@@ -220,7 +231,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
             <p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p>
             <p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | EN | <span class="LNK" onclick="seizure('_toJP')">日本語</span></strong></p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[CONTINUE]</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "Close in 2s" : "CONTINUE"}]</span></strong></p>
         </dialog>
         <dialog id="jpSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! 光感性てんかん注意 !</h3>
@@ -230,7 +241,7 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
             <p>それから、自分で<strong>見ていてめまい、視界がぼやける、目や顔がピクピクする、手足がけいれんする、方向感覚がなくなる、混乱しちゃう、意識がなくなっちゃう…</strong>なんてことがあったら、<strong>すぐに閲覧をやめて、お医者さんに相談しようね</strong>！</p>
             <p>安全第一だよ、おにいちゃん (おねえちゃん)！<strong>(´；ω；\`)</strong></p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | <span class="LNK" onclick="seizure('_toEN')">EN</span> | 日本語</strong></p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[進む]</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "2s 後で閉じる" : "進む"}]</span></strong></p>
         </dialog>`;
     
     window.addEventListener("scroll", preventScroll, { passive: false });
@@ -238,6 +249,11 @@ function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫
     cws(".mainBody").style.filter = "brightness(0.7)";
 
     seizure("_toCN");
+
+    if (visited) {
+        await sleep(2000);
+        seizure("_close");
+    }
 }
 
 /**
