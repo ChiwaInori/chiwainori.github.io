@@ -6,26 +6,32 @@
     Most of the functions included are original created by ChiwaInori.top owner Chiwa Inori.
     Most of them required other Chiwa Functions to work. Some functions can be also used in Node.js environment.
 
-    Originally called Inori Functions, name changed along with a major update (2025.1.17) related to HTML Elements.
-    Originally called XTS Functions, name changed along with site owner's new name (2024.8.17) (xtsdcb69 -> Chiwa Inori).
+    Originally called Inori Functions, its name had been changed along with a major update (2025.1) related to HTML Elements.
+    Due to something same both exists in Chiwa and Inori, Chiwa Functions will have conflict with Inori Functions.
 
     Index: (The "p" below means "prototype")
 
-    Chiwa Basic (1): const chiwa
-    Global Usage (16):
+    Chiwa Basic (1): chiwa
+    Global Usage (11):
         Parameter Judgement (2): _type, _range
-        Commands (3): sleep, overload, nonEnum
+        Commands (2): sleep, overload
         Website (3): host, seizure, copyright
-        URL Param (6): urlParam { setItem, getItem, getAll, removeItem, generate, clear }
+        URL Params (2): getURLparam, setURLparam
         Console Log (2): log, warn
     JS Commands (14):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
         Numeral (10): 
             Get Numbers (3): rand, seed, String.p.getNum
             Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
-    HTML Elements (9):
-        ChiwaSet (6): ChiwaSet { (accessible attributes), hide, unhide, transColor, fadeOut, fadeIn }, cws
-        Accessibility (3): query, applyAll, fadeChange
+    HTML Elements (20):
+        Target Elements (3): cs, target, query
+        Interacts (7):
+            Input (2): copyFrom, copyValue
+            Output (5): copyTo, addBefore, addTo, setValue, applyAll
+        CSS Modifications (10):
+            Applications (5): styleTo, colorTo, hide, unhide, toggleDisplay
+            Confirmations (1): isHidden
+            Transitions (4): transColor, fadeOut, fadeIn, fadeChange
     Save & Load (3): save, load, loadJSON
 */
 
@@ -35,66 +41,42 @@
 
 /**
  * Check if Chiwa Functions is available.
- * @example chiwa // If Chiwa Functions is available, get a version string in console.
- * @since 25-1-12
- * @version 25-1-21
-*/
-const chiwa = "25-1-21";
+ * @example chiwa() // If Chiwa Functions is available, get a log in console.
+ */
+function chiwa() {
+    log(`Chiwa Functions is available in current session.`);
+    if (typeof global != "undefined") { warn(`You are running Chiwa Functions in Node.js environment. Some functions are unavailable.`); }
+}
 
 // GLOBAL USAGE
 
 // GLOBAL USAGE / PARAMETER JUDGEMENT
 
 /**
- * Judge a parameter is in given type of not. If not, throw a TypeError.
+ * Judge a parameter is in given type of not. If not, throw an error.
  * @param {any} param - The parameter needed to be judged
- * @param {string} type - The given type (also accepts "array"; use "number | boolean" to accept multiple types)
+ * @param {string} type - The given type (also accepts "array"; type freely is allowed but not suggested (like "sTRinG, bOOLEANnumber"))
  * @example _type("1", "number") // Throw a TypeError
- * @since inori.24-11-29-1
- * @version 25-1-21
 */
 function _type(param, type) {
-    const circularKey = {
-        type: (() => { if (typeof type == "bigint") { return null; } try { JSON.stringify(type); return null; } catch (e) { return e.message.match(/(?<=')(.*)(?=' closes the circle)/g)[0]; } })(),
-        param: (() => { if (typeof param == "bigint") { return null; } try { JSON.stringify(param); return null; } catch (e) { return e.message.match(/(?<=')(.*)(?=' closes the circle)/g)[0]; } })()
-    };
-
-    if (typeof type != "string") {
-        const error = (() => {
-            if (typeof type == "bigint") { return `${type}n`; }
-            if (typeof type == "object") {
-                if (circularKey.type) { return `a circular OBJECT (${circularKey.type}↺)`; }
-            }
-            return JSON.stringify(type);
-        })();
-        throw new TypeError(`STRING required; received target type is ${error}`);
-    }
+    if (typeof type != "string") { throw new TypeError(`STRING required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(type)}`); }
     
     type = type.toLowerCase();
-
     if (type.includes("any")) { return; }
     if (type.includes("array") && Array.isArray(param)) { return; }
+    
     if (!type.includes(typeof param)) {
-        const error = (() => {
-            if (typeof param == "bigint") { return `${param}n`; }
-            if (typeof param == "object") {
-                if (circularKey.param) { return `a circular OBJECT (${circularKey.param}↺)`; }
-            }
-            return JSON.stringify(param);
-        })();
-        throw new TypeError(`${type.toUpperCase()} required; received ${error}`);
+        throw new TypeError(`${type.toUpperCase()} required; received ${typeof param == "bigint" ? `${param}n` : JSON.stringify(param)}`);
     }
 }
 
 // When a number is need to be judged with a range, _type() can be omitted. Its type will be judged in _range()'s _type().
 
 /**
- * Judge a number is in given range or not. If not, throw a RangeError.
+ * Judge a number is in given range or not. If not, throw an error.
  * @param {number} number - The number needed to be judged
- * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...); combination allowed (">= 1 | <= 2"))
+ * @param {string} range - The given range ("%1=0" means INTEGER; others like JS expressions (">= 7", "< 1", ...); combination allowed (">=1 | <= 2"))
  * @example _range(0, ">= 1") // Throw a RangeError
- * @since inori.24-11-29-1
- * @version 25-1-21
  */
 function _range(number, range) {
     _type(number, "number | bigint");
@@ -102,20 +84,23 @@ function _range(number, range) {
 
     const requirements = range.split(" | ");
 
-    for (const req of requirements) {
-        if (req == "%1=0" && typeof number == "number" && number % 1 != 0) {
-            throw new RangeError(`%1=0 required; received ${number}`);
-        }
-        
-        for (const operator of ["==", "!=", ">=", ">", "<=", "<"]) {
-            if (req.includes(operator)) {
-                if (!eval(`${number} ${operator} ${req.getNum()[0]}`)) {
-                    throw new RangeError(`[${operator} ${req.getNum()[0]}] required; received ${typeof number == "bigint" ? `${number}n` : number}`);
-                }
-                break;
+    requirements.forEach(req => { 
+        if (req == "%1=0") {
+            if (typeof number == "number" && number % 1 != 0) {
+                throw new RangeError(`%1=0 required; received ${number}`);
+            }
+            if (typeof number == "bigint" && number % 1n != 0n) {
+                throw new RangeError(`%1=0 required; received ${number}`);
             }
         }
-    }
+        
+        if (req.includes("== ") && number != req.split(" ")[1]) { throw new RangeError(`==${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("!= ") && number == req.split(" ")[1]) { throw new RangeError(`!=${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes(">= ") && number < req.split(" ")[1]) { throw new RangeError(`>=${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("> ") && number <= req.split(" ")[1]) { throw new RangeError(`>${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("<= ") && number > req.split(" ")[1]) { throw new RangeError(`<=${req.split(" ")[1]} required; received ${number}`); }
+        if (req.includes("< ") && number >= req.split(" ")[1]) { throw new RangeError(`<${req.split(" ")[1]} required; received ${number}`); }
+    });
 }
 
 // GLOBAL USAGE / COMMANDS
@@ -125,8 +110,6 @@ function _range(number, range) {
  * @param {number} time - (>= 0) Sleep time in milliseconds
  * @returns {Promise} A setTimeout promise
  * @example await sleep(1000) // Pause your commands for 1s (also: sleep(1000).then(() => { ... }))
- * @since xts.24-5-12
- * @version inori.24-11-29-3
  */
 function sleep(time) {
     _range(time, ">= 0");
@@ -139,8 +122,6 @@ function sleep(time) {
  * Overload CPU to temporarily stop code for test. (Not recommended unless doing stress test)
  * @param {number} time - (>= 0) Overload time in milliseconds
  * @example overload(1000) // Overload CPU for 1s (Most of codes will be paused)
- * @since inori.24-10-1
- * @version inori.24-11-29-2
  */
 function overload(time) {
     _range(time, ">= 0");
@@ -156,45 +137,15 @@ function overload(time) {
     }
 }
 
-/**
- * Add a non-enumerable property to a object
- * @param {string} key - The key of the property
- * @param {any} value - The value of the property
- * @example obj.nonEnum("func", () => {}) // Add a non-enumerable function to obj
- * @since 25-1-17-2
- * @version 25-1-19-1
- */
-Object.defineProperty(Object.prototype, "nonEnum", {
-    value: function (key, value) {
-        _type(key, "string");
-
-        Object.defineProperty(this, key, { value, enumerable: false });
-    },
-    enumerable: false
-});
-
 // GLOBAL USAGE / WEBSITE
 
 /**
  * Return a string of current page's host with protocol.
  * @returns {string} The host with protocol of current page
  * @example host() // "https://chiwainori.top"
- * @since inori.24-12-31
- * @version inori.24-12-31
  */
 function host() {
     return window.location.href.split("/").slice(0, 3).join("/");
-}
-
-/**
- * Return a string of current page's site directory.
- * @returns {string} The site directory with "_" of current page
- * @example siteId() // "mc_opc_xts" if in https://chiwainori.top/mc/opc/xts/
- * @since 25-1-20
- * @version 25-1-20
- */
-function siteId() {
-    return window.location.href.split("/").slice(3).join("_").replaceAll(/html$/g, "").slice(0, -1);
 }
 
 /* Auto Navigation Bar (Unconfirmed)
@@ -205,16 +156,16 @@ function navigate() {
     };
 
     const urlSplit = window.location.href.split("/").slice(3, -1);
-    if (!urlSplit[0] || !cws(".navigation").el) { return; }
+    if (!urlSplit[0] || !query(".navigation")[0]) { return; }
 
-    let string = cws(".title h1").el.innerHTML;
+    let string = query(".title h1")[0].innerHTML;
 
     for (let i = urlSplit.length - 1; i >= 0; i--) {
         string = `${i == 0 ? "" : " &gt; "}${i == urlSplit.length - 1 ? "" : `<a href="${"../".repeat(urlSplit.length - i - 1)}">${dict[urlSplit[i]] || dict[`_${urlSplit[i]}`] || urlSplit[i]}</a>`}${string}`;
     }
     string = `<a href="${host()}">ChiwaInori.top</a> &gt; ${string}`;
 
-    cws(".navigation h6").el.innerHTML = string;
+    query(".navigation h6")[0].innerHTML = string;
 }
 window.addEventListener("load", navigate);
 */
@@ -224,29 +175,40 @@ window.addEventListener("load", navigate);
  * @param {any} cnText - The custom text for Chinese
  * @param {any} enText - The custom text for English
  * @example seizure("本页面包含闪烁内容。", "This page includes flashing content.") // Create a seizure warning in specified text.
- * @since xts.24-6-7
- * @version 25-1-20
  */
-async function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
-    const visited = localStorage.getItem(`${siteId()}_seizure`);
+function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
     function preventScroll(event) {
         event.preventDefault();
     }
 
-    if (cnText[0] == "_") {
-        applyAll(".SEIZURE", el => cws(el).el.close());
-        if (cnText != "_close") {
-            cws(`#${cnText.slice(3).toLowerCase()}Seizure`).el.showModal();
-            if (!visited) { localStorage.setItem(`${siteId()}_seizure`, "1"); }
-        } else {
-            document.body.style.overflow = "";
-            window.removeEventListener("scroll", preventScroll);
-            cws(".mainBody").style.filter = "brightness(1)";
-        }
-        return;
+    if (cnText == "_toCN") {
+        target("cnSeizure").showModal();
+        target("enSeizure").close();
+        target("jpSeizure").close();
     }
+    if (cnText == "_toEN") {
+        target("cnSeizure").close();
+        target("enSeizure").showModal();
+        target("jpSeizure").close();
+    }
+    if (cnText == "_toJP") {
+        target("cnSeizure").close();
+        target("enSeizure").close();
+        target("jpSeizure").showModal();
+    }
+    if (cnText == "_close") {
+        target("cnSeizure").close();
+        target("enSeizure").close();
+        target("jpSeizure").close();
 
-    cws("body").html += 
+        document.body.style.overflow = "";
+        window.removeEventListener("scroll", preventScroll);
+
+        query(".mainBody")[0].style.filter = "brightness(1)";
+    }
+    if (cnText[0] == "_") { return; }
+
+    query("body")[0].innerHTML += 
         `<dialog id="cnSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
             <p>${cnText}</p>
@@ -254,7 +216,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
             <p>如果你的家人或任何家庭成员曾出现过类似症状，请在本页面进行操作前咨询你的医生。</p>
             <p>如果你出现<strong>头晕目眩、视力模糊、眼睛或面部抽搐、四肢抽搐、迷失方向感、精神错乱或短暂的意识丧失</strong>等症状，请<strong>立即停止浏览本页面并咨询医生</strong>。</p>
             <p style="text-align: right;"><strong>中文 | <span class="LNK" onclick="seizure('_toEN')">EN</span> | <span class="LNK" onclick="seizure('_toJP')">日本語</span></strong></p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "2s 后关闭" : "继续"}]</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[继续]</span></strong></p>
         </dialog>
         <dialog id="enSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! PHOTOSENSITIVE EPILEPSY WARNING !</h3>
@@ -263,7 +225,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
             <p>If your family or any family member has experienced similar symptoms, please consult your doctor before proceeding with this page.</p>
             <p>If you experience symptoms such as <strong>dizziness, blurred vision, eye or facial twitching, limb twitching, disorientation, mental confusion, or brief loss of consciousness</strong>, please <strong>stop browsing this page IMMEDIATELY and consult a doctor</strong>.</p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | EN | <span class="LNK" onclick="seizure('_toJP')">日本語</span></strong></p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "Close in 2s" : "CONTINUE"}]</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[CONTINUE]</span></strong></p>
         </dialog>
         <dialog id="jpSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! 光感性てんかん注意 !</h3>
@@ -273,136 +235,65 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
             <p>それから、自分で<strong>見ていてめまい、視界がぼやける、目や顔がピクピクする、手足がけいれんする、方向感覚がなくなる、混乱しちゃう、意識がなくなっちゃう…</strong>なんてことがあったら、<strong>すぐに閲覧をやめて、お医者さんに相談しようね</strong>！</p>
             <p>安全第一だよ、おにいちゃん (おねえちゃん)！<strong>(´；ω；\`)</strong></p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | <span class="LNK" onclick="seizure('_toEN')">EN</span> | 日本語</strong></p>
-            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "2s 後で閉じる" : "進む"}]</span></strong></p>
+            <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[進む]</span></strong></p>
         </dialog>`;
     
+    document.body.style.overflow = "hidden";
     window.addEventListener("scroll", preventScroll, { passive: false });
-    cws("body").style.overflow = "hidden";
-    cws(".mainBody").style.filter = "brightness(0.7)";
+    query(".mainBody")[0].style.filter = "brightness(0.7)";
 
     seizure("_toCN");
-
-    if (visited) {
-        await sleep(2000);
-        seizure("_close");
-    }
 }
 
 /**
  * Create a copyright text in #copyright.
  * @param {number} startYear - (%1=0 | <= new Date().getFullYear()) The year that copyright starts
  * @param {any} signature - Who owns the copyright
- * @throws {ReferenceError} When html has no #copyright element
  * @example copyright(2021, "Anonymous") // Create a copyright owned by Anonymous, starting from 2021
- * @since xts.24-4-30
- * @version 25-1-19-3
  */
 function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> いのり") {
     _range(startYear, "%1=0");
-    if (!cws("#copyright").el) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
+    if (!target("copyright")) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    _range(startYear, `%1=0 | <= ${thisYear}`);
+    _range(startYear, `%1=0 | <= ${new Date().getFullYear()}`);
 
-    cws("#copyright").html = `Copyright © ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
+    if (startYear == thisYear) {
+        copyTo("copyright", `Copyright &copy; ${startYear} ${signature}. All Rights Reserved.`);
+    } else {
+        copyTo("copyright", `Copyright &copy; ${startYear}-${thisYear} ${signature}. All Rights Reserved.`);
+    }
 }
 
-// GLOBAL USAGE / URL PARAM
+// GLOBAL USAGE / URL PARAMS
 
-const urlParam = new function urlParam() {
-    /**
-     * Set the param to URL (.../...?key1=value1&key2=value2).
-     * @param {string} name - The key of param
-     * @param {any} value - The value being set
-     * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
-     * @since 25-1-17
-     * @version 15-1-19
-     */
-    this.nonEnum("setItem", (key, value = null) => {
-        _type(key, "string");
+/**
+ * Get the param from URL (.../...?param1=content1&param2=content2).
+ * @param {string} name - The param name to get from URL
+ * @returns {string | null} The value of the param
+ * @example getURLparam("userID") // Return the value of ?userID=...
+ */
+function getURLparam(name) {
+    _type(name, "string");
 
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
-    });
+    return new URLSearchParams(window.location.search).get(name);
+}
 
-    /**
-     * Get the param from URL (.../...?key1=value1&key2=value2).
-     * @param {string} key - The param key to get from URL
-     * @returns {string | null} The value of the param
-     * @example urlParam.getItem("userID") // Return the value of ?userID=...
-     * @since 25-1-17
-     * @version 15-1-19
-     */
-    this.nonEnum("getItem", key => {
-        _type(key, "string");
+/**
+ * Set the param to URL (.../...?param1=content1&param2=content2).
+ * @param {string} name - The param name from URL
+ * @param {any} value - The param value being set
+ * @example setURLparam("result", "abcdef") // Redirect to .../...?result=abcdef
+ */
+function setURLparam(name, value = null) {
+    _type(name, "string");
 
-        return new URLSearchParams(window.location.search).get(key);
-    });
-
-    /**
-     * Get all param from URL (.../...?key1=value1&key2=value2).
-     * @returns {object} A object with all params
-     * @example urlParam.getAll() // Return a object with all params
-     * @since 25-1-17
-     * @version 15-1-19
-     */
-    this.nonEnum("getAll", () => {
-        const obj = {};
-
-        if (window.location.href.includes("?")) {
-            const paramList = window.location.href.split("?")[1].split("&");
-
-            for (const keyValue of paramList) {
-                obj[keyValue.split("=")[0]] = keyValue.split("=")[1];
-            }
-        }
-
-        return obj;
-    });
-
-    /**
-     * Remove a param from URL (.../...?key1=value1&key2=value2).
-     * @param {string} key - The param key to remove from URL
-     * @example urlParam.removeItem("result") // Update URL bar without "result" param
-     * @since 25-1-17
-     * @version 15-1-19
-     */
-    this.nonEnum("removeItem", key => {
-        _type(key, "string");
-
-        const searchParams = new URLSearchParams(window.location.search);
-        searchParams.delete(key);
-
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
-    });
-
-    /**
-     * Generate a string of current URL and values in obj.
-     * @param {object} obj  - The params to be added to URL
-     * @returns {string} A string with current URL added with values in obj
-     * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
-     * @since 25-1-17
-     * @version 15-1-19
-     */
-    this.nonEnum("generate", obj => {
-        let url = window.location.href;
-
-        for (const keyValue in obj) {
-            url += `${url.includes("?") ? "&" : "?"}${keyValue}=${obj[keyValue]}`;
-        }
-
-        return url;
-    });
-
-    /**
-     * Clear all param from URL.
-     * @example urlParam.clear() // All characters after "?" in URL bar will be removed
-     * @since 25-1-17
-     * @version 15-1-19
-     */
-    this.nonEnum("clear", () => {
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
-    });
-};
+    if (!window.location.href.match(/\?/g)) {
+        window.location.href += `?${name}=${value}`;
+    } else {
+        window.location.href += `&${name}=${value}`;
+    }
+}
 
 // GLOBAL USAGE / CONSOLE LOG
 
@@ -410,8 +301,6 @@ const urlParam = new function urlParam() {
  * Log variants in console by using less characters.
  * @param {any} args - The variant to output in console
  * @example log(score1, score2) // Output score1 and score2
- * @since xts.24-4-21
- * @version inori.24-11-29
  */
 function log(...args) {
     console.log(...args);
@@ -421,8 +310,6 @@ function log(...args) {
  * Output a warn with stack information.
  * @param {any} message - The content of warn message
  * @example warn("Dangerous variant.") // Output a warn with stack.
- * @since xts.24-7-11
- * @version inori.24-9-15
  */
 function warn(message) {
     try {
@@ -441,8 +328,6 @@ function warn(message) {
  * @param {number} percent - The chance of returning true
  * @returns {boolean} true or false in specified chance
  * @example chance(0.6) // It has 60% chance to return true
- * @since xts.24-7-13-1
- * @version inori.24-11-29-1
  */
 function chance(percent) {
     _type(percent, "number");
@@ -454,10 +339,8 @@ function chance(percent) {
  * Deep clone (isolate) an array / object.
  * @returns {object} The deep clone result
  * @example [1, 2, [3, {id: 4}, 5]].isolate() // [1, 2, [3, {id: 4}, 5]]
- * @since xts.24-7-30
- * @version 25-1-17-2
  */
-Object.prototype.nonEnum("isolate", function () {
+Object.prototype.isolate = function () {
     const obj = this.valueOf();
 
     if (obj === null || typeof obj != "object") { // Neither an array nor an object
@@ -477,7 +360,7 @@ Object.prototype.nonEnum("isolate", function () {
         objIsolated[key] = obj[key].isolate();
     });
     return objIsolated;
-});
+};
 
 /**
  * Return an array with the nth specified target removed.
@@ -485,10 +368,8 @@ Object.prototype.nonEnum("isolate", function () {
  * @param {number} nth - (%1=0 | >= 1) The nth specified target to remove
  * @returns {any[]} The array without (one of) the target(s)
  * @example [1, 2, 3, 4, 3].remove(3, 2) // [1, 2, 3, 4]
- * @since xts.24-7-30
- * @version 25-1-17-2
  */
-Array.prototype.nonEnum("remove", function (target, nth = 1) {
+Array.prototype.remove = function (target, nth = 1) {
     _range(nth, "%1=0 | >= 1");
     
     let n = 0;
@@ -516,21 +397,19 @@ Array.prototype.nonEnum("remove", function (target, nth = 1) {
     }
 
     return returnArray;
-});
+};
 
 /**
  * Get the count of specified string in a string
  * @param {any} target - The target to count
  * @returns {number} How many targets are in the string
  * @example "Hello, World".getCountOf("l") // 3
- * @since xts.24-7-30
- * @version 25-1-17-2
  */
-String.prototype.nonEnum("getCountOf", function (target) {
+String.prototype.getCountOf = function (target) {
     const splitString = this.split(target);
 
     return splitString.length - 1;
-});
+};
 
 // JS COMMANDS / NUMERAL
 /* Hint: In Chiwa Functions, these functions aren't affected by precision loss of JavaScript.
@@ -548,8 +427,6 @@ String.prototype.nonEnum("getCountOf", function (target) {
  * @param {boolean} keepFloat - Keep the decimal point or not
  * @returns {number} The result of randomized number
  * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10]
- * @since xts.24-4-21
- * @version inori.24-11-29-1
  */
 function rand(min, max, keepFloat = false) {
     _range(min, `<= ${max}`);
@@ -573,13 +450,11 @@ function rand(min, max, keepFloat = false) {
  * @param {number[]} key - The key to generate a random number
  * @returns {number} A seeded random number ranged in [0, 1)
  * @example seed("Hello", [2, 3, 5, 7]) // 0.19005963127801806 (A seeded random number)
- * @since inori.24-11-2
- * @version 25-1-21
  */
 function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
     _type(key, "array");
     if (key.length == 0) { throw new TypeError(`key must be NOT EMPTY`); }
-    for (const keyValue of key) { _type(keyValue, "number"); }
+    key.forEach(element => { _type(element, "number"); });
 
     const seedValue = JSON.stringify(value);
 
@@ -597,16 +472,14 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
  * @param {boolean} doNotNumber - Should the function return string array instead of number array (to avoid precision loss)
  * @returns {number[] | string[] | null} The number array from specified string
  * @example "589brg13d7.4gh,-2.6eru".getNum()[3] // 7.4 (It'll collect [589, 13, 7.4, -2.6])
- * @since xts.24-5-1-1
- * @version 25-1-17-2
  */
-String.prototype.nonEnum("getNum", function (doNotNumber = false) {
+String.prototype.getNum = function (doNotNumber = false) {
     _type(doNotNumber, "boolean");
 
     const numbersList = this.match(/-?[0-9]+(\.[0-9]+)?/g);
 
     return numbersList && (doNotNumber ? numbersList : numbersList.map(Number));
-});
+};
 
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
 
@@ -615,20 +488,18 @@ String.prototype.nonEnum("getNum", function (doNotNumber = false) {
  * @param {number} digit - (%1=0) How many decimal places to keep (0 to parseInt, negative to keep at the left of decimal point)
  * @returns {number} The number kept specified decimal place(s)
  * @example (123.456).keep(2) // 123.46
- * @since inori.24-8-29-1
- * @version 25-1-17-2
  */
-Number.prototype.nonEnum("keep", function (digit = 0) {
+Number.prototype.keep = function (digit = 0) {
     _range(digit, "%1=0");
     
-    if (!Math.abs(this).range(1e-6, 1e21)) {
+    if (!this.range(1e-6, 1e21)) {
         const [mantissa, exponent] = String(this).getNum();
 
         return Number(`${mantissa.keep(digit)}e${exponent}`);
     }
 
     return Math.round(this * 10 ** digit) / 10 ** digit;
-});
+};
 
 /**
  * Check the number is in given interval or not
@@ -637,18 +508,16 @@ Number.prototype.nonEnum("keep", function (digit = 0) {
  * @param {boolean} minType - The left border of interval (true: closed; false: open)
  * @param {boolean} minType - The right border of interval (true: closed; false: open)
  * @returns {boolean} Is the number in the given interval
- * @example (5).range(0, 5, true, false) // false (not in [0, 5) range)
- * @since inori.24-10-2
- * @version 25-1-17-2
+ * @example (5).range[0, 5, true, false) // false (not in [0, 5) range)
  */
-Number.prototype.nonEnum("range", function (min, max, minType = true, maxType = true) {
+Number.prototype.range = function (min, max, minType = true, maxType = true) {
     _range(min, `<= ${max}`);
     _range(max, `>= ${min}`);
     _type(minType, "boolean");
     _type(maxType, "boolean");
 
     return (minType ? this >= min : this > min) && (maxType ? this <= max : this < max);
-});
+};
 
 /**
  * Scale a number to a percentage in given range. (The reverse function of Number.transit)
@@ -657,10 +526,8 @@ Number.prototype.nonEnum("range", function (min, max, minType = true, maxType = 
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @returns {number} A percentage in range and specified number
  * @example (6).percentage(0, 10) // 0.6 (6 is the 60% in [0, 10])
- * @since inori.24-11-2
- * @version 25-1-17-2
  */
-Number.prototype.nonEnum("percentage", function (from, to, disableRange = false) {
+Number.prototype.percentage = function (from, to, disableRange = false) {
     _type(from, "number");
     _type(to, "number");
     _type(disableRange, "boolean");
@@ -668,7 +535,7 @@ Number.prototype.nonEnum("percentage", function (from, to, disableRange = false)
     const range = to - from;
 
     return disableRange ? (this - from) / range : ((this - from) / range).toRange(0, 1);
-});
+};
 
 /**
  * Scale a percentage to given range. (The reverse function of Number.percentage)
@@ -677,10 +544,8 @@ Number.prototype.nonEnum("percentage", function (from, to, disableRange = false)
  * @param {boolean} disableRange - Should the function don't keep the percentage in [0, 1]
  * @returns {number} A number in range and specified percentage
  * @example (0.6).transit(0, 10) // 6 (The 60% of  [0, 10] is 6)
- * @since xts.24-7-13
- * @version 25-1-17-2
  */
-Number.prototype.nonEnum("transit", function (from, to, disableRange = false) {
+Number.prototype.transit = function (from, to, disableRange = false) {
     _type(from, "number");
     _type(to, "number");
     _type(disableRange, "boolean");
@@ -688,7 +553,7 @@ Number.prototype.nonEnum("transit", function (from, to, disableRange = false) {
     const range = to - from;
 
     return disableRange ? this * range + from : this.toRange(0, 1) * range + from;
-});
+};
 
 /**
  * Return a number within given range.
@@ -698,18 +563,16 @@ Number.prototype.nonEnum("transit", function (from, to, disableRange = false) {
  * @param {boolean} warnIfWorked - Should the function warn in console if itself worked
  * @returns {number} The number been parsed into range
  * @example (120).toRange(0, 100) // 100 (120 is out of [0, 100], so output 100)
- * @since xts.24-7-13
- * @version 25-1-17-2
  */
-Number.prototype.nonEnum("toRange", function (minBoundary, maxBoundary, warnIfWorked = false) {
+Number.prototype.toRange = function (minBoundary, maxBoundary, warnIfWorked = false) {
     _range(minBoundary, `<= ${maxBoundary}`);
     _range(maxBoundary, `>= ${minBoundary}`);
     _type(warnIfWorked, "boolean");
-    
+
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
-    
+
     return Math.min(Math.max(this, minBoundary), maxBoundary);
-});
+};
 
 /**
  * Parse a non-negative integer string from a base into another base. (BigInt used: no precision loss)
@@ -717,10 +580,8 @@ Number.prototype.nonEnum("toRange", function (minBoundary, maxBoundary, warnIfWo
  * @param {number} toBase - (%1=0 | >= 2 | <= 36) The target base
  * @returns {string} The number string parsed into another base
  * @example "CHIWACHIRASE".transBase(36, 10) // "1643534305147807070"
- * @since inori.24-12-8
- * @version 25-1-17-2
 */
-String.prototype.nonEnum("transBase", function (fromBase, toBase) {
+String.prototype.transBase = function (fromBase, toBase) {
     if (toBase == undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
     if (this.match(/\.[0-9]/g)) { throw new RangeError(`%1=0 required; received ${this}`); }
     if (this.match(/-[^0]/g)) { throw new RangeError(`>= 0 required; received ${this}`); }
@@ -730,8 +591,8 @@ String.prototype.nonEnum("transBase", function (fromBase, toBase) {
     const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
     if (fromBase == 10) {
-        const firstAlphabet = this.match(/[A-Za-z]/g)?.[0];
-        if (firstAlphabet) { throw new RangeError(`Received number ${firstAlphabet} (${numberList.indexOf(firstAlphabet)}) when parsing from base ${fromBase}`); }
+        const firstIsAlphabet = this.match(/[A-Za-z]/g) ? this.match(/[A-Za-z]/g)[0] : null;
+        if (firstIsAlphabet) { throw new RangeError(`Received number ${firstIsAlphabet} (${numberList.indexOf(firstIsAlphabet)}) when parsing from base ${fromBase}`); }
 
         const modList = [];
         let nowRemaining = BigInt(this.toUpperCase().replaceAll(".", ""));
@@ -774,7 +635,7 @@ String.prototype.nonEnum("transBase", function (fromBase, toBase) {
     }
 
     return this.valueOf().transBase(fromBase, 10).transBase(10, toBase);
-});
+};
 
 /**
  * Parse a non-negative decimal integer into another base. (To prevent precision loss for large number, input BigInt)
@@ -783,65 +644,51 @@ String.prototype.nonEnum("transBase", function (fromBase, toBase) {
  * @param {undefined} _ - The param position to prevent mistyping
  * @returns {string} The number string parsed into another base
  * @example (601).toBase(16) // "259" (turned 601 into 0x259)
- * @since inori.24-12-8
- * @version 25-1-17-2
  */
-Number.prototype.nonEnum("toBase", function (base, _) {
+Number.prototype.toBase = function (base, _) {
     if (_ != undefined) { throw new TypeError("When using Number.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
     _range(this.valueOf(), "%1=0 | >= 0");
     _range(base, "%1=0 | >= 2 | <= 36");
-    
+
     if (this > Number.MAX_SAFE_INTEGER || this < Number.MIN_SAFE_INTEGER) { warn(`${this} reaches the safe integer, which may cause precision loss. If available, use BigInt or String instead.`); }
-    
+
     return String(this).transBase(10, base);
-});
-BigInt.prototype.nonEnum("toBase", function (base, _) {
+};
+BigInt.prototype.toBase = function (base, _) {
     if (_ != undefined) { throw new TypeError("When using BigInt.p.toBase, the ORIGINAL base MUSTN'T be declared (it can only be decimal)."); }
     _range(this.valueOf(), "%1=0 | >= 0");
     _range(base, "%1=0 | >= 2 | <= 36");
-    
+
     return String(this).transBase(10, base);
-});
+};
 
 // HTML ELEMENTS
 
-// HTML ELEMENTS / CHIWASET
-
-// ChiwaSet: A new class with custom information of a single element. Convenient for some specified values / functions.
+// ChiwaSet: A new object with custom information of a element. Convenient for some specified values / functions.
 class ChiwaSet {
-    constructor(element, index = 0) {
-        _type(element, "string | object");
-        _range(index, "%1=0 | >= 0");
-        
-        this.el = element instanceof HTMLElement ? element : document.querySelectorAll(element)[index] ?? null;
+    constructor(element, nth = 0) {
+        this.el = document.querySelectorAll(element)[nth] || null;
     }
 
-    // Get / Set Editable Attributes
+    // Get Editable Attributes
     get html() { return this.el.innerHTML; }
-    set html(value) { this.el.innerHTML = value; }
-
     get text() { return this.el.innerText; }
-    set text(value) { this.el.innerText = value; }
-
-    get style() { return this.el.style; }
-    set style(value) { this.el.style = value; }
-
-    get color() { return this.style.color; }
-    set color(value) { this.style.color = value; }
-
-    get value() { return this.el.value ?? null; }
-    set value(value) { this.el.value = value; }
-
-    get checked() { return this.el.checked ?? null; }
-    set checked(value) { this.el.checked = value; }
-
-    get disabled() { return this.el.disabled ?? null; }
-    set disabled(value) { this.el.disabled = value; }
+    get style() { return this.el.style.cssText; }
+    get color() { return this.el.style.color; }
+    get value() { return this.el.value || null; }
+    get checked() { return this.el.checked || null; }
     
     // Get Uneditable Attributes
-    get hidden() { return this.style.display == "none" || this.style.opacity == "0" || this.el.hidden && this.style.display == ""; }
+    get isHidden() { return this.el.style.display == "none" || this.el.style.opacity == "0" || this.el.hidden && this.el.style.display == ""; }
     
     // Set Editable Attributes
+    set html(value) { this.el.innerHTML = value; }
+    set text(value) { this.el.innerText = value; }
+    set style(value) { this.el.style.cssText = value; }
+    // Another: set hide(value) { this.el.style.display = value == true ? "none" : value == false ? "block" : value; }
+    set color(value) { this.el.style.color = value; }
+    set value(value) { this.el.value = value; }
+    set checked(value) { this.el.checked = value; }
 
     // Element Functions
     // These are functions to modify element in ChiwaSet, while they were originally independent function in Inori Functions
@@ -849,163 +696,65 @@ class ChiwaSet {
     /**
      * Hide the element.
      * @example { ChiwaSet }.hide() // Hide the element
-     * @since 25-1-12
-     * @version 25-1-12
      */
     hide() {
-        this.style.display = "none";
+        this.el.style.display = "none";
     }
 
     /**
      * Show the element with expected display method.
      * @param {string} display - The type of display
      * @example { ChiwaSet }.unhide("inline") // Show the element as "inline"
-     * @since 25-1-12
-     * @version 25-1-12
      */
     unhide(display = "block") {
         _type(display, "string");
-
-        this.style.display = display;
+        this.el.style.display = display;
     }
 
     /**
      * Hide or unhide an element by condition.
      * @param {any} condition - The condition to hide or unhide the element (if true, unhide)
-     * @param {string} display - The type of display if unhide
-     * @example { ChiwaSet }.toggleDisplay(judgment) // If judgment is true, unhide; else, hide
-     * @since 25-1-17
-     * @version 25-1-17
      */
-    toggleDisplay(condition, display = "block") {
-        _type(display, "string");
+    toggleDisplay() { }
 
-        if (condition) {
-            this.unhide(display);
-        } else {
-            this.hide();
-        }
-    }
+    async transColor() { }
+    async fadeOut() { }
+    async fadeIn() { }
+    async fadeChange() { }
 
-    /**
-     * Turn an element's current color to another in transition.
-     * @param {string} color - The target color of transition
-     * @param {number} time -（>= 0) The time length of transition in milliseconds
-     * @example { ChiwaSet }.transColor("var(--green)") // Turn the color to green in transition.
-     * @since 25-1-17
-     * @version 25-1-19
-     */
-    async transColor(color, time = 100) {
-        _type(color, "string");
-        _range(time, ">= 0");
-
-        if (time == 0) {
-            this.color = color;
-            return;
-        }
-
-        let id = 1;
-        while (cws(`style#temp${id}`).el) {
-            log(id);
-            id++;
-        }
-        const styleElement = document.createElement("style");
-        styleElement.textContent = `.tempTransColor${id} { transition: color ${time / 1000}s var(--transit); }`;
-        document.head.appendChild(styleElement);
-
-        this.el.classList.add(`tempTransColor${id}`);
-        this.color = color;
-
-        await sleep(time / 1000);
-
-        this.el.classList.remove(`tempTransColor${id}`);
-        document.head.removeChild(styleElement);
-    }
-
-    /**
-     * Fade out an element.
-     * @param {number} time - (>= 0) The time length of fade out
-     * @param {boolean} doNotHide - Do not hide the element after fading out (keep a blank space for the element)
-     * @example { ChiwaSet }.fadeOut(undefined, 200) // Fade out in 0.2s.
-     * @since 25-1-17
-     * @version 25-1-19
-     */
-    async fadeOut(doNotHide = false, time = 100) {
-        _type(doNotHide, "boolean");
-        _range(time, ">= 0");
-
-        if (time == 0) {
-            if (!doNotHide) {
-                this.hide();
-            }
-            this.style.opacity = 0;
-        }
-
-        let nowOpacity = this.style.opacity != "" ? Number(this.style.opacity) : 1;
-
-        while (nowOpacity > 0) {
-            nowOpacity -= 0.05;
-            this.style.opacity = nowOpacity;
-            await sleep(time / 20);
-        }
-        if (nowOpacity <= 0) {
-            if (!doNotHide) {
-                this.hide();
-            }
-            this.style.opacity = 0;
-        }
-    }
-
-    /**
-     * Fade in an element.
-     * @param {string} display - The type of display
-     * @param {number} time - (>= 0) The time length of fade in
-     * @example { ChiwaSet }.fadeIn("block", 200) // Fade in in 0.2s.
-     * @since 25-1-17
-     * @version 25-1-19
-     */
-    async fadeIn(display = "block", time = 100) {
-        _type(display, "string");
-        _range(time, ">= 0");
-
-        if (time == 0) {
-            this.unhide(display);
-            return;
-        }
-
-        let nowOpacity = this.style.opacity != "" ? Number(this.style.opacity) : 0;
-
-        if (this.style.display == "none" || this.el.hidden) {
-            this.unhide(display);
-            this.style.opacity = 0;
-        }
-
-        while (nowOpacity < 1) {
-            nowOpacity += 0.05;
-            this.style.opacity = nowOpacity;
-            await sleep(time / 20);
-        }
-    }
+    /* TODO
+        1. finish those functions
+        2. combine getURLparam, setURLparam => URLparam.getItem, URLparam.setItem, URLparam.removeItem, URLparam.clear
+    */
 }
+
+// HTML ELEMENTS / TARGET ELEMENTS
 
 /**
  * Get a ChiwaSet of target element.
- * @param {string | object} element - The query string of element or an element
+ * @param {string} element - The query string of element
  * @param {number} index - (%1=0 | >= 0) The nth specified target to get
  * @returns {ChiwaSet} A ChiwaSet with common attributes.
- * @example cws("h1") // Get a ChiwaSet of the first h1 in page
- * @since 25-1-12
- * @version 25-1-19
+ * @example cs("h1") // Get a ChiwaSet of the first h1 in page
  */
-function cws(element, index = 0) {
-    _type(element, "string | object");
+function cs(element, index = 0) {
+    _type(element, "string");
     _range(index, "%1=0 | >= 0");
 
     return new ChiwaSet(element, index);
 }
 
-// HTML ELEMENTS / ACCESSIBILITY
-// ChiwaSet can only be used for a single element. To apply changes to multiple elements, use accessibility functions below.
+/**
+ * Return an element in HTML.
+ * @param {string} element - The id of target element
+ * @returns {HTMLElement | null} The element in HTML
+ * @example target("title").addEventListener(...) // Add an event listener to #title
+ */
+function target(element) {
+    _type(element, "string");
+
+    return document.getElementById(element);
+}
 
 /**
  * Return queried element(s) in HTML.
@@ -1013,8 +762,6 @@ function cws(element, index = 0) {
  * @param {string} element - The query input of target element
  * @returns {NodeList} The element(s) in HTML
  * @example query(".paragraph") // List out all elements of .paragraph
- * @since xts.24-7-15
- * @version inori.24-11-29-1
  */
 function query(element) {
     _type(element, "string");
@@ -1022,22 +769,382 @@ function query(element) {
     return document.querySelectorAll(element);
 }
 
+// HTML ELEMENTS / INTERACTS
+
+// HTML ELEMENTS / INTERACTS / INPUT
+
+/**
+ * Copy something from an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @returns {string} The innerHTML of the element
+ * @example copyFrom("title") // Return the innerHTML of #title
+*/
+function copyFrom(element) {
+    _type(element, "string");
+    
+    return target(element).innerHTML;
+}
+
+/**
+ * Copy the value of an input.
+ * @param {string} element - The id of target input
+ * @returns {string} The value of the element
+ * @example copyValue("range") // Return the value of #range
+*/
+function copyValue(element) {
+    _type(element, "string");
+    
+    return target(element).value;
+}
+
+// HTML ELEMENTS / INTERACTS / OUTPUT
+
+/**
+ * Copy something to an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @param {any} content - The content to copy to the element
+ * @example copyTo("p1", "Hello") // Copy "Hello" to #p1
+*/
+function copyTo(element, content) {
+    _type(element, "string");
+    
+    target(element).innerHTML = content;
+}
+
+/**
+ * Add something to the start of an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @param {any} content - The content to add to the element
+ * @example addBefore("p1", "Title: ") // Add "Title" to the start of #p1
+*/
+function addBefore(element, content) {
+    _type(element, "string");
+    
+    copyTo(element, `${content}${copyFrom(element)}`);
+}
+
+/**
+ * Add something to an element's innerHTML.
+ * @param {string} element - The id of target element
+ * @param {any} content - The content to add to the element
+ * @example addTo("p1", "Hello") // Add "Hello" to #p1
+*/
+function addTo(element, content) {
+    _type(element, "string");
+    
+    target(element).innerHTML += content;
+}
+
+/**
+ * Set a value of an input.
+ * @param {string} element - The id of target input
+ * @param {any} content - The value to be set
+ * @example setValue("name", "David") // Set the value of #name to "David"
+*/
+function setValue(element, content) {
+    _type(element, "string");
+    
+    target(element).value = content;
+}
+
 /**
  * Apply modifications to all queried element(s). It has same actions to query(element).forEach.
  * @param {string} element - The query input of target element
  * @param {function} callback - What should all queried elements do
- * @example applyAll("p", (el, i) => cws(el).text = `${i + 1}. ${cws(el).text}`) // Add a index number to all p
- * @since inori.24-9-8
- * @version 25-1-21
+ * @example applyAll("p", (element, index) => { element.innerHTML = `${index + 1}. ${element.innerHTML}`; }) // Add a index number to all p
  */
 function applyAll(element, callback) {
     _type(element, "string");
     _type(callback, "function");
 
     const queried = query(element);
+    const length = queried.length;
 
-    for (let i = 0; i < queried.length; i++) {
+    for (let i = 0; i < length; i++) {
         callback(queried[i], i);
+    }
+}
+
+// HTML ELEMENTS / CSS MODIFICATIONS
+
+// HTML ELEMENTS / CSS MODIFICATIONS / APPLICATIONS
+
+/**
+ * Apply styles to an element.
+ * @param {string} element - The id of target element
+ * @param {string} style - The style to apply to the element
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example styleTo(".main title", "margin-left: 64px;", "query") // The left margin of <title> in <... class="main"> will be 64px
+ */
+function styleTo(element, style, method = "id") {
+    _type(element, "string");
+    _type(style, "string");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (method == "id") {
+        target(element).style = style;
+    }
+    if (method == "class") {
+        applyAll(`.${element}`, target => {
+            target.style = style;
+        });
+    }
+    if (method == "query") {
+        applyAll(element, target => {
+            target.style = style;
+        });
+    }
+}
+
+/**
+ * Change the color of an element.
+ * @param {string} element - The id of target element
+ * @param {string} color - The color to apply to the element
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example colorTo(".main title", "#ff0000", "query") // The color of <title> in <... class="main"> will be red
+ */
+function colorTo(element, color, method = "id") {
+    _type(element, "string");
+    _type(color, "string");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (method == "id") {
+        target(element).style.color = color;
+    }
+    if (method == "class") {
+        applyAll(`.${element}`, target => {
+            target.style.color = color;
+        });
+    }
+    if (method == "query") {
+        applyAll(element, target => {
+            target.style.color = color;
+        });
+    }
+}
+
+/**
+ * Hide an element.
+ * @param {string} element - The id of target element
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example hide(".main title", "query") // <title> in <... class="main"> will be hidden
+ */
+function hide(element, method = "id") {
+    _type(element, "string");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (method == "id") {
+        target(element).style.display = "none";
+    }
+    if (method == "class") {
+        applyAll(`.${element}`, target => {
+            target.style.display = "none";
+            target.style.opacity = 1;
+        });
+    }
+    if (method == "query") {
+        applyAll(element, target => {
+            target.style.display = "none";
+            target.style.opacity = 1;
+        });
+    }
+}
+
+/**
+ * Show an element with expected display method.
+ * @param {string} element - The id of target element
+ * @param {string} display - The type of display
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example unhide(".main title", "inline-block", "query") // Show <title> in <... class="main"> in inline-block
+ */
+function unhide(element, display = "block", method = "id") {
+    _type(element, "string");
+    _type(display, "string");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (method == "id") {
+        target(element).style.display = display;
+        target(element).style.opacity = 1;
+    }
+    if (method == "class") {
+        applyAll(`.${element}`, target => {
+            target.style.display = display;
+            target.style.opacity = 1;
+        });
+    }
+    if (method == "query") {
+        applyAll(element, target => {
+            target.style.display = display;
+            target.style.opacity = 1;
+        });
+    }
+}
+
+/**
+ * Hide or unhide an element by condition.
+ * @param {string} element  - The id of target element
+ * @param {any} condition - The condition to hide or unhide the element (if true, unhide)
+ * @param {string} display - The type of display if unhide
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ */
+function toggleDisplay(element, condition, display = "block", method = "id") {
+    _type(element, "string");
+    _type(display, "string");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (condition) {
+        unhide(element, display, method);
+    } else {
+        hide(element, method);
+    }
+}
+
+// HTML ELEMENTS / CSS MODIFICATIONS / CONFIRMATIONS
+
+/**
+ * Check a element is hidden or not.
+ * @param {string} element - The id of target element
+ * @returns {boolean} The element is hidden or not
+ * @example isHidden("title") // If #title is hidden, return true
+ */
+function isHidden(element) {
+    _type(element, "string");
+
+    return target(element).style.display == "none" || target(element).style.opacity === "0" || Boolean(query(`#${element}[hide]`)[0]) && target(element).style.display == "";
+}
+
+// HTML ELEMENTS / CSS MODIFICATIONS / TRANSITIONS
+
+/**
+ * Turn an element's current color to another in transition.
+ * @param {string} element - The id of target element
+ * @param {string} color - The target color of transition
+ * @param {number} time -（>= 0) The time length of transition in milliseconds
+ * @param {"id" | "class" | "query"} method - The method of getting elements. If "query" is used, type element like CSS (for example, "#target *")
+ * @example transColor("title", "#00dd00") // Turn the color of title to green in transition.
+ */
+async function transColor(element, color, time = 100, method = "id") {
+    _type(element, "string");
+    _type(color, "string");
+    _range(time, ">= 0");
+    if (method != "id" && method != "class" && method != "query") { throw new TypeError(`method must be "id" or "class" or "query"`); }
+
+    if (time == 0) {
+        colorTo(element, color);
+        return;
+    }
+
+    let id = 1;
+    while (target(`style#temp${id}`)) {
+        id++;
+    }
+    const styleElement = document.createElement("style");
+    styleElement.textContent = `.tempTransColor${id} { transition: color ${time / 1000}s var(--transit); }`;
+    document.head.appendChild(styleElement);
+
+    if (method == "id") {
+        target(element).classList.add(`tempTransColor${id}`);
+    }
+    if (method == "class") {
+        applyAll(`.${element}`, target => {
+            target.classList.add(`tempTransColor${id}`);
+        });
+    }
+    if (method == "query") {
+        applyAll(element, target => {
+            target.classList.add(`tempTransColor${id}`);
+        });
+    }
+
+    colorTo(element, color, method);
+
+    await sleep(time);
+
+    if (method == "id") {
+        target(element).classList.remove(`tempTransColor${id}`);
+    }
+    if (method == "class") {
+        applyAll(`.${element}`, target => {
+            target.classList.remove(`tempTransColor${id}`);
+        });
+    }
+    if (method == "query") {
+        applyAll(element, target => {
+            target.classList.remove(`tempTransColor${id}`);
+        });
+    }
+    
+    document.head.removeChild(styleElement);
+}
+
+/**
+ * Fade out an element.
+ * @param {string} element - The id of target element
+ * @param {boolean} doNotHide - Do not hide the element after fading out (keep a blank space for the element)
+ * @param {number} time - (>= 0) The time length of fade out
+ * @example fadeOut("title", false, 200) // Fade out #title in 0.2s.
+ */
+async function fadeOut(element, doNotHide = false, time = 100) {
+    _type(element, "string");
+    _type(doNotHide, "boolean");
+    _range(time, ">= 0");
+
+    if (time == 0) {
+        hide(element);
+        return;
+    }
+
+    let nowOpacity;
+
+    if (target(element).style.opacity != "") {
+        nowOpacity = Number(target(element).style.opacity);
+    } else {
+        nowOpacity = 1;
+    }
+    while (nowOpacity > 0) {
+        nowOpacity -= 0.05;
+        target(element).style.opacity = nowOpacity;
+        await sleep(time / 20);
+    }
+    if (nowOpacity <= 0) {
+        if (!doNotHide) {
+            hide(element);
+        }
+        target(element).style.opacity = 0;
+    }
+}
+
+/**
+ * Fade in an element.
+ * @param {string} element - The id of target element
+ * @param {string} display - The type of display
+ * @param {number} time - (>= 0) The time length of fade in
+ * @example fadeIn("title", 200) // Fade in #title in 0.2s.
+ */
+async function fadeIn(element, display = "block", time = 100) {
+    _type(element, "string");
+    _range(time, ">= 0");
+
+    if (time == 0) {
+        unhide(element, display);
+        return;
+    }
+
+    let nowOpacity;
+
+    if (target(element).style.display == "none" || query(`${element}[hide]`)) {
+        unhide(element, display); target(element).style.opacity = 0;
+    }
+    
+    if (target(element).style.opacity != "") {
+        nowOpacity = Number(target(element).style.opacity);
+    } else {
+        nowOpacity = 0;
+    }
+    while (nowOpacity < 1) {
+        nowOpacity += 0.05;
+        target(element).style.opacity = nowOpacity;
+        await sleep(time / 20);
     }
 }
 
@@ -1048,8 +1155,6 @@ function applyAll(element, callback) {
  * @param {string} display - The type of display
  * @param {number} time - (>= 0) The total time length of whole change session
  * @example fadeChange("title", "secondTitle", 500) // Fade out #title in 0.25s and fade in #secondTitle in 0.25s.
- * @since xts.24-5-19-3
- * @version 25-1-19
  */
 async function fadeChange(outElement, inElement, display = "block", time = 200) {
     _type(outElement, "string");
@@ -1057,14 +1162,14 @@ async function fadeChange(outElement, inElement, display = "block", time = 200) 
     _range(time, ">= 0");
 
     if (time == 0) {
-        cws(`#${outElement}`).hide();
-        cws(`#${inElement}`).unhide(display);
+        hide(outElement);
+        unhide(inElement, display);
         return;
     }
 
-    cws(`#${outElement}`).fadeOut(undefined, time / 2);
+    fadeOut(outElement, false, time / 2);
     await sleep(time / 2 + 20);
-    cws(`#${inElement}`).fadeIn(display, time / 2);
+    fadeIn(inElement, display, time / 2);
 }
 
 // SAVE & LOAD
@@ -1074,8 +1179,6 @@ async function fadeChange(outElement, inElement, display = "block", time = 200) 
  * @param {string} fileName - The name of the file to be downloaded
  * @param {any} content - The content of the file
  * @example save("readme.txt", "Please read this file.") // It'll download a file named readme.txt with "Please read this file."
- * @since xts.24-4-21
- * @version 24-11-29-1
  */
 function save(fileName, content) {
     _type(fileName, "string");
@@ -1097,25 +1200,23 @@ function save(fileName, content) {
  * @param {string} inputId - The id of input where the file receives
  * @param {string} element - The place to copy the file content
  * @example load("top-file", "fileInfo") // When a file is selected in <input id="top-file" />, its content will be copied to #fileInfo.
- * @since xts.24-4-21
- * @version 25-1-21
  */
 function load(inputId, element = "file-content") {
     _type(inputId, "string");
     _type(element, "string");
 
-    cws(`#${inputId}`).el.addEventListener("change", event => {
+    target(inputId).addEventListener("change", event => {
         const file = event.target.files[0];
 
         if (file) {
             const reader = new FileReader();
 
-            reader.onload = event => {
-                cws(`#${element}`).el.textContent = event.target.result;
+            reader.onload = function (event) {
+                target(element).textContent = event.target.result;
             };
             reader.readAsText(file);
         } else {
-            cws(`#${element}`).el.textContent = "";
+            target(element).textContent = "";
         }
     });
 }
@@ -1126,20 +1227,18 @@ function load(inputId, element = "file-content") {
  * @param {string} inputId - The id of input where the file receives
  * @returns {Promise} The promise included JSON
  * @example loadJSON("fileInput").then(json => content = json).catch(e => { if (e.message.includes("Invalid") { ... } }) // Load JSON from #fileInput and copy the JSON object to content, and catch error from loadJSON
- * @since inori.24-8-19
- * @version 25-1-21
-*/
+ */
 function loadJSON(inputId) {
     _type(inputId, "string");
 
     return new Promise((resolve, reject) => {
-        const fileInput = cws(`#${inputId}`).el;
+        const fileInput = target(inputId);
         const file = fileInput.files[0];
 
         if (file) {
             const reader = new FileReader();
 
-            reader.onload = event => {
+            reader.onload = function (event) {
                 try {
                     resolve(JSON.parse(event.target.result));
                 } catch (e) {

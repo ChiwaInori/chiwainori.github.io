@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>ChiwaInori.top JS 历史 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <!-- <script src="/chiwa-functions.js"></script> -->
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>ChiwaInori.top JS 历史</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>ChiwaInori.top JS 历史</strong></h6>
+    </div>
+    <div class="content">
+        <p>在这个页面中，你可以体验不同版本的 Chiwa Functions (或 Inori Functions, XTS Functions).</p>
+        <p>在下方输入要体验的版本的版本号 (通常是 年后2位-月-日, 如果同一天有多个版本则再加上 -第 (n-1) 个版本, n=1 时省略). 无需输入当时是 chiwa, inori 还是 xts.</p>
+        <p><input id="versionInput" placeholder="25-1-17-1" /><button onclick="jump()" disabled>读取</button></p>
+        <p><strong id="readOk" style="color: var(--green)" hidden></strong></p>
+        <p id="content"></p>
+    </div>
+    <script>
+        let inputVer;
+        let existIn;
+
+        document.querySelectorAll("#versionInput")[0].addEventListener("input", function () {
+            inputVer = this.value;
+            if (inputVer.split("-").length >= 3 && inputVer.split("-")[2].length > 0) {
+                updateJS();
+            } else {
+                document.querySelector("#content").innerText = `版本号 ${inputVer} 不合法`;
+                content.style.color = "var(--red)";
+            }
+        });
+
+        async function updateJS() {
+            try {
+                if ((await fetch(`/old/js/chiwa-functions/${inputVer}.js`, { method: "HEAD" })).ok) {
+                    existIn = "chiwa";
+                } else if ((await fetch(`/old/js/inori-functions/${inputVer}.js`, { method: "HEAD" })).ok) {
+                    existIn = "inori";
+                } else if ((await fetch(`/old/js/xts-functions/${inputVer}.js`, { method: "HEAD" })).ok) {
+                    existIn = "xts";
+                } else {
+                    existIn = "null";
+                }
+            } catch {
+                existIn = "fail";
+            }
+
+            const content = document.querySelector("#content");
+            document.querySelector("button").disabled = true;
+            if (existIn == "chiwa") {
+                const file = await (await fetch(`/old/js/chiwa-functions/${inputVer}.js`)).text();
+                content.innerText = `Chiwa Functions (v${inputVer})\n\n${file}`;
+                content.style.color = "var(--textColor-500)";
+                document.querySelector("button").disabled = false;
+            }
+            if (existIn == "inori") {
+                const file = await (await fetch(`/old/js/inori-functions/${inputVer}.js`)).text();
+                content.innerText = `Inori Functions (v${inputVer})\n\n${file}`;
+                content.style.color = "var(--textColor-500)";
+                document.querySelector("button").disabled = false;
+            }
+            if (existIn == "xts") {
+                const file = await (await fetch(`/old/js/xts-functions/${inputVer}.js`)).text();
+                content.innerText = `XTS Functions (v${inputVer})\n\n${file}`;
+                content.style.color = "var(--textColor-500)";
+                document.querySelector("button").disabled = false;
+            }
+            if (existIn == "null") {
+                content.innerText = `版本号为 ${inputVer} 的 Chiwa / Inori / XTS Functions 不存在`;
+                content.style.color = "var(--red)";
+            }
+            if (existIn == "fail") {
+                content.innerText = "请求失败，请重试";
+                content.style.color = "var(--red)";
+            }
+        }
+
+        function jump() {
+            window.location.href = `${window.location.href.split("?")[0]}?ver=${existIn}.${inputVer}`;
+        }
+
+        (async () => {
+            if (new URLSearchParams(window.location.search).get("ver")) {
+                const [name, ver] = new URLSearchParams(window.location.search).get("ver").split(".");
+
+                const script = document.createElement("script");
+                script.src = `/old/js/${name}-functions/${ver}.js`;
+                script.type = "text/javascript";
+                document.head.appendChild(script);
+
+                document.querySelector("input").value = ver;
+                const content = document.querySelector("#content");
+                const readOkLine = document.querySelector("#readOk");
+                if (name == "chiwa") {
+                    const file = await (await fetch(`/old/js/chiwa-functions/${ver}.js`)).text();
+                    content.innerText = `Chiwa Functions (v${ver})\n\n${file}`;
+                    content.style.color = "var(--textColor-500)";
+                    document.querySelector("button").disabled = false;
+                    readOkLine.hidden = false;
+                    readOkLine.innerText = `已成功读取 Chiwa Functions (v${ver})`;
+                }
+                if (name == "inori") {
+                    const file = await (await fetch(`/old/js/inori-functions/${ver}.js`)).text();
+                    content.innerText = `Inori Functions (v${ver})\n\n${file}`;
+                    content.style.color = "var(--textColor-500)";
+                    document.querySelector("button").disabled = false;
+                    readOkLine.hidden = false;
+                    readOkLine.innerText = `已成功读取 Inori Functions (v${ver})`;
+                }
+                if (name == "xts") {
+                    const file = await (await fetch(`/old/js/xts-functions/${ver}.js`)).text();
+                    content.innerText = `XTS Functions (v${ver})\n\n${file}`;
+                    content.style.color = "var(--textColor-500)";
+                    document.querySelector("button").disabled = false;
+                    readOkLine.hidden = false;
+                    readOkLine.innerText = `已成功读取 XTS Functions (v${ver})`;
+                }
+            }
+        })();
+    </script>
+</div></body>
+
+</html>
