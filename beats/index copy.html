@@ -58,52 +58,52 @@
         let currentBeat = 17;
         let startTime;
 
-        cws("#bpmInput").el.addEventListener("input", function () {
+        cw("#bpmInput").el.addEventListener("input", function () {
             bpm = +this.value;
             clockBase = 60 / bpm;
             reset();
         });
-        cws("#precisionList").el.addEventListener("input", function () {
+        cw("#precisionList").el.addEventListener("input", function () {
             if (!showAsFraction) {
                 precision = 1 / 2 ** (+this.value - 1);
             }
-            cws("#precisionListFraction").el.value = this.value;
+            cw("#precisionListFraction").el.value = this.value;
             reset();
         });
 
-        cws("#f-normal").el.addEventListener("change", () => {
+        cw("#f-normal").el.addEventListener("change", () => {
             format = "normal";
             reset();
         });
-        cws("#f-json").el.addEventListener("change", () => {
+        cw("#f-json").el.addEventListener("change", () => {
             format = "json";
             reset();
         });
-        cws("#f-top").el.addEventListener("change", () => {
+        cw("#f-top").el.addEventListener("change", () => {
             format = "top";
             reset();
         });
 
-        cws("#showAsFraction").el.addEventListener("change", function () {
+        cw("#showAsFraction").el.addEventListener("change", function () {
             showAsFraction = this.checked;
             if (showAsFraction) {
-                cws("#precisionList").hide();
-                cws("#showTopFormat").hide();
-                cws("#precisionListFraction").unhide("inline");
+                cw("#precisionList").hide();
+                cw("#showTopFormat").hide();
+                cw("#precisionListFraction").unhide("inline");
                 format = "normal";
-                cws("#f-normal").el.checked = true;
+                cw("#f-normal").el.checked = true;
             } else {
-                cws("#precisionList").unhide("inline");
-                cws("#showTopFormat").unhide("inline");
-                cws("#precisionListFraction").hide();
+                cw("#precisionList").unhide("inline");
+                cw("#showTopFormat").unhide("inline");
+                cw("#precisionListFraction").hide();
             }
             reset();
         });
-        cws("#precisionListFraction").el.addEventListener("input", function () {
+        cw("#precisionListFraction").el.addEventListener("input", function () {
             if (showAsFraction) {
                 precision = 1 / 2 ** (+this.value - 1);
             }
-            cws("#precisionList").el.value = this.value;
+            cw("#precisionList").el.value = this.value;
             reset();
         });
 
@@ -113,16 +113,16 @@
             }
             if (event.code == "KeyR") {
                 if (format == "normal") {
-                    cws("#result").html += "<br />";
-                    cws("#returnOk").unhide("inline");
+                    cw("#result").html += "<br />";
+                    cw("#returnOk").unhide("inline");
                 }
                 if (format == "json") {
                     returnReady = true;
-                    cws("#returnReady").unhide("inline");
+                    cw("#returnReady").unhide("inline");
                 }
                 if (format == "top") {
                     returnReady = true;
-                    cws("#returnReady").unhide("inline");
+                    cw("#returnReady").unhide("inline");
                 }
             }
             if (event.code == "Backspace") {
@@ -138,11 +138,11 @@
             if (precision == 0.0625) { available.push(2, 4, 6, 8, 10, 12, 14, 16); }
 
             for (let i = 1; i <= 16; i++) {
-                cws(`#beat-${i}`).color = "var(--textColor-500)";
+                cw(`#beat-${i}`).color = "var(--textColor-500)";
             }
             
             available.forEach(beat => {
-                cws(`#beat-${beat}`).color = "var(--activeColor-400)";
+                cw(`#beat-${beat}`).color = "var(--activeColor-400)";
             });
         }
         checkAvailableBeats();
@@ -151,10 +151,10 @@
             lastPressTime = undefined;
             returnReady = false;
             pressCount = 0;
-            cws("#result").html = "";
-            cws("#playButton").el.disabled = true;
-            cws("#returnOk").hide();
-            cws("#returnReady").hide();
+            cw("#result").html = "";
+            cw("#playButton").el.disabled = true;
+            cw("#returnOk").hide();
+            cw("#returnReady").hide();
             currentBeat = 17;
             startTime = undefined;
             stopBeat();
@@ -168,18 +168,18 @@
             
             if (pressCount == 1) { // first press
                 if (format == "normal") {
-                    cws("#result").html += `<span id="w-${pressCount}">@&nbsp;</span>`;
+                    cw("#result").html += `<span id="w-${pressCount}">@&nbsp;</span>`;
                 }
                 if (format == "json") {
-                    cws("#result").html += `<span id="w-${pressCount}">[["@",&nbsp;</span>`;
+                    cw("#result").html += `<span id="w-${pressCount}">[["@",&nbsp;</span>`;
                 }
                 if (format == "top") {
-                    cws("#result").html += `<span id="w-${pressCount}">@</span>`;
+                    cw("#result").html += `<span id="w-${pressCount}">@</span>`;
                 }
 
                 startTime = nowTime;
                 lastPressTime = nowTime;
-                cws("#playButton").el.disabled = false;
+                cw("#playButton").el.disabled = false;
 
                 startBeat();
             } else { // later press
@@ -197,31 +197,31 @@
                 if (showAsFraction) { beatResult = toFraction(beatResult); }
                 
                 if (format == "normal") {
-                    cws("#returnOk").hide();
-                    cws("#result").html += `<span id="w-${pressCount}""><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`;
+                    cw("#returnOk").hide();
+                    cw("#result").html += `<span id="w-${pressCount}""><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`;
                 }
                 if (format == "json") {
-                    cws("#returnOk").hide();
-                    const original = cws("#result").html;
+                    cw("#returnOk").hide();
+                    const original = cw("#result").html;
                     
                     if (returnReady) {
                         returnReady = false;
-                        cws("#returnReady").hide();
+                        cw("#returnReady").hide();
                         
-                        cws("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["@",&nbsp;</span>`;
+                        cw("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["@",&nbsp;</span>`;
                     } else {
-                        cws("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["@",&nbsp;</span>`;
+                        cw("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["@",&nbsp;</span>`;
                     }
                 }
                 if (format == "top") {
-                    const original = cws("#result").html;
-                    cws("#result").html = `${original.slice(0, original.length - 7)},<strong>${("" + beatResult).replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`;
+                    const original = cw("#result").html;
+                    cw("#result").html = `${original.slice(0, original.length - 7)},<strong>${("" + beatResult).replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`;
                     
                     if (returnReady) {
                         returnReady = false;
-                        cws("#returnReady").hide();
+                        cw("#returnReady").hide();
                         
-                        const text = cws("#result").html;
+                        const text = cw("#result").html;
                         const semicolons = text.getCountOf(";");
                         
                         const splitBySemi = text.split(";");
@@ -231,7 +231,7 @@
                             beforeLastSemi += `${splitBySemi[i]}${hasSemi}`; // add everything excluding last 1 semis (; ... are excluded)
                         }
                         
-                        cws("#result").html = `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`;
+                        cw("#result").html = `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`;
                     }
                 }
                 
@@ -244,21 +244,21 @@
             stopBeat();
             playNow++;
             if (playNow >= 2) {
-                cws(`#w-${playNow - 1}`).el.style.textDecoration = "none";
+                cw(`#w-${playNow - 1}`).el.style.textDecoration = "none";
             }
-            cws(`#w-${playNow}`).color = "var(--red)";
-            cws(`#w-${playNow}`).el.style.textDecoration = "underline";
+            cw(`#w-${playNow}`).color = "var(--red)";
+            cw(`#w-${playNow}`).el.style.textDecoration = "underline";
 
             if (playNow != pressCount) {
                 let waitTime;
                 if (format == "normal") {
-                    waitTime = cws(`#w-${playNow + 1}`).html.getNum()[0];
+                    waitTime = cw(`#w-${playNow + 1}`).html.getNum()[0];
                 }
                 if (format == "json") {
-                    waitTime = cws(`#w-${playNow}`).html.getNum()[0];
+                    waitTime = cw(`#w-${playNow}`).html.getNum()[0];
                 }
                 if (format == "top") {
-                    waitTime = cws(`#w-${playNow}`).html.replaceAll(/'/g, ".").getNum()[0];
+                    waitTime = cw(`#w-${playNow}`).html.replaceAll(/'/g, ".").getNum()[0];
                 }
 
                 await sleep(waitTime * clockBase * 1000);
@@ -266,9 +266,9 @@
             } else {
                 await sleep(1500);
                 for (let i = 1; i <= pressCount; i++) {
-                    cws(`#w-${i}`).color = "var(--textColor-500)";
+                    cw(`#w-${i}`).color = "var(--textColor-500)";
                 }
-                cws(`#w-${playNow}`).el.style.textDecoration = "none";
+                cw(`#w-${playNow}`).el.style.textDecoration = "none";
                 playNow = 0;
             }
         }
@@ -312,15 +312,15 @@
                 const diff2 = (clock2 - startTime) / 1000; // make 2 clocks
 
                 if (diff1 % (clockBase / 16) > diff2 % (clockBase / 16)) { // if clock1's mod > clock2's mod, means between clock1 and 2 passed a (clockBase / 16), so next color block
-                    let currentColor = cws(`#beat-${currentBeat}`).el.style.color;
-                    if (currentColor == "var(--textColor-500)") { cws(`#beat-${currentBeat}`).color = "var(--textColor-400)"; }
-                    if (currentColor == "var(--activeColor-400)") { cws(`#beat-${currentBeat}`).color = "var(--green)"; }
-                    if (currentColor == "var(--lightRed)") { cws(`#beat-${currentBeat}`).color = "var(--textColor-500)"; }
-                    if (currentColor == "var(--red)") { cws(`#beat-${currentBeat}`).color = "var(--activeColor-400)"; }
+                    let currentColor = cw(`#beat-${currentBeat}`).el.style.color;
+                    if (currentColor == "var(--textColor-500)") { cw(`#beat-${currentBeat}`).color = "var(--textColor-400)"; }
+                    if (currentColor == "var(--activeColor-400)") { cw(`#beat-${currentBeat}`).color = "var(--green)"; }
+                    if (currentColor == "var(--lightRed)") { cw(`#beat-${currentBeat}`).color = "var(--textColor-500)"; }
+                    if (currentColor == "var(--red)") { cw(`#beat-${currentBeat}`).color = "var(--activeColor-400)"; }
 
-                    let lastColor = cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).el.style.color;
-                    if (lastColor == "var(--textColor-400)") { cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--textColor-500)"; }
-                    if (lastColor == "var(--green)") { cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--activeColor-400)"; }
+                    let lastColor = cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).el.style.color;
+                    if (lastColor == "var(--textColor-400)") { cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--textColor-500)"; }
+                    if (lastColor == "var(--green)") { cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--activeColor-400)"; }
 
                     currentBeat++;
                     if (currentBeat == 17) { currentBeat = 1; }
@@ -330,11 +330,11 @@
         }
 
         function highlightBeat() {
-            let currentColor = cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).el.style.color;
-            if (currentColor == "var(--textColor-400)") { cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--lightRed)"; }
-            if (currentColor == "var(--green)") { cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--red)"; }
-            if (currentColor == "var(--lightRed)") { cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--lightRed)"; }
-            if (currentColor == "var(--red)") { cws(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--red)"; }
+            let currentColor = cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).el.style.color;
+            if (currentColor == "var(--textColor-400)") { cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--lightRed)"; }
+            if (currentColor == "var(--green)") { cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--red)"; }
+            if (currentColor == "var(--lightRed)") { cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--lightRed)"; }
+            if (currentColor == "var(--red)") { cw(`#beat-${currentBeat - 1 == 0 ? 16 : currentBeat - 1}`).color = "var(--red)"; }
         }
 
         function stopBeat() {

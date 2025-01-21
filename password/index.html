@@ -76,7 +76,7 @@
                         password += "-";
                     }
                 }
-                cws("#result-apple").html = password;
+                cw("#result-apple").html = password;
             }
 
             if (type == "ms") { // 20% number; 12% notes
@@ -107,31 +107,31 @@
                         password += notes[rand(0, 4)];
                     }
                 }
-                cws("#result-ms").html = password;
+                cw("#result-ms").html = password;
             }
         }
 
         async function copy(type) {
-            const password = cws(`#result-${type}`).html; 
-            cws(`#result-${type}`).color = "var(--green)";
+            const password = cw(`#result-${type}`).html; 
+            cw(`#result-${type}`).color = "var(--green)";
             await sleep(10);
-            cws(`#result-${type}`).transColor("var(--textColor-500)", 1000); 
+            cw(`#result-${type}`).transColor("var(--textColor-500)", 1000); 
 
             navigator.clipboard.writeText(password);
         }
 
-        cws("#ms-slider").el.addEventListener("input", function () {
-            cws("#ms-length").html = this.value;
+        cw("#ms-slider").el.addEventListener("input", function () {
+            cw("#ms-length").html = this.value;
             msLength = +this.value;
         });
 
-        cws("#ms-aa").el.addEventListener("change", function () {
+        cw("#ms-aa").el.addEventListener("change", function () {
             msOptions[0] = this.checked;
         });
-        cws("#ms-123").el.addEventListener("change", function () {
+        cw("#ms-123").el.addEventListener("change", function () {
             msOptions[1] = this.checked;
         });
-        cws("#ms-notes").el.addEventListener("change", function () {
+        cw("#ms-notes").el.addEventListener("change", function () {
             msOptions[2] = this.checked;
         });
 

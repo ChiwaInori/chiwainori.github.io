@@ -45,10 +45,10 @@
     </div>
     <script>
         const emoticons = ["(っ °Д °;)っ", "ヽ(*。>Д<)o゜", "(；′⌒`)", "o(TヘTo)", "o(；△；)o"];
-        cws("#emoticonLine").text = emoticons[rand(0, emoticons.length - 1)];
+        cw("#emoticonLine").text = emoticons[rand(0, emoticons.length - 1)];
 
         // 拖动逻辑
-        const draggable = cws(".draggable").el;
+        const draggable = cw(".draggable").el;
         let isDragging = false;
         let offsetX, offsetY;
 

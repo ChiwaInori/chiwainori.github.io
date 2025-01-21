@@ -112,7 +112,7 @@
         fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
         if (urlParam.getItem("rollTimes") && order == 0) {
-            cws("#rollPanel").hide();
+            cw("#rollPanel").hide();
 
             dynamicList.times.all = Array(...urlParam.getItem("rollTimes").split(",").map(Number));
             dynamicList.times.all.forEach(rollTimes => order += rollTimes);
@@ -126,11 +126,11 @@
             const code = urlParam.getItem("code");
             const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
             if (targetVerify == urlParam.getItem("verify")) {
-                cws("#readSuccess").unhide();
-                cws("#saveTime").html = new Date(Number(urlParam.getItem("time")));
-                cws("#rollPanel").unhide();
+                cw("#readSuccess").unhide();
+                cw("#saveTime").html = new Date(Number(urlParam.getItem("time")));
+                cw("#rollPanel").unhide();
             } else {
-                cws("#validationInvalid").unhide();
+                cw("#validationInvalid").unhide();
             }
         } else if (localStorage.getItem("rp_2310_rollTimes")) {
             dynamicList.times.all = Array(...localStorage.getItem("rp_2310_rollTimes").split(",").map(Number));
@@ -141,17 +141,17 @@
             updateWeight(null, true);
             order++;
 
-            cws("#readSuccess").unhide();
-            cws("#saveTime").html = new Date(Number(localStorage.getItem("rp_2310_saveTime")));
-            cws("#isAutosave").unhide("inline");
-            cws("#deleteAutosave").unhide("inline");
+            cw("#readSuccess").unhide();
+            cw("#saveTime").html = new Date(Number(localStorage.getItem("rp_2310_saveTime")));
+            cw("#isAutosave").unhide("inline");
+            cw("#deleteAutosave").unhide("inline");
         } else {
             fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
             fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
         }
 
         const remainingList = fullList.isolate();
-        cws("#availableTimes").html = fullList.all.length;
+        cw("#availableTimes").html = fullList.all.length;
         
         let nowRolling;
         
@@ -170,17 +170,17 @@
             modeList = modeList.remove(mode);
 
             modeList.forEach(toHide => {
-                cws(`#s-${toHide}`).hide();
+                cw(`#s-${toHide}`).hide();
             });
-            cws(`#s-${mode}`).unhide();
+            cw(`#s-${mode}`).unhide();
             updateChance();
         }
 
-        cws("#skipAnimation").el.addEventListener("change", function () {
+        cw("#skipAnimation").el.addEventListener("change", function () {
             skipAnimation = this.checked;
         });
 
-        cws("#rollTeachers").el.addEventListener("change", function () {
+        cw("#rollTeachers").el.addEventListener("change", function () {
             rollTeachers = this.checked;
             if (this.checked) {
                 fullList.all.push(...teachers.list);
@@ -207,19 +207,19 @@
                 }
                 teachers.girlId.forEach(() => { girlId.pop(); dynamicList.times.girl.pop(); remainingList.girl.pop(); });
             }
-            cws("#noTeachersSaved").toggleDisplay(cws("#rollTeachers").checked, "inline");
+            cw("#noTeachersSaved").toggleDisplay(cw("#rollTeachers").checked, "inline");
             updateWeight(null, true);
             updateChance("all");
             confirmId();
         });
 
-        cws("#autosaveCheckbox").el.addEventListener("change", function () {
+        cw("#autosaveCheckbox").el.addEventListener("change", function () {
             autosave = this.checked;
-            cws("#autosaveDescription").html = autosave ? "(动态随机抽取将会自动保存到浏览器中)" : "(抽取将不会自动保存)";
+            cw("#autosaveDescription").html = autosave ? "(动态随机抽取将会自动保存到浏览器中)" : "(抽取将不会自动保存)";
 
             if (!autosave) {
-                cws("#autosave").color = "var(--textColor-400)";
-                cws("#autosaveDescription").color = "var(--textColor-400)";
+                cw("#autosave").color = "var(--textColor-400)";
+                cw("#autosaveDescription").color = "var(--textColor-400)";
             }
         });
 
@@ -227,7 +227,7 @@
             applyAll("#buttonLine button, #findBySex button, #findByIdLine button", target => {
                 target.disabled = true;
             });
-            if (!rollTeachers) { cws("#saveId").hide(); }
+            if (!rollTeachers) { cw("#saveId").hide(); }
 
             let animationList;
         
@@ -318,23 +318,23 @@
         
             applyAll("#buttonLine button, #findBySex button", target => {
                 target.disabled = false;
-                cws("#dynamic-chance-doyouknow").fadeIn();
-                cws("#dynamic-chance-doyouknow").html = doYouKnow(thisChance, type);
+                cw("#dynamic-chance-doyouknow").fadeIn();
+                cw("#dynamic-chance-doyouknow").html = doYouKnow(thisChance, type);
                 confirmId();
             });
             if (autosave) {
-                cws("#autosaveDescription").html = `(已保存至 ${nowRolling})`;
-                cws("#autosaveDescription").color = "var(--green)";
+                cw("#autosaveDescription").html = `(已保存至 ${nowRolling})`;
+                cw("#autosaveDescription").color = "var(--green)";
             }
         
             updateChance(type == "all" ? "all" : "sex");
         }
 
         async function animate(flashNames, flashColor, toColor, type) {
-            cws("#dynamic-chance-doyouknow").fadeOut(true);
-            await cws("#name").fadeOut(true);
-            cws("#name").color = flashColor;
-            cws("#name").fadeIn();
+            cw("#dynamic-chance-doyouknow").fadeOut(true);
+            await cw("#name").fadeOut(true);
+            cw("#name").color = flashColor;
+            cw("#name").fadeIn();
         
             const flashTimes = currentMode == "false" && remainingList[type].length == 1 || fullList[type].length == 1 ? 0 : rand(8, 15);
             const timer = index => ((0.7 / flashTimes * index) ** 2 + 0.1 - flashTimes / 200) / 1.5;
@@ -342,24 +342,24 @@
 
             for (let i = 1; i <= flashTimes; i++) {
                 const animateName = lastAnimated = flashNames.remove(lastAnimated)[rand(0, Math.max(flashNames.length - 2, 0))];
-                cws("#name").html = currentMode == "false" ? `${animateName} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : animateName;
+                cw("#name").html = currentMode == "false" ? `${animateName} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : animateName;
                 playClick();
                 await sleep(timer(i) * 1000);
             }
 
             if (lastAnimated != nowRolling) { playClick(); }
-            cws("#name").html = currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling;
+            cw("#name").html = currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling;
             await sleep(800);
-            cws("#name").transColor(toColor, 200);
+            cw("#name").transColor(toColor, 200);
             logName();
         }
 
         async function animateSkip(isById, toColor, type) {
-            await cws("#name").fadeOut(true);
+            await cw("#name").fadeOut(true);
             playClick();
-            cws("#name").html = isById ? nowRolling : currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling;
-            cws("#name").color = toColor;
-            cws("#name").fadeIn();
+            cw("#name").html = isById ? nowRolling : currentMode == "false" ? `${nowRolling} <span style="font-size: 32px;">${fullList[type].length - remainingList[type].length + 1}/${fullList[type].length}</span>` : nowRolling;
+            cw("#name").color = toColor;
+            cw("#name").fadeIn();
             if (!isById) { logName(); }
         }
 
@@ -367,17 +367,17 @@
             if (idNow == "") {
                 idNow += number;
                 confirmId(number);
-                cws("#findById").html = "点此以取消";
-                cws("#findById").transColor("var(--red)");
+                cw("#findById").html = "点此以取消";
+                cw("#findById").transColor("var(--red)");
             } else {
                 idNow += number;
                 temp = Number(idNow);
                 nowRolling = `${fullList.all[Number(idNow - 1)]} <span style='font-size: 32px;'>${idNow}</span>`;
-                cws("#findById").html = "按学号找人";
-                cws("#findById").transColor("var(--textColor-500)");
+                cw("#findById").html = "按学号找人";
+                cw("#findById").transColor("var(--textColor-500)");
                 await animateSkip(true, "var(--textColor-500)");
                 logName(1, fullList.all[Number(idNow - 1)]);
-                cws("#dynamic-chance-doyouknow").fadeOut(true);
+                cw("#dynamic-chance-doyouknow").fadeOut(true);
                 idNow = "";
             
                 confirmId();
@@ -390,14 +390,14 @@
 
                 applyAll(".idButton", e => e.disabled = true);
                 for (let i = 0; i < tens; i++) {
-                    cws(`#b-${i}`).el.disabled = false;
+                    cw(`#b-${i}`).el.disabled = false;
                 }
             } else {
                 for (let i = 0; i <= 9; i++) {
                     if (fullList.all[Number(String(currentNum) + String(i)) - 1]) {
-                        cws(`#b-${i}`).el.disabled = false;
+                        cw(`#b-${i}`).el.disabled = false;
                     } else {
-                        cws(`#b-${i}`).el.disabled = true;
+                        cw(`#b-${i}`).el.disabled = true;
                     }
                 }
             }
@@ -406,11 +406,11 @@
 
         function findByIdReset() {
             idNow = "";
-            cws("#findById").html = "按学号找人";
-            cws("#findById").transColor("var(--textColor-500)");
-            cws(`#b-0`).el.disabled = false;
+            cw("#findById").html = "按学号找人";
+            cw("#findById").transColor("var(--textColor-500)");
+            cw(`#b-0`).el.disabled = false;
             for (let i = 6; i <= 9; i++) {
-                cws(`#b-${i}`).el.disabled = true;
+                cw(`#b-${i}`).el.disabled = true;
             }
         }
 
@@ -457,8 +457,8 @@
         }
 
         function playClick() {
-            cws("#click").el.currentTime = 0.026;
-            cws("#click").el.play();
+            cw("#click").el.currentTime = 0.026;
+            cw("#click").el.play();
         }
 
         function revealChance() {
@@ -468,28 +468,28 @@
             } else {
                 fadeChange("showChanceLine", "chanceTable");
             }
-            cws("#name").el.style.marginBottom = "116px";
+            cw("#name").el.style.marginBottom = "116px";
         }
 
         function updateChance(showType) {
-            cws("#chanceTable").html = "";
-            cws("#chanceTableDynamicBody").html = "";
+            cw("#chanceTable").html = "";
+            cw("#chanceTableDynamicBody").html = "";
             if (!showType) { showType = chanceMode; }
         
             if (showType == "all") {
-                cws("#chanceTable").html = "<span class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</span><br />";
-                cws("#chanceTableDynamicDiv").html = "<p class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</p><table id=\"chanceTableDynamic\"><tbody id=\"chanceTableDynamicBody\"></tbody></table><p>总权重: <strong id=\"total-weight\"></strong></p>";
+                cw("#chanceTable").html = "<span class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</span><br />";
+                cw("#chanceTableDynamicDiv").html = "<p class='LNK' onclick='updateChance(\"sex\")'>切换显示按性别抽取的概率</p><table id=\"chanceTableDynamic\"><tbody id=\"chanceTableDynamicBody\"></tbody></table><p>总权重: <strong id=\"total-weight\"></strong></p>";
                 if (currentMode != "dynamic") {
                     fullList.all.forEach((name, index) => {
                         const id = index + 1;
-                        cws("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
+                        cw("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
                     });
                     if (showChance) {
-                        cws("#chanceTable").unhide();
-                        cws("#chanceTableDynamicDiv").hide();
+                        cw("#chanceTable").unhide();
+                        cw("#chanceTableDynamicDiv").hide();
                     }
                 } else {
-                    cws("#chanceTableDynamicBody").html += `<tr>
+                    cw("#chanceTableDynamicBody").html += `<tr>
                             <th>学号</th>
                             <th>姓名</th>
                             <th>概率</th>
@@ -510,7 +510,7 @@
                         const name1 = fullList.all[index];
                         const name2 = fullList.all[index + half];
                         if (id <= half) {
-                            cws("#chanceTableDynamicBody").html += `<tr>
+                            cw("#chanceTableDynamicBody").html += `<tr>
                                     <td id="d-chance-${id}-id">[${id < 10 ? `0${id}` : id}]</td>
                                     <td id="d-chance-${id}-name">${name1}</td>
                                     <th id="d-chance-${id}-chance"></th>
@@ -531,14 +531,14 @@
                         }
                     });
                     if (showChance) {
-                        cws("#chanceTable").hide();
-                        cws("#chanceTableDynamicDiv").unhide();
+                        cw("#chanceTable").hide();
+                        cw("#chanceTableDynamicDiv").unhide();
                     }
                 }
             
                 if (currentMode == "true") {
                     for (let i = 1; i <= fullList.all.length; i++) {
-                        cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList.all.length * 100).keep(5)}%`;
+                        cw(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList.all.length * 100).keep(5)}%`;
                     }
                 }
                 if (currentMode == "dynamic") {
@@ -546,7 +546,7 @@
                     dynamicList.weight.all.forEach(weightNum => {
                         totalWeight += weightNum;
                     });
-                    cws("#total-weight").html = totalWeight.keep(3);
+                    cw("#total-weight").html = totalWeight.keep(3);
 
                     const getColor = value => {
                         const total = fullList.all.length;
@@ -567,47 +567,47 @@
                         const i = index + 1;
 
                         const chance = (weightNum / totalWeight * 100).keep(5);
-                        cws(`#d-chance-${i}-chance`).html = `${chance < 1e-5 ? "<0.00001" : chance}%`;
+                        cw(`#d-chance-${i}-chance`).html = `${chance < 1e-5 ? "<0.00001" : chance}%`;
 
-                        cws(`#d-chance-${i}-chance`).color = `hsl(${getColor(chance)}, 100%, 45%)`;
+                        cw(`#d-chance-${i}-chance`).color = `hsl(${getColor(chance)}, 100%, 45%)`;
 
-                        cws(`#d-chance-${i}-times`).html = dynamicList.times.all[index];
-                        cws(`#d-chance-${i}-weight`).html = dynamicList.weight.all[index].keep(3);
+                        cw(`#d-chance-${i}-times`).html = dynamicList.times.all[index];
+                        cw(`#d-chance-${i}-weight`).html = dynamicList.weight.all[index].keep(3);
 
-                        cws(`#d-chance-${i}-repeat`).html = "0%";
-                        cws(`#d-chance-${i}-repeat`).color = "var(--textColor-500)";
-                        cws(`#d-chance-${i}-weight`).color = "var(--textColor-500)";
-                        if (i == dynamicList.repeatProhibit[4]) { cws(`#d-chance-${i}-repeat`).html = "-20%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-5)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-5)"; }
-                        if (i == dynamicList.repeatProhibit[3]) { cws(`#d-chance-${i}-repeat`).html = "-50%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-4)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-4)"; }
-                        if (i == dynamicList.repeatProhibit[2]) { cws(`#d-chance-${i}-repeat`).html = "-70%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-3)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-3)"; }
-                        if (i == dynamicList.repeatProhibit[1]) { cws(`#d-chance-${i}-repeat`).html = "-80%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-2)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-2)"; }
-                        if (i == dynamicList.repeatProhibit[0]) { cws(`#d-chance-${i}-repeat`).html = "-90%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-1)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-1)"; }
+                        cw(`#d-chance-${i}-repeat`).html = "0%";
+                        cw(`#d-chance-${i}-repeat`).color = "var(--textColor-500)";
+                        cw(`#d-chance-${i}-weight`).color = "var(--textColor-500)";
+                        if (i == dynamicList.repeatProhibit[4]) { cw(`#d-chance-${i}-repeat`).html = "-20%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-5)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-5)"; }
+                        if (i == dynamicList.repeatProhibit[3]) { cw(`#d-chance-${i}-repeat`).html = "-50%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-4)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-4)"; }
+                        if (i == dynamicList.repeatProhibit[2]) { cw(`#d-chance-${i}-repeat`).html = "-70%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-3)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-3)"; }
+                        if (i == dynamicList.repeatProhibit[1]) { cw(`#d-chance-${i}-repeat`).html = "-80%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-2)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-2)"; }
+                        if (i == dynamicList.repeatProhibit[0]) { cw(`#d-chance-${i}-repeat`).html = "-90%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-1)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-1)"; }
                     });
                 }
                 if (currentMode == "false") {
                     const nowLeftChance = 1 / remainingList.all.length;
                     for (let i = 1; i <= fullList.all.length; i++) {
                         if (remainingList.all.includes(fullList.all[i - 1])) {
-                            cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
+                            cw(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
                         } else {
-                            cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
+                            cw(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
                         }
                     }
                 }
             } else { // Show chance rolled by sex
-                cws("#chanceTable").html = "<span class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</span><br />";
-                cws("#chanceTableDynamicDiv").html = "<p class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</p><table id=\"chanceTableDynamic\"><tbody id=\"chanceTableDynamicBody\"></tbody></table><p>总权重: <strong id=\"total-weight\"></strong></p>";
+                cw("#chanceTable").html = "<span class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</span><br />";
+                cw("#chanceTableDynamicDiv").html = "<p class='LNK' onclick='updateChance(\"all\")'>切换显示全班抽取的概率</p><table id=\"chanceTableDynamic\"><tbody id=\"chanceTableDynamicBody\"></tbody></table><p>总权重: <strong id=\"total-weight\"></strong></p>";
                 if (currentMode != "dynamic") {
                     fullList.all.forEach((name, index) => {
                         const id = index + 1;
-                        cws("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
+                        cw("#chanceTable").html += `[${id < 10 ? `0${id}` : id}] ${name}: <span id="chance-${id < 10 ? `0${id}` : id}"></span> ${id % 10 == 0 ? `<br />` : ""}`;
                     });
                     if (showChance) {
-                        cws("#chanceTable").unhide();
-                        cws("#chanceTableDynamicDiv").hide();
+                        cw("#chanceTable").unhide();
+                        cw("#chanceTableDynamicDiv").hide();
                     }
                 } else {
-                    cws("#chanceTableDynamicBody").html += `<tr>
+                    cw("#chanceTableDynamicBody").html += `<tr>
                             <th>学号</th>
                             <th>姓名</th>
                             <th>概率</th>
@@ -628,7 +628,7 @@
                         const name1 = fullList.all[index];
                         const name2 = fullList.all[index + half];
                         if (id <= half) {
-                            cws("#chanceTableDynamicBody").html += `<tr>
+                            cw("#chanceTableDynamicBody").html += `<tr>
                                     <td id="d-chance-${id}-id">[${id < 10 ? `0${id}` : id}]</td>
                                     <td id="d-chance-${id}-name">${name1}</td>
                                     <th id="d-chance-${id}-chance"></th>
@@ -649,15 +649,15 @@
                         }
                     });
                     if (showChance) {
-                        cws("#chanceTable").hide();
-                        cws("#chanceTableDynamicDiv").unhide();
+                        cw("#chanceTable").hide();
+                        cw("#chanceTableDynamicDiv").unhide();
                     }
                 }
             
                 if (currentMode == "true") {
                     for (let i = 1; i <= fullList.all.length; i++) {
-                        cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList[!girlId.includes(i) ? "boy" : "girl"].length * 100).keep(5)}%`;
-                        cws(`#chance-${i < 10 ? `0${i}` : i}`).color = !girlId.includes(i) ? "var(--blue)" : "var(--pink)";
+                        cw(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(1 / fullList[!girlId.includes(i) ? "boy" : "girl"].length * 100).keep(5)}%`;
+                        cw(`#chance-${i < 10 ? `0${i}` : i}`).color = !girlId.includes(i) ? "var(--blue)" : "var(--pink)";
                     }
                 }
                 if (currentMode == "dynamic") {
@@ -671,36 +671,36 @@
                     dynamicList.weight.girl.forEach(weightNum => {
                         totalWeight.girl += weightNum;
                     });
-                    cws("#total-weight").html = `<span style="color: var(--blue)">${totalWeight.boy.keep(3)}</span> / <span style="color: var(--pink)">${totalWeight.girl.keep(3)}</span>`;
+                    cw("#total-weight").html = `<span style="color: var(--blue)">${totalWeight.boy.keep(3)}</span> / <span style="color: var(--pink)">${totalWeight.girl.keep(3)}</span>`;
 
                     dynamicList.weight.all.forEach((weightNum, index) => {
                         const i = index + 1;
                         const boyGirlIndex = fullList.boy.indexOf(fullList.all[index]) != -1 ? fullList.boy.indexOf(fullList.all[index]) : fullList.girl.indexOf(fullList.all[index]);
 
                         const chance = (weightNum / totalWeight[!girlId.includes(index + 1) ? "boy" : "girl"] * 100).keep(5);
-                        cws(`#d-chance-${i}-chance`).html = `${chance < 1e-5 ? "<0.00001" : chance}%`;
-                        cws(`#d-chance-${i}-chance`).color = !girlId.includes(index + 1) ? "var(--blue)" : "var(--pink)";
+                        cw(`#d-chance-${i}-chance`).html = `${chance < 1e-5 ? "<0.00001" : chance}%`;
+                        cw(`#d-chance-${i}-chance`).color = !girlId.includes(index + 1) ? "var(--blue)" : "var(--pink)";
 
-                        cws(`#d-chance-${i}-times`).html = dynamicList.times[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex];
-                        cws(`#d-chance-${i}-weight`).html = dynamicList.weight[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex].keep(3);
+                        cw(`#d-chance-${i}-times`).html = dynamicList.times[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex];
+                        cw(`#d-chance-${i}-weight`).html = dynamicList.weight[!girlId.includes(index + 1) ? "boy" : "girl"][boyGirlIndex].keep(3);
 
-                        cws(`#d-chance-${i}-repeat`).html = "0%";
-                        if (i == dynamicList.repeatProhibit[4]) { cws(`#d-chance-${i}-repeat`).html = "-20%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-5)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-5)"; }
-                        if (i == dynamicList.repeatProhibit[3]) { cws(`#d-chance-${i}-repeat`).html = "-50%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-4)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-4)"; }
-                        if (i == dynamicList.repeatProhibit[2]) { cws(`#d-chance-${i}-repeat`).html = "-70%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-3)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-3)"; }
-                        if (i == dynamicList.repeatProhibit[1]) { cws(`#d-chance-${i}-repeat`).html = "-80%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-2)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-2)"; }
-                        if (i == dynamicList.repeatProhibit[0]) { cws(`#d-chance-${i}-repeat`).html = "-90%"; cws(`#d-chance-${i}-repeat`).color = "var(--tier-1)"; cws(`#d-chance-${i}-weight`).color = "var(--tier-1)"; }
+                        cw(`#d-chance-${i}-repeat`).html = "0%";
+                        if (i == dynamicList.repeatProhibit[4]) { cw(`#d-chance-${i}-repeat`).html = "-20%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-5)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-5)"; }
+                        if (i == dynamicList.repeatProhibit[3]) { cw(`#d-chance-${i}-repeat`).html = "-50%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-4)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-4)"; }
+                        if (i == dynamicList.repeatProhibit[2]) { cw(`#d-chance-${i}-repeat`).html = "-70%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-3)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-3)"; }
+                        if (i == dynamicList.repeatProhibit[1]) { cw(`#d-chance-${i}-repeat`).html = "-80%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-2)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-2)"; }
+                        if (i == dynamicList.repeatProhibit[0]) { cw(`#d-chance-${i}-repeat`).html = "-90%"; cw(`#d-chance-${i}-repeat`).color = "var(--tier-1)"; cw(`#d-chance-${i}-weight`).color = "var(--tier-1)"; }
                     });
                 }
                 if (currentMode == "false") {
                     for (let i = 1; i <= fullList.all.length; i++) {
                         const nowLeftChance = 1 / remainingList[!girlId.includes(i) ? "boy" : "girl"].length;
                         if (remainingList[!girlId.includes(i) ? "boy" : "girl"].includes(fullList.all[i - 1])) {
-                            cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
+                            cw(`#chance-${i < 10 ? `0${i}` : i}`).html = `${(nowLeftChance * 100).keep(5)}%`;
                         } else {
-                            cws(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
+                            cw(`#chance-${i < 10 ? `0${i}` : i}`).html = `0%`;
                         }
-                        cws(`#chance-${i < 10 ? `0${i}` : i}`).color = !girlId.includes(i) ? "var(--blue)" : "var(--pink)";
+                        cw(`#chance-${i < 10 ? `0${i}` : i}`).color = !girlId.includes(i) ? "var(--blue)" : "var(--pink)";
                     }
                 }
             }
@@ -724,15 +724,15 @@
             const close = 1.2;
 
             let startSentence = `抽中 ${nowRolling} 的概率为 <strong style="color: ${type == "all" ? chancePercent <= 0.6 * close ? "var(--lightOrange)" : "var(--textColor-500)" : type == "boy" ? "var(--blue)" : "var(--pink)"}">${chancePercent == 0 ? `&lt; 0.00001` : chancePercent}%</strong>`;
-            cws("#dynamic-chance-doyouknow").color = "var(--textColor-500)";
+            cw("#dynamic-chance-doyouknow").color = "var(--textColor-500)";
 
             if (chancePercent == 0) {
-                cws("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
+                cw("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
                 return startSentence;
             }
 
             if (chancePercent <= 0.256) {
-                cws("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
+                cw("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
                 if (chancePercent.range(0.128, 0.256)) {
                     return startSentence += ": <strong>小于</strong> CS2 单抽出金概率";
                 }
@@ -748,16 +748,16 @@
                 return startSentence += `: <strong>小于</strong> CS2 单抽出金概率, 约为硬币<strong>连续 ${nearestCoinProbability(chancePercent / 100)} 次正面</strong>概率`;
             }
             if (chancePercent <= 0.256 * close) {
-                cws("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
+                cw("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
                 return startSentence += ": 接近 CS2 单抽出金概率";
             }
 
             if (chancePercent <= 0.6) {
-                cws("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
+                cw("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
                 return startSentence += ": <strong>小于</strong>原神单抽出金概率";
             }
             if (chancePercent <= 0.6 * close) {
-                cws("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
+                cw("#dynamic-chance-doyouknow").color = "var(--lightOrange)";
                 return startSentence += ": 接近原神单抽出金概率";
             }
             if (chancePercent.range(0.6 * close, 1)) {
@@ -778,7 +778,7 @@
 
         function logName(mode, p2, p3) {
             if (mode == 0 || mode == undefined) { // Default
-                log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : cws("#name").el.style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP", !rollTeachers ? "STUDENT" : "TEACHER");
+                log(++order, nowRolling, currentMode.toUpperCase(), chanceMode == "all" ? "ALL" : cw("#name").el.style.color == "var(--blue)" ? "BOY" : "GIRL", temp, skipAnimation ? "SKIPPED" : "NO-SKIP", !rollTeachers ? "STUDENT" : "TEACHER");
             }
             if (mode == 1) { // By ID
                 log(++order, p2, "BY-ID", temp, skipAnimation ? "SKIPPED" : "NO-SKIP", !rollTeachers ? "STUDENT" : "TEACHER");
@@ -818,8 +818,8 @@
                 verify: verify
                 // eslint-disable-next-line no-useless-escape
             })}';<\/script>`);
-            cws("#saveId").unhide("inline");
-            cws("#saveId").html = `保存代码: <strong>${idHex}</strong>`;
+            cw("#saveId").unhide("inline");
+            cw("#saveId").html = `保存代码: <strong>${idHex}</strong>`;
         }
 
         function deleteAutosave() {
@@ -869,7 +869,7 @@
                     age: birthList[index][4] - birthList[index][1]
                 };
 
-                cws("#nextBirthday").html += `<p ${isToday ? "style='color: var(--green); font-weight: 900; font-size: 32px;'>&gt; 今天生日: " : ">下一个生日: "}${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)${isToday ? " &lt;" : ""}</p>`;
+                cw("#nextBirthday").html += `<p ${isToday ? "style='color: var(--green); font-weight: 900; font-size: 32px;'>&gt; 今天生日: " : ">下一个生日: "}${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)${isToday ? " &lt;" : ""}</p>`;
 
                 toBirth[index] = -1;
                 triggered = true;

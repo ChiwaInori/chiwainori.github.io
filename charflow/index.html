@@ -37,12 +37,12 @@
         let docContent = "[TYPE HERE]";
         let backwardChar = null;
 
-        cws("#doc").el.addEventListener("input", function () {
+        cw("#doc").el.addEventListener("input", function () {
             docContent = this.innerText;
         });
 
-        cws("#doc").el.addEventListener("click", updateCursor);
-        cws("#doc").el.addEventListener("keydown", updateCursor);
+        cw("#doc").el.addEventListener("click", updateCursor);
+        cw("#doc").el.addEventListener("keydown", updateCursor);
 
         function change(direction) {
             docContent = docContent.replaceAll(/\n/g, "ん");
@@ -71,7 +71,7 @@
 
             docContent = docContent.replaceAll(/ん/g, "\n");
 
-            cws("#doc").el.innerText = docContent;
+            cw("#doc").el.innerText = docContent;
         }
 
         async function updateCursor() {
@@ -88,8 +88,8 @@
                 backwardChar = null;
             }
 
-            cws("#alphabet").html = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
-            cws("#alphabet").html = cws("#alphabet").html.replace(backwardChar, `<strong style="color: var(--green);">${backwardChar}</strong>`);
+            cw("#alphabet").html = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+            cw("#alphabet").html = cw("#alphabet").html.replace(backwardChar, `<strong style="color: var(--green);">${backwardChar}</strong>`);
         }
     </script>
 </div></body>

@@ -49,21 +49,21 @@
                 fadeChange("welcome", "guessYou");
             } else {
                 fadeChange("welcome", "guessBot");
-                cws("#num").html = rand(1, 100000);
+                cw("#num").html = rand(1, 100000);
             }
         }
 
         function guessYou() {
-            cws("#guessYouOk").el.disabled = true;
-            var min = parseInt(cws("#min").html);
-            var max = parseInt(cws("#max").html);
-            var round = parseInt(cws("#round").html) + 1;
+            cw("#guessYouOk").el.disabled = true;
+            var min = parseInt(cw("#min").html);
+            var max = parseInt(cw("#max").html);
+            var round = parseInt(cw("#round").html) + 1;
             if (min <= max) {
                 var current = rand(min, max);    
-                cws("#guessYouChat").html = cws("#guessYouChat").html + `\n<div id="guessYou${round}"><p><strong>Bot: </strong>你猜的数字是不是 <strong>${current}</strong>?</p><p><button id="lessButton${round}" onclick="guessYouReply(-1)">更小</button><button id="correctButton${round}" onclick="guessYouReply(0)">对了</button><button id="moreButton${round}" onclick="guessYouReply(1)">更大</button></p></div>`;
+                cw("#guessYouChat").html = cw("#guessYouChat").html + `\n<div id="guessYou${round}"><p><strong>Bot: </strong>你猜的数字是不是 <strong>${current}</strong>?</p><p><button id="lessButton${round}" onclick="guessYouReply(-1)">更小</button><button id="correctButton${round}" onclick="guessYouReply(0)">对了</button><button id="moreButton${round}" onclick="guessYouReply(1)">更大</button></p></div>`;
                 console.log(`Round ${round}: ${min} ~ ${max}, random-ed ${current}`);
             } else {
-                cws("#guessYouChat").html = cws("#guessYouChat").html + `\n<div id="guessYou${round}"><p style="color: #dd0000;"><strong>Bot: </strong>我无法猜出你的数字, 因为从你的回应中, 这个数字比 <strong>${max}</strong> 大, 比 <strong>${min}</strong> 小。</p></div>`;
+                cw("#guessYouChat").html = cw("#guessYouChat").html + `\n<div id="guessYou${round}"><p style="color: #dd0000;"><strong>Bot: </strong>我无法猜出你的数字, 因为从你的回应中, 这个数字比 <strong>${max}</strong> 大, 比 <strong>${min}</strong> 小。</p></div>`;
                 var targetParagraphsH = query(`.guessYouR${max + "h"} p`);
                 targetParagraphsH.forEach(function (paragraphH) {
                     paragraphH.style.color = "#dd0000";
@@ -73,85 +73,85 @@
                     paragraphL.style.color = "#dd0000";
                 });
             }
-            cws("#round").html = round;
-            cws("#current").html = current;
+            cw("#round").html = round;
+            cw("#current").html = current;
             if (round >= 2) {
-                cws(`#lessButton${round - 1}`).el.disabled = true;
-                cws(`#correctButton${round - 1}`).el.disabled = true;
-                cws(`#moreButton${round - 1}`).el.disabled = true;
+                cw(`#lessButton${round - 1}`).el.disabled = true;
+                cw(`#correctButton${round - 1}`).el.disabled = true;
+                cw(`#moreButton${round - 1}`).el.disabled = true;
             }
             if (current == 1) {
-                cws(`#lessButton${round}`).el.disabled = true;
+                cw(`#lessButton${round}`).el.disabled = true;
             }
             if (current == 100000) {
-                cws(`#moreButton${round}`).el.disabled = true;
+                cw(`#moreButton${round}`).el.disabled = true;
             }
         }
         
         function guessYouReply(reply) {
             if (reply == 0) { // CORRECT
-                var min = parseInt(cws("#min").html);
-                var max = parseInt(cws("#max").html);
-                var round = parseInt(cws("#round").html);
-                var current = parseInt(cws("#current").html);
+                var min = parseInt(cw("#min").html);
+                var max = parseInt(cw("#max").html);
+                var round = parseInt(cw("#round").html);
+                var current = parseInt(cw("#current").html);
                 if (round >= 2) {
-                    cws(`#lessButton${round - 1}`).el.disabled = true;
-                    cws(`#correctButton${round - 1}`).el.disabled = true;
-                    cws(`#moreButton${round - 1}`).el.disabled = true;
+                    cw(`#lessButton${round - 1}`).el.disabled = true;
+                    cw(`#correctButton${round - 1}`).el.disabled = true;
+                    cw(`#moreButton${round - 1}`).el.disabled = true;
                 }
-                cws(`#lessButton${round}`).el.disabled = true;
-                cws(`#correctButton${round}`).el.disabled = true;
-                cws(`#moreButton${round}`).el.disabled = true;
-                cws(`#correctButton${round}`).color = "#00dd00";
+                cw(`#lessButton${round}`).el.disabled = true;
+                cw(`#correctButton${round}`).el.disabled = true;
+                cw(`#moreButton${round}`).el.disabled = true;
+                cw(`#correctButton${round}`).color = "#00dd00";
                 if (min == max) {
                     var additional = `本次游戏, 我在范围缩小至只剩最后一个数字时才猜出了 <strong>${current}</strong>.`;
                 } else {
                     var numCount = max - min + 1;
                     var additional = `本次游戏, 我在范围缩小至 <strong>${min} ~ ${max}</strong> (该范围中有 <strong>${numCount}</strong> 个数字) 时猜出了 <strong>${current}</strong>.`;
                 }
-                cws("#guessYouChat").html = cws("#guessYouChat").html + `\n<div id="guessYou${round}"><p style="color: #00dd00;"><strong>Bot: </strong>太棒了! 我在猜了 <strong>${round}</strong> 次后猜出了你的数字 <strong>${current}</strong>.</p><p style="color: #00dd00;"><strong>Bot: </strong>${additional}</p></div>`;
+                cw("#guessYouChat").html = cw("#guessYouChat").html + `\n<div id="guessYou${round}"><p style="color: #00dd00;"><strong>Bot: </strong>太棒了! 我在猜了 <strong>${round}</strong> 次后猜出了你的数字 <strong>${current}</strong>.</p><p style="color: #00dd00;"><strong>Bot: </strong>${additional}</p></div>`;
             } else {
-                var current = parseInt(cws("#current").html);
-                var round = parseInt(cws("#round").html);
+                var current = parseInt(cw("#current").html);
+                var round = parseInt(cw("#round").html);
                 if (reply == -1) { // LESS
-                    cws("#max").html = parseInt(cws("#current").html) - 1;
-                    cws("#diff").html = "L";
-                    cws(`#lessButton${round}`).color = "#00dd00";
+                    cw("#max").html = parseInt(cw("#current").html) - 1;
+                    cw("#diff").html = "L";
+                    cw(`#lessButton${round}`).color = "#00dd00";
                 }
                 if (reply == 1) { // MORE
-                    cws("#min").html = parseInt(cws("#current").html) + 1;
-                    cws("#diff").html = "H";
-                    cws(`#moreButton${round}`).color = "#00dd00";
+                    cw("#min").html = parseInt(cw("#current").html) + 1;
+                    cw("#diff").html = "H";
+                    cw(`#moreButton${round}`).color = "#00dd00";
                 }
-                if (cws("#diff").html == "L") { var id = current + "l"; } else { var id = current + "h"; }
-                cws(`#guessYou${round}`).el.classList.add(`guessYouR${id}`);
+                if (cw("#diff").html == "L") { var id = current + "l"; } else { var id = current + "h"; }
+                cw(`#guessYou${round}`).el.classList.add(`guessYouR${id}`);
                 guessYou();
             }
         }
 
         function guessBot() {
-            cws("#guessBotOk").el.disabled = true;
-            var min = parseInt(cws("#min").html);
-            var max = parseInt(cws("#max").html);
-            var round = parseInt(cws("#round").html) + 1;
-            cws("#round").html = round;
+            cw("#guessBotOk").el.disabled = true;
+            var min = parseInt(cw("#min").html);
+            var max = parseInt(cw("#max").html);
+            var round = parseInt(cw("#round").html) + 1;
+            cw("#round").html = round;
             if (round >= 2) {
                 var additional = `<h6>建议范围: ${min} ~ ${max}</h6>`;
             } else {
                 var additional = "";
             }
-            cws("#guessBotChat").html = cws("#guessBotChat").html + `\n<div id="guessBot${round}"><p>你要猜的数字为: <input id="guessBotI${round}" style="width: 64px;" /><span id="guessBotN${round}"></span><button id="guessBotButton${round}" onclick="guessBotReply()">确认</button></p>${additional}</div>`;
+            cw("#guessBotChat").html = cw("#guessBotChat").html + `\n<div id="guessBot${round}"><p>你要猜的数字为: <input id="guessBotI${round}" style="width: 64px;" /><span id="guessBotN${round}"></span><button id="guessBotButton${round}" onclick="guessBotReply()">确认</button></p>${additional}</div>`;
         }
 
         function guessBotReply() {
-            var min = parseInt(cws("#min").html);
-            var max = parseInt(cws("#max").html);
-            var num = cws("#num").html;
-            var round = parseInt(cws("#round").html);
-            var current = parseInt(cws(`#guessBotI${round}`).el.value);
-            cws(`#guessBotN${round}`).html = current;
-            cws(`#guessBotI${round}`).hide();
-            cws(`#guessBotButton${round}`).el.disabled = true;
+            var min = parseInt(cw("#min").html);
+            var max = parseInt(cw("#max").html);
+            var num = cw("#num").html;
+            var round = parseInt(cw("#round").html);
+            var current = parseInt(cw(`#guessBotI${round}`).el.value);
+            cw(`#guessBotN${round}`).html = current;
+            cw(`#guessBotI${round}`).hide();
+            cw(`#guessBotButton${round}`).el.disabled = true;
             if (min == max) {
                 var additional = `本次游戏, 你在范围缩小至只剩最后一个数字时才猜出了 <strong>${current}</strong>.`;
             } else {
@@ -159,21 +159,21 @@
                 var additional = `本次游戏, 你在范围缩小至 <strong>${min} ~ ${max}</strong> (该范围中有 <strong>${numCount}</strong> 个数字) 时猜出了 <strong>${current}</strong>.`;
             }
             if (current == num) {
-                cws("#guessBotChat").html = cws("#guessBotChat").html + `\n<div id="guessBot${round}"><p style="color: #00dd00;"><strong>Bot: </strong>猜对了! 你在猜了 <strong>${round}</strong> 次后猜出了我的数字 <strong>${current}</strong>.<p style="color: #00dd00;"><strong>Bot: </strong>${additional}</p></div>`;
+                cw("#guessBotChat").html = cw("#guessBotChat").html + `\n<div id="guessBot${round}"><p style="color: #00dd00;"><strong>Bot: </strong>猜对了! 你在猜了 <strong>${round}</strong> 次后猜出了我的数字 <strong>${current}</strong>.<p style="color: #00dd00;"><strong>Bot: </strong>${additional}</p></div>`;
             } else {
                 if (current < num) {
                     var min = current + 1;
-                    if (min > cws("#min").html) {
-                        cws("#min").html = min;
+                    if (min > cw("#min").html) {
+                        cw("#min").html = min;
                     }
-                    cws("#guessBotChat").html = cws("#guessBotChat").html + `\n<div id="guessBotR${round}"><p><strong>Bot: </strong>猜小了</p></div>`;
+                    cw("#guessBotChat").html = cw("#guessBotChat").html + `\n<div id="guessBotR${round}"><p><strong>Bot: </strong>猜小了</p></div>`;
                 }
                 if (current > num) {
                     var max = current - 1;
-                    if (max < cws("#max").html) {
-                        cws("#max").html = max;
+                    if (max < cw("#max").html) {
+                        cw("#max").html = max;
                     }
-                    cws("#guessBotChat").html = cws("#guessBotChat").html + `\n<div id="guessBotR${round}"><p><strong>Bot: </strong>猜大了</p></div>`;
+                    cw("#guessBotChat").html = cw("#guessBotChat").html + `\n<div id="guessBotR${round}"><p><strong>Bot: </strong>猜大了</p></div>`;
                 }
                 guessBot();
             }

@@ -25,7 +25,7 @@
         <p><strong id="result"></strong></p>
     </div>
     <script>
-        cws("#input").el.addEventListener("input", function () {
+        cw("#input").el.addEventListener("input", function () {
             const inputValue = this.value.toLowerCase().split("/");
             let result = "";
             
@@ -286,7 +286,7 @@
             });
             result = result.replaceAll(/-/g, "ー");
 
-            cws("#result").html = result;
+            cw("#result").html = result;
         });
     </script>
 </div></body>

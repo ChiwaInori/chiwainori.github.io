@@ -20,7 +20,7 @@
 <p id="abc"></p>
 
 <script>
-    cws("#link").html = window.location.href;
+    cw("#link").html = window.location.href;
 
     function divideOld(a, b, calSteps) { // 穷举法算 a / b
         if (a > b || a < 0 || b == 0 || b < 0 || calSteps < 1 || calSteps % 1 != 0) { throw new RangeError(); }
@@ -167,9 +167,9 @@
 
     const obj = {
         get text() {
-            return cws("#element").html;
+            return cw("#element").html;
         }
     };
 
-    const a = cs("#element");
+    const a = cw("#element");
 </script>

@@ -397,8 +397,8 @@
 
         const onlineCode = urlParam.getItem("code");
         if (onlineCode) {
-            cws("#code_type").el.value = onlineCode;
-            cws("#rules").hide();
+            cw("#code_type").el.value = onlineCode;
+            cw("#rules").hide();
             onlineCodeEnter();
         }
 
@@ -424,7 +424,7 @@
             }
         }
 
-        cws("#saveInput").el.addEventListener("change", () => { loaded = 1; });
+        cw("#saveInput").el.addEventListener("change", () => { loaded = 1; });
 
         function randomFirst() {
             const seed = rand(1, 2);
@@ -440,45 +440,45 @@
             fadeChange("choose_first", "main_panel");
             first = p;
             if (p == 1) {
-                cws("#p1_status_1").html = "<strong>我方先手</strong>";
-                cws("#p1_status_1").color = "#00dd00";
-                cws("#p2_status_1").html = "<strong>敌方先手</strong>";
-                cws("#p1_status_2").html = "<strong>请选择母舰位置</strong>";
-                cws("#p1_status_2").color = "#00dd00";
-                cws("#p2_status_2").html = "<strong>请选择母舰位置</strong>";
-                cws("#p2_status_2").color = "#00dd00";
+                cw("#p1_status_1").html = "<strong>我方先手</strong>";
+                cw("#p1_status_1").color = "#00dd00";
+                cw("#p2_status_1").html = "<strong>敌方先手</strong>";
+                cw("#p1_status_2").html = "<strong>请选择母舰位置</strong>";
+                cw("#p1_status_2").color = "#00dd00";
+                cw("#p2_status_2").html = "<strong>请选择母舰位置</strong>";
+                cw("#p2_status_2").color = "#00dd00";
             } else {
-                cws("#p1_status_1").html = "<strong>敌方先手</strong>";
-                cws("#p2_status_1").color = "#00dd00";
-                cws("#p2_status_1").html = "<strong>我方先手</strong>";
-                cws("#p1_status_2").html = "<strong>请选择母舰位置</strong>";
-                cws("#p1_status_2").color = "#00dd00";
-                cws("#p2_status_2").html = "<strong>请选择母舰位置</strong>";
-                cws("#p2_status_2").color = "#00dd00";
+                cw("#p1_status_1").html = "<strong>敌方先手</strong>";
+                cw("#p2_status_1").color = "#00dd00";
+                cw("#p2_status_1").html = "<strong>我方先手</strong>";
+                cw("#p1_status_2").html = "<strong>请选择母舰位置</strong>";
+                cw("#p1_status_2").color = "#00dd00";
+                cw("#p2_status_2").html = "<strong>请选择母舰位置</strong>";
+                cw("#p2_status_2").color = "#00dd00";
             }
 
             if (online) {
-                cws("#p2_table_1").hide();
-                cws("#p2_table_2").hide();
-                cws("#p2_status_1").hide();
-                cws("#p2_status_2").hide();
-                cws("#p2_status_3").hide();
-                cws("#subtitle").hide();
-                cws("#p1_status").style = "margin: auto auto auto auto !important;";
-                cws("#p1_table_1").style = "margin: auto auto auto auto !important;";
-                cws("#p1_table_2").style = "margin: auto auto auto auto !important;";
+                cw("#p2_table_1").hide();
+                cw("#p2_table_2").hide();
+                cw("#p2_status_1").hide();
+                cw("#p2_status_2").hide();
+                cw("#p2_status_3").hide();
+                cw("#subtitle").hide();
+                cw("#p1_status").style = "margin: auto auto auto auto !important;";
+                cw("#p1_table_1").style = "margin: auto auto auto auto !important;";
+                cw("#p1_table_2").style = "margin: auto auto auto auto !important;";
             }
         }
 
         function p1PlaceBig(pos) {
             bigPlaced++;
-            cws(`#display_p1_${posArray.number[pos]}`).el.innerHTML = "〓";
+            cw(`#display_p1_${posArray.number[pos]}`).el.innerHTML = "〓";
             placeBigButtonHide(1);
             if (bigPlaced == 1) {
-                cws("#p1_status_2").html = "<strong>请等待敌方选择母舰位置</strong>";
-                cws("#p1_status_2").color = "#ff9900";
+                cw("#p1_status_2").html = "<strong>请等待敌方选择母舰位置</strong>";
+                cw("#p1_status_2").color = "#ff9900";
                 if (online) {
-                    cws("#online_finish").unhide();
+                    cw("#online_finish").unhide();
                     onlineCodeBig();
                 }
             } else {
@@ -489,13 +489,13 @@
 
         function p2PlaceBig(pos) {
             bigPlaced++;
-            cws(`#display_p2_${posArray.number[pos]}`).el.innerHTML = "〓";
+            cw(`#display_p2_${posArray.number[pos]}`).el.innerHTML = "〓";
             placeBigButtonHide(2);
             if (bigPlaced == 1) {
-                cws("#p2_status_2").html = "<strong>请等待敌方选择母舰位置</strong>";
-                cws("#p2_status_2").color = "#ff9900";
+                cw("#p2_status_2").html = "<strong>请等待敌方选择母舰位置</strong>";
+                cw("#p2_status_2").color = "#ff9900";
                 if (online) {
-                    cws("#online_finish").unhide();
+                    cw("#online_finish").unhide();
                     onlineCodeBig();
                 }
             } else {
@@ -506,177 +506,177 @@
 
         function placeBigButtonHide(p) {
             for (let i = 1; i <= 36; i++) {
-                cws(`#p${p}PlaceBigButton${i}`).hide();
+                cw(`#p${p}PlaceBigButton${i}`).hide();
             }
         }
 
         function gameStart() {
-            cws("#goodTitle").html = "游戏进行中";
-            cws("#goodTitle").color = "#00dd00";
+            cw("#goodTitle").html = "游戏进行中";
+            cw("#goodTitle").color = "#00dd00";
             if (first == 1) {
                 p1Round1();
             } else {
                 p2Round1();
             }
             if (online == 0) {
-                cws("#saveButton").style = "display: block; margin-left: 48%;";
+                cw("#saveButton").style = "display: block; margin-left: 48%;";
             }
         }
 
         function p1Round1() {
             for (let i = 1; i <= 36; i++) {
-                cws(`#p2AttackButton${i}`).hide();
-                if (cws(`#display_p1_${i}`).el.innerHTML == "&nbsp;") {
-                    cws(`#p1PlaceSmallButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
+                cw(`#p2AttackButton${i}`).hide();
+                if (cw(`#display_p1_${i}`).el.innerHTML == "&nbsp;") {
+                    cw(`#p1PlaceSmallButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
                 }
             }
-            cws("#p1_status_1").html = "<strong>我方回合</strong>";
-            cws("#p1_status_1").color = "#00dd00";
-            cws("#p1_status_2").html = "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p1_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>";
-            cws("#p1_status_2").style = "color: #00dd00; margin-bottom: 8px;";
-            cws("#p2_status_1").html = "<strong>敌方回合</strong>";
-            cws("#p2_status_1").color = "#666666";
-            cws("#p2_status_2").html = "<strong>请等待敌方操作</strong>";
-            cws("#p2_status_2").color = "#666666";
+            cw("#p1_status_1").html = "<strong>我方回合</strong>";
+            cw("#p1_status_1").color = "#00dd00";
+            cw("#p1_status_2").html = "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p1_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>";
+            cw("#p1_status_2").style = "color: #00dd00; margin-bottom: 8px;";
+            cw("#p2_status_1").html = "<strong>敌方回合</strong>";
+            cw("#p2_status_1").color = "#666666";
+            cw("#p2_status_2").html = "<strong>请等待敌方操作</strong>";
+            cw("#p2_status_2").color = "#666666";
             if (online) {
                 p2RoundOnlineFin();
                 if (onlineWho == 1) {
-                    cws("#p2_status_1").hide();
-                    cws("#p2_status_2").hide();
-                    cws("#p2_status_3").hide();
+                    cw("#p2_status_1").hide();
+                    cw("#p2_status_2").hide();
+                    cw("#p2_status_3").hide();
                 }
             }
         }
 
         function p2Round1() {
             for (let i = 1; i <= 36; i++) {
-                cws(`#p1AttackButton${i}`).hide();
-                if (cws(`#display_p2_${i}`).el.innerHTML == "&nbsp;") {
-                    cws(`#p2PlaceSmallButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
+                cw(`#p1AttackButton${i}`).hide();
+                if (cw(`#display_p2_${i}`).el.innerHTML == "&nbsp;") {
+                    cw(`#p2PlaceSmallButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
                 }
             }
-            cws("#p2_status_1").html = "<strong>我方回合</strong>";
-            cws("#p2_status_1").color = "#00dd00";
-            cws("#p2_status_2").html = "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p2_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>";
-            cws("#p2_status_2").style = "color: #00dd00; margin-bottom: 8px;";
-            cws("#p1_status_1").html = "<strong>敌方回合</strong>";
-            cws("#p1_status_1").color = "#666666";
-            cws("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
-            cws("#p1_status_2").color = "#666666";
+            cw("#p2_status_1").html = "<strong>我方回合</strong>";
+            cw("#p2_status_1").color = "#00dd00";
+            cw("#p2_status_2").html = "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p2_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>";
+            cw("#p2_status_2").style = "color: #00dd00; margin-bottom: 8px;";
+            cw("#p1_status_1").html = "<strong>敌方回合</strong>";
+            cw("#p1_status_1").color = "#666666";
+            cw("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
+            cw("#p1_status_2").color = "#666666";
             if (online) {
                 p1RoundOnlineFin();
                 if (onlineWho == 1) {
-                    cws("#p1_status_1").hide();
-                    cws("#p1_status_2").hide();
-                    cws("#p1_status_3").hide();
+                    cw("#p1_status_1").hide();
+                    cw("#p1_status_2").hide();
+                    cw("#p1_status_3").hide();
                 }
             }
         }
 
         function p1PlaceSmall(pos) {
-            cws(`#display_p1_${pos}`).html = "≡";
-            cws("#p1_status_3").html = `<strong>战列舰已部署 (${posArray.position[pos]})</strong>`;
-            cws("#p1_status_3").color = "#999999";
+            cw(`#display_p1_${pos}`).html = "≡";
+            cw("#p1_status_3").html = `<strong>战列舰已部署 (${posArray.position[pos]})</strong>`;
+            cw("#p1_status_3").color = "#999999";
             cache += `1${posArray.stringCache[pos]}`;
             p1Round2();
         }
 
         function p2PlaceSmall(pos) {
-            cws(`#display_p2_${pos}`).html = "≡";
-            cws("#p2_status_3").html = `<strong>战列舰已部署 (${posArray.position[pos]})</strong>`;
-            cws("#p2_status_3").color = "#999999";
+            cw(`#display_p2_${pos}`).html = "≡";
+            cw("#p2_status_3").html = `<strong>战列舰已部署 (${posArray.position[pos]})</strong>`;
+            cw("#p2_status_3").color = "#999999";
             cache += `1${posArray.stringCache[pos]}`;
             p2Round2();
         }
 
         function p1Round2() {
-            cws("#p1_status_1").html = "<strong>我方回合</strong>";
-            cws("#p1_status_1").color = "#00dd00";
-            cws("#p2_status_1").html = "<strong>敌方回合</strong>";
-            cws("#p2_status_1").color = "#666666";
+            cw("#p1_status_1").html = "<strong>我方回合</strong>";
+            cw("#p1_status_1").color = "#00dd00";
+            cw("#p2_status_1").html = "<strong>敌方回合</strong>";
+            cw("#p2_status_1").color = "#666666";
 
-            cws("#p2_status_1").html = "<strong>敌方回合</strong>";
-            cws("#p2_status_1").color = "#666666";
-            cws("#p2_status_2").html = "<strong>请等待敌方操作</strong>";
-            cws("#p2_status_2").color = "#666666";
-            cws("#p1_status_2").html = "<strong>请选择攻击位置</strong>";
-            cws("#p1_status_2").color = "#dd0000";
+            cw("#p2_status_1").html = "<strong>敌方回合</strong>";
+            cw("#p2_status_1").color = "#666666";
+            cw("#p2_status_2").html = "<strong>请等待敌方操作</strong>";
+            cw("#p2_status_2").color = "#666666";
+            cw("#p1_status_2").html = "<strong>请选择攻击位置</strong>";
+            cw("#p1_status_2").color = "#dd0000";
 
             for (let i = 1; i <= 36; i++) {
-                cws(`#p2AttackButton${i}`).hide();
-                cws(`#p1PlaceSmallButton${i}`).hide();
-                cws(`#p1AttackButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
+                cw(`#p2AttackButton${i}`).hide();
+                cw(`#p1PlaceSmallButton${i}`).hide();
+                cw(`#p1AttackButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
             }
             
             if (online) {
                 p2RoundOnlineFin();
                 if (onlineWho == 1) {
-                    cws("#p2_status_1").hide();
-                    cws("#p2_status_2").hide();
-                    cws("#p2_status_3").hide();
+                    cw("#p2_status_1").hide();
+                    cw("#p2_status_2").hide();
+                    cw("#p2_status_3").hide();
                 }
             }
         }
 
         function p2Round2() {
-            cws("#p2_status_1").html = "<strong>我方回合</strong>";
-            cws("#p2_status_1").color = "#00dd00";
-            cws("#p1_status_1").html = "<strong>敌方回合</strong>";
-            cws("#p1_status_1").color = "#666666";
+            cw("#p2_status_1").html = "<strong>我方回合</strong>";
+            cw("#p2_status_1").color = "#00dd00";
+            cw("#p1_status_1").html = "<strong>敌方回合</strong>";
+            cw("#p1_status_1").color = "#666666";
 
-            cws("#p1_status_1").html = "<strong>敌方回合</strong>";
-            cws("#p1_status_1").color = "#666666";
-            cws("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
-            cws("#p1_status_2").color = "#666666";
-            cws("#p2_status_2").html = "<strong>请选择攻击位置</strong>";
-            cws("#p2_status_2").color = "#dd0000";
+            cw("#p1_status_1").html = "<strong>敌方回合</strong>";
+            cw("#p1_status_1").color = "#666666";
+            cw("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
+            cw("#p1_status_2").color = "#666666";
+            cw("#p2_status_2").html = "<strong>请选择攻击位置</strong>";
+            cw("#p2_status_2").color = "#dd0000";
 
             for (let i = 1; i <= 36; i++) {
-                cws(`#p1AttackButton${i}`).hide();
-                cws(`#p2PlaceSmallButton${i}`).hide();
-                cws(`#p2AttackButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
+                cw(`#p1AttackButton${i}`).hide();
+                cw(`#p2PlaceSmallButton${i}`).hide();
+                cw(`#p2AttackButton${i}`).style = "margin-bottom: -3px; margin-left: -1px; display: inline;";
             }
 
             if (online) {
                 p1RoundOnlineFin();
                 if (onlineWho == 1) {
-                    cws("#p1_status_1").hide();
-                    cws("#p1_status_2").hide();
-                    cws("#p1_status_3").hide();
+                    cw("#p1_status_1").hide();
+                    cw("#p1_status_2").hide();
+                    cw("#p1_status_3").hide();
                 }
             }
         }
 
         function p1Attack(pos) {
-            cws("#display_p2_1").style = "";
+            cw("#display_p2_1").style = "";
             if (online) {
                 cache += `2${posArray.stringCache[pos]}`;
             }
-            if (cws(`#display_p2_${pos}`).html == "&nbsp;") {
-                cws("#p1_status_3").html = `<strong>未发现敌方军舰 (${posArray.position[pos]})</strong>`;
-                cws("#p1_status_3").color = "#aaaaaa";
-                cws("#p2_status_3").html = `<strong>敌方打空 (${posArray.position[pos]})</strong>`;
-                cws(`#display_p2_${pos}`).color = "#aaaaaa";
+            if (cw(`#display_p2_${pos}`).html == "&nbsp;") {
+                cw("#p1_status_3").html = `<strong>未发现敌方军舰 (${posArray.position[pos]})</strong>`;
+                cw("#p1_status_3").color = "#aaaaaa";
+                cw("#p2_status_3").html = `<strong>敌方打空 (${posArray.position[pos]})</strong>`;
+                cw(`#display_p2_${pos}`).color = "#aaaaaa";
 
                 p2RoundCheck();
             }
-            if (cws(`#display_p2_${pos}`).html == "≡") {
-                cws("#p1_status_3").html = `<strong>已击毁敌方一艘战列舰! (${posArray.position[pos]})</strong>`;
-                cws("#p1_status_3").color = "#ff0077";
-                cws("#p2_status_3").html = `<strong>我方一艘战列舰已被击毁! (${posArray.position[pos]})</strong>`;
-                cws("#p2_status_3").color = "#ff0077";
+            if (cw(`#display_p2_${pos}`).html == "≡") {
+                cw("#p1_status_3").html = `<strong>已击毁敌方一艘战列舰! (${posArray.position[pos]})</strong>`;
+                cw("#p1_status_3").color = "#ff0077";
+                cw("#p2_status_3").html = `<strong>我方一艘战列舰已被击毁! (${posArray.position[pos]})</strong>`;
+                cw("#p2_status_3").color = "#ff0077";
 
-                cws(`#display_p2_${pos}`).html = "&nbsp;";
+                cw(`#display_p2_${pos}`).html = "&nbsp;";
 
                 p1CheckVictory();
             }
-            if (cws(`#display_p2_${pos}`).html == "〓") {
-                cws("#p1_status_3").html = `<strong>已击毁敌方母舰! (${posArray.position[pos]})</strong>`;
-                cws("#p1_status_3").color = "#dd0000";
-                cws("#p2_status_3").html = `<strong>我方母舰已被击毁! (${posArray.position[pos]})</strong>`;
-                cws("#p2_status_3").color = "#dd0000";
+            if (cw(`#display_p2_${pos}`).html == "〓") {
+                cw("#p1_status_3").html = `<strong>已击毁敌方母舰! (${posArray.position[pos]})</strong>`;
+                cw("#p1_status_3").color = "#dd0000";
+                cw("#p2_status_3").html = `<strong>我方母舰已被击毁! (${posArray.position[pos]})</strong>`;
+                cw("#p2_status_3").color = "#dd0000";
 
-                cws(`#display_p2_${pos}`).html = "&nbsp;";
+                cw(`#display_p2_${pos}`).html = "&nbsp;";
 
                 p1CheckVictory();
             }
@@ -685,15 +685,15 @@
         function p1CheckVictory() {
             if (online) {
                 if (onlineWho == 1) {
-                    cws("#p2_status_3").hide();
+                    cw("#p2_status_3").hide();
                 } else {
-                    cws("#p1_status_3").hide();
+                    cw("#p1_status_3").hide();
                 }
             }
 
             let emptyCounter = 0;
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p2_${i}`).html == "&nbsp;") {
+                if (cw(`#display_p2_${i}`).html == "&nbsp;") {
                     emptyCounter++;
                 }
             }
@@ -701,42 +701,42 @@
                 if (onlineWho == 1) {
                     p1RoundOnlineFin();
                 } else {
-                    cws("#online_finish").hide();
+                    cw("#online_finish").hide();
                 }
-                cws("#goodTitle").html = "游戏结束";
-                cws("#goodTitle").style = "color: #666666;";
-                cws("#subtitle").html = "&nbsp;";
-                cws("#subtitle_showOne").html = "&nbsp;";
-                cws("#saveButton").style = "display: none;";
-                cws("#p1_status_1").html = "<strong>我方胜利!</strong>";
+                cw("#goodTitle").html = "游戏结束";
+                cw("#goodTitle").style = "color: #666666;";
+                cw("#subtitle").html = "&nbsp;";
+                cw("#subtitle_showOne").html = "&nbsp;";
+                cw("#saveButton").style = "display: none;";
+                cw("#p1_status_1").html = "<strong>我方胜利!</strong>";
 
-                cws("#p1_status_1").color = "#ffa800";
-                cws("#p2_status_1").html = "<strong>我方战败</strong>";
-                cws("#p2_status_1").color = "#dd0000";
-                cws("#p1_status_2").html = "<strong>敌方所有军舰已被摧毁!</strong>";
-                cws("#p1_status_2").color = "#ffa800";
-                cws("#p2_status_2").html = "<strong>我方所有军舰已被摧毁!</strong>";
-                cws("#p2_status_2").color = "#dd0000";
+                cw("#p1_status_1").color = "#ffa800";
+                cw("#p2_status_1").html = "<strong>我方战败</strong>";
+                cw("#p2_status_1").color = "#dd0000";
+                cw("#p1_status_2").html = "<strong>敌方所有军舰已被摧毁!</strong>";
+                cw("#p1_status_2").color = "#ffa800";
+                cw("#p2_status_2").html = "<strong>我方所有军舰已被摧毁!</strong>";
+                cw("#p2_status_2").color = "#dd0000";
 
                 hideButtons("PlaceSmall", "Attack");
 
                 if (online) {
-                    cws("#online_finish").unhide();
+                    cw("#online_finish").unhide();
                 }
 
                 const randomSeed = rand(10, 99); // 10 ~ 99
                 const codeToShow = (cache + randomSeed) * randomSeed;
 
                 cache = "";
-                cws("#online_code").html = "chiwainori-shipwar.olg." + randomSeed + codeToShow + ".";
-                cws("#code_from_friend").el.value = "";
-                if (cws("#online_code").html.indexOf("NaN") > -1) {
-                    cws("#online_finish").hide();
+                cw("#online_code").html = "chiwainori-shipwar.olg." + randomSeed + codeToShow + ".";
+                cw("#code_from_friend").el.value = "";
+                if (cw("#online_code").html.indexOf("NaN") > -1) {
+                    cw("#online_finish").hide();
                 }
             } else {
                 let notBigCounter = 0;
                 for (let i = 1; i <= 36; i++) {
-                    if (cws(`#display_p1_${i}`).html != "〓") {
+                    if (cw(`#display_p1_${i}`).html != "〓") {
                         notBigCounter++;
                     }
                 }
@@ -749,35 +749,35 @@
         }
 
         function p2Attack(pos) {
-            cws("#display_p1_1").style = "";
+            cw("#display_p1_1").style = "";
             if (onlineWho == 2) {
                 cache += `2${posArray.stringCache[pos]}`;
             }
-            if (cws(`#display_p1_${pos}`).html == "&nbsp;") {
-                cws("#p2_status_3").html = `<strong>未发现敌方军舰 (${posArray.position[pos]})</strong>`;
-                cws("#p2_status_3").color = "#aaaaaa";
-                cws("#p1_status_3").html = `<strong>敌方打空 (${posArray.position[pos]})</strong>`;
-                cws("#p1_status_3").color = "#aaaaaa";
+            if (cw(`#display_p1_${pos}`).html == "&nbsp;") {
+                cw("#p2_status_3").html = `<strong>未发现敌方军舰 (${posArray.position[pos]})</strong>`;
+                cw("#p2_status_3").color = "#aaaaaa";
+                cw("#p1_status_3").html = `<strong>敌方打空 (${posArray.position[pos]})</strong>`;
+                cw("#p1_status_3").color = "#aaaaaa";
 
                 p1RoundCheck();
             }
-            if (cws(`#display_p1_${pos}`).html == "≡") {
-                cws("#p2_status_3").html = `<strong>已击毁敌方一艘战列舰! (${posArray.position[pos]})</strong>`;
-                cws("#p2_status_3").color = "#ff0077";
-                cws("#p1_status_3").html = `<strong>我方一艘战列舰已被击毁! (${posArray.position[pos]})</strong>`;
-                cws("#p1_status_3").color = "#ff0077";
+            if (cw(`#display_p1_${pos}`).html == "≡") {
+                cw("#p2_status_3").html = `<strong>已击毁敌方一艘战列舰! (${posArray.position[pos]})</strong>`;
+                cw("#p2_status_3").color = "#ff0077";
+                cw("#p1_status_3").html = `<strong>我方一艘战列舰已被击毁! (${posArray.position[pos]})</strong>`;
+                cw("#p1_status_3").color = "#ff0077";
 
-                cws(`#display_p1_${pos}`).html = "&nbsp;";
+                cw(`#display_p1_${pos}`).html = "&nbsp;";
 
                 p2CheckVictory();
             }
-            if (cws(`#display_p1_${pos}`).html == "〓") {
-                cws("#p2_status_3").html = `<strong>已击毁敌方母舰! (${posArray.position[pos]})</strong>`;
-                cws("#p2_status_3").color = "#dd0000";
-                cws("#p1_status_3").html = `<strong>我方母舰已被击毁! (${posArray.position[pos]})</strong>`;
-                cws("#p1_status_3").color = "#dd0000";
+            if (cw(`#display_p1_${pos}`).html == "〓") {
+                cw("#p2_status_3").html = `<strong>已击毁敌方母舰! (${posArray.position[pos]})</strong>`;
+                cw("#p2_status_3").color = "#dd0000";
+                cw("#p1_status_3").html = `<strong>我方母舰已被击毁! (${posArray.position[pos]})</strong>`;
+                cw("#p1_status_3").color = "#dd0000";
 
-                cws(`#display_p1_${pos}`).html = "&nbsp;";
+                cw(`#display_p1_${pos}`).html = "&nbsp;";
 
                 p2CheckVictory();
             }
@@ -786,58 +786,58 @@
         function p2CheckVictory() {
             if (online) {
                 if (onlineWho == 1) {
-                    cws("#p2_status_3").hide();
+                    cw("#p2_status_3").hide();
                 } else {
-                    cws("#p1_status_3").hide();
+                    cw("#p1_status_3").hide();
                 }
             }
 
             let emptyCounter = 0;
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p1_${i}`).html == "&nbsp;") {
+                if (cw(`#display_p1_${i}`).html == "&nbsp;") {
                     emptyCounter++;
                 }
             }
             if (emptyCounter == 36) {
                 if (onlineWho == 1) {
-                    cws("#online_finish").hide();
+                    cw("#online_finish").hide();
                 } else {
                     p2RoundOnlineFin();
                 }
-                cws("#goodTitle").html = "游戏结束";
-                cws("#goodTitle").style = "color: #666666;";
-                cws("#subtitle").html = "&nbsp;";
-                cws("#subtitle_showOne").html = "&nbsp;";
-                cws("#saveButton").hide();
+                cw("#goodTitle").html = "游戏结束";
+                cw("#goodTitle").style = "color: #666666;";
+                cw("#subtitle").html = "&nbsp;";
+                cw("#subtitle_showOne").html = "&nbsp;";
+                cw("#saveButton").hide();
 
-                cws("#p2_status_1").html = "<strong>我方胜利!</strong>";
-                cws("#p2_status_1").color = "#ffa800";
-                cws("#p1_status_1").html = "<strong>我方战败</strong>";
-                cws("#p1_status_1").color = "#dd0000";
-                cws("#p2_status_2").html = "<strong>敌方所有军舰已被摧毁!</strong>";
-                cws("#p2_status_2").color = "#ffa800";
-                cws("#p1_status_2").html = "<strong>我方所有军舰已被摧毁!</strong>";
-                cws("#p1_status_2").color = "#dd0000";
+                cw("#p2_status_1").html = "<strong>我方胜利!</strong>";
+                cw("#p2_status_1").color = "#ffa800";
+                cw("#p1_status_1").html = "<strong>我方战败</strong>";
+                cw("#p1_status_1").color = "#dd0000";
+                cw("#p2_status_2").html = "<strong>敌方所有军舰已被摧毁!</strong>";
+                cw("#p2_status_2").color = "#ffa800";
+                cw("#p1_status_2").html = "<strong>我方所有军舰已被摧毁!</strong>";
+                cw("#p1_status_2").color = "#dd0000";
 
                 hideButtons("PlaceSmall", "Attack");
 
                 if (online) {
-                    cws("#online_finish").unhide();
+                    cw("#online_finish").unhide();
                 }
 
                 const randomSeed = rand(10, 99); // 10 ~ 99
                 const codeToShow = (cache + randomSeed) * randomSeed;
 
                 cache = "";
-                cws("#online_code").html = "chiwainori-shipwar.olg." + randomSeed + codeToShow + ".";
-                cws("#code_from_friend").el.value = "";
-                if (cws("#online_code").html.indexOf("NaN") > -1) {
-                    cws("#online_finish").hide();
+                cw("#online_code").html = "chiwainori-shipwar.olg." + randomSeed + codeToShow + ".";
+                cw("#code_from_friend").el.value = "";
+                if (cw("#online_code").html.indexOf("NaN") > -1) {
+                    cw("#online_finish").hide();
                 }
             } else {
                 let notBigCounter = 0;
                 for (let i = 1; i <= 36; i++) {
-                    if (cws(`#display_p2_${i}`).html != "〓") {
+                    if (cw(`#display_p2_${i}`).html != "〓") {
                         notBigCounter++;
                     }
                 }
@@ -852,7 +852,7 @@
         function p1RoundCheck() {
             let notBigCounter = 0;
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p1_${i}`).html == "〓") {
+                if (cw(`#display_p1_${i}`).html == "〓") {
                     notBigCounter++;
                 }
             }
@@ -866,7 +866,7 @@
         function p2RoundCheck() {
             let notBigCounter = 0;
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p2_${i}`).html == "〓") {
+                if (cw(`#display_p2_${i}`).html == "〓") {
                     notBigCounter++;
                 }
             }
@@ -888,7 +888,7 @@
             for (let i = 1; i <= 2; i++) {
                 for (let j = 0; j < buttonTypeArray.length; j++) {
                     for (let k = 1; k <= 36; k++) {
-                        cws(`#p${i}${buttonTypeArray[j]}Button${k}`).hide();
+                        cw(`#p${i}${buttonTypeArray[j]}Button${k}`).hide();
                     }
                 }
             }
@@ -896,24 +896,24 @@
 
         function saveGame() {
             let stage;
-            if (cws("#p1_status_2").html == "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p1_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>") {
+            if (cw("#p1_status_2").html == "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p1_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>") {
                 stage = 0;
             }
-            if (cws("#p1_status_2").html == "<strong>请选择攻击位置</strong>") {
+            if (cw("#p1_status_2").html == "<strong>请选择攻击位置</strong>") {
                 stage = 1;
             }
-            if (cws("#p2_status_2").html == "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p2_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>") {
+            if (cw("#p2_status_2").html == "<strong>请选择战列舰部署位置&nbsp;<button onclick=\"p2_round_2()\" style=\"color: #00aa00; margin-bottom: 0px;\">跳过</button></strong>") {
                 stage = 2;
             }
-            if (cws("#p2_status_2").html == "<strong>请选择攻击位置</strong>") {
+            if (cw("#p2_status_2").html == "<strong>请选择攻击位置</strong>") {
                 stage = 3;
             }
 
             let p1Situation = [];
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p1_${i}`).html == "≡") {
+                if (cw(`#display_p1_${i}`).html == "≡") {
                     p1Situation.push(1);
-                } else if (cws(`#display_p1_${i}`).html == "〓") {
+                } else if (cw(`#display_p1_${i}`).html == "〓") {
                     p1Situation.push(2);
                 } else {
                     p1Situation.push(0);
@@ -923,9 +923,9 @@
 
             let p2Situation = [];
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p2_${i}`).html == "≡") {
+                if (cw(`#display_p2_${i}`).html == "≡") {
                     p2Situation.push(1);
-                } else if (cws(`#display_p2_${i}`).html == "〓") {
+                } else if (cw(`#display_p2_${i}`).html == "〓") {
                     p2Situation.push(2);
                 } else {
                     p2Situation.push(0);
@@ -933,7 +933,7 @@
             }
             p2Situation = p2Situation.toString().replaceAll(/,/g, "");
 
-            const currentText1 = cws("#p1_status_3").html;
+            const currentText1 = cw("#p1_status_3").html;
             let currentId1;
 
             if (currentText1 == "&nbsp;") {
@@ -961,7 +961,7 @@
                 currentId1 = "7" + currentText1[19] + currentText1[20];
             }
 
-            const currentText2 = cws("#p2_status_3").html;
+            const currentText2 = cw("#p2_status_3").html;
             let currentId2;
 
             if (currentText2 == "&nbsp;") {
@@ -1001,8 +1001,8 @@
         async function loadGame() {
             let file;
             loadJSON("saveInput").then(json => file = json).catch(e => {
-                cws("#text1").style = "font-size: 10px; color: #dd0000;";
-                cws("#text1").html = `无效的 JSON 文件`;
+                cw("#text1").style = "font-size: 10px; color: #dd0000;";
+                cw("#text1").html = `无效的 JSON 文件`;
                 return;
             });
         
@@ -1023,19 +1023,19 @@
 
                 for (let i = 0; i < 36; i++) { // P1
                     if (p1Situation[i] == "1") {
-                        cws(`#display_p1_${i + 1}`).html = "≡";
+                        cw(`#display_p1_${i + 1}`).html = "≡";
                     } else if (p1Situation[i] == "2") {
-                        cws(`#display_p1_${i + 1}`).html = "〓";
+                        cw(`#display_p1_${i + 1}`).html = "〓";
                     } else {
-                        cws(`#display_p1_${i + 1}`).html = "&nbsp;";
+                        cw(`#display_p1_${i + 1}`).html = "&nbsp;";
                     }
 
                     if (p2Situation[i] == "1") {
-                        cws(`#display_p2_${i + 1}`).html = "≡";
+                        cw(`#display_p2_${i + 1}`).html = "≡";
                     } else if (p2Situation[i] == "2") {
-                        cws(`#display_p2_${i + 1}`).html = "〓";
+                        cw(`#display_p2_${i + 1}`).html = "〓";
                     } else {
-                        cws(`#display_p2_${i + 1}`).html = "&nbsp;";
+                        cw(`#display_p2_${i + 1}`).html = "&nbsp;";
                     }
                 }
                 
@@ -1045,78 +1045,78 @@
                 const currentPos2 = data[77] + data[78];
 
                 if (currentStatus1 == "1") {
-                    cws("#p1_status_3").html = `<strong>战列舰已部署 (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#999999";
+                    cw("#p1_status_3").html = `<strong>战列舰已部署 (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#999999";
                 }
                 if (currentStatus1 == "2") {
-                    cws("#p1_status_3").html = `<strong>未发现敌方军舰 (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#999999";
+                    cw("#p1_status_3").html = `<strong>未发现敌方军舰 (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#999999";
                 }
                 if (currentStatus1 == "3") {
-                    cws("#p1_status_3").html = `<strong>敌方打空 (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#999999";
+                    cw("#p1_status_3").html = `<strong>敌方打空 (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#999999";
                 }
                 if (currentStatus1 == "4") {
-                    cws("#p1_status_3").html = `<strong>已击毁敌方一艘战列舰! (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#ff0077";
+                    cw("#p1_status_3").html = `<strong>已击毁敌方一艘战列舰! (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#ff0077";
                 }
                 if (currentStatus1 == "5") {
-                    cws("#p1_status_3").html = `<strong>已击毁敌方母舰! (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#dd0000";
+                    cw("#p1_status_3").html = `<strong>已击毁敌方母舰! (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#dd0000";
                 }
                 if (currentStatus1 == "6") {
-                    cws("#p1_status_3").html = `<strong>我方一艘战列舰已被击毁! (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#ff0077";
+                    cw("#p1_status_3").html = `<strong>我方一艘战列舰已被击毁! (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#ff0077";
                 }
                 if (currentStatus1 == "7") {
-                    cws("#p1_status_3").html = `<strong>我方母舰已被击毁! (${currentPos1})</strong>`;
-                    cws("#p1_status_3").color = "#dd0000";
+                    cw("#p1_status_3").html = `<strong>我方母舰已被击毁! (${currentPos1})</strong>`;
+                    cw("#p1_status_3").color = "#dd0000";
                 }
 
                 if (currentStatus2 == "1") {
-                    cws("#p2_status_3").html = `<strong>战列舰已部署 (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#999999";
+                    cw("#p2_status_3").html = `<strong>战列舰已部署 (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#999999";
                 }
                 if (currentStatus2 == "2") {
-                    cws("#p2_status_3").html = `<strong>未发现敌方军舰 (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#999999";
+                    cw("#p2_status_3").html = `<strong>未发现敌方军舰 (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#999999";
                 }
                 if (currentStatus2 == "3") {
-                    cws("#p2_status_3").html = `<strong>敌方打空 (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#999999";
+                    cw("#p2_status_3").html = `<strong>敌方打空 (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#999999";
                 }
                 if (currentStatus2 == "4") {
-                    cws("#p2_status_3").html = `<strong>已击毁敌方一艘战列舰! (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#ff0077";
+                    cw("#p2_status_3").html = `<strong>已击毁敌方一艘战列舰! (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#ff0077";
                 }
                 if (currentStatus2 == "5") {
-                    cws("#p2_status_3").html = `<strong>已击毁敌方母舰! (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#dd0000";
+                    cw("#p2_status_3").html = `<strong>已击毁敌方母舰! (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#dd0000";
                 }
                 if (currentStatus2 == "6") {
-                    cws("#p2_status_3").html = `<strong>我方一艘战列舰已被击毁! (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#ff0077";
+                    cw("#p2_status_3").html = `<strong>我方一艘战列舰已被击毁! (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#ff0077";
                 }
                 if (currentStatus2 == "7") {
-                    cws("#p2_status_3").html = `<strong>我方母舰已被击毁! (${currentPos2})</strong>`;
-                    cws("#p2_status_3").color = "#dd0000";
+                    cw("#p2_status_3").html = `<strong>我方母舰已被击毁! (${currentPos2})</strong>`;
+                    cw("#p2_status_3").color = "#dd0000";
                 }
 
-                cws("#rules").hide();
-                cws("#main_panel").unhide();
-                cws("#goodTitle").html = "游戏进行中";
-                cws("#goodTitle").color = "#00dd00";
-                cws("#saveButton").style = "display: block; margin-left: 48%;";
+                cw("#rules").hide();
+                cw("#main_panel").unhide();
+                cw("#goodTitle").html = "游戏进行中";
+                cw("#goodTitle").color = "#00dd00";
+                cw("#saveButton").style = "display: block; margin-left: 48%;";
             } else {
-                cws("#text1").style = "font-size: 10px; color: #dd0000;";
+                cw("#text1").style = "font-size: 10px; color: #dd0000;";
                 if (signature != "chiwainori-shipwar") {
-                    cws("#text1").html = `错误的文件签名 (${signature})`;
+                    cw("#text1").html = `错误的文件签名 (${signature})`;
                 } else if (version != currentVersion) {
-                    cws("#text1").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
+                    cw("#text1").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
                 } else if (version == "olg") {
-                    cws("#text1").html = "不能用在线代码加载游戏.";
+                    cw("#text1").html = "不能用在线代码加载游戏.";
                 } else {
-                    cws("#text1").html = "错误的存档文件.";
+                    cw("#text1").html = "错误的存档文件.";
                 }
             }
         }
@@ -1128,16 +1128,16 @@
         function onlineFirst(p) {
             online = 1;
             onlineWho = 1;
-            cws("#saveButton").html = "联机模式不支持保存";
-            cws("#saveButton").el.disabled = true;
+            cw("#saveButton").html = "联机模式不支持保存";
+            cw("#saveButton").el.disabled = true;
             firstPlayer(p);
         }
 
         function onlineRandomFirst() {
             online = 1;
             onlineWho = 1;
-            cws("#saveButton").html = "联机模式不支持保存";
-            cws("#saveButton").el.disabled = true;
+            cw("#saveButton").html = "联机模式不支持保存";
+            cw("#saveButton").el.disabled = true;
             randomFirst();
         }
 
@@ -1147,25 +1147,25 @@
             let first;
 
             for (let i = 1; i <= 36; i++) {
-                if (cws(`#display_p1_${i}`).html == "〓") {
+                if (cw(`#display_p1_${i}`).html == "〓") {
                     bigPos = i;
                 }
             }
             bigPos = (bigPos + randomSeed) * randomSeed; // 110 ~ 13365
             bigPos = bigPos.toString().padStart(5, "0");
 
-            if (cws("#p1_status_1").html == "<strong>我方先手</strong>") {
+            if (cw("#p1_status_1").html == "<strong>我方先手</strong>") {
                 first = 0;
             } else {
                 first = 1;
             }
-            cws("#online_code").html = `<span style="color: var(--gray);">${shipwarURL}</span>chiwainori-shipwar.olg.${first}${randomSeed}${bigPos}.`;
+            cw("#online_code").html = `<span style="color: var(--gray);">${shipwarURL}</span>chiwainori-shipwar.olg.${first}${randomSeed}${bigPos}.`;
         }
 
         function onlineCodeEnter() {
             online = 1;
             onlineWho = 2;
-            const code = cws("#code_type").el.value;
+            const code = cw("#code_type").el.value;
 
             if (code[29] == ".") {
                 const first = code[21];
@@ -1173,49 +1173,49 @@
                 let bigPos = code[24] + code[25] + code[26] + code[27] + code[28];
                 bigPos = bigPos / randomSeed - randomSeed;
 
-                cws(`#display_p1_${bigPos}`).html = "〓";
-                cws("#choose_first").hide();
-                cws("#main_panel").unhide();
+                cw(`#display_p1_${bigPos}`).html = "〓";
+                cw("#choose_first").hide();
+                cw("#main_panel").unhide();
                 if (first == 0) {
-                    cws("#p2_status_1").html = "<strong>敌方先手</strong>";
+                    cw("#p2_status_1").html = "<strong>敌方先手</strong>";
                     first = 1;
                 } else {
-                    cws("#p2_status_1").html = "<strong>我方先手</strong>";
-                    cws("#p2_status_1").color = "#00dd00";
+                    cw("#p2_status_1").html = "<strong>我方先手</strong>";
+                    cw("#p2_status_1").color = "#00dd00";
                     first = 2;
                 }
-                cws("#p2_status_2").html = "<strong>请选择母舰位置</strong>";
-                cws("#p2_status_2").color = "#00dd00";
-                cws("#p1_table_1").hide();
-                cws("#p1_table_2").hide();
-                cws("#p1_status_1").hide();
-                cws("#p1_status_2").hide();
-                cws("#p1_status_3").hide();
-                cws("#brs").hide();
-                cws("#subtitle").hide();
-                cws("#p2_status").style = "margin: auto auto auto auto !important;";
-                cws("#p2_table_1").style = "margin: auto auto auto auto !important;";
-                cws("#p2_table_2").style = "margin: auto auto auto auto !important;";
+                cw("#p2_status_2").html = "<strong>请选择母舰位置</strong>";
+                cw("#p2_status_2").color = "#00dd00";
+                cw("#p1_table_1").hide();
+                cw("#p1_table_2").hide();
+                cw("#p1_status_1").hide();
+                cw("#p1_status_2").hide();
+                cw("#p1_status_3").hide();
+                cw("#brs").hide();
+                cw("#subtitle").hide();
+                cw("#p2_status").style = "margin: auto auto auto auto !important;";
+                cw("#p2_table_1").style = "margin: auto auto auto auto !important;";
+                cw("#p2_table_2").style = "margin: auto auto auto auto !important;";
                 bigPlaced = 1;
             } else {
-                cws("#wrong_code").style = "display: block; color: #dd0000; font-size: 10px;";
+                cw("#wrong_code").style = "display: block; color: #dd0000; font-size: 10px;";
             }
         }
 
         function p1RoundOnlineFin() {
             if (onlineWho = 1) {
-                cws("#p2_status_1").hide();
-                cws("#p2_status_2").hide();
-                cws("#p2_status_3").hide();
-                cws("#p1_status_1").html = "<strong>敌方回合</strong>";
-                cws("#p1_status_1").color = "#666666";
-                cws("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
-                cws("#p1_status_2").color = "#666666";
-                cws("#p1_status_3").unhide();
+                cw("#p2_status_1").hide();
+                cw("#p2_status_2").hide();
+                cw("#p2_status_3").hide();
+                cw("#p1_status_1").html = "<strong>敌方回合</strong>";
+                cw("#p1_status_1").color = "#666666";
+                cw("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
+                cw("#p1_status_2").color = "#666666";
+                cw("#p1_status_3").unhide();
 
                 hideButtons("PlaceSmall", "Attack");
                 if (online) {
-                    cws("#online_finish").unhide();
+                    cw("#online_finish").unhide();
                 }
                 p1TextRecolor();
                 
@@ -1228,20 +1228,20 @@
             const codeToShow = (parseInt(cache) + randomSeed) * randomSeed;
             log(cache, randomSeed, codeToShow); //                                        ['114221', 88, 10059192]
             //                                                                                  v 
-            cws("#online_code").html = `chiwainori-shipwar.olg.${randomSeed}${codeToShow}.`;  // 变成别的数字
-            cws("#code_from_friend").el.value = "";
-            if (cws("#online_code").html.indexOf("NaN") > -1) {
-                cws("#online_finish").hide();
+            cw("#online_code").html = `chiwainori-shipwar.olg.${randomSeed}${codeToShow}.`;  // 变成别的数字
+            cw("#code_from_friend").el.value = "";
+            if (cw("#online_code").html.indexOf("NaN") > -1) {
+                cw("#online_finish").hide();
             }
-            if (cws("#online_code").html.indexOf("e+") > -1) { // 数字过大变成科学计数法了
+            if (cw("#online_code").html.indexOf("e+") > -1) { // 数字过大变成科学计数法了
                 if (cache[0] == "2") {
-                    cws("#online_code").html = "chiwainori-shipwar.olg.000" + cache + ".";
+                    cw("#online_code").html = "chiwainori-shipwar.olg.000" + cache + ".";
                 } else {
                     let firstStep = parseInt(cache.slice(0, 3)); // 第一步, 即 '102206207208209210211212213214' 中的 '102'
                     firstStep = (firstStep + randomSeed) * randomSeed;
                     const other = cache.slice(3); // 其他, 即 '102206207208209210211212213214' 中的 '206207208209210211212213214'
 
-                    cws("#online_code").html = `chiwainori-shipwar.olg.${randomSeed}${firstStep}000${other}.`; // 000 前加密存储, 后明文存储
+                    cw("#online_code").html = `chiwainori-shipwar.olg.${randomSeed}${firstStep}000${other}.`; // 000 前加密存储, 后明文存储
                 }
             }
             cache = "";
@@ -1249,18 +1249,18 @@
 
         function p2RoundOnlineFin() {
             if (onlineWho == 2) {
-                cws("#p1_status_1").hide();
-                cws("#p1_status_2").hide();
-                cws("#p1_status_3").hide();
-                cws("#p2_status_1").html = "<strong>敌方回合</strong>";
-                cws("#p2_status_1").color = "#666666";
-                cws("#p2_status_2").html = "<strong>请等待敌方操作</strong>";
-                cws("#p2_status_2").color = "#666666";
-                cws("#p2_status_3").unhide();
+                cw("#p1_status_1").hide();
+                cw("#p1_status_2").hide();
+                cw("#p1_status_3").hide();
+                cw("#p2_status_1").html = "<strong>敌方回合</strong>";
+                cw("#p2_status_1").color = "#666666";
+                cw("#p2_status_2").html = "<strong>请等待敌方操作</strong>";
+                cw("#p2_status_2").color = "#666666";
+                cw("#p2_status_3").unhide();
 
                 hideButtons("PlaceSmall", "Attack");
                 if (online) {
-                    cws("#online_finish").unhide();
+                    cw("#online_finish").unhide();
                 }
                 p2TextRecolor();
                 
@@ -1269,69 +1269,69 @@
         }
 
         function p1TextRecolor() {
-            if (cws("#p1_status_3").html.indexOf("战列舰已部署") > -1) {
-                cws("#p1_status_3").color = "#aaaaaa";
+            if (cw("#p1_status_3").html.indexOf("战列舰已部署") > -1) {
+                cw("#p1_status_3").color = "#aaaaaa";
             }
-            if (cws("#p1_status_3").html.indexOf("未发现敌方军舰") > -1) {
-                cws("#p1_status_3").color = "#aaaaaa";
+            if (cw("#p1_status_3").html.indexOf("未发现敌方军舰") > -1) {
+                cw("#p1_status_3").color = "#aaaaaa";
             }
-            if (cws("#p1_status_3").html.indexOf("敌方打空") > -1) {
-                cws("#p1_status_3").color = "#aaaaaa";
+            if (cw("#p1_status_3").html.indexOf("敌方打空") > -1) {
+                cw("#p1_status_3").color = "#aaaaaa";
             }
-            if (cws("#p1_status_3").html.indexOf("已击毁敌方一艘战列舰!") > -1) {
-                cws("#p1_status_3").color = "#ff0077";
+            if (cw("#p1_status_3").html.indexOf("已击毁敌方一艘战列舰!") > -1) {
+                cw("#p1_status_3").color = "#ff0077";
             }
-            if (cws("#p1_status_3").html.indexOf("已击毁敌方母舰!") > -1) {
-                cws("#p1_status_3").color = "#dd0000";
+            if (cw("#p1_status_3").html.indexOf("已击毁敌方母舰!") > -1) {
+                cw("#p1_status_3").color = "#dd0000";
             }
-            if (cws("#p1_status_3").html.indexOf("我方一艘战列舰已被击毁!") > -1) {
-                cws("#p1_status_3").color = "#ff0077";
+            if (cw("#p1_status_3").html.indexOf("我方一艘战列舰已被击毁!") > -1) {
+                cw("#p1_status_3").color = "#ff0077";
             }
-            if (cws("#p1_status_3").html.indexOf("我方母舰已被击毁!") > -1) {
-                cws("#p1_status_3").color = "#dd0000";
+            if (cw("#p1_status_3").html.indexOf("我方母舰已被击毁!") > -1) {
+                cw("#p1_status_3").color = "#dd0000";
             }
         }
 
         function p2TextRecolor() {
-            if (cws("#p2_status_3").html.indexOf("战列舰已部署") > -1) {
-                cws("#p2_status_3").color = "#aaaaaa";
+            if (cw("#p2_status_3").html.indexOf("战列舰已部署") > -1) {
+                cw("#p2_status_3").color = "#aaaaaa";
             }
-            if (cws("#p2_status_3").html.indexOf("未发现敌方军舰") > -1) {
-                cws("#p2_status_3").color = "#aaaaaa";
+            if (cw("#p2_status_3").html.indexOf("未发现敌方军舰") > -1) {
+                cw("#p2_status_3").color = "#aaaaaa";
             }
-            if (cws("#p2_status_3").html.indexOf("敌方打空") > -1) {
-                cws("#p2_status_3").color = "#aaaaaa";
+            if (cw("#p2_status_3").html.indexOf("敌方打空") > -1) {
+                cw("#p2_status_3").color = "#aaaaaa";
             }
-            if (cws("#p2_status_3").html.indexOf("已击毁敌方一艘战列舰!") > -1) {
-                cws("#p2_status_3").color = "#ff0077";
+            if (cw("#p2_status_3").html.indexOf("已击毁敌方一艘战列舰!") > -1) {
+                cw("#p2_status_3").color = "#ff0077";
             }
-            if (cws("#p2_status_3").html.indexOf("已击毁敌方母舰!") > -1) {
-                cws("#p2_status_3").color = "#dd0000";
+            if (cw("#p2_status_3").html.indexOf("已击毁敌方母舰!") > -1) {
+                cw("#p2_status_3").color = "#dd0000";
             }
-            if (cws("#p2_status_3").html.indexOf("我方一艘战列舰已被击毁!") > -1) {
-                cws("#p2_status_3").color = "#ff0077";
+            if (cw("#p2_status_3").html.indexOf("我方一艘战列舰已被击毁!") > -1) {
+                cw("#p2_status_3").color = "#ff0077";
             }
-            if (cws("#p2_status_3").html.indexOf("我方母舰已被击毁!") > -1) {
-                cws("#p2_status_3").color = "#dd0000";
+            if (cw("#p2_status_3").html.indexOf("我方母舰已被击毁!") > -1) {
+                cw("#p2_status_3").color = "#dd0000";
             }
         }
 
         function onlineContinue() {
-            cws("#online_b1").el.disabled = true;
-            if (cws("#code_from_friend").el.value == cws("#online_code").el.innerText || cws("#code_from_friend").el.value == cws("#online_code").html.match(/chiwainori-shipwar.*/g)) {
-                cws("#online_same").unhide();
-                cws("#online_b1").el.disabled = true;
-                cws("#confirm").unhide("inline-block");
-            } else if (cws("#code_from_friend").el.value == lastCode) {
-                cws("#online_justNow").unhide();
-                cws("#online_b1").el.disabled = true;
-                cws("#confirm").unhide("inline-block");
+            cw("#online_b1").el.disabled = true;
+            if (cw("#code_from_friend").el.value == cw("#online_code").el.innerText || cw("#code_from_friend").el.value == cw("#online_code").html.match(/chiwainori-shipwar.*/g)) {
+                cw("#online_same").unhide();
+                cw("#online_b1").el.disabled = true;
+                cw("#confirm").unhide("inline-block");
+            } else if (cw("#code_from_friend").el.value == lastCode) {
+                cw("#online_justNow").unhide();
+                cw("#online_b1").el.disabled = true;
+                cw("#confirm").unhide("inline-block");
             } else {
-                cws("#online_same").hide();
-                cws("#online_justNow").hide();
-                cws("#online_b1").el.disabled = false;
-                cws("#confirm").hide();
-                lastCode = cws("#code_from_friend").el.value;
+                cw("#online_same").hide();
+                cw("#online_justNow").hide();
+                cw("#online_b1").el.disabled = false;
+                cw("#confirm").hide();
+                lastCode = cw("#code_from_friend").el.value;
 
                 if (onlineWho = 1) {
                     p1OnlineContinue();
@@ -1341,11 +1341,11 @@
             }
         }
         function onlineContinueForce() {
-            cws("#online_same").hide();
-            cws("#online_justNow").hide();
-            cws("#online_b1").el.disabled = false;
-            cws("#confirm").hide();
-            lastCode = cws("#code_from_friend").el.value;
+            cw("#online_same").hide();
+            cw("#online_justNow").hide();
+            cw("#online_b1").el.disabled = false;
+            cw("#confirm").hide();
+            lastCode = cw("#code_from_friend").el.value;
             if (onlineWho = 1) {
                 p1OnlineContinue();
             } else {
@@ -1355,12 +1355,12 @@
 
         function p1OnlineContinue() {
             p1RoundCheck();
-            cws("#goodTitle").html = "游戏进行中";
-            cws("#goodTitle").color = "#00dd00";
-            cws("#saveButton").hide();
-            cws("#online_finish").hide();
+            cw("#goodTitle").html = "游戏进行中";
+            cw("#goodTitle").color = "#00dd00";
+            cw("#saveButton").hide();
+            cw("#online_finish").hide();
 
-            const code = cws("#code_from_friend").el.value.split(".")[2]; // 根据 . 分割字符串, 获取 randomSeed + codeToShow 那部分
+            const code = cw("#code_from_friend").el.value.split(".")[2]; // 根据 . 分割字符串, 获取 randomSeed + codeToShow 那部分
             let codeParts = {
                 before: code.split("000")[0], // 根据 000 分割, 前面正常解密, 后面明文读取 (见上)
                 after: code.split("000")[1]
@@ -1375,13 +1375,13 @@
                 const nowPos = codeToBeProceed[1] + codeToBeProceed[2]; // '34'
 
                 if (codeToBeProceed[0] == "1") { // PlaceSmall
-                    cws(`#display_p2_${parseInt(nowPos)}`).html = "≡";
+                    cw(`#display_p2_${parseInt(nowPos)}`).html = "≡";
                 }
                 if (codeToBeProceed[0] == "2") { // Attack
                     p2Attack(parseInt(nowPos));
                 }
                 if (codeToBeProceed[0] == "3") { // PlaceBig
-                    cws(`#display_p2_${parseInt(nowPos)}`).html = "〓";
+                    cw(`#display_p2_${parseInt(nowPos)}`).html = "〓";
                 }
 
                 if (codeToBeProceed.length > 3) {
@@ -1404,12 +1404,12 @@
 
         function p2OnlineContinue() {
             p2RoundCheck();
-            cws("#goodTitle").html = "游戏进行中";
-            cws("#goodTitle").color = "#00dd00";
-            cws("#saveButton").hide();
-            cws("#online_finish").hide();
+            cw("#goodTitle").html = "游戏进行中";
+            cw("#goodTitle").color = "#00dd00";
+            cw("#saveButton").hide();
+            cw("#online_finish").hide();
 
-            const code = cws("#code_from_friend").el.value.split(".")[2]; // 根据 . 分割字符串, 获取 randomSeed + codeToShow 那部分
+            const code = cw("#code_from_friend").el.value.split(".")[2]; // 根据 . 分割字符串, 获取 randomSeed + codeToShow 那部分
             let codeParts = {
                 before: code.split("000")[0], // 根据 000 分割, 前面正常解密, 后面明文读取 (见上)
                 after: code.split("000")[1]
@@ -1423,13 +1423,13 @@
                 codeToBeProceed = codeToBeProceed.toString(); // '334'
                 const nowPos = codeToBeProceed[1] + codeToBeProceed[2]; // '34'
                 if (codeToBeProceed[0] == "1") { // PlaceSmall
-                    cws(`#display_p1_${parseInt(nowPos)}`).html = "≡";
+                    cw(`#display_p1_${parseInt(nowPos)}`).html = "≡";
                 }
                 if (codeToBeProceed[0] == "2") { // Attack
                     p1Attack(parseInt(nowPos));
                 }
                 if (codeToBeProceed[0] == "3") { // PlaceBig
-                    cws(`#display_p1_${parseInt(nowPos)}`).html = "〓";
+                    cw(`#display_p1_${parseInt(nowPos)}`).html = "〓";
                 }
                 if (codeToBeProceed.length > 3) {
                     codeToBeProceed = codeToBeProceed.slice(3);

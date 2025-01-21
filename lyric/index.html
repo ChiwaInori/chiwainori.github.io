@@ -159,12 +159,12 @@
             let fontText = "现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例";
             let fontTextTranslation = "现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例";
 
-            cws("#version").html = currentVersion;
+            cw("#version").html = currentVersion;
 
-            cws("#fileInput").el.addEventListener("input", async () => {
+            cw("#fileInput").el.addEventListener("input", async () => {
                 loadJSON("fileInput").then(json => file = json).catch(e => {
-                    cws("#display").html = e;
-                    cws("#display").color = "var(--red)";
+                    cw("#display").html = e;
+                    cw("#display").color = "var(--red)";
                     return;
                 });
 
@@ -172,47 +172,47 @@
                 extractInfo();
             });
             
-            cws("#color-bg").el.addEventListener("input", function () {
+            cw("#color-bg").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--backgroundColor", `${this.value}`);
             });
-            cws("#color-lyric").el.addEventListener("input", function () {
+            cw("#color-lyric").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--lyricColor", `${this.value}`);
             });
-            cws("#color-active").el.addEventListener("input", function () {
+            cw("#color-active").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--activeColor", `${this.value}`);
             });
-            cws("#color-border").el.addEventListener("input", function () {
+            cw("#color-border").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--borderColor", `${this.value}`);
             });
             
-            cws("#showTitle").el.addEventListener("input", function () {
-                cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = Number(this.checked);
+            cw("#showTitle").el.addEventListener("input", function () {
+                cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = Number(this.checked);
             });
-            cws("#showDot").el.addEventListener("input", function () {
+            cw("#showDot").el.addEventListener("input", function () {
                 showDotSetting = this.checked;
             });
-            cws("#showCircle").el.addEventListener("input", function () {
+            cw("#showCircle").el.addEventListener("input", function () {
                 showCircleSetting = this.checked;
             });
-            cws("#showJump").el.addEventListener("input", function () {
+            cw("#showJump").el.addEventListener("input", function () {
                 lyricJumpSetting = this.checked;
             });
-            cws("#showBorder").el.addEventListener("input", function () {
+            cw("#showBorder").el.addEventListener("input", function () {
                 document.documentElement.style.setProperty("--isBorder", `${this.value ? "4px" : "0px"}`);
             });
 
-            cws("#audioFile").el.addEventListener("change", event => {
+            cw("#audioFile").el.addEventListener("change", event => {
                 const audioFile = event.target.files[0];
                 const objectURL = URL.createObjectURL(audioFile);
 
-                cws("#audio").el.src = objectURL;
-                cws("#audioPreview").el.src = objectURL;
-                cws("#previewMusicButton").el.disabled = false;
+                cw("#audio").el.src = objectURL;
+                cw("#audioPreview").el.src = objectURL;
+                cw("#previewMusicButton").el.disabled = false;
             });
 
-            cws("#fontFile").el.addEventListener("change", function () {
-                fontText = cws("#fontTest").html;
-                cws("#fontTest").html = "正在加载字体...";
+            cw("#fontFile").el.addEventListener("change", function () {
+                fontText = cw("#fontTest").html;
+                cw("#fontTest").html = "正在加载字体...";
 
                 const fileInput = this;
                 const fontFile = fileInput.files[0];
@@ -225,9 +225,9 @@
                     };
                     reader.readAsDataURL(fontFile);
                 } else {
-                    cws("#titleLine").el.style.fontFamily = cws("#fontTest").el.style.fontFamily = "inherit";
-                    cws("style", 0).el.innerHTML += "#lyrics * { font-family: inherit; }";
-                    cws("#fontTest").html = fontText;
+                    cw("#titleLine").el.style.fontFamily = cw("#fontTest").el.style.fontFamily = "inherit";
+                    cw("style", 0).el.innerHTML += "#lyrics * { font-family: inherit; }";
+                    cw("#fontTest").html = fontText;
                 }
             });
 
@@ -237,18 +237,18 @@
                 font.load().then(loadedFont => {
                     document.fonts.add(loadedFont);
 
-                    cws("#titleLine").el.style.fontFamily = cws("#fontTest").el.style.fontFamily = "CustomFont";
-                    cws("style", 0).el.innerHTML += "#lyrics *, #previewLyric { font-family: 'CustomFont'; }";
-                    cws("#fontTest").html = fontText;
+                    cw("#titleLine").el.style.fontFamily = cw("#fontTest").el.style.fontFamily = "CustomFont";
+                    cw("style", 0).el.innerHTML += "#lyrics *, #previewLyric { font-family: 'CustomFont'; }";
+                    cw("#fontTest").html = fontText;
                     if ("translations" in file) {
-                        cws("#translationFontLine").unhide();
+                        cw("#translationFontLine").unhide();
                     }
                 });
             }
 
-            cws("#fontFileTranslation").el.addEventListener("change", function () {
-                fontTextTranslation = cws("#fontTestTranslation").html;
-                cws("#fontTestTranslation").html = "正在加载字体...";
+            cw("#fontFileTranslation").el.addEventListener("change", function () {
+                fontTextTranslation = cw("#fontTestTranslation").html;
+                cw("#fontTestTranslation").html = "正在加载字体...";
 
                 const fileInput = this;
                 const fontFile = fileInput.files[0];
@@ -261,8 +261,8 @@
                     };
                     reader.readAsDataURL(fontFile);
                 } else {
-                    cws("#translations").el.style.fontFamily = "inherit";
-                    cws("#fontTestTranslation").html = fontTextTranslation;
+                    cw("#translations").el.style.fontFamily = "inherit";
+                    cw("#fontTestTranslation").html = fontTextTranslation;
                 }
             });
 
@@ -272,45 +272,45 @@
                 font.load().then(loadedFont => {
                     document.fonts.add(loadedFont);
 
-                    cws("#translations").el.style.fontFamily = cws("#fontTestTranslation").el.style.fontFamily = "CustomFontTranslation";
-                    cws("#fontTestTranslation").html = fontTextTranslation;
+                    cw("#translations").el.style.fontFamily = cw("#fontTestTranslation").el.style.fontFamily = "CustomFontTranslation";
+                    cw("#fontTestTranslation").html = fontTextTranslation;
                 });
             }
 
             function extractInfo() {
                 const { signature, version } = file;
                 if (signature != "chiwainori-lyric") {
-                    cws("#display").html = `错误的文件签名 (${signature})`;
-                    cws("#display").color = "var(--red)";
+                    cw("#display").html = `错误的文件签名 (${signature})`;
+                    cw("#display").color = "var(--red)";
                     return;
                 }
                 if (version != currentVersion && !alsoAccept.includes(version)) {
-                    cws("#display").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
-                    cws("#display").color = "var(--red)";
+                    cw("#display").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
+                    cw("#display").color = "var(--red)";
                     return;
                 }
-                cws("#display").color = "var(--textColor-500)";
-                cws("#fileInput").hide();
+                cw("#display").color = "var(--textColor-500)";
+                cw("#fileInput").hide();
                 
                 const { title, author, bpm } = file.musicInfo;
                 clockBase = 60 / bpm; // Beats per sec
-                cws("title", 0).el.innerHTML = `${title} - ${author} - 动态歌词显示 - ChiwaInori.top`;
+                cw("title", 0).el.innerHTML = `${title} - ${author} - 动态歌词显示 - ChiwaInori.top`;
 
-                cws("#display").html = `已读取: "${title}" - ${author}. BPM: ${bpm}. <button id="startButton" onclick="playButton()">点击播放</button>`;
-                cws("#titleLine").html = `"${title}" - ${author}`;
+                cw("#display").html = `已读取: "${title}" - ${author}. BPM: ${bpm}. <button id="startButton" onclick="playButton()">点击播放</button>`;
+                cw("#titleLine").html = `"${title}" - ${author}`;
 
                 updateSettings(file.settings || {});
-                if ("translations" in file && cws("#fontFile").el.files[0]) {
-                    cws("#translationFontLine").unhide();
+                if ("translations" in file && cw("#fontFile").el.files[0]) {
+                    cw("#translationFontLine").unhide();
                 }
             }
 
             function playButton() {
                 play().catch(e => {
-                    cws("#errorLine").unhide();
-                    cws("#errorLine").html = `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`;
+                    cw("#errorLine").unhide();
+                    cw("#errorLine").html = `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`;
 
-                    cws(".mainBody", 0).el.style.transition = "all 0.5s var(--transit)";
+                    cw(".mainBody", 0).el.style.transition = "all 0.5s var(--transit)";
                     updateSettings({ backgroundColor: "#ffffdd" });
 
                     throw e;
@@ -319,13 +319,13 @@
             
             async function play() {
                 const lyricArray = file.lyrics;
-                const startLyric = Number(cws("#lyricStart").value) || 0;
+                const startLyric = Number(cw("#lyricStart").value) || 0;
 
-                cws("#audio").el.currentTime = Number(cws("#audioStart").value) || 0;
+                cw("#audio").el.currentTime = Number(cw("#audioStart").value) || 0;
                 fadeChange("startup", "lyricBlock");
 
-                if (cws("#showDebug").el.checked) { cws("#debugPanel").unhide(); }
-                if (cws("#allowKeys").el.checked) {
+                if (cw("#showDebug").el.checked) { cw("#debugPanel").unhide(); }
+                if (cw("#allowKeys").el.checked) {
                     window.addEventListener("keydown", event => {
                         if (event.code == "ArrowLeft") {
                             modify(-0.25);
@@ -390,7 +390,7 @@
                                 if (notes[0][0] != "[SPACE]") { // If this is the 1st sentence and ISN'T [SPACE], wait next()'s animation; if IS [SPACE], directly play
                                     await sleep(1000);
                                 }
-                                cws("#audio").el.play().catch(() => {
+                                cw("#audio").el.play().catch(() => {
                                     warn("No audio file is selected in initial menu.");
                                 });
                                 noteTime.end = new Date().getTime() / 1000;
@@ -431,14 +431,14 @@
                     } else { // The song is over
                         len = 1;
                         next("<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>");
-                        cws("#controlLine").html = "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。";
+                        cw("#controlLine").html = "动态歌词已播放完毕。<span class='LNK' onclick='saveFile()'>点击此处</span>下载更改后的歌词文件。";
                     }
                 }
             }
 
             function getWordPos() {
                 let fontSize = 100; // Pixels
-                const horizontalTotal = cws("#lyricBlock").el.offsetWidth;
+                const horizontalTotal = cw("#lyricBlock").el.offsetWidth;
                 const words = query("#lyrics *");
                 words.forEach(element => {
                     element.style.fontSize = `${fontSize}px`;
@@ -446,7 +446,7 @@
                 
                 let width = 0;
                 for (let i = 1; i <= len; i++) {
-                    width += cws(`#w-${i}`).el.offsetWidth;
+                    width += cw(`#w-${i}`).el.offsetWidth;
                 }
                 while (width > horizontalTotal - 256 && fontSize > 10) {
                     fontSize -= 10;
@@ -455,7 +455,7 @@
                     });
                     width = 0;
                     for (let i = 1; i <= len; i++) {
-                        width += cws(`#w-${i}`).el.offsetWidth;
+                        width += cw(`#w-${i}`).el.offsetWidth;
                     }
                 }
                 
@@ -465,14 +465,14 @@
 
                 let currentX = horizontalMargin;
                 for (let i = 1; i <= len; i++) {
-                    cws(`#w-${i}`).el.style.left = `${currentX}px`;
-                    const offset = cws(`#w-${i}`).el.offsetWidth;
-                    const space = cws(`#w-${i}`).el.innerHTML == " " ? cws(`#w-${i}`).el.offsetWidth : 2;
+                    cw(`#w-${i}`).el.style.left = `${currentX}px`;
+                    const offset = cw(`#w-${i}`).el.offsetWidth;
+                    const space = cw(`#w-${i}`).el.innerHTML == " " ? cw(`#w-${i}`).el.offsetWidth : 2;
                     currentX += offset + space;
                 }
 
                 // VERTICAL
-                const verticalTotal = cws("#lyricBlock").el.offsetHeight;
+                const verticalTotal = cw("#lyricBlock").el.offsetHeight;
                 const verticalUsed = showCircleSetting ? width / 8 : fontSize * 2;
                 const verticalMargin = showCircleSetting ? verticalTotal * 0.3 : (verticalTotal - verticalUsed) / 2;
 
@@ -485,20 +485,20 @@
 
                     let calWidthLeft = 0;
                     for (let i = 1; i <= len; i++) {
-                        calWidthRight = calWidthLeft + cws(`#w-${i}`).el.offsetWidth;
+                        calWidthRight = calWidthLeft + cw(`#w-${i}`).el.offsetWidth;
                         calWidthCenter = (calWidthLeft + calWidthRight) / 2;
 
                         const float = getY(calWidthCenter);
-                        cws(`#w-${i}`).el.style.top = `${verticalMargin + (getY(horizontalUsed / 2) - float)}px`;
+                        cw(`#w-${i}`).el.style.top = `${verticalMargin + (getY(horizontalUsed / 2) - float)}px`;
                         calWidthLeft = calWidthRight;
 
                         // ROTATE
                         const radian = -getTheta(calWidthCenter);
-                        cws(`#w-${i}`).el.style.transform = `rotate(${radian}rad)`;
+                        cw(`#w-${i}`).el.style.transform = `rotate(${radian}rad)`;
                     }
                 } else {
                     for (let i = 1; i <= len; i++) {
-                        cws(`#w-${i}`).el.style.top = `${verticalMargin}px`;
+                        cw(`#w-${i}`).el.style.top = `${verticalMargin}px`;
                     }
                 }
             }
@@ -508,9 +508,9 @@
 
                 const jumpTargets = [];
                 for (let i = fromIndex; i <= toIndex; i++) {
-                    jumpTargets.push(cws(`#w-${i}`).el);
+                    jumpTargets.push(cw(`#w-${i}`).el);
                 }
-                const centerTarget = cws(`#w-${Math.round((fromIndex + toIndex) / 2)}`).el;
+                const centerTarget = cw(`#w-${Math.round((fromIndex + toIndex) / 2)}`).el;
 
                 const targetRotation = centerTarget.style.transform != "" ? centerTarget.style.transform.getNum()[0] : 0;
                 const xOffset = Math.sin(targetRotation) * jumpLength;
@@ -552,7 +552,7 @@
                 });
 
                 await sleep(waitBase * 1000);
-                cws("#lyrics").html = sentence;
+                cw("#lyrics").html = sentence;
                 getWordPos();
 
                 const after = query("#lyrics *");
@@ -573,66 +573,66 @@
             async function modify(value) {
                 const modifyTarget = file.lyrics[currentPosition[0]][currentPosition[1] + 1] ? [currentPosition[0], currentPosition[1] + 1] : [currentPosition[0] + 1, 0]; // If next char doesn't exist, go to next sentence
 
-                cws("#modifyResult").unhide();
+                cw("#modifyResult").unhide();
                 if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] + value >= 0) { // Normally, can increase / decrease
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] += value;
 
-                    cws("#modifyResult").color = "var(--textColor-500)";
-                    cws("#modifyResult").html = `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍 (目前 ${file.lyrics[modifyTarget[0]][modifyTarget[1]][1]} 拍)`;
+                    cw("#modifyResult").color = "var(--textColor-500)";
+                    cw("#modifyResult").html = `"${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 已被 ${value > 0 ? "延长" : "缩短"} ${Math.abs(value)} 拍 (目前 ${file.lyrics[modifyTarget[0]][modifyTarget[1]][1]} 拍)`;
                 } else if (file.lyrics[modifyTarget[0]][modifyTarget[1]][1] != 0) { // If 0 < x < 0.25, only can decrease to 0
                     file.lyrics[modifyTarget[0]][modifyTarget[1]][1] = 0;
 
-                    cws("#modifyResult").color = "var(--textColor-500)";
-                    cws("#modifyResult").html = `已 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 至 0 拍`;
+                    cw("#modifyResult").color = "var(--textColor-500)";
+                    cw("#modifyResult").html = `已 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 至 0 拍`;
                 } else { // If x == 0, cannot decrease
-                    cws("#modifyResult").color = "var(--red)";
-                    cws("#modifyResult").html = `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`;
+                    cw("#modifyResult").color = "var(--red)";
+                    cw("#modifyResult").html = `无法 缩短 "${file.lyrics[modifyTarget[0]][modifyTarget[1]][0]}" 的时长; 目前已是 0 拍`;
                 }
 
                 await sleep(200);
-                cws("#modifyResult").fadeOut(false, 100);
+                cw("#modifyResult").fadeOut(false, 100);
             }
 
             function updateSettings(settingsObj) {
-                cws("#settingsLine").unhide();
+                cw("#settingsLine").unhide();
 
                 if ("showTitle" in settingsObj) {
-                    cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = Number(settingsObj.showTitle);
-                    cws("#showTitle").el.checked = settingsObj.showTitle;
+                    cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = Number(settingsObj.showTitle);
+                    cw("#showTitle").el.checked = settingsObj.showTitle;
                 } else {
-                    cws(".title *", 0).el.style.opacity = cws(".navigation *", 0).el.style.opacity = 0;
+                    cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = 0;
                 }
                 if ("showDot" in settingsObj) {
                     showDotSetting = settingsObj.showDot;
-                    cws("#showDot").el.checked = settingsObj.showDot;
+                    cw("#showDot").el.checked = settingsObj.showDot;
                 }
                 if ("showCircle" in settingsObj) {
                     showCircleSetting = settingsObj.showCircle;
-                    cws("#showCircle").el.checked = settingsObj.showCircle;
+                    cw("#showCircle").el.checked = settingsObj.showCircle;
                 }
                 if ("lyricJump" in settingsObj) {
                     lyricJumpSetting = settingsObj.lyricJump;
-                    cws("#showJump").el.checked = settingsObj.showJump;
+                    cw("#showJump").el.checked = settingsObj.showJump;
                 }
                 if ("showBorder" in settingsObj) {
                     document.documentElement.style.setProperty("--isBorder", `${settingsObj.showBorder ? "4px" : "0px"}`);
-                    cws("#showBorder").el.checked = settingsObj.showBorder;
+                    cw("#showBorder").el.checked = settingsObj.showBorder;
                 }
                 if ("backgroundColor" in settingsObj) {
                     document.documentElement.style.setProperty("--backgroundColor", `${settingsObj.backgroundColor}`);
-                    cws("#color-bg").value = settingsObj.backgroundColor;
+                    cw("#color-bg").value = settingsObj.backgroundColor;
                 }
                 if ("lyricColor" in settingsObj) {
                     document.documentElement.style.setProperty("--lyricColor", `${settingsObj.lyricColor}`);
-                    cws("#color-lyric").value = settingsObj.lyricColor;
+                    cw("#color-lyric").value = settingsObj.lyricColor;
                 }
                 if ("activeColor" in settingsObj) {
                     document.documentElement.style.setProperty("--activeColor", `${settingsObj.activeColor}`);
-                    cws("#color-active").value = settingsObj.activeColor;
+                    cw("#color-active").value = settingsObj.activeColor;
                 }
                 if ("borderColor" in settingsObj) {
                     document.documentElement.style.setProperty("--borderColor", `${settingsObj.borderColor}`);
-                    cws("#color-border").value = settingsObj.borderColor;
+                    cw("#color-border").value = settingsObj.borderColor;
                 }
             }
 
@@ -640,56 +640,56 @@
                 save("SONG-NAME.chiwainori-lyric.json", JSON.stringify(file));
             }
 
-            cws("#lyricStart").el.addEventListener("input", function () {
-                cws("#previewLyric").html = "";
+            cw("#lyricStart").el.addEventListener("input", function () {
+                cw("#previewLyric").html = "";
 
                 if (file) {
                     const startLine = file.lyrics[this.value];
 
                     if (!startLine) {
-                        cws("#previewLyric").el.innerHTML += `(无效歌词行)`;
+                        cw("#previewLyric").el.innerHTML += `(无效歌词行)`;
                     } else if (!Array.isArray(startLine)) {
-                        cws("#previewLyric").el.innerHTML += `{ 歌词设置 }`;
+                        cw("#previewLyric").el.innerHTML += `{ 歌词设置 }`;
                     } else {
                         startLine.forEach((note, index) => {
                             if (note[0] == "[SPACE]") {
-                                cws("#previewLyric").el.innerHTML += `...`;
+                                cw("#previewLyric").el.innerHTML += `...`;
                             } else {
-                                cws("#previewLyric").el.innerHTML += note[0];
+                                cw("#previewLyric").el.innerHTML += note[0];
                             }
                         });
                         if ("translations" in file) {
-                            cws("#previewLyric").el.innerHTML += ` (${file.translations[this.value] || "[无翻译]"})`;
+                            cw("#previewLyric").el.innerHTML += ` (${file.translations[this.value] || "[无翻译]"})`;
                         }
                     }
                 }
             });
 
             async function previewMusic() {
-                cws("#audioPreview").el.currentTime = Number(cws("#audioStart").value) || 0;
-                cws("#audioPreview").el.play();
-                cws("#previewMusicButton").el.disabled = true;
-                if (cws("#startButton").el) {
-                    cws("#startButton").el.disabled = true;
+                cw("#audioPreview").el.currentTime = Number(cw("#audioStart").value) || 0;
+                cw("#audioPreview").el.play();
+                cw("#previewMusicButton").el.disabled = true;
+                if (cw("#startButton").el) {
+                    cw("#startButton").el.disabled = true;
                 }
                 
-                cws("#previewCD").html = "2";
+                cw("#previewCD").html = "2";
                 await sleep(1000);
 
-                cws("#previewCD").html = "1";
+                cw("#previewCD").html = "1";
                 await sleep(1000);
 
-                cws("#audioPreview").el.pause();
-                cws("#previewMusicButton").el.disabled = false;
-                if (cws("#startButton").el) {
-                    cws("#startButton").el.disabled = false;
+                cw("#audioPreview").el.pause();
+                cw("#previewMusicButton").el.disabled = false;
+                if (cw("#startButton").el) {
+                    cw("#startButton").el.disabled = false;
                 }
-                cws("#previewCD").html = "&nbsp;&nbsp;";
+                cw("#previewCD").html = "&nbsp;&nbsp;";
             }
 
             async function nextTranslation(sentenceOrder) {
                 const slideOffset = 15;
-                const element = cws("#translations").el;
+                const element = cw("#translations").el;
                 getTranslationPos();
 
                 await sleep(1);
@@ -698,7 +698,7 @@
                 element.style.opacity = 0;
 
                 await sleep(waitBase * 1000);
-                cws("#translations").html = sentenceOrder >= 0 ? file.translations[sentenceOrder].replaceAll(/ /g, "&nbsp;") : "&nbsp;";
+                cw("#translations").html = sentenceOrder >= 0 ? file.translations[sentenceOrder].replaceAll(/ /g, "&nbsp;") : "&nbsp;";
                 element.style.transition = "";
                 getTranslationPos();
                 element.style.opacity = 0;
@@ -711,13 +711,13 @@
 
             function getTranslationPos() {
                 let fontSize = 40; // Pixels
-                const horizontalTotal = cws("#lyricBlock").el.offsetWidth;
+                const horizontalTotal = cw("#lyricBlock").el.offsetWidth;
                 const words = query("#translations");
                 words.forEach(element => {
                     element.style.fontSize = `${fontSize}px`;
                 });
                 
-                let width = cws("#translations").el.offsetWidth;
+                let width = cw("#translations").el.offsetWidth;
                 while (width > horizontalTotal - 256 && fontSize > 10) {
                     fontSize -= 10;
                     words.forEach(element => {
@@ -725,19 +725,19 @@
                     });
                     width = 0;
                     for (let i = 1; i <= len; i++) {
-                        width = cws("#translations").el.offsetWidth;
+                        width = cw("#translations").el.offsetWidth;
                     }
                 }
                 
                 // HORIZONTAL
                 const horizontalUsed = width;
                 const horizontalMargin = (horizontalTotal - horizontalUsed) / 2;
-                cws("#translations").el.style.left = `${horizontalMargin}px`;
+                cw("#translations").el.style.left = `${horizontalMargin}px`;
 
                 // VERTICAL
-                const verticalTotal = cws("#lyricBlock").el.offsetHeight;
+                const verticalTotal = cw("#lyricBlock").el.offsetHeight;
                 const verticalMargin = verticalTotal * 0.7;
-                cws("#translations").el.style.top = `${verticalMargin}px`;
+                cw("#translations").el.style.top = `${verticalMargin}px`;
             }
         </script>
     </div>

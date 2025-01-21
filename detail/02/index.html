@@ -29,22 +29,22 @@
     </div>
     <script>
         for (let i = new Date().getFullYear(); i >= 1840; i--) {
-            cws("#select-year").html += `<option value="${i}">${i}</option>`;
+            cw("#select-year").html += `<option value="${i}">${i}</option>`;
         }
         for (let i = 1; i <= 12; i++) {
-            cws("#select-month").html += `<option value="${i}">${i}</option>`;
+            cw("#select-month").html += `<option value="${i}">${i}</option>`;
         }
         for (let i = 1; i <= 31; i++) {
-            cws("#select-day").html += `<option value="${i}">${i}</option>`;
+            cw("#select-day").html += `<option value="${i}">${i}</option>`;
         }
 
         function continuePage() {
             const now = new Date();
             const nowArr = [now.getFullYear(), now.getMonth() + 1, now.getDate()];
 
-            const year = cws("#select-year").value;
-            const month = cws("#select-month").value;
-            const day = cws("#select-day").value;
+            const year = cw("#select-year").value;
+            const month = cw("#select-month").value;
+            const day = cw("#select-day").value;
 
             let success = false;
 

@@ -61,12 +61,12 @@
         let returnReady = false;
         let showAsFraction = false;
 
-        cws("#bpmInput").el.addEventListener("input", function () {
+        cw("#bpmInput").el.addEventListener("input", function () {
             bpm = +this.value;
             clockBase = 60 / bpm;
             reset();
         });
-        cws("#precisionList").el.addEventListener("input", function () {
+        cw("#precisionList").el.addEventListener("input", function () {
             if (!showAsFraction) {
                 if (this.value == "original") {
                     precision = "original";
@@ -74,43 +74,43 @@
                     precision = 1 / 2 ** (+this.value - 1);
                 }
             }
-            cws("#precisionListFraction").el.value = this.value == "original" ? 3 : this.value;
+            cw("#precisionListFraction").el.value = this.value == "original" ? 3 : this.value;
             reset();
         });
 
-        cws("#f-normal").el.addEventListener("change", () => {
+        cw("#f-normal").el.addEventListener("change", () => {
             format = "normal";
             reset();
         });
-        cws("#f-json").el.addEventListener("change", () => {
+        cw("#f-json").el.addEventListener("change", () => {
             format = "json";
             reset();
         });
-        cws("#f-top").el.addEventListener("change", () => {
+        cw("#f-top").el.addEventListener("change", () => {
             format = "top";
             reset();
         });
 
-        cws("#showAsFraction").el.addEventListener("change", function () {
+        cw("#showAsFraction").el.addEventListener("change", function () {
             showAsFraction = this.checked;
             if (showAsFraction) {
-                cws("#precisionList").hide();
-                cws("#showTopFormat").hide();
-                cws("#precisionListFraction").unhide("inline");
+                cw("#precisionList").hide();
+                cw("#showTopFormat").hide();
+                cw("#precisionListFraction").unhide("inline");
                 format = "normal";
-                cws("#f-normal").el.checked = true;
+                cw("#f-normal").el.checked = true;
             } else {
-                cws("#precisionList").unhide("inline");
-                cws("#showTopFormat").unhide("inline");
-                cws("#precisionListFraction").hide();
+                cw("#precisionList").unhide("inline");
+                cw("#showTopFormat").unhide("inline");
+                cw("#precisionListFraction").hide();
             }
             reset();
         });
-        cws("#precisionListFraction").el.addEventListener("input", function () {
+        cw("#precisionListFraction").el.addEventListener("input", function () {
             if (showAsFraction) {
                 precision = 1 / 2 ** (+this.value - 1);
             }
-            cws("#precisionList").el.value = this.value;
+            cw("#precisionList").el.value = this.value;
             reset();
         });
 
@@ -120,16 +120,16 @@
             }
             if (event.code == "KeyR") {
                 if (format == "normal") {
-                    cws("#result").html += "<br />";
-                    cws("#returnOk").unhide("inline");
+                    cw("#result").html += "<br />";
+                    cw("#returnOk").unhide("inline");
                 }
                 if (format == "json") {
                     returnReady = true;
-                    cws("#returnReady").unhide("inline");
+                    cw("#returnReady").unhide("inline");
                 }
                 if (format == "top") {
                     returnReady = true;
-                    cws("#returnReady").unhide("inline");
+                    cw("#returnReady").unhide("inline");
                 }
             }
             if (event.code == "Backspace") {
@@ -141,14 +141,14 @@
             lastPressTime = undefined;
             returnReady = false;
             pressCount = 0;
-            cws("#result").html = "";
-            cws("#playButton").el.disabled = true;
-            cws("#returnOk").hide();
-            cws("#returnReady").hide();
-            if (cws("#f-json").el.checked) {
-                cws("#jsonLyric").unhide();
+            cw("#result").html = "";
+            cw("#playButton").el.disabled = true;
+            cw("#returnOk").hide();
+            cw("#returnReady").hide();
+            if (cw("#f-json").el.checked) {
+                cw("#jsonLyric").unhide();
             } else {
-                cws("#jsonLyric").hide();
+                cw("#jsonLyric").hide();
             }
         }
 
@@ -159,29 +159,29 @@
             
             if (pressCount == 1) { // First press
                 if (format == "normal") {
-                    cws("#result").html += `<span id="w-${pressCount}">@&nbsp;</span>`;
+                    cw("#result").html += `<span id="w-${pressCount}">@&nbsp;</span>`;
                 }
                 if (format == "json") {
                     let char = "@";
-                    const lyricLine = cws("#lyricLine").value;
+                    const lyricLine = cw("#lyricLine").value;
                     if (lyricLine) {
                         const firstSlashIndex = lyricLine.indexOf("/");
                         const beforeSlash = lyricLine.slice(0, firstSlashIndex);
                         const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
 
                         char = beforeSlash;
-                        cws("#lyricLine").value = afterSlash;
+                        cw("#lyricLine").value = afterSlash;
                     }
 
-                    cws("#result").html += `<span id="w-${pressCount}">[["${char}",&nbsp;</span>`;
+                    cw("#result").html += `<span id="w-${pressCount}">[["${char}",&nbsp;</span>`;
                 }
                 if (format == "top") {
-                    cws("#result").html += `<span id="w-${pressCount}">@</span>`;
+                    cw("#result").html += `<span id="w-${pressCount}">@</span>`;
                 }
 
                 startTime = nowTime;
                 lastPressTime = nowTime;
-                cws("#playButton").el.disabled = false;
+                cw("#playButton").el.disabled = false;
             } else { // Later press
                 const diff = (nowTime - lastPressTime) / 1000; // Seconds
 
@@ -203,42 +203,42 @@
                 }
                 
                 if (format == "normal") {
-                    cws("#returnOk").hide();
-                    cws("#result").html += `<span id="w-${pressCount}""><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`;
+                    cw("#returnOk").hide();
+                    cw("#result").html += `<span id="w-${pressCount}""><strong>${beatResult}</strong>&nbsp;@&nbsp;</span>`;
                 }
                 if (format == "json") {
-                    cws("#returnOk").hide();
-                    const original = cws("#result").html;
+                    cw("#returnOk").hide();
+                    const original = cw("#result").html;
 
                     let char = "@";
-                    const lyricLine = cws("#lyricLine").value;
+                    const lyricLine = cw("#lyricLine").value;
                     if (lyricLine) {
                         const firstSlashIndex = lyricLine.indexOf("/") > 0 ? lyricLine.indexOf("/") : lyricLine.length;
                         const beforeSlash = lyricLine.slice(0, firstSlashIndex);
                         const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
 
                         char = beforeSlash;
-                        cws("#lyricLine").value = afterSlash;
+                        cw("#lyricLine").value = afterSlash;
                     }
                     
                     if (returnReady) {
                         returnReady = false;
-                        cws("#returnReady").hide();
+                        cw("#returnReady").hide();
                         
-                        cws("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["${char}",&nbsp;</span>`;
+                        cw("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>]],</span><br /><span id="w-${pressCount}">[["${char}",&nbsp;</span>`;
                     } else {
-                        cws("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["${char}",&nbsp;</span>`;
+                        cw("#result").html = `${original.slice(0, original.length - 7)}<strong>${beatResult}</strong>],</span><span id="w-${pressCount}">&nbsp;["${char}",&nbsp;</span>`;
                     }
                 }
                 if (format == "top") {
-                    const original = cws("#result").html;
-                    cws("#result").html = `${original.slice(0, original.length - 7)},<strong>${`${beatResult}`.replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`;
+                    const original = cw("#result").html;
+                    cw("#result").html = `${original.slice(0, original.length - 7)},<strong>${`${beatResult}`.replaceAll(/\./g, "'")}</strong>;</span><span id="w-${pressCount}">@</span>`;
                     
                     if (returnReady) {
                         returnReady = false;
-                        cws("#returnReady").hide();
+                        cw("#returnReady").hide();
                         
-                        const text = cws("#result").html;
+                        const text = cw("#result").html;
                         const semicolons = text.getCountOf(";");
                         
                         const splitBySemi = text.split(";");
@@ -248,7 +248,7 @@
                             beforeLastSemi += `${splitBySemi[i]}${hasSemi}`; // Add everything excluding last 1 semis (; ... are excluded)
                         }
                         
-                        cws("#result").html = `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`;
+                        cw("#result").html = `${beforeLastSemi}/</span><br /><span id="w-${pressCount}">@</span>`;
                     }
                 }
                 
@@ -259,21 +259,21 @@
         async function play() {
             playNow++;
             if (playNow >= 2) {
-                cws(`#w-${playNow - 1}`).el.style.textDecoration = "none";
+                cw(`#w-${playNow - 1}`).el.style.textDecoration = "none";
             }
-            cws(`#w-${playNow}`).color = "var(--red)";
-            cws(`#w-${playNow}`).el.style.textDecoration = "underline";
+            cw(`#w-${playNow}`).color = "var(--red)";
+            cw(`#w-${playNow}`).el.style.textDecoration = "underline";
 
             if (playNow != pressCount) {
                 let waitTime;
                 if (format == "normal") {
-                    waitTime = cws(`#w-${playNow + 1}`).html.getNum()[0];
+                    waitTime = cw(`#w-${playNow + 1}`).html.getNum()[0];
                 }
                 if (format == "json") {
-                    waitTime = cws(`#w-${playNow}`).html.getNum()[0];
+                    waitTime = cw(`#w-${playNow}`).html.getNum()[0];
                 }
                 if (format == "top") {
-                    waitTime = cws(`#w-${playNow}`).html.replaceAll(/'/g, ".").getNum()[0];
+                    waitTime = cw(`#w-${playNow}`).html.replaceAll(/'/g, ".").getNum()[0];
                 }
 
                 await sleep(waitTime * clockBase * 1000);
@@ -281,9 +281,9 @@
             } else {
                 await sleep(1500);
                 for (let i = 1; i <= pressCount; i++) {
-                    cws(`#w-${i}`).color = "var(--textColor-500)";
+                    cw(`#w-${i}`).color = "var(--textColor-500)";
                 }
-                cws(`#w-${playNow}`).el.style.textDecoration = "none";
+                cw(`#w-${playNow}`).el.style.textDecoration = "none";
                 playNow = 0;
             }
         }

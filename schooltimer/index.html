@@ -36,26 +36,26 @@
     <script>
         function permissionCheck() {
             if (Notification.permission == "granted") {
-                cws("#notificationPermissionLine").html = "允许 (granted)";
-                cws("#notificationPermissionLine").color = "var(--green)";
-                cws("#requestPermissionButton").hide();
-                cws("#noPermission").html = "为确保最佳效果, 请关闭浏览器的标签页休眠功能。";
-                cws("#noPermission").color = "var(--textColor-500)";
-                cws("#notificationContent").style = "opacity: 1;";
+                cw("#notificationPermissionLine").html = "允许 (granted)";
+                cw("#notificationPermissionLine").color = "var(--green)";
+                cw("#requestPermissionButton").hide();
+                cw("#noPermission").html = "为确保最佳效果, 请关闭浏览器的标签页休眠功能。";
+                cw("#noPermission").color = "var(--textColor-500)";
+                cw("#notificationContent").style = "opacity: 1;";
                 applyAll("#notificationContent button", element => element.disabled = false);
             } else { 
                 if (Notification.permission == "default") {
-                    cws("#notificationPermissionLine").html = "未授权 (default)";
-                    cws("#notificationPermissionLine").color = "var(--orange)";
+                    cw("#notificationPermissionLine").html = "未授权 (default)";
+                    cw("#notificationPermissionLine").color = "var(--orange)";
                 }
                 if (Notification.permission == "denied") {
-                    cws("#notificationPermissionLine").html = "拒绝 (denied)";
-                    cws("#notificationPermissionLine").color = "var(--red)";
-                    cws("#noPermission").html = "ChiwaInori.top 没有推送通知的权限。";
-                    cws("#noPermission").color = "var(--red)";
-                    cws("#requestPermissionButton").hide();
+                    cw("#notificationPermissionLine").html = "拒绝 (denied)";
+                    cw("#notificationPermissionLine").color = "var(--red)";
+                    cw("#noPermission").html = "ChiwaInori.top 没有推送通知的权限。";
+                    cw("#noPermission").color = "var(--red)";
+                    cw("#requestPermissionButton").hide();
                 }
-                cws("#notificationContent").style = "opacity: 0.5;";
+                cw("#notificationContent").style = "opacity: 0.5;";
                 applyAll("#notificationContent button", element => element.disabled = true);
             }
         }
@@ -107,15 +107,15 @@
             prepareOver: [[7, 59], [9, 9], [9, 59], [10, 49], [11, 44], [11, 58], [15, 34], [16, 24], [17, 14], [19, 29], [20, 29], [21, 29], [22, 19]],
             over: [[8, 0], [9, 10], [10, 0], [10, 50], [11, 45], [11, 59], [15, 35], [16, 25], [17, 15], [19, 30], [20, 30], [21, 30], [22, 20]]
         };
-        cws("#timeTable-prepare").html = timeTable.prepare.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
-        cws("#timeTable-start").html = timeTable.start.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
-        cws("#timeTable-prepareOver").html = timeTable.prepareOver.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
-        cws("#timeTable-over").html = timeTable.over.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cw("#timeTable-prepare").html = timeTable.prepare.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cw("#timeTable-start").html = timeTable.start.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cw("#timeTable-prepareOver").html = timeTable.prepareOver.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
+        cw("#timeTable-over").html = timeTable.over.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
 
         if (urlParam.getItem("offset")) {
             time.offset = Number(urlParam.getItem("offset"));
-            cws("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
-            cws("#saveButton").el.disabled = false;
+            cw("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
+            cw("#saveButton").el.disabled = false;
         }
         timeUpdate();
 
@@ -124,7 +124,7 @@
             const now = new Date().getTime();
             const diff = time.next - now;
             const currentTime = new Date(now + time.offset).toLocaleTimeString();
-            cws("#time").html = currentTime;
+            cw("#time").html = currentTime;
             checkEvent(...currentTime.split(":").map(Number));
 
             await sleep(diff < 0 ? 0 : diff);
@@ -135,20 +135,20 @@
         }
 
         async function calibrate() {
-            const [h, m, s] = cws("#calibrateInput").value.padEnd(6, "0").match(/.{1,2}/g).map(Number);
+            const [h, m, s] = cw("#calibrateInput").value.padEnd(6, "0").match(/.{1,2}/g).map(Number);
             const now = new Date();
             const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, s);
 
             time.offset = targetTime.getTime() - now.getTime();
-            cws("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
-            cws("#saveButton").el.disabled = false;
+            cw("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
+            cw("#saveButton").el.disabled = false;
 
             time.last = now.getTime();
             time.next = time.last + 1000;
             time.awaitNext = false;
 
             const diff = time.next - now.getTime();
-            cws("#time").html = new Date(now.getTime() + time.offset).toLocaleTimeString();
+            cw("#time").html = new Date(now.getTime() + time.offset).toLocaleTimeString();
 
             await sleep(diff < 0 ? 0 : diff);
             time.last = time.next;
@@ -161,16 +161,16 @@
             const timeCheck = JSON.stringify([h, m]);
 
             if (s == 0) {
-                if (cws("#n-prepare").el.checked && JSON.stringify(timeTable.prepare).includes(timeCheck)) {
+                if (cw("#n-prepare").el.checked && JSON.stringify(timeTable.prepare).includes(timeCheck)) {
                     notification(1, timeText);
                 }
-                if (cws("#n-start").el.checked && JSON.stringify(timeTable.start).includes(timeCheck)) {
+                if (cw("#n-start").el.checked && JSON.stringify(timeTable.start).includes(timeCheck)) {
                     notification(2, timeText);
                 }
-                if (cws("#n-prepareOver").el.checked && JSON.stringify(timeTable.prepareOver).includes(timeCheck)) {
+                if (cw("#n-prepareOver").el.checked && JSON.stringify(timeTable.prepareOver).includes(timeCheck)) {
                     notification(21, timeText);
                 }
-                if (cws("#n-over").el.checked && JSON.stringify(timeTable.over).includes(timeCheck)) {
+                if (cw("#n-over").el.checked && JSON.stringify(timeTable.over).includes(timeCheck)) {
                     notification(3, timeText);
                 }
             }

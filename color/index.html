@@ -147,52 +147,52 @@
             targets.forEach(target => {
                 spaces.forEach(space => {
                     if (colorspace == space) {
-                        cws(`#${target}-${space}`).unhide();
+                        cw(`#${target}-${space}`).unhide();
                     } else {
-                        cws(`#${target}-${space}`).hide();
+                        cw(`#${target}-${space}`).hide();
                     }
                 });
             });
         }
 
         function changeColor() {
-            if (!cws("#choose-rgb").hidden) { nowControlling = "RGB"; }
-            if (!cws("#choose-cmyk").hidden) { nowControlling = "CMYK"; }
-            if (!cws("#choose-hsv").hidden) { nowControlling = "HSV"; }
-            if (!cws("#choose-hsl").hidden) { nowControlling = "HSL"; }
+            if (!cw("#choose-rgb").hidden) { nowControlling = "RGB"; }
+            if (!cw("#choose-cmyk").hidden) { nowControlling = "CMYK"; }
+            if (!cw("#choose-hsv").hidden) { nowControlling = "HSV"; }
+            if (!cw("#choose-hsl").hidden) { nowControlling = "HSL"; }
 
             if (nowControlling == "RGB") {
-                rgb.r = Number(cws("#rgb-r").value);
-                rgb.g = Number(cws("#rgb-g").value);
-                rgb.b = Number(cws("#rgb-b").value);
+                rgb.r = Number(cw("#rgb-r").value);
+                rgb.g = Number(cw("#rgb-g").value);
+                rgb.b = Number(cw("#rgb-b").value);
 
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
                 hsv = RGB2HSV(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "CMYK") {
-                cmyk.c = Number(cws("#cmyk-c").value);
-                cmyk.m = Number(cws("#cmyk-m").value);
-                cmyk.y = Number(cws("#cmyk-y").value);
-                cmyk.k = Number(cws("#cmyk-k").value);
+                cmyk.c = Number(cw("#cmyk-c").value);
+                cmyk.m = Number(cw("#cmyk-m").value);
+                cmyk.y = Number(cw("#cmyk-y").value);
+                cmyk.k = Number(cw("#cmyk-k").value);
 
                 rgb = CMYK2RGB(cmyk.c, cmyk.m, cmyk.y, cmyk.k);
                 hsv = RGB2HSV(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "HSV") {
-                hsv.h = Number(cws("#hsv-h").value);
-                hsv.s = Number(cws("#hsv-s").value);
-                hsv.v = Number(cws("#hsv-v").value);
+                hsv.h = Number(cw("#hsv-h").value);
+                hsv.s = Number(cw("#hsv-s").value);
+                hsv.v = Number(cw("#hsv-v").value);
 
                 rgb = HSV2RGB(hsv.h, hsv.s, hsv.v);
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
                 hsl = RGB2HSL(rgb.r, rgb.g, rgb.b);
             }
             if (nowControlling == "HSL") {
-                hsl.h = Number(cws("#hsl-h").value);
-                hsl.s = Number(cws("#hsl-s").value);
-                hsl.l = Number(cws("#hsl-l").value);
+                hsl.h = Number(cw("#hsl-h").value);
+                hsl.s = Number(cw("#hsl-s").value);
+                hsl.l = Number(cw("#hsl-l").value);
 
                 rgb = HSL2RGB(hsl.h, hsl.s, hsl.l);
                 cmyk = RGB2CMYK(rgb.r, rgb.g, rgb.b);
@@ -218,78 +218,78 @@
             if (hsl.h == 360) { hsl.h = 0; }
             
             // Paint ColorBlock
-            cws("#colorBlock").style = `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`;
+            cw("#colorBlock").style = `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`;
 
             if (rgb.r.range(116, 156) && rgb.g.range(116, 156) && rgb.b.range(116, 156)) {
-                applyAll(".mainBody", el => cws(el).style = `background-color: #222222;`);
+                applyAll(".mainBody", el => cw(el).style = `background-color: #222222;`);
             } else {
-                applyAll(".mainBody", el => cws(el).style = `background-color: #888888;`);
+                applyAll(".mainBody", el => cw(el).style = `background-color: #888888;`);
             }
 
             // Update everyone's color
 
             // RGB
-            cws("#rgb-r").el.value = rgb.r;
-            cws("#rgb-g").el.value = rgb.g;
-            cws("#rgb-b").el.value = rgb.b;
+            cw("#rgb-r").el.value = rgb.r;
+            cw("#rgb-g").el.value = rgb.g;
+            cw("#rgb-b").el.value = rgb.b;
 
-            cws("#rgb-r-value").html = `${rgb.r} / ${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}`;
-            cws("#rgb-g-value").html = `${rgb.g} / ${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}`;
-            cws("#rgb-b-value").html = `${rgb.b} / ${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
-            cws("#code-rgb").html = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) / #${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
+            cw("#rgb-r-value").html = `${rgb.r} / ${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}`;
+            cw("#rgb-g-value").html = `${rgb.g} / ${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}`;
+            cw("#rgb-b-value").html = `${rgb.b} / ${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
+            cw("#code-rgb").html = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) / #${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
 
-            cws("#rgb-r-value").color = `rgb(${rgb.r}, 0, 0)`;
-            cws("#rgb-g-value").color = `rgb(0, ${rgb.g}, 0)`;
-            cws("#rgb-b-value").color = `rgb(0, 0, ${rgb.b})`;
-            cws("#code-rgb").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            cw("#rgb-r-value").color = `rgb(${rgb.r}, 0, 0)`;
+            cw("#rgb-g-value").color = `rgb(0, ${rgb.g}, 0)`;
+            cw("#rgb-b-value").color = `rgb(0, 0, ${rgb.b})`;
+            cw("#code-rgb").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // CMYK
-            cws("#cmyk-c").el.value = cmyk.c;
-            cws("#cmyk-m").el.value = cmyk.m;
-            cws("#cmyk-y").el.value = cmyk.y;
-            cws("#cmyk-k").el.value = cmyk.k;
+            cw("#cmyk-c").el.value = cmyk.c;
+            cw("#cmyk-m").el.value = cmyk.m;
+            cw("#cmyk-y").el.value = cmyk.y;
+            cw("#cmyk-k").el.value = cmyk.k;
 
-            cws("#cmyk-c-value").html = cmyk.c;
-            cws("#cmyk-m-value").html = cmyk.m;
-            cws("#cmyk-y-value").html = cmyk.y;
-            cws("#cmyk-k-value").html = cmyk.k;
-            cws("#code-cmyk").html = `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k})`;
+            cw("#cmyk-c-value").html = cmyk.c;
+            cw("#cmyk-m-value").html = cmyk.m;
+            cw("#cmyk-y-value").html = cmyk.y;
+            cw("#cmyk-k-value").html = cmyk.k;
+            cw("#code-cmyk").html = `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k})`;
 
-            cws("#cmyk-c-value").color = `rgb(${CMYK2RGB(cmyk.c, 0, 0, 0)["r"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["g"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["b"]})`;
-            cws("#cmyk-m-value").color = `rgb(${CMYK2RGB(0, cmyk.m, 0, 0)["r"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["g"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["b"]})`;
-            cws("#cmyk-y-value").color = `rgb(${CMYK2RGB(0, 0, cmyk.y, 0)["r"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["g"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["b"]})`;
-            cws("#cmyk-k-value").color = `rgb(${CMYK2RGB(0, 0, 0, cmyk.k)["r"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["g"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["b"]})`;
-            cws("#code-cmyk").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            cw("#cmyk-c-value").color = `rgb(${CMYK2RGB(cmyk.c, 0, 0, 0)["r"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["g"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["b"]})`;
+            cw("#cmyk-m-value").color = `rgb(${CMYK2RGB(0, cmyk.m, 0, 0)["r"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["g"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["b"]})`;
+            cw("#cmyk-y-value").color = `rgb(${CMYK2RGB(0, 0, cmyk.y, 0)["r"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["g"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["b"]})`;
+            cw("#cmyk-k-value").color = `rgb(${CMYK2RGB(0, 0, 0, cmyk.k)["r"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["g"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["b"]})`;
+            cw("#code-cmyk").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // HSV
-            cws("#hsv-h").el.value = hsv.h;
-            cws("#hsv-s").el.value = hsv.s;
-            cws("#hsv-v").el.value = hsv.v;
+            cw("#hsv-h").el.value = hsv.h;
+            cw("#hsv-s").el.value = hsv.s;
+            cw("#hsv-v").el.value = hsv.v;
 
-            cws("#hsv-h-value").html = `${hsv.h}°`;
-            cws("#hsv-s-value").html = hsv.s;
-            cws("#hsv-v-value").html = hsv.v;
-            cws("#code-hsv").html = `hsv(${hsv.h}, ${hsv.s}, ${hsv.v})`;
+            cw("#hsv-h-value").html = `${hsv.h}°`;
+            cw("#hsv-s-value").html = hsv.s;
+            cw("#hsv-v-value").html = hsv.v;
+            cw("#code-hsv").html = `hsv(${hsv.h}, ${hsv.s}, ${hsv.v})`;
 
-            cws("#hsv-h-value").color = `rgb(${HSV2RGB(hsv.h, 100, 100)["r"]}, ${HSV2RGB(hsv.h, 100, 100)["g"]}, ${HSV2RGB(hsv.h, 100, 100)["b"]})`;
-            cws("#hsv-s-value").color = `rgb(${hsv.s.percentage(0, 100).transit(204, 0)}, ${hsv.s.percentage(0, 100).transit(204, 255)}, ${hsv.s.percentage(0, 100).transit(204, 255)})`;
-            cws("#hsv-v-value").color = `rgb(0, ${hsv.v.percentage(0, 100).transit(0, 255)}, ${hsv.v.percentage(0, 100).transit(0, 255)})`;
-            cws("#code-hsv").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            cw("#hsv-h-value").color = `rgb(${HSV2RGB(hsv.h, 100, 100)["r"]}, ${HSV2RGB(hsv.h, 100, 100)["g"]}, ${HSV2RGB(hsv.h, 100, 100)["b"]})`;
+            cw("#hsv-s-value").color = `rgb(${hsv.s.percentage(0, 100).transit(204, 0)}, ${hsv.s.percentage(0, 100).transit(204, 255)}, ${hsv.s.percentage(0, 100).transit(204, 255)})`;
+            cw("#hsv-v-value").color = `rgb(0, ${hsv.v.percentage(0, 100).transit(0, 255)}, ${hsv.v.percentage(0, 100).transit(0, 255)})`;
+            cw("#code-hsv").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // HSL
-            cws("#hsl-h").el.value = hsl.h;
-            cws("#hsl-s").el.value = hsl.s;
-            cws("#hsl-l").el.value = hsl.l;
+            cw("#hsl-h").el.value = hsl.h;
+            cw("#hsl-s").el.value = hsl.s;
+            cw("#hsl-l").el.value = hsl.l;
 
-            cws("#hsl-h-value").html = `${hsl.h}°`;
-            cws("#hsl-s-value").html = hsl.s;
-            cws("#hsl-l-value").html = hsl.l;
-            cws("#code-hsl").html = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
+            cw("#hsl-h-value").html = `${hsl.h}°`;
+            cw("#hsl-s-value").html = hsl.s;
+            cw("#hsl-l-value").html = hsl.l;
+            cw("#code-hsl").html = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
 
-            cws("#hsl-h-value").color = `rgb(${HSL2RGB(hsl.h, 100, 50)["r"]}, ${HSL2RGB(hsl.h, 100, 50)["g"]}, ${HSL2RGB(hsl.h, 100, 50)["b"]})`;
-            cws("#hsl-s-value").color = `rgb(${hsl.s.percentage(0, 100).transit(204, 0)}, ${hsl.s.percentage(0, 100).transit(204, 255)}, ${hsl.s.percentage(0, 100).transit(204, 255)})`;
-            cws("#hsl-l-value").color = `rgb(${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)})`;
-            cws("#code-hsl").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            cw("#hsl-h-value").color = `rgb(${HSL2RGB(hsl.h, 100, 50)["r"]}, ${HSL2RGB(hsl.h, 100, 50)["g"]}, ${HSL2RGB(hsl.h, 100, 50)["b"]})`;
+            cw("#hsl-s-value").color = `rgb(${hsl.s.percentage(0, 100).transit(204, 0)}, ${hsl.s.percentage(0, 100).transit(204, 255)}, ${hsl.s.percentage(0, 100).transit(204, 255)})`;
+            cw("#hsl-l-value").color = `rgb(${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)})`;
+            cw("#code-hsl").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
         }
 
         function RGB2CMYK(r, g, b) {

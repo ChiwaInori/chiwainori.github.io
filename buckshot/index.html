@@ -101,10 +101,10 @@
         let nowRound = 0;
 
         function updateStartButton() {
-            const liveCount = Number(cws("#liveCount").value);
-            const blankCount = Number(cws("#blankCount").value);
+            const liveCount = Number(cw("#liveCount").value);
+            const blankCount = Number(cw("#blankCount").value);
             if (liveCount >= 0 && blankCount >= 0 && liveCount + blankCount >= 1) {
-                cws("#startButton").el.disabled = false;
+                cw("#startButton").el.disabled = false;
             }
         }
 
@@ -113,10 +113,10 @@
             bullets.telephoneModified = bullets.left.isolate();
 
             fadeChange("welcome", "gamePhase");
-            cws("#liveCountTxt").unhide("inline");
-            cws("#blankCountTxt").unhide("inline");
-            cws("#liveCountTxt").html = bullets.left.live;
-            cws("#blankCountTxt").html = bullets.left.blank;
+            cw("#liveCountTxt").unhide("inline");
+            cw("#blankCountTxt").unhide("inline");
+            cw("#liveCountTxt").html = bullets.left.live;
+            cw("#blankCountTxt").html = bullets.left.blank;
 
             generateLine();
             shoot(0);
@@ -137,34 +137,34 @@
                 if (type == 2 || type == 3) { bullets.telephoneModified.blank--; }
             }
             if (nowRound in telephoneHints) {
-                cws(`#hint-${nowRound}`).color = "var(--red)";
+                cw(`#hint-${nowRound}`).color = "var(--red)";
             }
 
-            if (nowRound >= 2 && cws(`#hint-${nowRound - 1}`).el) {
-                cws(`#hint-${nowRound - 1}`).color = "var(--textColor-400)";
+            if (nowRound >= 2 && cw(`#hint-${nowRound - 1}`).el) {
+                cw(`#hint-${nowRound - 1}`).color = "var(--textColor-400)";
             }
 
             if (bullets.left.live != 0) {
-                cws("#liveCountTxt").html = bullets.left.live;
+                cw("#liveCountTxt").html = bullets.left.live;
             } else {
-                cws("#liveCountTxt").html = "已打完";
-                cws("#liveCountTxt").color = "#dd0000";
-                cws("#shootNormalLive").el.disabled = cws("#shootInvertBlank").el.disabled = true;
+                cw("#liveCountTxt").html = "已打完";
+                cw("#liveCountTxt").color = "#dd0000";
+                cw("#shootNormalLive").el.disabled = cw("#shootInvertBlank").el.disabled = true;
 
                 for (let i = nowRound; i <= bullets.total; i++) {
-                    cws(`#line-${i}`).color = `var(--blank)`;
+                    cw(`#line-${i}`).color = `var(--blank)`;
                 }
             }
 
             if (bullets.left.blank != 0) {
-                cws("#blankCountTxt").html = bullets.left.blank;
+                cw("#blankCountTxt").html = bullets.left.blank;
             } else {
-                cws("#blankCountTxt").html = "已打完";
-                cws("#blankCountTxt").color = "#dd0000";
-                cws("#shootInvertLive").el.disabled = cws("#shootNormalBlank").el.disabled = true;
+                cw("#blankCountTxt").html = "已打完";
+                cw("#blankCountTxt").color = "#dd0000";
+                cw("#shootInvertLive").el.disabled = cw("#shootNormalBlank").el.disabled = true;
 
                 for (let i = nowRound; i <= bullets.total; i++) {
-                    cws(`#line-${i}`).color = `var(--live)`;
+                    cw(`#line-${i}`).color = `var(--live)`;
                 }
             }
             
@@ -172,9 +172,9 @@
         }
 
         function telephone() {
-            const orderId = Number(cws("#telephoneOrder").value);
+            const orderId = Number(cw("#telephoneOrder").value);
             const absoluteId = orderId + nowRound - 1;
-            const isLive = cws("#telephoneLive").el.checked;
+            const isLive = cw("#telephoneLive").el.checked;
 
             telephoneHints[absoluteId] = isLive;
             if (isLive) {
@@ -183,9 +183,9 @@
                 bullets.telephoneModified.blank--;
             }
 
-            cws("#telephoneOrder").value = "";
-            cws("#telephoneHintsGroup").html += `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`;
-            cws(`#line-${absoluteId}`).color = `var(--${isLive ? "live" : "blank"})`;
+            cw("#telephoneOrder").value = "";
+            cw("#telephoneHintsGroup").html += `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`;
+            cw(`#line-${absoluteId}`).color = `var(--${isLive ? "live" : "blank"})`;
             updateChance(nowRound in telephoneHints);
         }
 
@@ -196,88 +196,88 @@
             if (revealed) {
                 const isLive = telephoneHints[nowRound];
                 liveChance = isLive ? 100 : 0;
-                cws("#confirmed").color = `var(--${isLive ? "live" : "blank"})`;
+                cw("#confirmed").color = `var(--${isLive ? "live" : "blank"})`;
             } else {
                 const bulletsLeft = bullets.telephoneModified.live + bullets.telephoneModified.blank;
                 liveChance = noLeft ? parseInt(bullets.telephoneModified.live / bulletsLeft * 100) : 0;
             }
             const blankChance = bullets.left.live + bullets.left.blank != 0 ? 100 - liveChance : 0;
 
-            cws("#liveChance").html = liveChance;
-            cws("#blankChance").html = blankChance;
-            if (revealed) { cws("#confirmed").unhide("inline"); } else { cws("#confirmed", "id").hide(); }
+            cw("#liveChance").html = liveChance;
+            cw("#blankChance").html = blankChance;
+            if (revealed) { cw("#confirmed").unhide("inline"); } else { cw("#confirmed").hide(); }
 
-            cws("#advantage-live").html = liveChance >= blankChance ? "<" : "|";
-            cws("#advantage-live").color = liveChance >= blankChance ? "var(--lightOrange)" : "var(--gray)";
-            cws("#advantage-blank").html = liveChance < blankChance ? ">" : "|";
-            cws("#advantage-blank").color = liveChance < blankChance ? "var(--lightOrange)" : "var(--gray)";
+            cw("#advantage-live").html = liveChance >= blankChance ? "<" : "|";
+            cw("#advantage-live").color = liveChance >= blankChance ? "var(--lightOrange)" : "var(--gray)";
+            cw("#advantage-blank").html = liveChance < blankChance ? ">" : "|";
+            cw("#advantage-blank").color = liveChance < blankChance ? "var(--lightOrange)" : "var(--gray)";
 
             if (liveChance == 100) {
-                cws("#shootInvertLive").el.disabled = true;
-                cws("#shootNormalBlank").el.disabled = true;
+                cw("#shootInvertLive").el.disabled = true;
+                cw("#shootNormalBlank").el.disabled = true;
 
-                cws("#advantage-live").html = "<";
-                cws("#advantage-live").color = "var(--green)";
-                cws("#advantage-blank").html = "|";
-                cws("#advantage-blank").color = "var(--gray)";
+                cw("#advantage-live").html = "<";
+                cw("#advantage-live").color = "var(--green)";
+                cw("#advantage-blank").html = "|";
+                cw("#advantage-blank").color = "var(--gray)";
             }
             if (blankChance == 100) {
-                cws("#shootInvertBlank").el.disabled = true;
-                cws("#shootNormalLive").el.disabled = true;
+                cw("#shootInvertBlank").el.disabled = true;
+                cw("#shootNormalLive").el.disabled = true;
 
-                cws("#advantage-live").html = "|";
-                cws("#advantage-live").color = "var(--gray)";
-                cws("#advantage-blank").html = ">";
-                cws("#advantage-blank").color = "var(--green)";
+                cw("#advantage-live").html = "|";
+                cw("#advantage-live").color = "var(--gray)";
+                cw("#advantage-blank").html = ">";
+                cw("#advantage-blank").color = "var(--green)";
             }
             if (liveChance == 0 && blankChance == 0) {
-                cws("#advantage-live").html = "|";
-                cws("#advantage-live").color = "var(--gray)";
-                cws("#advantage-blank").html = "|";
-                cws("#advantage-blank").color = "var(--gray)";
+                cw("#advantage-live").html = "|";
+                cw("#advantage-live").color = "var(--gray)";
+                cw("#advantage-blank").html = "|";
+                cw("#advantage-blank").color = "var(--gray)";
             }
 
             const chanceModified = bullets.left.live != bullets.telephoneModified.live || bullets.left.blank != bullets.telephoneModified.blank;
-            if (chanceModified && !revealed) { cws("#changed").unhide("inline"); } else { cws("#changed", "id").hide(); }
+            if (chanceModified && !revealed) { cw("#changed").unhide("inline"); } else { cw("#changed").hide(); }
 
             if (bullets.telephoneModified.live == 0) {
                 for (let i = 1; i <= bullets.total; i++) {
-                    if (cws(`#line-${i}`).el.style.color == "var(--unknown)") { cws(`#line-${i}`).color = "var(--blank)"; }
+                    if (cw(`#line-${i}`).el.style.color == "var(--unknown)") { cw(`#line-${i}`).color = "var(--blank)"; }
                 }
             }
             if (bullets.telephoneModified.blank == 0) {
                 for (let i = 1; i <= bullets.total; i++) {
-                    if (cws(`#line-${i}`).el.style.color == "var(--unknown)") { cws(`#line-${i}`).color = "var(--live)"; }
+                    if (cw(`#line-${i}`).el.style.color == "var(--unknown)") { cw(`#line-${i}`).color = "var(--live)"; }
                 }
             }
 
-            cws("#telephoneOrder").html = "";
-            cws("#telephoneButton").el.disabled = true;
+            cw("#telephoneOrder").html = "";
+            cw("#telephoneButton").el.disabled = true;
             for (let i = 2; i <= bullets.left.live + bullets.left.blank; i++) {
                 if (!(i + nowRound - 1 in telephoneHints)) {
-                    cws("#telephoneOrder").html += `<option value="${i}">${i}</option>`;
-                    cws("#telephoneButton").el.disabled = false;
+                    cw("#telephoneOrder").html += `<option value="${i}">${i}</option>`;
+                    cw("#telephoneButton").el.disabled = false;
                 }
             }
         }
 
         function generateLine() {
             for (let i = 1; i <= bullets.total; i++) {
-                cws("#bulletLine").html += `<span id="line-${i}">[${i}]</span>&nbsp;`;
-                cws(`#line-${i}`).color = "var(--unknown)";
+                cw("#bulletLine").html += `<span id="line-${i}">[${i}]</span>&nbsp;`;
+                cw(`#line-${i}`).color = "var(--unknown)";
             }
-            cws("#line-1").html = `<ruby>${cws("#line-1").html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
+            cw("#line-1").html = `<ruby>${cw("#line-1").html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
         }
 
         function updateLine(type, converted) {
-            cws(`#line-${nowRound}`).color = `var(--${type})`;
-            if (converted) { cws(`#line-${nowRound}`).html += `<span style="color: var(--convert)">&gt;!</span>`; }
+            cw(`#line-${nowRound}`).color = `var(--${type})`;
+            if (converted) { cw(`#line-${nowRound}`).html += `<span style="color: var(--convert)">&gt;!</span>`; }
 
-            cws("#bulletLine").html = cws("#bulletLine").html.replaceAll(/NEXT/g, "");
+            cw("#bulletLine").html = cw("#bulletLine").html.replaceAll(/NEXT/g, "");
             if (nowRound + 1 <= bullets.total) {
-                cws(`#line-${nowRound + 1}`).html = `<ruby>${cws(`#line-${nowRound + 1}`).html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
+                cw(`#line-${nowRound + 1}`).html = `<ruby>${cw(`#line-${nowRound + 1}`).html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
             } else {
-                cws("#bulletLine").html += "<span style='color: var(--green);'>&lt;FIN&gt;</span>";
+                cw("#bulletLine").html += "<span style='color: var(--green);'>&lt;FIN&gt;</span>";
             }
         }
 
@@ -285,34 +285,34 @@
             bullets.left.live = count;
 
             for (let i = 1; i <= count - 1; i++) {
-                cws("#select-blank").html += `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`;
+                cw("#select-blank").html += `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`;
             }
-            cws("#select-blank").html += `<span style="color: var(--live)">&nbsp;[${count}]&nbsp;</span>`;
+            cw("#select-blank").html += `<span style="color: var(--live)">&nbsp;[${count}]&nbsp;</span>`;
             for (let i = count + 1; i <= 10; i++) {
-                cws("#select-blank").html += `<span style="color: var(--gray)" onclick="chooseBlank(${i - count})">&nbsp;[${i - count}]&nbsp;</span>`;
+                cw("#select-blank").html += `<span style="color: var(--gray)" onclick="chooseBlank(${i - count})">&nbsp;[${i - count}]&nbsp;</span>`;
             }
 
-            cws("#select-live-div").hide();
-            cws("#select-blank-div").unhide();
+            cw("#select-live-div").hide();
+            cw("#select-blank-div").unhide();
         }
 
         function chooseBlank(count) {
             bullets.left.blank = count;
 
             for (let i = 1; i <= bullets.left.live - 1; i++) {
-                cws("#select-blank-final").html += `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`;
+                cw("#select-blank-final").html += `<span style="color: var(--live)">&nbsp;[-]&nbsp;</span>`;
             }
-            cws("#select-blank-final").html += `<span style="color: var(--live)">&nbsp;[${bullets.left.live}]&nbsp;</span>`;
+            cw("#select-blank-final").html += `<span style="color: var(--live)">&nbsp;[${bullets.left.live}]&nbsp;</span>`;
             for (let i = bullets.left.live + 1; i <= bullets.left.live + bullets.left.blank - 1; i++) {
-                cws("#select-blank-final").html += `<span style="color: var(--blank)">&nbsp;[-]&nbsp;</span>`;
+                cw("#select-blank-final").html += `<span style="color: var(--blank)">&nbsp;[-]&nbsp;</span>`;
             }
-            cws("#select-blank-final").html += `<span style="color: var(--blank)">&nbsp;[${bullets.left.blank}]&nbsp;</span>`;
+            cw("#select-blank-final").html += `<span style="color: var(--blank)">&nbsp;[${bullets.left.blank}]&nbsp;</span>`;
             for (let i = bullets.left.live + bullets.left.blank + 1; i <= 10; i++) {
-                cws("#select-blank-final").html += `<span style="color: var(--gray)">&nbsp;[-]&nbsp;</span>`;
+                cw("#select-blank-final").html += `<span style="color: var(--gray)">&nbsp;[-]&nbsp;</span>`;
             }
 
-            cws("#select-blank").hide();
-            cws("#select-blank-final").unhide();
+            cw("#select-blank").hide();
+            cw("#select-blank-final").unhide();
             
             start();
         }

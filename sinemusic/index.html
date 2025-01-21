@@ -47,7 +47,7 @@
     </div>
     <script>
         const currentVersion = 101;
-        cws("#version").html = currentVersion;
+        cw("#version").html = currentVersion;
 
         let file;
         let musicSplit;
@@ -58,12 +58,12 @@
         let musicArray;
         let playLength;
 
-        cws("#input").el.addEventListener("input", () => {
-            cws("#readButton").el.disabled = false;
+        cw("#input").el.addEventListener("input", () => {
+            cw("#readButton").el.disabled = false;
 
             loadJSON("input").then(json => file = json).catch(e => {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `无效的 JSON 文件`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `无效的 JSON 文件`;
             });
         });
 
@@ -71,13 +71,13 @@
             const { signature, version } = file;
 
             if (signature != "chiwainori-sinemusic") {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `错误的文件签名 (${signature})`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `错误的文件签名 (${signature})`;
                 return;
             }
             if (version != currentVersion) {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
                 return;
             }
             
@@ -86,8 +86,8 @@
             bpm = file.musicInfo.bpm;
 
             if (isNaN(bpm) || bpm == undefined) {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `错误的 BPM 数值`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `错误的 BPM 数值`;
                 return;
             }
 
@@ -124,16 +124,16 @@
         }
 
         function ready() {
-            cws("#startup").hide();
-            cws("#musicPage").unhide();
-            cws("#musicTitle").html = title;
-            cws("#musicAuthor").html = author;
-            cws("#musicBpm").html = `BPM: ${bpm}`;
-            cws("#musicText").html = `[Content] ${musicContent.replace(/([0-8]([a-g])?(#|\*)?,[0-9]+(\.[0-9]+)?)/g, "<strong>$1</strong>")}`;
+            cw("#startup").hide();
+            cw("#musicPage").unhide();
+            cw("#musicTitle").html = title;
+            cw("#musicAuthor").html = author;
+            cw("#musicBpm").html = `BPM: ${bpm}`;
+            cw("#musicText").html = `[Content] ${musicContent.replace(/([0-8]([a-g])?(#|\*)?,[0-9]+(\.[0-9]+)?)/g, "<strong>$1</strong>")}`;
         }
 
         async function play() { // MusicContent = "5d#,1;6a,0.5;......"
-            cws("#playButton").el.disabled = true;
+            cw("#playButton").el.disabled = true;
             musicArray = musicContent.split(";");
             for (let i = 0; i < musicArray.length; i++) { // "5d#,1"
                 currentNote = musicArray[currentPlaying];

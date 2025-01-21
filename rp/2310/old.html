@@ -83,7 +83,7 @@
                     if (toColor.indexOf("#") < 0) { throw new Error("toColor should be in hex type"); }
                     var speed = 10
                     var speed = speed || 30;
-                    var colorFrom = cws(`#${element}`).el.style.color || "rgb(102, 102, 102)";
+                    var colorFrom = cw(`#${element}`).el.style.color || "rgb(102, 102, 102)";
                     var colorTo = toColor;
                     var rFrom = parseInt(colorFrom.getNum()[1]);
                     var gFrom = parseInt(colorFrom.getNum()[2]);
@@ -96,17 +96,17 @@
                     var g_diff = (gTo - gFrom) / step;
                     var b_diff = (bTo - bFrom) / step;
                     var st = setInterval(function () {
-                        var nowColor = cws(`#${element}`).el.style.color || "rgb(102, 102, 102)";
+                        var nowColor = cw(`#${element}`).el.style.color || "rgb(102, 102, 102)";
                         var r_now = parseInt(nowColor.getNum()[1]);
                         var g_now = parseInt(nowColor.getNum()[2]);
                         var b_now = parseInt(nowColor.getNum()[3]);
                         var rToColor = (r_now + r_diff).toFixed(0);
                         var gToColor = (g_now + g_diff).toFixed(0);
                         var bToColor = (b_now + b_diff).toFixed(0);
-                        cws(`#${element}`).el.style.color = `rgb(${rToColor}, ${gToColor}, ${bToColor})`;
+                        cw(`#${element}`).el.style.color = `rgb(${rToColor}, ${gToColor}, ${bToColor})`;
                         if (rTo > rFrom && rToColor >= rTo || rTo < rFrom && rToColor <= rTo || gTo > gFrom && gToColor >= gTo || gTo < gFrom && gToColor <= gTo || bTo > bFrom && bToColor >= bTo || bTo < bFrom && bToColor <= bTo) {
                             clearInterval(st);
-                            cws(`#${element}`).el.style.color = colorTo;
+                            cw(`#${element}`).el.style.color = colorTo;
                         }
                     }, speed);
                 }
@@ -1027,10 +1027,10 @@
 
             function animate() {
                 for (i = 1; i <= 9; i++) {
-                    cws(`#button${i}`).el.disabled = true;
+                    cw(`#button${i}`).el.disabled = true;
                 }
-                cws("#name_cache").html = cws("#name_animate").html;
-                if (cws("#skipAnimation").el.checked == 1 || cws("#findById").el.style.color != "rgb(102, 102, 102)") {
+                cw("#name_cache").html = cw("#name_animate").html;
+                if (cw("#skipAnimation").el.checked == 1 || cw("#findById").el.style.color != "rgb(102, 102, 102)") {
                     animate_skip();
                 } else {
                     transColor_rp("name", "#ffffdd");
@@ -1039,15 +1039,15 @@
             }
 
             async function animate_step2() {
-                console.log(cws("#name_cache").html);
-                cws("#name").hide();
-                cws("#name_animate").html = "&nbsp;";
-                cws("#name_animate").unhide();
-                cws("#name_animate").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; color: #ffffdd";
+                console.log(cw("#name_cache").html);
+                cw("#name").hide();
+                cw("#name_animate").html = "&nbsp;";
+                cw("#name_animate").unhide();
+                cw("#name_animate").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; color: #ffffdd";
                 transColor_rp("name_animate", "#aaaaaa");
                 for (i = 0; i <= 13; i++) {
-                    cws("#click").el.currentTime = 0.02;
-                    cws("#click").el.play();
+                    cw("#click").el.currentTime = 0.02;
+                    cw("#click").el.play();
                     if (i <= 12) {
                         var timeOut = (0.002 * i ** 2 + 0.06) * 1000;
                         log(timeOut);
@@ -1219,7 +1219,7 @@
                         }
                         await sleep(timeOut);
                     } else {
-                        cws("#name_animate").html = cws("#name_cache").html;
+                        cw("#name_animate").html = cw("#name_cache").html;
                         await sleep(800);
                         transColor_rp("name_animate", "#666666");
                     }
@@ -1229,7 +1229,7 @@
 
             function animate_step3() {
                 for (i = 1; i <= 9; i++) {
-                    cws(`#button${i}`).el.disabled = false;
+                    cw(`#button${i}`).el.disabled = false;
                 }
                 document.getElementById("name_animate").style = "display: none;";
                 document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
@@ -1237,8 +1237,8 @@
             }
 
             function animate_skip() {
-                cws("#click").el.currentTime = 0.02;
-                cws("#click").el.play();
+                cw("#click").el.currentTime = 0.02;
+                cw("#click").el.play();
                 var element = document.getElementById("name");
                 var speed = 10;
                 var speed = speed || 30;
@@ -1263,7 +1263,7 @@
                                 document.getElementById("name").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px;";
                                 document.getElementById("name").innerHTML = document.getElementById("name_animate").innerHTML;
                                 for (i = 1; i <= 9; i++) {
-                                    cws(`#button${i}`).el.disabled = false;
+                                    cw(`#button${i}`).el.disabled = false;
                                 }
                             }
                         }, speed_in);

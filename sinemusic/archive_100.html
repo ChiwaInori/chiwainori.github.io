@@ -53,26 +53,26 @@
         let musicArray;
         let playLength;
 
-        cws("#input").el.addEventListener("input", () => {
-            cws("#readButton").el.disabled = false;
+        cw("#input").el.addEventListener("input", () => {
+            cw("#readButton").el.disabled = false;
         });
 
         function read() {
             const currentVersion = 100;
 
-            musicCode = cws("#file-content").html; // xtsgames-xtsmusic\(VERSION)\(MUSIC-NAME)\(AUTHOR)\(BPM)\(MUSIC-CONTENT)\
+            musicCode = cw("#file-content").html; // xtsgames-xtsmusic\(VERSION)\(MUSIC-NAME)\(AUTHOR)\(BPM)\(MUSIC-CONTENT)\
             musicSplit = musicCode.split("."); // ["xtsgames-xtsmusic", "(VERSION)", "(MUSIC-NAME)", "(AUTHOR)", "(BPM)", "(MUSIC-CONTENT)"]
             bpm = parseFloat(musicSplit[4]);
 
             if (musicSplit[0] != "xtsgames-sinemusic" || musicContent == undefined) {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `错误的文件签名 (${musicSplit[0]})`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `错误的文件签名 (${musicSplit[0]})`;
             } else if (musicSplit[1] != currentVersion) {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `错误的文件版本 (${musicSplit[1]}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${musicSplit[1]}.html 以尝试在其他版本中加载.`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `错误的文件版本 (${musicSplit[1]}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${musicSplit[1]}.html 以尝试在其他版本中加载.`;
             } else if (isNaN(bpm)) {
-                cws("#wrong").unhide();
-                cws("#wrong").html = `错误的 BPM 数值`;
+                cw("#wrong").unhide();
+                cw("#wrong").html = `错误的 BPM 数值`;
             } else {
                 musicContent = replaceNote(musicSplit[5]);
                 ready();
@@ -98,13 +98,13 @@
         }
 
         function ready() {
-            cws("#startup").hide();
-            cws("#musicPage").unhide();
-            cws("#musicTitle").html = musicSplit[2];
-            cws("#musicAuthor").html = musicSplit[3];
-            cws("#musicVer").html = `Version ${musicSplit[1]}`;
-            cws("#musicBpm").html = `BPM: ${bpm}`;
-            cws("#musicText").html = `[Content] ${musicContent.replace(/([0-8]([a-g])?(#|\*)?,[0-9]+(\.[0-9]+)?)/g, "<strong>$1</strong>")}`;
+            cw("#startup").hide();
+            cw("#musicPage").unhide();
+            cw("#musicTitle").html = musicSplit[2];
+            cw("#musicAuthor").html = musicSplit[3];
+            cw("#musicVer").html = `Version ${musicSplit[1]}`;
+            cw("#musicBpm").html = `BPM: ${bpm}`;
+            cw("#musicText").html = `[Content] ${musicContent.replace(/([0-8]([a-g])?(#|\*)?,[0-9]+(\.[0-9]+)?)/g, "<strong>$1</strong>")}`;
         }
 
         async function play() { // musicContent = "5d#,1;6a,0.5;......"

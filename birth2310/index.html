@@ -126,7 +126,7 @@
                     age: birthList[index][4] - birthList[index][1]
                 };
 
-                cws(isNext ? "#next" : "#remaining").html += `<p ${isToday ? "style='color: var(--green);'" : ""}>${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)</p>`;
+                cw(isNext ? "#next" : "#remaining").html += `<p ${isToday ? "style='color: var(--green);'" : ""}>${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)</p>`;
 
                 toBirth[index] = -1;
                 triggered = true;

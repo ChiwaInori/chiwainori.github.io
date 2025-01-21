@@ -184,12 +184,12 @@
                 count[countId] = 0;
                 for (let i = 0; i < optionTarget.length; i++) {
                     optionElement.forEach(element => {
-                        cws(`#${optionTarget[i]}${element}`).color = "#666666";
+                        cw(`#${optionTarget[i]}${element}`).color = "#666666";
                     });
                     ["Percent", "Analysis", "Diff", "Icon"].forEach(element => {
-                        cws(`#${optionTarget[i]}${element}`).html = "&nbsp;";
+                        cw(`#${optionTarget[i]}${element}`).html = "&nbsp;";
                     });
-                    cws(`#${optionTarget[i]}Button`).style = "color: var(--activeColor-500); border: 2px solid var(--activeColor-500);";
+                    cw(`#${optionTarget[i]}Button`).style = "color: var(--activeColor-500); border: 2px solid var(--activeColor-500);";
                 }
             });
             change();
@@ -205,87 +205,87 @@
         }
 
         function change() {
-            cws("#hint").html = "输入四个选项后，选项均衡提示将会出现。";
-            cws("#table").hide();
+            cw("#hint").html = "输入四个选项后，选项均衡提示将会出现。";
+            cw("#table").hide();
             for (let i = 0; i < optionTarget.length; i++) {
                 const nowChange = optionTarget[i];
                 const total = count.a + count.b + count.c + count.d;
                 const average = total / 4;
                 const diff = count[nowChange] - average;
 
-                cws(`#${nowChange}Count`).html = count[nowChange];
+                cw(`#${nowChange}Count`).html = count[nowChange];
                 if (count.a != 0 || count.b != 0 || count.c != 0 || count.d != 0) {
-                    cws("#table").unhide();
-                    cws(`#${nowChange}Percent`).html = `${parseInt(count[nowChange] / total * 100)}%`;
+                    cw("#table").unhide();
+                    cw(`#${nowChange}Percent`).html = `${parseInt(count[nowChange] / total * 100)}%`;
                 } else {
-                    cws("#hint").unhide();
+                    cw("#hint").unhide();
                 }
 
                 if (total >= 4) {
-                    cws("#hint").html = "按 R 来重置数据。";
+                    cw("#hint").html = "按 R 来重置数据。";
                     optionElement.forEach(element => {
                         if (diff < compare[0]) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量过少`;
-                            cws(`#${nowChange}Icon`).html = `!↓↓`;
-                            cws(`#${nowChange}Button`).style = "color: #0000dd; border: 2px solid #0000dd;";
-                            cws(`#${nowChange}${element}`).color = "#0000dd";
+                            cw(`#${nowChange}Analysis`).html = `选项数量过少`;
+                            cw(`#${nowChange}Icon`).html = `!↓↓`;
+                            cw(`#${nowChange}Button`).style = "color: #0000dd; border: 2px solid #0000dd;";
+                            cw(`#${nowChange}${element}`).color = "#0000dd";
                         }
                         if (diff.range(compare[0], compare[1], true, false)) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量少`;
-                            cws(`#${nowChange}Icon`).html = `↓↓`;
-                            cws(`#${nowChange}Button`).style = "color: #0088ff; border: 2px solid #0088ff;";
-                            cws(`#${nowChange}${element}`).color = "#0088ff";
+                            cw(`#${nowChange}Analysis`).html = `选项数量少`;
+                            cw(`#${nowChange}Icon`).html = `↓↓`;
+                            cw(`#${nowChange}Button`).style = "color: #0088ff; border: 2px solid #0088ff;";
+                            cw(`#${nowChange}${element}`).color = "#0088ff";
                         }
                         if (diff.range(compare[1], compare[2], true, false)) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量较少`;
-                            cws(`#${nowChange}Icon`).html = `↓`;
-                            cws(`#${nowChange}Button`).style = "color: #00ddff; border: 2px solid #00ddff;";
-                            cws(`#${nowChange}${element}`).color = "#00ddff";
+                            cw(`#${nowChange}Analysis`).html = `选项数量较少`;
+                            cw(`#${nowChange}Icon`).html = `↓`;
+                            cw(`#${nowChange}Button`).style = "color: #00ddff; border: 2px solid #00ddff;";
+                            cw(`#${nowChange}${element}`).color = "#00ddff";
                         }
                         if (diff.range(compare[2], compare[3], true, false)) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量偏少`;
-                            cws(`#${nowChange}Icon`).html = `√↓`;
-                            cws(`#${nowChange}Button`).style = "color: #00ddaa; border: 2px solid #00ddaa;";
-                            cws(`#${nowChange}${element}`).color = "#00ddaa";
+                            cw(`#${nowChange}Analysis`).html = `选项数量偏少`;
+                            cw(`#${nowChange}Icon`).html = `√↓`;
+                            cw(`#${nowChange}Button`).style = "color: #00ddaa; border: 2px solid #00ddaa;";
+                            cw(`#${nowChange}${element}`).color = "#00ddaa";
                         }
                         if (diff.range(compare[3], compare[4])) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量合适`;
-                            cws(`#${nowChange}Icon`).html = `√`;
-                            cws(`#${nowChange}Button`).style = "color: #00dd00; border: 2px solid #00dd00;";
-                            cws(`#${nowChange}${element}`).color = "#00dd00";
+                            cw(`#${nowChange}Analysis`).html = `选项数量合适`;
+                            cw(`#${nowChange}Icon`).html = `√`;
+                            cw(`#${nowChange}Button`).style = "color: #00dd00; border: 2px solid #00dd00;";
+                            cw(`#${nowChange}${element}`).color = "#00dd00";
                         }
                         if (diff.range(compare[4], compare[5], false, true)) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量偏多`;
-                            cws(`#${nowChange}Icon`).html = `√↑`;
-                            cws(`#${nowChange}Button`).style = "color: #aadd00; border: 2px solid #aadd00;";
-                            cws(`#${nowChange}${element}`).color = "#aadd00";
+                            cw(`#${nowChange}Analysis`).html = `选项数量偏多`;
+                            cw(`#${nowChange}Icon`).html = `√↑`;
+                            cw(`#${nowChange}Button`).style = "color: #aadd00; border: 2px solid #aadd00;";
+                            cw(`#${nowChange}${element}`).color = "#aadd00";
                         }
                         if (diff.range(compare[5], compare[6], false, true)) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量较多`;
-                            cws(`#${nowChange}Icon`).html = `↑`;
-                            cws(`#${nowChange}Button`).style = "color: #ffdd00; border: 2px solid #ffdd00;";
-                            cws(`#${nowChange}${element}`).color = "#ffdd00";
+                            cw(`#${nowChange}Analysis`).html = `选项数量较多`;
+                            cw(`#${nowChange}Icon`).html = `↑`;
+                            cw(`#${nowChange}Button`).style = "color: #ffdd00; border: 2px solid #ffdd00;";
+                            cw(`#${nowChange}${element}`).color = "#ffdd00";
                         }
                         if (diff.range(compare[6], compare[7], false, true)) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量多`;
-                            cws(`#${nowChange}Icon`).html = `↑↑`;
-                            cws(`#${nowChange}Button`).style = "color: #ff8800; border: 2px solid #ff8800;";
-                            cws(`#${nowChange}${element}`).color = "#ff8800";
+                            cw(`#${nowChange}Analysis`).html = `选项数量多`;
+                            cw(`#${nowChange}Icon`).html = `↑↑`;
+                            cw(`#${nowChange}Button`).style = "color: #ff8800; border: 2px solid #ff8800;";
+                            cw(`#${nowChange}${element}`).color = "#ff8800";
                         }
                         if (diff > compare[7]) {
-                            cws(`#${nowChange}Analysis`).html = `选项数量过多`;
-                            cws(`#${nowChange}Icon`).html = `!↑↑`;
-                            cws(`#${nowChange}Button`).style = "color: #dd0000; border: 2px solid #dd0000;";
-                            cws(`#${nowChange}${element}`).color = "#dd0000";
+                            cw(`#${nowChange}Analysis`).html = `选项数量过多`;
+                            cw(`#${nowChange}Icon`).html = `!↑↑`;
+                            cw(`#${nowChange}Button`).style = "color: #dd0000; border: 2px solid #dd0000;";
+                            cw(`#${nowChange}${element}`).color = "#dd0000";
                         }
-                        cws(`#${nowChange}Diff`).html = `${diff > 0 ? "+" : ""}${diff}`;
+                        cw(`#${nowChange}Diff`).html = `${diff > 0 ? "+" : ""}${diff}`;
                     });
                 }
             }
         }
 
         const handles = query(".handle");
-        const scrollbar = cws(".scrollbar", 0).el;
+        const scrollbar = cw(".scrollbar", 0).el;
         // 创建每个区间的进度条
         const progress1 = document.createElement("div");
         const progress2 = document.createElement("div");
@@ -351,15 +351,15 @@
         }
 
         function checkValue() {
-            const value1 = parseFloat(cws("#value1").html);
-            const value2 = parseFloat(cws("#value2").html);
-            const value3 = parseFloat(cws("#value3").html);
-            const value4 = parseFloat(cws("#value4").html);
+            const value1 = parseFloat(cw("#value1").html);
+            const value2 = parseFloat(cw("#value2").html);
+            const value3 = parseFloat(cw("#value3").html);
+            const value4 = parseFloat(cw("#value4").html);
             updateCompare(value1, value2, value3, value4);
             if (value1 > value2 || value2 > value3 || value3 > value4) {
-                cws("#wrong").unhide();
+                cw("#wrong").unhide();
             } else {
-                cws("#wrong").hide();
+                cw("#wrong").hide();
             }
         }
 

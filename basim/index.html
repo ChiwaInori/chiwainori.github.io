@@ -99,23 +99,23 @@
         let star2out = 0;
         let star3out = 0;
 
-        cws("#group").el.addEventListener("change", function () {
+        cw("#group").el.addEventListener("change", function () {
             const banners = ["minori", "20240814_01", "shigureHotSpring", "20240814_02", "meru", "20240807_01", "cherino", "20230419_01", "marina", "20230419_02"];
             const index = banners.indexOf(this.value);
 
             if (index >= 0) {
-                cws("#banner").unhide();
-                cws("#banner").el.src = `banners/300px-Lobby_Banner_${banners[index + 1]}.webp`;
+                cw("#banner").unhide();
+                cw("#banner").el.src = `banners/300px-Lobby_Banner_${banners[index + 1]}.webp`;
             } else {
-                cws("#banner").hide();
+                cw("#banner").hide();
             }
         });
         
         function roll(times) {
             if (times == 1) {
-                applyAll(".more", el => cws(el).hide());
+                applyAll(".more", el => cw(el).hide());
             } else {
-                applyAll(".more", el => cws(el).unhide("table-cell"));
+                applyAll(".more", el => cw(el).unhide("table-cell"));
             }
 
             for (let i = 1; i <= times; i++) {
@@ -133,31 +133,31 @@
 
                 let jpnName;
 
-                if (cws("#group").el.value != "normal" && d <= 0.007) { // Special
-                    jpnName = getSpecial(cws("#group").el.value);
-                    cws(`#result${i}`).color = "#e050f0";
+                if (cw("#group").el.value != "normal" && d <= 0.007) { // Special
+                    jpnName = getSpecial(cw("#group").el.value);
+                    cw(`#result${i}`).color = "#e050f0";
                     star3out++;
                     pickup = true;
                 } else if (d <= 0.03) { // Star3
-                    jpnName = cws("#group").el.value == "normal" ? star3[rand(0, star3.length - 1)] : star3.remove(getSpecial(cws("#group").el.value))[rand(0, star3.length - 2)];
-                    cws(`#result${i}`).color = "#e050f0";
+                    jpnName = cw("#group").el.value == "normal" ? star3[rand(0, star3.length - 1)] : star3.remove(getSpecial(cw("#group").el.value))[rand(0, star3.length - 2)];
+                    cw(`#result${i}`).color = "#e050f0";
                     star3out++;
                 } else if (d <= 0.185 + 0.03) { // Star2
                     jpnName = star2[rand(0, star2.length - 1)];
-                    cws(`#result${i}`).color = "#ffc800";
+                    cw(`#result${i}`).color = "#ffc800";
                     star2out++;
                 } else { // Star1
                     jpnName = star1[rand(0, star1.length - 1)];
-                    cws(`#result${i}`).color = "#00a8ff";
+                    cw(`#result${i}`).color = "#00a8ff";
                     star1out++;
                 }
-                cws(`#result${i}`).html = jpnName;
+                cw(`#result${i}`).html = jpnName;
 
                 const engName = getEngName(jpnName);
-                cws(`#img${i}`).el.src = `images/266px-${engName}.webp`;
+                cw(`#img${i}`).el.src = `images/266px-${engName}.webp`;
 
                 if (pickup) {
-                    cws(`#result${i}`).html += " <span style='font-size:24px; color: #e050f0;'>(PICKUP!)</span>";
+                    cw(`#result${i}`).html += " <span style='font-size:24px; color: #e050f0;'>(PICKUP!)</span>";
                 }
             }
 
@@ -175,14 +175,14 @@
         function updateData() {
             const total = star1out + star2out + star3out;
 
-            cws("#usedStones").html = usedStones;
-            cws("#rollTimes").html = rollTimes;
-            cws("#star1out").html = star1out;
-            cws("#star2out").html = star2out;
-            cws("#star3out").html = star3out;
-            cws("#star1outChance").html = (star1out / total * 100).toFixed(2);
-            cws("#star2outChance").html = (star2out / total * 100).toFixed(2);
-            cws("#star3outChance").html = (star3out / total * 100).toFixed(2);
+            cw("#usedStones").html = usedStones;
+            cw("#rollTimes").html = rollTimes;
+            cw("#star1out").html = star1out;
+            cw("#star2out").html = star2out;
+            cw("#star3out").html = star3out;
+            cw("#star1outChance").html = (star1out / total * 100).toFixed(2);
+            cw("#star2outChance").html = (star2out / total * 100).toFixed(2);
+            cw("#star3outChance").html = (star3out / total * 100).toFixed(2);
         }
 
         function getEngName(input) {

@@ -65,8 +65,8 @@
             const objectURL1 = URL.createObjectURL(file1);
             musicPlayer1.src = objectURL1;
             fadeChange("chooseVocal", "displayVocal");
-            cws("#vocalName").html = file1.name;
-            cws("#chooseIns").unhide();
+            cw("#vocalName").html = file1.name;
+            cw("#chooseIns").unhide();
         });
 
         document.getElementById("music-2").addEventListener("change", event => {
@@ -75,34 +75,34 @@
             const objectURL2 = URL.createObjectURL(file2);
             musicPlayer2.src = objectURL2;
             fadeChange("chooseIns", "displayIns");
-            cws("#insName").html = file2.name;
-            cws("#playPhase").fadeIn();
+            cw("#insName").html = file2.name;
+            cw("#playPhase").fadeIn();
         });
 
-        const music1 = cws("#musicPlayer1").el;
-        const music2 = cws("#musicPlayer2").el;
+        const music1 = cw("#musicPlayer1").el;
+        const music2 = cw("#musicPlayer2").el;
 
         function playMusic() {
             music1.play();
             music2.play();
             updateVolume();
-            cws("#playButton").hide();
-            cws("#stopButton").unhide();
-            cws("#timeNow").transColor("#00dd00");
+            cw("#playButton").hide();
+            cw("#stopButton").unhide();
+            cw("#timeNow").transColor("#00dd00");
         }
 
         function stopMusic() {
             music1.pause();
             music2.pause();
-            cws("#stopButton").hide();
-            cws("#playButton").unhide();
-            cws("#timeNow").transColor("#666666");
-            cws("#vocalLine").color = "#666666";
-            cws("#vocalName").color = "#666666";
-            cws("#vocalText").color = "#666666";
-            cws("#insLine").color = "#666666";
-            cws("#insName").color = "#666666";
-            cws("#insText").color = "#666666";
+            cw("#stopButton").hide();
+            cw("#playButton").unhide();
+            cw("#timeNow").transColor("#666666");
+            cw("#vocalLine").color = "#666666";
+            cw("#vocalName").color = "#666666";
+            cw("#vocalText").color = "#666666";
+            cw("#insLine").color = "#666666";
+            cw("#insName").color = "#666666";
+            cw("#insText").color = "#666666";
         }
 
         document.getElementById("volumeControl").addEventListener("input", event => {
@@ -118,7 +118,7 @@
         });
 
         function updateVolume() {
-            const volume1 = parseInt(cws("#volumeControl").el.value) / 100;
+            const volume1 = parseInt(cw("#volumeControl").el.value) / 100;
             const volume2 = 1 - volume1;
             music1.volume = 1 - volume1;
             music2.volume = 1 - volume2;
@@ -130,12 +130,12 @@
                 const rIns = (1 - music2.volume) * 102;
                 const gIns = music2.volume * 119 + 102;
                 const bIns = (1 - music2.volume) * 102;
-                cws("#vocalLine").color = `rgb(${rVocal}, ${gVocal}, ${bVocal})`;
-                cws("#vocalName").color = `rgb(${rVocal}, ${gVocal}, ${bVocal})`;
-                cws("#vocalText").color = `rgb(${rVocal}, ${gVocal}, ${bVocal})`;
-                cws("#insLine").color = `rgb(${rIns}, ${gIns}, ${bIns})`;
-                cws("#insName").color = `rgb(${rIns}, ${gIns}, ${bIns})`;
-                cws("#insText").color = `rgb(${rIns}, ${gIns}, ${bIns})`;
+                cw("#vocalLine").color = `rgb(${rVocal}, ${gVocal}, ${bVocal})`;
+                cw("#vocalName").color = `rgb(${rVocal}, ${gVocal}, ${bVocal})`;
+                cw("#vocalText").color = `rgb(${rVocal}, ${gVocal}, ${bVocal})`;
+                cw("#insLine").color = `rgb(${rIns}, ${gIns}, ${bIns})`;
+                cw("#insName").color = `rgb(${rIns}, ${gIns}, ${bIns})`;
+                cw("#insText").color = `rgb(${rIns}, ${gIns}, ${bIns})`;
             }
         }
 
@@ -143,69 +143,69 @@
             const nowTime = music1.currentTime;
             const totalTime = music1.duration;
 
-            cws("#timeControl").el.max = totalTime;
-            cws("#timeControl").el.value = nowTime;
+            cw("#timeControl").el.max = totalTime;
+            cw("#timeControl").el.value = nowTime;
 
             const nowMinutes = Math.floor(nowTime / 60);
             const nowSeconds = Math.floor(nowTime % 60);
             const totalMinutes = Math.floor(totalTime / 60);
             const totalSeconds = Math.floor(totalTime % 60);
 
-            cws("#timeNow").html = `${nowMinutes}:${nowSeconds < 10 ? "0" : ""}${nowSeconds}`;
-            cws("#timeTotal").html = `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`;
+            cw("#timeNow").html = `${nowMinutes}:${nowSeconds < 10 ? "0" : ""}${nowSeconds}`;
+            cw("#timeTotal").html = `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`;
 
             if (nowTime == totalTime) {
-                cws("#stopButton").hide();
-                cws("#playButton").unhide();
-                cws("#timeNow").transColor("#666666");
-                cws("#vocalLine").color = "#666666";
-                cws("#vocalName").color = "#666666";
-                cws("#vocalText").color = "#666666";
-                cws("#insLine").color = "#666666";
-                cws("#insName").color = "#666666";
-                cws("#insText").color = "#666666";
+                cw("#stopButton").hide();
+                cw("#playButton").unhide();
+                cw("#timeNow").transColor("#666666");
+                cw("#vocalLine").color = "#666666";
+                cw("#vocalName").color = "#666666";
+                cw("#vocalText").color = "#666666";
+                cw("#insLine").color = "#666666";
+                cw("#insName").color = "#666666";
+                cw("#insText").color = "#666666";
             }
         }
         setInterval("updateTime()", "100");
 
         function controlTime() {
-            const nowTime = cws("#timeControl").el.value;
-            const nowOffset = parseFloat(cws("#offsetNow").html);
+            const nowTime = cw("#timeControl").el.value;
+            const nowOffset = parseFloat(cw("#offsetNow").html);
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;
         }
 
         function controlOffset() {
-            const nowTime = cws("#timeControl").el.value;
-            const nowOffset = (cws("#offsetControl").el.value / 1000 - 1).toFixed(3);
-            cws("#offsetNow").html = `${nowOffset > 0 ? "+" : ""}${nowOffset}`;
+            const nowTime = cw("#timeControl").el.value;
+            const nowOffset = (cw("#offsetControl").el.value / 1000 - 1).toFixed(3);
+            cw("#offsetNow").html = `${nowOffset > 0 ? "+" : ""}${nowOffset}`;
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;
         }
 
         function setOffset(buttonRel) {
-            const nowTime = cws("#timeControl").el.value;
+            const nowTime = cw("#timeControl").el.value;
             let nowOffset;
             
             if (buttonRel == -2) {
-                nowOffset = parseFloat(cws("#offsetNow").html) - 0.01;
+                nowOffset = parseFloat(cw("#offsetNow").html) - 0.01;
             }
             if (buttonRel == -1) {
-                nowOffset = parseFloat(cws("#offsetNow").html) - 0.001;
+                nowOffset = parseFloat(cw("#offsetNow").html) - 0.001;
             }
             if (buttonRel == 0) {
                 nowOffset = 0;
             }
             if (buttonRel == 1) {
-                nowOffset = parseFloat(cws("#offsetNow").html) + 0.001;
+                nowOffset = parseFloat(cw("#offsetNow").html) + 0.001;
             }
             if (buttonRel == 2) {
-                nowOffset = parseFloat(cws("#offsetNow").html) + 0.01;
+                nowOffset = parseFloat(cw("#offsetNow").html) + 0.01;
             }
-            cws("#offsetControl").el.value = (nowOffset + 1) * 1000;
+            cw("#offsetControl").el.value = (nowOffset + 1) * 1000;
             nowOffset = nowOffset.toFixed(3);
 
-            cws("#offsetNow").html = `${nowOffset > 0 ? "+" : ""}${nowOffset}`;
+            cw("#offsetNow").html = `${nowOffset > 0 ? "+" : ""}${nowOffset}`;
             music1.currentTime = nowTime - nowOffset;
             music2.currentTime = nowTime;
         }

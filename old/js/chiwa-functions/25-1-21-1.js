@@ -101,7 +101,7 @@ function _range(number, range, allowBigInt = false) {
 
     for (const req of range.split(" | ")) {
         if (req == "%1=0" && typeof number == "number" && number % 1 != 0) {
-            throw new RangeError(`%1=0 required; received ${number}`);
+            throw new RangeError(`[%1=0] required; received ${number}`);
         }
         
         for (const operator of ["==", "!=", ">=", ">", "<=", "<"]) {
@@ -695,8 +695,8 @@ Number.prototype.nonEnum("toRange", function (minBoundary, maxBoundary, warnIfWo
 */
 String.prototype.nonEnum("transBase", function (fromBase, toBase) {
     if (toBase == undefined) { throw new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."); }
-    if (this.match(/\.[0-9]/g)) { throw new RangeError(`%1=0 required; received ${this}`); }
-    if (this.match(/-[^0]/g)) { throw new RangeError(`>= 0 required; received ${this}`); }
+    if (this.match(/\.[0-9]/g)) { throw new RangeError(`[%1=0] required; received ${this}`); }
+    if (this.match(/-[^0]/g)) { throw new RangeError(`[>= 0] required; received ${this}`); }
     _range(fromBase, "%1=0 | >= 2 | <= 36", true);
     _range(toBase, "%1=0 | >= 2 | <= 36", true);
     

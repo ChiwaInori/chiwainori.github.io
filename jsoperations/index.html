@@ -66,10 +66,10 @@
         let answer;
         let comparison;
 
-        cws("#weight1").el.addEventListener("input", function () {
+        cw("#weight1").el.addEventListener("input", function () {
             weight1 = Number(this.value);
         });
-        cws("#weight2").el.addEventListener("input", function () {
+        cw("#weight2").el.addEventListener("input", function () {
             weight2 = Number(this.value);
         });
 
@@ -106,7 +106,7 @@
             if (assignedValue == "[]" || assignedValue == "{}") {
                 color = "251, 210, 0";
             }
-            cws("#varList").html += `<p><strong><span style="color: rgb(62, 100, 179)">const</span> <span style="color: rgb(62, 151, 239)">${constant}</span> <span style="color: rgb(255, 255, 255;">=</span> <span style="color: rgb(${color})">${assignedValue}</span><span style="color: rgb(255, 255, 255);">;</span></strong></p>`;
+            cw("#varList").html += `<p><strong><span style="color: rgb(62, 100, 179)">const</span> <span style="color: rgb(62, 151, 239)">${constant}</span> <span style="color: rgb(255, 255, 255;">=</span> <span style="color: rgb(${color})">${assignedValue}</span><span style="color: rgb(255, 255, 255);">;</span></strong></p>`;
         });
 
         function getValue() {
@@ -207,8 +207,8 @@
 
         function confirm() {
             fadeChange("welcome", "test");
-            cws("#operation").html = getRandomExpression(usedConstants);
-            answer = eval(cws("#operation").text);
+            cw("#operation").html = getRandomExpression(usedConstants);
+            answer = eval(cw("#operation").text);
         }
 
         function check() {
@@ -227,13 +227,13 @@
             if (checkArray()) { formattedAnswer = "[]"; color = "251, 210, 0"; }
 
             comparison = Number.isNaN(answer) ? NaN : JSON.stringify(answer);
-            if (cws("#input").value.replaceAll(/'/g, "\"").replaceAll(/`/g, "\"") == comparison) {
-                cws("#final").html = `<span style="color: var(--green)"><strong>回答正确! 答案是 <span style="color: rgb(${color}); background-color: rgb(31, 31, 31); padding: 4px; font-family: consolas;">${formattedAnswer}</span></strong></span>`;
-                cws("#finalSub").hide();
+            if (cw("#input").value.replaceAll(/'/g, "\"").replaceAll(/`/g, "\"") == comparison) {
+                cw("#final").html = `<span style="color: var(--green)"><strong>回答正确! 答案是 <span style="color: rgb(${color}); background-color: rgb(31, 31, 31); padding: 4px; font-family: consolas;">${formattedAnswer}</span></strong></span>`;
+                cw("#finalSub").hide();
             } else {
-                cws("#final").html = `<span style="color: var(--red)"><strong>回答错误</strong> ${`"${cws("#input").value}"` == comparison ? "(注意字符串要有引号)" : ""}</span>`;
-                cws("#finalSub").html = `<button onclick='showCorrect([${color}])'>点击</button>查看正确答案`;
-                cws("#finalSub").unhide();
+                cw("#final").html = `<span style="color: var(--red)"><strong>回答错误</strong> ${`"${cw("#input").value}"` == comparison ? "(注意字符串要有引号)" : ""}</span>`;
+                cw("#finalSub").html = `<button onclick='showCorrect([${color}])'>点击</button>查看正确答案`;
+                cw("#finalSub").unhide();
             }
         }
 
@@ -246,8 +246,8 @@
         }
 
         function showCorrect(color) {
-            cws("#finalSub").html = `<span style="color: var(--red)"><strong>答案是 <span style="color: rgb(${color[0]}, ${color[1]}, ${color[2]}); background-color: rgb(31, 31, 31); padding: 4px; font-family: consolas;">${comparison}</span></strong></span>`;
-            cws("#finalSub").style.fontSize = "16px";
+            cw("#finalSub").html = `<span style="color: var(--red)"><strong>答案是 <span style="color: rgb(${color[0]}, ${color[1]}, ${color[2]}); background-color: rgb(31, 31, 31); padding: 4px; font-family: consolas;">${comparison}</span></strong></span>`;
+            cw("#finalSub").style.fontSize = "16px";
         }
     </script>
 </div></body>

@@ -50,16 +50,16 @@
         let basicNumberArray;
 
         let maximum = 10;
-        cws("#maximumInput").el.addEventListener("input", () => {
-            maximum = parseInt(cws("#maximumInput").el.value);
+        cw("#maximumInput").el.addEventListener("input", () => {
+            maximum = parseInt(cw("#maximumInput").el.value);
         });
         let nowMaximum = 1;
 
         let reactionTry;
         let tryTimes = 0;
-        cws("#reactionInput").el.addEventListener("input", () => {
+        cw("#reactionInput").el.addEventListener("input", () => {
             if (tryTimes == 0) {
-                cws("#button").el.disabled = false;
+                cw("#button").el.disabled = false;
             }
         });
 
@@ -73,8 +73,8 @@
         }
 
         function balancePreparation() {
-            cws("#button").el.disabled = true;
-            reaction = cws("#reactionInput").el.value;
+            cw("#button").el.disabled = true;
+            reaction = cw("#reactionInput").el.value;
             reactionExpanded = expandFormula(reaction);
 
             items = {
@@ -93,10 +93,10 @@
             if (numberArray.indexOf(nowMaximum) >= 0) {
                 tryTimes++;
 
-                cws("#result").html = `正在尝试 最大配平系数 = ${Math.max(...numberArray)} 内配平...`;
-                cws("#result").color = "#ffa800";
-                cws("#resultSub").html = `已尝试配平 ${tryTimes} 次`;
-                cws("#resultSub").color = "#ffa800";
+                cw("#result").html = `正在尝试 最大配平系数 = ${Math.max(...numberArray)} 内配平...`;
+                cw("#result").color = "#ffa800";
+                cw("#resultSub").html = `已尝试配平 ${tryTimes} 次`;
+                cw("#resultSub").color = "#ffa800";
 
                 for (let i = 0; i < items.before.length; i++) {
                     itemsBalance.before[i] = numberArray[i] + items.before[i];
@@ -115,10 +115,10 @@
                     result = result.replace(/([A-Za-z]|\))([0-9])/g, "$1<sub>$2</sub>") /* 改下标 */
                         .replace(/([+=>])1/g, "$1") /* 去掉计量数为 1 的 */
                         .replace(/^1/g, "$1"); /* 去掉开头计量数为 1 的 */
-                    cws("#result").html = result;
-                    cws("#result").color = "#00dd00";
-                    cws("#resultSub").html = `本次配平共经过 ${tryTimes} 次尝试`;
-                    cws("#resultSub").color = "#00dd00";
+                    cw("#result").html = result;
+                    cw("#result").color = "#00dd00";
+                    cw("#resultSub").html = `本次配平共经过 ${tryTimes} 次尝试`;
+                    cw("#resultSub").color = "#00dd00";
                     return;
                 }
 
@@ -136,10 +136,10 @@
                 }
                 
                 if (maxNumbersFinal == numberArray.length) {
-                    cws("#result").html = `无法在 配平系数 <= ${maximum} 内找到配平方式。`;
-                    cws("#result").color = "#dd0000";
-                    cws("#resultSub").html = `本次配平共经过 ${tryTimes} 次尝试`;
-                    cws("#resultSub").color = "#dd0000";
+                    cw("#result").html = `无法在 配平系数 <= ${maximum} 内找到配平方式。`;
+                    cw("#result").color = "#dd0000";
+                    cw("#resultSub").html = `本次配平共经过 ${tryTimes} 次尝试`;
+                    cw("#resultSub").color = "#dd0000";
                     return;
                 }
 
@@ -163,7 +163,7 @@
                 numberArray[overNumberIndex] = 1;
                 numberArray[overNumberIndex - 1]++;
             }
-            cws("#array").html = numberArray;
+            cw("#array").html = numberArray;
             balance();
         }
 
