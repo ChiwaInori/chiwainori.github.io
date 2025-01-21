@@ -112,22 +112,22 @@
         fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
         if (urlParam.getItem("rollTimes") && order == 0) {
+            const { rollTimes, repeat, code, time, verify } = urlParam.getAll();
             cw("#rollPanel").hide();
 
-            dynamicList.times.all = Array(...urlParam.getItem("rollTimes").split(",").map(Number));
-            dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+            dynamicList.times.all = Array(...rollTimes.split(",").map(Number));
+            dynamicList.times.all.forEach(rolled => order += rolled);
 
-            dynamicList.repeatProhibit = Array(...urlParam.getItem("repeat").split(",").map(Number));
+            dynamicList.repeatProhibit = Array(...repeat.split(",").map(Number));
             order--;
             updateWeight(null, true);
             order++;
-            dynamicList.repeatProhibit = Array(...urlParam.getItem("repeat").split(",").map(Number));
+            dynamicList.repeatProhibit = Array(...repeat.split(",").map(Number));
 
-            const code = urlParam.getItem("code");
             const targetVerify = seed([dynamicList.times.all, dynamicList.repeatProhibit], [code.transBase(16, 10) / 1000, code.transBase(16, 10) / 1000 - 1, code.transBase(16, 10) / 1000 - 16]);
-            if (targetVerify == urlParam.getItem("verify")) {
+            if (targetVerify == verify) {
                 cw("#readSuccess").unhide();
-                cw("#saveTime").html = new Date(Number(urlParam.getItem("time")));
+                cw("#saveTime").html = new Date(Number(time));
                 cw("#rollPanel").unhide();
             } else {
                 cw("#validationInvalid").unhide();

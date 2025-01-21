@@ -172,4 +172,39 @@
     };
 
     const a = cw("#element");
+
+    function getSelector(element) {
+        if (!(element instanceof HTMLElement)) {
+            throw new TypeError("参数必须是一个 HTMLElement");
+        }
+    
+        const path = [];
+        while (element !== document.documentElement && element !== null) {
+            let selector = element.tagName.toLowerCase();
+        
+            // 如果有 id，优先使用 id
+            if (element.id) {
+                selector += `#${element.id}`;
+                path.unshift(selector);
+                break; // ! id 是唯一的，可以直接结束
+            }
+      
+            // 如果有 class，添加 class
+            if (element.classList.length > 0) {
+                selector += `.${Array.from(element.classList).join(".")}`;
+            }
+      
+            // 如果有兄弟元素，添加 :nth-child
+            const siblings = Array.from(element.parentNode.children);
+            const index = siblings.indexOf(element);
+            if (siblings.length > 1) {
+                selector += `:nth-child(${index + 1})`;
+            }
+      
+            path.unshift(selector);
+            element = element.parentNode;
+        }
+    
+        return path.join(" > ");
+    }
 </script>

@@ -4,7 +4,10 @@
     Chiwa Functions is a custom JavaScript library used in ChiwaInori.top for better coding.
 
     Most of the functions included are original created by ChiwaInori.top owner Chiwa Inori.
-    Most of them required other Chiwa Functions to work. Some functions can be also used in Node.js environment.
+    Chiwa Functions is coded for website developing, but some functions can be also used in Node.js environment.
+
+    Chiwa Functions follows CC BY-NC-SA 4.0 International License.
+    You can use Chiwa Functions with license followed, but notice Chiwa Functions is updating every time and we always keep the least compatibility.
 
     Originally called Inori Functions, name changed along with a major update (2025.1.17) related to HTML Elements.
     Originally called XTS Functions, name changed along with site owner's new name (2024.8.17) (xtsdcb69 -> Chiwa Inori).
@@ -39,7 +42,7 @@
  * @since 25-1-12
  * @version 25-1-21
 */
-const chiwa = "25-1-21-2";
+const chiwa = "25-1-22";
 
 // GLOBAL USAGE
 
@@ -177,21 +180,19 @@ Object.defineProperty(Object.prototype, "nonEnum", {
  * @returns {string} The host with protocol of current page
  * @example host() // "https://chiwainori.top"
  * @since inori.24-12-31
- * @version inori.24-12-31
+ * @version 25-1-22
+ * @deprecated Use window.location.origin instead
  */
-function host() {
-    return window.location.href.split("/").slice(0, 3).join("/");
-}
 
 /**
  * Return a string of current page's site directory.
  * @returns {string} The site directory with "_" of current page
  * @example siteId() // "mc_opc_xts" if in https://chiwainori.top/mc/opc/xts/
  * @since 25-1-20
- * @version 25-1-20
+ * @version 25-1-22
  */
 function siteId() {
-    return window.location.href.split("/").slice(3).join("_").replaceAll(/html$/g, "").slice(0, -1);
+    return window.location.pathname.replaceAll("/", "_").replaceAll(/(^_|_$|\.html)/g, "") || "root";
 }
 
 /**
@@ -277,26 +278,30 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
     if (!cw("#copyright").el) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
     const thisYear = new Date().getFullYear();
-    _range(startYear, `%1=0 | <= ${thisYear}`, true);
+    _range(startYear, `<= ${thisYear}`, true);
 
-    cw("#copyright").html = `Copyright © ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
+    cw("#copyright").html = `Copyright &copy; ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
 }
 
 // GLOBAL USAGE / URL PARAM
 
 const urlParam = new function urlParam() {
     /**
-     * Set the param to URL (.../...?key1=value1&key2=value2).
+     * Set or update the param to URL (.../...?key1=value1&key2=value2).
      * @param {string} name - The key of param
      * @param {any} value - The value being set
      * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
-     * @since 25-1-17
-     * @version 15-1-19
+     * @since xts.24-7-11-3
+     * @version 25-1-22
      */
-    this.nonEnum("setItem", (key, value = null) => {
+    this.nonEnum("setItem", (key, value) => {
         _type(key, "string");
 
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/")}${window.location.href.match(/\?/g) ? "&" : "?"}${key}=${value}`);
+        if (!window.location.href.includes(`${key}=`)) {
+            history.replaceState(null, "", `${window.location.href}${!window.location.href.match(/\?/g) ? "?" : "&"}${key}=${value}`);
+        } else {
+            history.replaceState(null, "", `${window.location.href.replaceAll(new RegExp(`(\\?|&)${key}=[^&]*`, "g"), `$1${key}=${value}`)}`);
+        }
     });
 
     /**
@@ -304,8 +309,8 @@ const urlParam = new function urlParam() {
      * @param {string} key - The param key to get from URL
      * @returns {string | null} The value of the param
      * @example urlParam.getItem("userID") // Return the value of ?userID=...
-     * @since 25-1-17
-     * @version 15-1-19
+     * @since xts.24-7-11-1
+     * @version 25-1-19
      */
     this.nonEnum("getItem", key => {
         _type(key, "string");
@@ -315,16 +320,17 @@ const urlParam = new function urlParam() {
 
     /**
      * Get all param from URL (.../...?key1=value1&key2=value2).
+     * @param {string} url - The URL to get all params (current URL for default)
      * @returns {object} A object with all params
      * @example urlParam.getAll() // Return a object with all params
      * @since 25-1-17
-     * @version 15-1-19
+     * @version 25-1-19
      */
-    this.nonEnum("getAll", () => {
+    this.nonEnum("getAll", (url = window.location.href) => {
         const obj = {};
 
-        if (window.location.href.includes("?")) {
-            const paramList = window.location.href.split("?")[1].split("&");
+        if (url.includes("?")) {
+            const paramList = url.split("?")[1].split("&");
 
             for (const keyValue of paramList) {
                 obj[keyValue.split("=")[0]] = keyValue.split("=")[1];
@@ -339,31 +345,36 @@ const urlParam = new function urlParam() {
      * @param {string} key - The param key to remove from URL
      * @example urlParam.removeItem("result") // Update URL bar without "result" param
      * @since 25-1-17
-     * @version 15-1-19
+     * @version 25-1-22
      */
     this.nonEnum("removeItem", key => {
         _type(key, "string");
 
-        const searchParams = new URLSearchParams(window.location.search);
-        searchParams.delete(key);
-
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
+        history.replaceState(null, "", `${window.location.href.replaceAll(new RegExp(`(\\?|&)${key}=[^&]*`, "g"), "").replaceAll(/\/&/g, "/?")}`);
     });
 
     /**
      * Generate a string of current URL and values in obj.
-     * @param {object} obj  - The params to be added to URL
+     * @param {object} obj  - The params to be added (overridden if already exists) to URL
+     * @param {boolean} clearExist - Should generator clear existing params
      * @returns {string} A string with current URL added with values in obj
-     * @example urlParam.generate({ result: "ok" }) // Return "https://chiwainori.top/?result=ok"
+     * @throws {TypeError} When obj has an object (except array) as value
+     * @example urlParam.generate({ result: "ok" }) // Returns "https://chiwainori.top/?result=ok"
      * @since 25-1-17
-     * @version 15-1-19
+     * @version 25-1-22
      */
-    this.nonEnum("generate", obj => {
-        let url = window.location.href;
-
-        for (const keyValue in obj) {
-            url += `${url.includes("?") ? "&" : "?"}${keyValue}=${obj[keyValue]}`;
+    this.nonEnum("generate", (obj, clearExist = false) => {
+        _type(obj, "object");
+        
+        let url = clearExist ? window.location.origin : window.location.href;
+        for (const key in obj) {
+            if (!url.includes(key)) {
+                url += `${!url.includes("?") ? "?" : "&"}${key}=${obj[key]}`;
+            } else {
+                url = url.replaceAll(new RegExp(`(\\?|&)${key}=[^&]*`, "g"), `$1${key}=${obj[key]}`);
+            }
         }
+        if (url.includes("[object")) { throw new TypeError("Cannot convert object value into URL"); }
 
         return url;
     });
@@ -372,10 +383,10 @@ const urlParam = new function urlParam() {
      * Clear all param from URL.
      * @example urlParam.clear() // All characters after "?" in URL bar will be removed
      * @since 25-1-17
-     * @version 15-1-19
+     * @version 25-1-22
      */
     this.nonEnum("clear", () => {
-        history.replaceState(null, "", `${window.location.href.split("/").slice(3).join("/").split("?")[0]}`);
+        history.replaceState(null, "", `${window.location.href.split("?")[0]}`);
     });
 };
 
@@ -508,8 +519,8 @@ String.prototype.nonEnum("getCountOf", function (target) {
 // JS COMMANDS / NUMERAL
 /* Hint: In Chiwa Functions, these functions aren't affected by precision loss of JavaScript.
     seed
-    BigInt.p.toBase
     String.p.transBase
+    BigInt.p.toBase
 */
 
 // JS COMMANDS / NUMERAL / GET NUMBERS
@@ -730,7 +741,7 @@ String.prototype.nonEnum("transBase", function (fromBase, toBase) {
         
         digits.forEach(digit => {
             const equalValue = BigInt(numberList.indexOf(digit));
-            try { _range(equalValue, `< ${fromBase}`); } catch { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
+            try { _range(equalValue, `< ${fromBase}`, true); } catch { throw new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`); }
             
             equalDigits.push(equalValue);
         });

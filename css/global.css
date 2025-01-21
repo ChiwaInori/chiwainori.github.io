@@ -398,7 +398,7 @@ table {
         font-size: 24px;
     }
     
-    .ANT, .STX, .LST * {
+    .ANT, .ANT *, .STX, .LST * {
         font-size: 20px;
     }
     

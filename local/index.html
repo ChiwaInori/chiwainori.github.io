@@ -21,8 +21,8 @@
     <div class="content" id="content">
     </div>
     <script>
-        cw("#title").html = `你在 ${host()} 上的本地数据 - ChiwaInori.top`;
-        cw("#title-title").html = `你在 ${host()} 上的本地数据`;
+        cw("#title").html = `你在 ${window.location.origin} 上的本地数据 - ChiwaInori.top`;
+        cw("#title-title").html = `你在 ${window.location.origin} 上的本地数据`;
 
         const local = [];
         for (let i = 0; i < localStorage.length; i++) {
@@ -32,9 +32,9 @@
         }
 
         if (!local[0]) {
-            cw("#content").html = `<p>你在 ${host()} 上没有任何本地数据。</p>`;
+            cw("#content").html = `<p>你在 ${window.location.origin} 上没有任何本地数据。</p>`;
         } else {
-            cw("#content").html = `<p>你在 ${host()} 上的本地数据:</p>`;
+            cw("#content").html = `<p>你在 ${window.location.origin} 上的本地数据:</p>`;
             local.forEach((item, index) => cw("#content").html += `<p><span style="color: var(--gray);">${item[0]}: ${item[1]}</span>&nbsp;<button onclick="clearItems(${index})">删除</button></p>`);
             cw("#content").html += `<p><button onclick="clearItems()">清除所有本地数据</button></p>`;
         }
