@@ -563,7 +563,7 @@
 
             arr.filter(card => card != "A").forEach(card => {
                 if (card == "J" || card == "Q" || card == "K") { card = "10"; }
-                returnArray.push(+card);
+                returnArray.push(Number(card));
             }); // [2, 10]
 
             returnArray.forEach(card => {
@@ -709,7 +709,7 @@
             // Exchanger Thoughts
             if (playerHand.length >= 2) { // Last card of player is known
                 dealerPropThought.exchanger += 0.2; // Random exchange
-                const afterExchange = valuationHandWithoutA(dealerHand) + dealerHand.toString().getCountOf("A") + playerHand[playerHand.length - 1]; // If exchange, the value of dealer's
+                const afterExchange = valuationHandWithoutA(dealerHand) + dealerHand.toString().getCountOf("A") + isNaN(playerHand[playerHand.length - 1]) ? 10 : Number(playerHand[playerHand.length - 1]); // If exchange, the value of dealer's
                 if (afterExchange.range(16, 21)) { // Exchange gets a good value
                     dealerPropThought.exchanger += afterExchange.percentage(18, 21).transit(0.4, 1);
                 }
