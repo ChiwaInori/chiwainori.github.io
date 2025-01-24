@@ -18,7 +18,7 @@
     Global Usage (16):
         Parameter Judgement (2): _type, _range
         Commands (3): sleep, overload, Object.p.nonEnum
-        Website (3): host, seizure, copyright
+        Website (3): siteId, seizure, copyright
         URL Param (6): urlParam { setItem, getItem, getAll, removeItem, generate, clear }
         Console Log (2): log, warn
     JS Commands (14):
@@ -42,7 +42,7 @@
  * @since 25-1-12
  * @version 25-1-21
 */
-const chiwa = "25-1-22";
+const chiwa = "25-1-24";
 
 // GLOBAL USAGE
 
@@ -56,7 +56,7 @@ const chiwa = "25-1-22";
  * @since inori.24-11-29-1
  * @version 25-1-21-1
 */
-function _type(param, types) {
+const _type = (param, types) => {
     const circularKey = {
         types: typeof types == "object" ? (() => { try { JSON.stringify(types); return null; } catch (e) { return e.message.match(/'(.*)' closes the circle/)[1]; } })() : null,
         param: typeof param == "object" ? (() => { try { JSON.stringify(param); return null; } catch (e) { return e.message.match(/'(.*)' closes the circle/)[1]; } })() : null
@@ -84,7 +84,7 @@ function _type(param, types) {
     }
 
     returnError(types, param, "param");
-}
+};
 
 // When a number is need to be judged with a range, _type can be omitted. Its type will be judged in _range.
 
@@ -97,14 +97,14 @@ function _type(param, types) {
  * @since inori.24-11-29-1
  * @version 25-1-21-1
  */
-function _range(number, range, allowBigInt = false) {
+const _range = (number, range, allowBigInt = false) => {
     _type(number, `number${allowBigInt ? " | bigint" : ""}`);
     _type(range, "string");
     _type(allowBigInt, "boolean");
 
     for (const req of range.split(" | ")) {
         if (req == "%1=0" && typeof number == "number" && number % 1 != 0) {
-            throw new RangeError(`%1=0 required; received ${number}`);
+            throw new RangeError(`[%1=0] required; received ${number}`);
         }
         
         for (const operator of ["==", "!=", ">=", ">", "<=", "<"]) {
@@ -116,7 +116,7 @@ function _range(number, range, allowBigInt = false) {
             }
         }
     }
-}
+};
 
 // GLOBAL USAGE / COMMANDS
 
@@ -128,12 +128,12 @@ function _range(number, range, allowBigInt = false) {
  * @since xts.24-5-12
  * @version inori.24-11-29-3
  */
-function sleep(time) {
+const sleep = time => {
     _range(time, ">= 0");
     if (time == 0) { return; }
 
     return new Promise(resolve => setTimeout(resolve, time));
-}
+};
 
 /**
  * Overload CPU to temporarily stop code for test. (Not recommended unless doing stress test)
@@ -142,7 +142,7 @@ function sleep(time) {
  * @since inori.24-10-1
  * @version inori.24-11-29-2
  */
-function overload(time) {
+const overload = time => {
     _range(time, ">= 0");
     if (time == 0) { return; }
 
@@ -154,7 +154,7 @@ function overload(time) {
             Math.sqrt(i);
         }
     }
-}
+};
 
 /**
  * Add a non-enumerable property to a object
@@ -176,24 +176,15 @@ Object.defineProperty(Object.prototype, "nonEnum", {
 // GLOBAL USAGE / WEBSITE
 
 /**
- * Return a string of current page's host with protocol.
- * @returns {string} The host with protocol of current page
- * @example host() // "https://chiwainori.top"
- * @since inori.24-12-31
- * @version 25-1-22
- * @deprecated Use window.location.origin instead
- */
-
-/**
  * Return a string of current page's site directory.
  * @returns {string} The site directory with "_" of current page
  * @example siteId() // "mc_opc_xts" if in https://chiwainori.top/mc/opc/xts/
  * @since 25-1-20
  * @version 25-1-22
  */
-function siteId() {
+const siteId = () => {
     return window.location.pathname.replaceAll("/", "_").replaceAll(/(^_|_$|\.html)/g, "") || "root";
-}
+};
 
 /**
  * Pop up a seizure warning in page.
@@ -203,7 +194,7 @@ function siteId() {
  * @since xts.24-6-7
  * @version 25-1-20
  */
-async function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
+const seizure = async (cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") => {
     const visited = localStorage.getItem(`${siteId()}_seizure`);
     function preventScroll(event) {
         event.preventDefault();
@@ -222,7 +213,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
         return;
     }
 
-    cw("body").html += 
+    cw("body").html +=
         `<dialog id="cnSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
             <p>${cnText}</p>
@@ -262,7 +253,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
         await sleep(2000);
         seizure("_close");
     }
-}
+};
 
 /**
  * Create a copyright text in #copyright.
@@ -273,7 +264,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
  * @since xts.24-4-30
  * @version 25-1-21-1
  */
-function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> いのり") {
+const copyright = (startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> いのり") => {
     _range(startYear, "%1=0", true);
     if (!cw("#copyright").el) { throw new ReferenceError("Cannot set a copyright without #copyright element"); }
 
@@ -281,7 +272,7 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
     _range(startYear, `<= ${thisYear}`, true);
 
     cw("#copyright").html = `Copyright &copy; ${startYear}${startYear == thisYear ? "" : `-${thisYear}`} ${signature}. All Rights Reserved.`;
-}
+};
 
 // GLOBAL USAGE / URL PARAM
 
@@ -399,9 +390,9 @@ const urlParam = new function urlParam() {
  * @since xts.24-4-21
  * @version inori.24-11-29
  */
-function log(...args) {
+const log = (...args) => {
     console.log(...args);
-}
+};
 
 /**
  * Output a warn with stack information.
@@ -410,7 +401,7 @@ function log(...args) {
  * @since xts.24-7-11
  * @version inori.24-9-15
  */
-function warn(message) {
+const warn = message => {
     try {
         throw new Error();
     } catch (e) {
@@ -418,7 +409,7 @@ function warn(message) {
             .replaceAll(/\n {4}at warn \(.*\)/g, "")
             .replaceAll(/https?:\/\/.*\//g, ""));
     }
-}
+};
 
 // JS COMMANDS / COMMON
 
@@ -430,11 +421,11 @@ function warn(message) {
  * @since xts.24-7-13-1
  * @version inori.24-11-29-1
  */
-function chance(percent) {
+const chance = percent => {
     _type(percent, "number");
 
     return rand(0, 1, true) <= percent;
-}
+};
 
 /**
  * Deep clone (isolate) an array / object.
@@ -535,7 +526,7 @@ String.prototype.nonEnum("getCountOf", function (target) {
  * @since xts.24-4-21
  * @version inori.24-11-29-1
  */
-function rand(min, max, keepFloat = false) {
+const rand = (min, max, keepFloat = false) => {
     _range(min, `<= ${max}`);
     _range(max, `>= ${min}`);
     _type(keepFloat, "boolean");
@@ -549,7 +540,7 @@ function rand(min, max, keepFloat = false) {
 
     range = max - min + 1;
     return Math.floor(Math.random() * range) + min;
-}
+};
 
 /**
  * Return a seeded random number.
@@ -560,7 +551,7 @@ function rand(min, max, keepFloat = false) {
  * @since inori.24-11-2
  * @version 25-1-21
  */
-function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) {
+const seed = (value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477, 10.3852, 34.6451, 35.6494, 15.1388, 13.6445, 21.7268, 41.8944, 12.3794, 15.0947, 26.2843]) => {
     _type(key, "array");
     if (key.length == 0) { throw new TypeError(`key must be NOT EMPTY`); }
     for (const keyValue of key) { _type(keyValue, "number"); }
@@ -574,7 +565,7 @@ function seed(value, key = [18.9321, 45.8102, 33.9644, 13.5316, 26.0933, 36.2477
     }
 
     return Math.abs(number * Math.E % 1);
-}
+};
 
 /**
  * Return a selected number in a string.
@@ -845,9 +836,9 @@ class ChiwaSet {
      * @since xts.24-4-21
      * @version 25-1-12
      */
-    hide() {
+    hide = () => {
         this.style.display = "none";
-    }
+    };
 
     /**
      * Show the element with expected display method.
@@ -856,11 +847,11 @@ class ChiwaSet {
      * @since xts.24-4-21
      * @version 25-1-12
      */
-    unhide(display = "block") {
+    unhide = (display = "block") => {
         _type(display, "string");
 
         this.style.display = display;
-    }
+    };
 
     /**
      * Hide or unhide an element by condition.
@@ -870,7 +861,7 @@ class ChiwaSet {
      * @since inori.24-12-31
      * @version 25-1-17
      */
-    toggleDisplay(condition, display = "block") {
+    toggleDisplay = (condition, display = "block") => {
         _type(display, "string");
 
         if (condition) {
@@ -878,7 +869,7 @@ class ChiwaSet {
         } else {
             this.hide();
         }
-    }
+    };
 
     /**
      * Turn an element's current color to another in transition.
@@ -888,7 +879,7 @@ class ChiwaSet {
      * @since xts-24-5-1-1
      * @version 25-1-19
      */
-    async transColor(color, time = 100) {
+    transColor = async (color, time = 100) => {
         _type(color, "string");
         _range(time, ">= 0");
 
@@ -913,7 +904,7 @@ class ChiwaSet {
 
         this.el.classList.remove(`tempTransColor${id}`);
         document.head.removeChild(styleElement);
-    }
+    };
 
     /**
      * Fade out an element.
@@ -923,7 +914,7 @@ class ChiwaSet {
      * @since xts.24-5-19-3
      * @version 25-1-19
      */
-    async fadeOut(doNotHide = false, time = 100) {
+    fadeOut = async (doNotHide = false, time = 100) => {
         _type(doNotHide, "boolean");
         _range(time, ">= 0");
 
@@ -947,7 +938,7 @@ class ChiwaSet {
             }
             this.style.opacity = 0;
         }
-    }
+    };
 
     /**
      * Fade in an element.
@@ -957,7 +948,7 @@ class ChiwaSet {
      * @since xts.24-5-19-3
      * @version 25-1-19
      */
-    async fadeIn(display = "block", time = 100) {
+    fadeIn = async (display = "block", time = 100) => {
         _type(display, "string");
         _range(time, ">= 0");
 
@@ -978,7 +969,7 @@ class ChiwaSet {
             this.style.opacity = nowOpacity;
             await sleep(time / 20);
         }
-    }
+    };
 }
 
 /**
@@ -990,12 +981,12 @@ class ChiwaSet {
  * @since 25-1-12
  * @version 25-1-21-1
  */
-function cw(element, index = 0) {
+const cw = (element, index = 0) => {
     _type(element, "string | HTMLElement");
     _range(index, "%1=0 | >= 0", true);
 
     return new ChiwaSet(element, index);
-}
+};
 
 // HTML ELEMENTS / ACCESSIBILITY
 // ChiwaSet can only be used for a single element. To apply changes to multiple elements, use accessibility functions below.
@@ -1008,11 +999,11 @@ function cw(element, index = 0) {
  * @since xts.24-7-15
  * @version inori.24-11-29-1
  */
-function query(element) {
+const query = element => {
     _type(element, "string");
 
     return document.querySelectorAll(element);
-}
+};
 
 /**
  * Apply modifications to all queried element(s). It has same actions to query(element).forEach.
@@ -1022,7 +1013,7 @@ function query(element) {
  * @since inori.24-9-8
  * @version 25-1-21
  */
-function applyAll(element, callback) {
+const applyAll = (element, callback) => {
     _type(element, "string");
     _type(callback, "function");
 
@@ -1031,7 +1022,7 @@ function applyAll(element, callback) {
     for (let i = 0; i < queried.length; i++) {
         callback(queried[i], i);
     }
-}
+};
 
 /**
  * Fade out an element and fade in another element.
@@ -1043,7 +1034,7 @@ function applyAll(element, callback) {
  * @since xts.24-5-19-3
  * @version 25-1-19
  */
-async function fadeChange(outElement, inElement, display = "block", time = 200) {
+const fadeChange = async (outElement, inElement, display = "block", time = 200) => {
     _type(outElement, "string");
     _type(inElement, "string");
     _range(time, ">= 0");
@@ -1057,7 +1048,7 @@ async function fadeChange(outElement, inElement, display = "block", time = 200) 
     cw(`#${outElement}`).fadeOut(undefined, time / 2);
     await sleep(time / 2 + 20);
     cw(`#${inElement}`).fadeIn(display, time / 2);
-}
+};
 
 // SAVE & LOAD
 
@@ -1069,7 +1060,7 @@ async function fadeChange(outElement, inElement, display = "block", time = 200) 
  * @since xts.24-4-21
  * @version inori.24-11-29-1
  */
-function save(fileName, content) {
+const save = (fileName, content) => {
     _type(fileName, "string");
 
     const blob = new Blob([content], { type: "text/plain" });
@@ -1082,7 +1073,7 @@ function save(fileName, content) {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
-}
+};
 
 /**
  * Keeps copy the content from file in <input id="inputId" /> to an expected position.
@@ -1092,7 +1083,7 @@ function save(fileName, content) {
  * @since xts.24-4-21
  * @version 25-1-21
  */
-function load(inputId, element = "file-content") {
+const load = (inputId, element = "file-content") => {
     _type(inputId, "string");
     _type(element, "string");
 
@@ -1110,7 +1101,7 @@ function load(inputId, element = "file-content") {
             cw(`#${element}`).el.textContent = "";
         }
     });
-}
+};
 
 /**
  * Load a JSON file from input and return an object.
@@ -1121,7 +1112,7 @@ function load(inputId, element = "file-content") {
  * @since inori.24-8-19
  * @version 25-1-21-2
 */
-function loadJSON(inputId) {
+const loadJSON = inputId => {
     _type(inputId, "string");
 
     return new Promise((resolve, reject) => {
@@ -1143,4 +1134,4 @@ function loadJSON(inputId) {
             reject(new ReferenceError(`No file was selected in #${inputId}`));
         }
     });
-}
+};
