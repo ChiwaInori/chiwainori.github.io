@@ -162,11 +162,13 @@
             cw("#version").html = currentVersion;
 
             cw("#fileInput").el.addEventListener("input", async () => {
-                await loadJSON("fileInput").then(json => file = json).catch(e => {
+                try {
+                    file = await loadJSON("fileInput");
+                } catch (e) {
                     cw("#display").html = e;
                     cw("#display").color = "var(--red)";
                     return;
-                });
+                }
                 extractInfo();
             });
             

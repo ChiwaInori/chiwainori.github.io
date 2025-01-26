@@ -43,7 +43,7 @@
  * @version 25-1-21
 */
 const chiwa = "25-1-26";
-// Then update the backup in /old/js/.
+// Then update the backup in /old/js.
 
 // GLOBAL USAGE
 
@@ -153,7 +153,6 @@ function overload(time) {
     while (Date.now() < endTime) {
         for (let i = 0; i < 1e8; i++) {
             Math.sqrt(i);
-            if (Date.now() < endTime) { break; }
         }
     }
 }
@@ -182,10 +181,10 @@ Object.defineProperty(Object.prototype, "nonEnum", {
  * @returns {string} The site directory with "_" of current page
  * @example siteId() // "mc_opc_xts" if in https://chiwainori.top/mc/opc/xts/
  * @since 25-1-20
- * @version 25-1-26
+ * @version 25-1-22
  */
 function siteId() {
-    return window.location.pathname.replaceAll("/", "_").replaceAll(/(^_|_$|\.html)/g, "") || "chiwa";
+    return window.location.pathname.replaceAll("/", "_").replaceAll(/(^_|_$|\.html)/g, "") || "root";
 }
 
 /**
