@@ -74,8 +74,8 @@
         });
 
         function constGet(p) {
-            if (p <= 0.5) { 
-                return totalConstants.slice(0, 6); 
+            if (p <= 0.5) {
+                return totalConstants.slice(0, 6);
             } else if (p <= 0.7) {
                 return totalConstants.slice(0, 7);
             } else if (p <= 0.8) {
@@ -106,11 +106,11 @@
             if (assignedValue == "[]" || assignedValue == "{}") {
                 color = "251, 210, 0";
             }
-            cw("#varList").html += `<p><strong><span style="color: rgb(62, 100, 179)">const</span> <span style="color: rgb(62, 151, 239)">${constant}</span> <span style="color: rgb(255, 255, 255;">=</span> <span style="color: rgb(${color})">${assignedValue}</span><span style="color: rgb(255, 255, 255);">;</span></strong></p>`;
+            cw("#varList").html += `<p><strong><span style="color: rgb(62, 100, 179)">const</span> <span style="color: rgb(62, 151, 239)">${constant}</span> <span style="color: rgb(255, 255, 255);">=</span> <span style="color: rgb(${color})">${assignedValue}</span><span style="color: rgb(255, 255, 255);">;</span></strong></p>`;
         });
 
         function getValue() {
-            const decider = rand(1, 10);
+            const decider = rand(1, 11);
 
             if (decider == 1) {
                 return 0;
@@ -131,15 +131,18 @@
                 return "\"Hello\"";
             }
             if (decider == 7) {
-                return null;
+                return undefined;
             }
             if (decider == 8) {
-                return NaN;
+                return null;
             }
             if (decider == 9) {
-                return "[]";
+                return NaN;
             }
             if (decider == 10) {
+                return "[]";
+            }
+            if (decider == 11) {
                 return "{}";
             }
         }
@@ -156,6 +159,7 @@
             if (constValueString.indexOf("false") >= 0) { constValue = false; }
             if (constValueString.indexOf("\"\"") >= 0) { constValue = ""; }
             if (constValueString.indexOf("Hello") >= 0) { constValue = "Hello"; }
+            if (constValueString.indexOf("undefined") >= 0) { constValue = undefined; }
             if (constValueString.indexOf("null") >= 0) { constValue = null; }
             if (constValueString.indexOf("NaN") >= 0) { constValue = NaN; }
             if (constValueString.indexOf("[]") >= 0) { constValue = []; }
@@ -227,7 +231,7 @@
             if (checkArray()) { formattedAnswer = "[]"; color = "251, 210, 0"; }
 
             comparison = Number.isNaN(answer) ? NaN : JSON.stringify(answer);
-            if (cw("#input").value.replaceAll(/'/g, "\"").replaceAll(/`/g, "\"") == comparison) {
+            if (cw("#input").value.replaceAll(/'/g, "\"").replaceAll(/`/g, "\"") == comparison || Number.isNaN(comparison) && cw("#input").value == "NaN") {
                 cw("#final").html = `<span style="color: var(--green)"><strong>回答正确! 答案是 <span style="color: rgb(${color}); background-color: rgb(31, 31, 31); padding: 4px; font-family: consolas;">${formattedAnswer}</span></strong></span>`;
                 cw("#finalSub").hide();
             } else {

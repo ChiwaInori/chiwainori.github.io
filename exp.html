@@ -67,7 +67,7 @@
 
     const Physics = {
         c: 299792458,
-        e: 	1.602176487e-19,
+        e:	1.602176487e-19,
         G: 6.67428e-11,
         g: 9.80665,
         k: 9e9,
@@ -206,5 +206,17 @@
         }
     
         return path.join(" > ");
+    }
+
+    function parse(value) {
+        if (value === "") { return ""; }
+        if (value === "undefined") { return undefined; }
+        if (value === "null") { return null; }
+        if (value === "true") { return true; }
+        if (value === "false") { return false; }
+        if (!isNaN(value)) { return Number(value); }
+        if (value.match(/,[^ ]/) || value[0] == "[" && value.slice(-1) == "]") { return value.replaceAll(/(^\[|\]$)/g, "").split(",").map(x => parse(x)); }
+
+        return value;
     }
 </script>
