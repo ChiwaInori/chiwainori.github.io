@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>检查指定颜色像素 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>检查指定颜色像素</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>检查指定颜色像素</strong></h6>
+    </div>
+    <div class="content">
+        <p>在下面选择一张 PNG 图片，然后输入 RGB 值，此页面将会检查图片内是否存在某个像素符合给定的值。</p>
+        <p><input id="file" type="file" accept=".png" /></p>
+        <p>R<input id="color-r" /></p>
+        <p>G<input id="color-g" /></p>
+        <p>B<input id="color-b" /></p>
+        <p><button onclick="check()">检查</button></p>
+        <p><strong id="result"></strong></p>
+    </div>
+    <script>
+        function checkPixelColor(imageUrl, targetR, targetG, targetB) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = imageUrl;
+
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+
+                    const imageData = ctx.getImageData(0, 0, img.width, img.height);
+                    const data = imageData.data;
+
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                    
+                        if (r == targetR && g == targetG && b == targetB) {
+                            // 计算像素的位置（行和列）
+                            const pixelIndex = i / 4; // 每个像素占 4 个数据（RGBA）
+                            const row = Math.floor(pixelIndex / img.width); // 行
+                            const col = pixelIndex % img.width; // 列
+                        
+                            // 返回结果：是否找到，以及第一个匹配像素的位置
+                            resolve({ found: true, row, col });
+                            return;
+                        }
+                    }
+                
+                    // 如果没有找到匹配的像素
+                    resolve({ found: false, row: null, col: null });
+                };
+            
+                img.onerror = () => {
+                    reject(new Error("Failed to load image"));
+                };
+            });
+        }
+
+        function check() {
+            const file = cw("#file").el.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async e => {
+                const url = e.target.result;
+                const [r, g, b] = [cw("#color-r").value, cw("#color-g").value, cw("#color-b").value];
+                
+                const result = await checkPixelColor(url, r, g, b);
+                
+                const resultEl = cw("#result");
+                resultEl.text = `${result.found ? "" : "不"}存在颜色为 rgb(${r}, ${g}, ${b}) 的像素${result.found ? `, 位于 ${result.row + 1} 行, ${result.col + 1} 列` : ""}`;
+                resultEl.color = result.found ? "var(--green)" : "var(--red)";
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</div></body>
+
+</html>
