@@ -405,9 +405,9 @@ const obj = {name: "John"};
 a = a + 1;
 
 // Warn: operator-linebreak
-a = a
-    + 1
-    + 2;
+a = a +
+    1 +
+    2;
 
 // Warn: padded-blocks
 if (a) {

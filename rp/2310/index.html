@@ -132,17 +132,17 @@
             } else {
                 cw("#validationInvalid").unhide();
             }
-        } else if (localStorage.getItem("rp_2310_rollTimes")) {
-            dynamicList.times.all = Array(...localStorage.getItem("rp_2310_rollTimes").split(",").map(Number));
+        } else if (localStorage.getItem(`${siteId()}_rollTimes`)) {
+            dynamicList.times.all = Array(...localStorage.getItem(`${siteId()}_rollTimes`).split(",").map(Number));
             dynamicList.times.all.forEach(rollTimes => order += rollTimes);
 
-            dynamicList.repeatProhibit = Array(...localStorage.getItem("rp_2310_repeat").split(",").map(Number));
+            dynamicList.repeatProhibit = Array(...localStorage.getItem(`${siteId()}_repeat`).split(",").map(Number));
             order--;
             updateWeight(null, true);
             order++;
 
             cw("#readSuccess").unhide();
-            cw("#saveTime").html = new Date(Number(localStorage.getItem("rp_2310_saveTime")));
+            cw("#saveTime").html = new Date(Number(localStorage.getItem(`${siteId()}_saveTime`)));
             cw("#isAutosave").unhide("inline");
             cw("#deleteAutosave").unhide("inline");
         } else {
@@ -202,7 +202,7 @@
             } else {
                 teachers.list.forEach(() => { fullList.all.pop(); dynamicList.times.all.pop(); remainingList.all.pop(); });
                 for (let i = 0; i < teachers.list.length - teachers.girlId.length; i++) {
-                    dynamicList.times.boy.pop(); 
+                    dynamicList.times.boy.pop();
                     remainingList.boy.pop();
                 }
                 teachers.girlId.forEach(() => { girlId.pop(); dynamicList.times.girl.pop(); remainingList.girl.pop(); });
@@ -215,9 +215,13 @@
 
         cw("#autosaveCheckbox").el.addEventListener("change", function () {
             autosave = this.checked;
-            cw("#autosaveDescription").html = autosave ? "(动态随机抽取将会自动保存到浏览器中)" : "(抽取将不会自动保存)";
 
-            if (!autosave) {
+            if (autosave) {
+                cw("#autosaveDescription").html = "(动态随机抽取将会自动保存到浏览器中)";
+                cw("#autosave").color = "var(--textColor-500)";
+                cw("#autosaveDescription").color = "var(--textColor-500)";
+            } else {
+                cw("#autosaveDescription").html = "(抽取将不会自动保存)";
                 cw("#autosave").color = "var(--textColor-400)";
                 cw("#autosaveDescription").color = "var(--textColor-400)";
             }
@@ -271,7 +275,7 @@
                             classId: fullList.all.indexOf(nowRolling) + 1
                         }
                     },
-                    totalWeight: totalWeight, 
+                    totalWeight: totalWeight,
                     selectedWeight: selectedWeight,
                     source: {
                         rollTimes: dynamicList.times.all.isolate(),
@@ -323,8 +327,13 @@
                 confirmId();
             });
             if (autosave) {
-                cw("#autosaveDescription").html = `(已保存至 ${nowRolling})`;
-                cw("#autosaveDescription").color = "var(--green)";
+                if (localStorage.getItem(`${siteId()}_rollTimes`) == String(dynamicList.times.all)) {
+                    cw("#autosaveDescription").html = `(已保存至 ${nowRolling})`;
+                    cw("#autosaveDescription").color = "var(--green)";
+                } else {
+                    cw("#autosaveDescription").html = `(保存失败)`;
+                    cw("#autosaveDescription").color = "var(--red)";
+                }
             }
         
             updateChance(type == "all" ? "all" : "sex");
@@ -450,9 +459,13 @@
             }
 
             if (!dontCycleRepeat && autosave) {
-                localStorage.setItem("rp_2310_rollTimes", dynamicList.times.all);
-                localStorage.setItem("rp_2310_repeat", dynamicList.repeatProhibit);
-                localStorage.setItem("rp_2310_saveTime", new Date().getTime());
+                try {
+                    localStorage.setItem(`${siteId()}_rollTimes`, dynamicList.times.all);
+                    localStorage.setItem(`${siteId()}_repeat`, dynamicList.repeatProhibit);
+                    localStorage.setItem(`${siteId()}_saveTime`, new Date().getTime());
+                } catch {
+                    error("ProhibitedError: Failed to write to localStorage.");
+                }
             }
         }
 
@@ -567,7 +580,7 @@
                         const i = index + 1;
 
                         const chance = (weightNum / totalWeight * 100).keep(5);
-                        cw(`#d-chance-${i}-chance`).html = `${chance < 1e-5 ? "<0.00001" : chance}%`;
+                        cw(`#d-chance-${i}-chance`).html = `${chance.keepRange(0.00001, 100)}%`;
 
                         cw(`#d-chance-${i}-chance`).color = `hsl(${getColor(chance)}, 100%, 45%)`;
 
@@ -709,11 +722,16 @@
         }
         updateChance("all");
 
-        function cr(id) {
-            if (fullList.all[id - 1]) {
-                updateWeight(fullList.all[id - 1]);
-                updateChance(chanceMode == "all" ? "all" : "sex");
-                logName(2, fullList.all[id - 1], id);
+        function cr(id, verify) {
+            const rollTarget = fullList.all[id - 1];
+            if (rollTarget) {
+                if (verify.close(id * 2 + 17 - new Date().getDate() + id / 1000 + (girlId.includes(id) ? 0.0001 : 0.0006))) {
+                    updateWeight(rollTarget);
+                    updateChance(chanceMode == "all" ? "all" : "sex");
+                    logName(rollTarget);
+                } else {
+                    throw new ProhibitedError("Unauthorized modification");
+                }
             } else {
                 throw new ReferenceError(`No ID ${id} target found`);
             }
@@ -723,7 +741,7 @@
             const chancePercent = (chance * 100).keep(5);
             const close = 1.2;
 
-            let startSentence = `抽中 ${nowRolling} 的概率为 <strong style="color: ${type == "all" ? chancePercent <= 0.6 * close ? "var(--lightOrange)" : "var(--textColor-500)" : type == "boy" ? "var(--blue)" : "var(--pink)"}">${chancePercent == 0 ? `&lt; 0.00001` : chancePercent}%</strong>`;
+            let startSentence = `抽中 ${nowRolling} 的概率为 <strong style="color: ${type == "all" ? chancePercent <= 0.6 * close ? "var(--lightOrange)" : "var(--textColor-500)" : type == "boy" ? "var(--blue)" : "var(--pink)"}">${chancePercent.keepRange(0.00001, 100)}%</strong>`;
             cw("#dynamic-chance-doyouknow").color = "var(--textColor-500)";
 
             if (chancePercent == 0) {
@@ -764,7 +782,7 @@
                 return startSentence += ": 约为连续抛出硬币正面 7 次概率";
             }
 
-            // 
+            //
 
             if (chancePercent.range(20, 40)) {
                 return startSentence += ": 约为单选题蒙对概率";

@@ -15,17 +15,18 @@
     Index: (The "p" below means "prototype")
 
     Chiwa Basic (1): const chiwa
-    Global Usage (16):
+    Global Usage (17):
         Parameter Judgement (2): _type, _range
         Commands (3): sleep, overload, Object.p.nonEnum
         Website (3): siteId, seizure, copyright
         URL Param (6): urlParam { setItem, getItem, getAll, removeItem, generate, clear }
-        Console Log (2): log, warn
-    JS Commands (14):
+        Console Log (3): log, warn, error
+        ProhibitedError extends Error
+    JS Commands (16):
         Common (4): chance, Object.p.isolate, Array.p.remove, String.p.getCountOf
-        Numeral (10):
+        Numeral (12):
             Get Numbers (3): rand, seed, String.p.getNum
-            Modify Numbers (7): Number.p.keep, Number.p.range, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
+            Modify Numbers (9): Number.p.close, Number.p.keep, Number.p.range, Number.p.keepRange, Number.p.percentage, Number.p.transit, Number.p.toRange, String.p.transBase, Number.p.toBase / BigInt.p.toBase
     HTML Elements (9):
         ChiwaSet (6): ChiwaSet { (accessible attributes), hide, unhide, transColor, fadeOut, fadeIn }, cw
         Accessibility (3): query, applyAll, fadeChange
@@ -42,7 +43,7 @@
  * @since 25-1-12
  * @version 25-1-21
 */
-const chiwa = "25-2-8";
+const chiwa = "25-2-28";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE
@@ -215,8 +216,8 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
         return;
     }
 
-    cw("body").html +=
-        `<dialog id="cnSeizure" class="SEIZURE">
+    if (!cw("cnSeizure").el) {
+        cw("body").html += `<dialog id="cnSeizure" class="SEIZURE">
             <h3 style="color: var(--red);">! 光敏性癫痫警告 !</h3>
             <p>${cnText}</p>
             <p>极小部分人可能会在本页面上看到特定视觉图像（包括闪烁效果或图案）时<strong>出现癫痫症状</strong>。</p>
@@ -244,6 +245,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_toCN')">中文</span> | <span class="LNK" onclick="seizure('_toEN')">EN</span> | 日本語</strong></p>
             <p style="text-align: right;"><strong><span class="LNK" onclick="seizure('_close')">[${visited ? "2s 後で閉じる" : "進む"}]</span></strong></p>
         </dialog>`;
+    }
     
     window.addEventListener("scroll", preventScroll, { passive: false });
     cw("body").style.overflow = "hidden";
@@ -282,11 +284,12 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
 const urlParam = new function urlParam() {
     /**
      * Set or update the param to URL (.../...?key1=value1&key2=value2).
-     * @param {string} name - The key of param
+     * @param {string} key - The key of param
      * @param {any} value - The value being set
+     * @returns {object} Use (...).reload() to set param with reload
      * @example urlParam.setItem("result", "abcdef") // Update URL bar to .../...?result=abcdef
      * @since xts.24-7-11-3
-     * @version 25-1-22
+     * @version 25-2-28
      */
     this.nonEnum("setItem", (key, value) => {
         _type(key, "string");
@@ -296,6 +299,8 @@ const urlParam = new function urlParam() {
         } else {
             history.replaceState(null, "", `${window.location.href.replaceAll(new RegExp(`(\\?|&)${key}=[^&]*`, "g"), `$1${key}=${value}`)}`);
         }
+
+        return { reload() { location.reload(); } };
     });
 
     /**
@@ -337,14 +342,17 @@ const urlParam = new function urlParam() {
     /**
      * Remove a param from URL (.../...?key1=value1&key2=value2).
      * @param {string} key - The param key to remove from URL
+     * @returns {object} Use (...).reload() to remove param with reload
      * @example urlParam.removeItem("result") // Update URL bar with "result" param removed
      * @since 25-1-17
-     * @version 25-1-22
+     * @version 25-2-28
      */
     this.nonEnum("removeItem", key => {
         _type(key, "string");
 
         history.replaceState(null, "", `${window.location.href.replaceAll(new RegExp(`(\\?|&)${key}=[^&]*`, "g"), "").replaceAll(/\/&/g, "/?")}`);
+
+        return { reload() { location.reload(); } };
     });
 
     /**
@@ -376,11 +384,14 @@ const urlParam = new function urlParam() {
     /**
      * Clear all param from URL.
      * @example urlParam.clear() // All characters after "?" in URL bar will be removed
+     * @returns {object} Use (...).reload() to clear param with reload
      * @since 25-1-17
-     * @version 25-1-22
+     * @version 25-2-28
      */
     this.nonEnum("clear", () => {
         history.replaceState(null, "", `${window.location.href.split("?")[0]}`);
+
+        return { reload() { location.reload(); } };
     });
 }();
 
@@ -411,6 +422,40 @@ function warn(message) {
         console.warn(e.stack.replaceAll(/Error/g, `Warn: ${message}`)
             .replaceAll(/\n {4}at warn \(.*\)/g, "")
             .replaceAll(/https?:\/\/.*\//g, ""));
+    }
+}
+
+/**
+ * Output an error without stopping codes.
+ * @param {any} message - The content of warn message
+ * @example error("ReferenceError: No target found") // Output an error and let code continue.
+ * @since 25-2-28
+ * @version 25-2-28
+ */
+function error(message) {
+    try {
+        throw new Error();
+    } catch (e) {
+        console.error(e.stack.replaceAll(/Error/g, `Uncaught ${message}`)
+            .replaceAll(/\n {4}at error \(.*\)/g, "")
+            .replaceAll(/https?:\/\/.*\//g, ""));
+    }
+}
+
+// GLOBAL USAGE / PROHIBITED ERROR
+
+class ProhibitedError extends Error {
+    /**
+     * Construct a ProhibitedError which extending from Error. Use it when some actions are prohibited due to reasons.
+     * @param {any} message - The message of ProhibitedError
+     * @returns {ProhibitedError} The ProhibitedError to throw
+     * @example new ProhibitedError("Unauthorized action") // Throw a ProhibitedError
+     * @since 25-2-28
+     * @version 25-2-28
+     */
+    constructor(message) {
+        super(message);
+        this.name = "ProhibitedError";
     }
 }
 
@@ -589,6 +634,20 @@ String.prototype.nonEnum("getNum", function (doNotNumber = false) {
 // JS COMMANDS / NUMERAL / MODIFY NUMBERS
 
 /**
+ * Check if the given number's difference to target number is less than 1e-12.
+ * @param {number} target - The target number to check
+ * @returns {boolean} Is the two number close enough
+ * @example (61).close(61.00000000000002) // true
+ * @since 25-2-28
+ * @version 25-2-28
+ */
+Number.prototype.nonEnum("close", function (target) {
+    _type(target, "number");
+    
+    return Math.abs(this - target) < 1e-12;
+});
+
+/**
  * Keep a specified decimal place(s) to a number.
  * @param {number} digit - (%1=0) How many decimal places to keep (0 to parseInt, negative to keep at the left of decimal point)
  * @returns {number} The number kept specified decimal place(s)
@@ -687,6 +746,22 @@ Number.prototype.nonEnum("toRange", function (minBoundary, maxBoundary, warnIfWo
     if (warnIfWorked && (this < minBoundary || this > maxBoundary)) { warn(`Given number isn't between ${minBoundary} and ${maxBoundary} (received ${this}). Parsing it into given range.`); }
     
     return Math.min(Math.max(this, minBoundary), maxBoundary);
+});
+
+/**
+ * Parse a number into given range with greater than (>) or less than (<).
+ * @param {number | bigint} min - (<= max) The minimum value of interval
+ * @param {number | bigint} max - (>= min) The maximum value of interval
+ * @returns {string} The parsed number
+ * @example (-1).keepRange(0, 10) // "<0"
+ * @since 25-2-28
+ * @version 25-2-28
+ */
+Number.prototype.nonEnum("keepRange", function (min, max) {
+    _range(min, `<= ${max}`, true);
+    _range(max, `>= ${min}`, true);
+
+    return this < min ? `<${min}` : this > max ? `>${max}` : String(this);
 });
 
 /**

@@ -98,7 +98,7 @@ const ruleList = {
     "no-var": "warn",
     "object-curly-spacing": ["warn", "always"],
     "operator-assignment": "warn",
-    "operator-linebreak": ["warn", "after"],
+    "operator-linebreak": ["warn", "before"],
     "padded-blocks": ["warn", "never"],
     "prefer-arrow-callback": "warn",
     "prefer-const": "warn",
@@ -132,30 +132,35 @@ We use these methods to identify "error" or "warn":
     For examples, see /eslint-guide.js
 */
 
-const languageOptionList = {
+const options = {
     sourceType: "script",
     globals: {
         window: "readonly",
         document: "readonly",
-        console: "readonly",
+        console: "readonly"
     }
 };
 
 export default [
     {
         files: ["**/*.js"],
-        languageOptions: languageOptionList,
-        rules: ruleList,
+        languageOptions: options,
+        rules: ruleList
     },
+    // {
+    //     files: ["**/*.mjs"],
+    //     languageOptions: options,
+    //     rules: ruleList
+    // },
     {
         languageOptions: {
-            globals: globals.browser,
-        },
+            globals: globals.browser
+        }
     },
     {
         files: ["**/*.html"],
         plugins: { html },
-        languageOptions: languageOptionList,
-        rules: ruleList,
-    },
+        languageOptions: options,
+        rules: ruleList
+    }
 ];

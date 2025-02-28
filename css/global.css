@@ -98,6 +98,10 @@ body {
 
 /* NORMAL ELEMENTS */
 
+* {
+    font-family: "Lolita", sans-serif;
+}
+
 .title h1 {
     margin: auto 0px 0px 0px;
 }

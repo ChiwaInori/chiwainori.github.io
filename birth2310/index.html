@@ -134,6 +134,21 @@
 
             if (triggered) { isNext = 0; }
         }
+
+        function check(birthNumber) {
+            const birthString = String(birthNumber);
+            const y = `200${birthString[0]}`;
+            const m = birthString.slice(1, 3);
+            const d = birthString.slice(3, 5);
+            const returnArr = [];
+
+            for (const student of birthList) {
+                if (y == student[1] && m == student[2] && d == student[3]) {
+                    returnArr.push(student[0]);
+                }
+            }
+            return returnArr;
+        }
     </script>
 </div></body>
 
