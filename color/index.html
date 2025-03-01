@@ -115,6 +115,9 @@
                 <th><span id="hsl-l-value" style="color: #000000;">0</span></th>
             </tr>
         </table>
+
+        <br />
+        <p><button onclick="read()">从剪切板中读取颜色</button> <span id="read-result"></span></p>
         
         <br />
         <div id="colorBlock" style="float: left; margin-right: 16px;"></div>
@@ -123,10 +126,12 @@
         <img id="img-hsv" src="hsv.png" width="200" hidden />
         <img id="img-hsl" src="hsl.png" width="200" hidden />
         <table>
-            <tr><th id="code-rgb" style="color: #000000;">rgb(0, 0, 0) / #000000</th></tr>
-            <tr><th id="code-cmyk" style="color: #000000;">cmyk(0, 0, 0, 100)</th></tr>
-            <tr><th id="code-hsv" style="color: #000000;">hsv(0, 0, 0)</th></tr>
-            <tr><th id="code-hsl" style="color: #000000;">hsv(0, 0, 0)</th></tr>
+            <tr><th id="code-rgb-num" style="color: #000000;">rgb(0, 0, 0) <button onclick="copy('rgb-num')">复制</button></th></tr>
+            <tr><th id="code-rgb-hex" style="color: #000000;">#000000 <button onclick="copy('rgb-hex')">复制</button></th></tr>
+            <tr><th>&nbsp;</th></tr>
+            <tr><th id="code-cmyk" style="color: #000000;">cmyk(0, 0, 0, 100) <button onclick="copy('cmyk')">复制</button></th></tr>
+            <tr><th id="code-hsv" style="color: #000000;">hsv(0, 0, 0) <button onclick="copy('hsv')">复制</button></th></tr>
+            <tr><th id="code-hsl" style="color: #000000;">hsl(0, 0, 0) <button onclick="copy('hsl')">复制</button></th></tr>
         </table>
         
     </div>
@@ -236,12 +241,14 @@
             cw("#rgb-r-value").html = `${rgb.r} / ${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}`;
             cw("#rgb-g-value").html = `${rgb.g} / ${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}`;
             cw("#rgb-b-value").html = `${rgb.b} / ${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
-            cw("#code-rgb").html = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) / #${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()}`;
+            cw("#code-rgb-num").html = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) <button onclick="copy('rgb-num')">复制</button>`;
+            cw("#code-rgb-hex").html = `#${rgb.r.toString(16).length < 2 ? `0${rgb.r.toString(16).toUpperCase()}` : rgb.r.toString(16).toUpperCase()}${rgb.g.toString(16).length < 2 ? `0${rgb.g.toString(16).toUpperCase()}` : rgb.g.toString(16).toUpperCase()}${rgb.b.toString(16).length < 2 ? `0${rgb.b.toString(16).toUpperCase()}` : rgb.b.toString(16).toUpperCase()} <button onclick="copy('rgb-hex')">复制</button>`;
 
             cw("#rgb-r-value").color = `rgb(${rgb.r}, 0, 0)`;
             cw("#rgb-g-value").color = `rgb(0, ${rgb.g}, 0)`;
             cw("#rgb-b-value").color = `rgb(0, 0, ${rgb.b})`;
-            cw("#code-rgb").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            cw("#code-rgb-num").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            cw("#code-rgb-hex").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // CMYK
             cw("#cmyk-c").el.value = cmyk.c;
@@ -253,12 +260,12 @@
             cw("#cmyk-m-value").html = cmyk.m;
             cw("#cmyk-y-value").html = cmyk.y;
             cw("#cmyk-k-value").html = cmyk.k;
-            cw("#code-cmyk").html = `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k})`;
+            cw("#code-cmyk").html = `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k}) <button onclick="copy('cmyk')">复制</button>`;
 
-            cw("#cmyk-c-value").color = `rgb(${CMYK2RGB(cmyk.c, 0, 0, 0)["r"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["g"]}, ${CMYK2RGB(cmyk.c, 0, 0, 0)["b"]})`;
-            cw("#cmyk-m-value").color = `rgb(${CMYK2RGB(0, cmyk.m, 0, 0)["r"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["g"]}, ${CMYK2RGB(0, cmyk.m, 0, 0)["b"]})`;
-            cw("#cmyk-y-value").color = `rgb(${CMYK2RGB(0, 0, cmyk.y, 0)["r"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["g"]}, ${CMYK2RGB(0, 0, cmyk.y, 0)["b"]})`;
-            cw("#cmyk-k-value").color = `rgb(${CMYK2RGB(0, 0, 0, cmyk.k)["r"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["g"]}, ${CMYK2RGB(0, 0, 0, cmyk.k)["b"]})`;
+            cw("#cmyk-c-value").color = `rgb(${CMYK2RGB(cmyk.c, 0, 0, 0).r}, ${CMYK2RGB(cmyk.c, 0, 0, 0).g}, ${CMYK2RGB(cmyk.c, 0, 0, 0).b})`;
+            cw("#cmyk-m-value").color = `rgb(${CMYK2RGB(0, cmyk.m, 0, 0).r}, ${CMYK2RGB(0, cmyk.m, 0, 0).g}, ${CMYK2RGB(0, cmyk.m, 0, 0).b})`;
+            cw("#cmyk-y-value").color = `rgb(${CMYK2RGB(0, 0, cmyk.y, 0).r}, ${CMYK2RGB(0, 0, cmyk.y, 0).g}, ${CMYK2RGB(0, 0, cmyk.y, 0).b})`;
+            cw("#cmyk-k-value").color = `rgb(${CMYK2RGB(0, 0, 0, cmyk.k).r}, ${CMYK2RGB(0, 0, 0, cmyk.k).g}, ${CMYK2RGB(0, 0, 0, cmyk.k).b})`;
             cw("#code-cmyk").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 
             // HSV
@@ -269,9 +276,9 @@
             cw("#hsv-h-value").html = `${hsv.h}°`;
             cw("#hsv-s-value").html = hsv.s;
             cw("#hsv-v-value").html = hsv.v;
-            cw("#code-hsv").html = `hsv(${hsv.h}, ${hsv.s}, ${hsv.v})`;
+            cw("#code-hsv").html = `hsv(${hsv.h}, ${hsv.s}, ${hsv.v}) <button onclick="copy('hsv')">复制</button>`;
 
-            cw("#hsv-h-value").color = `rgb(${HSV2RGB(hsv.h, 100, 100)["r"]}, ${HSV2RGB(hsv.h, 100, 100)["g"]}, ${HSV2RGB(hsv.h, 100, 100)["b"]})`;
+            cw("#hsv-h-value").color = `rgb(${HSV2RGB(hsv.h, 100, 100).r}, ${HSV2RGB(hsv.h, 100, 100).g}, ${HSV2RGB(hsv.h, 100, 100).b})`;
             cw("#hsv-s-value").color = `rgb(${hsv.s.percentage(0, 100).transit(204, 0)}, ${hsv.s.percentage(0, 100).transit(204, 255)}, ${hsv.s.percentage(0, 100).transit(204, 255)})`;
             cw("#hsv-v-value").color = `rgb(0, ${hsv.v.percentage(0, 100).transit(0, 255)}, ${hsv.v.percentage(0, 100).transit(0, 255)})`;
             cw("#code-hsv").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
@@ -284,12 +291,120 @@
             cw("#hsl-h-value").html = `${hsl.h}°`;
             cw("#hsl-s-value").html = hsl.s;
             cw("#hsl-l-value").html = hsl.l;
-            cw("#code-hsl").html = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
+            cw("#code-hsl").html = `hsl(${hsl.h}, ${hsl.s}, ${hsl.l}) <button onclick="copy('hsl')">复制</button>`;
 
-            cw("#hsl-h-value").color = `rgb(${HSL2RGB(hsl.h, 100, 50)["r"]}, ${HSL2RGB(hsl.h, 100, 50)["g"]}, ${HSL2RGB(hsl.h, 100, 50)["b"]})`;
+            cw("#hsl-h-value").color = `rgb(${HSL2RGB(hsl.h, 100, 50).r}, ${HSL2RGB(hsl.h, 100, 50).g}, ${HSL2RGB(hsl.h, 100, 50).b})`;
             cw("#hsl-s-value").color = `rgb(${hsl.s.percentage(0, 100).transit(204, 0)}, ${hsl.s.percentage(0, 100).transit(204, 255)}, ${hsl.s.percentage(0, 100).transit(204, 255)})`;
             cw("#hsl-l-value").color = `rgb(${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)}, ${hsl.l.percentage(0, 100).transit(0, 255)})`;
             cw("#code-hsl").color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        }
+
+        function read() {
+            readColor().catch(e => {
+                cw("#read-result").text = `读取错误: ${e}`;
+                cw("#read-result").color = "var(--red)";
+            });
+        }
+        async function readColor() {
+            let value = await navigator.clipboard.readText();
+            value = value.replaceAll(/(^ | $)/g, "");
+
+            if (value == "" || value == null) {
+                throw new ReferenceError("Clipboard is empty");
+            }
+
+            if (value.includes("rgb")) {
+                const [r, g, b] = value.match(/rgb\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)/).slice(1, 4).map(Number);
+                if (!r.range(0, 255) || !g.range(0, 255) || !b.range(0, 255)) { throw new ReferenceError("Invalid RGB code"); }
+
+                cw("#rgb-r").value = r;
+                cw("#rgb-g").value = g;
+                cw("#rgb-b").value = b;
+
+                turn("rgb");
+                changeColor();
+                cw("#read-result").text = `已读取 rgb(${r}, ${g}, ${b})`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+            if (value.match(/\d{1,3}, ?\d{1,3}, ?\d{1,3}/)) {
+                const [r, g, b] = value.match(/(\d{1,3}), ?(\d{1,3}), ?(\d{1,3})/).slice(1, 4).map(Number);
+                if (!r.range(0, 255) || !g.range(0, 255) || !b.range(0, 255)) { throw new ReferenceError("Invalid RGB code"); }
+
+                cw("#rgb-r").value = r;
+                cw("#rgb-g").value = g;
+                cw("#rgb-b").value = b;
+
+                turn("rgb");
+                changeColor();
+                cw("#read-result").text = `已读取 rgb(${r}, ${g}, ${b})`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+            if (value.includes("#")) {
+                const hexCode = value.match(/(?<=#)[A-Fa-f0-9]{6}/)[0];
+                const [r, g, b] = [Number(hexCode.slice(0, 2).transBase(16, 10)), Number(hexCode.slice(2, 4).transBase(16, 10)), Number(hexCode.slice(4, 6).transBase(16, 10))];
+                if (!r.range(0, 255) || !g.range(0, 255) || !b.range(0, 255)) { throw new ReferenceError("Invalid RGB code"); }
+
+                cw("#rgb-r").value = r;
+                cw("#rgb-g").value = g;
+                cw("#rgb-b").value = b;
+
+                turn("rgb");
+                changeColor();
+                cw("#read-result").text = `已读取 #${hexCode}`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+            if (value.includes("cmyk")) {
+                const [c, m, y, k] = value.match(/cmyk\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)/).slice(1, 5).map(Number);
+                if (!c.range(0, 100) || !m.range(0, 100) || !y.range(0, 100) || !y.range(0, 100)) { throw new ReferenceError("Invalid CMYK code"); }
+
+                cw("#cmyk-c").value = c;
+                cw("#cmyk-m").value = m;
+                cw("#cmyk-y").value = y;
+                cw("#cmyk-k").value = k;
+
+                turn("cmyk");
+                changeColor();
+                cw("#read-result").text = `已读取 cmyk(${c}, ${m}, ${y}, ${k})`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+            if (value.includes("hsv")) {
+                const [h, s, v] = value.match(/hsv\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)/).slice(1, 4).map(Number);
+                if (!h.range(0, 360) || !s.range(0, 100) || !v.range(0, 100)) { throw new ReferenceError("Invalid HSV code"); }
+
+                cw("#hsv-h").value = h == 360 ? 0 : h;
+                cw("#hsv-s").value = s;
+                cw("#hsv-v").value = v;
+
+                turn("hsv");
+                changeColor();
+                cw("#read-result").text = `已读取 hsv(${h}, ${s}, ${v})`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+            if (value.includes("hsl")) {
+                const [h, s, l] = value.match(/hsl\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)/).slice(1, 4).map(Number);
+                if (!h.range(0, 360) || !s.range(0, 100) || !l.range(0, 100)) { throw new ReferenceError("Invalid HSL code"); }
+
+                cw("#hsl-h").value = h == 360 ? 0 : h;
+                cw("#hsl-s").value = s;
+                cw("#hsl-l").value = l;
+
+                turn("hsl");
+                changeColor();
+                cw("#read-result").text = `已读取 hsl(${h}, ${s}, ${l})`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+
+            throw new ReferenceError("Invalid color code");
+        }
+
+        function copy(from) {
+            navigator.clipboard.writeText(cw(`#code-${from}`).text.match(/^.*\)?(?= )/)[0]);
         }
 
         function RGB2CMYK(r, g, b) {

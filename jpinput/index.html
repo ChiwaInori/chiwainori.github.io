@@ -23,6 +23,8 @@
         <p>使用斜杠 / 在 平假名-片假名 之间切换。</p>
         <p><input id="input" /></p>
         <p><strong id="result"></strong></p>
+        <br />
+        <p><button onclick="navigator.clipboard.writeText(cw('#result').text)">复制结果</button></p>
     </div>
     <script>
         cw("#input").el.addEventListener("input", function () {

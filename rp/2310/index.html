@@ -467,7 +467,7 @@
                     storage.setItem("repeat", dynamicList.repeatProhibit);
                     storage.setItem("saveTime", new Date().getTime());
                 } catch {
-                    error("ProhibitedError: Failed to write to localStorage.");
+                    error(ProhibitedError, "Failed to write to localStorage.");
                 }
             }
         }
