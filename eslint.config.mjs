@@ -132,8 +132,16 @@ We use these methods to identify "error" or "warn":
     For examples, see /eslint-guide.js
 */
 
-const options = {
+const optionsScript = {
     sourceType: "script",
+    globals: {
+        window: "readonly",
+        document: "readonly",
+        console: "readonly"
+    }
+};
+const optionsModule = {
+    sourceType: "module",
     globals: {
         window: "readonly",
         document: "readonly",
@@ -144,14 +152,14 @@ const options = {
 export default [
     {
         files: ["**/*.js"],
-        languageOptions: options,
+        languageOptions: optionsScript,
         rules: ruleList
     },
-    // {
-    //     files: ["**/*.mjs"],
-    //     languageOptions: options,
-    //     rules: ruleList
-    // },
+    {
+        files: ["**/*.mjs"],
+        languageOptions: optionsModule,
+        rules: ruleList
+    },
     {
         languageOptions: {
             globals: globals.browser
@@ -160,7 +168,7 @@ export default [
     {
         files: ["**/*.html"],
         plugins: { html },
-        languageOptions: options,
+        languageOptions: optionsScript,
         rules: ruleList
     }
 ];

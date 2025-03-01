@@ -77,6 +77,7 @@
             boy: [],
             girl: []
         };
+        const studentsLength = fullList.all.length;
         let order = 0;
         
         const girlId = [9, 13, 14, 16, 18, 19, 20, 23, 25, 28, 32, 35, 36, 37, 42, 43, 47, 49, 52, 54];
@@ -132,17 +133,19 @@
             } else {
                 cw("#validationInvalid").unhide();
             }
-        } else if (localStorage.getItem(`${siteId()}_rollTimes`)) {
-            dynamicList.times.all = Array(...localStorage.getItem(`${siteId()}_rollTimes`).split(",").map(Number));
-            dynamicList.times.all.forEach(rollTimes => order += rollTimes);
+        } else if (storage.getItem("rollTimes")) {
+            const { rollTimes, repeat, saveTime } = storage.getAll();
 
-            dynamicList.repeatProhibit = Array(...localStorage.getItem(`${siteId()}_repeat`).split(",").map(Number));
+            dynamicList.times.all = Array(...rollTimes.split(",").map(Number));
+            dynamicList.times.all.forEach(rolled => order += rolled);
+
+            dynamicList.repeatProhibit = Array(...repeat.split(",").map(Number));
             order--;
             updateWeight(null, true);
             order++;
 
             cw("#readSuccess").unhide();
-            cw("#saveTime").html = new Date(Number(localStorage.getItem(`${siteId()}_saveTime`)));
+            cw("#saveTime").html = new Date(Number(saveTime));
             cw("#isAutosave").unhide("inline");
             cw("#deleteAutosave").unhide("inline");
         } else {
@@ -327,7 +330,7 @@
                 confirmId();
             });
             if (autosave) {
-                if (localStorage.getItem(`${siteId()}_rollTimes`) == String(dynamicList.times.all)) {
+                if (storage.getItem("rollTimes") == String(dynamicList.times.all)) {
                     cw("#autosaveDescription").html = `(已保存至 ${nowRolling})`;
                     cw("#autosaveDescription").color = "var(--green)";
                 } else {
@@ -460,9 +463,9 @@
 
             if (!dontCycleRepeat && autosave) {
                 try {
-                    localStorage.setItem(`${siteId()}_rollTimes`, dynamicList.times.all);
-                    localStorage.setItem(`${siteId()}_repeat`, dynamicList.repeatProhibit);
-                    localStorage.setItem(`${siteId()}_saveTime`, new Date().getTime());
+                    storage.setItem("rollTimes", dynamicList.times.all.slice(0, studentsLength));
+                    storage.setItem("repeat", dynamicList.repeatProhibit);
+                    storage.setItem("saveTime", new Date().getTime());
                 } catch {
                     error("ProhibitedError: Failed to write to localStorage.");
                 }
@@ -722,19 +725,20 @@
         }
         updateChance("all");
 
-        function cr(id, verify) {
+        function cr(id, verify = 0) {
             const rollTarget = fullList.all[id - 1];
-            if (rollTarget) {
-                if (verify.close(id * 2 + 17 - new Date().getDate() + id / 1000 + (girlId.includes(id) ? 0.0001 : 0.0006))) {
-                    updateWeight(rollTarget);
-                    updateChance(chanceMode == "all" ? "all" : "sex");
-                    logName(rollTarget);
-                } else {
-                    throw new ProhibitedError("Unauthorized modification");
-                }
-            } else {
+            if (!rollTarget) {
                 throw new ReferenceError(`No ID ${id} target found`);
             }
+
+            const now = new Date();
+            if (!verify.close(id * 2 + 17 - now.getDate() - now.getHours() + id / 1000 + (girlId.includes(id) ? 0.0001 : 0.0006))) {
+                throw new ProhibitedError("Unauthorized modification");
+            }
+
+            updateWeight(rollTarget);
+            updateChance(chanceMode == "all" ? "all" : "sex");
+            logName(2, rollTarget);
         }
 
         function doYouKnow(chance, type) {
@@ -823,8 +827,8 @@
             const id = rand(0, 0xffff);
             const idHex = id.toBase(16).padStart(4, "0");
             const saveInfo = {
-                rollTimes: dynamicList.times.all.slice(0, fullList.all.length - (rollTeachers ? teachers.list.length : 0)),
-                repeatProhibit: dynamicList.repeatProhibit.map(x => x <= fullList.all.length - (rollTeachers ? teachers.list.length : 0) ? x : 0)
+                rollTimes: dynamicList.times.all.slice(0, studentsLength),
+                repeatProhibit: dynamicList.repeatProhibit.map(x => x > studentsLength ? 0 : x)
             };
             const verify = seed([saveInfo.rollTimes, saveInfo.repeatProhibit], [id / 1000, id / 1000 - 1, id / 1000 - 16]);
 
@@ -841,9 +845,9 @@
         }
 
         function deleteAutosave() {
-            localStorage.removeItem("rp_2310_rollTimes");
-            localStorage.removeItem("rp_2310_repeat");
-            localStorage.removeItem("rp_2310_saveTime");
+            storage.removeItem("rollTimes");
+            storage.removeItem("repeat");
+            storage.removeItem("saveTime");
             location.reload();
         }
 

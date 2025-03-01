@@ -15,12 +15,11 @@
     Index: (The "p" below means "prototype")
 
     Chiwa Basic (1): const chiwa
-    Global Usage (22):
+    Global Usage (17):
         Parameter Judgement (2): _type, _range
         Commands (3): sleep, overload, Object.p.nonEnum
         Website (3): siteId, seizure, copyright
         URL Param (6): urlParam { setItem, getItem, getAll, removeItem, generate, clear }
-        Storage (5): storage { setItem, getItem, getAll, removeItem, clear }
         Console Log (3): log, warn, error
         ProhibitedError extends Error
     JS Commands (16):
@@ -44,7 +43,7 @@
  * @since 25-1-12
  * @version 25-1-21
 */
-const chiwa = "25-3-1";
+const chiwa = "25-2-28";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE
@@ -181,48 +180,38 @@ Object.defineProperty(Object.prototype, "nonEnum", {
 
 /**
  * Return a string of current page's site directory.
- * @returns {string} The site directory of current page in lowerCamelCase
- * @example siteId() // "mcOpcXts" if in https://chiwainori.top/mc/opc/xts/
+ * @returns {string} The site directory with "_" of current page
+ * @example siteId() // "mc_opc_xts" if in https://chiwainori.top/mc/opc/xts/
  * @since 25-1-20
- * @version 25-3-1
+ * @version 25-1-26
  */
 function siteId() {
-    const url = window.location.pathname.split("/");
-    let formatted = "";
-
-    for (const part of url) {
-        if (part == "") { continue; }
-        const [first, later] = [part[0], part.slice(1)];
-        formatted += `${formatted == "" ? first : first.toUpperCase()}${later}`;
-    }
-
-    return formatted.replaceAll(/(Index|\..*$)/g, "") || "chiwa";
+    return window.location.pathname.replaceAll("/", "_").replaceAll(/(^_|_$|\.html)/g, "") || "chiwa";
 }
 
 /**
  * Pop up a seizure warning in page.
- * @param {any} cnText - The custom text in Chinese
- * @param {any} enText - The custom text in English
- * @param {any} jpText - The custom text in Japanese
- * @example seizure("本页面包含闪烁内容。", "This page includes flashing content.", "このページにはフラッシュのコンテンツがある。") // Create a seizure warning of specified text.
+ * @param {any} cnText - The custom text for Chinese
+ * @param {any} enText - The custom text for English
+ * @example seizure("本页面包含闪烁内容。", "This page includes flashing content.") // Create a seizure warning in specified text.
  * @since xts.24-6-7
- * @version 25-3-1
+ * @version 25-1-26
  */
 async function seizure(cnText = "本页面包含可能会引起<strong>光敏性癫痫</strong>的内容。", enText = "This page include content that might cause <strong>photosensitive epilepsy.</strong>", jpText = "このページには、<strong>光感性てんかん</strong>を引き起こす可能性のある内容が含まれてるかも！") {
-    const visited = storage.getItem("seizure");
+    const visited = localStorage.getItem(`${siteId()}_seizure`);
     function preventScroll(event) {
         event.preventDefault();
     }
 
     if (cnText[0] == "_") {
-        applyAll(".SEIZURE", el => el.close());
+        applyAll(".SEIZURE", el => cw(el).el.close());
         if (cnText != "_close") {
             cw(`#${cnText.slice(3).toLowerCase()}Seizure`).el.showModal();
         } else {
             document.body.style.overflow = "";
             window.removeEventListener("scroll", preventScroll);
             cw(".mainBody").style.filter = "brightness(1)";
-            if (!visited) { storage.setItem("seizure", "1"); }
+            if (!visited) { localStorage.setItem(`${siteId()}_seizure`, "1"); }
         }
         return;
     }
@@ -290,7 +279,6 @@ function copyright(startYear, signature = "<ruby>千和<rt>ちわ</rt></ruby> �
 }
 
 // GLOBAL USAGE / URL PARAM
-// You can access and modify URL Params with using urlParam functions in ChiwaInori.top.
 
 // eslint-disable-next-line func-names
 const urlParam = new function urlParam() {
@@ -402,107 +390,6 @@ const urlParam = new function urlParam() {
      */
     this.nonEnum("clear", () => {
         history.replaceState(null, "", `${window.location.href.split("?")[0]}`);
-
-        return { reload() { location.reload(); } };
-    });
-}();
-
-// GLOBAL USAGE / STORAGE
-// You can access and modify Local Storage with using storage functions in ChiwaInori.top.
-// Normally they will be auto-limited to access storage under current page. You can use global sign to access all stored values in ChiwaInori.top.
-
-// eslint-disable-next-line func-names
-const storage = new function storage() {
-    /**
-     * Set or update a value to localStorage.
-     * @param {string} key - The key of storage
-     * @param {any} value - The value being set
-     * @param {boolean} global - If true, key name won't add siteId as default
-     * @returns {object} Use (...).reload() to set storage with reload
-     * @example storage.setItem("result", "abcdef") // Update a storage value result=abcdef
-     * @since 25-3-1
-     * @version 25-3-1
-     */
-    this.nonEnum("setItem", (key, value, global = false) => {
-        _type(key, "string");
-        _type(global, "boolean");
-
-        localStorage.setItem(`${!global ? `${siteId()}_` : ""}${key}`, value);
-
-        return { reload() { location.reload(); } };
-    });
-
-    /**
-     * Get the stored value from localStorage.
-     * @param {string} key - The key of storage
-     * @param {boolean} global - If true, key name won't add siteId as default
-     * @returns {string | null} The stored value
-     * @example storage.getItem("userID") // Return the value of userID stored
-     * @since 25-3-1
-     * @version 25-3-1
-     */
-    this.nonEnum("getItem", (key, global = false) => {
-        _type(key, "string");
-        _type(global, "boolean");
-
-        return localStorage.getItem(`${!global ? `${siteId()}_` : ""}${key}`);
-    });
-
-    /**
-     * Get all stored value from localStorage.
-     * @param {boolean} global - If true, all values under current domain will be gotten
-     * @returns {object} All stored value
-     * @example storage.getAll() // Get all stored values in current page
-     * @since 25-3-1
-     * @version 25-3-1
-     */
-    this.nonEnum("getAll", (global = false) => {
-        _type(global, "boolean");
-
-        const obj = {};
-        for (const key in localStorage) {
-            if ((global || key.includes(`${siteId()}_`)) && localStorage.getItem(key) != null) {
-                obj[!global ? key.split("_")[1] : key] = localStorage.getItem(key);
-            }
-        }
-
-        return obj;
-    });
-
-    /**
-     * Remove a value from localStorage.
-     * @param {string} key - The key of storage to remove from localStorage
-     * @param {boolean} global - If true, key name won't add siteId as default
-     * @returns {object} Use (...).reload() to remove value with reload
-     * @example storage.removeItem("result") // Update localStorage with "result" removed
-     * @since 25-3-1
-     * @version 25-3-1
-     */
-    this.nonEnum("removeItem", (key, global = false) => {
-        _type(key, "string");
-        _type(global, "boolean");
-
-        localStorage.removeItem(`${!global ? `${siteId()}_` : ""}${key}`);
-
-        return { reload() { location.reload(); } };
-    });
-
-    /**
-     * Clear stored values from localStorage.
-     * @param {boolean} global - If true, all values under current domain will be cleared
-     * @returns {object} Use (...).reload() to remove value with reload
-     * @example storage.clear() // Clear all stored values in current page
-     * @since 25-3-1
-     * @version 25-3-1
-     */
-    this.nonEnum("clear", (global = false) => {
-        _type(global, "boolean");
-
-        for (const key in localStorage) {
-            if (global || key.includes(`${siteId()}_`)) {
-                localStorage.removeItem(key);
-            }
-        }
 
         return { reload() { location.reload(); } };
     });
@@ -972,8 +859,8 @@ BigInt.prototype.nonEnum("toBase", function (base, _) {
 // HTML ELEMENTS
 
 // HTML ELEMENTS / CHIWASET
-// ChiwaSet: A new class with custom information of a single element. Convenient for some specified values / functions.
 
+// ChiwaSet: A new class with custom information of a single element. Convenient for some specified values / functions.
 class ChiwaSet {
     /**
      * Construct a ChiwaSet with a specified element.

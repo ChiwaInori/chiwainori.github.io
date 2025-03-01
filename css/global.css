@@ -119,7 +119,7 @@ img[style*="float: left"] {
     margin-right: 8px;
 }
 
-input, button {
+input, button, textarea {
     color: var(--activeColor-500);
     background-color: #ffffff;
     margin: auto 10px auto 10px;
