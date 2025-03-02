@@ -112,8 +112,8 @@
         cw("#timeTable-prepareOver").html = timeTable.prepareOver.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
         cw("#timeTable-over").html = timeTable.over.map(e => e.map((x, index) => index == 0 ? x : String(x).padStart(2, "0")).join(":")).join(" / ");
 
-        if (urlParam.getItem("offset")) {
-            time.offset = Number(urlParam.getItem("offset"));
+        if (urlParam.get("offset")) {
+            time.offset = Number(urlParam.get("offset"));
             cw("#offset").html = ` (校准: ${time.offset > 0 ? `+${time.offset}` : time.offset} ms)`;
             cw("#saveButton").el.disabled = false;
         }

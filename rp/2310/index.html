@@ -112,7 +112,7 @@
         };
         fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
 
-        if (urlParam.getItem("rollTimes") && order == 0) {
+        if (urlParam.get("rollTimes") && order == 0) {
             const { rollTimes, repeat, code, time, verify } = urlParam.getAll();
             cw("#rollPanel").hide();
 
@@ -133,7 +133,7 @@
             } else {
                 cw("#validationInvalid").unhide();
             }
-        } else if (storage.getItem("rollTimes")) {
+        } else if (storage.get("rollTimes")) {
             const { rollTimes, repeat, saveTime } = storage.getAll();
 
             dynamicList.times.all = Array(...rollTimes.split(",").map(Number));
@@ -330,7 +330,7 @@
                 confirmId();
             });
             if (autosave) {
-                if (storage.getItem("rollTimes") == String(dynamicList.times.all)) {
+                if (storage.get("rollTimes") == String(dynamicList.times.all)) {
                     cw("#autosaveDescription").html = `(已保存至 ${nowRolling})`;
                     cw("#autosaveDescription").color = "var(--green)";
                 } else {
@@ -463,9 +463,9 @@
 
             if (!dontCycleRepeat && autosave) {
                 try {
-                    storage.setItem("rollTimes", dynamicList.times.all.slice(0, studentsLength));
-                    storage.setItem("repeat", dynamicList.repeatProhibit);
-                    storage.setItem("saveTime", new Date().getTime());
+                    storage.set("rollTimes", dynamicList.times.all.slice(0, studentsLength));
+                    storage.set("repeat", dynamicList.repeatProhibit);
+                    storage.set("saveTime", new Date().getTime());
                 } catch {
                     error(ProhibitedError, "Failed to write to localStorage.");
                 }
@@ -845,9 +845,9 @@
         }
 
         function deleteAutosave() {
-            storage.removeItem("rollTimes");
-            storage.removeItem("repeat");
-            storage.removeItem("saveTime");
+            storage.remove("rollTimes");
+            storage.remove("repeat");
+            storage.remove("saveTime");
             location.reload();
         }
 

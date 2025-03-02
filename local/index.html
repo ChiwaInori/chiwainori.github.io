@@ -25,10 +25,8 @@
         cw("#title-title").html = `你在 ${window.location.origin} 上的本地数据`;
 
         const local = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            const value = localStorage.getItem(key);
-            local.push([key, value]);
+        for (const key in storage.getAll(true)) {
+            local.push([key, storage.get(key, true)]);
         }
 
         if (!local[0]) {
@@ -40,15 +38,13 @@
         }
 
         function clearItems(index) {
-            if (index === undefined) {
+            if (index == undefined) {
                 const confirmPop = confirm("你确定要清除所有本地数据吗？");
                 if (confirmPop) {
-                    localStorage.clear();
-                    location.reload();
+                    storage.clear(true).reload();
                 }
             } else {
-                localStorage.removeItem(local[index][0]);
-                location.reload();
+                storage.remove(local[index][0], true).reload();
             }
         }
     </script>

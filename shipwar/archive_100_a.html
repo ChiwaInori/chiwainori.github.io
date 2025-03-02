@@ -395,7 +395,7 @@
         const shipwarURL = "https://xtsgames.top/shipwar/?code=";
         const currentVersion = 100;
 
-        const onlineCode = urlParam.getItem("code");
+        const onlineCode = urlParam.get("code");
         if (onlineCode) {
             cw("#code_type").el.value = onlineCode;
             cw("#rules").hide();
