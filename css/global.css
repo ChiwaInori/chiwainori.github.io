@@ -266,6 +266,10 @@ table {
     margin: 0px 0px 10px 0px;
 }
 
+th, td {
+    text-align: center;
+}
+
 /* SPECIAL CLASSES IN ChiwaInori.top */
 
 /*
