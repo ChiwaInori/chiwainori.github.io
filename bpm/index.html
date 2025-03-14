@@ -19,7 +19,7 @@
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>BPM 分析器</strong></h6>
     </div>
     <div class="content">
-        <p>在音乐节拍处按下 Enter 键来分析节拍。</p>
+        <p>在音乐节拍处按下 Enter 键来分析节拍。按下 R 重置。</p>
         <br />
         <div id="main" hidden>
             <table>
@@ -33,82 +33,105 @@
                 </tr>
                 <tr>
                     <th>最新 BPM</th>
-                    <th id="int-newest"></th>
+                    <th id="int-newest" class="values"></th>
                     <td>|</td>
-                    <td id="v-newest"></td>
-                    <td id="h-newest"></td>
-                    <td id="l-newest"></td>
+                    <td id="v-newest" class="values"></td>
+                    <td id="h-newest" class="values"></td>
+                    <td id="l-newest" class="values"></td>
                 </tr>
                 <tr>
-                    <th>近 4 次 BPM</th>
-                    <td id="int-4"></td>
+                    <td>近 4 次 BPM</td>
+                    <td id="int-4" class="values"></td>
                     <td>|</td>
-                    <td id="v-4"></td>
-                    <td id="h-4"></td>
-                    <td id="l-4"></td>
+                    <td id="v-4" class="values"></td>
+                    <td id="h-4" class="values"></td>
+                    <td id="l-4" class="values"></td>
                 </tr>
                 <tr>
-                    <th>近 8 次 BPM</th>
-                    <td id="int-8"></td>
+                    <td>近 8 次 BPM</td>
+                    <td id="int-8" class="values"></td>
                     <td>|</td>
-                    <td id="v-8"></td>
-                    <td id="h-8"></td>
-                    <td id="l-8"></td>
+                    <td id="v-8" class="values"></td>
+                    <td id="h-8" class="values"></td>
+                    <td id="l-8" class="values"></td>
                 </tr>
                 <tr>
-                    <th>近 16 次 BPM</th>
-                    <td id="int-16"></td>
+                    <td>近 16 次 BPM</td>
+                    <td id="int-16" class="values"></td>
                     <td>|</td>
-                    <td id="v-16"></td>
-                    <td id="h-16"></td>
-                    <td id="l-16"></td>
+                    <td id="v-16" class="values"></td>
+                    <td id="h-16" class="values"></td>
+                    <td id="l-16" class="values"></td>
                 </tr>
                 <tr>
-                    <th>近 32 次 BPM</th>
-                    <td id="int-32"></td>
+                    <td>近 32 次 BPM</td>
+                    <td id="int-32" class="values"></td>
                     <td>|</td>
-                    <td id="v-32"></td>
-                    <td id="h-32"></td>
-                    <td id="l-32"></td>
+                    <td id="v-32" class="values"></td>
+                    <td id="h-32" class="values"></td>
+                    <td id="l-32" class="values"></td>
                 </tr>
                 <tr>
-                    <th>近 64 次 BPM</th>
-                    <td id="int-64"></td>
+                    <td>近 64 次 BPM</td>
+                    <td id="int-64" class="values"></td>
                     <td>|</td>
-                    <td id="v-64"></td>
-                    <td id="h-64"></td>
-                    <td id="l-64"></td>
+                    <td id="v-64" class="values"></td>
+                    <td id="h-64" class="values"></td>
+                    <td id="l-64" class="values"></td>
                 </tr>
                 <tr>
                     <th>总平均 BPM</th>
-                    <th id="int-total"></th>
+                    <th id="int-total" class="values"></th>
                     <td>|</td>
-                    <td id="v-total"></td>
-                    <td id="h-total"></td>
-                    <td id="l-total"></td>
+                    <td id="v-total" class="values"></td>
+                    <td id="h-total" class="values"></td>
+                    <td id="l-total" class="values"></td>
+                </tr>
+                <tr>
+                    <td>点击次数</td>
+                    <td id="press" class="values"></td>
                 </tr>
             </table>
         </div>
+        <br />
+        <p>点击此处激活键盘 &gt; <input style="width: 16px;" /> &lt;</p>
     </div>
     <script>
         let active = false;
         const beats = {
             last: null,
-            recent4: [null, null, null, null],
-            recent8: [null, null, null, null, null, null, null, null],
-            recent16: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-            recent32: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-            recent64: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+            recent4: [].add(null, 4),
+            recent8: [].add(null, 8),
+            recent16: [].add(null, 16),
+            recent32: [].add(null, 32),
+            recent64: [].add(null, 64),
             all: []
         };
 
-        window.addEventListener("keydown", e => { if (e.code == "Enter") { beat(); } });
+        window.addEventListener("keydown", e => {
+            if (e.code == "Enter") { beat(); }
+            if (e.code == "KeyR") {
+                active = false;
+                cw("#main").hide();
+
+                beats.last = null;
+                beats.recent4 = [].add(null, 4);
+                beats.recent8 = [].add(null, 8);
+                beats.recent16 = [].add(null, 16);
+                beats.recent32 = [].add(null, 32);
+                beats.recent64 = [].add(null, 64);
+                beats.all = [];
+                applyAll(".values", el => cw(el).text = "");
+            }
+        });
 
         function beat() {
             if (!active) {
                 active = true;
                 cw("#main").unhide();
             }
+
+            cw("#press").text = Number(cw("#press").text) + 1;
 
             const now = new Date().getTime();
 

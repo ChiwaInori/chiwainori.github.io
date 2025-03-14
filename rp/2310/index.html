@@ -111,7 +111,8 @@
             totalAvg: 0,
             repeatProhibit: [0, 0, 0, 0, 0]
         };
-        fullList.all.forEach(() => { dynamicList.weight.all.push(1); dynamicList.times.all.push(0); });
+        dynamicList.weight.all = dynamicList.weight.all.add(1, fullList.all.length);
+        dynamicList.times.all = dynamicList.times.all.add(0, fullList.all.length);
 
         if (urlParam.get("rollTimes") && order == 0) {
             const { rollTimes, repeat, code, time, verify } = urlParam.getAll();
@@ -150,8 +151,10 @@
             cw("#isAutosave").unhide("inline");
             cw("#deleteAutosave").unhide("inline");
         } else {
-            fullList.boy.forEach(() => { dynamicList.weight.boy.push(1); dynamicList.times.boy.push(0); });
-            fullList.girl.forEach(() => { dynamicList.weight.girl.push(1); dynamicList.times.girl.push(0); });
+            dynamicList.weight.boy = dynamicList.weight.boy.add(1, fullList.boy.length);
+            dynamicList.times.boy = dynamicList.times.boy.add(0, fullList.boy.length);
+            dynamicList.weight.girl = dynamicList.weight.girl.add(1, fullList.girl.length);
+            dynamicList.times.girl = dynamicList.times.girl.add(0, fullList.girl.length);
         }
 
         const remainingList = fullList.isolate();
@@ -188,7 +191,7 @@
             if (this.checked) {
                 fullList.all.push(...teachers.list);
                 remainingList.all.push(...teachers.list);
-                teachers.list.forEach(() => { dynamicList.times.all.push(0); });
+                dynamicList.times.all = dynamicList.times.all.add(0, teachers.list.length);
                 girlId.push(...teachers.girlId);
 
                 for (let i = fullList.all.length - teachers.list.length; i < fullList.all.length; i++) {
