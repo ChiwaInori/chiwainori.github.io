@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>身份证号校验 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>身份证号校验</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>身份证号校验</strong></h6>
+    </div>
+    <div class="content">
+        <p>请输入要校验的身份证号，或输入前 17 位来补全最后一位校验码。</p>
+        <p><input style="width: 256px" /><button onclick="check()" disabled>校验</button></p>
+        <br />
+        <div id="result"></div>
+    </div>
+    <script>
+        const input = cw("input");
+        const button = cw("button");
+        const result = cw("#result");
+
+        input.el.focus();
+        buttonKey(button.el);
+
+        input.el.addEventListener("input", function () {
+            const num = this.value;
+            
+            if (num.length == 18) {
+                button.text = "校验";
+                button.disabled = false;
+            } else if (num.length == 17) {
+                button.text = "补全";
+                button.disabled = false;
+            } else {
+                button.text = "校验";
+                button.disabled = true;
+            }
+        });
+
+        function check() {
+            const num = input.value.toUpperCase();
+            const target = getVerify(num.slice(0, 17));
+            result.html = "";
+            
+            if (num.length == 18) {
+                const last = num[17];
+                if (last == target) {
+                    result.html += `<p style="color: var(--green)"><strong>身份证号校验成功!</strong></p>`;
+                } else {
+                    result.html += `<p style="color: var(--red)"><strong>身份证号校验失败</strong></p>`;
+                }
+                result.html += `<p>预期校验码: <strong>${target}</strong>; 输入: <strong style="color: var(--${last == target ? "green" : "red"})">${last}</strong></p>`;
+            }
+            if (num.length == 17) {
+                result.html = `<p>此身份证号的校验码是: <strong style="color: var(--green)">${target}</strong></p>`;
+            }
+
+            const province = [[11, "北京"], [12, "天津"], [13, "河北"], [14, "山西"], [15, "内蒙古"], [21, "辽宁"], [22, "吉林"], [23, "黑龙江"], [31, "上海"], [32, "江苏"], [33, "浙江"], [34, "安徽"], [35, "福建"], [36, "江西"], [37, "山东"], [41, "河南"], [42, "湖北"], [43, "湖南"], [44, "广东"], [45, "广西"], [46, "海南"], [50, "重庆"], [51, "四川"], [52, "贵州"], [53, "云南"], [54, "西藏"], [61, "陕西"], [62, "甘肃"], [63, "青海"], [64, "宁夏"], [65, "新疆"], [71, "台湾"], [81, "香港"], [82, "澳门"], [91, "国外"]];
+            result.html += `<p>地区: <strong>${(() => { for (let i = 0; i < province.length; i++) { if (province[i][0] == num.slice(0, 2)) { return province[i][1]; } } return "未知"; })()}</strong> <span class="ANT">更详细的地区信息请上网查询</span></p>`;
+
+            const [year, month, day] = [num.slice(6, 10), num.slice(10, 12), num.slice(12, 14)];
+            const age = getAge(year, month, day);
+            result.html += `<p>出生日期: <strong>${year} 年 ${month} 月 ${day} 日</strong> <span style="color: var(--${age >= 18 ? "green" : "orange"})">(${age} 岁)</span></p>`;
+
+            result.html += `<p>性别: <strong>${num[16] % 2 == 0 ? "女" : "男"}</strong></p>`;
+        }
+
+        function getVerify(id) {
+            const numList = [];
+            const weight = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+            let sum = 0;
+            
+            for (const num of id) {
+                numList.push(Number(num));
+            }
+            
+            for (let i = 0; i < 17; i++) {
+                sum += numList[i] * weight[i];
+            }
+
+            sum = (12 - sum % 11) % 11;
+
+            return String(sum) == "10" ? "X" : String(sum);
+        }
+
+        function getAge(y, m, d) {
+            const now = new Date();
+            const nowY = now.getFullYear();
+            const nowM = now.getMonth() + 1;
+            const nowD = now.getDate();
+
+            if (nowM > m || nowM == m && nowD >= d) {
+                return nowY - y;
+            }
+            return nowY - y - 1;
+        }
+    </script>
+</div></body>
+
+</html>
