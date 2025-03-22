@@ -41,7 +41,7 @@
 /**
  * Check if Chiwa Functions is available.
  * @example chiwa // If Chiwa Functions is available, get a version string in console.
- * @since 25-1-12
+ * @since xts.24-5-19
  * @version 25-1-21
 */
 const chiwa = "25-3-22-2";

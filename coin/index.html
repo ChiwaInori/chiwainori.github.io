@@ -22,7 +22,7 @@
         }
 
         
-        .coin .front, .coin .back {
+        .coin .heads, .coin .tails {
             width: 100%;
             height: 100%;
             border-radius: 50%;
@@ -42,27 +42,27 @@
                 height: 500px;
             }
 
-            .coin .front, .coin .back {
+            .coin .heads, .coin .tails {
                 font-size: 60px;
             }
         }
         
-        .coin .front {
+        .coin .heads {
             background-color: var(--yellow);
             transform: rotateY(0deg);
         }
 
-        .coin .back {
+        .coin .tails {
             background-color: var(--lightOrange);
             transform: rotateY(180deg);
         }
 
         /* 正面翻转动画 */
-        .flip-front-front {
-            animation: flip-front-front 2s var(--transit) forwards;
+        .flip-heads-heads {
+            animation: flip-heads-heads 2s var(--transit) forwards;
         }
         
-        @keyframes flip-front-front {
+        @keyframes flip-heads-heads {
             0% {
                 transform: rotateY(0deg);
             }
@@ -72,11 +72,11 @@
         }
         
         /* 反面翻转动画 */
-        .flip-front-back {
-            animation: flip-front-back 2s var(--transit) forwards;
+        .flip-heads-tails {
+            animation: flip-heads-tails 2s var(--transit) forwards;
         }
         
-        @keyframes flip-front-back {
+        @keyframes flip-heads-tails {
             0% {
                 transform: rotateY(0deg);
             }
@@ -86,11 +86,11 @@
         }
 
         /* 正面翻转动画 */
-        .flip-back-front {
-            animation: flip-back-front 2s var(--transit) forwards;
+        .flip-tails-heads {
+            animation: flip-tails-heads 2s var(--transit) forwards;
         }
 
-        @keyframes flip-back-front {
+        @keyframes flip-tails-heads {
             0% {
                 transform: rotateY(180deg);
             }
@@ -100,11 +100,11 @@
         }
         
         /* 反面翻转动画 */
-        .flip-back-back {
-            animation: flip-back-back 2s var(--transit) forwards;
+        .flip-tails-tails {
+            animation: flip-tails-tails 2s var(--transit) forwards;
         }
 
-        @keyframes flip-back-back {
+        @keyframes flip-tails-tails {
             0% {
                 transform: rotateY(180deg);
             }
@@ -122,12 +122,14 @@
     </div>
     <div class="navigation">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>翻转硬币</strong></h6>
+        <h6 id="lang-cn"><strong>CN</strong> | <span class="LNK" onclick="setLang('jp')">JP</span></h6>
+        <h6 id="lang-jp"><span class="LNK" onclick="setLang('cn')">CN</span> | <strong>JP</strong></h6>
     </div>
     <div class="content">
         <div class="coin-container">
             <div class="coin" id="coin">
-                <div class="front">正面</div>
-                <div class="back">反面</div>
+                <div class="heads">正面</div>
+                <div class="tails">反面</div>
             </div>
             <button id="flip-btn">翻转硬币</button>
         </div>
@@ -143,11 +145,11 @@
         flipBtn.addEventListener("click", () => {
             // 随机生成0或1，0表示正面，1表示反面
             const random = rand(0, 1);
-            const now = firstFlip || coin.classList.contains("flip-front-front") || coin.classList.contains("flip-back-front") ? "front" : "back";
-            const result = random == 0 ? "front" : "back";
+            const now = firstFlip || coin.classList.contains("flip-heads-heads") || coin.classList.contains("flip-tails-heads") ? "heads" : "tails";
+            const result = random == 0 ? "heads" : "tails";
             
             // 移除之前的动画类
-            coin.classList.remove("flip-front-front", "flip-front-back", "flip-back-front", "flip-back-back");
+            coin.classList.remove("flip-heads-heads", "flip-heads-tails", "flip-tails-heads", "flip-tails-tails");
             
             void coin.offsetWidth;
             
@@ -163,7 +165,7 @@
 
             cw("#options").html = "";
             for (let i = 1; i <= count; i++) {
-                cw("#options").html += `<p id="opt-${i}" class="opt"><strong>选项 ${i}</strong></p>`;
+                cw("#options").html += `<p id="opt-${i}" class="opt"><strong>${(storage.get("lang", true) || "cn") == "cn" ? "选项" : storage.get("lang", true) == "jp" ? "オプション" : ""}  ${i}</strong></p>`;
             }
         }
         updateOptions();
@@ -187,6 +189,39 @@
             await sleep(800);
             cw(`#opt-${target}`).color = "var(--green)";
         }
+
+        // Multilingual Support Test 2025.3.22
+        function setLang(l) {
+            if (l == "cn") {
+                cw("#lang-cn").unhide();
+                cw("#lang-jp").hide();
+                storage.set("lang", "cn", true);
+
+                cw(".title > h1").text = "翻转硬币";
+                cw("body > div > div.navigation > h6:nth-child(1) > strong").text = "翻转硬币";
+                cw("#coin > div.heads").text = "正面";
+                cw("#coin > div.tails").text = "反面";
+                cw("#flip-btn").text = "翻转硬币";
+                cw("body > div > div.content > p > strong").text = "选项数量";
+                cw("body > div > div.content > p > button").text = "随机选择";
+                applyAll(".opt", (el, i) => cw(el).html = `<strong>选项 ${i + 1}</strong>`);
+            }
+            if (l == "jp") {
+                cw("#lang-cn").hide();
+                cw("#lang-jp").unhide();
+                storage.set("lang", "jp", true);
+
+                cw(".title > h1").text = "コインフリップ";
+                cw("body > div > div.navigation > h6:nth-child(1) > strong").text = "コインフリップ";
+                cw("#coin > div.heads").text = "正面";
+                cw("#coin > div.tails").text = "反面";
+                cw("#flip-btn").text = "コインをフリップする";
+                cw("body > div > div.content > p > strong").text = "オプションの数";
+                cw("body > div > div.content > p > button").text = "ランダムに選択する";
+                applyAll(".opt", (el, i) => cw(el).html = `<strong>オプション ${i + 1}</strong>`);
+            }
+        }
+        (() => { setLang(storage.get("lang", true) || "cn"); })();
     </script>
 </div></body>
 

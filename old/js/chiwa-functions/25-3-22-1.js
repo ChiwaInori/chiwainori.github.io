@@ -41,10 +41,10 @@
 /**
  * Check if Chiwa Functions is available.
  * @example chiwa // If Chiwa Functions is available, get a version string in console.
- * @since xts.24-5-19
+ * @since 25-1-12
  * @version 25-1-21
 */
-const chiwa = "25-3-22-2";
+const chiwa = "25-3-22-1";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE
@@ -1251,7 +1251,7 @@ class ChiwaSet {
      * @param {function} callback - The event function
      * @example { ChiwaSet }.event("input", update) // Add a event listener "input" and update()
      * @since 25-3-22
-     * @version 25-3-22-2
+     * @version 25-3-22-1
      */
     event = (e, callback) => {
         _type(e, "string");
