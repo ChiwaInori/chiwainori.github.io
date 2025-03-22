@@ -217,7 +217,7 @@
             const toDecrypt = cw("#dec-txt").value.split("-")[1]?.split("");
             const key = cw("#dec-key").value.toUpperCase();
 
-            if (!(/^CW(\/[0-9A-Fa-f]+-|-)/).test(cw("#dec-txt").value)) {
+            if (!(/^CW(\/[0-9A-Fa-f]+)?-/).test(cw("#dec-txt").value)) {
                 cw("#dec-error").text = "无效的加密文本";
                 return;
             }
