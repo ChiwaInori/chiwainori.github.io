@@ -7,11 +7,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-normal.css" />
-    <style>
-        .no-mgr {
-            margin: 0px;
-        }
-    </style>
+    <style></style>
     <script src="/chiwa-functions.js"></script>
 </head>
 
@@ -24,15 +20,7 @@
     </div>
     <div class="content">
         <p>本页面可以使用 Chiwa 文本加密 来 加密/解密 你的文本。这是一种自制的对称加密方法。</p>
-        <p><strong>注意：</strong>本加密方法在短密钥的情况下安全性较低。</p>
-        <p>虽然密钥的长度不限，但实际上不重复的密钥只有 403291461126605635584000000^2 种。</p>
-        <br />
-        <p>加密方法: 
-            <select id="enc-method">
-                <option value="cw-2.0" selected>CW-2.0</option>
-                <option value="cw-1.0">CW-1.0</option>
-            </select>
-        </p>
+        <p>注意：本加密方法不保证在暴力破解下的安全性。请勿用于个人隐私等内容的加密。</p>
         <br />
         <p id="mode-0"><strong>加密</strong> | <span class="LNK" onclick="mode(1)">解密</span></p>
         <p id="mode-1" hidden><span class="LNK" onclick="mode(0)">加密</span> | <strong>解密</strong></p>
@@ -45,19 +33,15 @@
                 </tr>
                 <tr>
                     <th>密钥</th>
-                    <th>16 进制至少 4 位数<input id="enc-key" style="width: 256px;" placeholder="留空将随机生成密钥" /><button class="no-mgr" onclick="randKey(4)">4</button><button class="no-mgr" onclick="randKey(16)">16</button><button class="no-mgr" onclick="randKey(64)">64</button><button class="no-mgr" onclick="randKey(256)">256</button></th>
+                    <th>16 进制 4 位数<input id="enc-key" style="width: 60px;" placeholder="随机生成" /><span id="enc-wrong-key" style="color: var(--red)"></span></th>
                 </tr>
                 <tr>
-                    <th><abbr title="当你不需要防止无关人员获取信息 (例如防止信息被屏蔽) 时，可以勾选">在密文中包括密钥</abbr></th>
-                    <th><input id="enc-include" type="checkbox" /></th>
-                </tr>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th class="ANT">如果勾选，解密者不需要知道密钥，密钥将通过明文传递</th>
+                    <th>在密文中包括密钥</th>
+                    <th>如果勾选，解密者不需要知道密钥，密钥将通过明文传递<input id="enc-include" type="checkbox" /></th>
                 </tr>
                 <tr>
                     <th>&nbsp;</th>
-                    <th><button onclick="encrypt()">加密</button><span id="enc-error" style="color: var(--red)"></span></th>
+                    <th><button onclick="encrypt()">加密</button></th>
                 </tr>
             </table>
             <br />
@@ -72,11 +56,11 @@
                 </tr>
                 <tr>
                     <th>密钥</th>
-                    <th><input id="dec-key" style="width: 384px;" /></th>
+                    <th><input id="dec-key" style="width: 60px;" /><span id="dec-wrong-key" style="color: var(--red)"></span></th>
                 </tr>
                 <tr>
                     <th>&nbsp;</th>
-                    <th><button onclick="decrypt()">解密</button><span id="dec-error" style="color: var(--red)"></span></th>
+                    <th><button onclick="decrypt()">解密</button></th>
                 </tr>
             </table>
             <br />
@@ -85,21 +69,6 @@
         </div>
     </div>
     <script>
-        let customKey = false;
-
-        const charArr = {
-            az: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-            af: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"],
-            afl: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-        };
-
-        cw("#enc-method").el.addEventListener("change", function () {
-            const method = this.value;
-            if (method == "cw-1.0") {
-                window.location.href = "/cw-enc/cw1.html";
-            }
-        });
-
         function mode(type) {
             if (type == 0) {
                 cw("#mode-0").unhide();
@@ -115,36 +84,31 @@
             }
         }
 
-        cw("#enc-key").el.addEventListener("input", function () {
-            customKey = this.value != "";
-        });
-        window.addEventListener("pageshow", () => cw("#enc-method").value = "cw-2.0");
-
         function encrypt() {
             const text = cw("#enc-txt").value;
-            const key = (customKey ? cw("#enc-key").value : rand(0, 0xffff).toBase(16).padStart(4, "0")).toUpperCase();
+            const key = (cw("#enc-key").value || rand(0, 0xffff).toBase(16)).toUpperCase().padStart(4, "0");
             const keyInclusion = cw("#enc-include").checked;
             cw("#enc-key").value = key;
 
-            if (key.length < 4) { cw("#enc-error").text = "密钥需为 16 进制至少 4 位数"; return; }
+            if (key.length != 4) { cw("#enc-wrong-key").text = "密钥需为 16 进制 4 位数"; return; }
             try {
                 key.transBase(16, 10);
             } catch {
-                cw("#enc-error").text = "密钥需为 16 进制至少 4 位数";
+                cw("#enc-wrong-key").text = "密钥需为 16 进制 4 位数";
                 return;
             }
-            cw("#enc-error").text = "";
+            cw("#enc-wrong-key").text = "";
 
-            const root = `CW${keyInclusion ? `/${key}` : ""}-`;
+            const root = `CW-${keyInclusion ? key : getPlaceholder()}-`;
             let parse = "";
             for (const char of text) {
                 parse += char.charCodeAt(0).toBase(16).padStart(4, "0");
             }
 
-            const arrText = charArr.afl.isolate().shuffle(key, 0);
-            const arrEncrypt = charArr.az.isolate().shuffle(key, 1);
+            const arrText = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""].shuffle(key, 0);
+            const arrEncrypt = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].shuffle(key, 1);
 
-            const available = charArr.af.isolate();
+            const available = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
             
             const toEncrypt = parse.split("");
             for (let i = 0; i < toEncrypt.length; i++) {
@@ -152,6 +116,18 @@
             }
             
             cw("#enc-result").text = `${root}${toEncrypt.join("")}`;
+        }
+
+        function getPlaceholder() {
+            const string = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+            const code = [null, null, null, null];
+
+            code[rand(0, 3)] = string[rand(10, 35)];
+            for (let i = 0; i < 4; i++) {
+                if (code[i] == null) { code[i] = string[rand(0, 35)]; }
+            }
+
+            return code.join("");
         }
 
         Array.prototype.shuffle = function (key, type) {
@@ -188,25 +164,12 @@
             return availableChars.join("")[rand(0, availableChars.length - 1)];
         }
 
-        function randKey(len) {
-            customKey = true;
-
-            let key = "";
-
-            for (let i = 1; i <= len; i++) {
-                key += charArr.af[rand(0, 15)];
-            }
-
-            cw("#enc-key").value = key;
-        }
-
         cw("#dec-txt").el.addEventListener("input", function () {
             const text = this.value;
-            if (text.includes("CW/")) {
+            if (text.getCountOf("-") >= 2) {
                 try {
-                    const key = text.split("CW/")[1].split("-")[0];
-                    key.transBase(16, 10);
-                    cw("#dec-key").value = key;
+                    text.slice(3, 7).transBase(16, 10);
+                    cw("#dec-key").value = text.slice(3, 7);
                 } catch {
                     return;
                 }
@@ -214,24 +177,20 @@
         });
 
         function decrypt() {
-            const toDecrypt = cw("#dec-txt").value.split("-")[1]?.split("");
+            const toDecrypt = cw("#dec-txt").value.split("-")[2].split("");
             const key = cw("#dec-key").value.toUpperCase();
 
-            if (!(/^CW(\/[0-9A-Fa-f]+-|-)/).test(cw("#dec-txt").value)) {
-                cw("#dec-error").text = "无效的加密文本";
-                return;
-            }
-            if (key.length < 4) { cw("#dec-error").text = "密钥需为 16 进制至少 4 位数"; return; }
+            if (key.length != 4) { cw("#dec-wrong-key").text = "密钥需为 16 进制 4 位数"; return; }
             try {
                 key.transBase(16, 10);
             } catch {
-                cw("#dec-error").text = "密钥需为 16 进制至少 4 位数";
+                cw("#dec-wrong-key").text = "密钥需为 16 进制 4 位数";
                 return;
             }
-            cw("#dec-error").text = "";
+            cw("#dec-wrong-key").text = "";
 
-            const arrText = charArr.afl.isolate().shuffle(key, 0);
-            const arrEncrypt = charArr.az.isolate().shuffle(key, 1);
+            const arrText = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""].shuffle(key, 0);
+            const arrEncrypt = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"].shuffle(key, 1);
 
             for (let i = 0; i < toDecrypt.length; i++) {
                 toDecrypt[i] = recoverResult(toDecrypt[i], arrText, arrEncrypt);
@@ -243,12 +202,14 @@
                 try {
                     result += String.fromCharCode(Number(hex.transBase(16, 10)));
                 } catch {
-                    cw("#dec-error").text = "密文或密钥无效";
+                    cw("#dec-result").text = "解密时发生错误。这可能是因为密文或密钥无效。";
+                    cw("#dec-result").color = "var(--red)";
                     return;
                 }
             }
 
             cw("#dec-result").text = result;
+            cw("#dec-result").color = "var(--textColor-500)";
         }
 
         function recoverResult(target, arrText, arrEncrypt) {
