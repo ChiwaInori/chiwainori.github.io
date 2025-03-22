@@ -178,7 +178,7 @@
 
         function decrypt() {
             const toDecrypt = cw("#dec-txt").value.split("-")[2].split("");
-            const key = cw("#dec-key").value;
+            const key = cw("#dec-key").value.toUpperCase();
 
             if (key.length != 4) { cw("#dec-wrong-key").text = "密钥需为 16 进制 4 位数"; return; }
             try {
