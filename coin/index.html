@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>翻转硬币 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        .coin-container {
+            text-align: center;
+        }
+
+        .coin {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 64px auto;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        
+        .coin .front, .coin .back {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        @media not (hover: hover) {
+            .coin {
+                width: 500px;
+                height: 500px;
+            }
+
+            .coin .front, .coin .back {
+                font-size: 60px;
+            }
+        }
+        
+        .coin .front {
+            background-color: var(--yellow);
+            transform: rotateY(0deg);
+        }
+
+        .coin .back {
+            background-color: var(--lightOrange);
+            transform: rotateY(180deg);
+        }
+
+        /* 正面翻转动画 */
+        .flip-front-front {
+            animation: flip-front-front 2s var(--transit) forwards;
+        }
+        
+        @keyframes flip-front-front {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(2160deg);
+            }
+        }
+        
+        /* 反面翻转动画 */
+        .flip-front-back {
+            animation: flip-front-back 2s var(--transit) forwards;
+        }
+        
+        @keyframes flip-front-back {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(2340deg);
+            }
+        }
+
+        /* 正面翻转动画 */
+        .flip-back-front {
+            animation: flip-back-front 2s var(--transit) forwards;
+        }
+
+        @keyframes flip-back-front {
+            0% {
+                transform: rotateY(180deg);
+            }
+            100% {
+                transform: rotateY(2160deg);
+            }
+        }
+        
+        /* 反面翻转动画 */
+        .flip-back-back {
+            animation: flip-back-back 2s var(--transit) forwards;
+        }
+
+        @keyframes flip-back-back {
+            0% {
+                transform: rotateY(180deg);
+            }
+            100% {
+                transform: rotateY(23400deg);
+            }
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>翻转硬币</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>翻转硬币</strong></h6>
+    </div>
+    <div class="content">
+        <div class="coin-container">
+            <div class="coin" id="coin">
+                <div class="front">正面</div>
+                <div class="back">反面</div>
+            </div>
+            <button id="flip-btn">翻转硬币</button>
+        </div>
+        <hr />
+        <p><strong>选项数量</strong> <input type="number" inputmode="tel" style="width: 64px;" value="4" /> <button onclick="choose()">随机选择</button></p>
+        <div id="options"></div>
+    </div>
+    <script>
+        const coin = cw("#coin").el;
+        const flipBtn = cw("#flip-btn").el;
+        let firstFlip = true;
+            
+        flipBtn.addEventListener("click", () => {
+            // 随机生成0或1，0表示正面，1表示反面
+            const random = rand(0, 1);
+            const now = firstFlip || coin.classList.contains("flip-front-front") || coin.classList.contains("flip-back-front") ? "front" : "back";
+            const result = random == 0 ? "front" : "back";
+            
+            // 移除之前的动画类
+            coin.classList.remove("flip-front-front", "flip-front-back", "flip-back-front", "flip-back-back");
+            
+            void coin.offsetWidth;
+            
+            // 根据随机结果添加动画类
+            coin.classList.add(`flip-${now}-${result}`);
+            firstFlip = false;
+        });
+
+        let count;
+
+        function updateOptions() {
+            count = Number(cw("input").value) || 1;
+
+            cw("#options").html = "";
+            for (let i = 1; i <= count; i++) {
+                cw("#options").html += `<p id="opt-${i}" class="opt"><strong>选项 ${i}</strong></p>`;
+            }
+        }
+        updateOptions();
+        cw("input").event("input", updateOptions);
+
+        async function choose() {
+            const target = rand(1, count);
+            const rollTimes = rand(8, 15);
+            const timer = index => ((0.7 / rollTimes * index) ** 2 + 0.1 - rollTimes / 200) / 1.5;
+
+            for (let i = 1; i <= rollTimes - 1; i++) {
+                const nowFlashing = rand(1, count);
+
+                applyAll(".opt", el => cw(el).color = "var(--textColor-500)");
+                cw(`#opt-${nowFlashing}`).color = "var(--orange)";
+
+                await sleep(timer(i) * 1000);
+            }
+            applyAll(".opt", el => cw(el).color = "var(--textColor-500)");
+            cw(`#opt-${target}`).color = "var(--orange)";
+            await sleep(800);
+            cw(`#opt-${target}`).color = "var(--green)";
+        }
+    </script>
+</div></body>
+
+</html>

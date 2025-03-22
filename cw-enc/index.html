@@ -91,7 +91,7 @@
             afl: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
         };
 
-        cw("#enc-method").el.addEventListener("change", function () {
+        cw("#enc-method").event("change", function () {
             const method = this.value;
             if (method == "cw-1.0") {
                 window.location.href = "/cw-enc/cw1.html";
@@ -113,7 +113,7 @@
             }
         }
 
-        cw("#enc-key").el.addEventListener("input", function () {
+        cw("#enc-key").event("input", function () {
             customKey = this.value != "";
         });
         window.addEventListener("pageshow", () => cw("#enc-method").value = "cw-2.0");
@@ -198,7 +198,7 @@
             cw("#enc-key").value = key;
         }
 
-        cw("#dec-txt").el.addEventListener("input", function () {
+        cw("#dec-txt").event("input", function () {
             const text = this.value;
             if (text.includes("CW/")) {
                 try {

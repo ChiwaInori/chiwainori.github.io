@@ -49,7 +49,6 @@ const ruleList = {
     "no-unused-expressions": "error",
     "no-unused-private-class-members": "error",
     "no-useless-escape": "error",
-    "no-void": "error",
     "nonblock-statement-body-position": "error",
     "prefer-template": "error",
     "space-infix-ops": "error",

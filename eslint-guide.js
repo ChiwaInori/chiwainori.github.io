@@ -209,9 +209,6 @@ class F {
 // Error: no-useless-escape
 "abc".match(/\a/g);
 
-// Error: no-void
-console.log(void 0);
-
 // Error: nonblock-statement-body-position
 if (a)
     a = 1;

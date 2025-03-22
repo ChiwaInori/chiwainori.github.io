@@ -161,7 +161,7 @@
 
             cw("#version").html = currentVersion;
 
-            cw("#fileInput").el.addEventListener("input", async () => {
+            cw("#fileInput").event("input", async () => {
                 try {
                     file = await loadJSON("fileInput");
                 } catch (e) {
@@ -172,36 +172,36 @@
                 extractInfo();
             });
             
-            cw("#color-bg").el.addEventListener("input", function () {
+            cw("#color-bg").event("input", function () {
                 document.documentElement.style.setProperty("--backgroundColor", `${this.value}`);
             });
-            cw("#color-lyric").el.addEventListener("input", function () {
+            cw("#color-lyric").event("input", function () {
                 document.documentElement.style.setProperty("--lyricColor", `${this.value}`);
             });
-            cw("#color-active").el.addEventListener("input", function () {
+            cw("#color-active").event("input", function () {
                 document.documentElement.style.setProperty("--activeColor", `${this.value}`);
             });
-            cw("#color-border").el.addEventListener("input", function () {
+            cw("#color-border").event("input", function () {
                 document.documentElement.style.setProperty("--borderColor", `${this.value}`);
             });
             
-            cw("#showTitle").el.addEventListener("input", function () {
+            cw("#showTitle").event("input", function () {
                 cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = Number(this.checked);
             });
-            cw("#showDot").el.addEventListener("input", function () {
+            cw("#showDot").event("input", function () {
                 showDotSetting = this.checked;
             });
-            cw("#showCircle").el.addEventListener("input", function () {
+            cw("#showCircle").event("input", function () {
                 showCircleSetting = this.checked;
             });
-            cw("#showJump").el.addEventListener("input", function () {
+            cw("#showJump").event("input", function () {
                 lyricJumpSetting = this.checked;
             });
-            cw("#showBorder").el.addEventListener("input", function () {
+            cw("#showBorder").event("input", function () {
                 document.documentElement.style.setProperty("--isBorder", `${this.value ? "4px" : "0px"}`);
             });
 
-            cw("#audioFile").el.addEventListener("change", event => {
+            cw("#audioFile").event("change", event => {
                 const audioFile = event.target.files[0];
                 const objectURL = URL.createObjectURL(audioFile);
 
@@ -210,7 +210,7 @@
                 cw("#previewMusicButton").el.disabled = false;
             });
 
-            cw("#fontFile").el.addEventListener("change", function () {
+            cw("#fontFile").event("change", function () {
                 fontText = cw("#fontTest").html;
                 cw("#fontTest").html = "正在加载字体...";
 
@@ -246,7 +246,7 @@
                 });
             }
 
-            cw("#fontFileTranslation").el.addEventListener("change", function () {
+            cw("#fontFileTranslation").event("change", function () {
                 fontTextTranslation = cw("#fontTestTranslation").html;
                 cw("#fontTestTranslation").html = "正在加载字体...";
 
@@ -640,7 +640,7 @@
                 save("SONG-NAME.chiwainori-lyric.json", JSON.stringify(file));
             }
 
-            cw("#lyricStart").el.addEventListener("input", function () {
+            cw("#lyricStart").event("input", function () {
                 cw("#previewLyric").html = "";
 
                 if (file) {
