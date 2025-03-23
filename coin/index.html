@@ -63,10 +63,10 @@
         }
         
         @keyframes flip-heads-heads {
-            0% {
+            from {
                 transform: rotateY(0deg);
             }
-            100% {
+            to {
                 transform: rotateY(2160deg);
             }
         }
@@ -77,10 +77,10 @@
         }
         
         @keyframes flip-heads-tails {
-            0% {
+            from {
                 transform: rotateY(0deg);
             }
-            100% {
+            to {
                 transform: rotateY(2340deg);
             }
         }
@@ -91,11 +91,11 @@
         }
 
         @keyframes flip-tails-heads {
-            0% {
-                transform: rotateY(180deg);
+            from {
+                transform: rotateY(0deg);
             }
-            100% {
-                transform: rotateY(2160deg);
+            to {
+                transform: rotateY(1980deg);
             }
         }
         
@@ -105,11 +105,11 @@
         }
 
         @keyframes flip-tails-tails {
-            0% {
-                transform: rotateY(180deg);
+            from {
+                transform: rotateY(0deg);
             }
-            100% {
-                transform: rotateY(23400deg);
+            to {
+                transform: rotateY(2160deg);
             }
         }
     </style>
@@ -122,8 +122,9 @@
     </div>
     <div class="navigation">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>翻转硬币</strong></h6>
-        <h6 id="lang-cn"><strong>CN</strong> | <span class="LNK" onclick="setLang('jp')">JP</span></h6>
-        <h6 id="lang-jp"><span class="LNK" onclick="setLang('cn')">CN</span> | <strong>JP</strong></h6>
+        <h6 id="lang-cn" class="lang-option"><strong>中文</strong> | <span class="LNK" onclick="setLang('en')">English</span> | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
+        <h6 id="lang-en" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | English | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
+        <h6 id="lang-jp" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | <span class="LNK" onclick="setLang('en')">English</span> | <strong>日本語</strong></h6>
     </div>
     <div class="content">
         <div class="coin-container">
@@ -131,32 +132,57 @@
                 <div class="heads">正面</div>
                 <div class="tails">反面</div>
             </div>
-            <button id="flip-btn">翻转硬币</button>
+            <button id="flip-btn" onclick="flip()">翻转硬币</button>
         </div>
         <hr />
         <p><strong>选项数量</strong> <input type="number" inputmode="tel" style="width: 64px;" value="4" /> <button onclick="choose()">随机选择</button></p>
         <div id="options"></div>
     </div>
     <script>
-        const coin = cw("#coin").el;
-        const flipBtn = cw("#flip-btn").el;
+        // Multilingual Support Test 2025.3.22
+        const langPos = [".title > h1", "body > div > div.navigation > h6:nth-child(1) > strong", "#coin > div.heads", "#coin > div.tails", "#flip-btn", "body > div > div.content > p > strong", "body > div > div.content > p > button"];
+        const langTxt = {
+            cn: ["翻转硬币", "翻转硬币", "正面", "反面", "翻转硬币", "选择数量", "随机选择"],
+            en: ["Coin Flip", "Coin Flip", "HEADS", "TAILS", "Flip the Coin", "Count of Options", "Choose"],
+            jp: ["コインフリップ", "コインフリップ", "正面", "反面", "コインをフリップする", "オプションの数", "ランダムに選択する"]
+        };
+        function setLang(l) {
+            applyAll(".lang-option", el => cw(el).hide());
+            cw(`#lang-${l}`).unhide();
+            storage.set("lang", l, true);
+            
+            langPos.forEach((pos, i) => {
+                cw(pos).text = langTxt[l][i];
+            });
+            applyAll(".opt", (el, i) => cw(el).html = `<strong>${["选项", "Option", "オプション"][getLang()]} ${i + 1}</strong>`);
+        }
+        function getLang() { return Object.keys(langTxt).indexOf(storage.get("lang", true) || "cn"); }
+        (() => { setLang(storage.get("lang", true) || "cn"); })();
+
+        //
+
+        const coin = cw("#coin");
+        const flipBtn = cw("#flip-btn");
         let firstFlip = true;
             
-        flipBtn.addEventListener("click", () => {
+        function flip() {
             // 随机生成0或1，0表示正面，1表示反面
             const random = rand(0, 1);
-            const now = firstFlip || coin.classList.contains("flip-heads-heads") || coin.classList.contains("flip-tails-heads") ? "heads" : "tails";
+            const now = firstFlip || coin.el.classList.contains("flip-heads-heads") || coin.el.classList.contains("flip-tails-heads") ? "heads" : "tails";
             const result = random == 0 ? "heads" : "tails";
             
             // 移除之前的动画类
-            coin.classList.remove("flip-heads-heads", "flip-heads-tails", "flip-tails-heads", "flip-tails-tails");
+            coin.el.classList.remove("flip-heads-heads", "flip-heads-tails", "flip-tails-heads", "flip-tails-tails");
             
-            void coin.offsetWidth;
+            void coin.el.offsetWidth;
             
             // 根据随机结果添加动画类
-            coin.classList.add(`flip-${now}-${result}`);
+            coin.el.classList.add(`flip-${now}-${result}`);
+
             firstFlip = false;
-        });
+            flipBtn.disabled = true;
+        }
+        coin.event("animationend", () => flipBtn.disabled = false);
 
         let count;
 
@@ -165,7 +191,7 @@
 
             cw("#options").html = "";
             for (let i = 1; i <= count; i++) {
-                cw("#options").html += `<p id="opt-${i}" class="opt"><strong>${(storage.get("lang", true) || "cn") == "cn" ? "选项" : storage.get("lang", true) == "jp" ? "オプション" : ""}  ${i}</strong></p>`;
+                cw("#options").html += `<p id="opt-${i}" class="opt"><strong>${["选项", "Option", "オプション"][getLang()]} ${i}</strong></p>`;
             }
         }
         updateOptions();
@@ -176,6 +202,7 @@
             const rollTimes = rand(8, 15);
             const timer = index => ((0.7 / rollTimes * index) ** 2 + 0.1 - rollTimes / 200) / 1.5;
 
+            cw("button", 1).disabled = true;
             for (let i = 1; i <= rollTimes - 1; i++) {
                 const nowFlashing = rand(1, count);
 
@@ -187,41 +214,10 @@
             applyAll(".opt", el => cw(el).color = "var(--textColor-500)");
             cw(`#opt-${target}`).color = "var(--orange)";
             await sleep(800);
+
             cw(`#opt-${target}`).color = "var(--green)";
+            cw("button", 1).disabled = false;
         }
-
-        // Multilingual Support Test 2025.3.22
-        function setLang(l) {
-            if (l == "cn") {
-                cw("#lang-cn").unhide();
-                cw("#lang-jp").hide();
-                storage.set("lang", "cn", true);
-
-                cw(".title > h1").text = "翻转硬币";
-                cw("body > div > div.navigation > h6:nth-child(1) > strong").text = "翻转硬币";
-                cw("#coin > div.heads").text = "正面";
-                cw("#coin > div.tails").text = "反面";
-                cw("#flip-btn").text = "翻转硬币";
-                cw("body > div > div.content > p > strong").text = "选项数量";
-                cw("body > div > div.content > p > button").text = "随机选择";
-                applyAll(".opt", (el, i) => cw(el).html = `<strong>选项 ${i + 1}</strong>`);
-            }
-            if (l == "jp") {
-                cw("#lang-cn").hide();
-                cw("#lang-jp").unhide();
-                storage.set("lang", "jp", true);
-
-                cw(".title > h1").text = "コインフリップ";
-                cw("body > div > div.navigation > h6:nth-child(1) > strong").text = "コインフリップ";
-                cw("#coin > div.heads").text = "正面";
-                cw("#coin > div.tails").text = "反面";
-                cw("#flip-btn").text = "コインをフリップする";
-                cw("body > div > div.content > p > strong").text = "オプションの数";
-                cw("body > div > div.content > p > button").text = "ランダムに選択する";
-                applyAll(".opt", (el, i) => cw(el).html = `<strong>オプション ${i + 1}</strong>`);
-            }
-        }
-        (() => { setLang(storage.get("lang", true) || "cn"); })();
     </script>
 </div></body>
 
