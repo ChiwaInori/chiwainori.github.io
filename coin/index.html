@@ -150,7 +150,8 @@
             applyAll(".lang-option", el => cw(el).hide());
             cw(`#lang-${l}`).unhide();
             storage.set("lang", l, true);
-            
+
+            cw("title").text = `${langTxt[l][0]} - ChiwaInori.top`;
             langPos.forEach((pos, i) => {
                 cw(pos).text = langTxt[l][i];
             });
