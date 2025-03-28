@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>OPC 成员年龄比较 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="mainBody">
+    <div class="title">
+        <h1>OPC 成员年龄比较</h1>
+    </div>
+    <div class="navigation">
+        <h6><a href="../">ChiwaInori.top</a> &gt; <strong>OPC 成员年龄比较</strong></h6>
+    </div>
+    <div class="content">
+        <table></table>
+    </div>
+    <script>
+        const birth = {
+            cy: ["CY", 2002, 11, 21],
+            skb: ["天弓", 2005, 4, 20],
+            cm: ["尘墨", 2005, 10, 2],
+            ts: ["牛排", 2005, 11, 1],
+            kuu: ["咸鱼", 2006, 6, 30],
+            jxz: ["小朱", 2006, 8, 28],
+            lx: ["落夏", 2007, 1, 22],
+            sf: ["剑鱼", 2007, 3, 2],
+            lw: ["龙王", 2007, 4, 11],
+            ys: ["右手", 2007, 4, 15],
+            mg: ["芒果", 2007, 5, 5],
+            xts: ["XTS", 2007, 12, 12],
+            kyu: ["果冻", 2007, 12, 30],
+            bc: ["大蛋糕", 2008, 1, 5],
+            bz: ["BZ", 2008, 2, 1],
+            amy: ["AMY", 2008, 4, 23],
+            tuff: ["默默", 2008, 9, 27]
+        };
+        const table = cw("table");
+
+        function getList(name) {
+            const targetDay = new Date(birth[name][1], birth[name][2] - 1, birth[name][3]).getTime();
+            table.html = "<tr><th>成员</th><th>生日</th><th>相对值</th></tr>";
+            for (const member in birth) {
+                const relative = (targetDay - new Date(birth[member][1], birth[member][2] - 1, birth[member][3]).getTime()) / 86400000;
+                table.html += `<tr>
+                        <th style="color: var(--${relative > 0 ? "green" : relative < 0 ? "red" : "textColor-500"}" onclick="getList('${member}')">${birth[member][0]}</th>
+                        <th style="color: var(--${relative > 0 ? "green" : relative < 0 ? "red" : "textColor-500"}" onclick="getList('${member}')">${birth[member][1]}.${birth[member][2]}.${birth[member][3]}</th>
+                        <th style="color: var(--${relative > 0 ? "green" : relative < 0 ? "red" : "textColor-500"}" onclick="getList('${member}')">${relative > 0 ? "+" : ""}${relative}</th>
+                    </tr>`;
+            }
+        }
+        getList("xts");
+    </script>
+</div></body>
+
+</html>

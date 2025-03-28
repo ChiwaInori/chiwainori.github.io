@@ -72,6 +72,8 @@
         <h6>第 2 排: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ys/">右手</a>&nbsp;<span id="imgBlank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="kyu/">果冻</a></h6>
         <h6>第 1 排: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="mg/">芒果</a> <a href="lw/">龙王</a> <a href="bz/">本子</a> <a href="sf/">剑鱼</a></h6>
         <br />
+        <p><a href="age-comp/">OPC 成员年龄比较</a></p>
+        <br />
         <div id="members">
             <img src="skinLib/skin_xts.png" />
             <h3><a href="xts/"><a href="xts/">XTS</a></h3><span>&nbsp;<span class="mmp">&nbsp;Milkmappers&nbsp;</span></span>
@@ -200,22 +202,22 @@
         secondaryLine.forEach(line => {
             sentinels.forEach(personality => {
                 if (line.innerHTML.indexOf(personality) >= 0) {
-                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(66, 152, 180); text-decoration: underline;" href=\"https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC\" target="_blank">`)
+                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(66, 152, 180); text-decoration: underline;" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank">`);
                 }
             });
             explorers.forEach(personality => {
                 if (line.innerHTML.indexOf(personality) >= 0) {
-                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(228, 174, 58); text-decoration: underline;" href=\"https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC\" target="_blank">`)
+                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(228, 174, 58); text-decoration: underline;" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank">`);
                 }
             });
             diplomats.forEach(personality => {
                 if (line.innerHTML.indexOf(personality) >= 0) {
-                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(51, 164, 116); text-decoration: underline;" href=\"https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC\" target="_blank">`)
+                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(51, 164, 116); text-decoration: underline;" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank">`);
                 }
             });
             analysts.forEach(personality => {
                 if (line.innerHTML.indexOf(personality) >= 0) {
-                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(136, 97, 154); text-decoration: underline;" href=\"https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC\" target="_blank">`)
+                    line.innerHTML = line.innerHTML.replace(`<a class="sec-mbti">`, `<a class="sec-mbti" style="color: rgb(136, 97, 154); text-decoration: underline;" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank">`);
                 }
             });
         });

@@ -219,4 +219,14 @@
 
         return value;
     }
+
+    function repeat(func, times, ...args) {
+        const original = String(func);
+        const match = original.match(/\) \{.*\}/s)[0].slice(3, -1);
+        const params = original.match(/\((.*)\) \{/)[1].split(", ");
+        const modified = match.replaceAll(/return (.*);/g, "log('Returns ', $1);");
+        for (let i = 0; i < times; i++) {
+            new Function(...params, modified)(...args);
+        }
+    }
 </script>

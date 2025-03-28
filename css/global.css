@@ -246,8 +246,17 @@ hr {
 
 /* TEXT COLORS */
 
-p, h1, h2, h3, h4, h5, h6, span, a {
+p, h1, h2, h3, h4, h5, h6 {
     color: var(--textColor-500);
+}
+
+span, a {
+    color: inherit;
+}
+
+*::selection {
+    color: #ffffff;
+    background-color: var(--lightBlue);
 }
 
 a:not(.HLK), .LNK {
@@ -258,13 +267,15 @@ a:not(.HLK), .LNK {
 }
 
 a:not(.HLK):hover, .LNK:hover {
-    color: var(--activeColor-700);
+    filter: brightness(0.75);
+    transition: filter 0.1s var(--transit);
     text-decoration: underline;
     font-weight: bold;
 }
 
-p[onclick]:not(.LNK):not(.HLK):hover, span[onclick]:not(.LNK):not(.HLK):hover {
-    filter: brightness(0.6);
+[onclick]:not(.LNK):not(.HLK):hover {
+    filter: brightness(0.75);
+    text-decoration: underline;
     transition: filter 0.1s var(--transit);
 }
 
@@ -307,16 +318,12 @@ th, td {
 }
 
 .CDE { /* Code */
-    font-family: "Consolas";
+    font-family: "Consolas", "Lolita", sans-serif;
 }
 
 .BRT, .BRT tr * { /* Border Table */
     border: 2px solid var(--textColor-500);
     border-collapse: collapse;
-}
-
-.UBC { /* Unbold Cells (Table) */
-    font-weight: 500;
 }
 
 .SKH { /* Sticky Header */
@@ -325,9 +332,10 @@ th, td {
     top: 0px;
 }
 
-.HLK:link, .HLK:visited, .HLK, .HLK:hover { /* Hidden Link */
+.HLK, .HLK:is(:link, :hover, :visited) { /* Hidden Link */
     color: var(--textColor-500);
     text-decoration: none;
+    cursor: text;
 }
 
 .SEIZURE { /* Seizure Warning */
@@ -489,6 +497,10 @@ th, td {
     ruby rt {
         margin-bottom: -12px;
         font-size: 18px;
+    }
+
+    caption, th, td {
+        font-size: 32px;
     }
     
     [class*="IFB"] {
