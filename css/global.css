@@ -263,6 +263,11 @@ a:not(.HLK):hover, .LNK:hover {
     font-weight: bold;
 }
 
+p[onclick]:not(.LNK):not(.HLK):hover, span[onclick]:not(.LNK):not(.HLK):hover {
+    filter: brightness(0.6);
+    transition: filter 0.1s var(--transit);
+}
+
 /* SPECIAL ELEMENTS IN ChiwaInori.top */
 
 blockquote * {
