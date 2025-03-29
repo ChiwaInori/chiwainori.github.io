@@ -20,21 +20,21 @@ function getAge(year, month, day) {
 }
 
 function personality(personality) {
-    cws("#mbti").el.innerHTML += `<a id="mbti-text" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank" style="text-decoration: underline;">${personality}</a>`;
+    cw("#mbti").el.innerHTML += `<a id="mbti-text" href="https://www.16personalities.com/ch/${personality}-%E4%BA%BA%E6%A0%BC" target="_blank" style="text-decoration: underline;">${personality}</a>`;
 
-    cws("#mbti-text").color = "var(--red)";
+    cw("#mbti-text").color = "var(--red)";
     switch (personality) {
         case "ISTJ": case "ISFJ": case "ESTJ": case "ESFJ": // Sentinels
-            cws("#mbti-text").color = "rgb(66, 152, 180)";
+            cw("#mbti-text").color = "rgb(66, 152, 180)";
             break;
         case "ISTP": case "ISFP": case "ESTP": case "ESFP": // Explorers
-            cws("#mbti-text").color = "rgb(228, 174, 58)";
+            cw("#mbti-text").color = "rgb(228, 174, 58)";
             break;
         case "INFJ": case "INFP": case "ENFJ": case "ENFP": // Diplomats
-            cws("#mbti-text").color = "rgb(51, 164, 116)";
+            cw("#mbti-text").color = "rgb(51, 164, 116)";
             break;
         case "INTJ": case "INTP": case "ENTJ": case "ENTP": // Analysts
-            cws("#mbti-text").color = "rgb(136, 97, 154)";
+            cw("#mbti-text").color = "rgb(136, 97, 154)";
             break;
     }
 }

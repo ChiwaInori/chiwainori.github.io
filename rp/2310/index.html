@@ -51,7 +51,7 @@
                 </span></p>
             <p><input id="skipAnimation" type="checkbox" style="margin-left: 0px;" /> <strong>跳过动画</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="rollTeachers" type="checkbox" style="margin-left: 0px;" /> <strong>抽取科任老师</strong></p>
             <audio id="click" src="../click.mp3" style="display: none;" preload="auto"></audio>
-            <p id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</p>
+            <p><span id="showChanceLine" class="LNK" onclick="revealChance()">点击显示每位同学被抽中的概率</span></p>
             <p id="chanceTable" hidden></p>
             <div id="chanceTableDynamicDiv" hidden><table id="chanceTableDynamic"><tbody id="chanceTableDynamicBody"></tbody></table></div>
             <p>右键选择 &quot;检查&quot; 后打开控制台可查看抽取历史记录。<span id="autosave"><input id="autosaveCheckbox" type="checkbox" checked />自动保存 <span id="autosaveDescription">(动态随机抽取将会自动保存到浏览器中)</span></span> <button id="deleteAutosave" onclick="deleteAutosave()" hidden>删除自动保存数据</button></p>

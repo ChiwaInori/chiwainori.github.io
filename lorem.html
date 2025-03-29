@@ -59,7 +59,7 @@
         <p><a href="/">这是一个链接。</a><a href="/">这是另一个链接。</a><a href="https://www.bilibili.com/video/BV1roQgYKExu/" target="_blank">这个链接将带领你前往一个非 ChiwaInori.top 网站。</a></p>
         <p><a class="HLK" href="/">这是一个隐式链接。</a><a class="HLK" href="/">这是另一个隐式链接。</a><a class="HLK" href="https://www.bilibili.com/video/BV1roQgYKExu/" target="_blank">这个隐式链接将带领你前往一个非 ChiwaInori.top 网站。</a></p>
         <div id="link">
-            <p class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</p>
+            <p><span class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</span></p>
         </div>
         <p><a href="lorem.html" download>这是一段下载链接。点击他后将会下载这个页面。</a></p>
         <p>这是一串代码 <span class="CDE">console.log(&quot;Hello, World&quot;);</span></p>
@@ -237,7 +237,7 @@
     </div>
     <script>
         function link() {
-            cw("#link").html += `<p class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</p>`;
+            cw("#link").html += `<p><span class="LNK" onclick="link()">这是一段长得像链接的文字。点击他后将会复制一行一样的文字。</span></p>`;
         }
     </script>
 </div></body>
