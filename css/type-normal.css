@@ -7,7 +7,7 @@
 /* NORMAL FORMAT FOR DESKTOP */
 
 @media only screen and (hover: hover) {
-    .mainBody {
+    #mainBody {
         width: 840px;
     }
 

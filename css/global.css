@@ -86,7 +86,7 @@ body {
     margin: 0px;
 }
 
-.mainBody {
+#mainBody {
     background-color: var(--backgroundColor-500);
     /* min-height: 90vh; */
     padding: 30px 25px 30px 25px;
@@ -103,11 +103,11 @@ body {
     transition: all 0.1s var(--transit);
 }
 
-.title h1 {
+#title h1 {
     margin: auto 0px 0px 0px;
 }
 
-.navigation h6 {
+#navigation h6 {
     margin-top: 0px;
 }
 

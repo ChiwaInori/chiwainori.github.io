@@ -11,14 +11,14 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div class="mainBody">
-    <div class="title">
+<body><div id="mainBody">
+    <div id="title">
         <h1>CS2 回合胜率估算</h1>
     </div>
-    <div class="navigation">
+    <div id="navigation">
         <h6><a href="../../../">ChiwaInori.top</a> &gt; <strong>CS2 回合胜率估算</strong></h6>
     </div>
-    <div class="content">
+    <div id="content">
         <h3>我方队伍<span id="myteam_wintext"></span></h3>
         <p><input placeholder="MATE 1" style="width: 64px; margin-left: 0px;" /><input id="my_1_k" placeholder="击杀数" style="width: 40px;" /><input id="my_1_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" /><strong><span id="my_1_eco" onclick="my_1_eco_change()" style="color: #aaaaaa; margin-left: 32px;">ECO</span><span id="my_1_died" onclick="my_1_died_change()" style="color: #aaaaaa; margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_1()">+KILL</button></p>
         <p><input placeholder="MATE 2" style="width: 64px; margin-left: 0px;" /><input id="my_2_k" placeholder="击杀数" style="width: 40px;" /><input id="my_2_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" /><strong><span id="my_2_eco" onclick="my_2_eco_change()" style="color: #aaaaaa; margin-left: 32px;">ECO</span><span id="my_2_died" onclick="my_2_died_change()" style="color: #aaaaaa; margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_2()">+KILL</button></p>

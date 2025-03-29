@@ -7,7 +7,7 @@
 /* CENTERED FORMAT FOR DESKTOP */
 
 @media only screen and (hover: hover) {
-    .mainBody {
+    #mainBody {
         width: 90%;
     }
 
@@ -24,7 +24,7 @@
 
 /* COMMON CENTERED FORMAT */
 
-.mainBody :not(input) {
+#mainBody :not(input) {
     text-align: center;
 }
 
