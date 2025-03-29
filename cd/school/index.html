@@ -13,7 +13,7 @@
         }
 
         #notes p, #notes span {
-            color: #aaaaaa;
+            color: var(--textColor-400);
         }
     </style>
     <script src="/chiwa-functions.js"></script>
@@ -113,28 +113,28 @@
                 var today_w = date.getDay();
                 var today_h = date.getHours();
                 var today_m = date.getMinutes();
-                if (today_w == 0 && today_h < 11 || today_w == 7 && today_h == 11 && today_m <= 45) {
+                if (today_w == 5 && today_h < 17 || today_w == 5 && today_h == 17 && today_m <= 25) {
                     var today = today;
                 }
-                if (today_w == 0 && today_h >= 11 && today_m >= 45 || today_w == 0 && today_h >= 11) {
+                if (today_w == 5 && today_h >= 11 && today_m >= 45 || today_w == 5 && today_h >= 18) {
                     var today = today + 604800000;
                 }
-                if (today_w == 1) {
+                if (today_w == 6) {
                     var today = today + 518400000;
                 }
-                if (today_w == 2) {
+                if (today_w == 0) {
                     var today = today + 432000000;
                 }
-                if (today_w == 3) {
+                if (today_w == 1) {
                     var today = today + 345600000;
                 }
-                if (today_w == 4) {
+                if (today_w == 2) {
                     var today = today + 259200000;
                 }
-                if (today_w == 5) {
+                if (today_w == 3) {
                     var today = today + 172800000;
                 }
-                if (today_w == 6) {
+                if (today_w == 4) {
                     var today = today + 86400000;
                 }
                 var target = new Date(today);
@@ -142,7 +142,7 @@
                 var target_m = target.getMonth();
                 var target_d = target.getDate();
                 var target_m = target_m + 1;
-                var target_word = target_y + "/" + target_m + "/" + target_d + " 11:45";
+                var target_word = target_y + "/" + target_m + "/" + target_d + " 17:25";
                 getDistanceSpecifiedTime(target_word);
                 function getDistanceSpecifiedTime(dateTime) {
                     var EndTime = new Date(dateTime);
@@ -227,9 +227,9 @@
                     // var EndTimeSV = new Date("2022.1.21 10:40");
                     // var EndTimeSV = new Date("2022.1.13 16:30");
                     // var EndTimeSV = new Date("2022.6.30 16:30");
-                    var EndTimeSV = new Date("2024/7/14 17:00");
+                    var EndTimeSV = new Date("2025/7/6 18:15");
                     var NowTimeSV = new Date();
-                    var StartTimeSV = new Date("2024/2/25 18:00");
+                    var StartTimeSV = new Date("2025/2/9 18:00");
                     var t_SV = EndTimeSV.getTime() - NowTimeSV.getTime();
                     var d_SV = Math.floor(t_SV / 1000 / 60 / 60 / 24);
                     var h_SV = Math.floor(t_SV / 1000 / 60 / 60 % 24);
