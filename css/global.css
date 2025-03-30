@@ -280,14 +280,14 @@ span, a {
 
 /* LINK  SPECIALS */
 
-a, .LNK, [onclick]:not(button):not(.HLK) {
+a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
     color: var(--activeColor-500);
     text-decoration: none;
     cursor: pointer;
     position: relative;
 }
 
-:is(a, .LNK, [onclick]:not(button):not(.HLK))::after {
+:is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK))::after {
     content: "";
     background-color: currentColor;
     width: 100%;
@@ -302,21 +302,21 @@ a, .LNK, [onclick]:not(button):not(.HLK) {
 }
 
 
-:is(a, .LNK, [onclick]:not(button):not(.HLK)):hover {
+:is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):hover {
     filter: brightness(0.75);
     font-weight: bold;
 }
 
-:is(a, .LNK, [onclick]:not(button):not(.HLK)):hover::after {
+:is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):hover::after {
     transform: scaleX(1);
     transform-origin: left center;
 }
 
-:is(a, .LNK, [onclick]:not(button):not(.HLK)):not(:hover)::after {
+:is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):not(:hover)::after {
     transform-origin: right center;
 }
 
-:is(a, .LNK, [onclick]:not(button):not(.HLK)):hover rt {  /* Make rt color change when a:hover */
+:is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):hover rt {  /* Make rt color change when a:hover */
     position: relative;
     z-index: -1;
 }
@@ -356,8 +356,6 @@ a, .LNK, [onclick]:not(button):not(.HLK) {
     color: var(--textColor-500);
     text-decoration: none;
     cursor: text;
-    filter: unset;
-    font-weight: unset;
 }
 
 .SEIZURE { /* Seizure Warning */
