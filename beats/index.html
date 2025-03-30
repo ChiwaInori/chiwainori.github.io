@@ -11,14 +11,14 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="mainBody">
-    <div id="title">
+<body><div id="cw-main">
+    <div id="cw-title">
         <h1>节拍量化器</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>节拍量化器</strong></h6>
     </div>
-    <div id="content">
+    <div id="cw-content">
         <p>此页面可以帮助你获得音符与音符之间以节拍为单位的时长。</p>
         <p>BPM <input id="bpmInput" style="width: 48px;" type="number" value="80" /> | 量化精度 <select id="precisionList">
             <option value="original">保留原数据</option>
@@ -39,7 +39,7 @@
         <br />
         <div id="jsonLyric" hidden>
             <p>使用 JSON 格式时，你可以在下方输入歌词，指定位置的字符串将被自动替换。</p>
-            <p><strong>注意: 使用斜杠 / 划分<span style="text-decoration: underline;">每一个</span>汉字、音节或空格。</strong></p>
+            <p><strong>注意: 如果有多个字符属于同一音节，使用斜杠 / 划分<span style="text-decoration: underline;">每一个</span>音节。</strong></p>
             <p><input id="lyricLine" style="width: 512px;" /></p>
             <p class="STX" style="margin-left: 11px;">^^ 唱到目前显示的第一个字就按下 Enter!</p>
             <br />
@@ -47,6 +47,7 @@
         <p>确定好上面的数据后，按下 <strong>回车键 (Enter)</strong> 来量化节拍。</p>
         </p>
         <p>按下 <strong>R</strong> 来换行 (不会算作一个音符)，按下 <strong>退格键 (Backspace)</strong> 重置已记录的节拍。</p>
+        <p>2025.3.30 更新: 现在 &quot;播放&quot; 使用绝对计时器，在播放时不再产生较大误差。</p>
         <p><button id="playButton" onclick="play()" disabled>播放</button> <span id="returnOk" style="color: var(--green)" hidden>换行已就绪</span><span id="returnReady" style="color: var(--red)" hidden>换行将会在下一个音符被按下时执行</span></p>
         <p id="result" style="word-wrap: break-word;"></p>
     </div>
@@ -60,9 +61,10 @@
         let format = "normal";
         let returnReady = false;
         let showAsFraction = false;
+        let hasSlash;
 
         cw("#bpmInput").el.addEventListener("input", function () {
-            bpm = +this.value;
+            bpm = Number(this.value);
             clockBase = 60 / bpm;
             reset();
         });
@@ -71,7 +73,7 @@
                 if (this.value == "original") {
                     precision = "original";
                 } else {
-                    precision = 1 / 2 ** (+this.value - 1);
+                    precision = 1 / 2 ** Number(this.value - 1);
                 }
             }
             cw("#precisionListFraction").el.value = this.value == "original" ? 3 : this.value;
@@ -99,6 +101,7 @@
                 cw("#precisionListFraction").unhide("inline");
                 format = "normal";
                 cw("#f-normal").el.checked = true;
+                precision = 0.25;
             } else {
                 cw("#precisionList").unhide("inline");
                 cw("#showTopFormat").unhide("inline");
@@ -108,7 +111,7 @@
         });
         cw("#precisionListFraction").el.addEventListener("input", function () {
             if (showAsFraction) {
-                precision = 1 / 2 ** (+this.value - 1);
+                precision = 1 / 2 ** Number(this.value - 1);
             }
             cw("#precisionList").el.value = this.value;
             reset();
@@ -164,10 +167,11 @@
                 if (format == "json") {
                     let char = "@";
                     const lyricLine = cw("#lyricLine").value;
+                    hasSlash = lyricLine.includes("/");
                     if (lyricLine) {
-                        const firstSlashIndex = lyricLine.indexOf("/");
+                        const firstSlashIndex = hasSlash ? lyricLine.indexOf("/") : 1;
                         const beforeSlash = lyricLine.slice(0, firstSlashIndex);
-                        const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
+                        const afterSlash = lyricLine.slice(firstSlashIndex + Number(hasSlash), lyricLine.length);
 
                         char = beforeSlash;
                         cw("#lyricLine").value = afterSlash;
@@ -213,9 +217,9 @@
                     let char = "@";
                     const lyricLine = cw("#lyricLine").value;
                     if (lyricLine) {
-                        const firstSlashIndex = lyricLine.indexOf("/") > 0 ? lyricLine.indexOf("/") : lyricLine.length;
+                        const firstSlashIndex = hasSlash ? lyricLine.indexOf("/") > 0 ? lyricLine.indexOf("/") : lyricLine.length : 1;
                         const beforeSlash = lyricLine.slice(0, firstSlashIndex);
-                        const afterSlash = lyricLine.slice(firstSlashIndex + 1, lyricLine.length);
+                        const afterSlash = lyricLine.slice(firstSlashIndex + Number(hasSlash), lyricLine.length);
 
                         char = beforeSlash;
                         cw("#lyricLine").value = afterSlash;
@@ -256,10 +260,18 @@
             }
         }
 
+        const absTimer = {
+            start: null,
+            end: null
+        };
+
         async function play() {
             playNow++;
             if (playNow >= 2) {
+                absTimer.start = absTimer.end;
                 cw(`#w-${playNow - 1}`).el.style.textDecoration = "none";
+            } else {
+                absTimer.start = new Date().getTime();
             }
             cw(`#w-${playNow}`).color = "var(--red)";
             cw(`#w-${playNow}`).el.style.textDecoration = "underline";
@@ -267,7 +279,7 @@
             if (playNow != pressCount) {
                 let waitTime;
                 if (format == "normal") {
-                    waitTime = cw(`#w-${playNow + 1}`).html.getNum()[0];
+                    waitTime = !showAsFraction ? cw(`#w-${playNow + 1}`).html.getNum()[0] : eval(cw(`#w-${playNow + 1}`).html.match(/<strong>(.*)<\/strong>/)[1]);
                 }
                 if (format == "json") {
                     waitTime = cw(`#w-${playNow}`).html.getNum()[0];
@@ -276,7 +288,8 @@
                     waitTime = cw(`#w-${playNow}`).html.replaceAll(/'/g, ".").getNum()[0];
                 }
 
-                await sleep(waitTime * clockBase * 1000);
+                absTimer.end = absTimer.start + waitTime * clockBase * 1000;
+                await sleep(Math.max(absTimer.end - new Date().getTime(), 0));
                 play();
             } else {
                 await sleep(1500);

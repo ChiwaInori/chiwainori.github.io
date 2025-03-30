@@ -11,18 +11,17 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="mainBody">
-    <div id="title">
+<body><div id="cw-main">
+    <div id="cw-title">
         <h1>3x+1 猜想</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>3x+1 猜想</strong></h6>
     </div>
-    <div id="content">
+    <div id="cw-content">
         <p>请输入一个非零整数以验证 3x+1 猜想。</p>
-        <p><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 0px; margin-bottom: 0px;" /></p>
+        <p><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 0px; margin-bottom: 0px;" /><button id="searchbutton" onclick="submit()" disabled="disabled">无效</button></p>
         <p id="input" style="display: none;"></p>
-        <button id="searchbutton" onclick="submit()" disabled="disabled" style="margin-left: 40px;">无效</button>
         <p>&nbsp;</p>
         <p id="final1">&nbsp;</p>
         <p id="final2">&nbsp;</p>
@@ -105,9 +104,9 @@
                         document.getElementById("min").innerHTML = ipt1;
                     }
 
-                    document.getElementById("input").innerHTML = ipt1;
-                    document.getElementById("input").style = "display: block;";
-                    document.getElementById("ipt1").style = "display: none;";
+                    // document.getElementById("input").innerHTML = ipt1;
+                    // document.getElementById("input").style = "display: block;";
+                    cw("#ipt1").disabled = true;
                 } else {
                     var ipt1 = (parseInt(document.getElementById("num").innerHTML));
                     if (ipt1 % 2 == 1 || ipt1 % 2 == -1) {

@@ -8,78 +8,203 @@
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-center.css" />
     <style>
-        @media only screen and (hover: hover) { .mainBody { width: 384px; height: 148px; } }
-        @media not (hover: hover) { .mainBody { width: 748px; height: 362px; } }
-        .mainBody {
+        @media only screen and (hover: hover) { #cw-main { width: 384px; height: 148px; } }
+        @media not (hover: hover) { #cw-main { width: 748px; height: 362px; } }
+        #cw-main {
             min-height: 0px;
             position: relative; /* 确保子元素可以相对于此定位 */
             display: flex;
+            flex: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        .title * {
+        #cw-title * {
             color: var(--red);
+            margin: 0px;
         }
 
         /* 可拖动的 div */
         .draggable {
             position: absolute;
             text-align: center;
+            touch-action: none; /* 禁用浏览器默认触摸行为 */
+            -webkit-user-select: none; /* 防止iOS文本选中 */
             user-select: none; /* 防止文字被选中 */
             transition: left 0.4s var(--transit), top 0.4s var(--transit);
+        }
+
+        #cw-content a {
+            position: relative;
+            z-index: 10;
         }
     </style>
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div class="mainBody draggable">
-    <div id="title">
+<body><div id="cw-main" class="draggable">
+    <div id="cw-title">
         <h1>404</h1>
         <h2>Not Found</h2>
     </div>
-    <div id="content">
-        <p>你想找的页面可能偷偷溜走了呢~&nbsp;&nbsp;&nbsp;<strong id="emoticonLine"></strong></p>
+    <div id="cw-content">
+        <p><span>你想找的页面可能偷偷溜走了呢~</span>&nbsp;&nbsp;&nbsp;<strong id="emoticonLine"></strong></p>
         <p><strong><a href="/">回到主页</a></strong></p>
     </div>
     <script>
-        const emoticons = ["(っ °Д °;)っ", "ヽ(*。>Д<)o゜", "(；′⌒`)", "o(TヘTo)", "o(；△；)o"];
-        cw("#emoticonLine").text = emoticons[rand(0, emoticons.length - 1)];
+        const multilingual = [
+            ["_pos", "cn", "en", "jp"],
+            ["#cw-content > p:nth-child(1) > span", "你想找的页面可能偷偷溜走了呢~", "The page requested ran away...", "探してるページ逃げちゃった！！"],
+            ["#cw-content > p:nth-child(2) > strong > a", "回到主页", "Back to Homepage", "ホームページに戻る"]
+        ];
+        function setLang(l) {
+            storage.set("lang", l, true);
 
+            const langIndex = multilingual[0].indexOf(l);
+            for (let i = 1; i < multilingual.length; i++) { cw(multilingual[i][0]).text = multilingual[i][langIndex]; }
+        }
+        function getLang() { return multilingual[0].indexOf(storage.get("lang", true) || "cn") - 1; }
+        (() => { setLang(storage.get("lang", true) || "cn"); })();
+
+        // End of Multilingual
+
+        // End of Multilingual
+
+        const emoticons = ["(っ °Д °;)っ", "ヽ(*。>Д<)o゜", "(；′⌒`)", "o(TヘTo)", "o(；△；)o", "(*>﹏<)"];
+        cw("#emoticonLine").text = emoticons[rand(0, emoticons.length - 1)];
+    
         // 拖动逻辑
         const draggable = cw(".draggable").el;
         let isDragging = false;
         let offsetX, offsetY;
-
-        // 记录初始位置
-        const initialLeft = draggable.offsetLeft;
-        const initialTop = draggable.offsetTop;
+    
+        // 获取初始位置
+        const initPosition = () => {
+            const rect = draggable.getBoundingClientRect();
+            return {
+                left: rect.left,
+                top: rect.top
+            };
+        };
         
-        // 鼠标按下事件
-        draggable.addEventListener("mousedown", e => {
+        let initialPosition = initPosition();
+    
+        // 设置初始位置
+        draggable.style.position = "absolute";
+        draggable.style.left = `${initialPosition.left}px`;
+        draggable.style.top = `${initialPosition.top}px`;
+    
+        // 通用开始拖动函数
+        const startDrag = (clientX, clientY) => {
             isDragging = true;
-            offsetX = e.clientX - draggable.offsetLeft;
-            offsetY = e.clientY - draggable.offsetTop;
-            draggable.style.transition = "none"; // 拖动时禁用动画
+            const rect = draggable.getBoundingClientRect();
+            offsetX = clientX - rect.left;
+            offsetY = clientY - rect.top;
+            draggable.style.transition = "none";
+            document.body.style.overflow = "hidden"; // 防止页面滚动
+        };
+    
+        // 通用拖动函数
+        const doDrag = (clientX, clientY) => {
+            if (!isDragging) { return; }
+            
+            const newLeft = clientX - offsetX;
+            const newTop = clientY - offsetY;
+            
+            draggable.style.left = `${newLeft}px`;
+            draggable.style.top = `${newTop}px`;
+        };
+    
+        // 通用结束拖动函数
+        const endDrag = () => {
+            if (!isDragging) { return; }
+            
+            isDragging = false;
+            draggable.style.transition = "left 0.4s var(--transit), top 0.4s var(--transit)";
+            document.body.style.overflow = ""; // 恢复页面滚动
+            
+            // 回到初始位置
+            setTimeout(() => {
+                draggable.style.left = `${initialPosition.left}px`;
+                draggable.style.top = `${initialPosition.top}px`;
+            }, 0);
+        };
+    
+        // 桌面端事件
+        draggable.addEventListener("mousedown", e => {
+            e.preventDefault(); // 防止文本选中
+            startDrag(e.clientX, e.clientY);
         });
-        // 鼠标移动事件
+    
         document.addEventListener("mousemove", e => {
-            if (isDragging) {
-                draggable.style.left = `${e.clientX - offsetX}px`;
-                draggable.style.top = `${e.clientY - offsetY}px`;
-            }
+            doDrag(e.clientX, e.clientY);
         });
-        // 鼠标松开事件
-        document.addEventListener("mouseup", () => {
-            if (isDragging) {
-                isDragging = false;
-                draggable.style.transition = "left 0.4s var(--transit), top 0.4s var(--transit)"; // 启用动画
-                // 回到初始位置
-                draggable.style.left = `${initialLeft}px`;
-                draggable.style.top = `${initialTop}px`;
-            }
+    
+        document.addEventListener("mouseup", endDrag);
+    
+        // 移动端触摸事件
+        draggable.addEventListener("touchstart", e => {
+            e.preventDefault(); // 防止页面滚动
+            const touch = e.touches[0];
+            startDrag(touch.clientX, touch.clientY);
+        }, { passive: false });
+    
+        document.addEventListener("touchmove", e => {
+            if (!isDragging) { return; }
+            e.preventDefault(); // 阻止默认滚动行为
+            const touch = e.touches[0];
+            doDrag(touch.clientX, touch.clientY);
+        }, { passive: false });
+    
+        document.addEventListener("touchend", endDrag);
+    
+        // 窗口大小变化时重新定位
+        window.addEventListener("resize", () => {
+            initialPosition = initPosition();
+            draggable.style.left = `${initialPosition.left}px`;
+            draggable.style.top = `${initialPosition.top}px`;
         });
+
+        // 更新移动端事件监听
+        const handleTouchStart = e => {
+            // 检查是否点击的是可点击元素（a, button等）
+            const interactive = e.target.closest("a, button, [onclick]");
+            if (interactive) {
+                // 为链接保留300ms的延迟判断
+                const touch = e.touches[0];
+                interactive._touchPos = {
+                    x: touch.clientX,
+                    y: touch.clientY,
+                    time: Date.now()
+                };
+                return;
+            }
+
+            e.preventDefault();
+            const touch = e.touches[0];
+            startDrag(touch.clientX, touch.clientY);
+        };
+
+        const handleTouchEnd = e => {
+            const interactive = e.target.closest("a, button, [onclick]");
+            if (interactive && interactive._touchPos) {
+                const touch = e.changedTouches[0];
+                const dx = touch.clientX - interactive._touchPos.x;
+                const dy = touch.clientY - interactive._touchPos.y;
+                const dt = Date.now() - interactive._touchPos.time;
+
+                // 如果是轻微移动（<10px）且时间短（<300ms）则视为点击
+                if (dx * dx + dy * dy < 100 && dt < 300) {
+                    interactive.click(); // 程序触发点击
+                }
+                delete interactive._touchPos;
+            }
+            endDrag();
+        };
+
+        draggable.addEventListener("touchstart", handleTouchStart, { passive: false });
+        document.addEventListener("touchend", handleTouchEnd);
     </script>
 </div></body>
 

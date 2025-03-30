@@ -11,14 +11,14 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="mainBody">
-    <div id="title">
+<body><div id="cw-main">
+    <div id="cw-title">
         <h1>XTS 正弦波音乐</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>XTS 正弦波音乐</strong></h6>
     </div>
-    <div id="content">
+    <div id="cw-content">
         <div id="startup">
             <p>选择一个 XTS 正弦波音乐文件来继续。</p>
             <p><input id="input" type="file" accept=".json" />
@@ -81,7 +81,7 @@
                 return;
             }
             
-            title = file.musicInfo.title;
+            title = file.musicInfo#cw-title;
             author = file.musicInfo.author;
             bpm = file.musicInfo.bpm;
 

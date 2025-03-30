@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style>
-        .mainBody {
+        #cw-main {
             background-color: #888888;
             transition: background-color 0.5s var(--transit);
         }
@@ -26,14 +26,14 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body id="body"><div id="mainBody">
-    <div id="title">
+<body id="body"><div id="cw-main">
+    <div id="cw-title">
         <h1>自由调色板</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>自由调色板</strong></h6>
     </div>
-    <div id="content">
+    <div id="cw-content">
         <h3 id="choose-rgb">RGB | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
         <h3 id="choose-cmyk" hidden><span onclick="turn('rgb')" class="LNK">RGB</span> | CMYK | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
         <h3 id="choose-hsv" hidden><span onclick="turn('rgb')" class="LNK">RGB</span> | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | HSV | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
@@ -226,9 +226,9 @@
             cw("#colorBlock").style = `background-color: rgb(${rgb.r}, ${rgb.g}, ${rgb.b}); float: left; margin-right: 16px;`;
 
             if (rgb.r.range(116, 156) && rgb.g.range(116, 156) && rgb.b.range(116, 156)) {
-                applyAll(".mainBody", el => cw(el).style = `background-color: #222222;`);
+                applyAll("#cw-main", el => cw(el).style = `background-color: #222222;`);
             } else {
-                applyAll(".mainBody", el => cw(el).style = `background-color: #888888;`);
+                applyAll("#cw-main", el => cw(el).style = `background-color: #888888;`);
             }
 
             // Update everyone's color

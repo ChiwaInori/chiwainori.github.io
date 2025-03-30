@@ -116,17 +116,17 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="mainBody">
-    <div id="title">
+<body><div id="cw-main">
+    <div id="cw-title">
         <h1>翻转硬币</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>翻转硬币</strong></h6>
         <h6 id="lang-cn" class="lang-option"><strong>中文</strong> | <span class="LNK" onclick="setLang('en')">English</span> | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
         <h6 id="lang-en" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | English | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
         <h6 id="lang-jp" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | <span class="LNK" onclick="setLang('en')">English</span> | <strong>日本語</strong></h6>
     </div>
-    <div id="content">
+    <div id="cw-content">
         <div class="coin-container">
             <div class="coin" id="coin">
                 <div class="heads">正面</div>
@@ -139,28 +139,31 @@
         <div id="options"></div>
     </div>
     <script>
-        // Multilingual Support Test 2025.3.22
-        const langPos = ["#title > h1", "#navigation > h6:nth-child(1) > strong", "#coin > div.heads", "#coin > div.tails", "#flip-btn", "body > div > div#content > p > strong", "body > div > div#content > p > button"];
-        const langTxt = {
-            cn: ["翻转硬币", "翻转硬币", "正面", "反面", "翻转硬币", "选择数量", "随机选择"],
-            en: ["Coin Flip", "Coin Flip", "HEADS", "TAILS", "Flip the Coin", "Count of Options", "Choose"],
-            jp: ["コインフリップ", "コインフリップ", "正面", "反面", "コインをフリップする", "オプションの数", "ランダムに選択する"]
-        };
+        // Multilingual Support Test 2025.3.22 (3.31 updated)
+        const multilingual = [
+            ["_pos", "cn", "en", "jp"],
+            ["#cw-title > h1", "翻转硬币", "Coin Flip", "コインフリップ"],
+            ["#cw-nav > h6:nth-child(1) > strong", "翻转硬币", "Coin Flip", "コインフリップ"],
+            ["#coin > div.heads", "正面", "HEADS", "正面"],
+            ["#coin > div.tails", "反面", "TAILS", "反面"],
+            ["#flip-btn", "翻转硬币", "Flip the Coin", "コインをフリップする"],
+            ["body > div > div#cw-content > p > strong", "选择数量", "Count of Options", "オプションの数"],
+            ["body > div > div#cw-content > p > button", "随机选择", "Choose", "ランダムに選択する"]
+        ];
         function setLang(l) {
             applyAll(".lang-option", el => cw(el).hide());
             cw(`#lang-${l}`).unhide();
             storage.set("lang", l, true);
 
-            cw("title").text = `${langTxt[l][0]} - ChiwaInori.top`;
-            langPos.forEach((pos, i) => {
-                cw(pos).text = langTxt[l][i];
-            });
+            const langIndex = multilingual[0].indexOf(l);
+            cw("title").text = `${multilingual[1][langIndex]} - ChiwaInori.top`;
+            for (let i = 1; i < multilingual.length; i++) { cw(multilingual[i][0]).text = multilingual[i][langIndex]; }
             applyAll(".opt", (el, i) => cw(el).html = `<strong>${["选项", "Option", "オプション"][getLang()]} ${i + 1}</strong>`);
         }
-        function getLang() { return Object.keys(langTxt).indexOf(storage.get("lang", true) || "cn"); }
+        function getLang() { return multilingual[0].indexOf(storage.get("lang", true) || "cn") - 1; }
         (() => { setLang(storage.get("lang", true) || "cn"); })();
 
-        //
+        // End of Multilingual
 
         const coin = cw("#coin");
         const flipBtn = cw("#flip-btn");

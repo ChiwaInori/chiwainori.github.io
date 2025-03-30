@@ -15,7 +15,7 @@
             --activeColor: #66a8ff;
         }
 
-        .mainBody {
+        #cw-main {
             background-color: var(--backgroundColor);
         }
         
@@ -41,14 +41,14 @@
 </head>
 
 <body><div class="IFB-Green"><p><strong>此页有更新版本</strong></p><p>这表示此页不再被使用. 你应该前往更新页面. 你在一般情况下不应访问到此页.</p><p>通常, 在本页的上一级页面有通往更新页面的链接.</p></div>
-    <div id="mainBody">
-        <div id="title">
+    <div id="cw-main">
+        <div id="cw-title">
             <h1 style="opacity: 0;">动态歌词显示</h1>
         </div>
-        <div id="navigation">
+        <div id="cw-nav">
             <h6 style="opacity: 0;"><a href="../">ChiwaInori.top</a> &gt; <strong>动态歌词显示</strong></h6>
         </div>
-        <div id="content">
+        <div id="cw-content">
             <div id="startup">
                 <h1>在下方选中 XTSGAMES Lyric 文件 (.top) 来播放动态歌词</h1>
                 <p><input id="fileInput" type="file" accept=".top" /></p>
@@ -123,7 +123,7 @@
             });
             
             cw("#showTitle").el.addEventListener("input", function () {
-                cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = +this.checked;
+                cw("#cw-title *", 0).el.style.opacity = cw("#cw-nav *", 0).el.style.opacity = +this.checked;
             });
 
             cw("#showDot").el.addEventListener("input", function () {
@@ -195,7 +195,7 @@
 
                 if (isTitle != "" && isTitle != defaultSettings[0]) {
                     notDefault = 1;
-                    cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = 0;
+                    cw("#cw-title *", 0).el.style.opacity = cw("#cw-nav *", 0).el.style.opacity = 0;
                     cw("#showTitle").el.checked = false;
                 }
                 if (isDot != "" && isDot != defaultSettings[1]) {

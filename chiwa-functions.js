@@ -222,7 +222,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
         } else {
             document.body.style.overflow = "";
             window.removeEventListener("scroll", preventScroll);
-            cw(".mainBody").style.filter = "brightness(1)";
+            cw("#cw-main").style.filter = "brightness(1)";
             if (!visited) { storage.set("seizure", "1"); }
         }
 
@@ -265,7 +265,7 @@ async function seizure(cnText = "本页面包含可能会引起<strong>光敏性
     
     window.addEventListener("scroll", preventScroll, { passive: false });
     cw("body").style.overflow = "hidden";
-    cw(".mainBody").style.filter = "brightness(0.7)";
+    cw("#cw-main").style.filter = "brightness(0.7)";
 
     cw(`#${storage.get("lang", true) || "cn"}Seizure`).el.showModal();
 
@@ -1321,7 +1321,7 @@ function applyAll(element, callback) {
  * @param {string} inElement - The id of target element to fade in
  * @param {string} display - The type of display
  * @param {number} time - (>= 0) The total time length of whole change session
- * @example fadeChange("title", "secondTitle", 500) // Fade out #title in 0.25s and fade in #secondTitle in 0.25s.
+ * @example fadeChange("title", "secondTitle", 500) // Fade out #cw-title in 0.25s and fade in #secondTitle in 0.25s.
  * @since xts.24-5-19-3
  * @version 25-1-19
  */

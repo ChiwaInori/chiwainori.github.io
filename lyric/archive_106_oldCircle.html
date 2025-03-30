@@ -17,7 +17,7 @@
             --borderColor: #eeffff;
         }
 
-        .mainBody {
+        #cw-main {
             background-color: var(--backgroundColor);
             transition: all 0.5s var(--transit);
         }
@@ -50,14 +50,14 @@
 </head>
 
 <body>
-    <div id="mainBody">
-        <div id="title">
+    <div id="cw-main">
+        <div id="cw-title">
             <h1>动态歌词显示</h1>
         </div>
-        <div id="navigation">
+        <div id="cw-nav">
             <h6><a href="../">ChiwaInori.top</a> &gt; <strong>动态歌词显示</strong></h6>
         </div>
-        <div id="content">
+        <div id="cw-content">
             <div id="startup">
                 <h1>在下方选中 ChiwaInori.top Lyric 文件来播放动态歌词</h1>
                 <p><input id="fileInput" type="file" accept=".json" /></p>
@@ -92,7 +92,7 @@
                 <p><input id="showDebug" type="checkbox" />在播放页面显示调试界面</p>
                 <p><input id="allowKeys" type="checkbox" />允许使用方向键微调 (← -0.25 拍; → +0.25 拍) (微调时不会显示提示信息)</p>
                 <br />
-                <p id="content" hidden></p>
+                <p id="cw-content" hidden></p>
                 <p>目前该网页歌词的淡入动画有一定概率出错影响观赏效果。</p>
                 <p>如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
@@ -177,7 +177,7 @@
             });
             
             cw("#showTitle").el.addEventListener("input", function () {
-                cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = +this.checked;
+                cw("#cw-title *", 0).el.style.opacity = cw("#cw-nav *", 0).el.style.opacity = +this.checked;
             });
             cw("#showDot").el.addEventListener("input", function () {
                 showDotSetting = this.checked;
@@ -264,7 +264,7 @@
                     cw("#errorLine").unhide();
                     cw("#errorLine").html = `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`;
 
-                    cw(".mainBody", 0).el.style.transition = "all 0.5s var(--transit)";
+                    cw("#cw-main", 0).el.style.transition = "all 0.5s var(--transit)";
                     updateSettings({ backgroundColor: "#ffffdd" });
 
                     throw e;
@@ -520,10 +520,10 @@
                 cw("#settingsLine").unhide();
 
                 if ("showTitle" in settingsObj) {
-                    cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = +settingsObj.showTitle;
+                    cw("#cw-title *", 0).el.style.opacity = cw("#cw-nav *", 0).el.style.opacity = +settingsObj.showTitle;
                     cw("#showTitle").el.checked = settingsObj.showTitle;
                 } else {
-                    cw(".title *", 0).el.style.opacity = cw(".navigation *", 0).el.style.opacity = 0;
+                    cw("#cw-title *", 0).el.style.opacity = cw("#cw-nav *", 0).el.style.opacity = 0;
                 }
                 if ("showDot" in settingsObj) {
                     showDotSetting = settingsObj.showDot;

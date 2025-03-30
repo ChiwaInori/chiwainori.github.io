@@ -18,7 +18,7 @@
             margin-left: 0px;
         }
 
-        .mainBody {
+        #cw-main {
             background-color: white;
         }
 
@@ -29,14 +29,14 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body id="body"><div id="mainBody">
-    <div id="title">
-        <h1 id="title">RGB 调色器</h1>
+<body id="body"><div id="cw-main">
+    <div id="cw-title">
+        <h1 id="cw-title">RGB 调色器</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6 id="title2"><a id="linkName" href="../">ChiwaInori.top</a> &gt; <strong>RGB 调色器</strong></h6>
     </div>
-    <div id="content" style="margin-left: 40px;">
+    <div id="cw-content" style="margin-left: 40px;">
         <div class="slider-container">
             <label for="red" class="slider-label" style="color: #ff0000;"><strong>R</strong></label>
             <input type="range" id="red" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
@@ -82,7 +82,7 @@
                 var r_rev = 255 - r;
                 var g_rev = 255 - g;
                 var b_rev = 255 - b;
-                document.getElementsByClassName('mainBody')[0].style.backgroundColor = 'rgb(' + r_rev + ',' + g_rev + ',' + b_rev +')';
+                document.getElementsByClassName('cw-main')[0].style.backgroundColor = 'rgb(' + r_rev + ',' + g_rev + ',' + b_rev +')';
                 document.getElementById('title').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
                 document.getElementById('title2').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
                 document.getElementById('linkName').style.color = 'rgb(' + r + ',' + g + ',' + b + ')';

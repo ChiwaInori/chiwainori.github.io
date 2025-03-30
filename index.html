@@ -66,15 +66,21 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="mainBody">
-    <div id="title">
+<body><div id="cw-main">
+    <div id="cw-title">
         <img class="NBM" src="./title-icon.png" />
         <!-- <h1 id="center-title" style="font-size: 64px;">ChiwaInori<span id="top" style="font-size: 24px;">.top</span></h1> -->
     </div>
-    <div id="content">
-        <h4>欢迎来到 ChiwaInori.top!</h4>
-        <p>本网站是 <a href="https://space.bilibili.com/74178478/" target="_blank"><ruby>千和<rt>ちわ</rt></ruby> いのり</a> (Chiwa Inori) 的个人网站,</p>
+    <div id="cw-nav">
+        <h6 id="lang-cn" class="lang-option"><strong>中文</strong> | <span class="LNK" onclick="setLang('en')">English</span> | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
+        <h6 id="lang-en" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | English | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
+        <h6 id="lang-jp" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | <span class="LNK" onclick="setLang('en')">English</span> | <strong>日本語</strong></h6>
+    </div>
+    <div id="cw-content">
+        <h4>欢迎来到 ChiwaInori.top! ヾ(≧▽≦*)o</h4>
+        <p><span>本网站是</span> <a href="https://space.bilibili.com/74178478/" target="_blank"><ruby>千和<rt>ちわ</rt></ruby> いのり</a> <span>(Chiwa Inori) 的个人网站,</span></p>
         <p>内含了一些实用 (或者没啥用) 的工具等页面.</p>
+        <p id="multilingual-tip" class="STX"></p>
         <div id="infoBlocks">
             <!-- <div id="recentUpdate" hidden>
                 <h2>最近更新</h2>
@@ -156,7 +162,7 @@
             </div>
         </div>
         <div id="ending">
-            <p class="ANT"><a href="chiwa-functions.js">Chiwa Functions</a> v<span id="chiwa-ver"></span> | 若未明确规定, ChiwaInori.top 上的内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 协议 | <a href="local/">管理你在 ChiwaInori.top 上的本地数据</a> | 联系我们: <a href="mailto:chiwainori@outlook.com">chiwainori@outlook.com</a></p>
+            <p class="ANT"><a href="chiwa-functions.js">Chiwa Functions</a> v<span id="chiwa-ver"></span> | <span>若未明确规定, ChiwaInori.top 上的内容遵循</span> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> <span>协议</span> | <a href="local/">管理你在 ChiwaInori.top 上的本地数据</a> | <span>联系我们</span>: <a href="mailto:chiwainori@outlook.com">chiwainori@outlook.com</a></p>
         </div>
         <!-- 
             More Update Logs
@@ -164,6 +170,39 @@
          -->
     </div>
     <script>
+        const multilingual = [
+            ["_pos", "cn", "en", "jp"],
+            ["#cw-content > h4", "欢迎来到 ChiwaInori.top! ヾ(≧▽≦*)o", "Welcome to ChiwaInori.top! ヾ(≧▽≦*)o", "ChiwaInori.top へようこそ! ヾ(≧▽≦*)o"],
+            ["#cw-content > p:nth-child(2) > span:nth-child(1)", "本网站是", "This is", "ここは"],
+            ["#cw-content > p:nth-child(2) > span:nth-child(3)", "(Chiwa Inori) 的个人网站,", "(Chiwa Inori)'s personal website,", " の個人のサイトで、"],
+            ["#cw-content > p:nth-child(3)", "内含了一些实用 (或者没啥用) 的工具等页面.", "including some useful (or useless) pages of tools.", "役に立つ (あるいは役に立たないかも) ツールなどのページがある。"],
+            ["#multilingual-tip", "", "(Multilingual support to English is still in preparation.)", "(日本語のサポートはまだ準備中)"],
+            ["#infoBlocks > div:nth-child(1) > h2", "实用工具", "Useful Tools", "有用なツール"],
+            ["#infoBlocks > div:nth-child(1) > p:nth-child(3) > a", "翻转硬币", "Coin Flip", "コインフリップ"],
+            ["#infoBlocks > div:nth-child(2) > h2", "辅助工具", "Assistant Tools", "補助的なツール"],
+            ["#infoBlocks > div:nth-child(3) > h2", "游戏文档 / 工具", "Game Docs / Tools", "ゲームの情報・ツール"],
+            ["#infoBlocks > div:nth-child(4) > h2", "小游戏", "Minigames", "ミニゲーム"],
+            ["#infoBlocks > div:nth-child(5) > h2", "小测试", "Tests", "テスト"],
+            ["#infoBlocks > div:nth-child(6) > h2", "JSON 文件", "JSON Files", "JSON ファイル"],
+            ["#infoBlocks > div:nth-child(6) > p.STX", "下面列出的页面必须要搭配 ChiwaInori.top 特定的 JSON 文件来使用。", "Pages listed below requires special JSON files of ChiwaInori.top.", "これらのページは ChiwaInori.top の JSON ファイルが必要だ。"],
+            ["#ending > p > span:nth-child(3)", "若未明确规定, ChiwaInori.top 上的内容遵循", "If not specified, contents on ChiwaInori.top follows", "ChiwaInori.top の内容が指定されなければ、"],
+            ["#ending > p > span:nth-child(5)", "协议", "", "を遵守する"],
+            ["#ending > p > a:nth-child(6)", "管理你在 ChiwaInori.top 上的本地数据", "Control your local data on ChiwaInori.top", "ChiwaInori.top にある個人情報を管理する"],
+            ["#ending > p > span:nth-child(7)", "联系我们", "Contact us", "連絡先"]
+        ];
+        function setLang(l) {
+            applyAll(".lang-option", el => cw(el).hide());
+            cw(`#lang-${l}`).unhide();
+            storage.set("lang", l, true);
+
+            const langIndex = multilingual[0].indexOf(l);
+            for (let i = 1; i < multilingual.length; i++) { cw(multilingual[i][0]).text = multilingual[i][langIndex]; }
+        }
+        function getLang() { return multilingual[0].indexOf(storage.get("lang", true) || "cn") - 1; }
+        (() => { setLang(storage.get("lang", true) || "cn"); })();
+
+        // End of Multilingual
+
         cw("#chiwa-ver").text = chiwa;
     </script>
 </div></body>

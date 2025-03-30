@@ -86,7 +86,7 @@ body {
     margin: 0px;
 }
 
-#mainBody {
+#cw-main {
     background-color: var(--backgroundColor-500);
     /* min-height: 90vh; */
     padding: 30px 25px 30px 25px;
@@ -103,11 +103,11 @@ body {
     transition: all 0.1s var(--transit);
 }
 
-#title h1 {
+#cw-title h1 {
     margin: auto 0px 0px 0px;
 }
 
-#navigation h6 {
+#cw-nav h6 {
     margin-top: 0px;
 }
 
@@ -280,8 +280,11 @@ span, a {
 
 /* LINK  SPECIALS */
 
-a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
+a:not(.HLK), .LNK {
     color: var(--activeColor-500);
+}
+
+a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
     text-decoration: none;
     cursor: pointer;
     position: relative;
@@ -417,7 +420,7 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
 /* MOBILE COMMON */
 
 @media not (hover: hover) {
-    .mainBody {
+    #cw-main {
         width: 90%;
         min-height: 90vh;
         border-radius: 20px;

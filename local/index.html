@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title id="title">title - ChiwaInori.top</title>
+    <title id="cw-title">title - ChiwaInori.top</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
@@ -11,17 +11,17 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="mainBody">
-    <div id="title">
+<body><div id="cw-main">
+    <div id="cw-title">
         <h1 id="title-title">title-title</h1>
     </div>
-    <div id="navigation">
+    <div id="cw-nav">
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>你在 ChiwaInori.top 上的本地数据</strong></h6>
     </div>
-    <div id="content" id="content">
+    <div id="cw-content">
     </div>
     <script>
-        cw("#title").html = `你在 ${window.location.origin} 上的本地数据 - ChiwaInori.top`;
+        cw("title").html = `你在 ${window.location.origin} 上的本地数据 - ChiwaInori.top`;
         cw("#title-title").html = `你在 ${window.location.origin} 上的本地数据`;
 
         const local = [];
@@ -30,11 +30,11 @@
         }
 
         if (!local[0]) {
-            cw("#content").html = `<p>你在 ${window.location.origin} 上没有任何本地数据。</p>`;
+            cw("#cw-content").html = `<p>你在 ${window.location.origin} 上没有任何本地数据。</p>`;
         } else {
-            cw("#content").html = `<p>你在 ${window.location.origin} 上的本地数据:</p>`;
-            local.forEach((item, index) => cw("#content").html += `<p><span style="color: var(--gray);">${item[0]}: ${item[1]}</span>&nbsp;<button onclick="clearItems(${index})">删除</button></p>`);
-            cw("#content").html += `<p><button onclick="clearItems()">清除所有本地数据</button></p>`;
+            cw("#cw-content").html = `<p>你在 ${window.location.origin} 上的本地数据:</p>`;
+            local.forEach((item, index) => cw("#cw-content").html += `<p><span style="color: var(--gray);">${item[0]}: ${item[1]}</span>&nbsp;<button onclick="clearItems(${index})">删除</button></p>`);
+            cw("#cw-content").html += `<p><button onclick="clearItems()">清除所有本地数据</button></p>`;
         }
 
         function clearItems(index) {
