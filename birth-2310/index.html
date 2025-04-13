@@ -15,6 +15,10 @@
         #remaining * {
             font-size: 20px;
         }
+
+        tr td {
+            vertical-align: top;
+        }
     </style>
     <script src="/chiwa-functions.js"></script>
 </head>
@@ -25,10 +29,20 @@
     </div>
     <div id="cw-content">
         <br />
-        <h2>下一个生日:</h2>
-        <div id="next"></div>
-        <br />
-        <div id="remaining"></div>
+        <table>
+            <tr>
+                <td>
+                    <h2>下一个生日:</h2>
+                    <div id="next"></div>
+                    <br />
+                    <div id="remaining"></div>
+                </td>
+                <td>
+                    <h2>成年排序</h2>
+                    <div id="majority"></div>
+                </td>
+            </tr>
+        </table>
     </div>
     <script>
         const birthList = [
@@ -89,6 +103,7 @@
             ["练昆林", 2008, 4, 30]
         ];
         const toBirth = [];
+        const toMajority = [];
         let isNext = 1;
         
         function getDaysLeft(year, month, day) {
@@ -104,16 +119,17 @@
             return daysDifference;
         }
 
-        birthList.forEach(element => {
-            let nextBirthYear = element[1];
+        for (const person of birthList) {
+            let nextBirthYear = person[1];
 
-            while (getDaysLeft(nextBirthYear, element[2], element[3]) < 0) {
+            while (getDaysLeft(nextBirthYear, person[2], person[3]) < 0) {
                 nextBirthYear++;
             }
-            element.push(nextBirthYear);
-            toBirth.push(getDaysLeft(nextBirthYear, element[2], element[3]));
-        });
+            person.push(nextBirthYear);
+            toBirth.push(getDaysLeft(nextBirthYear, person[2], person[3]));
+        }
 
+        let lastMonth;
         for (let i = 0; i <= 366; i++) {
             let triggered;
 
@@ -123,8 +139,18 @@
                 const target = {
                     name: birthList[index][0],
                     birth: `${birthList[index][1]}.${birthList[index][2]}.${birthList[index][3]}`,
+                    birthMonth: birthList[index][2],
                     age: birthList[index][4] - birthList[index][1]
                 };
+
+                if (target.birthMonth != lastMonth) {
+                    if (isNext) {
+                        cw("td").html = `<p style="font-size: 14px;">- ${target.birthMonth} 月 -</p>${cw("td").html}`;
+                    } else {
+                        cw("#remaining").html += `<p style="font-size: 14px;">- ${target.birthMonth} 月 -</p>`;
+                    }
+                    lastMonth = target.birthMonth;
+                }
 
                 cw(isNext ? "#next" : "#remaining").html += `<p ${isToday ? "style='color: var(--green);'" : ""}>${target.name} ${target.birth} (${toBirth[index] == 0 ? "今" : `${toBirth[index]} `}天 -&gt; ${target.age} 岁)</p>`;
 
@@ -148,6 +174,46 @@
                 }
             }
             return returnArr;
+        }
+
+        function getMajority(y, m, d) {
+            const birth = new Date(y, m - 1, d);
+            const majorityDate = new Date(birth);
+            majorityDate.setFullYear(majorityDate.getFullYear() + 18);
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const diffTime = majorityDate - today;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            return diffDays;
+        }
+
+        for (const person of birthList) {
+            toMajority.push(getMajority(person[1], person[2], person[3]));
+        }
+
+        let majorityOrder = 0;
+        let orderAdd = 0;
+        for (let i = -1000; i < 1000; i++) {
+            let sameDay = false;
+            
+            while (toMajority.indexOf(i) >= 0) {
+                const index = toMajority.indexOf(i);
+                const target = {
+                    name: birthList[index][0],
+                    birth: `${birthList[index][1]}.${birthList[index][2]}.${birthList[index][3]}`,
+                    daysLeft: i,
+                    major: i <= 0
+                };
+                
+                cw("#majority").html += `<p ${target.major ? "style='color: var(--green);'" : ""}>[${sameDay ? majorityOrder : majorityOrder += 1 + orderAdd}] ${target.name} ${target.birth} (${toMajority[index]} 天)</p>`;
+                
+                toMajority[index] = -1001;
+                orderAdd = sameDay ? orderAdd + 1 : 0;
+                sameDay = true;
+            }
         }
     </script>
 </div></body>
