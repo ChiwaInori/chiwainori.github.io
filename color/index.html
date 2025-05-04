@@ -327,20 +327,6 @@
                 cw("#read-result").color = "var(--green)";
                 return;
             }
-            if (value.match(/\d{1,3}, ?\d{1,3}, ?\d{1,3}/)) {
-                const [r, g, b] = value.match(/(\d{1,3}), ?(\d{1,3}), ?(\d{1,3})/).slice(1, 4).map(Number);
-                if (!r.range(0, 255) || !g.range(0, 255) || !b.range(0, 255)) { throw new ReferenceError("Invalid RGB code"); }
-
-                cw("#rgb-r").value = r;
-                cw("#rgb-g").value = g;
-                cw("#rgb-b").value = b;
-
-                turn("rgb");
-                changeColor();
-                cw("#read-result").text = `已读取 rgb(${r}, ${g}, ${b})`;
-                cw("#read-result").color = "var(--green)";
-                return;
-            }
             if (value.includes("#")) {
                 const hexCode = value.match(/(?<=#)[A-Fa-f0-9]{6}/)[0];
                 const [r, g, b] = [Number(hexCode.slice(0, 2).transBase(16, 10)), Number(hexCode.slice(2, 4).transBase(16, 10)), Number(hexCode.slice(4, 6).transBase(16, 10))];
@@ -349,7 +335,7 @@
                 cw("#rgb-r").value = r;
                 cw("#rgb-g").value = g;
                 cw("#rgb-b").value = b;
-
+                
                 turn("rgb");
                 changeColor();
                 cw("#read-result").text = `已读取 #${hexCode}`;
@@ -364,7 +350,7 @@
                 cw("#cmyk-m").value = m;
                 cw("#cmyk-y").value = y;
                 cw("#cmyk-k").value = k;
-
+                
                 turn("cmyk");
                 changeColor();
                 cw("#read-result").text = `已读取 cmyk(${c}, ${m}, ${y}, ${k})`;
@@ -374,11 +360,11 @@
             if (value.includes("hsv")) {
                 const [h, s, v] = value.match(/hsv\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)/).slice(1, 4).map(Number);
                 if (!h.range(0, 360) || !s.range(0, 100) || !v.range(0, 100)) { throw new ReferenceError("Invalid HSV code"); }
-
+                
                 cw("#hsv-h").value = h == 360 ? 0 : h;
                 cw("#hsv-s").value = s;
                 cw("#hsv-v").value = v;
-
+                
                 turn("hsv");
                 changeColor();
                 cw("#read-result").text = `已读取 hsv(${h}, ${s}, ${v})`;
@@ -388,14 +374,28 @@
             if (value.includes("hsl")) {
                 const [h, s, l] = value.match(/hsl\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)/).slice(1, 4).map(Number);
                 if (!h.range(0, 360) || !s.range(0, 100) || !l.range(0, 100)) { throw new ReferenceError("Invalid HSL code"); }
-
+                
                 cw("#hsl-h").value = h == 360 ? 0 : h;
                 cw("#hsl-s").value = s;
                 cw("#hsl-l").value = l;
-
+                
                 turn("hsl");
                 changeColor();
                 cw("#read-result").text = `已读取 hsl(${h}, ${s}, ${l})`;
+                cw("#read-result").color = "var(--green)";
+                return;
+            }
+            if (value.match(/\d{1,3}, ?\d{1,3}, ?\d{1,3}/)) {
+                const [r, g, b] = value.match(/(\d{1,3}), ?(\d{1,3}), ?(\d{1,3})/).slice(1, 4).map(Number);
+                if (!r.range(0, 255) || !g.range(0, 255) || !b.range(0, 255)) { throw new ReferenceError("Invalid RGB code"); }
+
+                cw("#rgb-r").value = r;
+                cw("#rgb-g").value = g;
+                cw("#rgb-b").value = b;
+
+                turn("rgb");
+                changeColor();
+                cw("#read-result").text = `已读取 rgb(${r}, ${g}, ${b})`;
                 cw("#read-result").color = "var(--green)";
                 return;
             }
