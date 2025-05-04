@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Puremilk比赛 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="IFB-Red"><p><strong>此页已归档</strong></p><p>这表示此页的内容可能已经不符合目前情况, 并且不会再进行任何更新.</p></div><div id="cw-main">
+    <div id="cw-title">
+        <h1>Puremilk比赛</h1>
+    </div>
+    <div id="cw-nav">
+        <h6><a href="../../../">ChiwaInori.top</a> &gt; <a href="../../">Minecraft</a> &gt; Puremilk &gt; <strong>比赛</strong></h6>
+    </div>
+    <div id="cw-content">
+        <div id="notsupported">
+            <p style="color: #dd0000;"><strong>* 该设备不支持获取活动状态</strong></p>
+            <br />
+        </div>
+        <!-- <h3><a href="./english-1/">第一届障碍跑大赛</a></h3>
+        <h4 id="english_1_text"><span id="english_1_type"></span>2021.7.23 15:00 - 2021.7.26 10:10</h4>
+        <br /> -->
+        <h3><a href="./run-1/">第一届障碍跑大赛</a></h3>
+        <h4 id="run_1_text"><span id="run_1_type"></span>2021.7.13 15:00 - 2021.7.22 10:30</h4>
+        <br />
+        <h3><a href="./flag-2/">第二届旗帜投稿大赛</a></h3>
+        <h4 id="flag_2_text"><span id="flag_2_type"></span>2021.7.8 15:00 - 2021.7.15 11:30</h4>
+        <br />
+        <blockquote id="showold" style="margin-left: 0px;">
+            <p><a href="#" onclick="showold()">点击此处</a>显示2场旧的未完全记载的活动...</p>
+        </blockquote>
+        <div id="old" style="display: none;">
+            <h3><a href="./build-1/">七夕建筑大赛</a></h3>
+            <h6>aka. 第一届建筑大赛</h6>
+            <h4 id="build_1_text"><span id="build_1_type"></span>2020.8.26 - 2020.8.26</h4>
+            <br />
+            <h3><a href="./flag-1/">第一届旗帜投稿大赛</a></h3>
+            <h4 id="flag_1_text"><span id="flag_1_type"></span>? - 2020.4.18</h4>
+        </div>
+    </div>
+    <script>
+        var now = new Date();
+
+        var verify = new Date("2007.3.2");
+        if (now > verify || now == verify || now < verify) {
+            document.getElementById("notsupported").style = "display: none;";
+        }
+
+        /*
+        var english_1_start = new Date("2021.7.23 15:00");
+        var english_1_end = new Date("2021.7.26 10:10");
+        if (now < english_1_start) {
+            document.getElementById("english_1_type").innerHTML = "已计划 | ";
+        }
+        if (now >= english_1_start) {
+            if (now < english_1_end) {
+                document.getElementById("english_1_type").innerHTML = "进行中 | ";
+                document.getElementById("english_1_text").style = "color: #00dd00; font-weight:bold;";
+                document.getElementById("english_1_type").style = "color: #00dd00; font-weight:bold;";
+            }
+        }
+        if (now >= english_1_end) {
+            document.getElementById("english_1_type").innerHTML = "已结束 | ";
+            document.getElementById("english_1_text").style = "color: #aaaaaa;";
+            document.getElementById("english_1_type").style = "color: #aaaaaa;";
+        }
+        */
+
+        var run_1_start = new Date("2021.7.13 15:00");
+        var run_1_end = new Date("2021.7.22 10:30");
+        if (now < run_1_start) {
+            document.getElementById("run_1_type").innerHTML = "已计划 | ";
+        }
+        if (now >= run_1_start) {
+            if (now < run_1_end) {
+                document.getElementById("run_1_type").innerHTML = "进行中 | ";
+                document.getElementById("run_1_text").style = "color: #00dd00; font-weight:bold;";
+                document.getElementById("run_1_type").style = "color: #00dd00; font-weight:bold;";
+            }
+        }
+        if (now >= run_1_end) {
+            document.getElementById("run_1_type").innerHTML = "已结束 | ";
+            document.getElementById("run_1_text").style = "color: #aaaaaa;";
+            document.getElementById("run_1_type").style = "color: #aaaaaa;";
+        }
+
+        var flag_2_start = new Date("2021.7.8 15:00");
+        var flag_2_end = new Date("2021.7.15 11:30");
+        if (now < flag_2_start) {
+            document.getElementById("flag_2_type").innerHTML = "已计划 | ";
+        }
+        if (now >= flag_2_start) {
+            if (now < flag_2_end) {
+                document.getElementById("flag_2_type").innerHTML = "进行中 | ";
+                document.getElementById("flag_2_text").style = "color: #00dd00; font-weight:bold;";
+                document.getElementById("flag_2_type").style = "color: #00dd00; font-weight:bold;";
+            }
+        }
+        if (now >= flag_2_end) {
+            document.getElementById("flag_2_type").innerHTML = "已结束 | ";
+            document.getElementById("flag_2_text").style = "color: #aaaaaa;";
+            document.getElementById("flag_2_type").style = "color: #aaaaaa;";
+        }
+
+        var build_1_start = new Date("2020.8.26 0:00");
+        var build_1_end = new Date("2020.8.26 23:59");
+        if (now < build_1_start) {
+            document.getElementById("build_1_type").innerHTML = "已计划 | ";
+        }
+        if (now >= build_1_start) {
+            if (now < build_1_end) {
+                document.getElementById("build_1_type").innerHTML = "进行中 | ";
+                document.getElementById("build_1_text").style = "color: #00dd00; font-weight:bold;";
+                document.getElementById("build_1_type").style = "color: #00dd00; font-weight:bold;";
+            }
+        }
+        if (now >= build_1_end) {
+            document.getElementById("build_1_type").innerHTML = "已结束 | ";
+            document.getElementById("build_1_text").style = "color: #aaaaaa;";
+            document.getElementById("build_1_type").style = "color: #aaaaaa;";
+        }
+
+        var flag_1_start = new Date("2020.4.18 0:00");
+        var flag_1_end = new Date("2020.4.18 23:59");
+        if (now < flag_1_start) {
+            document.getElementById("flag_1_type").innerHTML = "已计划 | ";
+        }
+        if (now >= flag_1_start) {
+            if (now < flag_1_end) {
+                document.getElementById("flag_1_type").innerHTML = "进行中 | ";
+                document.getElementById("flag_1_text").style = "color: #00dd00; font-weight:bold;";
+                document.getElementById("flag_1_type").style = "color: #00dd00; font-weight:bold;";
+            }
+        }
+        if (now >= flag_1_end) {
+            document.getElementById("flag_1_type").innerHTML = "已结束 | ";
+            document.getElementById("flag_1_text").style = "color: #aaaaaa;";
+            document.getElementById("flag_1_type").style = "color: #aaaaaa;";
+        }
+
+        function showold() {
+            document.getElementById("showold").style = "display: none;";
+            document.getElementById("old").style = "display: block;";
+        }
+    </script>
+</div></body>
+
+</html>

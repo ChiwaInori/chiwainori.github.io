@@ -12,7 +12,7 @@
             text-align: center;
         }
 
-        #cw-content div {
+        #cw-content > div {
             border: 2px solid #666666;
             width: 350px;
             margin: 16px auto 16px;
@@ -157,7 +157,25 @@
             <p><a href="endfinder/" id="endfinder">末地传送门查找器</a></p>
             <p><a href="skbpacks/" id="skbpacks">SKB 材质包</a></p>
         </div>
+        <div>
+            <p id="puremilk-line"><span class="LNK" onclick="showPuremilk()">查看已归档的 Puremilk 界面...</span></p>
+            <div id="puremilk" hidden>
+                <h4>Puremilk</h4>
+                <p><a href="pm/age-cp/">age-cp</a></p>
+                <p><a href="pm/census/">census</a></p>
+                <p><a href="pm/competition/">competition</a></p>
+                <p><a href="pm/pl-guess/">pl-guess</a></p>
+                <p><a href="pm/pl-lst/">pl-lst</a></p>
+                <p><a href="pm/reg-1165/">reg-1165</a></p>
+                <p><a href="pm/rules/">rules</a></p>
+            </div>
+        </div>
     </div>
+    <script>
+        function showPuremilk() {
+            fadeChange("puremilk-line", "puremilk");
+        }
+    </script>
 </div></body>
 
 </html>

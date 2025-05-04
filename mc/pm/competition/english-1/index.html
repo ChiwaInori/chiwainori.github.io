@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>第一届英语大赛 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="IFB-Red"><p><strong>此页已归档</strong></p><p>这表示此页的内容可能已经不符合目前情况, 并且不会再进行任何更新.</p></div><div id="cw-main">
+    <div id="cw-title">
+        <h1>第一届英语大赛</h1>
+    </div>
+    <div id="cw-nav">
+        <h6><a href="../../../../">ChiwaInori.top</a> &gt; <a href="../../../">Minecraft</a> &gt; Puremilk &gt; <a href="../">比赛</a> &gt; <strong>第一届英语大赛</strong></h6>
+    </div>
+    <div id="cw-content">
+        <div id="status">
+            <h3 id="status_text">该设备不支持获取活动状态</h3>
+            <h6 id="status_time">2021.7.23 15:00 - 2021.7.26 10:10</h6>
+            <script>
+                var now = new Date();
+                var activity_start = new Date("2021.7.23 15:00");
+                var activity_end = new Date("2021.7.26 10:10");
+                if (now < activity_start) {
+                    document.getElementById("status_text").innerHTML = "已计划";
+                }
+                if (now >= activity_start) {
+                    if (now < activity_end) {
+                        document.getElementById("status_text").innerHTML = "进行中";
+                        document.getElementById("status_text").style = "color: #00dd00; font-weight:bold;";
+                        document.getElementById("status_time").style = "color: #00dd00; font-weight:bold;";
+                    }
+                }
+                if (now >= activity_end) {
+                    document.getElementById("status_text").innerHTML = "已结束";
+                    document.getElementById("status_text").style = "color: #aaaaaa;";
+                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                }
+            </script>
+            <br />
+            <p><strong><a href="./english-1.ics">添加到日历 &gt;</a></strong></p>
+        </div>
+        <br />
+        <br />
+        <h3>比赛详情</h3>
+        <p>比赛时由xtsdcb69公布题目 (例如 _ _ r _ _ a _ _ 这种)，玩家需要答出符合题目要求的单词。</p>
+        <p>所有题目会根据已经准备好的单词来出题，因此不会出现没有单词符合的情况。</p>
+        <p>每一个单词只能回答一次。例如一个玩家答出了 airplane , 但另一个也答出了 airplane , 只有第一个回答 airplane 的玩家得分。但如果回答了 abradant , 则也得分。</p>
+        <br />
+        <h3>报名方式</h3>
+        <h4>玩家</h4>
+        <h6>入场费: 无</h6>
+        <p>填写<a href="https://docs.qq.com/form/page/DQUJ5ek5RemlWYURY?_w_tencentdocx_form=1">报名申请表</a>来进行报名。</p>
+        <br />
+        <h3>时间线</h3>
+        <p id="a1">报名时间: 2021.7.22 15:00 - 2021.7.25 19:30</p>
+        <p id="a2">参赛时间: 2021.7.25 20:00 - 2021.7.25 21:00</p>
+        <p id="a3">颁奖时间: 2021.7.26 10:00 - 2021.7.26 10:10</p>
+        <script>
+            var a1_start = new Date("2021.7.22 15:00");
+            var a1_end = new Date("2021.7.25 19:30");
+            var a2_start = new Date("2021.7.25 20:00");
+            var a2_end = new Date("2021.7.25 21:00");
+            var a3_start = new Date("2021.7.26 10:00");
+            var a3_end = new Date("2021.7.26 10:10");
+
+            if (now >= a1_start) {
+                if (now < a1_end) {
+                    document.getElementById("a1").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a1_end) {
+                document.getElementById("a1").style = "color: #aaaaaa;";
+            }
+            if (now >= a2_start) {
+                if (now < a2_end) {
+                    document.getElementById("a2").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a2_end) {
+                document.getElementById("a2").style = "color: #aaaaaa;";
+                document.getElementById("a2_a").style = "color: #aaaaaa;";
+            }
+            if (now >= a3_start) {
+                if (now < a3_end) {
+                    document.getElementById("a3").style = "color: #00dd00; font-weight:bold;";
+                }
+            }
+            if (now >= a3_end) {
+                document.getElementById("a3").style = "color: #aaaaaa;";
+            }
+        </script>
+        <br />
+        <h3>奖品</h3>
+        <p style="color: #ffc800;"><strong>冠军: 待定</strong></p>
+        <p style="color: #aaaaaa;"><strong>亚军: 待定</strong></p>
+        <p style="color: #ff8800;"><strong>季军: 待定</strong></p>
+        <br />
+        <p>参与奖: 待定</p>
+        <br />
+        <h3>参赛者名单</h3>
+        <h6>按报名顺序排序</h6>
+        <h4>玩家</h4>
+        <div class="STX">
+            <blockquote>
+                <p>暂无报名。</p>
+            </blockquote>
+        </div>
+        <br />
+        <h3>成绩</h3>
+        <blockquote>
+            <p>暂不公布。</p>
+        </blockquote>
+    </div>
+</div></body>
+
+</html>
