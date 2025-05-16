@@ -44,7 +44,7 @@
  * @since xts.24-5-19
  * @version 25-1-21
 */
-const chiwa = "25-3-23";
+const chiwa = "25-5-16";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE
@@ -198,6 +198,55 @@ function siteId() {
 
     return formatted.replaceAll(/(Index|-|\..*$)/g, "") || "chiwa";
 }
+
+/**
+ * Auto set the navigation bar for every pages loaded. (Manual execution isn't required when no special settings needed)
+ * [TIP] Isn't used now temporarily. May be deployed in future.
+ * @param {Object} arg - Special settings for the bar
+ * @example navigate({ unavailable: [1] }) // Link for 1st index is unavailable
+ * @since 25-5-16
+ * @version 25-5-16
+ */
+function navigate(arg = {}) {
+    if (!cw("#cw-nav").el || cw("#cw-nav").html != "") { return; }
+
+    const dict = {
+        mc: "Minecraft",
+        opc: "Old Players Club"
+    };
+    
+    const page = {
+        dir: ["ChiwaInori.top", ...window.location.href.split("/").slice(3, -1)],
+        file: String(window.location.href.split("/").slice(-1)),
+        isIndex: ["", "index.html"].includes(String(window.location.href.split("/").slice(-1)))
+    };
+    log(page);
+
+    let navHtml = "";
+
+    page.dir.forEach((path, index) => {
+        const name = dict[path] || path;
+        const notLast = index != page.dir.length - 1;
+        const dirBack = "../".repeat(page.dir.length - index - Number(page.isIndex));
+
+        if (!arg.unavailable?.includes(index)) {
+            navHtml += notLast ? `<a href="${dirBack}">${name}</a> &gt; `
+                : page.isIndex ? `<span>${name}</span>`
+                    : `<a href="${dirBack}">${name}</a> `;
+        } else {
+            navHtml += notLast ? `<span>${name}</span> &gt; `
+                : page.isIndex ? `<span>${name}</span>`
+                    : `<span>${name}</span> `;
+        }
+    });
+    if (!page.isIndex) {
+        navHtml += `<span>@ ${page.file}</span>`;
+    }
+    log(navHtml);
+
+    cw("#cw-nav").html = `<h6>${navHtml}</h6>`;
+}
+// Temp: window.addEventListener("load", navigate);
 
 /**
  * Pop up a seizure warning in page.
@@ -1066,16 +1115,17 @@ class ChiwaSet {
      * @returns {ChiwaSet} A ChiwaSet with specified element
      * @example new ChiwaSet("p", 1) // A ChiwaSet with the index 1 (2nd) p element
      * @since 25-1-12
-     * @version 25-1-21-1
+     * @version 25-5-16
      */
     constructor(element, index = 0) {
         _type(element, "string | HTMLElement");
         _range(index, "%1=0 | >= 0", true);
         
-        this.el = element instanceof HTMLElement ? element : document.querySelectorAll(element)[index] ?? null;
+        this.el = element instanceof HTMLElement ? element : document.querySelectorAll(element)[index] || null;
     }
 
     // Get / Set Editable Attributes
+
     get html() { return this.el.innerHTML; }
     set html(value) { this.el.innerHTML = value; }
 
@@ -1098,10 +1148,9 @@ class ChiwaSet {
     set disabled(value) { this.el.disabled = value; }
     
     // Get Uneditable Attributes
+
     get hidden() { return this.style.display == "none" || this.style.opacity == "0" || this.el.hidden && this.style.display == ""; }
     set hidden(value) { throw new SyntaxError("ChiwaSet.hidden is read-only. Use ChiwaSet.hide or ChiwaSet.unhide"); }
-    
-    // Set Editable Attributes
 
     // Element Functions
     // These are functions to modify element in ChiwaSet, while they were originally independent function in Inori Functions
