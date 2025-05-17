@@ -40,8 +40,8 @@
                 }
                 if (now >= activity_end) {
                     document.getElementById("status_text").innerHTML = "已结束";
-                    document.getElementById("status_text").style = "color: #aaaaaa;";
-                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                    document.getElementById("status_text").style = "color: var(--gray);";
+                    document.getElementById("status_time").style = "color: var(--gray);";
                 }
                 var last_start = new Date("2020.4.18 00:00");
                 var last_end = new Date("2020.4.18 23:59");
@@ -51,7 +51,7 @@
                     }
                 }
                 if (now >= last_end) {
-                    document.getElementById("last").style = "color: #aaaaaa;";
+                    document.getElementById("last").style = "color: var(--gray);";
                 }
             </script>
             <br />
@@ -98,7 +98,7 @@
                 }
             }
             if (now >= a1_end) {
-                document.getElementById("a1").style = "color: #aaaaaa;";
+                document.getElementById("a1").style = "color: var(--gray);";
             }
             if (now >= a2_start) {
                 if (now < a2_end) {
@@ -106,7 +106,7 @@
                 }
             }
             if (now >= a2_end) {
-                document.getElementById("a2").style = "color: #aaaaaa;";
+                document.getElementById("a2").style = "color: var(--gray);";
             }
             if (now >= a3_start) {
                 if (now < a3_end) {
@@ -114,8 +114,8 @@
                 }
             }
             if (now >= a3_end) {
-                document.getElementById("a3").style = "color: #aaaaaa;";
-                document.getElementById("a3_a").style = "color: #aaaaaa;";
+                document.getElementById("a3").style = "color: var(--gray);";
+                document.getElementById("a3_a").style = "color: var(--gray);";
             }
             if (now >= a4_start) {
                 if (now < a4_end) {
@@ -123,13 +123,13 @@
                 }
             }
             if (now >= a4_end) {
-                document.getElementById("a4").style = "color: #aaaaaa;";
+                document.getElementById("a4").style = "color: var(--gray);";
             }
         </script>
         <br />
         <h3>奖品</h3>
         <p style="color: #ffc800;"><strong>冠军: 诸葛连弩 (多重射击, 穿透5, 快速装填5, 经验修补), 10 下界合金锭, 32 钻石, ￥10, 旗帜放在大厅展示, 免费自定义称号, 第二届旗帜投稿大赛冠军特殊纪念品</strong></p>
-        <p style="color: #aaaaaa;"><strong>亚军: 钻石剑 (锋利6, 节肢杀手6, 亡灵杀手6, 击退2, 抢夺5, 经验修补, 横扫之刃5), 5 下界合金锭, 16 钻石, 旗帜放在大厅展示, 第二届旗帜投稿大赛亚军特殊纪念品</strong></p>
+        <p style="color: var(--gray);"><strong>亚军: 钻石剑 (锋利6, 节肢杀手6, 亡灵杀手6, 击退2, 抢夺5, 经验修补, 横扫之刃5), 5 下界合金锭, 16 钻石, 旗帜放在大厅展示, 第二届旗帜投稿大赛亚军特殊纪念品</strong></p>
         <p style="color: #ff8800;"><strong>季军: 铁靴子 (保护4, 爆炸保护4, 弹射物保护4, 火焰保护4, 摔落保护4, 经验修补), 2 下界合金锭, 10 钻石, 3 牛奶桶, 旗帜放在大厅展示, 第二届旗帜投稿大赛季军特殊纪念品</strong></p>
         <br />
         <p>参与奖: 1 下界合金锭, 5 钻石</p>
@@ -210,9 +210,9 @@
                 <td><strong>D1ngtalk</strong></td>
                 <td><strong>6</strong></td>
                 <td style="color: #44cc00;"><strong>8.7142</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.5</strong></td>
+                <td style="color: var(--gray);"><strong>6.5</strong></td>
                 <td style="color: #44cc00;"><strong>8.7</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
                 <td style="color: #44cc00;"><strong>8.6</strong></td>
                 <td style="color: #44cc00;"><strong>8.6</strong></td>
                 <td style="color: #77dd00;"><strong>7.6</strong></td>
@@ -221,13 +221,13 @@
                 <td style="color: #11aa00;"><strong>9.5</strong></td>
             </tr>
             <tr align="center">
-                <td style="color: #aaaaaa;"><strong>2</strong></td>
+                <td style="color: var(--gray);"><strong>2</strong></td>
                 <td><strong>MUZE_QAQ</strong></td>
                 <td><strong>14</strong></td>
                 <td style="color: #44cc00;"><strong>8.6371</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.7</strong></td>
+                <td style="color: var(--gray);"><strong>6.7</strong></td>
                 <td style="color: #11aa00;"><strong>9.11</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
                 <td style="color: #11aa00;"><strong>9.2</strong></td>
                 <td style="color: #44cc00;"><strong>8.99</strong></td>
                 <td style="color: #77dd00;"><strong>7.5</strong></td>
@@ -242,8 +242,8 @@
                 <td style="color: #77dd00;"><strong>7.3428</strong></td>
                 <td style="color: #dddd00;"><strong>5.7</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
-                <td style="color: #aaaaaa;"><strong>5.6</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>5.6</strong></td>
                 <td style="color: #11aa00;"><strong>9.2</strong></td>
                 <td style="color: #77dd00;"><strong>7.5</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
@@ -256,14 +256,14 @@
                 <td><strong>8</strong></td>
                 <td style="color: #77dd00;"><strong>7.305</strong></td>
                 <td style="color: #aadd00;"><strong>6.9</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.51*</strong></td>
-                <td style="color: #aaaaaa;"><strong>9</strong></td>
+                <td style="color: var(--gray);"><strong>6.51*</strong></td>
+                <td style="color: var(--gray);"><strong>9</strong></td>
                 <td style="color: #44cc00;"><strong>8</strong></td>
                 <td style="color: #aadd00;"><strong>6.72</strong></td>
                 <td style="color: #77dd00;"><strong>7.6</strong></td>
-                <td style="color: #aaaaaa;"><strong>7*</strong></td>
-                <td style="color: #aaaaaa;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>9*</strong></td>
+                <td style="color: var(--gray);"><strong>7*</strong></td>
+                <td style="color: var(--gray);"><strong>6</strong></td>
+                <td style="color: var(--gray);"><strong>9*</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>5</strong></td>
@@ -272,13 +272,13 @@
                 <td style="color: #77dd00;"><strong>7.2225</strong></td>
                 <td style="color: #aadd00;"><strong>6.9</strong></td>
                 <td style="color: #77dd00;"><strong>7.99</strong></td>
-                <td style="color: #aaaaaa;"><strong>8</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>8</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa"><strong>6</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray)"><strong>6</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>6</strong></td>
@@ -287,12 +287,12 @@
                 <td style="color: #77dd00;"><strong>7.2175</strong></td>
                 <td style="color: #aadd00;"><strong>6.9</strong></td>
                 <td style="color: #77dd00;"><strong>7.97</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.5</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>6.5</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
                 
             </tr>
@@ -305,9 +305,9 @@
                 <td style="color: #44cc00;"><strong>8.7</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
                 <td style="color: #77dd00;"><strong>7.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
                 <td style="color: #dddd00;"><strong>5</strong></td>
-                <td style="color: #aaaaaa;"><strong>1</strong></td>
+                <td style="color: var(--gray);"><strong>1</strong></td>
                 <td style="color: #44cc00;"><strong>8</strong></td>
                 <td style="color: #11aa00;"><strong>9</strong></td>
             </tr>
@@ -316,14 +316,14 @@
                 <td><strong>Feng298</strong></td>
                 <td><strong>4</strong></td>
                 <td style="color: #aadd00;"><strong>6.9571</strong></td>
-                <td style="color: #aaaaaa;"><strong>5.9</strong></td>
+                <td style="color: var(--gray);"><strong>5.9</strong></td>
                 <td style="color: #77dd00;"><strong>7.8</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
                 <td style="color: #77dd00;"><strong>7.4</strong></td>
                 <td style="color: #aadd00;"><strong>6.2</strong></td>
                 <td style="color: #77dd00;"><strong>7.3</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
             </tr>
             <tr align="center">
@@ -333,12 +333,12 @@
                 <td style="color: #aadd00;"><strong>6.9225</strong></td>
                 <td style="color: #dddd00;"><strong>5.9</strong></td>
                 <td style="color: #77dd00;"><strong>7.89</strong></td>
-                <td style="color: #aaaaaa;"><strong>9</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>9</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #77dd00;"><strong>7.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>5</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>5</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #aadd00;"><strong>6.4</strong></td>
             </tr>
             <tr align="center">
@@ -348,12 +348,12 @@
                 <td style="color: #aadd00;"><strong>6.8</strong></td>
                 <td style="color: #77dd00;"><strong>7.2</strong></td>
                 <td style="color: #4ccc00;"><strong>8</strong></td>
-                <td style="color: #aaaaaa;"><strong>9</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>9</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>5</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>5</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
             </tr>
             <tr align="center">
@@ -361,14 +361,14 @@
                 <td><strong>JieShen_</strong></td>
                 <td><strong>2</strong></td>
                 <td style="color: #aadd00;"><strong>6.785</strong></td>
-                <td style="color: #aaaaaa;"><strong>4.8</strong></td>
+                <td style="color: var(--gray);"><strong>4.8</strong></td>
                 <td style="color: #77dd00;"><strong>7.59</strong></td>
-                <td style="color: #aaaaaa;"><strong>8</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>8</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #77dd00;"><strong>7.5</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
             </tr>
             <tr align="center">
@@ -377,13 +377,13 @@
                 <td><strong>21</strong></td>
                 <td style="color: #aadd00;"><strong>6.425</strong></td>
                 <td style="color: #dddd00;"><strong>5.7</strong></td>
-                <td style="color: #aaaaaa;"><strong>7.01</strong></td>
+                <td style="color: var(--gray);"><strong>7.01</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>4</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>4</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
             </tr>
             <tr align="center">
@@ -393,13 +393,13 @@
                 <td style="color: #aadd00;"><strong>6.2985</strong></td>
                 <td style="color: #aadd00;"><strong>6.4</strong></td>
                 <td style="color: #aadd00;"><strong>6.9</strong></td>
-                <td style="color: #aaaaaa;"><strong>8</strong></td>
+                <td style="color: var(--gray);"><strong>8</strong></td>
                 <td style="color: #77dd00;"><strong>7.3</strong></td>
                 <td style="color: #ffdd00;"><strong>4.99</strong></td>
                 <td style="color: #aadd00;"><strong>6.5</strong></td>
                 <td style="color: #dddd00;"><strong>5</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>0</strong></td>
+                <td style="color: var(--gray);"><strong>0</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>14</strong></td>
@@ -407,14 +407,14 @@
                 <td><strong>1</strong></td>
                 <td style="color: #aadd00;"><strong>6.1</strong></td>
                 <td style="color: #aadd00;"><strong>6.1</strong></td>
-                <td style="color: #aaaaaa;"><strong>7*</strong></td>
+                <td style="color: var(--gray);"><strong>7*</strong></td>
                 <td style="color: #aadd00;"><strong>6.7</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.9</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>6.9</strong></td>
                 <td style="color: #dddd00;"><strong>5.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>5</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.4*</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>5</strong></td>
+                <td style="color: var(--gray);"><strong>6.4*</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>15</strong></td>
@@ -423,10 +423,10 @@
                 <td style="color: #aadd00;"><strong>6.0128</strong></td>
                 <td style="color: #77dd00;"><strong>7.1</strong></td>
                 <td style="color: #ffdd00;"><strong>4.99</strong></td>
-                <td style="color: #aaaaaa;"><strong>8</strong></td>
+                <td style="color: var(--gray);"><strong>8</strong></td>
                 <td style="color: #ffdd00;"><strong>4.3</strong></td>
                 <td style="color: #aadd00;"><strong>6.7</strong></td>
-                <td style="color: #aaaaaa;"><strong>5</strong></td>
+                <td style="color: var(--gray);"><strong>5</strong></td>
                 <td style="color: #dddd00;"><strong>5</strong></td>
                 <td style="color: #ffdd00;"><strong>6</strong></td>
                 <td style="color: #44cc00;"><strong>8</strong></td>
@@ -437,14 +437,14 @@
                 <td><strong>18</strong></td>
                 <td style="color: #dddd00;"><strong>5.8333</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>6*</strong></td>
+                <td style="color: var(--gray);"><strong>6*</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
                 <td style="color: #dddd00;"><strong>5.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>6*</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>6*</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>17</strong></td>
@@ -454,72 +454,72 @@
                 <td style="color: #ffdd00;"><strong>4.9</strong></td>
                 <td style="color: #77dd00;"><strong>7</strong></td>
                 <td style="color: #dddd00;"><strong>5</strong></td>
-                <td style="color: #aaaaaa;"><strong>3.7</strong></td>
+                <td style="color: var(--gray);"><strong>3.7</strong></td>
                 <td style="color: #77dd00;"><strong>7.22</strong></td>
                 <td style="color: #77dd00;"><strong>7.5</strong></td>
                 <td style="color: #ffdd00;"><strong>4</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
                 <td style="color: #aadd00;"><strong>6</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>18</strong></td>
                 <td><strong>CN_XiuYan</strong></td>
                 <td><strong>3</strong></td>
-                <td style="color: #aaaaaa;"><strong>8.0222</strong></td>
-                <td style="color: #aaaaaa;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>8.6</strong></td>
-                <td style="color: #aaaaaa;"><strong>10</strong></td>
-                <td style="color: #aaaaaa;"><strong>9.2</strong></td>
-                <td style="color: #aaaaaa;"><strong>7.9</strong></td>
-                <td style="color: #aaaaaa;"><strong>7.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>9</strong></td>
-                <td style="color: #aaaaaa;"><strong>7</strong></td>
+                <td style="color: var(--gray);"><strong>8.0222</strong></td>
+                <td style="color: var(--gray);"><strong>6</strong></td>
+                <td style="color: var(--gray);"><strong>8.6</strong></td>
+                <td style="color: var(--gray);"><strong>10</strong></td>
+                <td style="color: var(--gray);"><strong>9.2</strong></td>
+                <td style="color: var(--gray);"><strong>7.9</strong></td>
+                <td style="color: var(--gray);"><strong>7.5</strong></td>
+                <td style="color: var(--gray);"><strong>7</strong></td>
+                <td style="color: var(--gray);"><strong>9</strong></td>
+                <td style="color: var(--gray);"><strong>7</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>18</strong></td>
                 <td><strong>tzhhhh233</strong></td>
                 <td><strong>15</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.2475</strong></td>
-                <td style="color: #aaaaaa;"><strong>5.9</strong></td>
-                <td style="color: #aaaaaa;"><strong>5.99</strong></td>
-                <td style="color: #aaaaaa;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>7</strong></td>
+                <td style="color: var(--gray);"><strong>6.2475</strong></td>
+                <td style="color: var(--gray);"><strong>5.9</strong></td>
+                <td style="color: var(--gray);"><strong>5.99</strong></td>
+                <td style="color: var(--gray);"><strong>7</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>6</strong></td>
+                <td style="color: var(--gray);"><strong>6</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>7</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>18</strong></td>
                 <td><strong>chenmou1437</strong></td>
                 <td><strong>11</strong></td>
-                <td style="color: #aaaaaa;"><strong>5.2285</strong></td>
-                <td style="color: #aaaaaa;"><strong>5.1</strong></td>
-                <td style="color: #aaaaaa;"><strong>4</strong></td>
-                <td style="color: #aaaaaa;"><strong>7</strong></td>
-                <td style="color: #aaaaaa;"><strong>8.9</strong></td>
-                <td style="color: #aaaaaa;"><strong>6</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>2</strong></td>
-                <td style="color: #aaaaaa;"><strong>4</strong></td>
-                <td style="color: #aaaaaa;"><strong>4</strong></td>
+                <td style="color: var(--gray);"><strong>5.2285</strong></td>
+                <td style="color: var(--gray);"><strong>5.1</strong></td>
+                <td style="color: var(--gray);"><strong>4</strong></td>
+                <td style="color: var(--gray);"><strong>7</strong></td>
+                <td style="color: var(--gray);"><strong>8.9</strong></td>
+                <td style="color: var(--gray);"><strong>6</strong></td>
+                <td style="color: var(--gray);"><strong>6.5</strong></td>
+                <td style="color: var(--gray);"><strong>2</strong></td>
+                <td style="color: var(--gray);"><strong>4</strong></td>
+                <td style="color: var(--gray);"><strong>4</strong></td>
             </tr>
             <tr align="center">
                 <td><strong>18</strong></td>
                 <td><strong>wuyao51</strong></td>
                 <td><strong>9</strong></td>
-                <td style="color: #aaaaaa;"><strong>4.7666</strong></td>
-                <td style="color: #aaaaaa;"><strong>4.1</strong></td>
-                <td style="color: #aaaaaa;"><strong>1</strong></td>
-                <td style="color: #aaaaaa;"><strong>9</strong></td>
-                <td style="color: #aaaaaa;"><strong>-</strong></td>
-                <td style="color: #aaaaaa;"><strong>0</strong></td>
-                <td style="color: #aaaaaa;"><strong>6.5</strong></td>
-                <td style="color: #aaaaaa;"><strong>1</strong></td>
-                <td style="color: #aaaaaa;"><strong>9</strong></td>
-                <td style="color: #aaaaaa;"><strong>7</strong></td>
+                <td style="color: var(--gray);"><strong>4.7666</strong></td>
+                <td style="color: var(--gray);"><strong>4.1</strong></td>
+                <td style="color: var(--gray);"><strong>1</strong></td>
+                <td style="color: var(--gray);"><strong>9</strong></td>
+                <td style="color: var(--gray);"><strong>-</strong></td>
+                <td style="color: var(--gray);"><strong>0</strong></td>
+                <td style="color: var(--gray);"><strong>6.5</strong></td>
+                <td style="color: var(--gray);"><strong>1</strong></td>
+                <td style="color: var(--gray);"><strong>9</strong></td>
+                <td style="color: var(--gray);"><strong>7</strong></td>
             </tr>
         </table>
         <blockquote>

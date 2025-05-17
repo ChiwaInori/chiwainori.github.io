@@ -219,7 +219,7 @@
                 var toohigh = (ipt3 - ipt2) * 0.9 + ipt2;
                 var toolow = (ipt3 - ipt2) * 0.1 + ipt2;
                 if (ipt4 > toohigh || ipt4 < toolow) {
-                    document.getElementById("warn_tooclose").style = "display: block; color: #aaaaaa;";
+                    document.getElementById("warn_tooclose").style = "display: block; color: var(--gray);";
                 }
                 if (ipt4 <= toohigh && ipt4 >= toolow) {
                     document.getElementById("warn_tooclose").style = "display: none;";

@@ -38,8 +38,8 @@
                 }
                 if (now >= activity_end) {
                     document.getElementById("status_text").innerHTML = "已结束";
-                    document.getElementById("status_text").style = "color: #aaaaaa;";
-                    document.getElementById("status_time").style = "color: #aaaaaa;";
+                    document.getElementById("status_text").style = "color: var(--gray);";
+                    document.getElementById("status_time").style = "color: var(--gray);";
                 }
             </script>
             <br />
@@ -75,7 +75,7 @@
                 }
             }
             if (now >= a1_end) {
-                document.getElementById("a1").style = "color: #aaaaaa;";
+                document.getElementById("a1").style = "color: var(--gray);";
             }
             if (now >= a2_start) {
                 if (now < a2_end) {
@@ -83,8 +83,8 @@
                 }
             }
             if (now >= a2_end) {
-                document.getElementById("a2").style = "color: #aaaaaa;";
-                document.getElementById("a2_a").style = "color: #aaaaaa;";
+                document.getElementById("a2").style = "color: var(--gray);";
+                document.getElementById("a2_a").style = "color: var(--gray);";
             }
             if (now >= a3_start) {
                 if (now < a3_end) {
@@ -92,13 +92,13 @@
                 }
             }
             if (now >= a3_end) {
-                document.getElementById("a3").style = "color: #aaaaaa;";
+                document.getElementById("a3").style = "color: var(--gray);";
             }
         </script>
         <br />
         <h3>奖品</h3>
         <p style="color: #ffc800;"><strong>冠军: 待定</strong></p>
-        <p style="color: #aaaaaa;"><strong>亚军: 待定</strong></p>
+        <p style="color: var(--gray);"><strong>亚军: 待定</strong></p>
         <p style="color: #ff8800;"><strong>季军: 待定</strong></p>
         <br />
         <p>参与奖: 待定</p>

@@ -50,7 +50,7 @@
         </p>
         <div id="w_freetyping"></div>
         <br />
-        <p id="lc_line"><strong><span id="lc_placeholder" style="color: #aaaaaa">键入以查询生存难度 / Type to Search</span><span id="lc_title" style="display: none;">生存难度: </span><span id="lc_info" style="display: none;">&nbsp;</span><span id="lc_no" style="display: none; color: #dd0000;">该层级暂未被本网站收录或不存在 / Not Recruited or Exist</span></strong></p>
+        <p id="lc_line"><strong><span id="lc_placeholder" style="color: var(--gray)">键入以查询生存难度 / Type to Search</span><span id="lc_title" style="display: none;">生存难度: </span><span id="lc_info" style="display: none;">&nbsp;</span><span id="lc_no" style="display: none; color: #dd0000;">该层级暂未被本网站收录或不存在 / Not Recruited or Exist</span></strong></p>
         <p id="a" style="display: none;"><strong><span id="lc_title_a" style="display: none;">生存难度: </span><span id="lc_info_a" style="display: none;">&nbsp;</span><span id="lc_no_a" style="display: none; color: #dd0000;">该层级暂未被本网站收录或不存在</span></strong></p>
         <h6 id="lc_storyrich" style="display: none; color: #ffa800;">i 该层级含有等级更改记录以及大量信息/故事。</h6>
         <h6 id="lc_spoiler" style="display: none; color: #dd0000;">!! 该层级含有剧透内容。如需显示请<span style="color: #dd0000;" onclick="showspoiler()">点击此处</span>。</h6>
@@ -237,7 +237,7 @@
                 document.getElementById("lc_storyrich").style = "display: none;";
                 document.getElementById("lc_spoiler").style = "display: none;";
                 if (input == "") {
-                    document.getElementById("lc_placeholder").style = "display: inline; color: #aaaaaa;";
+                    document.getElementById("lc_placeholder").style = "display: inline; color: var(--gray);";
                     document.getElementById("lc_title").style = "display: none;";
                     document.getElementById("lc_info").style = "display: none;";
                     document.getElementById("lc_no").style = "display: none;";
@@ -437,7 +437,7 @@
                         document.getElementById("lc_spoiler").style = "display: inline; color: #dd0000;";
                     }
                     if (unknown.indexOf(input) > -1) {
-                        document.getElementById("lc_info").style = "display: inline; color: #aaaaaa;";
+                        document.getElementById("lc_info").style = "display: inline; color: var(--gray);";
                         document.getElementById("lc_info").innerHTML = "ChiwaInori.top 无法确认该层级的生存难度。/ Unconfirmed Difficulty.";
                         document.getElementById("lc_no").style = "display: none;";
                     }
@@ -1084,7 +1084,7 @@
                         document.getElementById("lc_spoiler").style = "display: inline; color: #dd0000;";
                     }
                     if (f_unknown.indexOf(input) > -1) {
-                        document.getElementById("lc_info").style = "display: inline; color: #aaaaaa;";
+                        document.getElementById("lc_info").style = "display: inline; color: var(--gray);";
                         document.getElementById("lc_info").innerHTML = "ChiwaInori.top 无法确认该层级的生存难度。/ Unconfirmed Difficulty.";
                         document.getElementById("lc_no").style = "display: none;";
                     }

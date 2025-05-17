@@ -1125,31 +1125,31 @@
                 if (score_1 == "") {
                     document.getElementById("score1").innerHTML = "0&apos;";
                     document.getElementById("diff1").innerHTML = "&nbsp;";
-                    document.getElementById("score1").style = "color: #aaaaaa;";
+                    document.getElementById("score1").style = "color: var(--gray);";
                     var score_1_final = 0;
                 }
                 if (score_2 == "") {
                     document.getElementById("score2").innerHTML = "0&apos;";
                     document.getElementById("diff2").innerHTML = "&nbsp;";
-                    document.getElementById("score2").style = "color: #aaaaaa;";
+                    document.getElementById("score2").style = "color: var(--gray);";
                     var score_2_final = 0;
                 }
                 if (score_3 == "") {
                     document.getElementById("score3").innerHTML = "0&apos;";
                     document.getElementById("diff3").innerHTML = "&nbsp;";
-                    document.getElementById("score3").style = "color: #aaaaaa;";
+                    document.getElementById("score3").style = "color: var(--gray);";
                     var score_3_final = 0;
                 }
                 if (score_4 == "") {
                     document.getElementById("score4").innerHTML = "0&apos;";
                     document.getElementById("diff4").innerHTML = "&nbsp;";
-                    document.getElementById("score4").style = "color: #aaaaaa;";
+                    document.getElementById("score4").style = "color: var(--gray);";
                     var score_4_final = 0;
                 }
                 var total = score_1_final + score_2_final + score_3_final + score_4_final;
                 document.getElementById("totalscore").innerHTML = total + "&apos;";
                 if (total == 0) {
-                    document.getElementById("totalscore").style = "color: #aaaaaa;";
+                    document.getElementById("totalscore").style = "color: var(--gray);";
                 }
                 if (total >= 1 && total <= 20) {
                     document.getElementById("totalscore").style = "color: #ff0000;";

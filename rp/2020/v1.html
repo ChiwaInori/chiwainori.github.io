@@ -43,21 +43,21 @@
         <p id="order" style="display: none;">0</p>
         <p id="line" style="display: none;"></p>
         <br>
-        <p style="color: #aaaaaa; font-size: 20px;"><strong>- 免责声明 -</strong></p>
-        <p style="color: #aaaaaa;">2020 班成员名单及学号根据九下一模成绩单进行录入。除了 7 位贵高体验班的成员外都有同等被抽中的机会。</p>
-        <p style="color: #aaaaaa;">动态随机结合真随机与伪随机进行随机选择，确保被选中后仍有小概率会被选中，随机的顺序见下。</p>
-        <p style="color: #aaaaaa;">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
-        <p style="color: #aaaaaa;">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 60 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
+        <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
+        <p style="color: var(--gray);">2020 班成员名单及学号根据九下一模成绩单进行录入。除了 7 位贵高体验班的成员外都有同等被抽中的机会。</p>
+        <p style="color: var(--gray);">动态随机结合真随机与伪随机进行随机选择，确保被选中后仍有小概率会被选中，随机的顺序见下。</p>
+        <p style="color: var(--gray);">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
+        <p style="color: var(--gray);">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 60 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
         <br />
-        <p style="color: #aaaaaa;">Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY
+        <p style="color: var(--gray);">Copyright &copy; <span id="thisyear"></span> Guigang HCZX 2020 (原 2013) XuZY
             (xtsdcb69). All Rights Reserved.</p>
         <script>
             var date1 = new Date();
             var thisyear = date1.getFullYear();
             if (thisyear == 2023) {
-                document.getElementById("thisyear").innerHTML = "<span style=\"color: #aaaaaa;\">" + thisyear + "</span>";
+                document.getElementById("thisyear").innerHTML = "<span style=\"color: var(--gray);\">" + thisyear + "</span>";
             } else {
-                document.getElementById("thisyear").innerHTML = "<span style=\"color: #aaaaaa;\">2023-" + thisyear + "</span>";
+                document.getElementById("thisyear").innerHTML = "<span style=\"color: var(--gray);\">2023-" + thisyear + "</span>";
             }
         </script>
     </div>

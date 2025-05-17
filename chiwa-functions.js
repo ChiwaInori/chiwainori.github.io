@@ -15,10 +15,10 @@
     Index: (The "p" below means "prototype")
 
     Chiwa Basic (1): const chiwa
-    Global Usage (23):
+    Global Usage (24):
         Parameter Judgement (2): _type, _range
         Commands (3): sleep, overload, Object.p.nonEnum
-        Website (4): siteId, seizure, buttonKey, copyright
+        Website (5): siteId, navigate, seizure, buttonKey, copyright
         URL Param (6): urlParam { set, get, getAll, remove, generate, clear }
         Storage (5): storage { set, get, getAll, remove, clear }
         Console Log (3): log, warn, error
@@ -44,7 +44,7 @@
  * @since xts.24-5-19
  * @version 25-1-21
 */
-const chiwa = "25-5-16";
+const chiwa = "25-5-16-local";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE

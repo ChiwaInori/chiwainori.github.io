@@ -19,231 +19,378 @@
         <h6><a href="../">ChiwaInori.top</a> &gt; <strong>化学方程式配平</strong></h6>
     </div>
     <div id="cw-content">
-        <p>请在下方输入待配平的化学方程式。使用本网页可以帮助你配平 <strong>大部分在<span style="text-decoration: underline;">数学</span>上可行</strong> 的方程式。</p>
-        <p>最大尝试配平系数: <input id="maximumInput" type="number" style="width: 32px;" value="10" /> <strong style="font-size: 10px;">(注意: 不推荐设置数值过大，除非确定方程式真实存在且确实无法在一定范围内配平。)</strong></p>
-        <p><input id="reactionInput" /><button id="button" onclick="balancePreparation()" disabled>配平</button></p>
+        <p>请在下方输入待配平的化学方程式。使用本网页可以帮助你通过穷举法配平 <strong>在<span style="text-decoration: underline;">数学</span>上可行</strong> 的方程式。</p>
+        <p>最大尝试配平系数: <input id="max" type="number" style="width: 32px;" value="10" /> <strong style="font-size: 10px;">(注意: 不推荐设置数值过大，除非确定方程式真实存在且确实无法在一定范围内配平。)</strong></p>
+        <p><input style="width: 512px;" /><button id="button" onclick="start()" disabled>配平</button></p>
         <br />
-        <p id="result"></p>
-        <p id="resultSub" style="font-size: 10px;"></p>
+        <p id="result" style="color: var(--gray)">请在上方输入化学方程式</p>
         <br />
-        <br />
-        <p><strong>注意:</strong> 化学方程式的输入<strong>必须</strong>参照以下格式:</p>
-        <p>1. 元素中间使用加号 (+), 中间必须使用单等号 (=). 不能存在空格。</p>
-        <p>2. 右下角标当作正常数字输入。</p>
-        <p>3. 不能有任何化学计量数。<span class="ANT" style="color: #dd0000;">(错误例: 2H2+O2=2H2O)</span></p>
-        <p>4. 任何元素都不能带电。<span class="ANT" style="color: #dd0000;">(不能配平离子方程式)</span></p>
-        <p>5. 上下箭头可以省略。<span class="ANT">(H2O=H2↑+O2↑ 或 H2O=H2+O2 皆可)</span></p>
-        <p><strong>标准示例:</strong> H2+O2=H2O / H2O+CO2=H2CO3 / Ca+H2O=Ca(OH)2+H2↑</p>
-        <p style="color: #dd0000;">注意: 该页面仍不够完善，一些真实存在的方程式可能无法配平。</p>
-        <p id="array" style="display: none;"></p>
+        <p><strong>[提示]</strong></p>
+        <p>请按照标准示例书写方程式: <strong>H2 + O2 = H2O</strong></p>
+        <p>1. 可以不写空格 (例如: H2+O2=H2O)</p>
+        <p>2. 可以在方程式中加入上下箭头 (例如: H2O = H2↑ + O2↑)</p>
+        <p>3. 可以将未配平的方程式的等号 (=) 改为短横杠 (-) (例如: H2 + O2 - H2O)</p>
+        <p>4. <strong>不能输入有横线的结构简式</strong>，请把它们全部删除 (例如: C2H5OH = CH2CH2 + H2O)</p>
+        <p>5. <strong>不能带有反应条件</strong></p>
+        <p>6. <strong>不能输入离子符号</strong></p>
     </div>
     <script>
-        let reaction;
-        let reactionExpanded;
-        let items;
-        const itemsBalance = {
-            before: [],
-            after: []
-        };
-        let totalLength;
-        let numberArray = [];
-        let basicNumberArray;
-
-        let maximum = 10;
-        cw("#maximumInput").el.addEventListener("input", () => {
-            maximum = parseInt(cw("#maximumInput").el.value);
-        });
-        let nowMaximum = 1;
-
-        let reactionTry;
-        let tryTimes = 0;
-        cw("#reactionInput").el.addEventListener("input", () => {
-            if (tryTimes == 0) {
-                cw("#button").el.disabled = false;
-            }
-        });
-
-        function expandFormula(formula) {
-            // 用正则表达式替换括号内的内容
-            const expandedFormula = formula.replace(/\(([^)]+)\)(\d+)/g, (match, content, number) => {
-                return content.repeat(Number(number));
-            });
-
-            return expandedFormula;
-        }
-
-        function balancePreparation() {
-            cw("#button").el.disabled = true;
-            reaction = cw("#reactionInput").el.value;
-            reactionExpanded = expandFormula(reaction);
-
-            items = {
-                before: reactionExpanded.split("=")[0].split("+"), // ["H2", "O2"]
-                after: reactionExpanded.split("=")[1].split("+") // ["H2O"]
-            };
-            totalLength = parseInt(items.before.length + items.after.length); // 3
-            for (let i = 0; i < totalLength; i++) {
-                numberArray.push(1);
-                basicNumberArray = numberArray;
-            }
-            balance();
-        }
-
-        function balance() {
-            if (numberArray.indexOf(nowMaximum) >= 0) {
-                tryTimes++;
-
-                cw("#result").html = `正在尝试 最大配平系数 = ${Math.max(...numberArray)} 内配平...`;
-                cw("#result").color = "#ffa800";
-                cw("#resultSub").html = `已尝试配平 ${tryTimes} 次`;
-                cw("#resultSub").color = "#ffa800";
-
-                for (let i = 0; i < items.before.length; i++) {
-                    itemsBalance.before[i] = numberArray[i] + items.before[i];
-                }
-                for (let i = 0; i < items.after.length; i++) {
-                    itemsBalance.after[i] = (numberArray[i + items.before.length] + items.after[i]).toString();
-                }
-
-                reactionTry = `${itemsBalance.before}=${itemsBalance.after}`.replace(",", "+");
+        const inputEl = cw("input", 1);
+        
+        inputEl.event("input", function () {
+            const input = this.value;
+            const splitIcon = this.value.includes("-") ? "-" : "=";
+            cw("button").disabled = true;
             
-                const atomCounts = countAtoms(reactionTry);
-
-                if (objectsAreEqual(atomCounts.left, atomCounts.right)) {
-                    const final = combineFormula(numberArray, reaction);
-                    let result = `该方程式的配平结果: <strong>${final}</strong>`;
-                    result = result.replace(/([A-Za-z]|\))([0-9])/g, "$1<sub>$2</sub>") /* 改下标 */
-                        .replace(/([+=>])1/g, "$1") /* 去掉计量数为 1 的 */
-                        .replace(/^1/g, "$1"); /* 去掉开头计量数为 1 的 */
-                    cw("#result").html = result;
-                    cw("#result").color = "#00dd00";
-                    cw("#resultSub").html = `本次配平共经过 ${tryTimes} 次尝试`;
-                    cw("#resultSub").color = "#00dd00";
-                    return;
-                }
-
-                let maxNumbersFinal = 0;
-                for (let i = 0; i < numberArray.length; i++) {
-                    if (numberArray[i] == maximum) {
-                        maxNumbersFinal++;
-                    }
-                }
-                let maxNumbers = 0;
-                for (let i = 0; i < numberArray.length; i++) {
-                    if (numberArray[i] == nowMaximum) {
-                        maxNumbers++;
-                    }
-                }
-                
-                if (maxNumbersFinal == numberArray.length) {
-                    cw("#result").html = `无法在 配平系数 <= ${maximum} 内找到配平方式。`;
-                    cw("#result").color = "#dd0000";
-                    cw("#resultSub").html = `本次配平共经过 ${tryTimes} 次尝试`;
-                    cw("#resultSub").color = "#dd0000";
-                    return;
-                }
-
-                if (maxNumbers == numberArray.length) {
-                    nowMaximum++;
-                    numberArray = basicNumberArray;
-                    maxNumbers = 0;
-                }
-                if (maxNumbers < numberArray.length) {
-                    numbersUp(nowMaximum);
-                }
-            } else {
-                numbersUp();
+            if (input == "") {
+                cw("#result").text = "请在上方输入化学方程式";
+                cw("#result").color = "var(--gray)";
+                return;
             }
+            if ((/[^A-Za-z0-9+-=()[\]↑↓ ]/).test(input)) {
+                cw("#result").text = "化学方程式中存在非法符号";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if (input.getCountOf("=") == 0 && input.getCountOf("-") == 0) {
+                cw("#result").text = "化学方程式没有分隔左右两边的符号 (等号 = 或 短横线 -)";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if (input.getCountOf("=") > 1 || input.getCountOf("-") > 1 || input.getCountOf("=") == 1 && input.getCountOf("-") == 1) {
+                cw("#result").text = "化学方程式存在多个分隔左右两边的符号 (等号 = 或 短横线 -)";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if (checkUniqueElements(...input.split(splitIcon))) {
+                cw("#result").text = "化学方程式左右存在不同的元素";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if (input.includes("  ")) {
+                cw("#result").text = "化学方程式中存在连续空格";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if ((/[A-Za-z0-9] [A-Za-z0-9]/).test(input)) {
+                cw("#result").text = "化学方程式中有物质被空格分隔";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if ((/([0-9][a-z]|[a-z][A-Z])/).test(input)) {
+                cw("#result").text = "化学方程式中有字母大小写问题";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+
+            cw("#result").text = "按下按钮开始配平";
+            cw("#result").color = "var(--gray)";
+            cw("button").disabled = false;
+        });
+
+        const debug = false;
+        function debugLog(...args) {
+            if (debug) { log(...args); }
         }
 
-        function numbersUp(max) {
-            numberArray[numberArray.length - 1]++;
-            while (numberArray.indexOf(max + 1) >= 0) {
-                const overNumberIndex = numberArray.indexOf(max + 1);
-                numberArray[overNumberIndex] = 1;
-                numberArray[overNumberIndex - 1]++;
+        async function start() {
+            const input = inputEl.value.replaceAll(/ /g, "");
+
+            const substances = {
+                from: [],
+                to: []
+            };
+            const splitIcon = input.includes("-") ? "-" : "=";
+            substances.from = input.split(splitIcon)[0].split("+");
+            substances.to = input.split(splitIcon)[1].split("+");
+
+            const substancesFormatted = substances.isolate();
+            for (const direction in substancesFormatted) {
+                for (let i = 0; i < substancesFormatted[direction].length; i++) {
+                    substancesFormatted[direction][i] = expandChemicalFormula(substancesFormatted[direction][i]);
+                }
             }
-            cw("#array").html = numberArray;
-            balance();
+            debugLog(substancesFormatted);
+
+            const multiplier = {
+                arr: [],
+                split: substances.from.length
+            };
+            substances.from.forEach(() => { multiplier.arr.push(1); });
+            substances.to.forEach(() => { multiplier.arr.push(1); });
+            debugLog(multiplier);
+
+            const tryMax = cw("input").value;
+            let done = false;
+            let nowMax = 1;
+            let response = "pending";
+
+            cw("#result").text = "正在尝试配平, 请稍后";
+            cw("#result").color = "var(--orange)";
+
+            await sleep(1);
+
+            try {
+                while (!done) {
+                    const check = {
+                        from: "",
+                        to: ""
+                    };
+                    substancesFormatted.from.forEach((substance, index) => {
+                        check.from += substance.repeat(multiplier.arr[index]);
+                    });
+                    substancesFormatted.to.forEach((substance, index) => {
+                        check.to += substance.repeat(multiplier.arr[index + multiplier.split]);
+                    });
+
+                    if (checkLetterCounts(check.from, check.to)) {
+                        done = true;
+                        debugLog(multiplier.arr, "done");
+                        response = "done";
+                    } else {
+                        debugLog(multiplier.arr, "failed");
+                        if (!arrAddUp(multiplier.arr, nowMax)) {
+                            nowMax++;
+
+                            // Back multiplier array to default
+                            multiplier.arr = [];
+                            substances.from.forEach(() => { multiplier.arr.push(1); });
+                            substances.to.forEach(() => { multiplier.arr.push(1); });
+                            debugLog(multiplier.arr, nowMax, "return to default");
+                        }
+
+                        let tempArr;
+                        tempArr = arrAddUp(multiplier.arr, nowMax);
+                        debugLog(tempArr, nowMax, "temp set from", multiplier.arr);
+                        while (!tempArr.includes(nowMax)) {
+                            tempArr = arrAddUp(tempArr, nowMax);
+                            debugLog(tempArr, nowMax, "add temp to include nowMax");
+                        }
+                        multiplier.arr = tempArr;
+                        debugLog(multiplier.arr, "next loop");
+                    }
+
+                    if (nowMax >= tryMax) {
+                        done = true;
+                        debugLog(nowMax, "exceed");
+                        response = "exceed";
+                    }
+                }
+            } catch (e) {
+                if (e.message.includes("Maximum call stack size exceeded")) {
+                    response = "stack";
+                } else {
+                    response = "error";
+                    log("Unexpected Error", e.message);
+                }
+            }
+
+            if (response == "done") {
+                cw("#result").html = `配平成功: <strong>${formatChemicalEquation(input, multiplier.arr)}</strong>`;
+                cw("#result").color = "var(--green)";
+            }
+
+            if (response == "exceed") {
+                cw("#result").text = `在设置的最大配平系数内配平失败 (${response})`;
+                cw("#result").color = "var(--red)";
+            }
+            if (response == "stack") {
+                cw("#result").text = `计算溢出, 请尝试缩小配平系数范围 (${response})`;
+                cw("#result").color = "var(--red)";
+            }
+            if (response == "pending" || response == "error") {
+                cw("#result").text = `配平时发生错误, 请重试 (${response})`;
+                cw("#result").color = "var(--red)";
+            }
+
+            log("Status Code", [response]);
         }
 
-        function objectsAreEqual(obj1, obj2) {
-            const keys1 = Object.keys(obj1);
-            const keys2 = Object.keys(obj2);
-            if (keys1.length !== keys2.length) {
+        // Tool functions
+
+        function checkUniqueElements(str1, str2) { // Prevent elements that is only on one side
+            // 提取元素符号的正则表达式
+            const elementRegex = /[A-Z][a-z]?/g;
+
+            // 提取字符串中的所有元素符号
+            const elements1 = new Set((str1.match(elementRegex) || []).map(el => el.trim()));
+            const elements2 = new Set((str2.match(elementRegex) || []).map(el => el.trim()));
+
+            // 检查是否有只存在于一个集合中的元素
+            for (const el of elements1) {
+                if (!elements2.has(el)) {
+                    return true; // 找到只存在于 str1 中的元素
+                }
+            }
+            for (const el of elements2) {
+                if (!elements1.has(el)) {
+                    return true; // 找到只存在于 str2 中的元素
+                }
+            }
+        
+            // 如果所有元素都存在于两个字符串中，则返回 false
+            return false;
+        }
+
+        function expandChemicalFormula(formula) { // Expand "H2" to "HH" to check element counts
+            function parse(str) {
+                let result = "";
+                let i = 0;
+
+                while (i < str.length) {
+                    const char = str[i];
+
+                    // 1. 处理原子符号（如 Na, Cl）
+                    if ((/[A-Z]/).test(char)) {
+                        let atom = char;
+                        i++;
+
+                        // 读取后续小写字母（如 "a" in "Na"）
+                        while (i < str.length && (/[a-z]/).test(str[i])) {
+                            atom += str[i];
+                            i++;
+                        }
+
+                        result += atom;
+
+                        // 2. 处理原子后的数字（如 "Na2"）
+                        if (i < str.length && (/\d/).test(str[i])) {
+                            let countStr = "";
+                            while (i < str.length && (/\d/).test(str[i])) {
+                                countStr += str[i];
+                                i++;
+                            }
+                            const count = parseInt(countStr, 10);
+                            result += atom.repeat(count - 1); // 追加 (count - 1) 次
+                        }
+                    } else if (char === "(" || char === "[") { // 3. 处理括号（如 "(OH)2"）
+                        const endChar = char === "(" ? ")" : "]";
+                        i++; // 跳过 "(" 或 "["
+
+                        let subExpr = "";
+                        let depth = 1;
+
+                        // 提取括号内的内容（支持嵌套）
+                        while (i < str.length && depth > 0) {
+                            if (str[i] === char) { depth++; } else if (str[i] === endChar) { depth--; }
+
+                            if (depth > 0) { subExpr += str[i]; }
+                            i++;
+                        }
+
+                        // 递归解析子表达式
+                        const expandedSubExpr = parse(subExpr);
+                        result += expandedSubExpr;
+
+                        // 处理括号后的数字（如 "(OH)2"）
+                        if (i < str.length && (/\d/).test(str[i])) {
+                            let countStr = "";
+                            while (i < str.length && (/\d/).test(str[i])) {
+                                countStr += str[i];
+                                i++;
+                            }
+                            const count = parseInt(countStr, 10);
+                            result += expandedSubExpr.repeat(count - 1); // 追加 (count - 1) 次
+                        }
+                    } else { // 4. 其他字符（如 "]", ")" 直接跳过）
+                        i++;
+                    }
+                }
+
+                return result;
+            }
+
+            return parse(formula);
+        }
+
+        function arrAddUp(array, target) { // Add up an array ([1, 1, 1] => [1, 1, 2]) to check all number combinations
+            const arr = array.isolate();
+            // 从数组的最后一位开始向前遍历
+            for (let i = arr.length - 1; i >= 0; i--) {
+                // 如果当前元素小于目标值，则可以加1
+                if (arr[i] < target) {
+                    arr[i] += 1;
+                    // 重置后续所有元素为1
+                    for (let j = i + 1; j < arr.length; j++) {
+                        arr[j] = 1;
+                    }
+                    return arr;
+                }
+            }
+            // 如果所有元素都等于目标值，则返回false
+            return false;
+        }
+
+        function checkLetterCounts(str1, str2) { // Check if every letters (elements) equal from left to right
+            // 如果两个字符串长度不同，直接返回 false
+            if (str1.length != str2.length) {
                 return false;
             }
-            for (const key of keys1) {
-                if (obj1[key] !== obj2[key]) {
+        
+            // 创建一个 Map 来统计第一个字符串中每个字母的出现次数
+            const countMap = new Map();
+        
+            // 遍历第一个字符串，统计每个字母的出现次数
+            for (const char of str1) {
+                if (countMap.has(char)) {
+                    countMap.set(char, countMap.get(char) + 1);
+                } else {
+                    countMap.set(char, 1);
+                }
+            }
+        
+            // 遍历第二个字符串，检查每个字母的出现次数是否与第一个字符串一致
+            for (const char of str2) {
+                if (!countMap.has(char)) {
+                    // 如果第二个字符串中有第一个字符串中没有的字母，返回 false
                     return false;
                 }
-            }
-            return true;
-        }
 
-        function countAtoms(equation) {
-            const [leftSide, rightSide] = equation.split("=");
-            const leftAtoms = countAtomsOnSide(leftSide);
-            const rightAtoms = countAtomsOnSide(rightSide);
-
-            return {
-                left: leftAtoms,
-                right: rightAtoms
-            };
-        }
-
-        function countAtomsOnSide(side) {
-            const atomCounts = {};
-
-            // 正则表达式匹配分子, 例如：2H2CO3 或 H2O
-            const molecules = side.match(/(\d*[A-Za-z][A-Za-z0-9]*)/g);
-
-            molecules.forEach(molecule => {
-                // 提取前面的系数和分子式部分
-                const [_, coefficient, formula] = molecule.match(/(\d*)([A-Za-z][A-Za-z0-9]*)/);
-                const factor = parseInt(coefficient) || 1;
-                // 使用正则表达式匹配原子及其数量
-                const atoms = formula.match(/[A-Z][a-z]?\d*/g);
-
-                atoms.forEach(atom => {
-                    const [_a, element, count] = atom.match(/([A-Z][a-z]*)(\d*)/);
-                    const atomCount = parseInt(count) || 1;
-                    const totalAtoms = factor * atomCount;
-                    if (atomCounts[element]) {
-                        atomCounts[element] += totalAtoms;
-                    } else {
-                        atomCounts[element] = totalAtoms;
-                    }
-                });
-            });
-
-            return atomCounts;
-        }
-
-        function combineFormula(numbers, formula) { // [2, 1, 2] "H2+O2=H2O"
-            const left = formula.split("=")[0].split("+"); // Length: 2
-            const right = formula.split("=")[1].split("+"); // Length: 1
-            const combined = [];
-            for (let i = 0; i < left.length + right.length; i++) {
-                if (i < left.length) {
-                    combined.push(numbers[i] + left[i]);
-                } else {
-                    combined.push(numbers[i] + right[i - left.length]);
-                }
-            } // ["2H2", "1O2", "2H2O"]
-            let result = "";
-            for (let i = 0; i < combined.length; i++) {
-                if (i < left.length - 1 || i > left.length - 1 && i != left.length + right.length - 1) {
-                    result = `${result}${combined[i]}+`;
-                } else if (i == left.length - 1) {
-                    result = `${result}${combined[i]}=<span style='margin-left: -5px; color: rgb(0, 221, 0);'>=</span><span style='margin-left: -5px; color: rgb(0, 221, 0);'>=</span>`;
-                } else {
-                    result += combined[i];
+                countMap.set(char, countMap.get(char) - 1);
+                // 如果某个字母的出现次数减到 0，从 Map 中删除该字母
+                if (countMap.get(char) === 0) {
+                    countMap.delete(char);
                 }
             }
-            return result;
+        
+            // 如果 Map 为空，说明两个字符串中每个字母的出现次数完全一致
+            return countMap.size === 0;
         }
-    </script>
+
+        function formatChemicalEquation(equation, coefficients) { // Formalize final chemical equation
+            const splitIcon = inputEl.value.includes("-") ? "-" : "=";
+            // 拆分方程式为左右两边
+            const [left, right] = equation.split(splitIcon).map(side => side.trim());
+
+            // 拆分左边和右边的物质
+            const leftCompounds = left.split("+").map(compound => compound.trim());
+            const rightCompounds = right.split("+").map(compound => compound.trim());
+
+            // 确保系数数组的长度与物质总数一致
+            if (coefficients.length !== leftCompounds.length + rightCompounds.length) {
+                throw new Error("系数数组的长度与方程式中的物质数量不匹配");
+            }
+        
+            // 辅助函数：将元素个数的数字转换为下标
+            function toSubscript(str) {
+                return str.replace(/\d+/g, match => `<sub>${match}</sub>`);
+            }
+        
+            // 格式化左边的物质
+            const formattedLeft = leftCompounds.map((compound, index) => {
+                return `${coefficients[index]}${toSubscript(compound)}`;
+            }).join(" + ");
+        
+            // 格式化右边的物质
+            const formattedRight = rightCompounds.map((compound, index) => {
+                return `${coefficients[leftCompounds.length + index]}${toSubscript(compound)}`;
+            }).join(" + ");
+        
+            const balanced = `${formattedLeft} = ${formattedRight}`;
+            // 返回完整的 HTML 格式方程式
+            return balanced.replaceAll(/(?<!>)1/g, "");
+        }
+</script>
 </div></body>
 
 </html>

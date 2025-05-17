@@ -108,7 +108,7 @@
                 var tickets_agree = parseInt(document.getElementById("num_agree").innerHTML);
                 var tickets_giveup = parseInt(document.getElementById("num_giveup").innerHTML);
                 var tickets_disagree = parseInt(document.getElementById("num_disagree").innerHTML);
-                document.getElementById("name_animate").innerHTML = "<span style=\"color: #00dd00;\"><ruby>" + tickets_agree + "<rt>支持</rt></ruby></span><span style=\"color: #aaaaaa;\"> / </span><span style=\"color: #666666;\"><ruby>" + tickets_giveup + "<rt>弃权</rt></ruby></span><span style=\"color: #aaaaaa;\"> / </span><span style=\"color: #dd0000;\"><ruby>" + tickets_disagree + "<rt>反对</rt></ruby></span>";
+                document.getElementById("name_animate").innerHTML = "<span style=\"color: #00dd00;\"><ruby>" + tickets_agree + "<rt>支持</rt></ruby></span><span style=\"color: var(--gray);\"> / </span><span style=\"color: #666666;\"><ruby>" + tickets_giveup + "<rt>弃权</rt></ruby></span><span style=\"color: var(--gray);\"> / </span><span style=\"color: #dd0000;\"><ruby>" + tickets_disagree + "<rt>反对</rt></ruby></span>";
                 document.getElementById("agree").style = "display: none;";
                 document.getElementById("giveup").style = "display: none;";
                 document.getElementById("disagree").style = "display: none;";

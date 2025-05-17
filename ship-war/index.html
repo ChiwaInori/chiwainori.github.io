@@ -654,9 +654,9 @@
             }
             if (cw(`#display_p2_${pos}`).html == "&nbsp;") {
                 cw("#p1_status_3").html = `<strong>未发现敌方军舰 (${posArray.position[pos]})</strong>`;
-                cw("#p1_status_3").color = "#aaaaaa";
+                cw("#p1_status_3").color = "var(--gray)";
                 cw("#p2_status_3").html = `<strong>敌方打空 (${posArray.position[pos]})</strong>`;
-                cw(`#display_p2_${pos}`).color = "#aaaaaa";
+                cw(`#display_p2_${pos}`).color = "var(--gray)";
 
                 p2RoundCheck();
             }
@@ -755,9 +755,9 @@
             }
             if (cw(`#display_p1_${pos}`).html == "&nbsp;") {
                 cw("#p2_status_3").html = `<strong>未发现敌方军舰 (${posArray.position[pos]})</strong>`;
-                cw("#p2_status_3").color = "#aaaaaa";
+                cw("#p2_status_3").color = "var(--gray)";
                 cw("#p1_status_3").html = `<strong>敌方打空 (${posArray.position[pos]})</strong>`;
-                cw("#p1_status_3").color = "#aaaaaa";
+                cw("#p1_status_3").color = "var(--gray)";
 
                 p1RoundCheck();
             }
@@ -1270,13 +1270,13 @@
 
         function p1TextRecolor() {
             if (cw("#p1_status_3").html.indexOf("战列舰已部署") > -1) {
-                cw("#p1_status_3").color = "#aaaaaa";
+                cw("#p1_status_3").color = "var(--gray)";
             }
             if (cw("#p1_status_3").html.indexOf("未发现敌方军舰") > -1) {
-                cw("#p1_status_3").color = "#aaaaaa";
+                cw("#p1_status_3").color = "var(--gray)";
             }
             if (cw("#p1_status_3").html.indexOf("敌方打空") > -1) {
-                cw("#p1_status_3").color = "#aaaaaa";
+                cw("#p1_status_3").color = "var(--gray)";
             }
             if (cw("#p1_status_3").html.indexOf("已击毁敌方一艘战列舰!") > -1) {
                 cw("#p1_status_3").color = "#ff0077";
@@ -1294,13 +1294,13 @@
 
         function p2TextRecolor() {
             if (cw("#p2_status_3").html.indexOf("战列舰已部署") > -1) {
-                cw("#p2_status_3").color = "#aaaaaa";
+                cw("#p2_status_3").color = "var(--gray)";
             }
             if (cw("#p2_status_3").html.indexOf("未发现敌方军舰") > -1) {
-                cw("#p2_status_3").color = "#aaaaaa";
+                cw("#p2_status_3").color = "var(--gray)";
             }
             if (cw("#p2_status_3").html.indexOf("敌方打空") > -1) {
-                cw("#p2_status_3").color = "#aaaaaa";
+                cw("#p2_status_3").color = "var(--gray)";
             }
             if (cw("#p2_status_3").html.indexOf("已击毁敌方一艘战列舰!") > -1) {
                 cw("#p2_status_3").color = "#ff0077";

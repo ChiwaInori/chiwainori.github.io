@@ -50,18 +50,18 @@
         <br />
         <div id="preview1">
             <h3 style="color: #00dd00;">ON WIN:</h3>
-            <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate_onwin" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #aaaaaa;"><span id="tierate_onwin" style="color: #aaaaaa;"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate_onwin" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
-            <div><div id="winbar_onwin" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar_onwin" style="background-color: #aaaaaa; height: 16px; display: inline-block; width: 16px;"></div><div id="losebar_onwin" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
+            <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate_onwin" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: var(--gray);"><span id="tierate_onwin" style="color: var(--gray);"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate_onwin" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
+            <div><div id="winbar_onwin" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar_onwin" style="background-color: var(--gray); height: 16px; display: inline-block; width: 16px;"></div><div id="losebar_onwin" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
             <br />
         </div>
         <h3>CURRENT:</h3>
-        <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #aaaaaa;"><span id="tierate" style="color: #aaaaaa;"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
-        <div><div id="winbar" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar" style="background-color: #aaaaaa; height: 16px; display: inline-block; width: 16px;"></div><div id="losebar" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
+        <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: var(--gray);"><span id="tierate" style="color: var(--gray);"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
+        <div><div id="winbar" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar" style="background-color: var(--gray); height: 16px; display: inline-block; width: 16px;"></div><div id="losebar" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
         <br />
         <div id="preview2">
             <h3 style="color: #dd0000;">ON LOSE:</h3>
-            <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate_onlose" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #aaaaaa;"><span id="tierate_onlose" style="color: #aaaaaa;"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate_onlose" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
-            <div><div id="winbar_onlose" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar_onlose" style="background-color: #aaaaaa; height: 16px; display: inline-block; width: 16px;"></div><div id="losebar_onlose" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
+            <h1>&nbsp;<ruby style="color: #00dd00;"><span id="winrate_onlose" style="color: #00dd00;"></span></span>%<rt>胜率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: var(--gray);"><span id="tierate_onlose" style="color: var(--gray);"></span>%<rt>平率</rt></ruby>&nbsp;&nbsp;&nbsp;&nbsp;<ruby style="color: #dd0000;"><span id="loserate_onlose" style="color: #dd0000;"></span>%<rt>败率</rt></ruby></h1>
+            <div><div id="winbar_onlose" style="background-color: #00dd00; height: 16px; display: inline-block; width: 192px;"></div><div id="tiebar_onlose" style="background-color: var(--gray); height: 16px; display: inline-block; width: 16px;"></div><div id="losebar_onlose" style="background-color: #dd0000; height: 16px; display: inline-block; width: 192px;"></div></div>
         </div>
     </div>
     <script>
@@ -113,8 +113,8 @@
                 if (score_myteam == 15 && score_enemyteam == 15) {
                     document.getElementById("preview1").style = "display: none;";
                     document.getElementById("preview2").style = "display: none;";
-                    document.getElementById("mytext").style = "color: #aaaaaa;";
-                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").style = "color: var(--gray);";
+                    document.getElementById("entext").style = "color: var(--gray);";
                     document.getElementById("mytext").onclick = "";
                     document.getElementById("entext").onclick = "";
                 }
@@ -154,8 +154,8 @@
                 if (score_myteam == 8 && score_enemyteam == 8) {
                     document.getElementById("preview1").style = "display: none;";
                     document.getElementById("preview2").style = "display: none;";
-                    document.getElementById("mytext").style = "color: #aaaaaa;";
-                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").style = "color: var(--gray);";
+                    document.getElementById("entext").style = "color: var(--gray);";
                     document.getElementById("mytext").onclick = "";
                     document.getElementById("entext").onclick = "";
                 }
@@ -195,8 +195,8 @@
                 if (score_myteam == 3 && score_enemyteam == 3) {
                     document.getElementById("preview1").style = "display: none;";
                     document.getElementById("preview2").style = "display: none;";
-                    document.getElementById("mytext").style = "color: #aaaaaa;";
-                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").style = "color: var(--gray);";
+                    document.getElementById("entext").style = "color: var(--gray);";
                     document.getElementById("mytext").onclick = "";
                     document.getElementById("entext").onclick = "";
                 }
@@ -236,8 +236,8 @@
                 if (score_myteam == 12 && score_enemyteam == 12) {
                     document.getElementById("preview1").style = "display: none;";
                     document.getElementById("preview2").style = "display: none;";
-                    document.getElementById("mytext").style = "color: #aaaaaa;";
-                    document.getElementById("entext").style = "color: #aaaaaa;";
+                    document.getElementById("mytext").style = "color: var(--gray);";
+                    document.getElementById("entext").style = "color: var(--gray);";
                     document.getElementById("mytext").onclick = "";
                     document.getElementById("entext").onclick = "";
                 }

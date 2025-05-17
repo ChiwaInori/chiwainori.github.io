@@ -66,15 +66,15 @@
             <p id="name_cache" style="display: none;"></p>
             <audio id="click" src="click.mp3" style="display: none;" preload="auto"></audio>
             <br /><br /><br />
-            <p style="color: #aaaaaa; font-size: 20px;"><strong>- 免责声明 -</strong></p>
-            <p style="color: #aaaaaa;">2310 班成员名单及学号根据高一下学期 3 月月考成绩单进行录入。所有同学都有同等被抽中的机会。</p>
-            <p style="color: #aaaaaa;">选人动画并不受已抽到的同学的影响。所有出现在选人动画中的名字与真随机相同。</p>
-            <p style="color: #aaaaaa;">动态随机结合真随机与伪随机进行随机选择，确保被选中后仍有小概率会被选中。</p>
-            <p style="color: #aaaaaa;">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
-            <p style="color: #aaaaaa;">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 55 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
+            <p style="color: var(--gray); font-size: 20px;"><strong>- 免责声明 -</strong></p>
+            <p style="color: var(--gray);">2310 班成员名单及学号根据高一下学期 3 月月考成绩单进行录入。所有同学都有同等被抽中的机会。</p>
+            <p style="color: var(--gray);">选人动画并不受已抽到的同学的影响。所有出现在选人动画中的名字与真随机相同。</p>
+            <p style="color: var(--gray);">动态随机结合真随机与伪随机进行随机选择，确保被选中后仍有小概率会被选中。</p>
+            <p style="color: var(--gray);">真随机使用 Math.floor 及 Math.random (JavaScript) 进行随机选择，随机的顺序在按下按钮时才会被确定。</p>
+            <p style="color: var(--gray);">伪随机使用 Math.random (JavaScript) 进行随机排列，确保 55 次选人内不会出现重复，随机的顺序在网页加载时已经确定。</p>
             <br />
-            <h6 style="color: #aaaaaa;">除选人动画的音效外，适用以下版权:</h6>
-            <p style="color: #aaaaaa;" onclick="line_reset()" id="copyright"></p>
+            <h6 style="color: var(--gray);">除选人动画的音效外，适用以下版权:</h6>
+            <p style="color: var(--gray);" onclick="line_reset()" id="copyright"></p>
         </div>
         <script>
             copyright(2024, "Guigang JNZX 2310 XZY (千和 いのり)");
@@ -1044,7 +1044,7 @@
                 cw("#name_animate").html = "&nbsp;";
                 cw("#name_animate").unhide();
                 cw("#name_animate").style = "display: block; font-size: 120px; margin-top: 250px; margin-bottom: 150px; color: #ffffdd";
-                transColor_rp("name_animate", "#aaaaaa");
+                transColor_rp("name_animate", "var(--gray)");
                 for (i = 0; i <= 13; i++) {
                     cw("#click").el.currentTime = 0.02;
                     cw("#click").el.play();
