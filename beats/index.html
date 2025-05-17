@@ -63,12 +63,12 @@
         let showAsFraction = false;
         let hasSlash;
 
-        cw("#bpmInput").el.addEventListener("input", function () {
+        cw("#bpmInput").event("input", function () {
             bpm = Number(this.value);
             clockBase = 60 / bpm;
             reset();
         });
-        cw("#precisionList").el.addEventListener("input", function () {
+        cw("#precisionList").event("input", function () {
             if (!showAsFraction) {
                 if (this.value == "original") {
                     precision = "original";
@@ -80,20 +80,20 @@
             reset();
         });
 
-        cw("#f-normal").el.addEventListener("change", () => {
+        cw("#f-normal").event("change", () => {
             format = "normal";
             reset();
         });
-        cw("#f-json").el.addEventListener("change", () => {
+        cw("#f-json").event("change", () => {
             format = "json";
             reset();
         });
-        cw("#f-top").el.addEventListener("change", () => {
+        cw("#f-top").event("change", () => {
             format = "top";
             reset();
         });
 
-        cw("#showAsFraction").el.addEventListener("change", function () {
+        cw("#showAsFraction").event("change", function () {
             showAsFraction = this.checked;
             if (showAsFraction) {
                 cw("#precisionList").hide();
@@ -101,7 +101,7 @@
                 cw("#precisionListFraction").unhide("inline");
                 format = "normal";
                 cw("#f-normal").el.checked = true;
-                precision = 0.25;
+                precision = 1 / 2 ** Number(cw("#precisionListFraction").value - 1);
             } else {
                 cw("#precisionList").unhide("inline");
                 cw("#showTopFormat").unhide("inline");
@@ -109,7 +109,7 @@
             }
             reset();
         });
-        cw("#precisionListFraction").el.addEventListener("input", function () {
+        cw("#precisionListFraction").event("input", function () {
             if (showAsFraction) {
                 precision = 1 / 2 ** Number(this.value - 1);
             }
