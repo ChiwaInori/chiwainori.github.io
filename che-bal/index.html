@@ -154,7 +154,7 @@
                         response = "done";
                     } else {
                         debugLog(multiplier.arr, "failed");
-                        if (!arrAddUp(multiplier.arr, nowMax)) {
+                        if (!arrAddUp(multiplier.arr, nowMax)) { // All possibilities tried under current nowMax
                             nowMax++;
 
                             // Back multiplier array to default
@@ -167,7 +167,7 @@
                         let tempArr;
                         tempArr = arrAddUp(multiplier.arr, nowMax);
                         debugLog(tempArr, nowMax, "temp set from", multiplier.arr);
-                        while (!tempArr.includes(nowMax)) {
+                        while (!tempArr.includes(nowMax)) { // If not includes nowMax, it's tried before
                             tempArr = arrAddUp(tempArr, nowMax);
                             debugLog(tempArr, nowMax, "add temp to include nowMax");
                         }
@@ -175,7 +175,7 @@
                         debugLog(multiplier.arr, "next loop");
                     }
 
-                    if (nowMax >= tryMax) {
+                    if (nowMax > tryMax) {
                         done = true;
                         debugLog(nowMax, "exceed");
                         response = "exceed";
