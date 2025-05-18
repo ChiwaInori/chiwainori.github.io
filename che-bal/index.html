@@ -7,7 +7,11 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-normal.css" />
-    <style></style>
+    <style>
+        #result, #result2 {
+            transition: none;
+        }
+    </style>
     <script src="/chiwa-functions.js"></script>
 </head>
 
@@ -20,50 +24,70 @@
     </div>
     <div id="cw-content">
         <p>请在下方输入待配平的化学方程式。使用本网页可以帮助你通过穷举法配平 <strong>在<span style="text-decoration: underline;">数学</span>上可行</strong> 的方程式。</p>
-        <p>最大尝试配平系数: <input id="max" type="number" style="width: 32px;" value="10" /> <strong style="font-size: 10px;">(注意: 不推荐设置数值过大，除非确定方程式真实存在且确实无法在一定范围内配平。)</strong></p>
-        <p><input style="width: 512px;" /><button id="button" onclick="start()" disabled>配平</button></p>
+        <p>尝试配平系数最大值范围: <input id="min" type="number" style="width: 32px;" value="1" /> ~ <input id="max" type="number" style="width: 32px;" value="10" /> <strong style="font-size: 10px;">(注意: 不推荐设置数值过大，除非确定方程式真实存在且确实无法在一定范围内配平。)</strong></p>
+        <p><input id="equationInput" style="width: 512px;" /><button id="button" onclick="start()" disabled>配平</button></p>
         <br />
         <p id="result" style="color: var(--gray)">请在上方输入化学方程式</p>
+        <p id="result2" class="STX" style="color: var(--gray)">&nbsp;</p>
         <br />
         <p><strong>[提示]</strong></p>
         <p>请按照标准示例书写方程式: <strong>H2 + O2 = H2O</strong></p>
-        <p>1. 可以不写空格 (例如: H2+O2=H2O)</p>
-        <p>2. 可以在方程式中加入上下箭头 (例如: H2O = H2↑ + O2↑)</p>
-        <p>3. 可以将未配平的方程式的等号 (=) 改为短横杠 (-) (例如: H2 + O2 - H2O)</p>
-        <p>4. <strong>不能输入有横线的结构简式</strong>，请把它们全部删除 (例如: C2H5OH = CH2CH2 + H2O)</p>
-        <p>5. <strong>不能带有反应条件</strong></p>
-        <p>6. <strong>不能输入离子符号</strong></p>
+        <p>1. <strong>如有物质带电荷, 请按照此方式输入离子符号或电子</strong>: Mg<sup>2+</sup> =&gt; Mg{2+} ; Cl<sup>-</sup> =&gt; Cl{-} ; e<sup>-</sup> =&gt; {-} (例如: Cl2 + {-} = Cl{-})</p>
+        <p>2. 可以不写空格 (例如: H2+O2=H2O)</p>
+        <p>3. 可以在方程式中加入上下箭头 (例如: H2O = H2↑ + O2↑)</p>
+        <p>4. 可以将未配平的方程式的等号 (=) 用短横杠 (-) 代替 (例如: H2 + O2 - H2O)</p>
+        <p>5. <strong>不能带有配平系数</strong>, 请把所有配平系数删除</p>
+        <p>5. <strong>不能减去电子</strong>, 请在方程式另一边加上电子 (例如: Fe{2+} = Fe{3+} + {-})</p>
+        <p>6. <strong>不能输入有横线的结构简式</strong>, 请把它们全部删除 (例如: C2H5OH = CH2CH2 + H2O)</p>
+        <p>7. <strong>不能直接输入有结晶水的化合物</strong>, 请把它们这样转换: CuSO4·5H2O =&gt; CuSO4(H2O)5</p>
+        <p>8. <strong>不能带有反应条件</strong></p>
     </div>
     <script>
-        const inputEl = cw("input", 1);
+        const inputEl = cw("#equationInput");
         
         inputEl.event("input", function () {
-            const input = this.value;
-            const splitIcon = this.value.includes("-") ? "-" : "=";
+            const input = this.value.replaceAll(/{([0-9]*?)\+}/g, "{$1#}").replaceAll(/{([0-9]*?)-}/g, "{$1%}");
+            const splitIcon = input.includes("-") ? "-" : "=";
             cw("button").disabled = true;
+            cw("#result2").html = "&nbsp;";
             
             if (input == "") {
                 cw("#result").text = "请在上方输入化学方程式";
                 cw("#result").color = "var(--gray)";
                 return;
             }
-            if ((/[^A-Za-z0-9+-=()[\]↑↓ ]/).test(input)) {
+            if ((/[^A-Za-z0-9+-=()[\]{}#%↑↓ ]/).test(input)) {
                 cw("#result").text = "化学方程式中存在非法符号";
                 cw("#result").color = "var(--red)";
                 return;
             }
             if (input.getCountOf("=") == 0 && input.getCountOf("-") == 0) {
-                cw("#result").text = "化学方程式没有分隔左右两边的符号 (等号 = 或 短横线 -)";
+                cw("#result").text = "化学方程式没有等号 (=) 或短横线 (-)";
                 cw("#result").color = "var(--red)";
                 return;
             }
-            if (input.getCountOf("=") > 1 || input.getCountOf("-") > 1 || input.getCountOf("=") == 1 && input.getCountOf("-") == 1) {
-                cw("#result").text = "化学方程式存在多个分隔左右两边的符号 (等号 = 或 短横线 -)";
+            if (input.getCountOf("=") + input.getCountOf("-") > 1) {
+                cw("#result").text = "化学方程式存在多个等号 (=) 或短横线 (-)";
                 cw("#result").color = "var(--red)";
                 return;
             }
             if (checkUniqueElements(...input.split(splitIcon))) {
                 cw("#result").text = "化学方程式左右存在不同的元素";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if (input.getCountOf("{") != input.getCountOf("}")) {
+                cw("#result").text = "化学方程式中左右大括号不相等";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if ((/{[0-9]*?}/).test(input)) {
+                cw("#result").text = "化学方程式中有离子未明确电荷电性";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if ((/(^[0-9]|[+= ][0-9][A-Z])/).test(input)) {
+                cw("#result").text = "化学方程式中存在配平系数";
                 cw("#result").color = "var(--red)";
                 return;
             }
@@ -99,20 +123,20 @@
         }
 
         async function start() {
-            const input = inputEl.value.replaceAll(/ /g, "");
+            const input = inputEl.value.replaceAll(/ /g, "").replaceAll(/{([0-9]*?)\+}/g, "{$1#}").replaceAll(/{([0-9]*?)-}/g, "{$1%}");
+            log(inputEl.value.replaceAll(/{([0-9]*?)-}/g, "{$1%}"));
 
-            const substances = {
-                from: [],
-                to: []
-            };
             const splitIcon = input.includes("-") ? "-" : "=";
-            substances.from = input.split(splitIcon)[0].split("+");
-            substances.to = input.split(splitIcon)[1].split("+");
+            const substances = {
+                from: input.split(splitIcon)[0].split("+"),
+                to: input.split(splitIcon)[1].split("+")
+            };
 
             const substancesFormatted = substances.isolate();
             for (const direction in substancesFormatted) {
                 for (let i = 0; i < substancesFormatted[direction].length; i++) {
-                    substancesFormatted[direction][i] = expandChemicalFormula(substancesFormatted[direction][i]);
+                    substancesFormatted[direction][i] = formatCharge(substancesFormatted[direction][i]); // Format "{2#}" to "##"
+                    substancesFormatted[direction][i] = expandChemicalFormula(substancesFormatted[direction][i]); // Expand "H2" to "HH"
                 }
             }
             debugLog(substancesFormatted);
@@ -125,13 +149,17 @@
             substances.to.forEach(() => { multiplier.arr.push(1); });
             debugLog(multiplier);
 
-            const tryMax = cw("input").value;
+            const tryMax = cw("#max").value;
+            const timer = new Date().getTime();
             let done = false;
-            let nowMax = 1;
+            let nowMax = Number(cw("#min").value);
             let response = "pending";
+            let err;
 
             cw("#result").text = "正在尝试配平, 请稍后";
+            cw("#result2").html = "&nbsp;";
             cw("#result").color = "var(--orange)";
+            cw("#result2").color = "var(--orange)";
 
             await sleep(1);
 
@@ -147,6 +175,9 @@
                     substancesFormatted.to.forEach((substance, index) => {
                         check.to += substance.repeat(multiplier.arr[index + multiplier.split]);
                     });
+                    check.from = chargeElimination(check.from);
+                    check.to = chargeElimination(check.to);
+                    debugLog(check);
 
                     if (checkLetterCounts(check.from, check.to)) {
                         done = true;
@@ -169,6 +200,7 @@
                         debugLog(tempArr, nowMax, "temp set from", multiplier.arr);
                         while (!tempArr.includes(nowMax)) { // If not includes nowMax, it's tried before
                             tempArr = arrAddUp(tempArr, nowMax);
+
                             debugLog(tempArr, nowMax, "add temp to include nowMax");
                         }
                         multiplier.arr = tempArr;
@@ -185,30 +217,42 @@
                 if (e.message.includes("Maximum call stack size exceeded")) {
                     response = "stack";
                 } else {
-                    response = "error";
-                    log("Unexpected Error", e.message);
+                    response = "unknown";
+                    err = e;
                 }
             }
 
             if (response == "done") {
                 cw("#result").html = `配平成功: <strong>${formatChemicalEquation(input, multiplier.arr)}</strong>`;
+                cw("#result2").text = `用时 ${new Date().getTime() - timer} ms`;
                 cw("#result").color = "var(--green)";
+                cw("#result2").color = "var(--green)";
             }
 
             if (response == "exceed") {
-                cw("#result").text = `在设置的最大配平系数内配平失败 (${response})`;
+                cw("#result").text = `在设置的最大配平系数内配平失败`;
+                cw("#result2").text = `Error: ${response}`;
                 cw("#result").color = "var(--red)";
+                cw("#result2").color = "var(--red)";
             }
             if (response == "stack") {
-                cw("#result").text = `计算溢出, 请尝试缩小配平系数范围 (${response})`;
+                cw("#result").text = `计算溢出, 请尝试缩小配平系数范围`;
+                cw("#result2").text = `Error: ${response}`;
                 cw("#result").color = "var(--red)";
+                cw("#result2").color = "var(--red)";
             }
-            if (response == "pending" || response == "error") {
-                cw("#result").text = `配平时发生错误, 请重试 (${response})`;
+            if (response == "pending" || response == "unknown") {
+                cw("#result").text = `配平时发生错误, 请重试`;
+                cw("#result2").text = `Error: ${response}`;
                 cw("#result").color = "var(--red)";
+                cw("#result2").color = "var(--red)";
             }
 
             log("Status Code", [response]);
+
+            if (response == "unknown") {
+                throw err;
+            }
         }
 
         // Tool functions
@@ -246,7 +290,7 @@
                     const char = str[i];
 
                     // 1. 处理原子符号（如 Na, Cl）
-                    if ((/[A-Z]/).test(char)) {
+                    if ((/[A-Z#%]/).test(char)) {
                         let atom = char;
                         i++;
 
@@ -363,37 +407,53 @@
         }
 
         function formatChemicalEquation(equation, coefficients) { // Formalize final chemical equation
-            const splitIcon = inputEl.value.includes("-") ? "-" : "=";
-            // 拆分方程式为左右两边
-            const [left, right] = equation.split(splitIcon).map(side => side.trim());
+            equation = equation.replaceAll(/{([0-9]*?)\+}/g, "{$1#}").replaceAll(/{([0-9]*?)-}/g, "{$1%}");
+            equation = equation.replaceAll(/ /g, "");
+            equation = equation.replaceAll(/(?<=[A-Za-z)\]])([0-9]+)/g, "<sub>$1</sub>");
+            equation = equation.replaceAll(/{([0-9]*)([#%])}/g, "<sup>$1$2</sup>"); // Format ions
+            equation = equation.replaceAll(/([+=])<sup>%<\/sup>/g, "$1e<sup>%</sup>");
+            equation = equation.replaceAll(/^<sup>%<\/sup>/g, "e<sup>%</sup>");
+            
+            const splitIcon = equation.includes("-") ? "-" : "=";
+            const substances = {
+                from: equation.split(splitIcon)[0].split("+"),
+                to: equation.split(splitIcon)[1].split("+"),
+                split: equation.split(splitIcon)[0].split("+").length
+            };
+            substances.from.forEach((substance, index) => {
+                if (coefficients[index] != 1) {
+                    substances.from[index] = `${coefficients[index]}${substance}`;
+                }
+            });
+            substances.to.forEach((substance, index) => {
+                if (coefficients[index + substances.split] != 1) {
+                    substances.to[index] = `${coefficients[index + substances.split]}${substance}`;
+                }
+            });
+            equation = `${substances.from.join(" + ")} = ${substances.to.join(" + ")}`;
+            equation = equation.replaceAll(/#/g, "+").replaceAll(/%/g, "-");
 
-            // 拆分左边和右边的物质
-            const leftCompounds = left.split("+").map(compound => compound.trim());
-            const rightCompounds = right.split("+").map(compound => compound.trim());
+            return equation;
+        }
 
-            // 确保系数数组的长度与物质总数一致
-            if (coefficients.length !== leftCompounds.length + rightCompounds.length) {
-                throw new Error("系数数组的长度与方程式中的物质数量不匹配");
+        function formatCharge(str) { // Format "{2+}"" to "##"
+            if (!(/{[0-9]*[#%]}/).test(str)) { return str; }
+
+            const count = Number(str.match(/{([0-9]*)[#%]}/)?.[1]) || 1;
+            const type = str.match(/{[0-9]*([#%])}/)[1];
+
+            return str.replaceAll(/{[0-9]*[#%]}/g, type.repeat(count));
+        }
+
+        function chargeElimination(str) { // Remove # (+) and % (-) in pairs
+            let arr = str.split("");
+            
+            while (arr.includes("#") && arr.includes("%")) {
+                arr = arr.remove("#");
+                arr = arr.remove("%");
             }
-        
-            // 辅助函数：将元素个数的数字转换为下标
-            function toSubscript(str) {
-                return str.replace(/\d+/g, match => `<sub>${match}</sub>`);
-            }
-        
-            // 格式化左边的物质
-            const formattedLeft = leftCompounds.map((compound, index) => {
-                return `${coefficients[index]}${toSubscript(compound)}`;
-            }).join(" + ");
-        
-            // 格式化右边的物质
-            const formattedRight = rightCompounds.map((compound, index) => {
-                return `${coefficients[leftCompounds.length + index]}${toSubscript(compound)}`;
-            }).join(" + ");
-        
-            const balanced = `${formattedLeft} = ${formattedRight}`;
-            // 返回完整的 HTML 格式方程式
-            return balanced.replaceAll(/(?<!>)1/g, "");
+
+            return arr.join("");
         }
 </script>
 </div></body>
