@@ -67,7 +67,7 @@
                 cw("#result").color = "var(--red)";
                 return;
             }
-            if (input.includes("  ")) {
+            if ((/ {2,}/).test(input)) {
                 cw("#result").text = "化学方程式中存在连续空格";
                 cw("#result").color = "var(--red)";
                 return;
@@ -77,8 +77,13 @@
                 cw("#result").color = "var(--red)";
                 return;
             }
-            if ((/([0-9][a-z]|[a-z][A-Z])/).test(input)) {
+            if ((/([0-9][a-z]|[A-Z][a-z]{2,}|[)\]][a-z])/).test(input)) {
                 cw("#result").text = "化学方程式中有字母大小写问题";
+                cw("#result").color = "var(--red)";
+                return;
+            }
+            if ((/([A-Za-z)\]]0|[([][a-z0-9])/).test(input)) {
+                cw("#result").text = "化学方程式中有数字问题";
                 cw("#result").color = "var(--red)";
                 return;
             }
