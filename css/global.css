@@ -344,7 +344,7 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
     font-family: "Consolas", "Lolita", sans-serif;
 }
 
-.BRT, .BRT tr * { /* Border Table */
+.BRT, .BRT tr *:not(input) { /* Border Table */
     border: 2px solid var(--textColor-500);
     border-collapse: collapse;
 }
