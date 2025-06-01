@@ -904,6 +904,10 @@ Number.prototype.nonEnum("close", function (target) {
 Number.prototype.nonEnum("keep", function (digit = 0) {
     _range(digit, "%1=0");
     
+    if (this == 0) {
+        return 0;
+    }
+
     if (!Math.abs(this).range(1e-6, 1e21)) {
         const [mantissa, exponent] = String(this).getNum();
 
