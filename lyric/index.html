@@ -102,7 +102,7 @@
                 <p>目前该网页歌词的淡入动画有一定概率出错影响观赏效果。</p>
                 <p>如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
                 <div id="helpDiv">
-                    <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 ChiwaInori.top Lyric 文件的方式</p>
+                    <p><a id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 ChiwaInori.top Lyric 文件的方式</a></p>
                     <div id="helpGroup" hidden>
                         <h3>如何制作 ChiwaInori.top Lyric 文件</h3>
                         <p><strong>1.</strong> 新建一个 JSON 文件</p>
@@ -165,7 +165,7 @@
                 try {
                     file = await loadJSON("fileInput");
                 } catch (e) {
-                    cw("#display").html = e;
+                    cw("#display").html = `${e}<br />e.cwErr: ${e.cwErr}`;
                     cw("#display").color = "var(--red)";
                     return;
                 }
@@ -308,7 +308,7 @@
             function playButton() {
                 play().catch(e => {
                     cw("#errorLine").unhide();
-                    cw("#errorLine").html = `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]`;
+                    cw("#errorLine").html = `<strong>Lyric 文件中存在错误</strong><br />请检查目前播放的歌词附近 (或下一句歌词中) 的问题。歌词播放已终止。<br />目前位置: file.lyrics[${currentPosition[0]}][${currentPosition[1]}]<br />e.cwErr: ${e.cwErr}`;
 
                     cw("#cw-main", 0).el.style.transition = "all 0.5s var(--transit)";
                     updateSettings({ backgroundColor: "#ffffdd" });

@@ -66,6 +66,7 @@
         </table>
         <p><button onclick="cal()">χ² 独立性检验 计算</button></p>
         <div>
+            <p id="err-0" style="color: var(--red)" hidden>列联表中 <strong>存在数值不为自然数</strong>，无法通过 χ² 独立性检验 计算.</p>
             <p id="err-1" style="color: var(--red)" hidden>列联表中 <strong>总数据值 &lt; 40</strong>，通过 χ² 独立性检验 得到的结果不可靠.</p>
             <p id="err-2" style="color: var(--red)" hidden>列联表中 <strong>存在数值 &lt; 1 的单元格</strong>，通过 χ² 独立性检验 得到的结果不可靠.</p>
             <p id="err-3" style="color: var(--orange)" hidden>列联表中 <strong>存在数值 &lt; 5 的单元格</strong>，通过 χ² 独立性检验 得到的结果不一定可靠.</p>
@@ -122,10 +123,29 @@
             cw("#sum-total").text = data[0] + data[1] + data[2] + data[3];
         }
 
+        function checkAvailability() {
+            try {
+                _range(Number(cw("#x0y0").value) || 0, "N");
+                _range(Number(cw("#x0y1").value) || 0, "N");
+                _range(Number(cw("#x1y0").value) || 0, "N");
+                _range(Number(cw("#x1y1").value) || 0, "N");
+            } catch (e) {
+                return e.cwErr;
+            }
+        }
+
         function cal() {
+            cw("#result").html = "";
+            applyAll("[id*='err-']", el => cw(el).hide());
+
+            if (checkAvailability() == "invalid-range") {
+                cw("#err-0").unhide();
+                return;
+            }
+            cw("#err-0").hide();
+
             const chiSq = (data[0] + data[1] + data[2] + data[3]) * (data[0] * data[3] - data[1] * data[2]) ** 2 / ((data[0] + data[2]) * (data[1] + data[3]) * (data[0] + data[1]) * (data[2] + data[3])) || 0;
 
-            cw("#result").html = "";
             cw("#result").html += `<h2>χ² = ${chiSq.keep(14)}</h2>`;
             cw("#result").html += "<br />";
 
