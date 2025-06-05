@@ -44,7 +44,7 @@
  * @since xts.24-5-19
  * @version 25-1-21
 */
-const chiwa = "25-6-5-1";
+const chiwa = "25-6-5";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE
