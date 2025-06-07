@@ -134,25 +134,6 @@
         return -((-number) ** (1 / root));
     };
 
-    class Decimal {
-        constructor(value, exponent) {
-            this.value = BigInt(String(value).split(".").join(""));
-            this.exponent = exponent || String(value).includes(".") ? BigInt(String(value).split(".")[1].length) : 0n;
-        }
-
-        simplify() {
-            let value = this.value;
-            let exponent = this.exponent;
-
-            while (value % 10n == 0n && exponent >= 0) {
-                value /= 10n;
-                exponent--;
-            }
-
-            return new Decimal(value, exponent);
-        }
-    }
-
     function add(arr) {
         const result = [];
         for (let i = 0; i < arr.length; i += 2) {
@@ -229,4 +210,85 @@
             new Function(...params, modified)(...args);
         }
     }
+
+    class Decimal {
+        constructor(value, exp) {
+            if (exp == undefined) { // Inputting a number & string, transform it to Decimal
+                this.value = BigInt(value.split("").remove(".").join(""));
+                this.exp = BigInt(value.indexOf(".")) == -1 ? 0n : BigInt(value.indexOf(".") - value.split("").remove(".").join("").length);
+            } else {
+                this.value = BigInt(value);
+                this.exp = BigInt(exp);
+            }
+        }
+    }
+
+    Decimal.prototype.nonEnum("valueOf", function () {
+        return Number(this.value) * 10 ** Number(this.exp);
+    });
+
+    Decimal.prototype.nonEnum("toString", function () {
+        let str = String(this.value);
+        if (this.exp >= 0) {
+            str += "0".repeat(Number(this.exp));
+        } else if (Number(this.exp).range(-str.length, 0, false, false)) {
+            return `${str.slice(0, str.length + Number(this.exp))}.${str.slice(str.length + Number(this.exp), str.length)}`;
+        } else if (this.exp <= -str.length) {
+            str = `${"0".repeat(-Number(this.exp) - str.length + 1)}${str}`;
+            str = `${str.slice(0, 1)}.${str.slice(1, str.length)}`;
+        }
+        return str;
+    });
+
+    Decimal.prototype.nonEnum("simplify", function () {
+        const newDecimal = {
+            value: this.value,
+            exp: this.exp
+        };
+
+        while (String(newDecimal.value)[String(newDecimal.value).length - 1] == "0") {
+            newDecimal.value /= 10n;
+            if (newDecimal.exp < 0) {
+                newDecimal.exp += 1n;
+            } else {
+                newDecimal.exp -= 1n;
+            }
+        }
+
+        return new Decimal(newDecimal.value, newDecimal.exp);
+    });
+
+    Decimal.prototype.nonEnum("expUp", function (times = 1) {
+        return new Decimal(this.value * 10n ** BigInt(times), this.exp - BigInt(times));
+    });
+
+    Decimal.prototype.nonEnum("add", function (dec) {
+        const smallerExp = [this.exp - dec.exp <= 0, this.exp - dec.exp <= 0 ? this.exp : dec.exp];
+        const newDecimal = {
+            value: undefined,
+            exp: smallerExp[1]
+        };
+
+        if (smallerExp[0]) {
+            dec = dec.expUp(dec.exp - smallerExp[1]);
+        } else {
+            this.value = this.expUp(this.exp - smallerExp[1]).value;
+            this.exp = this.expUp(this.exp - smallerExp[1]).exp;
+        }
+        newDecimal.value = this.value + dec.value;
+
+        return new Decimal(newDecimal.value, newDecimal.exp).simplify();
+    });
+
+    const num = new Decimal(601, 2);
+    log("Decimal", num);
+    log("valueOf", Number(num));
+    log("toString", String(num));
+    log("simplify", num.simplify());
+    log("simplify -> toString", String(num.simplify()));
+    log("simplify -> expUp 1", num.simplify().expUp());
+    log("simplify -> expUp 6", num.simplify().expUp(6));
+    log("simplify -> expUp 6 -> simplify", num.simplify().expUp(6).simplify());
+    log("simplify -> add (5, 3)", num.add(new Decimal(5, 3)));
+
 </script>

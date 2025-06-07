@@ -31,38 +31,40 @@
         <br />
         <p id="h0">零假设 H<sub>0</sub>: X 与 Y 无关.</p>
         <table class="BRT">
-            <tr>
-                <td rowspan="2" colspan="2">
-                    χ² 独立性检验
-                    <br />
-                    2*2 列联表
-                </td>
-                <td colspan="2"><input id="title-y" value="Y" tabindex="4" /></td>
-                <td rowspan="2">总和</td>
-            </tr>
-            <tr>
-                <td><input value="0" tabindex="5" /></td>
-                <td><input value="1" tabindex="6" /></td>
-            </tr>
-            <tr>
-                <td rowspan="2"><input id="title-x" value="X" tabindex="1" /></td>
-                <td><input value="0" tabindex="2" /></td>
-                <td><input id="x0y0" type="number" tabindex="7" /></td>
-                <td><input id="x0y1" type="number" tabindex="8" /></td>
-                <td id="sum3">0</td>
-            </tr>
-            <tr>
-                <td><input value="1" tabindex="3" /></td>
-                <td><input id="x1y0" type="number" tabindex="9" /></td>
-                <td><input id="x1y1" type="number" tabindex="10" /></td>
-                <td id="sum4">0</td>
-            </tr>
-            <tr>
-                <td colspan="2">总和</td>
-                <td id="sum1">0</td>
-                <td id="sum2">0</td>
-                <td id="sum-total">0</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        χ² 独立性检验
+                        <br />
+                        2*2 列联表
+                    </td>
+                    <td colspan="2"><input id="title-y" value="Y" tabindex="4" /></td>
+                    <td rowspan="2">总和</td>
+                </tr>
+                <tr>
+                    <td><input value="0" tabindex="5" /></td>
+                    <td><input value="1" tabindex="6" /></td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><input id="title-x" value="X" tabindex="1" /></td>
+                    <td><input value="0" tabindex="2" /></td>
+                    <td><input id="x0y0" type="number" tabindex="7" /></td>
+                    <td><input id="x0y1" type="number" tabindex="8" /></td>
+                    <td id="sum3">0</td>
+                </tr>
+                <tr>
+                    <td><input value="1" tabindex="3" /></td>
+                    <td><input id="x1y0" type="number" tabindex="9" /></td>
+                    <td><input id="x1y1" type="number" tabindex="10" /></td>
+                    <td id="sum4">0</td>
+                </tr>
+                <tr>
+                    <td colspan="2">总和</td>
+                    <td id="sum1">0</td>
+                    <td id="sum2">0</td>
+                    <td id="sum-total">0</td>
+                </tr>
+            </tbody>
         </table>
         <p><button onclick="cal()">χ² 独立性检验 计算</button></p>
         <div>
