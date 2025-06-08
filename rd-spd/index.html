@@ -31,7 +31,7 @@
         <p>在下方输入一长串文本，修改文字显示速度直到和你的阅读速度相当，然后读取结果。</p>
         <textarea></textarea>
         <p><button class="btn-slow" onclick="modify(-100)">-100</button> <button class="btn-slow" onclick="modify(-10)">-10</button> <button class="btn-slow" onclick="modify(-1)">-1</button> <strong id="now-spd">1200</strong> 字符/分 <button class="btn-fast" onclick="modify(1)">+ 1</button> <button class="btn-fast" onclick="modify(10)">+ 10</button> <button class="btn-fast" onclick="modify(100)">+ 100</button></p>
-        <p id="more-spd"><strong>20</strong> 字符/秒 || <strong>0.5</strong> 秒/字符 || <strong>72000</strong> 字符/小时</p>
+        <p id="more-spd"></p>
         <hr />
     </div>
     <script>
@@ -88,10 +88,11 @@
             }
 
             nowSpeedDisplay.text = charPerMin;
-            moreSpeedDisplay.html = `<strong>${(charPerMin / 60).keep(2)}</strong> 字符/秒 || <strong>${(1 / (charPerMin / 60)).keep(5)}</strong> 秒/字符 || <strong>${(charPerMin * 60).keep(0)}</strong> 字符/小时`;
+            moreSpeedDisplay.html = `<strong>${(charPerMin / 60).keep(2)}</strong> 字符/秒 || <strong>${(1 / (charPerMin / 60)).keep(5)}</strong> 秒/字符 || <strong>${(1 / (charPerMin / 60) * 1000).keep(1)}</strong> 毫秒/字符 || <strong>${(charPerMin * 60).keep(0)}</strong> 字符/小时`;
 
             updateText(charPerMin);
         }
+        modify(0);
     </script>
 </div></body>
 
