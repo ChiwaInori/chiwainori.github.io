@@ -2,7 +2,7 @@
 
 /*
     This is a global style sheet used in ChiwaInori.top.
-    The rules in each element below should follow this order: Color, Display, Width, Height, Padding, Border, Margin, Others.
+    The rules in each element below could follow this order: Color, Display, Width, Height, Padding, Border, Margin, Others.
 */
 
 /* MAIN FORMAT FOR EVERY DEVICES */
@@ -13,15 +13,22 @@
     /* These are basic colors of ChiwaInori.top and used in basic structures. -500 colors are major colors in each section. */
 
     --backgroundColor-500: #f0f8ff; /* aliceblue */
-    --backgroundColor-600: #a0d2f0;
+    --backgroundColor-600: #a0c8df;
 
-    --textColor-400: #88a0aa;
+    --textColor-300: #bbccdd;
+    --textColor-400: #8899aa;
     --textColor-500: #556677;
+    --textColor-600: #445566;
 
-    --activeColor-400: #99ccff;
+    --activeColor-400: #99c8ff;
     --activeColor-500: #66a8ff;
-    --activeColor-700: #0088aa;
-    --activeColor-800: #8899aa;
+    --activeColor-600: #5598ee;
+    --activeColor-700: #4478bb;
+    --activeColor-800: #8898aa;
+
+    --white-f: #ffffff;
+    --white-e: #eeeeee;
+    --white-d: #dddddd;
 
     /* CHIWA STANDARD COLORS */
     /* These are used to make website more colorful. They are verified to have great or normal visibility on ChiwaInori.top. */
@@ -46,7 +53,7 @@
     --darkOrange: #cc8822;
     --darkYellow: #bbaa11;
     --darkGreen: #11aa00;
-    --darkCyan: var(--activeColor-700);
+    --darkCyan: #0088aa;
     --darkBlue: #0000dd;
     --darkPurple: #661188;
 
@@ -111,7 +118,7 @@ body {
     margin-top: 0px;
 }
 
-h1, h2, h3, h4, h5, h6, p, img, video, audio {
+p, h1, h2, h3, h4, h5, h6, img, video, audio {
     margin: 10px auto;
 }
 
@@ -126,7 +133,7 @@ img[style*="float: left"] {
 
 input, button, textarea {
     color: var(--activeColor-500);
-    background-color: #ffffff;
+    background-color: var(--white-f);
     margin: 2px 10px;
     border: 2px solid var(--activeColor-500);
     font-weight: bold;
@@ -156,7 +163,9 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:hover, input[type="radio"]:hover, button:hover {
-    background-color: #eeeeee;
+    color: var(--activeColor-600);
+    border: 2px solid var(--activeColor-600);
+    background-color: var(--white-e);
 }
 
 input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
@@ -190,7 +199,7 @@ input[type="radio"]:checked::before {
 
 
 input[type="range"] {
-    background: #ffffff;
+    background: var(--white-f);
     width: auto;
     height: 4px;
     appearance: none;
@@ -224,19 +233,21 @@ input[type="color"] {
 
 button:active {
     color: var(--activeColor-700);
-    background-color: #dddddd;
+    border: 2px solid var(--activeColor-700);
+    background-color: var(--white-d);
+    transition: color 0s;
 }
 
 input:disabled, button:disabled {
     color: var(--textColor-400);
-    background-color: #dddddd;
+    background-color: var(--white-d);
     border: 2px solid var(--textColor-400);
     cursor: not-allowed;
 }
 
 select {
     color: var(--activeColor-500);
-    background-color: #ffffff;
+    background-color: var(--white-f);
     border: 2px solid var(--activeColor-500);
     margin: auto 10px;
 }
@@ -245,7 +256,7 @@ ruby rt {
     font-size: 10px;
 }
 
-blockquote * {
+blockquote :is(p, span, strong) {
     color: var(--textColor-400);
     font-style: italic;
 }
@@ -273,8 +284,12 @@ span, a {
     color: inherit;
 }
 
+strong {
+    color: var(--textColor-600);
+}
+
 *::selection {
-    color: #ffffff;
+    color: var(--white-f);
     background-color: var(--lightBlue);
 }
 
@@ -306,7 +321,7 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
 
 
 :is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):hover {
-    filter: brightness(0.75);
+    color: var(--activeColor-600);
     font-weight: bold;
 }
 
@@ -317,6 +332,10 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
 
 :is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):not(:hover)::after {
     transform-origin: right center;
+}
+
+:is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):active {
+    color: var(--activeColor-700);
 }
 
 :is(a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK)):hover rt {  /* Make rt color change when a:hover */
