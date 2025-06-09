@@ -18,7 +18,6 @@
     --textColor-300: #bbccdd;
     --textColor-400: #8899aa;
     --textColor-500: #556677;
-    --textColor-600: #445566;
 
     --activeColor-400: #99c8ff;
     --activeColor-500: #66a8ff;
@@ -282,10 +281,6 @@ p, h1, h2, h3, h4, h5, h6 {
 
 span, a, strong {
     color: inherit;
-}
-
-strong {
-    filter: brightness(0.83); /* About var(--textColor-600) when using default color. */
 }
 
 *::selection {
