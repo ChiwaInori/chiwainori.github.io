@@ -12,6 +12,10 @@
             transition: background-color 0.5s var(--transit);
         }
 
+        h1, #cw-nav h6, h3 {
+            color: var(--white-e);
+        }
+
         input[type="range"] {
             width: 506px;
             height: 8px;
@@ -30,7 +34,7 @@
     <div id="cw-title">
         <h1>自由调色板</h1>
     </div>
-    <div id="cw-nav">&nbsp;</div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
     <div id="cw-content">
         <h3 id="choose-rgb">RGB | <span onclick="turn('cmyk')" class="LNK">CMYK</span> | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
         <h3 id="choose-cmyk" hidden><span onclick="turn('rgb')" class="LNK">RGB</span> | CMYK | <span onclick="turn('hsv')" class="LNK">HSV</span> | <span onclick="turn('hsl')" class="LNK">HSL</span></h3>
@@ -74,7 +78,7 @@
             <tr>
                 <th style="color: #000000;">K / 黑, Key</th>
                 <th><input id="cmyk-k" type="range" min="0" max="100" step="1" value="100" oninput="changeColor()" /></th>
-                <th><span id="cmyk-k-value" style="color: #000000;">1</span></th>
+                <th><span id="cmyk-k-value" style="color: #000000;">100</span></th>
             </tr>
         </table>
 
