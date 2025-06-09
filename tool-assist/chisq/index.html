@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>2*2 列联表 χ² 独立性检验 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        input {
+            width: 64px;
+        }
+
+        td {
+            padding: 8px 16px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>2*2 列联表 χ² 独立性检验</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <p>在下面的 2*2 列联表 中填入数据，然后通过 χ² 独立性检验 判断两个变量 (如 X 与 Y) 之间是否独立 (有关).</p>
+        <br />
+        <p id="h0">零假设 H<sub>0</sub>: X 与 Y 无关.</p>
+        <table class="BRT">
+            <tbody>
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        χ² 独立性检验
+                        <br />
+                        2*2 列联表
+                    </td>
+                    <td colspan="2"><input id="title-y" value="Y" tabindex="4" /></td>
+                    <td rowspan="2">总和</td>
+                </tr>
+                <tr>
+                    <td><input value="0" tabindex="5" /></td>
+                    <td><input value="1" tabindex="6" /></td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><input id="title-x" value="X" tabindex="1" /></td>
+                    <td><input value="0" tabindex="2" /></td>
+                    <td><input id="x0y0" type="number" tabindex="7" /></td>
+                    <td><input id="x0y1" type="number" tabindex="8" /></td>
+                    <td id="sum3">0</td>
+                </tr>
+                <tr>
+                    <td><input value="1" tabindex="3" /></td>
+                    <td><input id="x1y0" type="number" tabindex="9" /></td>
+                    <td><input id="x1y1" type="number" tabindex="10" /></td>
+                    <td id="sum4">0</td>
+                </tr>
+                <tr>
+                    <td colspan="2">总和</td>
+                    <td id="sum1">0</td>
+                    <td id="sum2">0</td>
+                    <td id="sum-total">0</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><button onclick="cal()">χ² 独立性检验 计算</button></p>
+        <div>
+            <p id="err-0" style="color: var(--red)" hidden>列联表中 <strong>存在数值不为自然数</strong>，无法通过 χ² 独立性检验 计算.</p>
+            <p id="err-1" style="color: var(--red)" hidden>列联表中 <strong>总数据值 &lt; 40</strong>，通过 χ² 独立性检验 得到的结果不可靠.</p>
+            <p id="err-2" style="color: var(--red)" hidden>列联表中 <strong>存在数值 &lt; 1 的单元格</strong>，通过 χ² 独立性检验 得到的结果不可靠.</p>
+            <p id="err-3" style="color: var(--orange)" hidden>列联表中 <strong>存在数值 &lt; 5 的单元格</strong>，通过 χ² 独立性检验 得到的结果不一定可靠.</p>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script>
+        const chiSqStandard = [
+            [0.9, 0.016],
+            [0.8, 0.064],
+            [0.7, 0.148],
+            [0.6, 0.275],
+            [0.5, 0.455],
+            [0.4, 0.708],
+            [0.3, 1.074],
+            [0.25, 1.323],
+            [0.2, 1.642],
+            [0.15, 2.072],
+            [0.1, 2.706],
+            [0.05, 3.841],
+            [0.025, 5.024],
+            [0.01, 6.635],
+            [0.005, 7.879],
+            [0.0025, 9.141],
+            [0.001, 10.828],
+            [0.0001, 15.137],
+            [0.00001, 19.511],
+            [0.000001, 23.928]
+        ];
+        const titleName = ["X", "Y"];
+        let data = [];
+
+        applyAll("input[id*='title-']", el => {
+            cw(el).event("input", checkName);
+        });
+        applyAll("input[type='number']", el => {
+            cw(el).event("input", checkNum);
+        });
+
+        function checkName() {
+            titleName[0] = cw("#title-x").value || "X";
+            titleName[1] = cw("#title-y").value || "Y";
+
+            cw("#h0").html = `零假设 H<sub>0</sub>: ${titleName[0]} 与 ${titleName[1]} 无关.`;
+        }
+
+        function checkNum() {
+            data = [Number(cw("#x0y0").value) || 0, Number(cw("#x0y1").value) || 0, Number(cw("#x1y0").value) || 0, Number(cw("#x1y1").value) || 0];
+
+            cw("#sum1").text = data[0] + data[2];
+            cw("#sum2").text = data[1] + data[3];
+            cw("#sum3").text = data[0] + data[1];
+            cw("#sum4").text = data[2] + data[3];
+            cw("#sum-total").text = data[0] + data[1] + data[2] + data[3];
+        }
+
+        function checkAvailability() {
+            try {
+                _range(Number(cw("#x0y0").value) || 0, "N");
+                _range(Number(cw("#x0y1").value) || 0, "N");
+                _range(Number(cw("#x1y0").value) || 0, "N");
+                _range(Number(cw("#x1y1").value) || 0, "N");
+            } catch (e) {
+                return e.cwErr;
+            }
+        }
+
+        function cal() {
+            cw("#result").html = "";
+            applyAll("[id*='err-']", el => cw(el).hide());
+
+            if (checkAvailability() == "invalid-range") {
+                cw("#err-0").unhide();
+                return;
+            }
+            cw("#err-0").hide();
+
+            const chiSq = (data[0] + data[1] + data[2] + data[3]) * (data[0] * data[3] - data[1] * data[2]) ** 2 / ((data[0] + data[2]) * (data[1] + data[3]) * (data[0] + data[1]) * (data[2] + data[3])) || 0;
+
+            cw("#result").html += `<h2>χ² = ${chiSq.keep(14)}</h2>`;
+            cw("#result").html += "<br />";
+
+            cw("#result").html += `<h3>常用对照</h3>`;
+            for (const comparison of chiSqStandard) {
+                const a = comparison[0];
+                const xa = comparison[1];
+
+                if (a != 0.1 && a != 0.05 && a != 0.01 && a != 0.005 && a != 0.001) {
+                    continue;
+                }
+
+                if (chiSq >= xa) {
+                    cw("#result").html += `<p style="color: var(--green); font-size: 15px;">根据小概率值 α=${a} 的 χ² 独立性检验，推断 H<sub>0</sub> 不成立，即认为 ${titleName[0]} 与 ${titleName[1]} 有关，此推断犯错误的概率不大于 ${a}.</p>`;
+                    cw("#result").html += `<h6 style="color: var(--green); font-size: 15px;">x<sub>${a}</sub> = ${xa}</h6>`;
+                } else {
+                    cw("#result").html += `<p style="color: var(--red); font-size: 15px;">根据小概率值 α=${a} 的 χ² 独立性检验，没有充分证据推断 H<sub>0</sub> 不成立，可以认为 H<sub>0</sub> 成立，即认为 ${titleName[0]} 与 ${titleName[1]} 无关.</p>`;
+                    cw("#result").html += `<h6 style="color: var(--red); font-size: 15px;">x<sub>${a}</sub> = ${xa}</h6>`;
+                }
+                cw("#result").html += "<br />";
+            }
+
+            cw("#result").html += `<h3>更多对照</h3>`;
+            for (const comparison of chiSqStandard) {
+                const a = comparison[0];
+                const xa = comparison[1];
+
+                if (chiSq >= xa) {
+                    cw("#result").html += `<p style="color: var(--green); font-size: 12px;">根据${a <= 0.1 ? "小概率值" : ""} α=${a} 的 χ² 独立性检验，推断 H<sub>0</sub> 不成立，即认为 ${titleName[0]} 与 ${titleName[1]} 有关，此推断犯错误的概率不大于 ${a}.</p>`;
+                    cw("#result").html += `<h6 style="color: var(--green); font-size: 12px;">x<sub>${a}</sub> = ${xa}</h6>`;
+                } else {
+                    cw("#result").html += `<p style="color: var(--red); font-size: 12px;">根据${a <= 0.1 ? "小概率值" : ""} α=${a} 的 χ² 独立性检验，没有充分证据推断 H<sub>0</sub> 不成立，可以认为 H<sub>0</sub> 成立，即认为 ${titleName[0]} 与 ${titleName[1]} 无关.</p>`;
+                    cw("#result").html += `<h6 style="color: var(--red); font-size: 12px;">x<sub>${a}</sub> = ${xa}</h6>`;
+                }
+                cw("#result").html += "<br />";
+            }
+
+            applyAll("p[id*='err']", el => cw(el).hide());
+            if (data[0] + data[1] + data[2] + data[3] < 40) { cw("#err-1").unhide(); }
+            if (data[0] < 5 || data[1] < 5 || data[2] < 5 || data[3] < 5) { cw("#err-3").unhide(); }
+            if (data[0] < 1 || data[1] < 1 || data[2] < 1 || data[3] < 1) { cw("#err-2").unhide(); cw("#err-3").hide(); }
+        }
+    </script>
+</div></body>
+
+</html>

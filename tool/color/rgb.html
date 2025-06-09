@@ -1,0 +1,125 @@
+<html lang="zh-CN">
+
+<head>
+    <title>RGB 调色器 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        #color-box {
+            width: 200px;
+            height: 200px;
+            background-color: rgb(0, 0, 0);
+        }
+
+        .slider-label {
+            display: inline-block;
+            margin-left: 0px;
+        }
+
+        #cw-main {
+            background-color: white;
+        }
+
+        h1, h6, #linkName {
+            color: black;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body id="body"><div class="IFB-Green"><p><strong>此页有更新版本</strong></p><p>这表示此页不再被使用. 你应该前往更新页面. 你在一般情况下不应访问到此页.</p><p>通常, 在本页的上一级页面有通往更新页面的链接.</p></div><div id="cw-main">
+    <div id="cw-title">
+        <h1 id="cw-title">RGB 调色器</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content" style="margin-left: 40px;">
+        <div class="slider-container">
+            <label for="red" class="slider-label" style="color: #ff0000;"><strong>R</strong></label>
+            <input type="range" id="red" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
+            <span id="r-v"><strong><span id="red-value" style="margin-left: 16px;">0</span> / <span id="red-hex">00</span></strong></span>
+        </div>
+
+        <div class="slider-container">
+            <label for="green" class="slider-label" style="color: #00ff00;"><strong>G</strong></label>
+            <input type="range" id="green" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
+            <span id="g-v"><strong><span id="green-value" style="margin-left: 16px;">0</span> / <span id="green-hex">00</span></strong></span>
+        </div>
+
+        <div class="slider-container">
+            <label for="blue" class="slider-label" style="color: #0000ff;"><strong>B</strong></label>
+            <input type="range" id="blue" min="0" max="255" value="0" style="width: 256px;" oninput="updateColor()" />
+            <span id="b-v"><strong><span id="blue-value" style="margin-left: 16px;">0</span> / <span id="blue-hex">00</span></strong></span>
+        </div>
+
+        <br />
+
+        <div id="color-box" style="width: 512px; height: 512px;"></div>
+        <p id="final" style="color: black;"><span id="final-code" style="color: black;">rgb(0,0,0)</span> / <span id="final-code-hex" style="color: black;">#000000</span></p>
+    </div>
+    <script>
+        seizure("当你快速滑动本页面上的滚动条时，页面的<strong>布局颜色可能会快速改变</strong>。", "When you quickly swipe the scroll bar on this page, <strong>the layout color of the page may change quickly</strong>.");
+            function updateColor() {
+                var r = parseInt(document.getElementById('red').value);
+                var g = parseInt(document.getElementById('green').value);
+                var b = parseInt(document.getElementById('blue').value);
+
+                document.getElementById('color-box').style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+                document.getElementById('red-value').style.color = 'rgb(' + r + ',0,0)';
+                document.getElementById('red-hex').style.color = 'rgb(' + r + ',0,0)';
+                document.getElementById('r-v').style.color = 'rgb(' + r + ',0,0)';
+                document.getElementById('green-value').style.color = 'rgb(0,' + g + ',0)';
+                document.getElementById('green-hex').style.color = 'rgb(0,' + g + ',0)';
+                document.getElementById('g-v').style.color = 'rgb(0,' + g + ',0)';
+                document.getElementById('blue-value').style.color = 'rgb(0,0,' + b + ')';
+                document.getElementById('blue-hex').style.color = 'rgb(0,0,' + b + ')';
+                document.getElementById('b-v').style.color = 'rgb(0,0,' + b + ')';
+
+                var r_rev = 255 - r;
+                var g_rev = 255 - g;
+                var b_rev = 255 - b;
+                document.getElementsByClassName('cw-main')[0].style.backgroundColor = 'rgb(' + r_rev + ',' + g_rev + ',' + b_rev +')';
+                document.getElementById('title').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
+                document.getElementById('title2').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
+                document.getElementById('linkName').style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+                // Update slider values
+                document.getElementById('red-value').innerHTML = r;
+                document.getElementById('green-value').innerHTML = g;
+                document.getElementById('blue-value').innerHTML = b;
+
+                // Update hex values
+                
+
+                if (r.toString(16).toUpperCase().length == 1) {
+                    var red_w = "0" + r.toString(16).toUpperCase();
+                } else {
+                    var red_w = r.toString(16).toUpperCase();
+                }
+                if (g.toString(16).toUpperCase().length == 1) {
+                    var green_w = "0" + g.toString(16).toUpperCase();
+                } else {
+                    var green_w = g.toString(16).toUpperCase();
+                }
+                if (b.toString(16).toUpperCase().length == 1) {
+                    var blue_w = "0" + b.toString(16).toUpperCase();
+                } else {
+                    var blue_w = b.toString(16).toUpperCase();
+                }
+                document.getElementById('red-hex').innerHTML = red_w;
+                document.getElementById('green-hex').innerHTML = green_w;
+                document.getElementById('blue-hex').innerHTML = blue_w;
+
+                document.getElementById('final-code').innerHTML = 'rgb(' + r + ',' + g + ',' + b +')';
+                document.getElementById('final-code-hex').innerHTML = '#' + red_w + green_w + blue_w;
+                document.getElementById('final').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
+                document.getElementById('final-code').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
+                document.getElementById('final-code-hex').style.color = 'rgb(' + r + ',' + g + ',' + b +')';
+            }
+        </script>
+    </div>
+</div></body>
+
+</html>

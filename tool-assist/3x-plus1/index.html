@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>3x+1 猜想 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>3x+1 猜想</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <p>请输入一个非零整数以验证 3x+1 猜想。</p>
+        <p><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 0px; margin-bottom: 0px;" /><button id="searchbutton" onclick="submit()" disabled="disabled">无效</button></p>
+        <p id="input" style="display: none;"></p>
+        <p>&nbsp;</p>
+        <p id="final1">&nbsp;</p>
+        <p id="final2">&nbsp;</p>
+        <p id="final3">&nbsp;</p>
+        <p style="display: none;" id="iscalculating">0</p>
+        <p style="display: none;" id="num">0</p>
+        <p style="display: none;" id="finish">0</p>
+        <p id="timesa" style="display: none;">Calculation: <strong><span id="times">0</span></strong></p>
+        <p id="maxa" style="display: none;">Max: <strong><span id="max">0</span></strong></p>
+        <p id="mina" style="display: none;">Min: <strong><span id="min">0</span></strong></p>
+        <br />
+        <p id="positivechain" style="display: none;"><span id="postitle">Positive Chain:</span> <strong><span id="pos1">4</span></strong> -&gt; <strong><span id="pos2">2</span></strong> -&gt; <strong><span id="pos3">1</span></strong></p>
+        <p id="negaunuse" style="display: none;">Negative Chain A: <strong>-2</strong> -&gt; <strong>-1</strong></p>
+        <p id="negativechaina" style="display: none;"><span id="neg1title">Negative Chain A:</span> <strong><span id="nega1">-2</span></strong> -&gt; <strong><span id="nega2">-1</span></strong></p>
+        <p id="negbunuse" style="display: none;">Negative Chain B: <strong>-14</strong> -&gt; <strong>-7</strong> -&gt; <strong>-20</strong> -&gt; <strong>-10</strong> -&gt; <strong>-5</strong></p>
+        <p id="negativechainb" style="display: none;"><span id="neg2title">Negative Chain B:</span> <strong><span id="negb1">-14</span></strong> -&gt; <strong><span id="negb2">-7</span></strong> -&gt; <strong><span id="negb3">-20</span></strong> -&gt; <strong><span id="negb4">-10</span></strong> -&gt; <strong><span id="negb5">-5</span></strong></p>
+        <p id="negcunuse" style="display: none;">Negative Chain C: <strong>-50</strong> -&gt; <strong>-25</strong> -&gt; <strong>-74</strong> -&gt; <strong>-37</strong> -&gt; <strong>-110</strong> -&gt; <strong>-55</strong> -&gt; <strong>-164</strong> -&gt; <strong>-82</strong> -&gt; <strong>-41</strong> -&gt; <strong>-122</strong> -&gt; <strong>-61</strong> -&gt; <strong>-182</strong> -&gt; <strong>-91</strong> -&gt; <strong>-272</strong> -&gt; <strong>-136</strong> -&gt; <strong>-68</strong> -&gt; <strong>-34</strong> -&gt; <strong>-17</strong></p>
+        <p id="negativechainc" style="display: none;"><span id="neg3title">Negative Chain C:</span> <strong><span id="negc1">-50</span></strong> -&gt; <strong><span id="negc2">-25</span></strong> -&gt; <strong><span id="negc3">-74</span></strong> -&gt; <strong><span id="negc4">-37</span></strong> -&gt; <strong><span id="negc5">-110</span></strong> -&gt; <strong><span id="negc6">-55</span></strong> -&gt; <strong><span id="negc7">-164</span></strong> -&gt; <strong><span id="negc8">-82</span></strong> -&gt; <strong><span id="negc9">-41</span></strong> -&gt; <strong><span id="negc10">-122</span></strong> -&gt; <strong><span id="negc11">-61</span></strong> -&gt; <strong><span id="negc12">-182</span></strong> -&gt; <strong><span id="negc13">-91</span></strong> -&gt; <strong><span id="negc14">-272</span></strong> -&gt; <strong><span id="negc15">-136</span></strong> -&gt; <strong><span id="negc16">-68</span></strong> -&gt; <strong><span id="negc17">-34</span></strong> -&gt; <strong><span id="negc18">-17</span></strong></p>
+        <script>
+            const inputplace = document.querySelector("#ipt1");
+            inputplace.focus();
+            window.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+
+            function button() {
+                var ipt1 = document.getElementById("ipt1").value;
+                if (ipt1.toString().length < 1 || ipt1 % 1 != 0 || ipt1 == 0) {
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                } else {
+                    document.getElementById("searchbutton").disabled = false;
+                    document.getElementById("searchbutton").innerHTML = "计算";
+                }
+            }
+
+            function submit() {
+                var iscal = (parseInt(document.getElementById("iscalculating").innerHTML));
+                if (iscal == 0) {
+                    var ipt1 = document.getElementById("ipt1").value;
+                    document.getElementById("timesa").style = "display: block;";
+                    if (ipt1 >= 0) {
+                        document.getElementById("maxa").style = "display: block;";
+                    }
+                    if (ipt1 < 0) {
+                        document.getElementById("mina").style = "display: block;";
+                    }
+                    if (ipt1 % 2 == 1 || ipt1 % 2 == -1) {
+                        document.getElementById("final1").style = "color: #ff3333;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -&gt; ODD";
+                        var nextnum = ipt1 * 3 + 1;
+                        document.getElementById("final2").style = "color: #ff3333;";
+                        document.getElementById("final2").innerHTML = ipt1 + " * 3 + 1 = " + nextnum;
+                        document.getElementById("final3").style = "color: #ff3333;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    } else {
+                        document.getElementById("final1").style = "color: #00a8ff;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -&gt; EVEN";
+                        var nextnum = ipt1 / 2;
+                        document.getElementById("final2").style = "color: #00a8ff;";
+                        document.getElementById("final2").innerHTML = ipt1 + " / 2 = " + nextnum;
+                        document.getElementById("final3").style = "color: #00a8ff;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    }
+                    document.getElementById("iscalculating").innerHTML = "1";
+                    document.getElementById("num").innerHTML = nextnum;
+                    
+                    if (nextnum > ipt1) {
+                        document.getElementById("max").innerHTML = nextnum;
+                    } else {
+                        document.getElementById("max").innerHTML = ipt1;
+                    }
+
+                    if (nextnum < ipt1) {
+                        document.getElementById("min").innerHTML = nextnum;
+                    } else {
+                        document.getElementById("min").innerHTML = ipt1;
+                    }
+
+                    // document.getElementById("input").innerHTML = ipt1;
+                    // document.getElementById("input").style = "display: block;";
+                    cw("#ipt1").disabled = true;
+                } else {
+                    var ipt1 = (parseInt(document.getElementById("num").innerHTML));
+                    if (ipt1 % 2 == 1 || ipt1 % 2 == -1) {
+                        document.getElementById("final1").style = "color: #ff3333;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -&gt; ODD";
+                        var nextnum = ipt1 * 3 + 1;
+                        document.getElementById("final2").style = "color: #ff3333;";
+                        document.getElementById("final2").innerHTML = ipt1 + " * 3 + 1 = " + nextnum;
+                        document.getElementById("final3").style = "color: #ff3333;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    } else {
+                        document.getElementById("final1").style = "color: #00a8ff;";
+                        document.getElementById("final1").innerHTML = ipt1 + " -&gt; EVEN";
+                        var nextnum = ipt1 / 2;
+                        document.getElementById("final2").style = "color: #00a8ff;";
+                        document.getElementById("final2").innerHTML = ipt1 + " / 2 = " + nextnum;
+                        document.getElementById("final3").style = "color: #00a8ff;";
+                        document.getElementById("final3").innerHTML = "<strong>" + nextnum + "</strong>";
+                    }
+                    document.getElementById("num").innerHTML = nextnum;
+                    var maxbefore = (parseInt(document.getElementById("max").innerHTML));
+                    if (nextnum > maxbefore) {
+                        document.getElementById("max").innerHTML = nextnum;
+                    }
+                    var minbefore = (parseInt(document.getElementById("min").innerHTML));
+                    if (nextnum < minbefore) {
+                        document.getElementById("min").innerHTML = nextnum;
+                    }
+                }
+
+                if (nextnum == 4 || nextnum == 2 || nextnum == -2 || nextnum == -14 || nextnum == -7 || nextnum == -20 || nextnum == -10 || nextnum == -50 || nextnum == -25 || nextnum == -74 || nextnum == -37 || nextnum == -110 || nextnum == -55 || nextnum == -164 || nextnum == -82 || nextnum == -41 || nextnum == -122 || nextnum == -61 || nextnum == -182 || nextnum == -91 || nextnum == -272 || nextnum == -136 || nextnum == -68 || nextnum == -34 || nextnum == -17) {
+                    document.getElementById("final3").style = "color: #ffa800;";
+                }
+                if (nextnum == 1 || nextnum == -1 || nextnum == -5 || nextnum == -17) {
+                    document.getElementById("final3").style = "color: #00dd00;";
+                }
+
+                var firstnum = document.getElementById("ipt1").value;
+                if (firstnum >= 0) {
+                    document.getElementById("positivechain").style = "display: block;";
+                    if (nextnum == 4) {
+                        document.getElementById("postitle").style = "color: #00dd00;";
+                        document.getElementById("pos1").style = "color: #ffa800;";
+                        document.getElementById("pos2").style = "color: #666666;";
+                        document.getElementById("pos3").style = "color: #666666;";
+                    }
+                    if (nextnum == 2) {
+                        document.getElementById("postitle").style = "color: #00dd00;";
+                        document.getElementById("pos1").style = "color: #666666;";
+                        document.getElementById("pos2").style = "color: #ffa800;";
+                        document.getElementById("pos3").style = "color: #666666;";
+                    }
+                    if (nextnum == 1) {
+                        document.getElementById("postitle").style = "color: #00dd00;";
+                        document.getElementById("pos1").style = "color: #666666;";
+                        document.getElementById("pos2").style = "color: #666666;";
+                        document.getElementById("pos3").style = "color: #00dd00;";
+                    }
+                }
+                if (firstnum < 0) {
+                    document.getElementById("negativechaina").style = "display: block;";
+                    document.getElementById("negativechainb").style = "display: block;";
+                    document.getElementById("negativechainc").style = "display: block;";
+                    if (nextnum == -2 || nextnum == -1) {
+                        document.getElementById("neg1title").style = "color: #00dd00;";
+                        document.getElementById("negativechainb").style = "display: none;";
+                        document.getElementById("negativechainc").style = "display: none;";
+                        document.getElementById("negbunuse").style = "display: block; color: var(--gray);";
+                        document.getElementById("negcunuse").style = "display: block; color: var(--gray);";
+                        if (nextnum == -2) {
+                            document.getElementById("nega1").style = "color: #ffa800;";
+                            document.getElementById("nega2").style = "color: #666666;";
+                        }
+                        if (nextnum == -1) {
+                            document.getElementById("nega1").style = "color: #666666;";
+                            document.getElementById("nega2").style = "color: #00dd00;";
+                        }
+                    }
+                    if (nextnum == -14 || nextnum == -7 || nextnum == -20 || nextnum == -10 || nextnum == -5) {
+                        document.getElementById("neg2title").style = "color: #00dd00;";
+                        document.getElementById("negativechaina").style = "display: none;";
+                        document.getElementById("negativechainc").style = "display: none;";
+                        document.getElementById("negaunuse").style = "display: block; color: var(--gray);";
+                        document.getElementById("negcunuse").style = "display: block; color: var(--gray);";
+                        if (nextnum == -14) {
+                            document.getElementById("negb1").style = "color: #ffa800;";
+                            document.getElementById("negb2").style = "color: #666666;";
+                            document.getElementById("negb3").style = "color: #666666;";
+                            document.getElementById("negb4").style = "color: #666666;";
+                            document.getElementById("negb5").style = "color: #666666;";
+                        }
+                        if (nextnum == -7) {
+                            document.getElementById("negb1").style = "color: #666666;";
+                            document.getElementById("negb2").style = "color: #ffa800;";
+                            document.getElementById("negb3").style = "color: #666666;";
+                            document.getElementById("negb4").style = "color: #666666;";
+                            document.getElementById("negb5").style = "color: #666666;";
+                        }
+                        if (nextnum == -20) {
+                            document.getElementById("negb1").style = "color: #666666;";
+                            document.getElementById("negb2").style = "color: #666666;";
+                            document.getElementById("negb3").style = "color: #ffa800;";
+                            document.getElementById("negb4").style = "color: #666666;";
+                            document.getElementById("negb5").style = "color: #666666;";
+                        }
+                        if (nextnum == -10) {
+                            document.getElementById("negb1").style = "color: #666666;";
+                            document.getElementById("negb2").style = "color: #666666;";
+                            document.getElementById("negb3").style = "color: #666666;";
+                            document.getElementById("negb4").style = "color: #ffa800;";
+                            document.getElementById("negb5").style = "color: #666666;";
+                        }
+                        if (nextnum == -5) {
+                            document.getElementById("negb1").style = "color: #666666;";
+                            document.getElementById("negb2").style = "color: #666666;";
+                            document.getElementById("negb3").style = "color: #666666;";
+                            document.getElementById("negb4").style = "color: #666666;";
+                            document.getElementById("negb5").style = "color: #00dd00;";
+                        }
+                    }
+                    if (nextnum == -50 || nextnum == -25 || nextnum == -74 || nextnum == -37 || nextnum == -110 || nextnum == -55 || nextnum == -164 || nextnum == -82 || nextnum == -41 || nextnum == -122 || nextnum == -61 || nextnum == -182 || nextnum == -91 || nextnum == -272 || nextnum == -136 || nextnum == -68 || nextnum == -34 || nextnum == -17) {
+                        document.getElementById("neg3title").style = "color: #00dd00;";
+                        document.getElementById("negativechaina").style = "display: none;";
+                        document.getElementById("negativechainb").style = "display: none;";
+                        document.getElementById("negaunuse").style = "display: block; color: var(--gray);";
+                        document.getElementById("negbunuse").style = "display: block; color: var(--gray);";
+                        if (nextnum == -50) {
+                            document.getElementById("negc1").style = "color: #ffa800;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -25) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #ffa800;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -74) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #ffa800;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -37) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #ffa800;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -110) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #ffa800;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -55) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #ffa800;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -164) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #ffa800;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -82) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #ffa800;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -41) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #ffa800;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -122) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #ffa800;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -61) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #ffa800;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -182) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #ffa800;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -91) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #ffa800;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -272) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #ffa800;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -136) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #ffa800;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -68) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #ffa800;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -34) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #ffa800;";
+                            document.getElementById("negc18").style = "color: #666666;";
+                        }
+                        if (nextnum == -17) {
+                            document.getElementById("negc1").style = "color: #666666;";
+                            document.getElementById("negc2").style = "color: #666666;";
+                            document.getElementById("negc3").style = "color: #666666;";
+                            document.getElementById("negc4").style = "color: #666666;";
+                            document.getElementById("negc5").style = "color: #666666;";
+                            document.getElementById("negc6").style = "color: #666666;";
+                            document.getElementById("negc7").style = "color: #666666;";
+                            document.getElementById("negc8").style = "color: #666666;";
+                            document.getElementById("negc9").style = "color: #666666;";
+                            document.getElementById("negc10").style = "color: #666666;";
+                            document.getElementById("negc11").style = "color: #666666;";
+                            document.getElementById("negc12").style = "color: #666666;";
+                            document.getElementById("negc13").style = "color: #666666;";
+                            document.getElementById("negc14").style = "color: #666666;";
+                            document.getElementById("negc15").style = "color: #666666;";
+                            document.getElementById("negc16").style = "color: #666666;";
+                            document.getElementById("negc17").style = "color: #666666;";
+                            document.getElementById("negc18").style = "color: #00dd00;";
+                        }
+                    }
+                }
+
+                var finishcheck = (parseInt(document.getElementById("finish").innerHTML));
+                if (finishcheck == 0) {
+                    var timescount = (parseInt(document.getElementById("times").innerHTML));
+                    var timescount = timescount + 1;
+                    document.getElementById("times").innerHTML = timescount;
+                }
+                if (nextnum == 1 || nextnum == -1 || nextnum == -5 || nextnum == -17) {
+                    document.getElementById("finish").innerHTML = "1";
+                    document.getElementById("timesa").style = "color: #00dd00;";
+                    document.getElementById("times").style = "color: #00dd00;";
+                }
+            }
+        </script>
+    </div>
+</div></div></body>
+
+</html>

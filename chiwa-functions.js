@@ -44,7 +44,7 @@
  * @since xts.24-5-19
  * @version 25-1-21
 */
-const chiwa = "25-6-1";
+const chiwa = "25-6-9";
 // Then update the backup in /old/js/.
 
 // GLOBAL USAGE
@@ -210,53 +210,46 @@ function siteId() {
 }
 
 /**
- * Auto set the navigation bar for every pages loaded. (Manual execution isn't required when no special settings needed)
- * [TIP] Isn't used now temporarily. May be deployed in future.
- * @param {Object} arg - Special settings for the bar
- * @example navigate({ unavailable: [1] }) // Link for 1st index is unavailable
+ * Auto set the navigation bar for every pages loaded.
+ * @example navigate() // Set the navigation bar automatically (You don't need to execute this function manually in most conditions.)
  * @since 25-5-16
- * @version 25-5-16
+ * @version 25-6-9
  */
-function navigate(arg = {}) {
+async function navigate() {
     if (!cw("#cw-nav").el || cw("#cw-nav").html != "") { return; }
 
-    const dict = {
-        mc: "Minecraft",
-        opc: "Old Players Club"
-    };
-    
     const page = {
         dir: ["ChiwaInori.top", ...window.location.href.split("/").slice(3, -1)],
         file: String(window.location.href.split("/").slice(-1)),
         isIndex: ["", "index.html"].includes(String(window.location.href.split("/").slice(-1)))
     };
-    log(page);
+
+    const dir = await JSON.parse(await (await fetch("/dir.json")).text());
 
     let navHtml = "";
 
     page.dir.forEach((path, index) => {
-        const name = dict[path] || path;
+        const name = dir.dict[path] || path;
         const notLast = index != page.dir.length - 1;
-        const dirBack = "../".repeat(page.dir.length - index - Number(page.isIndex));
+        const dirBack = "../".repeat(page.dir.length - index) + (!page.isIndex ? `../${path}` : "");
 
-        if (!arg.unavailable?.includes(index)) {
-            navHtml += notLast ? `<a href="${dirBack}">${name}</a> &gt; `
-                : page.isIndex ? `<span>${name}</span>`
-                    : `<a href="${dirBack}">${name}</a> `;
-        } else {
+        if (dir.ignore.includes(path)) {
             navHtml += notLast ? `<span>${name}</span> &gt; `
                 : page.isIndex ? `<span>${name}</span>`
                     : `<span>${name}</span> `;
+        } else {
+            navHtml += notLast ? `<a href="${dirBack}">${name}</a> &gt; `
+                : page.isIndex ? `<span>${name}</span>`
+                    : `<a href="${dirBack}">${name}</a> `;
         }
     });
     if (!page.isIndex) {
         navHtml += `<span>@ ${page.file}</span>`;
     }
-    log(navHtml);
 
     cw("#cw-nav").html = `<h6>${navHtml}</h6>`;
 }
-// Temp: window.addEventListener("load", navigate);
+window.addEventListener("load", navigate);
 
 /**
  * Pop up a seizure warning in page.

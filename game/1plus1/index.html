@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>1+1 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>1+1</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <p id="p1buttonclose" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="acbutton1" onclick="ac()" style="margin: 0px 0px 0px 0px;" disabled="disabled">+C</button><button id="adbutton1" onclick="ad()" style="margin: 0px 0px 0px 0px;" disabled="disabled">+D</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="bcbutton1" onclick="bc()" style="margin: 0px 0px 0px 0px;" disabled="disabled">+C</button><button id="bdbutton1" onclick="bd()" style="margin: 0px 0px 0px 0px;" disabled="disabled">+D</button></p>
+        <p id="p1buttonopen">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="acbutton" onclick="ac()" style="margin: 0px 0px 0px 0px;">+C</button><button id="adbutton" onclick="ad()" style="margin: 0px 0px 0px 0px;">+D</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="bcbutton" onclick="bc()" style="margin: 0px 0px 0px 0px;">+C</button><button id="bdbutton" onclick="bd()" style="margin: 0px 0px 0px 0px;">+D</button></p>
+        <p><span id="p1status" style="color: #00dd00;">我方回合</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="a">1</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="b">1</span></strong></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B</p>
+        <br />
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</p>
+        <p><span id="p2status">对方回合</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="c">1</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span id="d">1</span></strong></p>
+        <p id="p2buttonopen">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="cabutton" onclick="ca()" style="margin: 0px 0px 0px 0px;" disabled="disbaled">+A</button><button id="cbbutton" onclick="cb()" style="margin: 0px 0px 0px 0px;" disabled="disbaled">+B</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="dabutton" onclick="da()" style="margin: 0px 0px 0px 0px;" disabled="disbaled">+A</button><button id="dbbutton" onclick="db()" style="margin: 0px 0px 0px 0px;"disabled="disbaled">+B</button></p>
+        <p id="p2buttonclose" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="cabutton1" onclick="ca()" style="margin: 0px 0px 0px 0px;" disabled="disbaled">+A</button><button id="cbbutton1" onclick="cb()" style="margin: 0px 0px 0px 0px;" disabled="disbaled">+B</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="dabutton1" onclick="da()" style="margin: 0px 0px 0px 0px;" disabled="disbaled">+A</button><button id="dbbutton1" onclick="db()" style="margin: 0px 0px 0px 0px;"disabled="disbaled">+B</button></p>
+        <br />
+        <br />
+        <p>胜利组合: 6 3; 6 4; 7 7; 8 8; 9 0; 0 0</p>
+        <br />
+        <br />
+        <p id="nofirecheck">放铳提示: <strong><span style="color: #dd0000;" onclick="openfirecheck()">OFF</span></strong></p>
+        <p id="yesfirecheck" style="display: none;">放铳提示: <strong><span style="color: #00dd00;" onclick="closefirecheck()">ON</span></strong></p>
+        <p id="fire" style="display: none;">0</p>
+        <script>
+            function ac() {
+                var num_1 = (parseInt(document.getElementById("a").innerHTML));
+                var num_2 = (parseInt(document.getElementById("c").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("a").innerHTML = cal;
+                document.getElementById("acbutton").disabled = true;
+                document.getElementById("adbutton").disabled = true;
+                document.getElementById("bcbutton").disabled = true;
+                document.getElementById("bdbutton").disabled = true;
+                document.getElementById("cabutton").disabled = false;
+                document.getElementById("cbbutton").disabled = false;
+                document.getElementById("dabutton").disabled = false;
+                document.getElementById("dbbutton").disabled = false;
+                document.getElementById("p1status").innerHTML = "对方回合";
+                document.getElementById("p1status").style = "color: #666666;";
+                document.getElementById("p2status").innerHTML = "我方回合";
+                document.getElementById("p2status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function ad() {
+                var num_1 = (parseInt(document.getElementById("a").innerHTML));
+                var num_2 = (parseInt(document.getElementById("d").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("a").innerHTML = cal;
+                document.getElementById("acbutton").disabled = true;
+                document.getElementById("adbutton").disabled = true;
+                document.getElementById("bcbutton").disabled = true;
+                document.getElementById("bdbutton").disabled = true;
+                document.getElementById("cabutton").disabled = false;
+                document.getElementById("cbbutton").disabled = false;
+                document.getElementById("dabutton").disabled = false;
+                document.getElementById("dbbutton").disabled = false;
+                document.getElementById("p1status").innerHTML = "对方回合";
+                document.getElementById("p1status").style = "color: #666666;";
+                document.getElementById("p2status").innerHTML = "我方回合";
+                document.getElementById("p2status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function bc() {
+                var num_1 = (parseInt(document.getElementById("b").innerHTML));
+                var num_2 = (parseInt(document.getElementById("c").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("b").innerHTML = cal;
+                document.getElementById("acbutton").disabled = true;
+                document.getElementById("adbutton").disabled = true;
+                document.getElementById("bcbutton").disabled = true;
+                document.getElementById("bdbutton").disabled = true;
+                document.getElementById("cabutton").disabled = false;
+                document.getElementById("cbbutton").disabled = false;
+                document.getElementById("dabutton").disabled = false;
+                document.getElementById("dbbutton").disabled = false;
+                document.getElementById("p1status").innerHTML = "对方回合";
+                document.getElementById("p1status").style = "color: #666666;";
+                document.getElementById("p2status").innerHTML = "我方回合";
+                document.getElementById("p2status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function bd() {
+                var num_1 = (parseInt(document.getElementById("b").innerHTML));
+                var num_2 = (parseInt(document.getElementById("d").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("b").innerHTML = cal;
+                document.getElementById("acbutton").disabled = true;
+                document.getElementById("adbutton").disabled = true;
+                document.getElementById("bcbutton").disabled = true;
+                document.getElementById("bdbutton").disabled = true;
+                document.getElementById("cabutton").disabled = false;
+                document.getElementById("cbbutton").disabled = false;
+                document.getElementById("dabutton").disabled = false;
+                document.getElementById("dbbutton").disabled = false;
+                document.getElementById("p1status").innerHTML = "对方回合";
+                document.getElementById("p1status").style = "color: #666666;";
+                document.getElementById("p2status").innerHTML = "我方回合";
+                document.getElementById("p2status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function ca() {
+                var num_1 = (parseInt(document.getElementById("c").innerHTML));
+                var num_2 = (parseInt(document.getElementById("a").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("c").innerHTML = cal;
+                document.getElementById("acbutton").disabled = false;
+                document.getElementById("adbutton").disabled = false;
+                document.getElementById("bcbutton").disabled = false;
+                document.getElementById("bdbutton").disabled = false;
+                document.getElementById("cabutton").disabled = true;
+                document.getElementById("cbbutton").disabled = true;
+                document.getElementById("dabutton").disabled = true;
+                document.getElementById("dbbutton").disabled = true;
+                document.getElementById("p2status").innerHTML = "对方回合";
+                document.getElementById("p2status").style = "color: #666666;";
+                document.getElementById("p1status").innerHTML = "我方回合";
+                document.getElementById("p1status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function cb() {
+                var num_1 = (parseInt(document.getElementById("c").innerHTML));
+                var num_2 = (parseInt(document.getElementById("b").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("c").innerHTML = cal;
+                document.getElementById("acbutton").disabled = false;
+                document.getElementById("adbutton").disabled = false;
+                document.getElementById("bcbutton").disabled = false;
+                document.getElementById("bdbutton").disabled = false;
+                document.getElementById("cabutton").disabled = true;
+                document.getElementById("cbbutton").disabled = true;
+                document.getElementById("dabutton").disabled = true;
+                document.getElementById("dbbutton").disabled = true;
+                document.getElementById("p2status").innerHTML = "对方回合";
+                document.getElementById("p2status").style = "color: #666666;";
+                document.getElementById("p1status").innerHTML = "我方回合";
+                document.getElementById("p1status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function da() {
+                var num_1 = (parseInt(document.getElementById("d").innerHTML));
+                var num_2 = (parseInt(document.getElementById("a").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("d").innerHTML = cal;
+                document.getElementById("acbutton").disabled = false;
+                document.getElementById("adbutton").disabled = false;
+                document.getElementById("bcbutton").disabled = false;
+                document.getElementById("bdbutton").disabled = false;
+                document.getElementById("cabutton").disabled = true;
+                document.getElementById("cbbutton").disabled = true;
+                document.getElementById("dabutton").disabled = true;
+                document.getElementById("dbbutton").disabled = true;
+                document.getElementById("p2status").innerHTML = "对方回合";
+                document.getElementById("p2status").style = "color: #666666;";
+                document.getElementById("p1status").innerHTML = "我方回合";
+                document.getElementById("p1status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function db() {
+                var num_1 = (parseInt(document.getElementById("d").innerHTML));
+                var num_2 = (parseInt(document.getElementById("b").innerHTML));
+                var cal = num_1 + num_2;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                document.getElementById("d").innerHTML = cal;
+                document.getElementById("acbutton").disabled = false;
+                document.getElementById("adbutton").disabled = false;
+                document.getElementById("bcbutton").disabled = false;
+                document.getElementById("bdbutton").disabled = false;
+                document.getElementById("cabutton").disabled = true;
+                document.getElementById("cbbutton").disabled = true;
+                document.getElementById("dabutton").disabled = true;
+                document.getElementById("dbbutton").disabled = true;
+                document.getElementById("p2status").innerHTML = "对方回合";
+                document.getElementById("p2status").style = "color: #666666;";
+                document.getElementById("p1status").innerHTML = "我方回合";
+                document.getElementById("p1status").style = "color: #00dd00;";
+                document.getElementById("acbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                checkvictory();
+            }
+
+            function checkvictory() {
+                var fire = (parseInt(document.getElementById("fire").innerHTML));
+                if (fire == 1) {
+                    firecheck();
+                }
+                var num_a = (parseInt(document.getElementById("a").innerHTML));
+                var num_b = (parseInt(document.getElementById("b").innerHTML));
+                var num_c = (parseInt(document.getElementById("c").innerHTML));
+                var num_d = (parseInt(document.getElementById("d").innerHTML));
+                if (num_a == 6 && num_b == 3 || num_a == 3 && num_b == 6 || num_a == 6 && num_b == 4 || num_a == 4 && num_b == 6 || num_a == 7 && num_b == 7 || num_a == 8 && num_b == 8 || num_a == 9 && num_b == 0 || num_a == 0 && num_b == 9 || num_a == 0 && num_b == 0) {
+                    document.getElementById("a").style = "color: #00dd00;";
+                    document.getElementById("b").style = "color: #00dd00;";
+                    document.getElementById("c").style = "color: #dd0000;";
+                    document.getElementById("d").style = "color: #dd0000;";
+                    document.getElementById("p1status").innerHTML = "获&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;胜";
+                    document.getElementById("p1status").style = "color: #00dd00;";
+                    document.getElementById("p2status").innerHTML = "失&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;败";
+                    document.getElementById("p2status").style = "color: #dd0000;";
+                    document.getElementById("acbutton").disabled = true;
+                    document.getElementById("adbutton").disabled = true;
+                    document.getElementById("bcbutton").disabled = true;
+                    document.getElementById("bdbutton").disabled = true;
+                    document.getElementById("cabutton").disabled = true;
+                    document.getElementById("cbbutton").disabled = true;
+                    document.getElementById("dabutton").disabled = true;
+                    document.getElementById("dbbutton").disabled = true;
+                    document.getElementById("p1buttonopen").style = "display: none;";
+                    document.getElementById("p1buttonclose").style = "display: block;";
+                    document.getElementById("p2buttonopen").style = "display: none;";
+                    document.getElementById("p2buttonclose").style = "display: block;";
+                }
+                if (num_c == 6 && num_d == 3 || num_c == 3 && num_d == 6 || num_c == 6 && num_d == 4 || num_c == 4 && num_d == 6 || num_c == 7 && num_d == 7 || num_c == 8 && num_d == 8 || num_c == 9 && num_d == 0 || num_c == 0 && num_d == 9 || num_c == 0 && num_d == 0) {
+                    document.getElementById("c").style = "color: #00dd00;";
+                    document.getElementById("d").style = "color: #00dd00;";
+                    document.getElementById("a").style = "color: #dd0000;";
+                    document.getElementById("b").style = "color: #dd0000;";
+                    document.getElementById("p2status").innerHTML = "获&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;胜";
+                    document.getElementById("p2status").style = "color: #00dd00;";
+                    document.getElementById("p1status").innerHTML = "失&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;败";
+                    document.getElementById("p1status").style = "color: #dd0000;";
+                    document.getElementById("acbutton").disabled = true;
+                    document.getElementById("adbutton").disabled = true;
+                    document.getElementById("bcbutton").disabled = true;
+                    document.getElementById("bdbutton").disabled = true;
+                    document.getElementById("cabutton").disabled = true;
+                    document.getElementById("cbbutton").disabled = true;
+                    document.getElementById("dabutton").disabled = true;
+                    document.getElementById("dbbutton").disabled = true;
+                    document.getElementById("p1buttonopen").style = "display: none;";
+                    document.getElementById("p1buttonclose").style = "display: block;";
+                    document.getElementById("p2buttonopen").style = "display: none;";
+                    document.getElementById("p2buttonclose").style = "display: block;";
+                }
+            }
+
+            function openfirecheck() {
+                document.getElementById("nofirecheck").style = "display: none;";
+                document.getElementById("yesfirecheck").style = "display: block;";
+                document.getElementById("fire").innerHTML = "1";
+                firecheck()
+            }
+
+            function closefirecheck() {
+                document.getElementById("nofirecheck").style = "display: block;";
+                document.getElementById("yesfirecheck").style = "display: none;";
+                document.getElementById("fire").innerHTML = "0";
+                document.getElementById("acbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: #000000; margin: 0px 0px 0px 0px;";
+                if (document.getElementById("p1status").innerHTML == "我方回合") {
+                    document.getElementById("cabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("cbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("dabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("dbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                } else {
+                    document.getElementById("acbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("adbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("bcbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("bdbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                }
+            }
+
+            function firecheck() {
+                var num_a = (parseInt(document.getElementById("a").innerHTML));
+                var num_b = (parseInt(document.getElementById("b").innerHTML));
+                var num_c = (parseInt(document.getElementById("c").innerHTML));
+                var num_d = (parseInt(document.getElementById("d").innerHTML));
+                document.getElementById("acbutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("adbutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("bcbutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("bdbutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("cabutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("cbbutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("dabutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+                document.getElementById("dbbutton").style = "color: #00a8ff; margin: 0px 0px 0px 0px;";
+
+                // 主动放铳检测 (若进行了一个操作后对面能用这个操作的得数胜利，则这个操作变红)
+
+                // AC
+                var cal_1 = num_a + num_c;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_c;
+                var option_2 = cal_1 + num_d;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_d == 3 || option_1 == 3 && num_d == 6 || option_1 == 6 && num_d == 4 || option_1 == 4 && num_d == 6 || option_1 == 7 && num_d == 7 || option_1 == 8 && num_d == 8 || option_1 == 9 && num_d == 0 || option_1 == 0 && num_d == 9 || option_1 == 0 && num_d == 0) {
+                    document.getElementById("acbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_c == 3 || option_2 == 3 && num_c == 6 || option_2 == 6 && num_c == 4 || option_2 == 4 && num_c == 6 || option_2 == 7 && num_c == 7 || option_2 == 8 && num_c == 8 || option_2 == 9 && num_c == 0 || option_2 == 0 && num_c == 9 || option_2 == 0 && num_c == 0) {
+                    document.getElementById("acbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // AD
+                var cal_1 = num_a + num_d;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_c;
+                var option_2 = cal_1 + num_d;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_d == 3 || option_1 == 3 && num_d == 6 || option_1 == 6 && num_d == 4 || option_1 == 4 && num_d == 6 || option_1 == 7 && num_d == 7 || option_1 == 8 && num_d == 8 || option_1 == 9 && num_d == 0 || option_1 == 0 && num_d == 9 || option_1 == 0 && num_d == 0) {
+                    document.getElementById("adbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_c == 3 || option_2 == 3 && num_c == 6 || option_2 == 6 && num_c == 4 || option_2 == 4 && num_c == 6 || option_2 == 7 && num_c == 7 || option_2 == 8 && num_c == 8 || option_2 == 9 && num_c == 0 || option_2 == 0 && num_c == 9 || option_2 == 0 && num_c == 0) {
+                    document.getElementById("adbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // BC
+                var cal_1 = num_b + num_c;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_c;
+                var option_2 = cal_1 + num_d;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_d == 3 || option_1 == 3 && num_d == 6 || option_1 == 6 && num_d == 4 || option_1 == 4 && num_d == 6 || option_1 == 7 && num_d == 7 || option_1 == 8 && num_d == 8 || option_1 == 9 && num_d == 0 || option_1 == 0 && num_d == 9 || option_1 == 0 && num_d == 0) {
+                    document.getElementById("bcbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_c == 3 || option_2 == 3 && num_c == 6 || option_2 == 6 && num_c == 4 || option_2 == 4 && num_c == 6 || option_2 == 7 && num_c == 7 || option_2 == 8 && num_c == 8 || option_2 == 9 && num_c == 0 || option_2 == 0 && num_c == 9 || option_2 == 0 && num_c == 0) {
+                    document.getElementById("bcbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // BD
+                var cal_1 = num_b + num_d;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_c;
+                var option_2 = cal_1 + num_d;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_d == 3 || option_1 == 3 && num_d == 6 || option_1 == 6 && num_d == 4 || option_1 == 4 && num_d == 6 || option_1 == 7 && num_d == 7 || option_1 == 8 && num_d == 8 || option_1 == 9 && num_d == 0 || option_1 == 0 && num_d == 9 || option_1 == 0 && num_d == 0) {
+                    document.getElementById("bdbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_c == 3 || option_2 == 3 && num_c == 6 || option_2 == 6 && num_c == 4 || option_2 == 4 && num_c == 6 || option_2 == 7 && num_c == 7 || option_2 == 8 && num_c == 8 || option_2 == 9 && num_c == 0 || option_2 == 0 && num_c == 9 || option_2 == 0 && num_c == 0) {
+                    document.getElementById("bdbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // CA
+                var cal_1 = num_c + num_a;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_a;
+                var option_2 = cal_1 + num_b;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_b == 3 || option_1 == 3 && num_b == 6 || option_1 == 6 && num_b == 4 || option_1 == 4 && num_b == 6 || option_1 == 7 && num_b == 7 || option_1 == 8 && num_b == 8 || option_1 == 9 && num_b == 0 || option_1 == 0 && num_b == 9 || option_1 == 0 && num_b == 0) {
+                    document.getElementById("cabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_a == 3 || option_2 == 3 && num_a == 6 || option_2 == 6 && num_a == 4 || option_2 == 4 && num_a == 6 || option_2 == 7 && num_a == 7 || option_2 == 8 && num_a == 8 || option_2 == 9 && num_a == 0 || option_2 == 0 && num_a == 9 || option_2 == 0 && num_a == 0) {
+                    document.getElementById("cabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // CB
+                var cal_1 = num_c + num_b;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_a;
+                var option_2 = cal_1 + num_b;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_b == 3 || option_1 == 3 && num_b == 6 || option_1 == 6 && num_b == 4 || option_1 == 4 && num_b == 6 || option_1 == 7 && num_b == 7 || option_1 == 8 && num_b == 8 || option_1 == 9 && num_b == 0 || option_1 == 0 && num_b == 9 || option_1 == 0 && num_b == 0) {
+                    document.getElementById("cbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_a == 3 || option_2 == 3 && num_a == 6 || option_2 == 6 && num_a == 4 || option_2 == 4 && num_a == 6 || option_2 == 7 && num_a == 7 || option_2 == 8 && num_a == 8 || option_2 == 9 && num_a == 0 || option_2 == 0 && num_a == 9 || option_2 == 0 && num_a == 0) {
+                    document.getElementById("cbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // DA
+                var cal_1 = num_d + num_a;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_a;
+                var option_2 = cal_1 + num_b;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_b == 3 || option_1 == 3 && num_b == 6 || option_1 == 6 && num_b == 4 || option_1 == 4 && num_b == 6 || option_1 == 7 && num_b == 7 || option_1 == 8 && num_b == 8 || option_1 == 9 && num_b == 0 || option_1 == 0 && num_b == 9 || option_1 == 0 && num_b == 0) {
+                    document.getElementById("dabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_a == 3 || option_2 == 3 && num_a == 6 || option_2 == 6 && num_a == 4 || option_2 == 4 && num_a == 6 || option_2 == 7 && num_a == 7 || option_2 == 8 && num_a == 8 || option_2 == 9 && num_a == 0 || option_2 == 0 && num_a == 9 || option_2 == 0 && num_a == 0) {
+                    document.getElementById("dabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                // DB
+                var cal_1 = num_d + num_b;
+                if (cal_1 >= 10) {
+                    var cal_1 = cal_1 - 10;
+                }
+                var option_1 = cal_1 + num_a;
+                var option_2 = cal_1 + num_b;
+                if (option_1 >= 10) {
+                    var option_1 = option_1 - 10;
+                }
+                if (option_2 >= 10) {
+                    var option_2 = option_2 - 10;
+                }
+                if (option_1 == 6 && num_b == 3 || option_1 == 3 && num_b == 6 || option_1 == 6 && num_b == 4 || option_1 == 4 && num_b == 6 || option_1 == 7 && num_b == 7 || option_1 == 8 && num_b == 8 || option_1 == 9 && num_b == 0 || option_1 == 0 && num_b == 9 || option_1 == 0 && num_b == 0) {
+                    document.getElementById("dbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+                if (option_2 == 6 && num_a == 3 || option_2 == 3 && num_a == 6 || option_2 == 6 && num_a == 4 || option_2 == 4 && num_a == 6 || option_2 == 7 && num_a == 7 || option_2 == 8 && num_a == 8 || option_2 == 9 && num_a == 0 || option_2 == 0 && num_a == 9 || option_2 == 0 && num_a == 0) {
+                    document.getElementById("dbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // 非主动放铳检测 (若对面要用C加上A就能胜利，那么此时B的两个操作应该全红，即要把A换掉让对面赢不了)
+
+                // AC
+                var cal = num_a + num_c;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_b == 3 || cal == 3 && num_b == 6 || cal == 6 && num_b == 4 || cal == 4 && num_b == 6 || cal == 7 && num_b == 7 || cal == 8 && num_b == 8 || cal == 9 && num_b == 0 || cal == 0 && num_b == 9 || cal == 0 && num_b == 0) {
+                    document.getElementById("dabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("dbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // AD
+                var cal = num_a + num_d;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_b == 3 || cal == 3 && num_b == 6 || cal == 6 && num_b == 4 || cal == 4 && num_b == 6 || cal == 7 && num_b == 7 || cal == 8 && num_b == 8 || cal == 9 && num_b == 0 || cal == 0 && num_b == 9 || cal == 0 && num_b == 0) {
+                    document.getElementById("cabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("cbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // BC
+                var cal = num_b + num_c;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_a == 3 || cal == 3 && num_a == 6 || cal == 6 && num_a == 4 || cal == 4 && num_a == 6 || cal == 7 && num_a == 7 || cal == 8 && num_a == 8 || cal == 9 && num_a == 0 || cal == 0 && num_a == 9 || cal == 0 && num_a == 0) {
+                    document.getElementById("dabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("dbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // BD
+                var cal = num_b + num_d;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_a == 3 || cal == 3 && num_a == 6 || cal == 6 && num_a == 4 || cal == 4 && num_a == 6 || cal == 7 && num_a == 7 || cal == 8 && num_a == 8 || cal == 9 && num_a == 0 || cal == 0 && num_a == 9 || cal == 0 && num_a == 0) {
+                    document.getElementById("cabutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("cbbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // CA
+                var cal = num_c + num_a;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_d == 3 || cal == 3 && num_d == 6 || cal == 6 && num_d == 4 || cal == 4 && num_d == 6 || cal == 7 && num_d == 7 || cal == 8 && num_d == 8 || cal == 9 && num_d == 0 || cal == 0 && num_d == 9 || cal == 0 && num_d == 0) {
+                    document.getElementById("bcbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("bdbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // CB
+                var cal = num_c + num_b;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_d == 3 || cal == 3 && num_d == 6 || cal == 6 && num_d == 4 || cal == 4 && num_d == 6 || cal == 7 && num_d == 7 || cal == 8 && num_d == 8 || cal == 9 && num_d == 0 || cal == 0 && num_d == 9 || cal == 0 && num_d == 0) {
+                    document.getElementById("acbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("adbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // DA
+                var cal = num_d + num_a;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_c == 3 || cal == 3 && num_c == 6 || cal == 6 && num_c == 4 || cal == 4 && num_c == 6 || cal == 7 && num_c == 7 || cal == 8 && num_c == 8 || cal == 9 && num_c == 0 || cal == 0 && num_c == 9 || cal == 0 && num_c == 0) {
+                    document.getElementById("bcbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("bdbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // DB
+                var cal = num_d + num_b;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_c == 3 || cal == 3 && num_c == 6 || cal == 6 && num_c == 4 || cal == 4 && num_c == 6 || cal == 7 && num_c == 7 || cal == 8 && num_c == 8 || cal == 9 && num_c == 0 || cal == 0 && num_c == 9 || cal == 0 && num_c == 0) {
+                    document.getElementById("acbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                    document.getElementById("adbutton").style = "color: #dd0000; margin: 0px 0px 0px 0px;";
+                }
+
+                // 胜利提示 (点了之后能马上胜利)
+
+                // AC
+                var cal = num_a + num_c;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_b == 3 || cal == 3 && num_b == 6 || cal == 6 && num_b == 4 || cal == 4 && num_b == 6 || cal == 7 && num_b == 7 || cal == 8 && num_b == 8 || cal == 9 && num_b == 0 || cal == 0 && num_b == 9 || cal == 0 && num_b == 0) {
+                    document.getElementById("acbutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // AD
+                var cal = num_a + num_d;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_b == 3 || cal == 3 && num_b == 6 || cal == 6 && num_b == 4 || cal == 4 && num_b == 6 || cal == 7 && num_b == 7 || cal == 8 && num_b == 8 || cal == 9 && num_b == 0 || cal == 0 && num_b == 9 || cal == 0 && num_b == 0) {
+                    document.getElementById("adbutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // BC
+                var cal = num_b + num_c;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_a == 3 || cal == 3 && num_a == 6 || cal == 6 && num_a == 4 || cal == 4 && num_a == 6 || cal == 7 && num_a == 7 || cal == 8 && num_a == 8 || cal == 9 && num_a == 0 || cal == 0 && num_a == 9 || cal == 0 && num_a == 0) {
+                    document.getElementById("bcbutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // BD
+                var cal = num_b + num_d;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_a == 3 || cal == 3 && num_a == 6 || cal == 6 && num_a == 4 || cal == 4 && num_a == 6 || cal == 7 && num_a == 7 || cal == 8 && num_a == 8 || cal == 9 && num_a == 0 || cal == 0 && num_a == 9 || cal == 0 && num_a == 0) {
+                    document.getElementById("bdbutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // CA
+                var cal = num_c + num_a;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_d == 3 || cal == 3 && num_d == 6 || cal == 6 && num_d == 4 || cal == 4 && num_d == 6 || cal == 7 && num_d == 7 || cal == 8 && num_d == 8 || cal == 9 && num_d == 0 || cal == 0 && num_d == 9 || cal == 0 && num_d == 0) {
+                    document.getElementById("cabutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // CB
+                var cal = num_c + num_b;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_d == 3 || cal == 3 && num_d == 6 || cal == 6 && num_d == 4 || cal == 4 && num_d == 6 || cal == 7 && num_d == 7 || cal == 8 && num_d == 8 || cal == 9 && num_d == 0 || cal == 0 && num_d == 9 || cal == 0 && num_d == 0) {
+                    document.getElementById("cbbutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // DA
+                var cal = num_d + num_a;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_c == 3 || cal == 3 && num_c == 6 || cal == 6 && num_c == 4 || cal == 4 && num_c == 6 || cal == 7 && num_c == 7 || cal == 8 && num_c == 8 || cal == 9 && num_c == 0 || cal == 0 && num_c == 9 || cal == 0 && num_c == 0) {
+                    document.getElementById("dabutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                // DB
+                var cal = num_d + num_b;
+                if (cal >= 10) {
+                    var cal = cal - 10;
+                }
+                if (cal == 6 && num_c == 3 || cal == 3 && num_c == 6 || cal == 6 && num_c == 4 || cal == 4 && num_c == 6 || cal == 7 && num_c == 7 || cal == 8 && num_c == 8 || cal == 9 && num_c == 0 || cal == 0 && num_c == 9 || cal == 0 && num_c == 0) {
+                    document.getElementById("dbbutton").style = "color: #00aa00; margin: 0px 0px 0px 0px;";
+                }
+
+                if (document.getElementById("p1status").innerHTML == "我方回合") {
+                    document.getElementById("cabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("cbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("dabutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("dbbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                } else {
+                    document.getElementById("acbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("adbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("bcbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                    document.getElementById("bdbutton").style = "color: var(--gray); margin: 0px 0px 0px 0px;";
+                }
+            }
+        </script>
+    </div>
+</div></body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>密码生成器 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>密码生成器</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <p>下面提供了不同密码生成器的密码风格生成，你可以根据需要来选择。</p>
+        <p style="color: var(--red)">注意! 此生成器不检查是否存在常用词语。请自行检查生成的密码。</p>
+        <table>
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            <tr>
+                <th>Apple</th>
+                <th id="result-apple"></th>
+                <th><button onclick="copy('apple')">复制</button></th>
+                <th><button onclick="gen('apple')">生成</button></th>
+            </tr>
+            <tr>
+                <th>Microsoft</th>
+                <th id="result-ms"></th>
+                <th><button onclick="copy('ms')">复制</button></th>
+                <th><button onclick="gen('ms')">生成</button></th>
+                <th><span id="ms-length">16</span><input id="ms-slider" type="range" min="1" max="64" value="16" step="1" /></th>
+                <th>Aa<input id="ms-aa" type="checkbox" checked /></th>
+                <th>123<input id="ms-123" type="checkbox" checked /></th>
+                <th>!@$<input id="ms-notes" type="checkbox" checked /></th>
+            </tr>
+        </table>
+    </div>
+    <script>
+        const lowerAlphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        const upperAlphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        const notes = ["!", "@", "$", "_", "-"];
+
+        const passwordParts = 3;
+        const partLength = 6;
+
+        let msLength = 16;
+        const msOptions = [true, true, true];
+
+        function gen(type) {
+            let password = "";
+            
+            if (type == "apple") {
+                for (let i = 0; i < passwordParts; i++) { // 3 parts of password abcdef-abcdef-abcdef
+                    for (let j = 0; j < partLength; j++) { // Each part
+                        const d = rand(1, 20);
+
+                        if (d <= 16) {
+                            password += lowerAlphabet[rand(0, 25)];
+                        } else if (d <= 18) {
+                            password += upperAlphabet[rand(0, 25)];
+                        } else {
+                            password += numbers[rand(0, 9)];
+                        }
+                    }
+                    if (i != passwordParts - 1) {
+                        password += "-";
+                    }
+                }
+                cw("#result-apple").html = password;
+            }
+
+            if (type == "ms") { // 20% number; 12% notes
+                // Calculate weight
+                const weight = [0, 0, 0];
+                if (msOptions[0]) { weight[0] = 60; }
+                if (msOptions[1]) { weight[1] = 20; }
+                if (msOptions[2]) { weight[2] = 20; }
+
+                let sum = 0;
+                weight.forEach(part => {
+                    sum += part;
+                });
+                const percent = [weight[0] / sum, weight[1] / sum, weight[2] / sum];
+
+                for (let i = 0; i < msLength; i++) {
+                    const d = rand(0, 1, true);
+                    
+                    if (d <= percent[0]) { // Aa
+                        if (chance(0.5)) { // Lower
+                            password += lowerAlphabet[rand(0, 25)];
+                        } else { // Upper
+                            password += upperAlphabet[rand(0, 25)];
+                        }
+                    } else if (d <= percent[0] + percent[1]) { // 123
+                        password += numbers[rand(0, 9)];
+                    } else { // !@$
+                        password += notes[rand(0, 4)];
+                    }
+                }
+                cw("#result-ms").html = password;
+            }
+        }
+
+        async function copy(type) {
+            const password = cw(`#result-${type}`).html; 
+            cw(`#result-${type}`).color = "var(--green)";
+            await sleep(10);
+            cw(`#result-${type}`).transColor("var(--textColor-500)", 1000); 
+
+            navigator.clipboard.writeText(password);
+        }
+
+        cw("#ms-slider").el.addEventListener("input", function () {
+            cw("#ms-length").html = this.value;
+            msLength = +this.value;
+        });
+
+        cw("#ms-aa").el.addEventListener("change", function () {
+            msOptions[0] = this.checked;
+        });
+        cw("#ms-123").el.addEventListener("change", function () {
+            msOptions[1] = this.checked;
+        });
+        cw("#ms-notes").el.addEventListener("change", function () {
+            msOptions[2] = this.checked;
+        });
+
+        gen("apple");
+        gen("ms");
+    </script>
+</div></body>
+
+</html>

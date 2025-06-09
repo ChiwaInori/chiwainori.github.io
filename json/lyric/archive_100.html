@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>动态歌词显示 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-center.css" />
+    <style>
+
+        :root {
+            --backgroundColor: #ffffdd;
+            --lyricColor: #99ccff;
+            --activeColor: #66a8ff;
+        }
+
+        #cw-main {
+            background-color: var(--backgroundColor);
+        }
+        
+        #lyricBlock {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+        }
+
+        #titleLine {
+            font-size: 32px;
+            color: var(--lyricColor);
+        }
+        
+        #lyrics, #lyrics * {
+            position: absolute;
+            color: var(--lyricColor) !important;
+            font-size: 100px;
+            white-space: nowrap;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="IFB-Green"><p><strong>此页有更新版本</strong></p><p>这表示此页不再被使用. 你应该前往更新页面. 你在一般情况下不应访问到此页.</p><p>通常, 在本页的上一级页面有通往更新页面的链接.</p></div>
+    <div id="cw-main">
+        <div id="cw-title">
+            <h1 style="opacity: 0;">动态歌词显示</h1>
+        </div>
+        <div id="cw-nav"></div>
+        <div id="cw-content">
+            <div id="startup">
+                <h1>在下方选中 XTSGAMES Lyric 文件 (.top) 来播放动态歌词</h1>
+                <p><input id="fileInput" type="file" accept=".top" /></p>
+                <h3 id="display"></h3>
+                <h5>注意: 请勿在播放过程中更改浏览器窗口大小。</h5>
+                <br />
+                <p>你可以选择一个<strong>字体文件</strong>，它将被应用于动态歌词。</p>
+                <p><input id="fontFile" type="file" accept=".ttf, .otf, .woff, .woff2" /></p>
+                <p id="fontTest" contenteditable>现在使用的字体示例 | Example of font now using | 現在使用されているフォントの例</p>
+                <br />
+                <p>你可以选择一个<strong>音乐文件</strong>，它将在动态歌词播放时同步播放。</p>
+                <p><input id="audioFile" type="file" accept="audio/*" /></p>
+                <p>调试功能: 从音乐的第<input id="audioStart" type="number" style="width: 48px;" value="0" />秒开始播放</p>
+                <br />
+                <p><input id="showTitle" type="checkbox" />显示网页标题&nbsp;&nbsp;<input id="showDot" type="checkbox" checked />休息段显示省略号&nbsp;&nbsp;<input id="showCircle" type="checkbox" checked />圆弧歌词 | 背景颜色 <input id="color-bg" type="color" value="#ffffdd" />&nbsp;&nbsp;歌词颜色 <input id="color-lyric" type="color" value="#99ccff" />&nbsp;&nbsp;激活颜色 <input id="color-active" type="color" value="#66a8ff" /></p>
+                <br />
+                <p id="content" hidden></p>
+                <p style="color: var(--red)">该网页目前由于未知原因，歌词的淡入动画有一定概率出错影响观赏效果。</p>
+                <p style="color: var(--red)">如影响到使用，建议多次录制动画，并将正常片段进行拼接。</p>
+                <div id="helpDiv">
+                    <p id="helpLine" class="LNK" onclick="fadeChange('helpLine', 'helpGroup');">点我查看制作 XTSGAMES Lyric 文件的方式</p>
+                    <div id="helpGroup" hidden>
+                        <h3>如何制作 XTSGAMES Lyric 文件</h3>
+                        <p><strong>1.</strong> 新建一个空白文件，将后缀名设置为 <strong>.top</strong> , 然后使用记事本 (或其他软件) 打开</p>
+                        <p><strong>2.</strong> 输入以下基本内容: <strong>xtsgames-lyric.100.</strong></p>
+                        <p><strong>3.</strong> 在后面按照以下格式继续输入: <strong>歌曲名,作者,歌曲每分钟节拍数.</strong> (注意逗号和点也要输入)</p>
+                        <p><strong>4.</strong> 接下来，按照歌曲的进行顺序，输入以下内容: <strong>(注意: 下文的时长以节拍为单位，但是所有小数点要改为撇号 ' , 例如 2.5 拍 =&gt; 2'5)</strong></p>
+                        <p>如果是休息段 (伴奏), 输入 <strong>[SPACE],时长</strong> (例: [SPACE],15'5 ) <strong>([SPACE] 必须独立成句)</strong></p>
+                        <p>如果是歌词，输入 <strong>汉字(或单词音节),时长</strong> ，并在每个汉字之间加上 <strong>分号 ;</strong> (例如 He,1'5;llo,0'5 )</p>
+                        <p>如果歌词中要输入空格，请使用 <strong>反斜杠 \</strong> 代替 (例如 Oh\,0'5;my\,0'5;god\,0'5 )</p>
+                        <p>在句子与句子之间，使用 <strong>斜杠 /</strong> 分开 (例如: 一,1;二,1'5/三,0'5 )</p>
+                        <p>你可以使用 <a href="../beats/">节拍量化器</a> 来更方便地获取每个音符的长度。</p>
+                        <p><strong>5.</strong> 整首歌的<strong>最后一句末尾</strong>也要输入 <strong>斜杠 /</strong>, 作为歌曲结束的标志</p>
+                        <p><strong>6.</strong> 你可以根据自己的编码习惯以及视觉观感，在<strong>任意位置</strong>换行</p>
+                    </div>
+                </div>
+                <p>如引用此页面的动画，请标注此网页链接。</p>
+            </div>
+            <div id="lyricBlock" hidden>
+                <h1 id="titleLine"></h1>
+                <h1 id="lyrics">&nbsp;</h1>
+            </div>
+            <audio id="audio" src="" controls hidden></audio>
+        </div>
+        <script>
+            const currentVersion = 100;
+            let showDot = true;
+            let showCircle = true;
+            let waitBase = 0.2;
+            let fileContent, clockBase;
+            let lyric, len;
+
+            load("fileInput", "content");
+            cw("#fileInput").el.addEventListener("input", async () => {
+                await sleep(50);
+                fileContent = cw("#content").html.replaceAll(/\r/g, "").replaceAll(/\n/g, "");
+                extractInfo();
+            });
+            
+            cw("#color-bg").el.addEventListener("input", function () {
+                document.documentElement.style.setProperty('--backgroundColor', `${this.value}`);
+            });
+            cw("#color-lyric").el.addEventListener("input", function () {
+                document.documentElement.style.setProperty('--lyricColor', `${this.value}`);
+            });
+            cw("#color-active").el.addEventListener("input", function () {
+                document.documentElement.style.setProperty('--activeColor', `${this.value}`);
+            });
+            
+            cw("#showDot").el.addEventListener("input", function () {
+                showDot = this.checked;
+            });
+
+            cw("#showCircle").el.addEventListener("input", function () {
+                showCircle = this.checked;
+            });
+
+            cw("#showTitle").el.addEventListener("input", function () {
+                cw("#cw-title *", 0).el.style.opacity = cw("#cw-nav *", 0).el.style.opacity = +this.checked;
+            });
+
+            cw("#audioFile").el.addEventListener("change", function (event) {
+                const file = event.target.files[0];
+                const objectURL = URL.createObjectURL(file);
+
+                cw("#audio").el.src = objectURL;
+            });
+
+            cw("#fontFile").el.addEventListener("change", function () {
+                const fileInput = this;
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const fontUrl = event.target.result;
+                        loadFont(fontUrl);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    cw("#titleLine").el.style.fontFamily = cw("#fontTest").el.style.fontFamily = "inherit";
+                    cw("style", 0).el.innerHTML += "#lyrics * { font-family: inherit; }";
+                }
+            });
+
+            function loadFont(url) {
+                const font = new FontFace('CustomFont', `url(${url})`);
+                font.load().then(function (loadedFont) {
+                    document.fonts.add(loadedFont);
+                    cw("#titleLine").el.style.fontFamily = cw("#fontTest").el.style.fontFamily = "CustomFont";
+                    cw("style", 0).el.innerHTML += "#lyrics * { font-family: 'CustomFont'; }";
+                });
+            }
+
+            function extractInfo() {
+                const [signature, version, messages] = fileContent.split(".");
+
+                if (signature != "xtsgames-lyric") {
+                    cw("#display").html = `错误的文件签名 (${signature})`;
+                    cw("#display").color = "var(--red)";
+                    return;
+                }
+                if (version != currentVersion) {
+                    cw("#display").html = `错误的文件版本 (${version}, 当前 ${currentVersion}). 请在本网页的地址后面加上 /../archive_${version}.html 以尝试在其他版本中加载.`;
+                    cw("#display").color = "var(--red)";
+                    return;
+                }
+                cw("#fileInput").hide();
+                
+                const [title, author, bpm] = messages.split(",");
+                clockBase = 60 / bpm; // bps
+                cw("title", 0).el.innerHTML = `${title} - ${author} - 动态歌词显示 - XTSGAMES`;
+
+                cw("#display").html = `已读取: "${title}" - ${author}. BPM: ${bpm}. <button onclick="play()">点击播放</button>`;
+                cw("#titleLine").html = `"${title}" - ${author}`;
+            }
+            
+            async function play() {
+                cw("#audio").el.currentTime = +cw("#audioStart").value;
+                const lyricArray = fileContent.split(".")[3].split("/"); // 沈,1;ん,0'5;で,0'5;い,0'25;た\,1'75;味,1'5;の,0'5;な,0'25;い,0'5;日,0'5;々,0'5;で,0'25;も,1'5
+
+                fadeChange("startup", "lyricBlock");
+
+                await sleep(200); // if no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
+                
+                for (let i = 0; i < lyricArray.length; i++) { // loop every sentence
+                    if (lyricArray[i] != "") { // the song is not over
+                        const notes = lyricArray[i].split(";");
+                        let sentence = "";
+
+                        len = lyricArray[i].getCountOf(",");
+
+                        if (i == 0 && !lyricArray[i].includes("[SPACE]")) { // if the 1st sentence isn't [SPACE], initialize waitBase or next() will wrong
+                            const noteBeatLength = +lyricArray[i].split(";")[0].split(",")[1].replaceAll(/'/g, ".");
+                            const noteRealLength = noteBeatLength * clockBase;
+                            if (noteRealLength >= 2) {
+                                waitBase = 0.2;
+                            } else {
+                                waitBase = noteRealLength / 10;
+                            }
+                        }
+
+                        notes.forEach((note, index) => { // ["沈,1", 0]
+                            if (note.includes("[SPACE]")) {
+                                if (showDot) {
+                                    sentence = "<span id='w-1'>...</span>";
+                                } else {
+                                    sentence = "<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>";
+                                }
+                            } else {
+                                sentence += `<span id='w-${index + 1}'>${note.split(",")[0].replaceAll(/\\/g, "&nbsp;")}</span>`;
+                            }
+                        });
+                        next(sentence);
+
+                        if (i == 0) {
+                            if (lyricArray[i].includes("[SPACE]")) { // if this is the 1st sentence and is [SPACE], play music
+                                cw("#audio").el.play();
+                            } else { // if this is the 1st sentence and ISN'T [SPACE], wait next()'s animation then play music
+                                await sleep(1000);
+                                cw("#audio").el.play();
+                            }
+                        }
+                        
+                        
+                        if (i != 0) { // it's not the first sentence, wait because last sentence next()ed in advance
+                            await sleep(waitBase * 7 * 1000);
+                        }
+
+                        for (let i = 0; i < notes.length; i++) { // loop every chars
+                            const noteBeatLength = +notes[i].split(",")[1].replaceAll(/'/g, ".");
+                            const noteRealLength = noteBeatLength * clockBase;
+
+                            if (!notes[i].includes("[SPACE]")) {
+                                jump(i + 1, noteRealLength * 1000);
+                            }
+
+                            if (i != notes.length - 1) {
+                                await sleep(noteRealLength * 1000);
+                            } else { // now playing is last one
+                                if (noteRealLength >= 2) {
+                                    waitBase = 0.2;
+                                } else {
+                                    waitBase = noteRealLength / 10;
+                                }
+
+                                await sleep(noteRealLength * 1000 - waitBase * 7 * 1000); // give 7 waitBase to next() animation
+                            }
+                        }
+                    } else { // the song is over
+                        next("<span id='w-1' style='color: var(--backgroundColor) !important;'>...</span>");
+                    }
+                }
+            }
+
+            function getWordPos() {
+                let fontSize = 100; // px
+                const horizontalTotal = cw("#lyricBlock").el.offsetWidth;
+                const words = query("#lyrics *");
+                words.forEach(element => {
+                    element.style.fontSize = `${fontSize}px`;
+                });
+                
+                let width = 0;
+                for (let i = 1; i <= len; i++) {
+                    width += cw(`#w-${i}`).el.offsetWidth;
+                }
+                while (width > horizontalTotal - 42 && fontSize > 10) {
+                    fontSize -= 10;
+                    words.forEach(element => {
+                        element.style.fontSize = `${fontSize}px`;
+                    });
+                    width = 0;
+                    for (let i = 1; i <= len; i++) {
+                        width += cw(`#w-${i}`).el.offsetWidth;
+                    }
+                }
+                
+                // HORIZONTAL
+                const horizontalUsed = width;
+                const horizontalMargin = (horizontalTotal - horizontalUsed) / 2;
+
+                let currentX = horizontalMargin;
+                for (let i = 1; i <= len; i++) {
+                    cw(`#w-${i}`).el.style.left = `${currentX}px`;
+                    let offset = cw(`#w-${i}`).el.offsetWidth;
+                    let space = cw(`#w-${i}`).el.innerHTML == " " ? 16 : 2;
+                    currentX += offset + space;
+                }
+
+                // VERTICAL
+                const verticalTotal = cw("#lyricBlock").el.offsetHeight;
+                const verticalUsed = fontSize * 2;
+                const verticalMargin = (verticalTotal - verticalUsed) / 2;
+                
+                if (showCircle) {
+                    for (let i = 1; i <= len; i++) {
+                        const f = x => Math.sqrt((len + 5) ** 2 - x ** 2);
+                        const float = (len + 5 - f(i - (len / 2 + 0.5))) * 60;
+                        cw(`#w-${i}`).el.style.top = `${verticalMargin + float}px`;
+                    }
+
+                    // ROTATE
+                    for (let i = 1; i <= len; i++) {
+                        const g = x => Math.sqrt((len + 5) ** 2 - x ** 2);
+                        const degree = (len + 5 - g(i - (len / 2 + 0.5))) * (i - (len / 2 + 0.5)) / Math.abs(i - (len / 2 + 0.5)) * 16;
+                        cw(`#w-${i}`).el.style.transform = `rotate(${degree}deg)`;
+                    }
+                } else {
+                    for (let i = 1; i <= len; i++) {
+                        cw(`#w-${i}`).el.style.top = `${verticalMargin}px`;
+                    }
+                }
+            }
+
+            async function jump(index, length) {
+                const jumpLength = 50;
+                const jumpTarget = cw(`#w-${index}`).el;
+                const targetRotation = jumpTarget.style.transform != "" ? jumpTarget.style.transform.getNum()[0] : 0;
+                const xOffset = Math.sin(targetRotation / 180 * Math.PI) * jumpLength;
+                const yOffset = Math.cos(targetRotation / 180 * Math.PI) * jumpLength;
+
+                jumpTarget.style.transition = "all 0.2s var(--transit)";
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum()[0] + xOffset}px`;
+                await sleep(1);
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum()[0] - yOffset}px`;
+                jumpTarget.style.color = "var(--activeColor) !important";
+
+                await sleep(200);
+
+                jumpTarget.style.transition = `all ${length / 1000}s ease`;
+                jumpTarget.style.left = `${jumpTarget.style.left.getNum()[0] - xOffset}px`;
+                await sleep(1);
+                jumpTarget.style.top = `${jumpTarget.style.top.getNum()[0] + yOffset}px`;
+                jumpTarget.style.color = "var(--lyricColor)";
+            }
+
+            async function next(sentence) {
+                const slideOffset = 30;
+
+                await sleep(1);
+                const current = query("#lyrics *");
+                current.forEach(element => {
+                    element.style.transition = `all ${waitBase * 3}s var(--transit)`;
+                    element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
+                    element.style.opacity = 0;
+                });
+
+                await sleep(waitBase * 1 * 1000);
+                cw("#lyrics").html = sentence;
+                getWordPos();
+
+                const after = query("#lyrics *");
+                after.forEach(element => {
+                    element.style.opacity = 0;
+                    element.style.top = `${element.style.top.getNum()[0] + slideOffset}px`;
+                });
+                await sleep(1);
+                after.forEach(element => {
+                    element.style.transition = `all ${waitBase * 3}s var(--transit)`;
+                    element.style.opacity = 1;
+                    element.style.top = `${element.style.top.getNum()[0] - slideOffset}px`;
+                });
+            }
+
+            window.addEventListener("resize", getWordPos);
+        </script>
+    </div>
+</body>
+
+</html>

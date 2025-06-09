@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>平均分影响值计算 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>平均分影响值计算</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <p>在下方输入各项数据来获取你对平均分的影响。</p>
+        <p><strong>你&nbsp;的&nbsp;分&nbsp;数</strong><input id="ipt1" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
+        <p><strong>总体平均分</strong><input id="ipt2" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
+        <p><strong>总&nbsp;&nbsp;&nbsp;人&nbsp;&nbsp;&nbsp;数</strong><input id="ipt3" type="text" onkeyup="button()" style="margin-left: 10px;" /></p>
+        <p><button id="searchbutton" onclick="submit()" disabled="disabled">无效</button></p>
+        <p>&nbsp;</p>
+        <p id="final">&nbsp;</p>
+        <script>
+            const inputplace = document.querySelector("#ipt1");
+            inputplace.focus();
+            var inputclick = document.getElementById("ipt1");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+            var inputclick = document.getElementById("ipt2");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+            var inputclick = document.getElementById("ipt3");
+            inputclick.addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("searchbutton").click();
+                }
+            });
+
+            function button() {
+                var ipt1 = document.getElementById("ipt1").value;
+                var ipt2 = document.getElementById("ipt2").value;
+                var ipt3 = document.getElementById("ipt3").value;
+                if (ipt1.toString().length < 1 || ipt2.toString().length < 1 || ipt3.toString().length < 1 || ipt3 < 2 || ipt3 % 1 != 0) {
+                    document.getElementById("searchbutton").disabled = true;
+                    document.getElementById("searchbutton").innerHTML = "无效";
+                }
+    
+                if (ipt1.toString().length >= 1 && ipt2.toString().length >= 1 && ipt3.toString().length >= 1 && ipt3 >= 2 && ipt3 % 1 == 0) {
+                    document.getElementById("searchbutton").disabled = false;
+                    document.getElementById("searchbutton").innerHTML = "提交";
+                }
+            }
+
+            function submit() {
+                var ipt1 = document.getElementById("ipt1").value;
+                var ipt2 = document.getElementById("ipt2").value;
+                var ipt3 = document.getElementById("ipt3").value;
+                var totalscore = ipt2 * ipt3;
+                var totalscore_noyou = totalscore - ipt1;
+                var ppl_noyou = ipt3 - 1;
+                var avgscore_noyou = totalscore_noyou / ppl_noyou;
+                var change = ipt2 - avgscore_noyou;
+                var change = change.toFixed(4);
+                if (change > 0) {
+                    document.getElementById("final").style = "color: #00dd00;";
+                    document.getElementById("final").innerHTML = "你对平均分的影响值为 <strong>+" + change + "</strong> 分";
+                }
+                if (change == 0) {
+                    document.getElementById("final").style = "color: #666666;";
+                    document.getElementById("final").innerHTML = "你对平均分的影响值为 <strong>" + change + "</strong> 分";
+                }
+                if (change < 0) {
+                    document.getElementById("final").style = "color: #dd0000;";
+                    document.getElementById("final").innerHTML = "你对平均分的影响值为 <strong>" + change + "</strong> 分";
+                }
+            }
+        </script>
+    </div>
+</div></body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>好分数成绩表文本格式化 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>好分数成绩表文本格式化</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <p>在复制了 <a href="https://yunxiao.com/" target="_blank">爱云校 | 好分数</a> 导出的默认 Excel 成绩表后，</p>
+        <p>按下下面的按钮以读取剪切板并自动格式化文本。</p>
+        <p style="color: var(--red)">(此格式器仅适用于表格为特定格式的特定学校)</p>
+        <button onclick="formatToObj()">读取并格式化</button>
+        <button onclick="copy()" disabled>复制到剪切板</button>
+        <p id="result"></p>
+    </div>
+    <script>
+        async function getExcelClipboardAsArray() {
+            try {
+                // 1. 读取剪贴板文本（需要用户授权）
+                const clipboardText = await navigator.clipboard.readText();
+
+                // 2. 按行拆分（兼容 \r\n 和 \n）
+                const rows = clipboardText.trim().split(/\r?\n/);
+
+                // 3. 按列拆分（Excel 复制时列分隔符是 \t），并移除每项的 \r
+                const array2D = rows.map(row => {
+                    return row.split("\t").map(cell => {
+                        return cell.replace(/\r$/, ""); // 移除末尾的 \r
+                    });
+                });
+
+                return array2D;
+            } catch (error) {
+                console.error("读取剪贴板失败:", error);
+                return [];
+            }
+        }
+
+        async function formatToObj() {
+            const read = await getExcelClipboardAsArray();
+            const data = [];
+            
+            for (const student of read) {
+                const counter = {
+                    value: 5 - 3,
+                    rankClass: 7 - 3,
+                    rankGrade: 6 - 3
+                };
+
+                const info = {
+                    name: student[0],
+                    id: Number(student[1]),
+                    idOld: Number(student[2]),
+                    class: Number(student[3]),
+                    classType: undefined,
+                    scores: {
+                        total: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        chinese: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        maths: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        english: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        physics: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        chemistry: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        biology: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        politics: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        history: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3]),
+                        geography: getScoreObj(student[counter.value += 3], student[counter.rankClass += 3], student[counter.rankGrade += 3])
+                    }
+                };
+                if (info.class.range(2301, 2318)) { info.classType = "物化生"; }
+                if (info.class.range(2319, 2322)) { info.classType = "物化地"; }
+                if (info.class.range(2323, 2325)) { info.classType = "物化政"; }
+                if (info.class.range(2326, 2330)) { info.classType = "历政地"; }
+                if (info.class.range(2331, 2332)) { info.classType = "历政生"; }
+
+                data.push(info);
+            }
+
+            formatToTxt(data);
+        }
+
+        let string = "";
+
+        function formatToTxt(data) {
+            string = "";
+
+            for (let i = 0; i < data.length; i++) {
+                string += `${data[i].name}, ${data[i].class} 班 (${data[i].classType}), 学号 ${data[i].id} (高一上 ${data[i].idOld}): 总分 ${data[i].scores.total.value} 分, 排名 ${data[i].scores.total.rankClass}/${data[i].scores.total.rankGrade}\n`;
+                string += `语文 ${data[i].scores.chinese.value} 分, 排名 ${data[i].scores.chinese.rankClass}/${data[i].scores.chinese.rankGrade}\n`;
+                string += `数学 ${data[i].scores.maths.value} 分, 排名 ${data[i].scores.maths.rankClass}/${data[i].scores.maths.rankGrade}\n`;
+                string += `英语 ${data[i].scores.english.value} 分, 排名 ${data[i].scores.english.rankClass}/${data[i].scores.english.rankGrade}\n`;
+                if (typeof data[i].scores.physics.value == "number") { string += `物理 ${data[i].scores.physics.value} 分, 排名 ${data[i].scores.physics.rankClass}/${data[i].scores.physics.rankGrade}\n`; }
+                if (typeof data[i].scores.history.value == "number") { string += `历史 ${data[i].scores.history.value} 分, 排名 ${data[i].scores.history.rankClass}/${data[i].scores.history.rankGrade}\n`; }
+                if (typeof data[i].scores.chemistry.value == "number") { string += `化学 ${data[i].scores.chemistry.value} 分, 排名 ${data[i].scores.chemistry.rankClass}/${data[i].scores.chemistry.rankGrade}\n`; }
+                if (typeof data[i].scores.politics.value == "number") { string += `政治 ${data[i].scores.politics.value} 分, 排名 ${data[i].scores.politics.rankClass}/${data[i].scores.politics.rankGrade}\n`; }
+                if (typeof data[i].scores.biology.value == "number") { string += `生物 ${data[i].scores.biology.value} 分, 排名 ${data[i].scores.biology.rankClass}/${data[i].scores.biology.rankGrade}\n`; }
+                if (typeof data[i].scores.geography.value == "number") { string += `地理 ${data[i].scores.geography.value} 分, 排名 ${data[i].scores.geography.rankClass}/${data[i].scores.geography.rankGrade}`; }
+
+                if (i != data.length - 1) { string += "\n\n"; }
+            }
+
+            cw("#result").text = string;
+            cw("button", 1).disabled = false;
+        }
+
+        function getScoreObj(value, rankClass, rankGrade) {
+            value = !isNaN(value) && value !== "" ? Number(value) : null;
+            rankClass = !isNaN(rankClass) && rankClass !== "" ? Number(rankClass) : null;
+            rankGrade = !isNaN(rankGrade) && rankGrade !== "" ? Number(rankGrade) : null;
+
+            return { value, rankClass, rankGrade };
+        }
+
+        function copy() {
+            navigator.clipboard.writeText(string);
+        }
+    </script>
+</div></body>
+
+</html>

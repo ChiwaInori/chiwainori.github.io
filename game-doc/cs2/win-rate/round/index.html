@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>CS2 回合胜率估算 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>CS2 回合胜率估算</h1>
+    </div>
+    <div id="cw-nav"></div>
+    <div id="cw-content">
+        <h3>我方队伍<span id="myteam_wintext"></span></h3>
+        <p><input placeholder="MATE 1" style="width: 64px; margin-left: 0px;" /><input id="my_1_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="my_1_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="my_1_eco" onclick="my_1_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="my_1_died" onclick="my_1_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_1()">+KILL</button></p>
+        <p><input placeholder="MATE 2" style="width: 64px; margin-left: 0px;" /><input id="my_2_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="my_2_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="my_2_eco" onclick="my_2_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="my_2_died" onclick="my_2_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_2()">+KILL</button></p>
+        <p><input placeholder="MATE 3" style="width: 64px; margin-left: 0px;" /><input id="my_3_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="my_3_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="my_3_eco" onclick="my_3_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="my_3_died" onclick="my_3_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_3()">+KILL</button></p>
+        <p><input placeholder="MATE 4" style="width: 64px; margin-left: 0px;" /><input id="my_4_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="my_4_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="my_4_eco" onclick="my_4_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="my_4_died" onclick="my_4_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_4()">+KILL</button></p>
+        <p><input placeholder="MATE 5" style="width: 64px; margin-left: 0px;" /><input id="my_5_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="my_5_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="my_5_eco" onclick="my_5_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="my_5_died" onclick="my_5_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_my_5()">+KILL</button></p>
+        <h3>敌方队伍<span id="enteam_wintext"></span></h3>
+        <p><input placeholder="ENEMY 1" style="width: 64px; margin-left: 0px;" /><input id="en_1_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="en_1_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="en_1_eco" onclick="en_1_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="en_1_died" onclick="en_1_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_en_1()">+KILL</button></p>
+        <p><input placeholder="ENEMY 2" style="width: 64px; margin-left: 0px;" /><input id="en_2_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="en_2_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="en_2_eco" onclick="en_2_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="en_2_died" onclick="en_2_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_en_2()">+KILL</button></p>
+        <p><input placeholder="ENEMY 3" style="width: 64px; margin-left: 0px;" /><input id="en_3_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="en_3_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="en_3_eco" onclick="en_3_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="en_3_died" onclick="en_3_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_en_3()">+KILL</button></p>
+        <p><input placeholder="ENEMY 4" style="width: 64px; margin-left: 0px;" /><input id="en_4_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="en_4_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="en_4_eco" onclick="en_4_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="en_4_died" onclick="en_4_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_en_4()">+KILL</button></p>
+        <p><input placeholder="ENEMY 5" style="width: 64px; margin-left: 0px;" /><input id="en_5_k" placeholder="击杀数" style="width: 40px;" value="0" /><input id="en_5_d" placeholder="死亡数" style="width: 40px; margin-left: 16px;" value="0" /><strong><span id="en_5_eco" onclick="en_5_eco_change()" style="color: var(--gray); margin-left: 32px;">ECO</span><span id="en_5_died" onclick="en_5_died_change()" style="color: var(--gray); margin-left: 16px;">DIED</span></strong><button onclick="addkill_en_5()">+KILL</button></p>
+        <br />
+        <p><button onclick="cal()">计算</button></p>
+    </div>
+    <script>
+        function my_1_eco_change() {
+            var my_1_eco_status = document.getElementById("my_1_eco").style.color;
+            if (my_1_eco_status == "var(--gray)") {
+                document.getElementById("my_1_eco").style.color = "#00dd00";
+                document.getElementById("my_1_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("my_1_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function my_1_died_change() {
+            var my_1_died_status = document.getElementById("my_1_died").style.color;
+            if (my_1_died_status == "var(--gray)") {
+                document.getElementById("my_1_died").style.color = "#dd0000";
+                document.getElementById("my_1_eco").style.color = "var(--gray)";
+                document.getElementById("my_1_d").value = parseInt(document.getElementById("my_1_d").value) + 1;
+            } else {
+                document.getElementById("my_1_died").style.color = "var(--gray)";
+            }
+        }
+
+        function my_2_eco_change() {
+            var my_2_eco_status = document.getElementById("my_2_eco").style.color;
+            if (my_2_eco_status == "var(--gray)") {
+                document.getElementById("my_2_eco").style.color = "#00dd00";
+                document.getElementById("my_2_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("my_2_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function my_2_died_change() {
+            var my_2_died_status = document.getElementById("my_2_died").style.color;
+            if (my_2_died_status == "var(--gray)") {
+                document.getElementById("my_2_died").style.color = "#dd0000";
+                document.getElementById("my_2_eco").style.color = "var(--gray)";
+                document.getElementById("my_2_d").value = parseInt(document.getElementById("my_2_d").value) + 1;
+            } else {
+                document.getElementById("my_2_died").style.color = "var(--gray)";
+            }
+        }
+
+        function my_3_eco_change() {
+            var my_3_eco_status = document.getElementById("my_3_eco").style.color;
+            if (my_3_eco_status == "var(--gray)") {
+                document.getElementById("my_3_eco").style.color = "#00dd00";
+                document.getElementById("my_3_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("my_3_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function my_3_died_change() {
+            var my_3_died_status = document.getElementById("my_3_died").style.color;
+            if (my_3_died_status == "var(--gray)") {
+                document.getElementById("my_3_died").style.color = "#dd0000";
+                document.getElementById("my_3_eco").style.color = "var(--gray)";
+                document.getElementById("my_3_d").value = parseInt(document.getElementById("my_3_d").value) + 1;
+            } else {
+                document.getElementById("my_3_died").style.color = "var(--gray)";
+            }
+        }
+
+        function my_4_eco_change() {
+            var my_4_eco_status = document.getElementById("my_4_eco").style.color;
+            if (my_4_eco_status == "var(--gray)") {
+                document.getElementById("my_4_eco").style.color = "#00dd00";
+                document.getElementById("my_4_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("my_4_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function my_4_died_change() {
+            var my_4_died_status = document.getElementById("my_4_died").style.color;
+            if (my_4_died_status == "var(--gray)") {
+                document.getElementById("my_4_died").style.color = "#dd0000";
+                document.getElementById("my_4_eco").style.color = "var(--gray)";
+                document.getElementById("my_4_d").value = parseInt(document.getElementById("my_4_d").value) + 1;
+            } else {
+                document.getElementById("my_4_died").style.color = "var(--gray)";
+            }
+        }
+
+        function my_5_eco_change() {
+            var my_5_eco_status = document.getElementById("my_5_eco").style.color;
+            if (my_5_eco_status == "var(--gray)") {
+                document.getElementById("my_5_eco").style.color = "#00dd00";
+                document.getElementById("my_5_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("my_5_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function my_5_died_change() {
+            var my_5_died_status = document.getElementById("my_5_died").style.color;
+            if (my_5_died_status == "var(--gray)") {
+                document.getElementById("my_5_died").style.color = "#dd0000";
+                document.getElementById("my_5_eco").style.color = "var(--gray)";
+                document.getElementById("my_5_d").value = parseInt(document.getElementById("my_5_d").value) + 1;
+            } else {
+                document.getElementById("my_5_died").style.color = "var(--gray)";
+            }
+        }
+
+        function en_1_eco_change() {
+            var en_1_eco_status = document.getElementById("en_1_eco").style.color;
+            if (en_1_eco_status == "var(--gray)") {
+                document.getElementById("en_1_eco").style.color = "#00dd00";
+                document.getElementById("en_1_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("en_1_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function en_1_died_change() {
+            var en_1_died_status = document.getElementById("en_1_died").style.color;
+            if (en_1_died_status == "var(--gray)") {
+                document.getElementById("en_1_died").style.color = "#dd0000";
+                document.getElementById("en_1_eco").style.color = "var(--gray)";
+                document.getElementById("en_1_d").value = parseInt(document.getElementById("en_1_d").value) + 1;
+            } else {
+                document.getElementById("en_1_died").style.color = "var(--gray)";
+            }
+        }
+
+        function en_2_eco_change() {
+            var en_2_eco_status = document.getElementById("en_2_eco").style.color;
+            if (en_2_eco_status == "var(--gray)") {
+                document.getElementById("en_2_eco").style.color = "#00dd00";
+                document.getElementById("en_2_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("en_2_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function en_2_died_change() {
+            var en_2_died_status = document.getElementById("en_2_died").style.color;
+            if (en_2_died_status == "var(--gray)") {
+                document.getElementById("en_2_died").style.color = "#dd0000";
+                document.getElementById("en_2_eco").style.color = "var(--gray)";
+                document.getElementById("en_2_d").value = parseInt(document.getElementById("en_2_d").value) + 1;
+            } else {
+                document.getElementById("en_2_died").style.color = "var(--gray)";
+            }
+        }
+
+        function en_3_eco_change() {
+            var en_3_eco_status = document.getElementById("en_3_eco").style.color;
+            if (en_3_eco_status == "var(--gray)") {
+                document.getElementById("en_3_eco").style.color = "#00dd00";
+                document.getElementById("en_3_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("en_3_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function en_3_died_change() {
+            var en_3_died_status = document.getElementById("en_3_died").style.color;
+            if (en_3_died_status == "var(--gray)") {
+                document.getElementById("en_3_died").style.color = "#dd0000";
+                document.getElementById("en_3_eco").style.color = "var(--gray)";
+                document.getElementById("en_3_d").value = parseInt(document.getElementById("en_3_d").value) + 1;
+            } else {
+                document.getElementById("en_3_died").style.color = "var(--gray)";
+            }
+        }
+
+        function en_4_eco_change() {
+            var en_4_eco_status = document.getElementById("en_4_eco").style.color;
+            if (en_4_eco_status == "var(--gray)") {
+                document.getElementById("en_4_eco").style.color = "#00dd00";
+                document.getElementById("en_4_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("en_4_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function en_4_died_change() {
+            var en_4_died_status = document.getElementById("en_4_died").style.color;
+            if (en_4_died_status == "var(--gray)") {
+                document.getElementById("en_4_died").style.color = "#dd0000";
+                document.getElementById("en_4_eco").style.color = "var(--gray)";
+                document.getElementById("en_4_d").value = parseInt(document.getElementById("en_4_d").value) + 1;
+            } else {
+                document.getElementById("en_4_died").style.color = "var(--gray)";
+            }
+        }
+
+        function en_5_eco_change() {
+            var en_5_eco_status = document.getElementById("en_5_eco").style.color;
+            if (en_5_eco_status == "var(--gray)") {
+                document.getElementById("en_5_eco").style.color = "#00dd00";
+                document.getElementById("en_5_died").style.color = "var(--gray)";
+            } else {
+                document.getElementById("en_5_eco").style.color = "var(--gray)";
+            }
+        }
+
+        function en_5_died_change() {
+            var en_5_died_status = document.getElementById("en_5_died").style.color;
+            if (en_5_died_status == "var(--gray)") {
+                document.getElementById("en_5_died").style.color = "#dd0000";
+                document.getElementById("en_5_eco").style.color = "var(--gray)";
+                document.getElementById("en_5_d").value = parseInt(document.getElementById("en_5_d").value) + 1;
+            } else {
+                document.getElementById("en_5_died").style.color = "var(--gray)";
+            }
+        }
+
+        function addkill_my_1() {
+            document.getElementById("my_1_k").value = parseInt(document.getElementById("my_1_k").value) + 1;
+        }
+        function addkill_my_2() {
+            document.getElementById("my_2_k").value = parseInt(document.getElementById("my_2_k").value) + 1;
+        }
+        function addkill_my_3() {
+            document.getElementById("my_3_k").value = parseInt(document.getElementById("my_3_k").value) + 1;
+        }
+        function addkill_my_4() {
+            document.getElementById("my_4_k").value = parseInt(document.getElementById("my_4_k").value) + 1;
+        }
+        function addkill_my_5() {
+            document.getElementById("my_5_k").value = parseInt(document.getElementById("my_5_k").value) + 1;
+        }
+        function addkill_en_1() {
+            document.getElementById("en_1_k").value = parseInt(document.getElementById("en_1_k").value) + 1;
+        }
+        function addkill_en_2() {
+            document.getElementById("en_2_k").value = parseInt(document.getElementById("en_2_k").value) + 1;
+        }
+        function addkill_en_3() {
+            document.getElementById("en_3_k").value = parseInt(document.getElementById("en_3_k").value) + 1;
+        }
+        function addkill_en_4() {
+            document.getElementById("en_4_k").value = parseInt(document.getElementById("en_4_k").value) + 1;
+        }
+        function addkill_en_5() {
+            document.getElementById("en_5_k").value = parseInt(document.getElementById("en_5_k").value) + 1;
+        }
+
+        function cal() {
+            var num_my_1_k = parseInt(document.getElementById("my_1_k").value);
+            var num_my_2_k = parseInt(document.getElementById("my_2_k").value);
+            var num_my_3_k = parseInt(document.getElementById("my_3_k").value);
+            var num_my_4_k = parseInt(document.getElementById("my_4_k").value);
+            var num_my_5_k = parseInt(document.getElementById("my_5_k").value);
+            var num_my_1_d = parseInt(document.getElementById("my_1_d").value);
+            var num_my_2_d = parseInt(document.getElementById("my_2_d").value);
+            var num_my_3_d = parseInt(document.getElementById("my_3_d").value);
+            var num_my_4_d = parseInt(document.getElementById("my_4_d").value);
+            var num_my_5_d = parseInt(document.getElementById("my_5_d").value);
+            var num_en_1_k = parseInt(document.getElementById("en_1_k").value);
+            var num_en_2_k = parseInt(document.getElementById("en_2_k").value);
+            var num_en_3_k = parseInt(document.getElementById("en_3_k").value);
+            var num_en_4_k = parseInt(document.getElementById("en_4_k").value);
+            var num_en_5_k = parseInt(document.getElementById("en_5_k").value);
+            var num_en_1_d = parseInt(document.getElementById("en_1_d").value);
+            var num_en_2_d = parseInt(document.getElementById("en_2_d").value);
+            var num_en_3_d = parseInt(document.getElementById("en_3_d").value);
+            var num_en_4_d = parseInt(document.getElementById("en_4_d").value);
+            var num_en_5_d = parseInt(document.getElementById("en_5_d").value);
+            
+            if (num_my_1_d == 0) {
+                var num_my_1_d = 1;
+            }
+            if (num_my_2_d == 0) {
+                var num_my_2_d = 1;
+            }
+            if (num_my_3_d == 0) {
+                var num_my_3_d = 1;
+            }
+            if (num_my_4_d == 0) {
+                var num_my_4_d = 1;
+            }
+            if (num_my_5_d == 0) {
+                var num_my_5_d = 1;
+            }
+            if (num_en_1_d == 0) {
+                var num_en_1_d = 1;
+            }
+            if (num_en_2_d == 0) {
+                var num_en_2_d = 1;
+            }
+            if (num_en_3_d == 0) {
+                var num_en_3_d = 1;
+            }
+            if (num_en_4_d == 0) {
+                var num_en_4_d = 1;
+            }
+            if (num_en_5_d == 0) {
+                var num_en_5_d = 1;
+            }
+
+            var num_my_1_kd = num_my_1_k / num_my_1_d;
+            var num_my_2_kd = num_my_2_k / num_my_2_d;
+            var num_my_3_kd = num_my_3_k / num_my_3_d;
+            var num_my_4_kd = num_my_4_k / num_my_4_d;
+            var num_my_5_kd = num_my_5_k / num_my_5_d;
+            var num_en_1_kd = num_en_1_k / num_en_1_d;
+            var num_en_2_kd = num_en_2_k / num_en_2_d;
+            var num_en_3_kd = num_en_3_k / num_en_3_d;
+            var num_en_4_kd = num_en_4_k / num_en_4_d;
+            var num_en_5_kd = num_en_5_k / num_en_5_d;
+
+            if (document.getElementById("my_1_eco").style.color == "rgb(0, 221, 0)") {
+                var num_my_1_kd = num_my_1_kd / 2;
+            }
+            if (document.getElementById("my_2_eco").style.color == "rgb(0, 221, 0)") {
+                var num_my_2_kd = num_my_2_kd / 2;
+            }
+            if (document.getElementById("my_3_eco").style.color == "rgb(0, 221, 0)") {
+                var num_my_3_kd = num_my_3_kd / 2;
+            }
+            if (document.getElementById("my_4_eco").style.color == "rgb(0, 221, 0)") {
+                var num_my_4_kd = num_my_4_kd / 2;
+            }
+            if (document.getElementById("my_5_eco").style.color == "rgb(0, 221, 0)") {
+                var num_my_5_kd = num_my_5_kd / 2;
+            }
+            if (document.getElementById("en_1_eco").style.color == "rgb(0, 221, 0)") {
+                var num_en_1_kd = num_en_1_kd / 2;
+            }
+            if (document.getElementById("en_2_eco").style.color == "rgb(0, 221, 0)") {
+                var num_en_2_kd = num_en_2_kd / 2;
+            }
+            if (document.getElementById("en_3_eco").style.color == "rgb(0, 221, 0)") {
+                var num_en_3_kd = num_en_3_kd / 2;
+            }
+            if (document.getElementById("en_4_eco").style.color == "rgb(0, 221, 0)") {
+                var num_en_4_kd = num_en_4_kd / 2;
+            }
+            if (document.getElementById("en_5_eco").style.color == "rgb(0, 221, 0)") {
+                var num_en_5_kd = num_en_5_kd / 2;
+            }
+            if (document.getElementById("my_1_died").style.color == "rgb(221, 0, 0)") {
+                var num_my_1_kd = num_my_1_kd * 0;
+            }
+            if (document.getElementById("my_2_died").style.color == "rgb(221, 0, 0)") {
+                var num_my_2_kd = num_my_2_kd * 0;
+            }
+            if (document.getElementById("my_3_died").style.color == "rgb(221, 0, 0)") {
+                var num_my_3_kd = num_my_3_kd * 0;
+            }
+            if (document.getElementById("my_4_died").style.color == "rgb(221, 0, 0)") {
+                var num_my_4_kd = num_my_4_kd * 0;
+            }
+            if (document.getElementById("my_5_died").style.color == "rgb(221, 0, 0)") {
+                var num_my_5_kd = num_my_5_kd * 0;
+            }
+            if (document.getElementById("en_1_died").style.color == "rgb(221, 0, 0)") {
+                var num_en_1_kd = num_en_1_kd * 0;
+            }
+            if (document.getElementById("en_2_died").style.color == "rgb(221, 0, 0)") {
+                var num_en_2_kd = num_en_2_kd * 0;
+            }
+            if (document.getElementById("en_3_died").style.color == "rgb(221, 0, 0)") {
+                var num_en_3_kd = num_en_3_kd * 0;
+            }
+            if (document.getElementById("en_4_died").style.color == "rgb(221, 0, 0)") {
+                var num_en_4_kd = num_en_4_kd * 0;
+            }
+            if (document.getElementById("en_5_died").style.color == "rgb(221, 0, 0)") {
+                var num_en_5_kd = num_en_5_kd * 0;
+            }
+
+            var myteam_kd = num_my_1_kd + num_my_2_kd + num_my_3_kd + num_my_4_kd + num_my_5_kd;
+            var enteam_kd = num_en_1_kd + num_en_2_kd + num_en_3_kd + num_en_4_kd + num_en_5_kd;
+            var total_kd = myteam_kd + enteam_kd;
+
+            var myteam_winrate = parseInt(myteam_kd / total_kd * 100);
+            var fix_1 = 50 - myteam_winrate;
+            var fix_2 = 0 - fix_1;
+            if (fix_2 >= 0) {
+                var fix_3 = fix_2 / -100 + 1.5;
+            } else {
+                var fix_3 = fix_2 / 100 + 1.5;
+            }
+            var fix_4 = fix_2 * fix_3;
+            var myteam_winrate = parseInt(50 + fix_4);
+            var enteam_winrate = 100 - myteam_winrate;
+
+            if (myteam_kd == 0) {
+                var myteam_winrate = 1;
+                var enteam_winrate = 99;
+            }
+            if (enteam_kd == 0) {
+                var myteam_winrate = 99;
+                var enteam_winrate = 1;
+            }
+            if (myteam_kd == 0 && enteam_kd == 0) {
+                var myteam_winrate = 50;
+                var enteam_winrate = 50;
+            }
+
+            if (document.getElementById("my_1_died").style.color == "rgb(221, 0, 0)" && document.getElementById("my_2_died").style.color == "rgb(221, 0, 0)" && document.getElementById("my_3_died").style.color == "rgb(221, 0, 0)" && document.getElementById("my_4_died").style.color == "rgb(221, 0, 0)" && document.getElementById("my_5_died").style.color == "rgb(221, 0, 0)") {
+                var myteam_winrate = 0;
+                var enteam_winrate = 100;
+            }
+            if (document.getElementById("en_1_died").style.color == "rgb(221, 0, 0)" && document.getElementById("en_2_died").style.color == "rgb(221, 0, 0)" && document.getElementById("en_3_died").style.color == "rgb(221, 0, 0)" && document.getElementById("en_4_died").style.color == "rgb(221, 0, 0)" && document.getElementById("en_5_died").style.color == "rgb(221, 0, 0)") {
+                var myteam_winrate = 100;
+                var enteam_winrate = 0;
+            }
+
+            if (myteam_winrate > enteam_winrate) {
+                document.getElementById("myteam_wintext").innerHTML = "<span style=\"color: #88DD00;\"> (胜率: " + myteam_winrate + "%)</span>";
+                document.getElementById("enteam_wintext").innerHTML = "<span style=\"color: #DD8800;\"> (胜率: " + enteam_winrate + "%)</span>";
+            }
+            if (myteam_winrate == enteam_winrate) {
+                document.getElementById("myteam_wintext").innerHTML = "<span style=\"color: #DDDD00;\"> (胜率: " + myteam_winrate + "%)</span>";
+                document.getElementById("enteam_wintext").innerHTML = "<span style=\"color: #DDDD00;\"> (胜率: " + enteam_winrate + "%)</span>";
+            }
+            if (myteam_winrate < enteam_winrate) {
+                document.getElementById("myteam_wintext").innerHTML = "<span style=\"color: #DD8800;\"> (胜率: " + myteam_winrate + "%)</span>";
+                document.getElementById("enteam_wintext").innerHTML = "<span style=\"color: #88DD00;\"> (胜率: " + enteam_winrate + "%)</span>";
+            }
+            if (myteam_winrate == 100) {
+                document.getElementById("myteam_wintext").innerHTML = "<span style=\"color: #00DD00;\"> (胜率: " + myteam_winrate + "%)</span>";
+                document.getElementById("enteam_wintext").innerHTML = "<span style=\"color: #DD0000;\"> (胜率: " + enteam_winrate + "%)</span>";
+            }
+            if (enteam_winrate == 100) {
+                document.getElementById("myteam_wintext").innerHTML = "<span style=\"color: #DD0000;\"> (胜率: " + myteam_winrate + "%)</span>";
+                document.getElementById("enteam_wintext").innerHTML = "<span style=\"color: #00DD00;\"> (胜率: " + enteam_winrate + "%)</span>";
+            }
+        }
+    </script>
+</div></body>
+
+</html>
