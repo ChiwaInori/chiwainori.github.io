@@ -28,6 +28,7 @@
     --white-f: #ffffff;
     --white-e: #eeeeee;
     --white-d: #dddddd;
+    --white-0: #000000;
 
     /* CHIWA STANDARD COLORS */
     /* These are used to make website more colorful. They are verified to have great or normal visibility on ChiwaInori.top. */
@@ -104,6 +105,8 @@ body {
 
 /* NORMAL ELEMENTS */
 
+/* NORMAL ELEMENTS - TEXT */
+
 * {
     font-family: "Lolita", sans-serif;
     transition: all 0.1s var(--transit);
@@ -121,6 +124,30 @@ p, h1, h2, h3, h4, h5, h6, img, video, audio {
     margin: 10px auto;
 }
 
+ruby rt {
+    font-size: 10px;
+}
+
+table {
+    color: var(--textColor-500);
+    margin: 0px 0px 10px 0px;
+}
+
+th, td {
+    text-align: center;
+}
+
+hr {
+    margin: 32px auto;
+}
+
+blockquote p {
+    color: var(--textColor-400);
+    font-style: italic;
+}
+
+/* NORMAL ELEMENTS - MEDIA */
+
 img:not([class*="NBM"]), video:not([class*="NBM"]) {
     border: 3px solid var(--activeColor-500);
     margin: 2px;
@@ -130,7 +157,9 @@ img[style*="float: left"] {
     margin-right: 8px;
 }
 
-input, button, textarea {
+/* NORMAL ELEMENTS - INTERACTION */
+
+input, button, textarea, select {
     color: var(--activeColor-500);
     background-color: var(--white-f);
     margin: 2px 10px;
@@ -138,36 +167,48 @@ input, button, textarea {
     font-weight: bold;
 }
 
+input:not([type="checkbox"]), button, textarea, select {
+    border-radius: 6px;
+}
+
 input, textarea {
     cursor: text;
-}
-
-button {
-    cursor: pointer;
-}
-
-textarea {
-    resize: none;
 }
 
 ::placeholder {
     color: var(--activeColor-800);
 }
 
+button {
+    cursor: pointer;
+}
+
+select {
+    color: var(--activeColor-500);
+    background-color: var(--white-f);
+    border: 2px solid var(--activeColor-500);
+    margin: auto 10px;
+}
+
+textarea {
+    resize: none;
+}
+
 input[type="checkbox"] {
     width: 12px;
     height: 12px;
+    margin-bottom: 0px;
     appearance: none;
     cursor: pointer;
 }
 
-input[type="checkbox"]:hover, input[type="radio"]:hover, button:hover {
+:is(input[type="checkbox"], input[type="radio"], button, select):hover {
     color: var(--activeColor-600);
     border: 2px solid var(--activeColor-600);
     background-color: var(--white-e);
 }
 
-input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
+:is(input[type="checkbox"], input[type="radio"]):checked::before {
     background-color: var(--activeColor-500);
     display: block;
     position: relative;
@@ -186,6 +227,7 @@ input[type="radio"] {
     width: 14px;
     height: 14px;
     border-radius: 50%;
+    margin-bottom: -1px;
     appearance: none;
     cursor: pointer;
 }
@@ -199,16 +241,16 @@ input[type="radio"]:checked::before {
 
 input[type="range"] {
     background: var(--white-f);
-    width: auto;
-    height: 4px;
+    width: 192px;
+    height: 8px;
     appearance: none;
     cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     background: var(--activeColor-400);
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     appearance: none;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
@@ -217,8 +259,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]::-moz-range-thumb {
     background: var(--activeColor-400);
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     appearance: none;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
@@ -237,40 +279,11 @@ button:active {
     transition: color 0s;
 }
 
-input:disabled, button:disabled {
+:is(input, button):disabled:is(:hover, :not(:hover)) { /* Used :is(:hover, :not(:hover)) to raise specificity to (0, 2, 1) */
     color: var(--textColor-400);
     background-color: var(--white-d);
     border: 2px solid var(--textColor-400);
     cursor: not-allowed;
-}
-
-select {
-    color: var(--activeColor-500);
-    background-color: var(--white-f);
-    border: 2px solid var(--activeColor-500);
-    margin: auto 10px;
-}
-
-ruby rt {
-    font-size: 10px;
-}
-
-blockquote :is(p, span, strong) {
-    color: var(--textColor-400);
-    font-style: italic;
-}
-
-table {
-    color: var(--textColor-500);
-    margin: 0px 0px 10px 0px;
-}
-
-th, td {
-    text-align: center;
-}
-
-hr {
-    margin: 32px auto;
 }
 
 /* TEXT COLORS */
@@ -424,11 +437,13 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
 }
 
 [class*="IFB"] * {
+    margin-top: 5px;
     margin-bottom: 5px;
 }
 
-[class*="IFB"] > p + p {
+[class*="IFB"] > p:nth-child(1) {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* MOBILE COMMON */
@@ -453,7 +468,7 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
         font-size: 38px;
     }
     
-    h4, p, span, a {
+    p, h4, span, a {
         font-size: 32px;
     }
     
@@ -470,51 +485,66 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
     }
     
     input {
-        width: 192px;
-        height: 20px;
+        width: 320px;
+        height: 32px;
         border: 4px solid var(--activeColor-500);
+        margin: 4px 16px;
         font-size: 24px;
     }
 
     button {
-        height: 40px;
+        height: 48px;
         border: 4px solid var(--activeColor-500);
         font-size: 24px;
     }
-    
-    input[type="checkbox"] {
-        width: 24px;
-        height: 24px;
+
+    input:not([type="checkbox"]), button, textarea, select {
+        border-radius: 12px;
+    }
+
+    :is(input[type="checkbox"], input[type="radio"], button) {
+        margin-bottom: -3px;
+    }
+
+    :is(input[type="checkbox"], input[type="radio"], button, select):hover {
+        border: 4px solid var(--activeColor-600);
     }
     
-    input[type="checkbox"]:checked::before, input[type="radio"]:checked::before {
-        top: 34%;
-        left: 34%;
-        transform: scale(200%, 200%);
+    input[type="checkbox"] {
+        width: 30px;
+        height: 30px;
+    }
+    
+    input[type="checkbox"]:checked::before {
+        top: 39%;
+        left: 39%;
+        transform: scale(300%, 300%);
     }
     
     input[type="radio"] {
-        width: 24px;
-        height: 24px;
+        width: 30px;
+        height: 30px;
     }
     
     input[type="radio"]:checked::before {
-        width: 5px;
-        height: 5px;
+        top: 37%;
+        left: 36%;
+        transform: scale(275%, 275%);
     }
     
     input[type="range"] {
-        height: 12px;
+        width: 320px;
+        height: 16px;
     }
     
     input[type="range"]::-webkit-slider-thumb {
-        width: 16px;
-        height: 16px;
+        width: 30px;
+        height: 30px;
     }
     
     input[type="range"]::-moz-range-thumb {
-        width: 16px;
-        height: 16px;
+        width: 30px;
+        height: 30px;
     }
     
     input[type="color"] {
@@ -522,13 +552,15 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
         height: 36px;
     }
     
-    input:disabled, button:disabled {
+    :is(input, button):disabled {
         border: 4px solid var(--textColor-400);
     }
     
     select {
-        height: 24px;
+        width: 320px;
+        height: 48px;
         border: 4px solid var(--activeColor-500);
+        font-size: 32px;
     }
     
     ruby rt {

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/type-normal.css" />
     <style>
-        #result, #result2 {
-            transition: none;
+        #result, #result2, #result-panel tr th {
+            transition: color 0s;
         }
     </style>
     <script src="/chiwa-functions.js"></script>
@@ -27,6 +27,14 @@
         <br />
         <p id="result" style="color: var(--gray)">请在上方输入化学方程式</p>
         <p id="result2" class="STX" style="color: var(--gray)">&nbsp;</p>
+        <br />
+        <p><input id="showMore" type="checkbox" /> 显示配平详细信息 (可能会影响 25% 的计算性能)</p>
+        <p><input id="slowMode" type="checkbox" /> 慢速计算 (可保证计算时网页不卡顿; 运算速度约为最大速度的 0.25%)</p>
+        <p class="ANT">上述数据仅供参照，实际运算速度由你的设备的硬件决定。</p>
+        <table id="table" hidden>
+            <caption style="width: 256px;">配平尝试详细信息</caption>
+            <tbody id="result-panel"></tbody>
+        </table>
         <br />
         <p><strong>[提示]</strong></p>
         <p>请按照标准示例书写方程式: <strong>H2 + O2 = H2O</strong></p>
@@ -122,6 +130,7 @@
 
         async function start() {
             const input = inputEl.value.replaceAll(/ /g, "").replaceAll(/{([0-9]*?)\+}/g, "{$1#}").replaceAll(/{([0-9]*?)-}/g, "{$1%}");
+            cw("#button").disabled = true;
             log(inputEl.value.replaceAll(/{([0-9]*?)-}/g, "{$1%}"));
 
             const splitIcon = input.includes("-") ? "-" : "=";
@@ -153,16 +162,54 @@
             let nowMax = Number(cw("#min").value);
             let response = "pending";
             let err;
+            const showMore = cw("#showMore").checked;
+            const slowMode = cw("#slowMode").checked;
+            let newPanel = false;
+            let panelCounter = 0;
+            let panelTimer;
+            const calTimesFunc = n => n ** multiplier.arr.length - (n - 1) ** multiplier.arr.length;
+            let timePredictRatio;
+            let calInSlowMode = 0;
 
             cw("#result").text = "正在尝试配平, 请稍后";
             cw("#result2").html = "&nbsp;";
             cw("#result").color = "var(--orange)";
             cw("#result2").color = "var(--orange)";
 
+            if (showMore) {
+                cw("#result-panel").html = `<tr>
+                        <th>最大配平系数</th>
+                        <th>尝试次数</th>
+                        <th>用时</th>
+                        <th>状态</th>
+                    </tr>`;
+
+                for (let i = nowMax; i <= tryMax; i++) {
+                    cw("#result-panel").html += `<tr>
+                            <th class="panel-${i}">${i}</th>
+                            <th class="panel-${i}" id="panel-${i}-value" style="color: var(--gray)">计划 ${calTimesFunc(i)}</th>
+                            <th class="panel-${i}" id="panel-${i}-time" style="color: var(--gray)"></th>
+                            <th class="panel-${i}" id="panel-${i}-result" style="color: var(--gray)">等待</th>
+                        <tr>`;
+                }
+            }
+
             await sleep(1);
 
             try {
+                if (showMore) { panelTimer = new Date().getTime(); }
                 while (!done) {
+                    if (showMore) {
+                        panelCounter++;
+                        newPanel = false;
+                    }
+                    if (showMore && slowMode) {
+                        cw(`#panel-${nowMax}-value`).html = `${panelCounter}<span style="color: var(--gray)">/${calTimesFunc(nowMax)}</span>`;
+                        cw(`#panel-${nowMax}-result`).text = "计算";
+                        cw(`#panel-${nowMax}-value`).color = "var(--textColor-500)";
+                        cw(`#panel-${nowMax}-result`).color = "var(--textColor-500)";
+                    }
+
                     const check = {
                         from: "",
                         to: ""
@@ -178,12 +225,30 @@
                     debugLog(check);
 
                     if (checkLetterCounts(check.from, check.to)) {
+                        if (showMore) {
+                            cw(`#panel-${nowMax}-result`).text = "成功";
+                            applyAll(`.panel-${nowMax}`, el => cw(el).color = "var(--green)");
+                            if (cw(`#panel-${nowMax}-value`).text.includes(" ")) { cw(`#panel-${nowMax}-value`).html = `${panelCounter}<span style="color: var(--gray)">/${cw(`#panel-${nowMax}-value`).text.split(" ")[1]}</span>`; }
+
+                            cw("#result-panel").html = cw("#result-panel").html.replaceAll(/等待/g, "跳过").replaceAll(/panel-([0-9]+)">\1/g, "panel-$1\" style='color: var(--gray)'>$1");
+
+                            const now = new Date().getTime();
+                            const timeDiff = now - panelTimer;
+                            cw(`#panel-${nowMax}-time`).text = parseTime(timeDiff);
+                        }
+
                         done = true;
                         debugLog(multiplier.arr, "done");
                         response = "done";
                     } else {
                         debugLog(multiplier.arr, "failed");
                         if (!arrAddUp(multiplier.arr, nowMax)) { // All possibilities tried under current nowMax
+                            if (showMore) {
+                                newPanel = true;
+                                cw(`#panel-${nowMax}-result`).text = "失败";
+                                applyAll(`.panel-${nowMax}`, el => cw(el).color = "var(--red)");
+                            }
+
                             nowMax++;
 
                             // Back multiplier array to default
@@ -209,15 +274,84 @@
                         done = true;
                         debugLog(nowMax, "exceed");
                         response = "exceed";
+
+                        if (showMore) {
+                            const now = new Date().getTime();
+                            const timeDiff = now - panelTimer;
+                            const timeIsLong = timeDiff >= 1000;
+                            if (cw(`#panel-${nowMax - 1}-value`).text.includes(" ")) { cw(`#panel-${nowMax - 1}-value`).text = cw(`#panel-${nowMax - 1}-value`).text.split(" ")[1]; }
+                            if (cw(`#panel-${nowMax - 1}-value`).text.includes("/")) { cw(`#panel-${nowMax - 1}-value`).text = cw(`#panel-${nowMax - 1}-value`).text.split("/")[0]; }
+                            cw(`#panel-${nowMax - 1}-time`).text = `${timeIsLong ? `${(timeDiff / 1000).keep(1)} s` : `${timeDiff} ms`}`;
+                        }
+
+                        break;
+                    }
+
+                    if (showMore && newPanel) {
+                        const now = new Date().getTime();
+                        const timeDiff = now - panelTimer;
+                        const timeIsLong = timeDiff >= 1000;
+                        cw(`#panel-${nowMax - 1}-time`).text = parseTime(timeDiff);
+                        panelCounter = 0;
+                        panelTimer = now;
+
+                        // Calculate time prediction
+                        if (cw(`#panel-${nowMax - 1}-value`).text.includes(" ")) { cw(`#panel-${nowMax - 1}-value`).text = cw(`#panel-${nowMax - 1}-value`).text.split(" ")[1]; }
+                        if (cw(`#panel-${nowMax - 1}-value`).text.includes("/")) { cw(`#panel-${nowMax - 1}-value`).text = cw(`#panel-${nowMax - 1}-value`).text.split("/")[0]; }
+                        const calTimes = cw(`#panel-${nowMax - 1}-value`).text;
+                        
+                        timePredictRatio = timeDiff / calTimes;
+                        let index = nowMax;
+                        
+                        while (cw(`#panel-${index}-value`).el) {
+                            const predictedTime = calTimesFunc(index) * timePredictRatio;
+                            cw(`#panel-${index}-time`).text = `预估 ${parseTime(predictedTime)}`;
+                            cw(`#panel-${index}-value`).color = "var(--gray)";
+                            cw(`#panel-${index}-time`).color = "var(--gray)";
+                            index++;
+                        }
+
+                        cw(`#panel-${nowMax}-result`).text = "计算";
+                        cw(`#panel-${nowMax}-result`).color = "var(--textColor-500)";
+
+                        await sleep(1);
+                    }
+                    if (slowMode) {
+                        if (showMore && nowMax == Number(cw("#min").value)) {
+                            // Calculate time in advance because this loop may take long
+                            if (calInSlowMode == 100) {
+                                const now = new Date().getTime();
+                                const timeDiff = now - panelTimer;
+                                timePredictRatio = timeDiff / 100;
+                                let index = nowMax;
+
+                                while (cw(`#panel-${index}-value`).el) {
+                                    const predictedTime = calTimesFunc(index) * timePredictRatio;
+                                    const predictedTimeIsLong = predictedTime >= 1000;
+                                    cw(`#panel-${index}-time`).text = `预估 ${parseTime(predictedTime)}`;
+                                    cw(`#panel-${index}-value`).color = "var(--gray)";
+                                    cw(`#panel-${index}-time`).color = "var(--gray)";
+                                    index++;
+                                }
+                            }
+                            if (calInSlowMode <= 100) { calInSlowMode++; }
+                        }
+                        await sleep(1);
                     }
                 }
             } catch (e) {
                 if (e.message.includes("Maximum call stack size exceeded")) {
                     response = "stack";
+                } else if (e.cwErr) {
+                    response = `cwErr-${e.cwErr}`;
                 } else {
                     response = "unknown";
                     err = e;
                 }
+
+                const errHere = Number(!cw(`#panel-${nowMax}-value`).el);
+                cw(`#panel-${nowMax - errHere}-result`).text = "错误";
+                applyAll(`.panel-${nowMax - errHere}`, el => cw(el).color = "var(--red)");
             }
 
             if (response == "done") {
@@ -239,7 +373,7 @@
                 cw("#result").color = "var(--red)";
                 cw("#result2").color = "var(--red)";
             }
-            if (response == "pending" || response == "unknown") {
+            if (response == "pending" || response == "unknown" || response.includes("cwErr-")) {
                 cw("#result").text = `配平时发生错误, 请重试`;
                 cw("#result2").text = `Error: ${response}`;
                 cw("#result").color = "var(--red)";
@@ -247,10 +381,28 @@
             }
 
             log("Status Code", [response]);
+            cw("#button").disabled = false;
 
             if (response == "unknown") {
                 throw err;
             }
+        }
+
+        cw("#showMore").event("change", function () { cw("#table").toggleDisplay(this.checked); });
+
+        function parseTime(time, str) {
+            if (time < 1000) {
+                return `${time.keep(0)} ms`;
+            } else if (time < 10 * 60 * 1000) {
+                return `${(time / 1000).keep(1)} s`;
+            } else if (time < 6 * 60 * 60 * 1000) {
+                return `${(time / 1000 / 60).keep(1)} min`;
+            } else if (time < 120 * 60 * 60 * 1000) {
+                return `${(time / 1000 / 60 / 60).keep(1)} h`;
+            } else if (time <= 365 * 24 * 60 * 60 * 1000) {
+                return `${(time / 1000 / 60 / 60 / 24).keep(1)} d`;
+            }
+            return `> 1 y`;
         }
 
         // Tool functions

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>数列生成工具 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        .range {
+            width: 64px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>数列生成工具</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <p>请在下方输入数列的通项公式并确认范围。</p>
+        <br />
+        <p><strong>注意:</strong> 通项公式的输入要<strong>符合 JavaScript 表达式的语法</strong>。例如：</p>
+        <p>要计算数列 a<sub>n</sub> = 2n<sup>2</sup> + 3n + n<sup>1/2</sup> + 1, 请输入: 2*n**2+3*n+n**(1/2)+1</p>
+        <br />
+        <p>a<sub>n</sub> = <input id="formula" /></p>
+        <p>生成范围: [<input id="min" class="range" />, <input id="max" class="range" />]</p>
+        <p><button onclick="cal()">生成</button></p>
+        <br />
+        <table>
+            <tbody id="table">
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function cal() {
+            const formula = cw("#formula").value;
+            const range = [Number(cw("#min").value), Number(cw("#max").value)];
+
+            cw("#table").html = `<tr>
+                    <th>n</th>
+                    <th>a<sub>n</sub></th>
+                </tr>`;
+
+            for (let i = Math.ceil(range[0]); i <= range[1]; i++) {
+                cw("#table").html += `<tr>
+                    <th>${i}</th>
+                    <th>${eval(formula.replaceAll(/n/g, i)).keep(12)}</th>
+                </tr>`;
+            }
+        }
+    </script>
+</div></body>
+
+</html>

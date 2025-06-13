@@ -13,7 +13,8 @@
         }
 
         h1, #cw-nav h6, h3 {
-            color: var(--white-e);
+            color: var(--white-0);
+            transition: color 0s;
         }
 
         input[type="range"] {
@@ -234,6 +235,10 @@
             }
 
             // Update everyone's color
+
+            // Titles
+
+            applyAll("h1, #cw-nav h6, h3", el => cw(el).color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
 
             // RGB
             cw("#rgb-r").el.value = rgb.r;
