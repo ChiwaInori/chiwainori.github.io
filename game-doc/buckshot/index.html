@@ -69,9 +69,7 @@
             <h4>子弹顺序: <strong id="bulletLine"></strong></h4>
             <h5>
                 电话: 第
-                <select id="telephoneOrder">
-
-                </select>
+                <select id="telephoneOrder"></select>
                 发子弹 ... &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button id="telephoneButton" onclick="telephone()">确认</button></h5>
             <div id="telephoneHintsGroup"></div>
             <br />
@@ -81,7 +79,7 @@
             <button id="shootNormalBlank" class="shootButton blankButton normalButton" onclick="shoot(2)">常规发射 | <span style="color: var(--blank)">空弹</span></button></p>
             <br />
             <h4 style="color: #007700;">使用转换器</h4>
-            <h6>* 注: 对于两个 &quot;<span style="color: #007700;">使用转换器</span>&quot; 的按钮，根据发射出的实际子弹类型选择 <span style="color: var(--live);">实弹</span> 或 空弹，而不是选择转换前的类型。</h6>
+            <h6>请根据发射出的实际子弹类型选择 <span style="color: var(--live);">实弹</span> 或 空弹，而不是选择转换前的类型。</h6>
             <p><button id="shootInvertLive" class="shootButton blankButton convertButton" onclick="shoot(3)"><span style="color: var(--convert);">使用转换器</span> | <span style="color: var(--live);">实弹</span></button>
             <button id="shootInvertBlank" class="shootButton liveButton convertButton" onclick="shoot(4)"><span style="color: var(--convert);">使用转换器</span> | <span style="color: var(--blank)">空弹</span></button></p>
         </div>
@@ -93,9 +91,9 @@
                 live: 0,
                 blank: 0
             },
-            telephoneModified: {}
+            telephoneModified: {},
+            hints: {}
         };
-        const telephoneHints = {};
         let nowRound = 0;
 
         function updateStartButton() {
@@ -121,7 +119,7 @@
         }
 
         function shoot(type) {
-            applyAll(".shootButton", element => element.disabled = false);
+            applyAll(".shootButton", el => el.disabled = false);
             
             if (type == 1) { bullets.left.live--; updateLine("live", false); }
             if (type == 2) { bullets.left.blank--; updateLine("blank", false); }
@@ -129,12 +127,12 @@
             if (type == 4) { bullets.left.live--; updateLine("live", true); }
             
             nowRound++;
-            const revealed = nowRound in telephoneHints;
-            if (!(nowRound - 1 in telephoneHints)) {
+            const revealed = nowRound in bullets.hints;
+            if (!(nowRound - 1 in bullets.hints)) {
                 if (type == 1 || type == 4) { bullets.telephoneModified.live--; }
                 if (type == 2 || type == 3) { bullets.telephoneModified.blank--; }
             }
-            if (nowRound in telephoneHints) {
+            if (nowRound in bullets.hints) {
                 cw(`#hint-${nowRound}`).color = "var(--red)";
             }
 
@@ -148,6 +146,8 @@
                 cw("#liveCountTxt").html = "已打完";
                 cw("#liveCountTxt").color = "#dd0000";
                 cw("#shootNormalLive").el.disabled = cw("#shootInvertBlank").el.disabled = true;
+                cw("#telephoneLive").disabled = true;
+                cw("#telephoneLive").checked = false;
 
                 for (let i = nowRound; i <= bullets.total; i++) {
                     cw(`#line-${i}`).color = `var(--blank)`;
@@ -160,6 +160,8 @@
                 cw("#blankCountTxt").html = "已打完";
                 cw("#blankCountTxt").color = "#dd0000";
                 cw("#shootInvertLive").el.disabled = cw("#shootNormalBlank").el.disabled = true;
+                cw("#telephoneBlank").disabled = true;
+                cw("#telephoneBlank").checked = false;
 
                 for (let i = nowRound; i <= bullets.total; i++) {
                     cw(`#line-${i}`).color = `var(--live)`;
@@ -174,7 +176,7 @@
             const absoluteId = orderId + nowRound - 1;
             const isLive = cw("#telephoneLive").el.checked;
 
-            telephoneHints[absoluteId] = isLive;
+            bullets.hints[absoluteId] = isLive;
             if (isLive) {
                 bullets.telephoneModified.live--;
             } else {
@@ -184,7 +186,7 @@
             cw("#telephoneOrder").value = "";
             cw("#telephoneHintsGroup").html += `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`;
             cw(`#line-${absoluteId}`).color = `var(--${isLive ? "live" : "blank"})`;
-            updateChance(nowRound in telephoneHints);
+            updateChance(nowRound in bullets.hints);
         }
 
         function updateChance(revealed) {
@@ -192,7 +194,7 @@
             const noLeft = bullets.telephoneModified.live != 0 || bullets.telephoneModified.blank != 0;
 
             if (revealed) {
-                const isLive = telephoneHints[nowRound];
+                const isLive = bullets.hints[nowRound];
                 liveChance = isLive ? 100 : 0;
                 cw("#confirmed").color = `var(--${isLive ? "live" : "blank"})`;
             } else {
@@ -252,7 +254,7 @@
             cw("#telephoneOrder").html = "";
             cw("#telephoneButton").el.disabled = true;
             for (let i = 2; i <= bullets.left.live + bullets.left.blank; i++) {
-                if (!(i + nowRound - 1 in telephoneHints)) {
+                if (!(i + nowRound - 1 in bullets.hints)) {
                     cw("#telephoneOrder").html += `<option value="${i}">${i}</option>`;
                     cw("#telephoneButton").el.disabled = false;
                 }
@@ -269,7 +271,7 @@
 
         function updateLine(type, converted) {
             cw(`#line-${nowRound}`).color = `var(--${type})`;
-            if (converted) { cw(`#line-${nowRound}`).html += `<span style="color: var(--convert)">&gt;!</span>`; }
+            if (converted) { cw(`#line-${nowRound}`).html += `<span style="color: var(--convert)">&gt;${type == "blank" ? "<span style='color: var(--live)'>L</span>" : "<span style='color: var(--blank)'>B</span>"}</span>`; }
 
             cw("#bulletLine").html = cw("#bulletLine").html.replaceAll(/NEXT/g, "");
             if (nowRound + 1 <= bullets.total) {

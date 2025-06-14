@@ -50,6 +50,7 @@
     </div>
     <script>
         const inputEl = cw("#equationInput");
+        let processing = false;
         
         inputEl.event("input", function () {
             const input = this.value.replaceAll(/{([0-9]*?)\+}/g, "{$1#}").replaceAll(/{([0-9]*?)-}/g, "{$1%}");
@@ -120,7 +121,7 @@
 
             cw("#result").text = "按下按钮开始配平";
             cw("#result").color = "var(--gray)";
-            cw("button").disabled = false;
+            if (!processing) { cw("button").disabled = false; }
         });
 
         const debug = false;
@@ -131,6 +132,7 @@
         async function start() {
             const input = inputEl.value.replaceAll(/ /g, "").replaceAll(/{([0-9]*?)\+}/g, "{$1#}").replaceAll(/{([0-9]*?)-}/g, "{$1%}");
             cw("#button").disabled = true;
+            processing = true;
             log(inputEl.value.replaceAll(/{([0-9]*?)-}/g, "{$1%}"));
 
             const splitIcon = input.includes("-") ? "-" : "=";
@@ -186,7 +188,7 @@
 
                 for (let i = nowMax; i <= tryMax; i++) {
                     cw("#result-panel").html += `<tr>
-                            <th class="panel-${i}">${i}</th>
+                            <th class="panel-${i}" id="panel-${i}-id">${i}</th>
                             <th class="panel-${i}" id="panel-${i}-value" style="color: var(--gray)">计划 ${calTimesFunc(i)}</th>
                             <th class="panel-${i}" id="panel-${i}-time" style="color: var(--gray)"></th>
                             <th class="panel-${i}" id="panel-${i}-result" style="color: var(--gray)">等待</th>
@@ -230,7 +232,10 @@
                             applyAll(`.panel-${nowMax}`, el => cw(el).color = "var(--green)");
                             if (cw(`#panel-${nowMax}-value`).text.includes(" ")) { cw(`#panel-${nowMax}-value`).html = `${panelCounter}<span style="color: var(--gray)">/${cw(`#panel-${nowMax}-value`).text.split(" ")[1]}</span>`; }
 
-                            cw("#result-panel").html = cw("#result-panel").html.replaceAll(/等待/g, "跳过").replaceAll(/panel-([0-9]+)">\1/g, "panel-$1\" style='color: var(--gray)'>$1");
+                            for (let i = nowMax + 1; i <= tryMax; i++) {
+                                cw(`#panel-${i}-result`).text = "跳过";
+                                cw(`#panel-${i}-id`).color = "var(--gray)";
+                            }
 
                             const now = new Date().getTime();
                             const timeDiff = now - panelTimer;
@@ -343,15 +348,17 @@
                 if (e.message.includes("Maximum call stack size exceeded")) {
                     response = "stack";
                 } else if (e.cwErr) {
-                    response = `cwErr-${e.cwErr}`;
+                    response = `cwErr: ${e.cwErr}`;
                 } else {
                     response = "unknown";
                     err = e;
                 }
 
-                const errHere = Number(!cw(`#panel-${nowMax}-value`).el);
-                cw(`#panel-${nowMax - errHere}-result`).text = "错误";
-                applyAll(`.panel-${nowMax - errHere}`, el => cw(el).color = "var(--red)");
+                if (showMore) {
+                    const errHere = Number(!cw(`#panel-${nowMax}-value`).el);
+                    cw(`#panel-${nowMax - errHere}-result`).text = "错误";
+                    applyAll(`.panel-${nowMax - errHere}`, el => cw(el).color = "var(--red)");
+                }
             }
 
             if (response == "done") {
@@ -373,7 +380,7 @@
                 cw("#result").color = "var(--red)";
                 cw("#result2").color = "var(--red)";
             }
-            if (response == "pending" || response == "unknown" || response.includes("cwErr-")) {
+            if (response == "pending" || response == "unknown" || response.includes("cwErr: ")) {
                 cw("#result").text = `配平时发生错误, 请重试`;
                 cw("#result2").text = `Error: ${response}`;
                 cw("#result").color = "var(--red)";
@@ -382,6 +389,7 @@
 
             log("Status Code", [response]);
             cw("#button").disabled = false;
+            processing = false;
 
             if (response == "unknown") {
                 throw err;
@@ -393,13 +401,17 @@
         function parseTime(time, str) {
             if (time < 1000) {
                 return `${time.keep(0)} ms`;
-            } else if (time < 10 * 60 * 1000) {
+            }
+            if (time < 10 * 60 * 1000) {
                 return `${(time / 1000).keep(1)} s`;
-            } else if (time < 6 * 60 * 60 * 1000) {
+            }
+            if (time < 6 * 60 * 60 * 1000) {
                 return `${(time / 1000 / 60).keep(1)} min`;
-            } else if (time < 120 * 60 * 60 * 1000) {
+            }
+            if (time < 120 * 60 * 60 * 1000) {
                 return `${(time / 1000 / 60 / 60).keep(1)} h`;
-            } else if (time <= 365 * 24 * 60 * 60 * 1000) {
+            }
+            if (time <= 365 * 24 * 60 * 60 * 1000) {
                 return `${(time / 1000 / 60 / 60 / 24).keep(1)} d`;
             }
             return `> 1 y`;
@@ -498,7 +510,7 @@
 
                 return result;
             }
-
+            
             return parse(formula);
         }
 
