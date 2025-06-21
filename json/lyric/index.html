@@ -39,6 +39,7 @@
             -webkit-text-stroke: var(--isBorder) var(--borderColor);
             font-size: 100px;
             white-space: nowrap;
+            transition: font-size 0s;
         }
 
         #previewLyric {
@@ -441,12 +442,13 @@
                 words.forEach(element => {
                     element.style.fontSize = `${fontSize}px`;
                 });
-                
+
                 let width = 0;
                 for (let i = 1; i <= len; i++) {
                     width += cw(`#w-${i}`).el.offsetWidth;
                 }
-                while (width > horizontalTotal - 256 && fontSize > 10) {
+
+                while (width > horizontalTotal * 0.85 && fontSize > 10) {
                     fontSize -= 10;
                     words.forEach(element => {
                         element.style.fontSize = `${fontSize}px`;
@@ -472,7 +474,7 @@
                 // VERTICAL
                 const verticalTotal = cw("#lyricBlock").el.offsetHeight;
                 const verticalUsed = showCircleSetting ? width / 8 : fontSize * 2;
-                const verticalMargin = showCircleSetting ? verticalTotal * 0.3 : (verticalTotal - verticalUsed) / 2;
+                const verticalMargin = showCircleSetting ? verticalTotal * 0.25 : (verticalTotal - verticalUsed) / 2.5;
 
                 if (showCircleSetting) {
                     const circle = { center: [horizontalUsed / 2, -(((horizontalUsed / 2) ** 2 - verticalUsed ** 2) / (2 * verticalUsed))] };
@@ -483,8 +485,8 @@
 
                     let calWidthLeft = 0;
                     for (let i = 1; i <= len; i++) {
-                        calWidthRight = calWidthLeft + cw(`#w-${i}`).el.offsetWidth;
-                        calWidthCenter = (calWidthLeft + calWidthRight) / 2;
+                        const calWidthRight = calWidthLeft + cw(`#w-${i}`).el.offsetWidth;
+                        const calWidthCenter = (calWidthLeft + calWidthRight) / 2;
 
                         const float = getY(calWidthCenter);
                         cw(`#w-${i}`).el.style.top = `${verticalMargin + (getY(horizontalUsed / 2) - float)}px`;
