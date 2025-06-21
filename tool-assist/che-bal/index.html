@@ -11,6 +11,19 @@
         #result, #result2, #result-panel tr th {
             transition: color 0s;
         }
+
+        .stretch {
+            padding-right: 20px;
+            display: inline-block;
+            transform: scaleX(3);
+            transform-origin: left;
+        }
+
+        @media not (hover: hover) {
+            .stretch {
+                padding-right: 36px;
+            }
+        }
     </style>
     <script src="/chiwa-functions.js"></script>
 </head>
@@ -592,7 +605,7 @@
                     substances.to[index] = `${coefficients[index + substances.split]}${substance}`;
                 }
             });
-            equation = `${substances.from.join(" + ")} = ${substances.to.join(" + ")}`;
+            equation = `${substances.from.join(" + ")} <span class="stretch">=</span> ${substances.to.join(" + ")}`;
             equation = equation.replaceAll(/#/g, "+").replaceAll(/%/g, "-");
 
             return equation;

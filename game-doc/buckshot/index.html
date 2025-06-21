@@ -70,7 +70,11 @@
             <h5>
                 电话: 第
                 <select id="telephoneOrder"></select>
-                发子弹 ... &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。<button id="telephoneButton" onclick="telephone()">确认</button></h5>
+                发子弹 ... 
+                &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。
+                <button id="telephoneButton" onclick="telephone()">确认</button>
+                <span id="telephone-alreadySet"></span>
+            </h5>
             <div id="telephoneHintsGroup"></div>
             <br />
             <h4><span style="margin-left: 128px; margin-right: 128px; color: var(--live);">实弹</span><span style="margin-left: 128px; margin-right: 128px;">空弹</span></h4>
@@ -153,7 +157,6 @@
                     cw(`#line-${i}`).color = `var(--blank)`;
                 }
             }
-
             if (bullets.left.blank != 0) {
                 cw("#blankCountTxt").html = bullets.left.blank;
             } else {
@@ -169,6 +172,7 @@
             }
             
             updateChance(revealed);
+            checkTelephoneAvailable();
         }
 
         function telephone() {
@@ -187,6 +191,16 @@
             cw("#telephoneHintsGroup").html += `<h6 style="color: var(--textColor-400);">本局第 <span id="hint-${absoluteId}" style="color: var(--blank);">${absoluteId}</span> 发: ${isLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}</h6>`;
             cw(`#line-${absoluteId}`).color = `var(--${isLive ? "live" : "blank"})`;
             updateChance(nowRound in bullets.hints);
+            checkTelephoneAvailable();
+
+            if (bullets.telephoneModified.live == 0) {
+                cw("#telephoneLive").disabled = true;
+                cw("#telephoneLive").checked = false;
+            }
+            if (bullets.telephoneModified.blank == 0) {
+                cw("#telephoneBlank").disabled = true;
+                cw("#telephoneBlank").checked = false;
+            }
         }
 
         function updateChance(revealed) {
@@ -235,6 +249,8 @@
                 cw("#advantage-live").color = "var(--gray)";
                 cw("#advantage-blank").html = "|";
                 cw("#advantage-blank").color = "var(--gray)";
+                cw("#liveChance").text = "-";
+                cw("#blankChance").text = "-";
             }
 
             const chanceModified = bullets.left.live != bullets.telephoneModified.live || bullets.left.blank != bullets.telephoneModified.blank;
@@ -252,12 +268,28 @@
             }
 
             cw("#telephoneOrder").html = "";
-            cw("#telephoneButton").el.disabled = true;
             for (let i = 2; i <= bullets.left.live + bullets.left.blank; i++) {
-                if (!(i + nowRound - 1 in bullets.hints)) {
-                    cw("#telephoneOrder").html += `<option value="${i}">${i}</option>`;
-                    cw("#telephoneButton").el.disabled = false;
-                }
+                cw("#telephoneOrder").html += `<option value="${i}">${i}</option>`;
+            }
+        }
+
+        cw("#telephoneOrder").event("change", checkTelephoneAvailable);
+
+        function checkTelephoneAvailable() {
+            if (!cw("select option").el) {
+                cw("#telephoneButton").disabled = true;
+                cw("#telephone-alreadySet").html = "";
+                return;
+            }
+
+            const nowSelect = Number(cw("#telephoneOrder").value);
+
+            if (nowSelect + nowRound - 1 in bullets.hints) {
+                cw("#telephoneButton").disabled = true;
+                cw("#telephone-alreadySet").html = `接下来的第 ${nowSelect} 发 (本局第 ${nowSelect + nowRound - 1} 发) 子弹已被设置为 ${bullets.hints[nowSelect + nowRound - 1] ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}。`;
+            } else {
+                cw("#telephoneButton").disabled = false;
+                cw("#telephone-alreadySet").html = "";
             }
         }
 
