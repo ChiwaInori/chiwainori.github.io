@@ -9,7 +9,6 @@ const ruleList = {
     "getter-return": "error",
     "implicit-arrow-linebreak": "error",
     "new-parens": "error",
-    "no-bitwise": "error",
     "no-class-assign": "error",
     "no-cond-assign": "error",
     "no-const-assign": "error",

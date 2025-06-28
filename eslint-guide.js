@@ -34,9 +34,6 @@ const linebreakArrow = value =>
 // Error: new-parens
 const string = new String; // Has the same function with "new String()"
 
-// Error: no-bitwise
-let a = 1 | 2;
-
 // Error: no-class-assign
 A = 0;
 

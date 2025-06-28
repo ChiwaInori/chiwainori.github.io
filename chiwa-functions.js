@@ -1462,7 +1462,7 @@ function load(inputId, element = "file-content") {
  * @returns {Promise} The promise included JSON
  * @throws {SyntaxError} f-loadJSON-invalid - When JSON file is invalid
  * @throws {SyntaxError} f-loadJSON-empty - When no file is selected in given target ID
- * @example try { content = await loadJSON("fileInput"); } catch (e) { if (e.message.includes("Invalid")) { ... } } // Load JSON from #fileInput and copy the JSON object to content, and catch error from loadJSON
+ * @example try { content = await loadJSON("fileInput"); } catch (e) { if (e.cwErr == "f-loadJSON-invalid") { ... } } // Load JSON from #fileInput and copy the JSON object to content, and catch error from loadJSON
  * @example loadJSON("fileInput").then(json => content = json).catch(e => { if (e.message.includes("Invalid") { ... } }) // Same function but async isn't required
  * @since inori.24-8-19
  * @version 25-6-5
