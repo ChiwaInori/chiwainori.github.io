@@ -1341,7 +1341,7 @@ class ChiwaSet {
 
 /**
  * Get a ChiwaSet of target element.
- * @param {...*} args - See ChiwaSet constructor for more details.
+ * @param {...*} args - See ChiwaSet for more details.
  * @returns {ChiwaSet} A ChiwaSet with specified element
  * @example cw("p", 1) // A ChiwaSet with the index 1 (2nd) p element
  * @since 25-1-12

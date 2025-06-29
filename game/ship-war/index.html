@@ -17,6 +17,14 @@
             margin-left: 0px;
         }
 
+        #goodTitle, #choose_first > h2 {
+            margin-top: 32px;
+        }
+
+        #subtitle {
+            margin-bottom: 32px;
+        }
+
         .left_table { 
             margin: auto auto auto 9.5% !important;
         }
@@ -29,7 +37,7 @@
             margin: -93px auto auto 50% !important;
         }
 
-        button {
+        table button {
             margin-right: 0px;
         }
 
@@ -60,9 +68,7 @@
             <p>欢迎体验 ChiwaInori.top 的 军舰大战 小游戏!</p>
             <br />
             <h2>游戏规则</h2>
-            <p>首先要决定两个玩家中谁是先手. 选择 &quot;随机先手&quot;, 将会随机选择一个玩家作为先手. 或者选择 &quot;P1 / P2 先手&quot;, 进行人工选择. <strong>推荐在进行人工选择时通过其他公平的方式选择先手</strong>.</p>
-            <p>在游戏开始时, 两个玩家都会有一个 6*6 的显示盘 (Display Panel), 并且需要<strong>通过物理阻拦的方式</strong>让双方互相看不到对方的棋盘. 你的棋盘下面还会有一个 6x6 的控制板 (Operation Panel).</p>
-            <br />
+            <p>在游戏开始时, 两个玩家都会有一个 6*6 的显示盘 (Display Panel, &quot;(D)&quot;), 并且需要<strong>在屏幕中间放置隔板</strong>等方式, 让双方互相看不到对方的棋盘. 你的棋盘下面还会有一个 6x6 的控制板 (Operation Panel, &quot;(O)&quot;).</p>
             <p>双方需要选择一个方格作为自己的<strong>母舰</strong>的位置, 通过按下控制盘上对应的按钮来进行.</p>
             <br />
             <p>随后, 先手选择一个空格放置自己新的战列舰, 然后选择一个敌方的位置来进行打击. 然后, 后手进行同样的操作, 以此循环.</p>
@@ -73,33 +79,31 @@
             <p id="text1" style="font-size: 10px;">若选择读取游戏, 请在选择存档文件后点击 &quot;点击开始&quot; 按钮.</p>
             <!-- <p class="STX">如果你的存档文件是 .top 格式, 请在本网页的地址后面加上 /../archive_100_a.html 以尝试在支持 .top 的版本中加载.</p> -->
             <br /><br />
-            <h6 style="color: var(--gray)">本游戏的灵感与本网站所有代码均为 <ruby>千和<rt>ちわ</rt></ruby> いのり 所作。<span id="copyright" style="color: var(--gray)"></span></h6>
+            <h6 style="color: var(--gray)">ChiwaInori.top ShipWar v<span id="version"></span>. 本游戏的灵感与本网站所有代码均为 <ruby>千和<rt>ちわ</rt></ruby> いのり 所作。<span id="copyright" style="color: var(--gray)"></span></h6>
         </div>
         <div id="choose_first" style="display: none;">
-            <h2>选择先手</h2>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <p style="position: relative; left: 0%;"><button onclick="firstPlayer(1)">P1 先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="randomFirst()">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="firstPlayer(2)">P2 先手</button></p>
-            <p id="online_button" style="position: relative; left: 0%;"><button onclick="showOnlineText()">联机模式</button></p>
-            <div id="online_text" style="display: none;">
-                <h4 style="position: relative; left: 0%;">注意: 你正在尝试开始联机模式. 请仔细阅读以下内容再开始联机.</h4>
-                <p>此联机模式并非你认为的线上联机. 如需游玩此联机模式, 请遵循以下步骤.</p>
-                <p>1. 你在你的电脑上进行操作, 包括放置战列舰、选择攻击位置</p>
-                <p>2. 此网页将会根据你的操作生成一段代码, 你需要把这串代码<strong>通过各种方式</strong>发送给你的好友</p>
-                <p>3. 你的好友需要在他的电脑上输入代码, 通过读取代码来知道你的操作</p>
-                <p>4. 如此循环</p>
-                <p>在联机模式中, 你的好友的面板将不会显示, 因此无需准备挡板. 联机模式无法存档 & 读档.</p>
-                <br />
-                <p>若你已准备好, 请选择先手玩家:</p>
-                <p style="position: relative; left: 0%;"><button onclick="onlineFirst(1)">我先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="onlineRandomFirst()">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="onlineFirst(2)">好友先手</button></p>
-                <br />
-                <p>好友已准备好? 请在下方输入代码:</p>
-                <input id="code_type" style="width: 50px;" /><button onclick="onlineCodeEnter()" style="margin-left: 16px;">确认</button>
-                <p id="wrong_code" style="color: var(--red); font-size: 10px;"></p>
-            </div>
+            <h2>选择游戏模式</h2>
+            <br /><br />
+            <h3>本地对战</h3>
+            <p style="position: relative; left: 0%;"><button onclick="firstPlayer(1)">左侧先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="randomFirst()">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="firstPlayer(2)">右侧先手</button></p>
+            <br />
+            <h3>单人游戏</h3>
+            <p style="position: relative; left: 0%;"><button onclick="startRobot(1)">玩家先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="startRobot(0)">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="startRobot(2)">人机先手</button></p>
+            <br />
+            <h3>联机模式</h3>
+            <!-- <p id="online_button" style="position: relative; left: 0%;"><button onclick="showOnlineText()">联机模式</button></p> -->
+            <p>如需游玩此联机模式, 请循环遵循以下步骤.</p>
+            <p>1. 你在你的电脑上进行操作, 包括放置战列舰、选择攻击位置</p>
+            <p>2. 此网页将会根据你的操作生成一段代码, 你需要把这串代码发送给你的好友</p>
+            <p>3. 你的好友在他的电脑上输入代码, 通过读取代码来知道你的操作</p>
+            <p>4. 你的好友完成他的操作后, 将代码发送给你, 你输入代码后继续你的操作</p>
+            <p><button onclick="onlineFirst(1)">我方先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="onlineRandomFirst()">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="onlineFirst(2)">好友先手</button></p>
+            <p>好友已准备好? 请输入代码: <input id="code_type" style="width: 50px;" /><button onclick="onlineCodeEnter()" style="margin-left: 16px;">确认</button></p>
+            <p id="wrong_code" style="color: var(--red); font-size: 10px;"></p>
         </div>
         <div id="main_panel" style="display: none;">
             <h2 id="goodTitle">放置母舰</h2>
-            <h6 style="color: var(--red);" id="subtitle">请准备好物理阻拦物, 确保玩家不会看到对方的操作界面</h6>
+            <h6 id="subtitle">请准备好物理阻拦物, 确保玩家不会看到对方的操作界面</h6>
             <h6 style="color: #00a8ff; display: none;" id="subtitle_showOne">单显示模式已开启 - 同一时刻仅会显示一个玩家的操作界面</h6>
             <table id="p1_table_1" class="BRT left_table">
                 <tr><th>(D)</th><th>&nbsp;A&nbsp;</th><th>&nbsp;B&nbsp;</th><th>&nbsp;C&nbsp;</th><th>&nbsp;D&nbsp;</th><th>&nbsp;E&nbsp;</th><th>&nbsp;F&nbsp;</th></tr>
@@ -256,10 +260,13 @@
             <button id="saveButton" style="display: none;" onclick="saveGame()">保存游戏</button>
             <br /><div id="brs"><br /><br /><br /><br /></div>
             <div id="online_finish" style="display: none;">
-                <h4>你的操作已经结束. 请将以下代码发送给你的好友:</h4>
-                <h5 id="online_code"></h5>
-                <p id="online_input">将好友发给你的代码输入: <input id="code_from_friend" style="width: 100px;" /><button id="online_b1" onclick="onlineContinue()" style="margin-left: 16px;" disabled>确认</button><span id="confirm" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="onlineContinueForce()" style="margin-left: 16px;">确认</button></span></p>
-                <h5 id="online_warn" style="font-size: 10px;"></h5>
+                <div id="online-area">
+                    <h4>你的操作已经结束. 请将以下代码发送给你的好友:</h4>
+                    <h5 id="online_code"></h5>
+                    <p id="online_input">将好友发给你的代码输入: <input id="code_from_friend" style="width: 100px;" /><button id="online_b1" onclick="onlineContinue()" style="margin-left: 16px;" disabled>确认</button><span id="confirm" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="onlineContinueForce()" style="margin-left: 16px;">确认</button></span></p>
+                    <h5 id="online_warn" style="font-size: 10px;"></h5>
+                    </div>
+                <p id="single-await" hidden></p>
             </div>
         </div>
         <h2 id="url-code-err" style="color: var(--red)" hidden></h2>
@@ -268,20 +275,33 @@
         copyright(2023);
 
         const shipwarURL = `${window.location.origin}/game/ship-war/?code=`;
-        const currentVersion = 102;
+        const currentVersion = 103;
+        cw("#version").text = `${String(currentVersion).slice(0, 1)}.${String(currentVersion).slice(1)}`;
 
         const onlineCode = urlParam.get("code");
         let first;
         let bigPlaced = 0;
+        let atkCombo = [];
+        
+        let loaded = 0;
+        
         let online = 0;
         let onlineWho = 0;
+        let randOnlineFirst = false;
         let cache = "";
         let lastCode;
-        let loaded = 0;
         let win = false;
-        let atkCombo = [];
         let biggestTarget = 0;
-        let randOnlineFirst = false;
+
+        let robot = false;
+        const robotMemory = {
+            placeSmall: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+            attack: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
+            attackOriginal: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
+        };
+        let robotPlaceBigReady = false;
+        let waitPlayerPlaceSmall;
+
         if (onlineCode) {
             cw("#code_type").el.value = onlineCode;
             cw("#rules").hide();
@@ -343,10 +363,13 @@
                 cw("#p2_status_1").hide();
                 cw("#p2_status_2").hide();
                 cw("#p2_status_3").hide();
-                cw("#subtitle").hide();
+                cw("#subtitle").text = robot ? "单人游戏" : "联机模式";
                 cw("#p1_status").style = "margin: auto auto auto auto !important;";
                 cw("#p1_table_1").style = "margin: auto auto auto auto !important;";
                 cw("#p1_table_2").style = "margin: auto auto auto auto !important;";
+            } else {
+                cw("#subtitle").text = "请准备好物理阻拦物, 确保玩家不会看到对方的操作界面";
+                cw("#subtitle").color = "var(--red)";
             }
         }
 
@@ -364,6 +387,7 @@
                 if (online) {
                     cw("#online_finish").unhide();
                     onlineCodeBig();
+                    if (robotPlaceBigReady) { waitPlayerPlaceSmall(); }
                 }
             } else {
                 cache += `3${posArray.stringCache[pos]}`;
@@ -653,18 +677,10 @@
                         cw("#online_finish").hide();
                     }
                 }
+            } else if (isBigSunk(1)) {
+                p1Round2();
             } else {
-                let notBigCounter = 0;
-                for (let i = 1; i <= 36; i++) {
-                    if (cw(`#display_p1_${i}`).html != "〓") {
-                        notBigCounter++;
-                    }
-                }
-                if (notBigCounter == 36) {
-                    p1Round2();
-                } else {
-                    p2RoundCheck();
-                }
+                p2RoundCheck();
             }
         }
 
@@ -776,31 +792,17 @@
                         cw("#online_finish").hide();
                     }
                 }
+            } else if (isBigSunk(2)) {
+                p2Round2();
             } else {
-                let notBigCounter = 0;
-                for (let i = 1; i <= 36; i++) {
-                    if (cw(`#display_p2_${i}`).html != "〓") {
-                        notBigCounter++;
-                    }
-                }
-                if (notBigCounter == 36) {
-                    p2Round2();
-                } else {
-                    p1RoundCheck();
-                }
+                p1RoundCheck();
             }
         }
 
         function p1RoundCheck() {
             atkCombo = [];
-            let notBigCounter = 0;
-            for (let i = 1; i <= 36; i++) {
-                if (cw(`#display_p1_${i}`).html != "〓") {
-                    notBigCounter++;
-                }
-            }
             p1TextRecolor();
-            if (notBigCounter == 36) {
+            if (isBigSunk(1)) {
                 p1Round2();
             } else {
                 p1Round1();
@@ -809,14 +811,8 @@
 
         function p2RoundCheck() {
             atkCombo = [];
-            let notBigCounter = 0;
-            for (let i = 1; i <= 36; i++) {
-                if (cw(`#display_p2_${i}`).html != "〓") {
-                    notBigCounter++;
-                }
-            }
             p2TextRecolor();
-            if (notBigCounter == 36) {
+            if (isBigSunk(2)) {
                 p2Round2();
             } else {
                 p2Round1();
@@ -1067,14 +1063,14 @@
             }
 
             if (cw("#p1_status_1").html.includes("我方先手")) {
-                first = 0;
-            } else {
                 first = 1;
+            } else {
+                first = 2;
             }
-            const firstCode = first + randOnlineFirst * 2; // 0: 我先手(选定) 1: 敌先手(选定) 2: 我先手(随机) 3: 敌先手(随机)
+            const firstCode = first + randOnlineFirst * 2; // 1: 我先手(选定) 2: 敌先手(选定) 3: 我先手(随机) 4: 敌先手(随机)
             const code = BigInt(`${firstCode}${bigPos}`) + key ^ key << 2n;
 
-            cw("#online_code").html = `<span style="color: var(--gray);">${shipwarURL}</span><span style="font-size: 20px; letter-spacing: 4px;">${key.toBase(36).padStart(2, "0")}${code.toBase(36)}</span><br />你的好友可以输入网址链接直接开始游戏，也可以在页面输入深色的代码来开始游戏`;
+            cw("#online_code").html = `<span style="color: var(--gray);">${shipwarURL}</span><span style="font-size: 20px; letter-spacing: 4px; font-family: Consolas;">${key.toBase(36).padStart(2, "0")}${code.toBase(36)}</span><br />你的好友可以输入网址链接直接开始游戏，也可以在页面输入深色的代码来开始游戏`;
         }
 
         function onlineCodeEnter() {
@@ -1096,13 +1092,12 @@
                 }
 
                 cw(`#display_p1_${bigPos}`).html = "〓";
-                cw("#choose_first").hide();
-                cw("#main_panel").unhide();
-                if (firstCode % 2 == 0) {
+                fadeChange("choose_first", "main_panel");
+                if (firstCode % 2 == 1) {
                     cw("#p2_status_1").html = `<strong>敌方先手 (${firstCode >= 2 ? "随机" : "指定"})</strong>`;
                     first = 1;
                 } else {
-                    cw("#p2_status_1").html = `<strong>我方先手 (${firstCode >= 2 ? "随机" : "指定"})</strong>`;
+                    cw("#p2_status_1").html = `<strong>我方先手 (${firstCode >= 3 ? "随机" : "指定"})</strong>`;
                     cw("#p2_status_1").color = "var(--green)";
                     first = 2;
                 }
@@ -1119,7 +1114,7 @@
                 cw("#p2_table_1").style = "margin: auto auto auto auto !important;";
                 cw("#p2_table_2").style = "margin: auto auto auto auto !important;";
                 bigPlaced = 1;
-                cw("#online_code").style = "font-size: 24px; letter-spacing: 12px;";
+                cw("#online_code").style = "font-size: 24px; letter-spacing: 12px; font-family: Consolas;";
             } else {
                 cw("#wrong_code").text = `错误的联机代码 at 0 0`;
                 cw("#url-code-err").text = `错误的联机代码 at 0 0`;
@@ -1149,8 +1144,9 @@
                 onlineEncode();
             }
             if (onlineWho == 2) {
-                cw("#online_finish").hide();
+                cw("#online_finish").hide(); // Prevent unexpected element unhide
             }
+            if (robot) { robotAction(1); }
         }
 
         function onlineEncodeOLD() {
@@ -1181,7 +1177,7 @@
             code = (BigInt(cache) ^ key << 2n) + key;
 
             cw("#online_code").html = `${key.toBase(36).padStart(2, "0")}${code.toBase(36)}`;
-            cw("#online_code").style = "font-size: 24px; letter-spacing: 12px;";
+            cw("#online_code").style = "font-size: 24px; letter-spacing: 12px; font-family: Consolas;";
             cw("#code_from_friend").value = "";
             cache = "";
         }
@@ -1216,7 +1212,7 @@
                 onlineEncode();
             }
             if (onlineWho == 1) {
-                cw("#online_finish").hide();
+                cw("#online_finish").hide(); // Prevent unexpected element unhide
             }
         }
 
@@ -1299,28 +1295,26 @@
             cw("#online_finish").hide();
 
             if (onlineWho == 1) {
-                p1OnlineContinue();
+                p1OnlineContinue(onlineDecode(cw("#code_from_friend").el.value));
             } else {
-                p2OnlineContinue();
+                p2OnlineContinue(onlineDecode(cw("#code_from_friend").el.value));
             }
         }
         function onlineContinueForce() {
-            cw("#online_same").hide();
-            cw("#online_justNow").hide();
+            cw("#online_warn").html = "&nbsp;";
             cw("#online_b1").el.disabled = false;
             cw("#confirm").hide();
             lastCode = cw("#code_from_friend").el.value;
             biggestTarget = 0;
             if (onlineWho == 1) {
-                p1OnlineContinue();
+                p1OnlineContinue(onlineDecode(cw("#code_from_friend").el.value));
             } else {
-                p2OnlineContinue();
+                p2OnlineContinue(onlineDecode(cw("#code_from_friend").el.value));
             }
         }
 
-        function p1OnlineContinue() {
-            let codeToBeProceed = onlineDecode(cw("#code_from_friend").el.value);
-
+        function p1OnlineContinue(codeToBeProceed) {
+            log(codeToBeProceed);
             while (codeToBeProceed >= 100) {
                 codeToBeProceed = codeToBeProceed.toString(); // '334'
 
@@ -1346,9 +1340,7 @@
             if (!win) { p1RoundCheck(); }
         }
 
-        function p2OnlineContinue() {
-            let codeToBeProceed = onlineDecode(cw("#code_from_friend").el.value);
-
+        function p2OnlineContinue(codeToBeProceed) {
             while (codeToBeProceed >= 100) {
                 codeToBeProceed = codeToBeProceed.toString(); // '334'
                 const nowPos = codeToBeProceed[1] + codeToBeProceed[2]; // '34'
@@ -1397,6 +1389,131 @@
             }
 
             return false;
+        }
+
+        function isBigSunk(player) {
+            let notBigCounter = 0;
+
+            for (let i = 1; i <= 36; i++) {
+                if (cw(`#display_p${player}_${i}`).html != "〓") {
+                    notBigCounter++;
+                }
+            }
+
+            return notBigCounter == 36;
+        }
+
+        function startRobot(whoFirst) {
+            robot = true;
+            if (whoFirst) { onlineFirst(whoFirst); } else { onlineRandomFirst(); }
+            cw("#online-area").hide();
+            cw("#single-await").unhide();
+
+            robotAction(0);
+        }
+
+        async function robotAction(type) {
+            if (win) {
+                cw("#single-await").hide();
+                return;
+            }
+            
+            if (type == 0) { // PlaceBig
+                cw("#single-await").text = "你的操作已经结束。请等待对手操作 .";
+                await sleep(rand(150, 300));
+                cw("#single-await").text = "你的操作已经结束。请等待对手操作 ..";
+                await sleep(rand(150, 300));
+                cw("#single-await").text = "你的操作已经结束。请等待对手操作 ...";
+                await sleep(rand(150, 300));
+                cw("#single-await").text = "你的操作已经结束。请等待对手操作 ....";
+                await sleep(rand(150, 300));
+                cw("#single-await").text = "你的操作已经结束。请等待对手操作 .....";
+                await sleep(rand(150, 300));
+                
+                const code = `3${String(rand(1, 36)).padStart(2, "0")}`;
+                robotPlaceBigReady = true;
+
+                if (isBigSunk(1)) {
+                    const playerPlaceSmall = new Promise(resolve => waitPlayerPlaceSmall = resolve);
+                    await playerPlaceSmall;
+                }
+
+                p1OnlineContinue(code);
+
+                cw("#goodTitle").html = "游戏进行中";
+                cw("#goodTitle").color = "var(--green)";
+
+                if (first == 2) {
+                    cw("#p1_status_1").html = "<strong>敌方回合</strong>";
+                    cw("#p1_status_1").color = "var(--textColor-500)";
+                    cw("#p1_status_2").html = "<strong>请等待敌方操作</strong>";
+                    cw("#p1_status_2").color = "var(--textColor-500)";
+                    cw("#online_finish").unhide();
+                    robotAction(1);
+                }
+                
+                return;
+            }
+
+            if (!cw("#p1_status_3").text.includes("母舰已部署") && !cw("#p1_status_3").text.includes("未发现") && !cw("#p1_status_3").text.includes("已击毁")) {
+                return; // Prevent unexpected function call
+            }
+            
+            let code = "";
+
+            if (!isBigSunk(2) && chance(botWillToPlaceSmall(countOfShip(2)))) {
+                const placeSmallPos = robotMemory.placeSmall[rand(0, robotMemory.placeSmall.length - 1)];
+                robotMemory.placeSmall = robotMemory.placeSmall.remove(placeSmallPos);
+                code += `1${String(placeSmallPos).padStart(2, "0")}`;
+            }
+
+            let missed = false;
+            let timer = 0;
+
+            while (!missed) {
+                const attackPos = robotMemory.attack[rand(0, robotMemory.attack.length - 1)];
+                robotMemory.attack = robotMemory.attack.remove(attackPos);
+                code += `2${String(attackPos).padStart(2, "0")}`;
+
+                if (cw(`#display_p1_${attackPos}`).text.includes("〓")) { // Big sank, reset attack table
+                    robotMemory.attack = robotMemory.attackOriginal.isolate().remove(attackPos);
+                }
+
+                if (!isBigSunk(2) || !cw(`#display_p1_${attackPos}`).text.includes("〓") && !cw(`#display_p1_${attackPos}`).text.includes("≡")) {
+                    missed = true;
+                }
+
+                timer += rand(1500, 2500);
+            }
+
+            timer /= 5;
+            cw("#single-await").text = "你的操作已经结束。请等待对手操作 .";
+            await sleep(rand(timer - 100, timer + 100));
+            cw("#single-await").text = "你的操作已经结束。请等待对手操作 ..";
+            await sleep(rand(timer - 100, timer + 100));
+            cw("#single-await").text = "你的操作已经结束。请等待对手操作 ...";
+            await sleep(rand(timer - 100, timer + 100));
+            cw("#single-await").text = "你的操作已经结束。请等待对手操作 ....";
+            await sleep(rand(timer - 100, timer + 100));
+            cw("#single-await").text = "你的操作已经结束。请等待对手操作 .....";
+            await sleep(rand(timer - 100, timer + 100));
+
+            biggestTarget = 0;
+            p1OnlineContinue(code);
+        }
+
+        function countOfShip(p) {
+            let counter = 0;
+            for (let i = 1; i <= 36; i++) {
+                if (cw(`#display_p${p}_${i}`).text.includes("≡") || cw(`#display_p${p}_${i}`).text.includes("〓")) {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+
+        function botWillToPlaceSmall(smallOnBoard) {
+            return smallOnBoard.percentage(rand(7, 9), rand(12, 14)).transit(1, 0);
         }
     </script>
 </div></body>
