@@ -31,6 +31,7 @@
         "js-operations": "JavaScript 表达式计算测试",
         "json": "JSON 文件",
         "local": "你在 ChiwaInori.top 上的本地数据",
+        "lrc": "LRC 歌词打轴",
         "lyric": "动态歌词显示",
         "match": "CS2 比赛胜率估算",
         "mc": "Minecraft",
