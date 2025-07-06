@@ -12,6 +12,10 @@
             width: 512px;
             height: 256px;
         }
+
+        #offset {
+            width: 48px;
+        }
     </style>
     <script src="/chiwa-functions.js"></script>
 </head>
@@ -25,7 +29,10 @@
         <p>在下方输入歌词并选择音频文件 (可选).</p>
         <textarea></textarea>
         <p><input type="file" accept="audio/*" /></p>
-        <p><input id="add-blank" type="checkbox" checked />自动在开头添加一个空行</p>
+        <br />
+        <p>以下是一些额外选项，根据一定数量地用户和歌曲的规律，它们默认启用。请你根据你的实际情况判断是否禁用。</p>
+        <p><input id="offset-set" type="checkbox" checked />将所有时间戳提前 <input id="offset" type="number" value="100" /> ms (抵消人工延迟) | <input id="add-blank" type="checkbox" checked />自动在开头添加一个空行</p>
+        <br />
         <p><button onclick="start()" disabled>开始</button></p>
         <p>按下 <strong>Enter</strong> 确认歌词时间戳。</p>
         <p>按下 <strong>左方向键 (提前 100 ms)</strong> 或 <strong>右方向键 (延后 100 ms)</strong> 对上一个时间戳进行调整.</p>
@@ -41,6 +48,7 @@
         let startTime;
         let lyricArr;
         let addBlank = true;
+        let offset = 100;
         let audioName;
 
         cw("textarea").event("input", function () {
@@ -60,6 +68,12 @@
         cw("#add-blank").event("change", function () {
             addBlank = this.checked;
             updateLyric();
+        });
+        cw("#offset-set").event("change", function () {
+            offset = this.checked ? Number(cw("#offset").value) : 0;
+        });
+        cw("#offset").event("input", function () {
+            offset = cw("#offset-set").checked ? Number(this.value) : 0;
         });
 
         function updateLyric() {
@@ -88,7 +102,7 @@
         function clickEnter(force) {
             if (!startTime || nowIndex + 1 > totalLyric) { return; }
             
-            const timeDiff = new Date().getTime() - startTime;
+            const timeDiff = new Date().getTime() - startTime - offset;
             const ms = timeDiff % 1000;
             const s = Math.floor(timeDiff / 1000 % 60);
             const min = Math.floor(timeDiff / 1000 / 60);
