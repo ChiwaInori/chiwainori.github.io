@@ -272,6 +272,10 @@
         <h2 id="url-code-err" style="color: var(--red)" hidden></h2>
     </div>
     <script>
+        /*
+            We're planning to rewrite all codes of Shipwar. It may be deployed before year 2100 or never.
+        */
+       
         copyright(2023);
 
         const shipwarURL = `${window.location.origin}/game/ship-war/?code=`;
@@ -677,6 +681,7 @@
                         cw("#online_finish").hide();
                     }
                 }
+                throw new Error("Intended error to halt function execution");
             } else if (isBigSunk(1)) {
                 p1Round2();
             } else {
@@ -792,6 +797,7 @@
                         cw("#online_finish").hide();
                     }
                 }
+                throw new Error("Intended error to halt function execution");
             } else if (isBigSunk(2)) {
                 p2Round2();
             } else {
@@ -1085,7 +1091,7 @@
                 const firstCode = content.slice(0, 1);
                 const bigPos = content.slice(1);
 
-                if (firstCode < 0 || firstCode > 3 || bigPos < 0 || bigPos > 36 || bigPos[0] == "0") {
+                if (firstCode < 1 || firstCode > 4 || bigPos < 0 || bigPos > 36 || bigPos[0] == "0") {
                     cw("#wrong_code").text = `错误的联机代码 at ${firstCode} ${bigPos}`;
                     cw("#url-code-err").text = `错误的联机代码 at ${firstCode} ${bigPos}`;
                     return;
@@ -1314,7 +1320,6 @@
         }
 
         function p1OnlineContinue(codeToBeProceed) {
-            log(codeToBeProceed);
             while (codeToBeProceed >= 100) {
                 codeToBeProceed = codeToBeProceed.toString(); // '334'
 
