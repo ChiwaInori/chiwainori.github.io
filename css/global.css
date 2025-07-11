@@ -218,6 +218,10 @@ input[type="checkbox"] {
     transform: translate(-50%, -50%);
 }
 
+:is(input[type="checkbox"], input[type="radio"]):disabled:checked::before {
+    background-color: var(--textColor-400);
+}
+
 input[type="checkbox"]:checked::before {
     width: 5px;
     height: 5px;
