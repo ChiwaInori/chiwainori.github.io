@@ -338,8 +338,8 @@
                 await sleep(200); // If no this sleep and first sentence isn't [SPACE], the word will get wrong bc horizontalTotal calculated wrong (0)
 
                 const noteTime = {
-                    start: null,
-                    end: null
+                    start: undefined,
+                    end: undefined
                 };
                 
                 for (let i = startLyric; i < lyricArray.length + 1; i++) { // Loop every sentence
