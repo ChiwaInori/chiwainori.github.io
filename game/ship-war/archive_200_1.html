@@ -71,7 +71,7 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="cw-main">
+<body><div class="IFB-Blue"><p><strong>此页不是主要页面</strong></p><p>非主要页面大部分是用来进行网站调试的页面. 请点击导航栏中 @ 前面的链接.</p></div><div id="cw-main">
     <div id="cw-title">
         <h1 style="text-align: center; margin-left: 0px;">军舰大战</h1>
     </div>
@@ -276,7 +276,7 @@
         const currentVersion = 200;
         cw("#version").text = `${String(currentVersion).slice(0, 1)}.${String(currentVersion).slice(1)}`;
 
-        const urlOnlineCode = urlParam.get("code");
+        const onlineCode = urlParam.get("code");
 
         const settings = {
             first: 0,
@@ -284,7 +284,9 @@
             showSuggestion: true,
             showOffset: true,
             showOffsetSuggestion: true,
-            hasSave: false
+            hasSave: false,
+            online: false,
+            onlineSide: 0
         };
         const stats = {
             phase: null,
@@ -307,11 +309,8 @@
             },
 
             attackedPos: [[], []],
-            lastAtkDist: [[0, 0], [0, 0]]
-        };
-        const online = {
-            enabled: false,
-            side: 0,
+            lastAtkDist: [[0, 0], [0, 0]],
+
             memory: "",
             code: {
                 generated: "",
@@ -550,17 +549,17 @@
                 cw("#saveButton").disabled = true;
                 stats.win = true;
                 cw("#singleAwait").hide();
-                if (online.side == 1) {
+                if (settings.onlineSide == 1) {
                     onlineEncode();
                     cw("#onlineInput").hide();
                 }
 
-                if (!online.enabled) {
+                if (!settings.online) {
                     cw("#subtitle").text = "<------ P1 胜利!";
                     cw("#subtitle").color = "var(--green)";
                 }
-                if (online.enabled) {
-                    if (online.side == 1) {
+                if (settings.online) {
+                    if (settings.onlineSide == 1) {
                         cw("#subtitle").text = "我方胜利!";
                         cw("#subtitle").color = "var(--lightOrange)";
                     } else {
@@ -584,17 +583,17 @@
                 cw("#saveButton").disabled = true;
                 stats.win = true;
                 cw("#singleAwait").hide();
-                if (online.side == 2) {
+                if (settings.onlineSide == 2) {
                     onlineEncode();
                     cw("#onlineInput").hide();
                 }
 
-                if (!online.enabled) {
+                if (!settings.online) {
                     cw("#subtitle").text = "P2 胜利! ------>";
                     cw("#subtitle").color = "var(--green)";
                 }
-                if (online.enabled) {
-                    if (online.side == 2) {
+                if (settings.online) {
+                    if (settings.onlineSide == 2) {
                         cw("#subtitle").text = "我方胜利!";
                         cw("#subtitle").color = "var(--lightOrange)";
                     } else {
@@ -613,34 +612,32 @@
                 cw("#status-2-2").color = "var(--lightOrange)";
             }
 
-            if (online.enabled && stats.phase.includes("p1") == (online.side == 2)) {
+            if (settings.online && stats.phase.includes("p1") == (settings.onlineSide == 2)) {
                 onlineEncode();
             }
         }
 
         function placeMajor(who, pos) {
+            // Add settings to memory
+            let settingsMemory = 0;
+            if (settings.showSuggestion) { settingsMemory |= 0b001; }
+            if (settings.showOffset) { settingsMemory |= 0b010; }
+            if (settings.showOffsetSuggestion) { settingsMemory |= 0b100; }
+
             stats[`p${who}`][pos] = 2;
-            updateDisplay();
+            stats.memory += `${stats.majors == 0 ? settings.first + Number(settings.isFirstRandom) * 2 : "3"}${settings.onlineSide == 1 ? settingsMemory : ""}${String(pos).padStart(2, "0")}`;
             cw(`#status-${who}-3`).text = `母舰已部署 (${cell[pos]})`;
             cw(`#status-${who}-3`).color = "var(--gray)";
-
-            if (online.enabled) {
-                // Add settings to memory
-                let settingsMemory = 0;
-                if (settings.showSuggestion) { settingsMemory |= 0b001; }
-                if (settings.showOffset) { settingsMemory |= 0b010; }
-                if (settings.showOffsetSuggestion) { settingsMemory |= 0b100; }
-                online.memory += `${stats.majors == 0 ? settings.first + Number(settings.isFirstRandom) * 2 : "3"}${online.side == 1 ? settingsMemory : ""}${String(pos).padStart(2, "0")}`;
-            }
             
             stats.majors++;
+            updateDisplay();
 
             if (stats.majors == 1) {
                 cw(`#status-${who}-2`).text = `请等待敌方选择母舰部署位置`;
                 cw(`#status-${who}-2`).color = "var(--textColor-500)";
                 button(who, false);
 
-                if (online.enabled) {
+                if (settings.online) {
                     onlineEncode();
                 }
                 if (robot.majorPlaced) {
@@ -658,11 +655,10 @@
 
         function placeMinor(who, pos) {
             stats[`p${who}`][pos] = 1;
-            updateDisplay();
+            stats.memory += `1${String(pos).padStart(2, "0")}`;
             cw(`#status-${who}-3`).text = `战列舰已部署 (${cell[pos]})`;
             cw(`#status-${who}-3`).color = "var(--gray)";
-
-            if (online.enabled) { online.memory += `1${String(pos).padStart(2, "0")}`; }
+            updateDisplay();
 
             stats.phase = `p${who}Attack`;
             updateStatus();
@@ -714,20 +710,19 @@
                 stats.lastAtkDist[who - 1] = [];
             }
 
-            if (online.enabled && stats.atkHighest == 1) {
+            if (settings.online && stats.atkHighest == 1) {
                 cw(`#status-${attackTarget}-3`).html = `我方一艘战略舰已被击沉! (${atkComboToStr()})`;
                 cw(`#status-${attackTarget}-3`).color = "var(--minor)";
             }
-            if (online.enabled && stats.atkHighest == 2) {
+            if (settings.online && stats.atkHighest == 2) {
                 cw(`#status-${attackTarget}-3`).html = `我方母舰已被击沉! (${atkComboToStr()})`;
                 cw(`#status-${attackTarget}-3`).color = "var(--darkRed)";
             }
 
             stats[`p${attackTarget}`][pos] = 0;
+            stats.memory += `2${String(pos).padStart(2, "0")}`;
             updateDisplay();
             showAttackPos(attackTarget, stats.atkCombo);
-
-            if (online.enabled) { online.memory += `2${String(pos).padStart(2, "0")}`; }
 
             if (!stats[`p${attackTarget}HasShip`]) {
                 stats.phase = `p${who}Victory`;
@@ -1002,8 +997,8 @@
 
         function multiplayer(who) {
             settings.first = who || (settings.isFirstRandom = true, rand(1, 2));
-            online.enabled = true;
-            online.side = 1;
+            settings.online = true;
+            settings.onlineSide = 1;
 
             fadeChange("chooseMode", "mainPanel");
             cw("#statusTitle").text = "放置母舰";
@@ -1028,17 +1023,17 @@
             cw("#onlineFinish").unhide();
 
             const key = BigInt(rand(1, 1295)); // 36 base 01 ~ ZZ
-            code = (BigInt(online.memory) ^ key << 2n) + key;
+            code = (BigInt(stats.memory) ^ key << 2n) + key;
 
-            if ((/^[1-4][0-7]([0-2][0-9]|3[0-6])$/).test(online.memory) && online.side == 1) {
+            if ((/^[1-4][0-7]([0-2][0-9]|3[0-6])$/).test(stats.memory) && settings.onlineSide == 1) {
                 cw("#onlineCode").html = `<span style="color: var(--gray)">${shipwarURL}</span><span style="font-size: 24px; letter-spacing: 12px; font-family: Consolas;">${key.toBase(36).padStart(2, "0")}${code.toBase(36)}</span>`;
             } else {
                 cw("#onlineCode").text = `${key.toBase(36).padStart(2, "0")}${code.toBase(36)}`;
                 cw("#onlineCode").style = "font-size: 24px; letter-spacing: 12px; font-family: Consolas;";
             }
             cw("#onlineCodeInput").value = "";
-            online.memory = "";
-            online.code.generated = `${key.toBase(36).padStart(2, "0")}${code.toBase(36)}`;
+            stats.memory = "";
+            stats.code.generated = `${key.toBase(36).padStart(2, "0")}${code.toBase(36)}`;
         }
 
         function onlineDecode(code) {
@@ -1048,13 +1043,13 @@
             return String(content - key ^ key << 2n);
         }
 
-        if (urlOnlineCode) { joinMultiplayer(1); }
+        if (onlineCode) { joinMultiplayer(1); }
 
         function joinMultiplayer(where) {
             let code;
             
             if (where == 1) {
-                code = onlineDecode(urlOnlineCode);
+                code = onlineDecode(onlineCode);
                 if (checkCode(code, "join")) {
                     cw("#urlCodeErr").text = `错误的联机代码 ${checkCode(code, "join")}`;
                     cw("#urlCodeErr").unhide();
@@ -1086,8 +1081,8 @@
             stats.majors = 1;
             updateDisplay();
 
-            online.enabled = true;
-            online.side = 2;
+            settings.online = true;
+            settings.onlineSide = 2;
 
             if (where == 1) {
                 cw("#rules").hide();
@@ -1161,14 +1156,14 @@
             }
 
             cw("#onlineCodeBtn1").disabled = true;
-            if (!force && codeBeforeDecode == online.code.generated) {
+            if (!force && codeBeforeDecode == stats.code.generated) {
                 cw("#onlineWarn").text = "你输入的代码与你刚生成的代码相同。如确认无误，请按下新的确认按钮。";
                 cw("#onlineWarn").color = "var(--orange)";
                 cw("#onlineWarn").unhide();
                 cw("#onlineCodeConfirm").unhide("inline-block");
                 return;
             }
-            if (!force && codeBeforeDecode == online.code.last) {
+            if (!force && codeBeforeDecode == stats.code.last) {
                 cw("#onlineWarn").text = "你输入的代码与你上次输入的相同。如确认无误，请按下新的确认按钮。";
                 cw("#onlineWarn").color = "var(--orange)";
                 cw("#onlineWarn").unhide();
@@ -1178,7 +1173,7 @@
             cw("#onlineWarn").hide();
             cw("#onlineCodeConfirm").hide();
 
-            const applyTarget = online.side == 1 ? 2 : 1;
+            const applyTarget = settings.onlineSide == 1 ? 2 : 1;
             for (let i = 0; i < codeArr.length; i++) {
                 const act = codeArr[i];
                 const pos = Number(act.slice(1));
@@ -1199,8 +1194,8 @@
                 updateStatus();
             }
 
-            online.code.last = String(codeBeforeDecode);
-            online.memory = "";
+            stats.code.last = String(codeBeforeDecode);
+            stats.memory = "";
             cw("#onlineFinish").hide();
         }
 
