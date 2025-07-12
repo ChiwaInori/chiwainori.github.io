@@ -86,11 +86,11 @@
             <p>双方需要选择一个方格作为自己的<strong>母舰</strong>的位置, 通过<strong>按下控制盘上对应的按钮</strong>来进行.</p>
             <br />
             <p>随后, 先手玩家<strong>选择一个空格放置自己新的战列舰, 然后选择一个敌方的位置来进行打击</strong>. 然后, 后手玩家进行同样的操作, 以此循环.</p>
-            <p>如果自己的母舰被摧毁, 那么就<strong>无法放置更多的战列舰</strong>. 此时被摧毁母舰的玩家在击中敌方军舰后可以<strong>继续攻击, 直至打空</strong>.</p>
+            <p>如果自己的母舰被摧毁, 那么就<strong>无法放置更多的战列舰</strong>. 此时被摧毁母舰的玩家在击中敌方军舰后可以<strong>连续攻击, 直至打空</strong>, 打空后轮到另一个玩家进行操作.</p>
             <p>把对方的所有军舰全部击毁即胜利.</p>
             <br />
             <p><input id="option-showSuggestion" type="checkbox" checked /><strong>标记已攻击位置</strong> - <span id="description-showSuggestion"><strong>攻击过</strong>的位置会有 <strong id="description-showSuggestion-1" style="color: var(--minor);">粉色感叹号 (!)</strong> 标记.</span></p>
-            <p><input id="option-showOffset" type="checkbox" checked /><strong>打空时获取敌方最近军舰距离</strong> - <span id="description-showOffset">当你<strong>打空</strong>时, 你可以获取打击地点与敌方<strong>最近的一艘军舰</strong>的距离.</span></p>
+            <p><input id="option-showOffset" type="checkbox" checked /><strong>打空时获取敌方最近军舰距离</strong> - <span id="description-showOffset">当你<strong>打空</strong>时, 你可以获取打击地点与敌方<strong>最近的一艘军舰</strong>的<ruby>曼哈顿距离<rt>d = |x1-x2|+|y1-y2|</rt></ruby>.</span></p>
             <p id="description-showOffsetSuggestion" class="STX" style="margin-top: -10px;"><input id="option-showOffsetSuggestion" type="checkbox" checked /><strong>根据最近军舰距离标记攻击位置</strong> - <span id="description-showOffsetSuggestion-1">下次攻击时, 可能有敌方军舰的位置会有 <strong id="description-showOffsetSuggestion-2" style="color: var(--lightOrange);">亮橙色</strong> 标记.</span></p>
             <br />
             <p style="margin-left: 20%;"><button onclick="nextPage()">点击开始</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(或 <input id="saveInput" type="file" accept=".json" />)</p>
@@ -293,11 +293,13 @@
             win: false,
             
             p1: [null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            get p1HasMajor() { return stats.p1.includes(2); },
-            get p1HasShip() { return stats.p1.includes(1) || stats.p1.includes(2); },
             p2: [null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            get p2HasMajor() { return stats.p2.includes(2); },
-            get p2HasShip() { return stats.p2.includes(1) || stats.p2.includes(2); },
+            hasMajor(p) {
+                return stats[`p${p}`].includes(2);
+            },
+            shipCount(p) {
+                return stats[`p${p}`].getCountOf(1) + stats[`p${p}`].getCountOf(2);
+            },
             
             atkCombo: [],
             get atkHighest() {
@@ -729,11 +731,11 @@
 
             if (online.enabled) { online.memory += `2${String(pos).padStart(2, "0")}`; }
 
-            if (!stats[`p${attackTarget}HasShip`]) {
+            if (stats.shipCount(attackTarget) == 0) {
                 stats.phase = `p${who}Victory`;
-            } else if (!stats[`p${who}HasMajor`] && target) {
+            } else if (!stats.hasMajor(who) && target) {
                 stats.phase = `p${who}Attack`;
-            } else if (stats[`p${attackTarget}HasMajor`]) {
+            } else if (stats.hasMajor(attackTarget)) {
                 stats.phase = `p${attackTarget}Minor`;
                 if (robot.enabled && who == 1) { robotAction(1); }
             } else {
@@ -1237,7 +1239,7 @@
                 const code = `3${String(rand(1, 36)).padStart(2, "0")}`;
                 robot.majorPlaced = true;
 
-                if (!stats.p1HasMajor) {
+                if (!stats.hasMajor(1)) {
                     const playerMajor = new Promise(resolve => robot.playerMajor = resolve);
                     await playerMajor;
                 }
@@ -1259,7 +1261,7 @@
             
             let code = "";
 
-            if (stats.p2HasMajor && chance(botWillToPlaceSmall(countOfShip(2)))) {
+            if (stats.hasMajor(2) && chance(botWillToPlaceMinor(stats.shipCount(2)))) {
                 robot.memory.placeMinor = [];
                 for (let i = 1; i <= 36; i++) {
                     if (stats.p2[i] == 0) { robot.memory.placeMinor.push(i); }
@@ -1284,8 +1286,8 @@
                     robot.memory.attack = robot.memory.attack.remove(attackPos);
                 }
 
-                if (stats.p1[attackPos] != 1 && stats.p1[attackPos] != 2 || stats.p2HasMajor || stats.p1[attackPos] >= 1 && countOfShip(1) == 1) {
-                    missed = true; // Miss when: 1. P2 missed; 2. P2 has major; 3. P1 has 1 ship and attacked a ship
+                if (stats.p1[attackPos] != 1 && stats.p1[attackPos] != 2 || stats.hasMajor(2) || stats.p1[attackPos] >= 1 && stats.shipCount(1) == 1) {
+                    missed = true; // Miss when: 1. P2 missed; 2. P2 has major; 3. P1 has 1 ship and attacked a ship (game finishes)
                 }
 
                 timer += rand(1500, 2500);
@@ -1306,18 +1308,8 @@
             onlineCodeEnter(true, code);
         }
 
-        function countOfShip(p) {
-            let counter = 0;
-            for (let i = 1; i <= 36; i++) {
-                if (stats.p1[i] >= 1) {
-                    counter++;
-                }
-            }
-            return counter;
-        }
-
-        function botWillToPlaceSmall(smallOnBoard) {
-            return smallOnBoard.percentage(rand(7, 9), rand(12, 14)).transit(1, 0);
+        function botWillToPlaceMinor(shipOnBoard) {
+            return shipOnBoard.percentage(rand(4, 6), rand(7, 9)).transit(1, 0); // Best strategy is to keep 7 ships in total from AI
         }
     </script>
 </div></body>
