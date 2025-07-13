@@ -71,7 +71,7 @@
     <script src="/chiwa-functions.js"></script>
 </head>
 
-<body><div id="cw-main">
+<body><div class="IFB-Green"><p><strong>此页有更新版本</strong></p><p>这表示此页不再被使用. 你应该前往更新页面. 请点击导航栏中 @ 前面的链接.</p></div><div id="cw-main">
     <div id="cw-title">
         <h1 style="text-align: center; margin-left: 0px;">军舰大战</h1>
     </div>
@@ -106,35 +106,6 @@
             <br />
             <h3>单人游戏</h3>
             <p style="position: relative; left: 0%;"><button onclick="startRobot(1)">玩家先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="startRobot(0)">随机先手</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="startRobot(2)">人机先手</button></p>
-            <p><input id="singleDifficulty-0" type="radio" name="singleDifficulty" />简单 | <input id="singleDifficulty-1" type="radio" name="singleDifficulty" checked />标准 | <input id="singleDifficulty-2" type="radio" name="singleDifficulty" />困难 - <span id="diffLine" class="LNK" onclick="fadeChange('diffLine', 'diffTable', 'inline-block')">关于难度...</span></p>
-            <table id="diffTable" class="BRT" hidden>
-                <tbody>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>简单</th>
-                        <th>标准</th>
-                        <th>困难</th>
-                    </tr>
-                    <tr>
-                        <th class="STX">避免无效攻击</th>
-                        <th class="table-unconfirmed" style="color: var(--green);">√</th>
-                        <th style="color: var(--green);">√</th>
-                        <th style="color: var(--green);">√</th>
-                    </tr>
-                    <tr>
-                        <th class="STX">根据距离攻击更可能有军舰位置</th>
-                        <th style="color: var(--red);">X</th>
-                        <th class="table-unconfirmed" style="color: var(--green);">√</th>
-                        <th style="color: var(--green);">√</th>
-                    </tr>
-                    <tr>
-                        <th class="STX">每回合获取某个军舰位置</th>
-                        <th style="color: var(--red);">X</th>
-                        <th style="color: var(--red);">X</th>
-                        <th style="color: var(--green);">√</th>
-                    </tr>
-                </tbody>
-            </table>
             <br />
             <h3>联机模式</h3>
             <p>如需游玩此联机模式, 请循环遵循以下步骤.</p>
@@ -302,7 +273,7 @@
         copyright(2023);
 
         const shipwarURL = `${window.location.origin}/game/ship-war/?code=`;
-        const currentVersion = 201;
+        const currentVersion = 200;
         cw("#version").text = `${String(currentVersion).slice(0, 1)}.${String(currentVersion).slice(1)}`;
 
         const urlOnlineCode = urlParam.get("code");
@@ -317,7 +288,6 @@
         };
         const stats = {
             phase: undefined,
-            round: 0,
             majors: 0,
             lastAtkWho: 0,
             win: false,
@@ -352,16 +322,14 @@
         };
         const robot = {
             enabled: false,
-            difficulty: 1,
             majorPlaced: false,
             playerMajor: {
                 promise: undefined,
                 resolve: undefined
             },
             memory: {
-                isFirstAttack: true,
-                placeMinorPos: [],
-                attackWeight: [null, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+                placeMinor: [],
+                attack: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
             }
         };
         const cell = [null, "A1", "B1", "C1", "D1", "E1", "F1", "A2", "B2", "C2", "D2", "E2", "F2", "A3", "B3", "C3", "D3", "E3", "F3", "A4", "B4", "C4", "D4", "E4", "F4", "A5", "B5", "C5", "D5", "E5", "F5", "A6", "B6", "C6", "D6", "E6", "F6"];
@@ -388,10 +356,6 @@
                     cw("#description-showOffsetSuggestion-1").color = "var(--textColor-500)";
                     cw("#description-showOffsetSuggestion-2").color = "var(--lightOrange)";
                 }
-                applyAll(".table-unconfirmed", el => {
-                    cw(el).text = "√";
-                    cw(el).color = "var(--green)";
-                });
             } else {
                 cw("#description-showOffset").color = "var(--gray)";
                 cw("#option-showOffsetSuggestion").disabled = true;
@@ -400,10 +364,6 @@
                 cw("#description-showOffsetSuggestion").color = "var(--gray)";
                 cw("#description-showOffsetSuggestion-1").color = "var(--gray)";
                 cw("#description-showOffsetSuggestion-2").color = "var(--gray)";
-                applyAll(".table-unconfirmed", el => {
-                    cw(el).text = "X";
-                    cw(el).color = "var(--red)";
-                });
             }
         });
         cw("#option-showOffsetSuggestion").event("change", function () {
@@ -415,16 +375,6 @@
                 cw("#description-showOffsetSuggestion-1").color = "var(--gray)";
                 cw("#description-showOffsetSuggestion-2").color = "var(--gray)";
             }
-        });
-
-        cw("#singleDifficulty-0").event("change", function () {
-            if (this.checked) { robot.difficulty = 0; }
-        });
-        cw("#singleDifficulty-1").event("change", function () {
-            if (this.checked) { robot.difficulty = 1; }
-        });
-        cw("#singleDifficulty-2").event("change", function () {
-            if (this.checked) { robot.difficulty = 2; }
         });
 
         cw("#saveInput").event("change", () => { settings.hasSave = true; });
@@ -611,7 +561,7 @@
                 }
 
                 if (!online.enabled) {
-                    cw("#subtitle").text = `<------ P1 胜利! (共 ${Math.ceil(stats.round / 2)} 回合)`;
+                    cw("#subtitle").text = "<------ P1 胜利!";
                     cw("#subtitle").color = "var(--green)";
                 }
                 if (online.enabled) {
@@ -645,7 +595,7 @@
                 }
 
                 if (!online.enabled) {
-                    cw("#subtitle").text = `(共 ${Math.ceil(stats.round / 2)} 回合) P2 胜利! ------>`;
+                    cw("#subtitle").text = "P2 胜利! ------>";
                     cw("#subtitle").color = "var(--green)";
                 }
                 if (online.enabled) {
@@ -707,7 +657,6 @@
                 cw("#statusTitle").color = "var(--green)";
                 cw("#saveButton").disabled = false;
                 stats.phase = `p${settings.first}Minor`;
-                stats.round++;
                 updateStatus();
             }
         }
@@ -791,11 +740,9 @@
                 stats.phase = `p${who}Attack`;
             } else if (stats.hasMajor(attackTarget)) {
                 stats.phase = `p${attackTarget}Minor`;
-                stats.round++;
                 if (robot.enabled && who == 1) { robotAction(1); }
             } else {
                 stats.phase = `p${attackTarget}Attack`;
-                stats.round++;
                 if (robot.enabled && who == 1) { robotAction(1); }
             }
 
@@ -1280,7 +1227,7 @@
                 return;
             }
             
-            if (type == 0) { // PlaceMajor
+            if (type == 0) { // PlaceBig
                 cw("#singleAwait").text = "你的操作已经结束。请等待对手操作 .";
                 await sleep(rand(150, 300));
                 cw("#singleAwait").text = "你的操作已经结束。请等待对手操作 ..";
@@ -1317,57 +1264,36 @@
             
             let code = "";
 
-            // PlaceMinor
             if (stats.hasMajor(2) && chance(botWillToPlaceMinor(stats.shipCount(2)))) {
-                robot.memory.placeMinorPos = [];
+                robot.memory.placeMinor = [];
                 for (let i = 1; i <= 36; i++) {
-                    if (stats.p2[i] == 0) { robot.memory.placeMinorPos.push(i); }
+                    if (stats.p2[i] == 0) { robot.memory.placeMinor.push(i); }
                 }
 
-                const placeSmallPos = robot.memory.placeMinorPos[rand(0, robot.memory.placeMinorPos.length - 1)];
-                robot.memory.placeMinorPos = robot.memory.placeMinorPos.remove(placeSmallPos);
+                const placeSmallPos = robot.memory.placeMinor[rand(0, robot.memory.placeMinor.length - 1)];
+                robot.memory.placeMinor = robot.memory.placeMinor.remove(placeSmallPos);
                 code += `1${String(placeSmallPos).padStart(2, "0")}`;
             }
 
             let missed = false;
-            let attackSuccess = 0;
-            let timer = rand(1000, 2000);
+            let timer = 0;
 
-            // Attack
             while (!missed) {
-                const attackPos = botAttackTarget(robot.memory.attackWeight);
+                const attackPos = robot.memory.attack[rand(0, robot.memory.attack.length - 1)];
+                robot.memory.attack = robot.memory.attack.remove(attackPos);
                 code += `2${String(attackPos).padStart(2, "0")}`;
-                
-                if (stats.p1[attackPos] >= 1) { // Counter to prevent more attacks when win
-                    attackSuccess++;
-                }
-                
-                if (settings.showOffset && robot.difficulty >= 1 && stats.p1[attackPos] == 0) { // Get intel for nearest ship when difficulty >= 1
-                    const dist = minManhattanDistance(attackPos, stats.p1);
-                    const possibleCells = getPositionsAtDistance(attackPos, dist);
 
-                    for (const possibleCell of possibleCells) { // Weight up for possible Cells, if first attack, more weight for the possible major
-                        robot.memory.attackWeight[possibleCell] *= 100 / possibleCells.length * (robot.memory.isFirstAttack ? 100 : 1);
-                    }
+                if (stats.p1[attackPos] == 2) { // Big sank, reset attack table
+                    robot.memory.attack = [];
+                    for (let i = 1; i <= 36; i++) { robot.memory.attack.push(i); }
+                    robot.memory.attack = robot.memory.attack.remove(attackPos);
                 }
 
-                if (stats.p1[attackPos] == 2) { // Big sank, reset attack weight table
-                    robot.memory.attackWeight = [null, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+                if (stats.p1[attackPos] != 1 && stats.p1[attackPos] != 2 || stats.hasMajor(2) || stats.p1[attackPos] >= 1 && stats.shipCount(1) == 1) {
+                    missed = true; // Miss when: 1. P2 missed; 2. P2 has major; 3. P1 has 1 ship and attacked a ship (game finishes)
                 }
 
-                if (robot.difficulty >= 2) { // More cheat intel when difficulty >= 2
-                    robot.memory.attackWeight[botRandomIntel(stats.p1)] *= 10;
-                }
-
-                if (robot.difficulty >= 1 || settings.showOffset) { // Exclusion for attacked cell, unless: difficulty 0 && no showOffset
-                    robot.memory.attackWeight[attackPos] = 0;
-                }
-                
-                robot.memory.isFirstAttack = false;
                 timer += rand(1500, 2500);
-                if (stats.p1[attackPos] != 1 && stats.p1[attackPos] != 2 || stats.hasMajor(2) || attackSuccess >= stats.shipCount(1)) {
-                    missed = true; // Miss when: 1. P2 missed; 2. P2 has major; 3. attacked more than P1 has
-                }
             }
 
             timer /= 5;
@@ -1387,28 +1313,6 @@
 
         function botWillToPlaceMinor(shipOnBoard) {
             return shipOnBoard.percentage(rand(4, 6), rand(7, 9)).transit(1, 0); // Best strategy is to keep 7 ships in total from AI
-        }
-
-        function botAttackTarget(weightArr) {
-            let sum = 0;
-            for (const weight of weightArr) { sum += weight; }
-
-            const target = rand(0, sum, true);
-            let sumToTarget = 0;
-            for (let i = 1; i <= 36; i++) {
-                sumToTarget += weightArr[i];
-                if (sumToTarget >= target) { return i; }
-            }
-        }
-
-        function botRandomIntel(playerArr) {
-            const hasShips = [];
-
-            for (let i = 1; i <= 36; i++) {
-                if (playerArr[i] >= 1) { hasShips.push(i); }
-            }
-            
-            return hasShips[rand(0, hasShips.length - 1)];
         }
     </script>
 </div></body>
