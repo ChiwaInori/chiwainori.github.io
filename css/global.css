@@ -528,6 +528,7 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
     input[type="radio"] {
         width: 30px;
         height: 30px;
+        border-radius: 15px;
     }
     
     input[type="radio"]:checked::before {
@@ -554,6 +555,7 @@ a:not(.HLK), .LNK, [onclick]:not(button):not(.HLK) {
     input[type="color"] {
         width: 36px;
         height: 36px;
+        border-radius: 18px;
     }
     
     :is(input, button):disabled:is(:hover, :not(:hover)) {
