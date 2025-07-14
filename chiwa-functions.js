@@ -837,8 +837,8 @@ Array.prototype.nonEnum("getCountOf", function (target) {
  * @param {number} min - (<= max) The minimum value of the random integer
  * @param {number} max - (>= min) The maximum value of the random integer
  * @param {boolean} keepFloat - Should the function returns a float number instead of integer
- * @returns {number} The result of randomized number
- * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10]
+ * @returns {number} The result of randomized number ( not keepFloat: [min, max] in integers; keepFloat: [min, max), specially when min == max, return min or max )
+ * @example rand(1, 10, true) // Generate a random number (including fractions) in [1, 10)
  * @since xts.24-4-21
  * @version inori.24-11-29-1
  */

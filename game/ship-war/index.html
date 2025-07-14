@@ -362,6 +362,33 @@
                 isFirstAttack: true,
                 placeMinorPos: [],
                 attackWeight: [null, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            },
+            willToPlaceMinor(shipOnBoard) {
+                return shipOnBoard.percentage(rand(4, 6), rand(7, 9)).transit(1, 0); // Best strategy is to keep 7 ships in total from AI
+            },
+            getAttackTarget(weightArr) {
+                let sum = 0;
+                for (const weight of weightArr) { sum += weight; }
+
+                const target = rand(0, sum, true);
+                let sumToTarget = 0;
+                for (let i = 1; i <= 36; i++) {
+                    sumToTarget += weightArr[i];
+                    if (sumToTarget >= target) { return i; }
+                }
+                return rand(1, 36); // Prevent unexpected errors
+            },
+            getRandomShipPos(playerArr) {
+                const hasShips = [];
+
+                for (let i = 1; i <= 36; i++) {
+                    if (playerArr[i] >= 1) { hasShips.push(i); }
+                }
+
+                return hasShips[rand(0, hasShips.length - 1)];
+            },
+            cheatMultiplier(x) {
+                return x > 40 ? 2 : Math.sin(Math.PI * x / 40 - Math.PI / 2) * 0.5 + 1.5;
             }
         };
         const cell = [null, "A1", "B1", "C1", "D1", "E1", "F1", "A2", "B2", "C2", "D2", "E2", "F2", "A3", "B3", "C3", "D3", "E3", "F3", "A4", "B4", "C4", "D4", "E4", "F4", "A5", "B5", "C5", "D5", "E5", "F5", "A6", "B6", "C6", "D6", "E6", "F6"];
@@ -1318,7 +1345,7 @@
             let code = "";
 
             // PlaceMinor
-            if (stats.hasMajor(2) && chance(botWillToPlaceMinor(stats.shipCount(2)))) {
+            if (stats.hasMajor(2) && chance(robot.willToPlaceMinor(stats.shipCount(2)))) {
                 robot.memory.placeMinorPos = [];
                 for (let i = 1; i <= 36; i++) {
                     if (stats.p2[i] == 0) { robot.memory.placeMinorPos.push(i); }
@@ -1335,7 +1362,7 @@
 
             // Attack
             while (!missed) {
-                const attackPos = botAttackTarget(robot.memory.attackWeight);
+                const attackPos = robot.getAttackTarget(robot.memory.attackWeight);
                 code += `2${String(attackPos).padStart(2, "0")}`;
                 
                 if (stats.p1[attackPos] >= 1) { // Counter to prevent more attacks when win
@@ -1356,7 +1383,7 @@
                 }
 
                 if (robot.difficulty >= 2) { // More cheat intel when difficulty >= 2
-                    robot.memory.attackWeight[botRandomIntel(stats.p1)] *= 10;
+                    robot.memory.attackWeight[robot.getRandomShipPos(stats.p1)] *= robot.cheatMultiplier(stats.round);
                 }
 
                 if (robot.difficulty >= 1 || settings.showOffset) { // Exclusion for attacked cell, unless: difficulty 0 && no showOffset
@@ -1383,32 +1410,6 @@
             await sleep(rand(timer - 100, timer + 100));
 
             onlineCodeEnter(true, code);
-        }
-
-        function botWillToPlaceMinor(shipOnBoard) {
-            return shipOnBoard.percentage(rand(4, 6), rand(7, 9)).transit(1, 0); // Best strategy is to keep 7 ships in total from AI
-        }
-
-        function botAttackTarget(weightArr) {
-            let sum = 0;
-            for (const weight of weightArr) { sum += weight; }
-
-            const target = rand(0, sum, true);
-            let sumToTarget = 0;
-            for (let i = 1; i <= 36; i++) {
-                sumToTarget += weightArr[i];
-                if (sumToTarget >= target) { return i; }
-            }
-        }
-
-        function botRandomIntel(playerArr) {
-            const hasShips = [];
-
-            for (let i = 1; i <= 36; i++) {
-                if (playerArr[i] >= 1) { hasShips.push(i); }
-            }
-            
-            return hasShips[rand(0, hasShips.length - 1)];
         }
     </script>
 </div></body>
