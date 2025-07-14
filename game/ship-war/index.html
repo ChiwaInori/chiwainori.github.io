@@ -528,19 +528,19 @@
         function updateDisplay() {
             stats.p1.forEach((value, index) => {
                 if (index != 0) {
-                    cw(`#display-1-${index}`).text = value == 1 ? "≡" : value == 2 ? "〓" : " ";
+                    cw(`#display-1-${index}`).text = [" ", "≡", "〓"][value];
                 }
             });
             stats.p2.forEach((value, index) => {
                 if (index != 0) {
-                    cw(`#display-2-${index}`).text = value == 1 ? "≡" : value == 2 ? "〓" : " ";
+                    cw(`#display-2-${index}`).text = [" ", "≡", "〓"][value];
                 }
             });
         }
 
         function showAttackPos(who, atkArr) {
             atkArr.forEach(atk => {
-                cw(`#display-${who}-${atk[0]}`).html = `<span style="color: ${atk[1] == 2 ? "var(--darkRed)" : atk[1] == 1 ? "var(--minor)" : "var(--gray)"}">X</span>`;
+                cw(`#display-${who}-${atk[0]}`).html = `<span style="color: ${["var(--gray)", "var(--minor)", "var(--darkRed)"][atk[1]]}">X</span>`;
                 // Not using ChiwaSet.color to modify is to prevent color changes to cell when minors are placed later
             });
         }
@@ -831,14 +831,9 @@
 
         function atkComboToStr() {
             let str = "";
+            stats.atkCombo.forEach(arr => str += `, <span style='color: ${["var(--gray)", "var(--minor)", "var(--darkRed)"][arr[1]]};'>${cell[arr[0]]}</span>`);
 
-            stats.atkCombo.forEach(arr => {
-                if (arr[1] == 0) { str += `, <span style='color: var(--gray);'>${cell[arr[0]]}</span>`; }
-                if (arr[1] == 1) { str += `, <span style='color: var(--minor);'>${cell[arr[0]]}</span>`; }
-                if (arr[1] == 2) { str += `, <span style='color: var(--darkRed);'>${cell[arr[0]]}</span>`; }
-            });
-
-            return str.slice(2);
+            return str.slice(2); // Remove ", " at start
         }
 
         function minManhattanDistance(pos, mark) {
