@@ -1205,13 +1205,11 @@
                     if (!(/^.{4}$/).test(code)) { return `of invalid-length for ${code.length}`; }
                     if ((/-/).test(code)) { return `of neg at ${code.slice(0, 2)}`; }
                     if ((/^[05-9]/).test(code)) { return `of invalid-first for ${code[0]}`; }
-                    if (!(/^.[89]/).test(code)) { return `of invalid-settings for ${code[1]}`; }
+                    if ((/^.[89]/).test(code)) { return `of invalid-settings for ${code[1]}`; }
                     if ((/(3[7-9]|[4-9].)$/).test(code)) { return `of invalid-pos for ${code.slice(2)}`; }
 
                     return `of unknown for ${code}`;
                 }
-
-                return false;
             }
             if (method == "receive") {
                 if (!(/^[1-3]([0-2][0-9]|3[0-6])$/).test(code)) {
@@ -1222,9 +1220,8 @@
 
                     return `of unknown for ${code}`;
                 }
-
-                return false;
             }
+            return false;
         }
 
         function onlineCodeEnter(force = false, robotCode = "") {
