@@ -89,7 +89,7 @@
         };
         let isCustomKey = false;
 
-        window.addEventListener("load", () => cw("#enc-method").value = "cw3");
+        window.addEventListener("pageshow", () => cw("#enc-method").value = "cw3");
         cw("#enc-method").event("change", function () { window.location.href = `${window.location.origin}/tool/cw-enc/${this.value}.html`; });
 
         cw("#enc-key").event("input", function () {
