@@ -25,10 +25,12 @@
         <br />
         <p>加密方法: 
             <select id="enc-method">
-                <option value="cw-2.0" selected>CW-2.0</option>
-                <option value="cw-1.0">CW-1.0</option>
+                <option value="cw3" selected>CW-3.0</option>
+                <option value="cw2">CW-2.0</option>
+                <option value="cw1">CW-1.0</option>
             </select>
         </p>
+        <p>CW-3.0 加入了对 Emoji 的支持，密钥可以使用更多字符，并通过使用小写字母缩短了大约 25% 的密文长度。</p>
         <br />
         <p id="mode-0"><strong>加密</strong> | <span class="LNK" onclick="mode(1)">解密</span></p>
         <p id="mode-1" hidden><span class="LNK" onclick="mode(0)">加密</span> | <strong>解密</strong></p>
@@ -41,23 +43,20 @@
                 </tr>
                 <tr>
                     <th>密钥</th>
-                    <th>16 进制至少 4 位数<input id="enc-key" style="width: 256px;" placeholder="留空将随机生成密钥" /><button class="no-mgr" onclick="randKey(4)">4</button><button class="no-mgr" onclick="randKey(16)">16</button><button class="no-mgr" onclick="randKey(64)">64</button><button class="no-mgr" onclick="randKey(256)">256</button></th>
+                    <th>0-9, A-Z, a-z<input id="enc-key" style="width: 256px;" placeholder="留空将生成 4 位随机密钥" /><button class="no-mgr" onclick="randKey(4)">4</button><button class="no-mgr" onclick="randKey(16)">16</button><button class="no-mgr" onclick="randKey(64)">64</button><button class="no-mgr" onclick="randKey(256)">256</button></th>
                 </tr>
                 <tr>
-                    <th><abbr title="当你不需要防止无关人员获取信息 (例如防止信息被屏蔽) 时，可以勾选">在密文中包括密钥</abbr></th>
-                    <th><input id="enc-include" type="checkbox" /></th>
-                </tr>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th class="ANT">如果勾选，解密者不需要知道密钥，密钥将通过明文传递</th>
+                    <th>在密文中包括密钥</th>
+                    <th><input id="enc-include" type="checkbox" /><span class="ANT">如果勾选，解密者不需要知道密钥，密钥将通过明文传递</span></th>
                 </tr>
                 <tr>
                     <th>&nbsp;</th>
-                    <th><button onclick="encrypt()">加密</button><span id="enc-error" style="color: var(--red)"></span></th>
+                    <th><button id="enc-btn" onclick="encrypt()" disabled>加密</button><span id="enc-error" style="color: var(--red)"></span></th>
                 </tr>
             </table>
-            <br />
+            <hr />
             <p id="enc-result" style="overflow-wrap: break-word;"></p>
+            <hr />
             <p><button onclick="copy(0)">复制加密结果</button><span id="enc-copied" style="color: var(--green)" hidden>已复制!</span></p>
         </div>
         <div id="mode-dec" hidden>
@@ -72,197 +71,276 @@
                 </tr>
                 <tr>
                     <th>&nbsp;</th>
-                    <th><button onclick="decrypt()">解密</button><span id="dec-error" style="color: var(--red)"></span></th>
+                    <th><button id="dec-btn" onclick="decrypt()" disabled>解密</button><span id="dec-error" style="color: var(--red)"></span></th>
                 </tr>
             </table>
-            <br />
+            <p id="other-version" style="color: var(--lightOrange)"></p>
+            <hr />
             <p id="dec-result" style="overflow-wrap: break-word;"></p>
+            <hr />
             <p><button onclick="copy(1)">复制解密结果</button><span id="dec-copied" style="color: var(--green)" hidden>已复制!</span></p>
         </div>
     </div>
     <script>
-        let customKey = false;
-
-        const charArr = {
-            az: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-            af: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"],
-            afl: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+        const encodeFormat = /^CW(?:\/([0-9A-Za-z]+))?-([0-9A-Za-z]+)$/; // 1: Key; 2: Encrypted text
+        const old = {
+            cw2: /^CW(\/[0-9A-F]+)?-[0-9A-Z]+$/,
+            cw1: /^CW-[0-9A-Z]{4}-[0-9A-Z]+$/
         };
+        let isCustomKey = false;
 
-        cw("#enc-method").event("change", function () {
-            const method = this.value;
-            if (method == "cw-1.0") {
-                window.location.href = "/cw-enc/cw1.html";
-            }
-        });
-
-        function mode(type) {
-            if (type == 0) {
-                cw("#mode-0").unhide();
-                cw("#mode-1").hide();
-                cw("#mode-enc").unhide();
-                cw("#mode-dec").hide();
-            }
-            if (type == 1) {
-                cw("#mode-0").hide();
-                cw("#mode-1").unhide();
-                cw("#mode-enc").hide();
-                cw("#mode-dec").unhide();
-            }
-        }
+        window.addEventListener("load", () => cw("#enc-method").value = "cw3");
+        cw("#enc-method").event("change", function () { window.location.href = `${window.location.origin}/tool/cw-enc/${this.value}.html`; });
 
         cw("#enc-key").event("input", function () {
-            customKey = this.value != "";
+            isCustomKey = this.value != "";
         });
-        window.addEventListener("pageshow", () => cw("#enc-method").value = "cw-2.0");
+
+        cw("#enc-txt").event("input", function () {
+            cw("#enc-btn").disabled = this.value == "";
+        });
+        cw("#dec-txt").event("input", function () {
+            cw("#dec-btn").disabled = this.value == "";
+        });
+
+        function mode(toMode) {
+            cw("#mode-0").toggleDisplay(toMode == 0);
+            cw("#mode-1").toggleDisplay(toMode == 1);
+            cw("#mode-enc").toggleDisplay(toMode == 0);
+            cw("#mode-dec").toggleDisplay(toMode == 1);
+        }
+
+        async function copy(from) {
+            const target = from == 0 ? "enc" : "dec";
+
+            navigator.clipboard.writeText(cw(`#${target}-result`).text);
+            cw(`#${target}-copied`).unhide("inline");
+            await sleep(1000);
+            cw(`#${target}-copied`).fadeOut();
+        }
 
         function encrypt() {
-            const text = cw("#enc-txt").value;
-            const key = (customKey ? cw("#enc-key").value : rand(0, 0xffff).toBase(16).padStart(4, "0")).toUpperCase();
-            const keyInclusion = cw("#enc-include").checked;
-            cw("#enc-key").value = key;
-
-            if (key.length < 4) { cw("#enc-error").text = "密钥需为 16 进制至少 4 位数"; return; }
-            try {
-                key.transBase(16, 10);
-            } catch {
-                cw("#enc-error").text = "密钥需为 16 进制至少 4 位数";
+            if ((/[^0-9A-Za-z]/).test(cw("#enc-key").value)) {
+                cw("#enc-error").text = "密钥中存在非法字符";
                 return;
             }
             cw("#enc-error").text = "";
 
-            const root = `CW${keyInclusion ? `/${key}` : ""}-`;
-            let parse = "";
-            for (const char of text) {
-                parse += char.charCodeAt(0).toBase(16).padStart(4, "0");
+            const text = cw("#enc-txt").value;
+            const textArr = encodeStr(text);
+            let result = "1"; // Avoid start with 0
+
+            /*
+                0 ~ F: Base 16 chars
+                G: replace "00" for most English chars
+                H: "[" "]" for emojis (😊)
+                I: Split icon "," in arrays [1, 2, ...]
+            */
+
+            for (const char of textArr) {
+                if (char.length == 1 && char[0] <= 0xffff) { // Normal chars
+                    const pending = char[0].toBase(16).padStart(4, "0");
+                    if (pending.slice(0, 2) == "00") {
+                        result += `G${pending.slice(2)}`;
+                    } else {
+                        result += pending;
+                    }
+                } else if (char.length == 1 && char[0] >= 0xffff) { // Emojis (😊)
+                    result += `H${char[0].toBase(16)}H`;
+                } else { // Complex (👨‍👩‍👧‍👦)
+                    result += `H${char.map(code => code.toBase(16)).join("I")}H`;
+                }
             }
 
-            const arrText = charArr.afl.isolate().shuffle(key, 0);
-            const arrEncrypt = charArr.az.isolate().shuffle(key, 1);
-
-            const available = charArr.af.isolate();
-            
-            const toEncrypt = parse.split("");
-            for (let i = 0; i < toEncrypt.length; i++) {
-                toEncrypt[i] = replaceResult(toEncrypt[i], arrText, arrEncrypt);
-            }
-            
-            cw("#enc-result").text = `${root}${toEncrypt.join("")}`;
-        }
-
-        Array.prototype.shuffle = function (key, type) {
-            const arr = this.isolate();
-            const shuffleKey = type == 0 ? [7.365, 2.687, 1.998, 4.765, 3.157, 4.662, 9.402, 3.467] : [5.781, 3.206, 9.154, 2.365, 4.168, 7.065, 6.364, 1.558];
-
-            let shuffleSeed = seed(key, shuffleKey);
-            for (let i = 0; i < arr.length; i++) {
-                const j = shuffleSeed * arr.length;
-                [arr[i], arr[Math.floor(j)]] = [arr[Math.floor(j)], arr[i]];
-                shuffleSeed = seed(shuffleSeed, shuffleKey);
-            }
-
-            return arr;
-        };
-
-        function replaceResult(target, arrText, arrEncrypt) {
-            const availableChars = [];
-
-            let nowCheck = arrText.indexOf(target);
-            availableChars.push(arrEncrypt[nowCheck]);
-            nowCheck++;
-
-            let checkNext = true;
-            while (checkNext == true) {
-                if (arrText[nowCheck] == "") {
-                    availableChars.push(arrEncrypt[nowCheck]);
-                    nowCheck++;
+            if (!isCustomKey) { randKey(4, true); }
+            const key = BigInt(cw("#enc-key").value.extendedTransBase(62, 10));
+            const hexMap = generateShuffledHexMap(key);
+            let resultReplaced = "";
+            for (const char of result) {
+                if ((/[0-9A-F]/).test(char)) {
+                    resultReplaced += hexMap[char];
                 } else {
-                    checkNext = false;
+                    resultReplaced += char;
                 }
             }
 
-            return availableChars.join("")[rand(0, availableChars.length - 1)];
+            const resultIn62 = resultReplaced.extendedTransBase(19, 62);
+            cw("#enc-result").text = `CW${cw("#enc-include").checked ? `/${cw("#enc-key").value}` : ""}-${resultIn62}`;
         }
-
-        function randKey(len) {
-            customKey = true;
-
-            let key = "";
-
-            for (let i = 1; i <= len; i++) {
-                key += charArr.af[rand(0, 15)];
-            }
-
-            cw("#enc-key").value = key;
-        }
-
+        
         cw("#dec-txt").event("input", function () {
-            const text = this.value;
-            if (text.includes("CW/")) {
-                try {
-                    const key = text.split("CW/")[1].split("-")[0];
-                    key.transBase(16, 10);
-                    cw("#dec-key").value = key;
-                } catch {
-                    return;
-                }
+            if (encodeFormat.test(this.value)) {
+                cw("#dec-key").value = this.value?.match(encodeFormat)[1] || "";
+            }
+            if (!this.value) {
+                cw("#dec-key").value = "";
             }
         });
 
         function decrypt() {
-            const toDecrypt = cw("#dec-txt").value.split("-")[1]?.split("");
-            const key = cw("#dec-key").value.toUpperCase();
-
-            if (!(/^CW(\/[0-9A-Fa-f]+)?-/).test(cw("#dec-txt").value)) {
-                cw("#dec-error").text = "无效的加密文本";
-                return;
-            }
-            if (key.length < 4) { cw("#dec-error").text = "密钥需为 16 进制至少 4 位数"; return; }
-            try {
-                key.transBase(16, 10);
-            } catch {
-                cw("#dec-error").text = "密钥需为 16 进制至少 4 位数";
+            if ((/[^0-9A-Za-z]/).test(cw("#dec-key").value)) {
+                cw("#dec-error").text = "密钥中存在非法字符";
                 return;
             }
             cw("#dec-error").text = "";
 
-            const arrText = charArr.afl.isolate().shuffle(key, 0);
-            const arrEncrypt = charArr.az.isolate().shuffle(key, 1);
+            cw("#other-version").text = "";
+            if (old.cw2.test(cw("#dec-txt").value)) { cw("#other-version").html += "你输入的密文可能是使用 CW-2.0 加密的。如果解密失败，请尝试在上方更改加密版本再进行解密。<br />"; }
+            if (old.cw1.test(cw("#dec-txt").value)) { cw("#other-version").html += "你输入的密文可能是使用 CW-1.0 加密的。如果解密失败，请尝试在上方更改加密版本再进行解密。<br />"; }
 
-            for (let i = 0; i < toDecrypt.length; i++) {
-                toDecrypt[i] = recoverResult(toDecrypt[i], arrText, arrEncrypt);
-            }
+            try {
+                const text = cw("#dec-txt").value;
+                if (!encodeFormat.test(text)) { throw Object.assign(new Error("密文格式错误"), { badCode: true }); }
+                const textIn19 = text.match(encodeFormat)[2].extendedTransBase(62, 19);
 
-            let result = "";
-            for (let i = 0; i < toDecrypt.length; i += 4) {
-                const hex = `${toDecrypt[i]}${toDecrypt[i + 1]}${toDecrypt[i + 2]}${toDecrypt[i + 3]}`;
-                try {
-                    result += String.fromCharCode(Number(hex.transBase(16, 10)));
-                } catch {
-                    cw("#dec-error").text = "密文或密钥无效";
-                    return;
+                const key = BigInt(cw("#dec-key").value.extendedTransBase(62, 10));
+                const hexMap = reverseHexMap(generateShuffledHexMap(key));
+                let resultReplaced = "";
+                for (const char of textIn19) {
+                    if ((/[0-9A-F]/).test(char)) {
+                        resultReplaced += hexMap[char];
+                    } else {
+                        resultReplaced += char;
+                    }
                 }
-            }
 
-            cw("#dec-result").text = result;
+                resultReplaced = resultReplaced.replaceAll(/G/g, "00").slice(1); // Remove the start 1
+                const resultArr = [];
+
+                for (let i = 0; i < resultReplaced.length;) {
+                    if (resultReplaced[i] != "H") {
+                        resultArr.push([Number(resultReplaced.slice(i, i + 4).transBase(16, 10))]);
+                        i += 4;
+                    } else {
+                        let getNextH = false;
+                        let nextH = i;
+                        while (!getNextH) {
+                            nextH++;
+                            if (resultReplaced[nextH] == "H") {
+                                getNextH = true;
+                            }
+                        }
+
+                        let arrH = resultReplaced.slice(i, nextH + 1);
+                        arrH = arrH.slice(1, arrH.length - 1).split("I"); // Remove start/end H
+                        arrH = arrH.map(str => Number(str.transBase(16, 10)));
+                        resultArr.push(arrH);
+
+                        i = nextH + 1;
+                    }
+                }
+                cw("#dec-result").text = decodeStr(resultArr);
+            } catch (e) {
+                cw("#dec-error").text = e.badCode ? "密文格式错误" : "解密失败，请检查密文和密钥是否正确";
+                cw("#dec-result").text = "";
+            }
         }
 
-        function recoverResult(target, arrText, arrEncrypt) {
-            let nowCheck = arrEncrypt.indexOf(target);
-
-            while (arrText[nowCheck] == "") {
-                nowCheck--;
-            }
-
-            return arrText[nowCheck];
+        function encodeStr(str) {
+            const segments = Array.from(new Intl.Segmenter("en", { granularity: "grapheme" }).segment(str));
+            return segments.map(({ segment }) => [...segment].map(char => char.codePointAt(0)));
         }
 
-        async function copy(from) {
-            navigator.clipboard.writeText(cw(`#${from == 0 ? "enc" : "dec"}-result`).text);
+        function decodeStr(codePointsArrays) {
+            return codePointsArrays.map(arr => String.fromCodePoint(...arr)).join("");
+        }
 
-            cw(`#${from == 0 ? "enc" : "dec"}-copied`).unhide("inline");
-            await sleep(2000);
-            cw(`#${from == 0 ? "enc" : "dec"}-copied`).hide();
+        String.prototype.extendedTransBase = function (fromBase, toBase) {
+            if (toBase == undefined) { throw Object.assign(new TypeError("When using String.p.transBase, the ORIGINAL base MUST be declared."), { cwErr: "f-transBase-noOriginal" }); }
+            if (this.match(/\.[0-9]/g)) { throw Object.assign(new RangeError(`%1=0 required; received ${this}`), { cwErr: "invalid-type" }); }
+            if (this.match(/-[^0]/g)) { throw Object.assign(new RangeError(`>= 0 required; received ${this}`), { cwErr: "invalid-type" }); }
+            _range(fromBase, "%1=0 | >= 2 | <= 62", true);
+            _range(toBase, "%1=0 | >= 2 | <= 62", true);
+
+            const numberList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+            if (fromBase == 10) {
+                const firstAlphabet = this.match(/[A-Za-z]/g)?.[0];
+                if (firstAlphabet) { throw Object.assign(new RangeError(`Received number ${firstAlphabet} (${numberList.indexOf(firstAlphabet)}) when parsing from base ${fromBase}`), { cwErr: "f-transBase-outOfRange" }); }
+            
+                const modList = [];
+                let nowRemaining = BigInt(this.replaceAll(".", ""));
+
+                while (nowRemaining != 0n) {
+                    modList.push(String(nowRemaining % BigInt(toBase)));
+                    nowRemaining /= BigInt(toBase);
+                }
+                if (!modList[0]) { modList.push(0); }
+            
+                modList.reverse();
+                modList.forEach((number, index) => {
+                    modList[index] = numberList[number];
+                });
+            
+                return modList.join("");
+            }
+
+            if (toBase == 10) {
+                const digits = this.replaceAll(".", "").split("");
+                const equalDigits = [];
+                const digitWeight = [];
+
+                digits.forEach(digit => {
+                    const equalValue = BigInt(numberList.indexOf(digit));
+                    try { _range(equalValue, `< ${fromBase}`, true); } catch { throw Object.assign(new RangeError(`Received number ${digit}${numberList.indexOf(digit) >= 10 ? ` (${equalValue})` : ""} when parsing from base ${fromBase}`), { cwErr: "f-transBase-outOfRange" }); }
+
+                    equalDigits.push(equalValue);
+                });
+                for (let i = 0n; i < this.length; i++) {
+                    digitWeight.unshift(BigInt(fromBase) ** i);
+                }
+
+                let result = 0n;
+                for (let i = 0; i < this.length; i++) {
+                    result += equalDigits[i] * digitWeight[i];
+                }
+
+                return String(result);
+            }
+        
+            return this.valueOf().extendedTransBase(fromBase, 10).extendedTransBase(10, toBase);
+        };
+
+        function generateShuffledHexMap(givenSeed) {
+            // 固定16进制字符集
+            const hexChars = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+
+            let currentSeed = seed(givenSeed, [5.157, 9.234, 2.117, 3.876, 1.968, 6.157, 8.406, 4.665]);
+            const shuffled = [...hexChars];
+
+            // Fisher-Yates 洗牌算法（使用种子随机数）
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(seed(currentSeed).transit(0, 16));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                currentSeed = seed(givenSeed << BigInt(i), [i / 1.725 % 0.728 + 3.578, i / 1.368 % 2.157 + 6.876, i / 1.415 % 5.314 + 7.698, i / 1.257 % 1.583 + 4.871, i / 1.736 % 8.642 + 2.457, i / 1.891 % 5.369 + 8.541, i / 1.225 % 4.021 + 3.682, i / 1.349 % 4.756 + 2.168]);
+            }
+
+            // 构建映射对象
+            const result = {};
+            hexChars.forEach((char, index) => {
+                result[char] = shuffled[index];
+            });
+
+            return result;
+        }
+
+        function reverseHexMap(hexMap) {
+            const reversedMap = {};
+            for (const [originalChar, newChar] of Object.entries(hexMap)) {
+                reversedMap[newChar] = originalChar;
+            }
+            return reversedMap;
+        }
+
+        function randKey(digit, keepRandom = false) {
+            let key = "";
+
+            while (key.length != digit) {
+                key += String(rand(key == "" ? 1 : 0, 61)).extendedTransBase(10, 62);
+            }
+
+            cw("#enc-key").value = key;
+            isCustomKey = !keepRandom;
         }
     </script>
 </div></body>
