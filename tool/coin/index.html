@@ -122,9 +122,9 @@
     </div>
     <div id="cw-nav">
         <h6><a href="/">ChiwaInori.top</a> &gt; <strong>翻转硬币</strong></h6>
-        <h6 id="lang-cn" class="lang-option"><strong>中文</strong> | <span class="LNK" onclick="setLang('en')">English</span> | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
-        <h6 id="lang-en" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | English | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
-        <h6 id="lang-jp" class="lang-option"><span class="LNK" onclick="setLang('cn')">中文</span> | <span class="LNK" onclick="setLang('en')">English</span> | <strong>日本語</strong></h6>
+        <h6 id="lang-cn" class="lang-option" hidden><strong>中文</strong> | <span class="LNK" onclick="setLang('en')">English</span> | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
+        <h6 id="lang-en" class="lang-option" hidden><span class="LNK" onclick="setLang('cn')">中文</span> | English | <span class="LNK" onclick="setLang('jp')">日本語</span></h6>
+        <h6 id="lang-jp" class="lang-option" hidden><span class="LNK" onclick="setLang('cn')">中文</span> | <span class="LNK" onclick="setLang('en')">English</span> | <strong>日本語</strong></h6>
     </div>
     <div id="cw-content">
         <div class="coin-container">
@@ -152,7 +152,7 @@
         ];
         function setLang(l) {
             applyAll(".lang-option", el => cw(el).hide());
-            cw(`#lang-${l}`).unhide();
+            // ! cw(`#lang-${l}`).unhide();
             storage.set("lang", l, true);
 
             const langIndex = multilingual[0].indexOf(l);

@@ -206,7 +206,7 @@ function siteId() {
         formatted += `${formatted == "" ? first : first.toUpperCase()}${later}`;
     }
 
-    return formatted.replaceAll(/(Index|-|\..*$)/g, "") || "chiwa";
+    return formatted.replaceAll(/([Ii]ndex|-|\..*$)/g, "") || "chiwa";
 }
 
 /**
