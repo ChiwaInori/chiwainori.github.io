@@ -30,13 +30,12 @@
         <textarea></textarea>
         <p><input type="file" accept="audio/*" /></p>
         <br />
-        <p>以下是一些额外选项，根据一定数量的用户和歌曲的规律，它们默认启用。请你根据你的实际情况判断是否禁用。</p>
-        <p><input id="offset-set" type="checkbox" checked />将所有时间戳提前 <input id="offset" type="number" value="100" /> ms (抵消人工延迟) | <input id="add-blank" type="checkbox" checked />自动在开头添加一个空行</p>
+        <p><input id="offset-set" type="checkbox" checked />将所有时间戳提前 <input id="offset" type="number" value="100" /> ms (抵消人工延迟) | <input id="add-blank" type="checkbox" checked />自动在开头添加一个空行 | <input id="display-line" type="checkbox" checked />显示行号</p>
         <br />
         <p><button onclick="start()" disabled>开始</button></p>
         <p>按下 <strong>Enter</strong> 确认歌词时间戳。</p>
-        <p>按下 <strong>左方向键 (提前 100 ms)</strong> 或 <strong>右方向键 (延后 100 ms)</strong> 对上一个时间戳进行调整.</p>
-        <p>按下 <strong>Shift + 左方向键 (提前 10 ms)</strong> 或 <strong>Shift + 右方向键 (延后 10 ms)</strong> 对上一个时间戳进行微调.</p>
+        <p>按下 <strong>← (提前 100 ms)</strong> 或 <strong>→ (延后 100 ms)</strong> 对上一个时间戳进行调整.</p>
+        <p>按下 <strong>Shift + ← (提前 10 ms)</strong> 或 <strong>Shift + → (延后 10 ms)</strong> 对上一个时间戳进行微调.</p>
         <audio src="" controls hidden></audio>
         <hr />
         <div id="lyric-area"></div>
@@ -48,6 +47,7 @@
         let startTime;
         let lyricArr;
         let addBlank = true;
+        let displayLine = true;
         let offset = 100;
         let audioName;
 
@@ -76,17 +76,22 @@
             offset = cw("#offset-set").checked ? Number(this.value) : 0;
         });
 
+        cw("#display-line").event("change", function () {
+            displayLine = this.checked;
+            updateLyric();
+        });
+
         function updateLyric() {
             lyricArr = cw("textarea").value.split("\n");
 
             cw("#lyric-area").html = "";
             totalLyric = 0;
             if (addBlank) {
-                cw("#lyric-area").html += `<p id="lrc-0">&nbsp;</p>`;
+                cw("#lyric-area").html += `<p id="lrc-0">${displayLine ? "<span style='color: var(--gray);'>1</span>" : ""}&nbsp;</p>`;
                 totalLyric++;
             }
             lyricArr.forEach((lyric, index) => {
-                cw("#lyric-area").html += `<p id="lrc-${addBlank ? index + 1 : index}">${lyric == "" ? "&nbsp;" : lyric}</p>`;
+                cw("#lyric-area").html += `<p id="lrc-${addBlank ? index + 1 : index}">${displayLine ? `<span style="color: var(--gray);">${index + (addBlank ? 2 : 1)}</span>` : ""} ${lyric == "" ? "&nbsp;" : lyric}</p>`;
                 totalLyric++;
             });
         }
@@ -102,14 +107,14 @@
         function clickEnter(force) {
             if (!startTime || nowIndex + 1 > totalLyric) { return; }
             
-            const timeDiff = new Date().getTime() - startTime - offset;
+            const timeDiff = Math.max(new Date().getTime() - startTime - offset, 0);
             const ms = timeDiff % 1000;
             const s = Math.floor(timeDiff / 1000 % 60);
             const min = Math.floor(timeDiff / 1000 / 60);
             log(new Date().getTime(), startTime, timeDiff, ms, s, min);
             const timestamp = force ? "[00:00.000]" : `[${String(min).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(ms).padStart(3, "0")}]`;
 
-            cw(`#lrc-${nowIndex}`).text = `${timestamp}${cw(`#lrc-${nowIndex}`).text}`;
+            cw(`#lrc-${nowIndex}`).text = `${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}`;
             cw(`#lrc-${nowIndex}`).color = "var(--green)";
 
             nowIndex++;
