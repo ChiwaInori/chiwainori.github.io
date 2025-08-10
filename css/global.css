@@ -179,7 +179,7 @@ input, textarea {
     color: var(--activeColor-800);
 }
 
-button {
+button, select {
     cursor: pointer;
 }
 

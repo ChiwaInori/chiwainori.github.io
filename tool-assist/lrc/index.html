@@ -40,6 +40,9 @@
         <hr />
         <div id="lyric-area"></div>
         <p id="save-button" hidden><button onclick="saveFile()">保存 .lrc 文件</button></p>
+        <hr />
+        <h3>其他工具</h3>
+        <p><strong>LRC 文件消除时间戳</strong><input id="remove-lrc-input" type="file" accept=".lrc" /><button id="remove-lrc-btn" onclick="removeLRC()" disabled>消除时间戳</button></p>
     </div>
     <script>
         let nowIndex = 0;
@@ -50,6 +53,8 @@
         let displayLine = true;
         let offset = 100;
         let audioName;
+        let removeLRCName;
+        let removeLRCText;
 
         cw("textarea").event("input", function () {
             cw("button").disabled = this.value == "";
@@ -79,6 +84,22 @@
         cw("#display-line").event("change", function () {
             displayLine = this.checked;
             updateLyric();
+        });
+
+        cw("#remove-lrc-input").event("change", e => {
+            const file = e.target.files[0];
+            cw("#remove-lrc-btn").disabled = !file;
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = f => {
+                    removeLRCText = f.target.result;
+                };
+                reader.readAsText(file);
+                removeLRCName = file.name;
+            } else {
+                removeLRCText = undefined;
+            }
         });
 
         function updateLyric() {
@@ -114,7 +135,8 @@
             log(new Date().getTime(), startTime, timeDiff, ms, s, min);
             const timestamp = force ? "[00:00.000]" : `[${String(min).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(ms).padStart(3, "0")}]`;
 
-            cw(`#lrc-${nowIndex}`).text = `${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}`;
+            // cw(`#lrc-${nowIndex}`).html = `<span class="LNK" style="color: var(--green);" onclick="jumpTo(${timeDiff}, ${nowIndex})">${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}</span>`;
+            cw(`#lrc-${nowIndex}`).html = `${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}`;
             cw(`#lrc-${nowIndex}`).color = "var(--green)";
 
             nowIndex++;
@@ -144,7 +166,7 @@
                 time: cw(`#lrc-${nowIndex - 1}`).text.match(/\[([0-9]{2}):([0-9]{2})\.([0-9]{3})\]/),
                 lyric: cw(`#lrc-${nowIndex - 1}`).text.match(/(?<=\[[0-9]{2}:[0-9]{2}\.[0-9]{3}\]).*/)[0]
             };
-            timestamp = Number(current.time[1]) * 60 * 1000 + Number(current.time[2]) * 1000 + Number(current.time[3]);
+            let timestamp = Number(current.time[1]) * 60 * 1000 + Number(current.time[2]) * 1000 + Number(current.time[3]);
             timestamp += time;
 
             const ms = timestamp % 1000;
@@ -152,7 +174,27 @@
             const min = Math.floor(timestamp / 1000 / 60);
             const timestampNew = `[${String(min).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(ms).padStart(3, "0")}]`;
 
-            cw(`#lrc-${nowIndex - 1}`).text = `${timestampNew}${current.lyric}`;
+            cw(`#lrc-${nowIndex - 1}`).html = `<span class="LNK" style="color: var(--green);" onclick="jumpTo(${timestamp}, ${nowIndex - 1})">${timestampNew}${current.lyric}</span>`;
+        }
+
+        function removeLRC() {
+            let lrc = removeLRCText;
+            lrc = lrc.replaceAll(/(\n)?\[[0-9]{2}:[0-9]{2}\.[0-9]{3}\]/g, "$1");
+            save(`${removeLRCName.replaceAll(/\.lrc$/g, "")} Lyrics.txt`, lrc);
+        }
+
+        function jumpTo(timestamp, index) {
+            log(timestamp);
+            cw("audio").el.currentTime = timestamp / 1000;
+            cw("audio").el.play();
+
+            for (let i = index + 1; i <= totalLyric - 1; i++) {
+                log(i);
+                cw(`#lrc-${i}`).html = `${cw(`#lrc-${i}`).text.replaceAll(/^\[[0-9]{2}:[0-9]{2}.[0-9]{3}\]/g)}`;
+                cw(`#lrc-${i}`).style = "";
+            }
+            cw(`#lrc-${index + 1}`).color = "var(--lightOrange)";
+            nowIndex = index;
         }
     </script>
 </div></body>
