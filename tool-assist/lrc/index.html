@@ -32,10 +32,12 @@
         <br />
         <p><input id="offset-set" type="checkbox" checked />将所有时间戳提前 <input id="offset" type="number" value="100" /> ms (抵消人工延迟) | <input id="add-blank" type="checkbox" checked />自动在开头添加一个空行 | <input id="display-line" type="checkbox" checked />显示行号</p>
         <br />
-        <p><button onclick="start()" disabled>开始</button></p>
+        <p><button onclick="start()" disabled>开始</button> <span id="noFile" style="color: var(--lightOrange);" hidden>你还没有选择音频文件</span></p>
         <p>按下 <strong>Enter</strong> 确认歌词时间戳。</p>
-        <p>按下 <strong>← (提前 100 ms)</strong> 或 <strong>→ (延后 100 ms)</strong> 对上一个时间戳进行调整.</p>
-        <p>按下 <strong>Shift + ← (提前 10 ms)</strong> 或 <strong>Shift + → (延后 10 ms)</strong> 对上一个时间戳进行微调.</p>
+        <p>点击已经有时间戳的歌词 <span style="color: var(--green);">(绿色歌词)</span>, 可跳转到这行歌词并重置这行歌词之后的时间戳。</p>
+        <p class="STX"><strong>方向键微调</strong></p>
+        <p class="STX">按下 <strong>← (提前 100 ms)</strong> 或 <strong>→ (延后 100 ms)</strong> 对上一个时间戳进行调整.</p>
+        <p class="STX">按下 <strong>Shift + ← (提前 10 ms)</strong> 或 <strong>Shift + → (延后 10 ms)</strong> 对上一个时间戳进行微调.</p>
         <audio src="" controls hidden></audio>
         <hr />
         <div id="lyric-area"></div>
@@ -58,6 +60,7 @@
 
         cw("textarea").event("input", function () {
             cw("button").disabled = this.value == "";
+            cw("#noFile").toggleDisplay(cw("input").el.files.length == 0 && this.value != "", "inline");
             
             updateLyric();
         });
@@ -68,6 +71,7 @@
 
             cw("audio").el.src = objectURL;
             audioName = audioFile.name.replaceAll(/\..{3,4}$/g, "");
+            cw("#noFile").toggleDisplay(cw("input").el.files.length == 0 && this.value != "", "inline");
         });
 
         cw("#add-blank").event("change", function () {
@@ -135,8 +139,7 @@
             log(new Date().getTime(), startTime, timeDiff, ms, s, min);
             const timestamp = force ? "[00:00.000]" : `[${String(min).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(ms).padStart(3, "0")}]`;
 
-            // cw(`#lrc-${nowIndex}`).html = `<span class="LNK" style="color: var(--green);" onclick="jumpTo(${timeDiff}, ${nowIndex})">${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}</span>`;
-            cw(`#lrc-${nowIndex}`).html = `${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}`;
+            cw(`#lrc-${nowIndex}`).html = `<span class="LNK" style="color: var(--green);" onclick="jumpTo(${timeDiff}, ${nowIndex})">${timestamp}${displayLine ? cw(`#lrc-${nowIndex}`).text.match(/[0-9]+ (.*)/)?.[1] || "" : cw(`#lrc-${nowIndex}`).text}</span>`;
             cw(`#lrc-${nowIndex}`).color = "var(--green)";
 
             nowIndex++;
@@ -168,6 +171,7 @@
             };
             let timestamp = Number(current.time[1]) * 60 * 1000 + Number(current.time[2]) * 1000 + Number(current.time[3]);
             timestamp += time;
+            timestamp = Math.max(timestamp, 0);
 
             const ms = timestamp % 1000;
             const s = Math.floor(timestamp / 1000 % 60);
@@ -184,17 +188,20 @@
         }
 
         function jumpTo(timestamp, index) {
-            log(timestamp);
             cw("audio").el.currentTime = timestamp / 1000;
             cw("audio").el.play();
+            startTime = new Date().getTime() - timestamp;
 
             for (let i = index + 1; i <= totalLyric - 1; i++) {
-                log(i);
-                cw(`#lrc-${i}`).html = `${cw(`#lrc-${i}`).text.replaceAll(/^\[[0-9]{2}:[0-9]{2}.[0-9]{3}\]/g)}`;
+                cw(`#lrc-${i}`).html = (/^<span style="color: var\(--gray\);">/).test(cw(`#lrc-${i}`).html) ? cw(`#lrc-${i}`).html : `<span style="color: var(--gray);">${i + 1}</span> ${cw(`#lrc-${i}`).html.match(/\[[0-9]{2}:[0-9]{2}\.[0-9]{3}\](.*)<\/span>/)?.[1] ?? ""}`;
                 cw(`#lrc-${i}`).style = "";
             }
             cw(`#lrc-${index + 1}`).color = "var(--lightOrange)";
-            nowIndex = index;
+            nowIndex = index + 1;
+
+            if (index != totalLyric - 1) {
+                cw("#save-button").hide();
+            }
         }
     </script>
 </div></body>

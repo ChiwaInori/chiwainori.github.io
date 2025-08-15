@@ -292,3 +292,29 @@
     log("simplify -> add (5, 3)", num.add(new Decimal(5, 3)));
 
 </script>
+
+<script>
+    class HexFile {
+        constructor() {
+            this.hexStr = "";
+        }
+
+        output = name => {
+            if ((/[^0-9A-F]/).test(this.hexStr) || this.hexStr.length % 2 != 0) {
+                throw new Error("Invalid hex string");
+            }
+
+            const bytes = new Uint8Array(this.hexStr.length / 2);
+            for (let i = 0; i < this.hexStr.length; i += 2) {
+                bytes[i / 2] = this.hexStr.slice(i, i + 2).transBase(16, 10);
+            }
+            const blob = new Blob([bytes], { type: "application/octet-stream" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = name;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+    }
+</script>
