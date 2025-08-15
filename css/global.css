@@ -208,13 +208,23 @@ input[type="checkbox"] {
     background-color: var(--white-e);
 }
 
-:is(input[type="checkbox"], input[type="radio"]):checked::before {
+:is(input[type="checkbox"], input[type="radio"]):checked:not(:active)::before {
     background-color: var(--activeColor-500);
     display: block;
     position: relative;
     top: 50%;
     left: 50%;
-    content: '';
+    content: "";
+    transform: translate(-50%, -50%);
+}
+
+:is(input[type="checkbox"], input[type="radio"]):checked:active::before {
+    background-color: var(--activeColor-700);
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    content: "";
     transform: translate(-50%, -50%);
 }
 
@@ -276,7 +286,7 @@ input[type="color"] {
     height: 24px;
 }
 
-button:active {
+:is(input[type="checkbox"], input[type="radio"], button):active {
     color: var(--activeColor-700);
     border: 2px solid var(--activeColor-700);
     background-color: var(--white-d);
