@@ -126,6 +126,7 @@
             cw(`#lrc-${nowIndex}`).color = "var(--lightOrange)";
             cw("audio").el.play();
             cw("button").disabled = true;
+            applyAll("input, textarea", el => cw(el).disabled = true);
             if (addBlank) { clickEnter(1); }
         }
 
@@ -193,7 +194,7 @@
             startTime = new Date().getTime() - timestamp;
 
             for (let i = index + 1; i <= totalLyric - 1; i++) {
-                cw(`#lrc-${i}`).html = (/^<span style="color: var\(--gray\);">/).test(cw(`#lrc-${i}`).html) ? cw(`#lrc-${i}`).html : `<span style="color: var(--gray);">${i + 1}</span> ${cw(`#lrc-${i}`).html.match(/\[[0-9]{2}:[0-9]{2}\.[0-9]{3}\](.*)<\/span>/)?.[1] ?? ""}`;
+                cw(`#lrc-${i}`).html = !(/style="color: var\(--green\);"/).test(cw(`#lrc-${i}`).html) ? cw(`#lrc-${i}`).html : `${displayLine ? `<span style="color: var(--gray);">${i + 1}</span> ` : ""}${cw(`#lrc-${i}`).html.match(/\[[0-9]{2}:[0-9]{2}\.[0-9]{3}\](.*)<\/span>/)?.[1] ?? ""}`;
                 cw(`#lrc-${i}`).style = "";
             }
             cw(`#lrc-${index + 1}`).color = "var(--lightOrange)";
