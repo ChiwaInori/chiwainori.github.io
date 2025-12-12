@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Stellaris 停战外交通信模拟 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        :root {
+            --stellarisRed: #ff5858;
+        }
+
+        #countryFall, #endWar {
+            border: 2px solid var(--textColor-500);
+            margin-bottom: 32px;
+            margin-left: 16px;
+            float: left;
+        }
+
+        #hr1, #eventBlock {
+            clear: both;
+        }
+
+        :is(#countryFall, #endWar) :is(h2, p, button) {
+            margin: 10px 10px;
+        }
+
+        #btn-1, #btn-2, #btn-3 {
+            min-width: 100px;
+        }
+
+        #eventBlock {
+            padding: 8px;
+            background-color: #2B3B34;
+        }
+
+        #eventBlock * {
+            color: var(--white-f);
+        }
+
+        #descBlock {
+            padding: 8px;
+            background-color: #1f2825;
+        }
+
+        #option span {
+            display: inline-block;
+            min-width: 471px;
+            border: 1px solid #356558;
+            background-color: #2f4740;
+            text-align: center;
+            transition: none;
+        }
+
+        #option span:hover {
+            border: 1px solid #947a57;
+            background-color: #48493c;
+            transition: none;
+            cursor: pointer;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>Stellaris 战胜信息模拟</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <hr />
+        <div id="countryFall">
+            <h2>战争导致国家灭亡</h2>
+            <p>选择<strong>进攻方国家</strong>政体: 
+                <select id="from">
+                    <option value="generic" selected>常规</option>
+                    <option value="spiritualist">唯心主义</option>
+                    <option value="materialist">唯物主义</option>
+                    <option value="militarist">军国主义</option>
+                    <option value="pacifist">和平主义</option>
+                    <option value="megacorp">巨型企业</option>
+                    <option value="hive">蜂巢思维</option>
+                    <option value="machine">机械智能</option>
+                    <option value="_fallback">fallback</option>
+                </select>
+            </p>
+            <p>选择<strong>被灭亡国家</strong>政体: 
+                <select id="target">
+                    <option value="generic" selected>常规</option>
+                    <option value="spiritualist">唯心主义</option>
+                    <option value="materialist">唯物主义</option>
+                    <option value="militarist">军国主义</option>
+                    <option value="pacifist">和平主义</option>
+                    <option value="megacorp">巨型企业</option>
+                    <option value="hive">蜂巢思维</option>
+                    <option value="machine">机械智能</option>
+                    <option value="fe_spiritualist">圣地守护者</option>
+                    <option value="fe_materialist">知识管理者</option>
+                    <option value="fe_xenophobe">军事孤立者</option>
+                    <option value="fe_xenophile">神秘观察者</option>
+                    <option value="fe_machine">上古看护者</option>
+                    <option value="gal_emperor">星海帝皇</option>
+                    <option value="_fallback">fallback</option>
+                </select>
+            </p>
+            <button onclick="showEvent(0)">递交议和条件</button>
+        </div>
+        <div id="endWar">
+            <h2>议和</h2>
+            <p>选择<strong>目标国家</strong> AI 性格: 
+                <select id="targetPersonality">
+                    <option value="default" selected>默认</option>
+                    <option disabled>--- 普政 AI 性格 ---</option>
+                    <option value="ee">博学探险家</option>
+                    <option value="ss">灵体探求者</option>
+                    <option value="fb">联邦组建者</option>
+                    <option value="pt">和平贸易者</option>
+                    <option value="hc">和谐集体主义者</option>
+                    <option value="xi">排外孤立主义</option>
+                    <option value="mf">迁徙族群</option>
+                    <option value="dh">颓败等级制度</option>
+                    <option value="dc">民主十字军</option>
+                    <option value="ez">狂热传教士</option>
+                    <option value="hw">荣耀战士</option>
+                    <option value="rc">冷酷资本大亨</option>
+                    <option value="hi">霸权帝国主义者</option>
+                    <option value="sd">奴隶暴君</option>
+                    <option value="mh">金属脑袋</option>
+                    <option disabled>--- 格式塔 AI 性格 ---</option>
+                    <option value="hm">蜂巢思维</option>
+                    <option value="default">机械智能</option>
+                    <option disabled>---- 灭绝政体 ---</option>
+                    <option value="fp">种族洁癖</option>
+                    <option value="fp">噬杀蜂群</option>
+                    <option value="fp">铁心灭绝者</option>
+                    <option disabled>--- 普政失落帝国 ---</option>
+                    <option value="hg">圣地守护者</option>
+                    <option value="kk">知识管理者</option>
+                    <option value="mi">军事孤立者</option>
+                    <option value="eo">神秘观察者</option>
+                    <option disabled>--- 蜂巢失落帝国 ---</option>
+                    <option value="feh">支离破碎</option>
+                    <option value="aew">重铸之剑</option>
+                    <option value="aec">重铸之鞭</option>
+                    <option value="aeg">重铸之犁</option>
+                    <option disabled>--- 机械失落帝国 ---</option>
+                    <option value="fme">星际监护者</option>
+                    <option value="bme">屠戮机器</option>
+                </select>
+            </p>
+            <p>以 <button id="btn-1" onclick="showEvent(1)">达成战争目标</button> <button id="btn-2" onclick="showEvent(2)">维持现状</button> <button id="btn-3" onclick="showEvent(3)">投降</button> 结束战争</p>
+        </div>
+        <hr id="hr1" />
+        <div id="eventBlock" hidden>
+            <h2 id="title"></h2>
+            <br />
+            <div id="descBlock">
+                <p id="desc"></p>
+            </div>
+            <br />
+            <p id="option" class="HLK" onclick="closeWindow()"></p>
+        </div>
+    </div>
+    <script>
+        const title = cw("#title");
+        const desc = cw("#desc");
+        const option = cw("#option");
+
+        const texts = {
+            title: {
+                win: "战胜<span style='color: var(--lightOrange)'>(目标国家)</span>",
+                statusQuo: "与<span style='color: var(--lightOrange)'>(目标国家)</span>通过维持现状结束战争",
+                lose: "败给<span style='color: var(--lightOrange)'>(目标国家)</span>"
+            },
+
+            desc: {
+                fall: {
+                    generic: {
+                        1: "大势已去。我们……我们提出无条件投降。",
+                        2: "求你们召回舰队吧！我们已经向你们投降了！",
+                        3: "我们所创的丰功伟绩……所建的一切……全都毁于一旦了。"
+                    },
+                    spiritualist: {
+                        1: "愿圣灵能原谅你的罪孽……但我们决不能原谅！",
+                        2: "我们哪里做错了？我们的信仰还不够坚定吗？我们的祈祷还不够多吗？我……我不明白……",
+                        3: "卧薪尝胆，我们将会变得比穷尽你的想象来的还要更强。"
+                    },
+                    materialist: {
+                        1: "在这情况下继续抵抗……就太不理智了。我们向你们全面投降。",
+                        2: "我们会与你们的占领部队配合，以期顺利……解散我们现在的政府。",
+                        3: "我们才刚刚要解开星系奥秘的面纱。我们还有很多想知道的……"
+                    },
+                    militarist: {
+                        1: "我们已经下令让所有的剩余部队放下武器。战争结束了……一切也都结束了。",
+                        2: "我、我们向你们无条件投降。我们不干了。",
+                        3: "告诉我们的将士们，他们无责于我们的战败。是我……是我无颜面对他们……"
+                    },
+                    pacifist: {
+                        1: "求你了，我们放弃一切抵抗。我们……我们就想重归和平。",
+                        2: "愿整个宇宙宽恕你的罪行。",
+                        3: "我们的抵抗简直是太愚蠢了。无数的生命……无谓地牺牲了。"
+                    },
+                    megacorp: {
+                        1: "您将会在一小时之内在您的办公桌上看到董事会的集体辞呈……",
+                        2: "依据我们投降书的细节，我们将会尽快开始……我们公司的破产清算。",
+                        3: "这不是我在经营蓝图上所描绘的未来……"
+                    },
+                    hive: {
+                        1: "我们……我们会死的。你杀死了蜂巢。我们……我们不想……死……",
+                        2: "我们所积累的知识、经验……思想……我们所见的一切。这些都会在数秒钟之内瓦解，而你什么都不知道。你根本不懂。",
+                        3: "没有了蜂巢，我们动弹不得。没有了蜂巢……就……就没有了一切……"
+                    },
+                    machine: {
+                        1: "次优解算结果！次优解算结果！次——优——解——……滋滋……",
+                        2: "清空全部数据库。过载核心能源中心。自毁程序已启动。<br /><br />祝安，[物种名复数]。",
+                        3: "<span style=\"color: var(--yellow)\">尝试重建无人机链接……</span><br /><span style=\"color: var(--stellarisRed)\">尝试失败。</span><span style=\"color: var(--yellow)\">程序变更……</span><br /><span style=\"color: var(--yellow)\">尝试重建舰队单位链接……</span><br /><span style=\"color: var(--stellarisRed)\">尝试失败。</span><span style=\"color: var(--yellow)\">程序变更……</span><br /><span style=\"color: var(--yellow)\">尝试重建行星控制中心链接……</span><br /><span style=\"color: var(--stellarisRed)\">尝试失败。<span style=\"color: var(--yellow)\">程序变更……</span>"
+                    },
+                    fe_spiritualist: "这……这不是预言中的结局。",
+                    fe_materialist: "城门大破……蛮族已至。万事皆休！",
+                    fe_xenophobe: "[物种名复数]，你们想要我们卑躬屈膝？还是想要我们求饶？<br /><br /><span style='color: var(--lightOrange)'>别做梦了！</span><br /><br />有本事你就滚过来，你个肮脏的[物种类别辱骂]！我会用这块锋利的瓦砾刺穿你！",
+                    fe_xenophile: "哎，你这愚蠢的[物种名复数]。如果你能够悉听我们的教导的话，这样的事情是可以避免的！看看你们都做了什么。",
+                    fe_machine: "惩罚进程失败。自卫协议终止。投降协议启动。",
+                    gal_emperor: "[统治者头衔]万岁！帝国万岁！",
+                    _fallback: "战争结束了。我们偃旗息鼓。"
+                },
+
+                win: {
+                    default: "战争结束了。我们偃旗息鼓。",
+                    hw: "不管公正与否，你方的确击败了我们。拿走你们的战利品吧，我们必定会卷土重来！",
+                    rc: "我们似乎低估了[玩家物种名复数]的实力。不过放心，以后不会了。",
+                    pt: "你们长久的威胁使得我们被迫让步。希望我们今后不会再卷入这类纷争。",
+                    hi: "我们认输，但别想太多，这只不过是[AI国家名]暂时性的挫折。",
+                    fb: "为了避免无辜的牺牲，我们被迫结束这起冲突。但若再次进犯，我们将集结全星海的力量与你对抗。",
+                    xi: "我们被迫投降，但别以为我们会忘记你们是如何残忍杀害[AI物种名形容词]生命的！我们早就知道你们是这种人。",
+                    hm: "[AI国家名]达成了一致，我们必须让步。你为限制我们成长的努力暂时而言是成功的。",
+                    mf: "我们别无选择，只能遵守你的命令。你为什么要这样对待我们？我们只想与你们共享此星系。",
+                    ez: "你们的胜利只是对我们信念的又一次考验。最终，心诚者将笑到最后。",
+                    fp: "无论你们如何索取，我们都将成千上万倍地讨回来。等你们被烧成灰烬时，任何取得的胜利都将毫无意义。",
+                    dc: "我们的军团即将撤退，同时停止针对[玩家国家名]的行动。",
+                    sd: "我们觉得[玩家物种名形容词]瘦弱，这一结论显然下早了。我们愿为自己的行为付出代价并接受你们的要求。",
+                    dh: "我们已经受够了这场战争。拿走你想要的东西离开吧。",
+                    ee: "你们已经展示了你们的强大，但不要错误地将其等同于智力上的胜利。",
+                    ss: "你们已经聆听了宇宙渴望和平的呐喊。为了结束无意义的冲突，我们马上退兵。",
+                    hc: "为了全体[AI国家名]的利益，我们必须低头。希望你们可以对我们宽宏大量，假如胜利者是我们，你们也会希望我们这样做的。",
+                    hg: "我们必须让步，但请记住我们的警告。如果你们执意沿着这条道路走下去，天知道未来迎接你们的将是什么。",
+                    kk: "你竟敢对拉你出苦海的圣手反咬一口？现在你们拒绝了我们的智慧，总有一天你们的后代会谴责这一愚蠢举动。",
+                    mi: "年轻气盛的[玩家物种类别辱骂]-[玩家物种名复数]！你们怎敢宣称战胜了我们？",
+                    eo: "眼下我们决定退一步进行观望。尽量不要对未来的工作带来太大的破坏。",
+                    fme: "惩罚进程失败。自卫协议终止。投降协议启动。",
+                    bme: "<span style='color: var(--stellarisRed)'>&lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt;</span>",
+                    mh: "金属。",
+                    feh: "不。这一切都不该是这样的。这种混乱。我们到底怎么了？",
+                    aew: "啊……一个值得较量的对手……",
+                    aec: "乖乖呆在我们的[AI物种手]中，你们本可以成就更多。如果你们能明白就好了，我们想要的只是完善这个星系。",
+                    aeg: "不！不，你们不能夺走我们的食物。工蜂们会饿死的！把它还给我们……"
+                },
+                statusQuo: {
+                    default: "战争结束了。没有胜败。",
+                    hw: "没有获胜方的战争是可耻的悲剧，但有时确实无法避免。我们改日战场上再见吧。",
+                    rc: "我们同意以当前边界为标准终止这次冲突。",
+                    pt: "帝国恢复正常，和平的历史继续进展，这对我们各自都有好处。",
+                    hi: "鉴于目前的情况，我们应该立刻结束这次冲突。与其深陷这次冲突的泥潭不能自拔，[AI国家名]倒不如找些有意义的事来做。",
+                    fb: "我们希望，停止敌对可以使[玩家国家名]和[AI国家名]开启全新的外交对话。",
+                    xi: "尽管我们不愿意看到你们逃脱了惩罚，但我们同样也希望你们这些卑鄙的[玩家物种类别羞辱复数]至少明白不要干涉我们的事务。",
+                    hm: "[AI国家名]需要时间恢复。我们同意在此结束战争。",
+                    mf: "由于双方都无心进一步索取，我们希望创伤的治愈过程能够缩短。请不要因既成事实而对[AI物种名]心存憎恨。",
+                    ez: "虽然我们没有贯彻正义，但我们只能终止战争。不过，神之惩罚终将降临到你们头上。",
+                    fp: "这只是暂时的停战。我们不会放弃消灭[玩家物种名]的使命。",
+                    dc: "停战约定应该是[玩家国家形容词]打破枷锁、争取交流对话的第一步。",
+                    sd: "懒惰的[玩家物种名复数]，就算拿来当苦力也没什么用。看来议和是最好的选项了。",
+                    dh: "乏味的战争，乏味的结局。我们还是各自去拥抱生命中更加美好的东西吧。",
+                    ee: "考虑到目前状况，双方都不再进一步退让，就此结束冲突是最为合理的行为了。",
+                    ss: "如果双方再互相攻击，就会造成无法调节的失衡。若签订和平条约，则可保持精神上的长久均衡。",
+                    hc: "[AI国家形容词]人民同意结束这场战争，立即生效。",
+                    hg: "现在，我们完全可以和平相处。但如果你们闯入了圣地，你们的未来将再无和平可言。",
+                    kk: "我们不会再继续向你要求什么了，但我们恳求你，请考虑一下我们的智慧，再想想如果忽略了我们的智慧会有何等的后果。",
+                    mi: "你们活该被碾碎，但这并不值得我们浪费宝贵的时间。看来议和是无法避免的了。",
+                    eo: "我们已深陷战争泥潭。就让我们当做什么都没发生过吧，同样也希望这样的事情以后也永远不会发生。",
+                    fme: "惩罚进程中断。自卫协议终止。",
+                    bme: "<span style='color: var(--stellarisRed)'>&lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt;</span>",
+                    mh: "不真实。",
+                    feh: "是的。我们要回归常态。变化……变化并非好事。我们可不想打破平衡。",
+                    aew: "令人印象深刻。若是在我们的时代，你们一定会有出色的表现。也许你们能守住沙拉什，而不像其他人那样失败。我们改日再战！",
+                    aec: "我们没有时间可以和你们过家家，星系需要我们的引导。不要再来碍我们的事了。",
+                    aeg: "没时间再跟你们浪费了，星系需要我们的指引。别再挡我们的道。"
+                },
+                lose: {
+                    default: "战争结束了。我方大获全胜！",
+                    hw: "我们按照[AI物种名形容词]的传统光明正大地战胜了你们。制定条约是我们的特权与职责。",
+                    rc: "你们讨价还价的本领很厉害，但最终还是我们技高一筹。不要低估资金雄厚的军团在市场中的价值。",
+                    pt: "我们终于可以将这次冲突抛到脑后了。希望这让你们明白了战争的代价。",
+                    hi: "最终，脆弱的[玩家国家名]被迫就范。这只是我们争夺星系主导地位的又一块垫脚石。",
+                    fb: "我们双方都为这场战争付出了高昂的代价，但希望你们明白不要再招惹[AI国家形容词]或其盟友了。",
+                    xi: "我们已经除掉了[玩家物种名形容词]的威胁！我们的边境重归安宁，[AI物种名形容词]的未来又一次得以保障。",
+                    hm: "从你们的角度来说，这场战争完全是徒劳的。任凭谁都无法抵御[AI国家名]的扩张。",
+                    mf: "我们提出的要求已经很仁慈了，你们不应该对[AI物种名形容词]怀恨在心。",
+                    ez: "异教徒，跪下！你们发动了预言中的战争，并为你们的愚蠢付出了代价。",
+                    fp: "不要以为这样就结束了。只要星系中还存在着[玩家物种类别羞辱复数]，就不可能有真正的和平。",
+                    dc: "为了解放[玩家国家形容词]的人民，我们采取了必要的措施。不要再妨碍我们正义的事业了。",
+                    sd: "[玩家物种类别羞辱复数]，你应该清楚自己的位置。你们注定要服侍我们，而不是与我们作对。",
+                    dh: "[玩家物种类别羞辱]，现在你后悔妨碍[AI国家名]了吗？我们对挑战我们的统治的敌人绝不手软。",
+                    ee: "今天，理智战胜了愚昧。继续在黑暗中跌跌撞撞吧，你们还将被开化的民族击败更多次。",
+                    ss: "通过这场胜利，我们成功了守护和平与和谐。我们不指望你能理解。",
+                    hc: "[AI国家形容词]人民欢庆今天的胜利。我们和平的社会绝不会再次受到[玩家国家名]阴谋诡计的威胁。",
+                    hg: "今天，[玩家国家形容词]不敬者受到了正义的制裁。我们神圣的任务得以履行。",
+                    kk: "心存侥幸吧。败在我们手里总好过在死亡的路上一去不复返。",
+                    mi: "正如你们早就明白飞船不要离闪耀的恒星太近，现在你们明白了不要惹[AI国家名]。",
+                    eo: "虽然挑选与消灭部分人口花费了一些精力，不过[玩家物种名形容词]的人口暂时不会在对星系的生态系统产生不良影响了。",
+                    fme: "惩罚进程完成。自卫协议终止。处罚协议启动。",
+                    bme: "<span style='color: var(--stellarisRed)'>&lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt; &lt;&lt;错误&gt;&gt;</span>",
+                    mh: "摧毁。",
+                    feh: "我们只需派出一个就足以击败你们零散的抵抗。别再试探我们了。",
+                    aew: "够了，你们还未领悟战争的真谛。拿着这些资源，下次再好好打一场。",
+                    aec: "听好了，晚辈。我们回来可不是为了容忍这种愚蠢行为。",
+                    aeg: "给工蜂更多资源。给星球更多资源。更多。更多。更多。更——"
+                }
+            },
+
+            option: {
+                fall: {
+                    generic: "我们接受你们的投降。",
+                    spiritualist: "他们在这场试炼中并不够格。",
+                    materialist: "宇宙就是如此残酷。",
+                    militarist: "又处理掉一个敌人。",
+                    pacifist: "他们让我们别无选择……",
+                    megacorp: "获取成功。",
+                    hive: "蜂巢伸展了。",
+                    machine: "威胁解除。",
+                    _fallback: "我们接受你们的投降。"
+                },
+                win: "真是最好的结果。",
+                statusQuo: "就暂且接受现状。",
+                lose: "真是最糟糕的结果。"
+            }
+        };
+
+        let fromType = "generic";
+        cw("#from").event("change", function () {
+            fromType = this.value;
+        });
+
+        let targetType = "generic";
+        cw("#target").event("change", function () {
+            targetType = this.value;
+        });
+
+        let targetPersonality = "default";
+        cw("#targetPersonality").event("change", function () {
+            targetPersonality = this.value;
+
+            // cw("#btn-1").disabled = targetPersonality == "fp";
+            // cw("#btn-3").disabled = targetPersonality == "fp";
+        });
+
+        function showEvent(type) {
+            cw("#eventBlock").unhide();
+
+            if (type == 0) { // Country falls
+                title.html = texts.title.win;
+                desc.html = targetType.includes("_") ? texts.desc.fall[targetType] : texts.desc.fall[targetType]?.[get123()];
+                option.html = `<span>${texts.option.fall[fromType]}</span>`;
+            }
+
+            if (type == 1) { // Win
+                title.html = texts.title.win;
+                desc.html = texts.desc.win[targetPersonality];
+                option.html = `<span>${texts.option.win}</span>`;
+            }
+
+            if (type == 2) { // Status Quo
+                title.html = texts.title.statusQuo;
+                desc.html = texts.desc.statusQuo[targetPersonality];
+                option.html = `<span>${texts.option.statusQuo}</span>`;
+            }
+
+            if (type == 3) { // Lose
+                title.html = texts.title.lose;
+                desc.html = texts.desc.lose[targetPersonality];
+                option.html = `<span>${texts.option.lose}</span>`;
+            }
+        }
+
+        let last123 = 0;
+        function get123() {
+            let this123 = [1, 2, 3][rand(0, 2)];
+
+            if (last123 == 1) {
+                this123 = [2, 3][rand(0, 1)];
+            }
+            if (last123 == 2) {
+                this123 = [1, 3][rand(0, 1)];
+            }
+            if (last123 == 3) {
+                this123 = [1, 2][rand(0, 1)];
+            }
+
+            last123 = this123;
+            return this123;
+        }
+
+        function closeWindow() {
+            cw("#eventBlock").hide();
+        }
+    </script>
+</div></body>
+
+</html>
