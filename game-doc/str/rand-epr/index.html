@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Stellaris 国家随机选择 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>Stellaris 国家随机选择</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <p>本页面通过读取你的 user_empire_designs_v3.4.txt 来随机选择国家的生成情况。</p>
+        <p>游戏中设置为<strong>允许出现 (包括总是出现/随机出现)</strong>, 本网站显示为 <span style='color: var(--green)'>always (总是出现, 参与随机)</span> 和 <span style='color: var(--blue)'>yes (随机出现, 参与随机)</span> 的国家将会一起进行随机选择。</p>
+        <p>游戏中设置为<strong>不允许出现</strong>，本网站显示为 <span style='color: var(--red)'>no (不允许出现, 不参与随机)</span> 的国家将不会参与随机选择，你可以将特定国家设置为不允许出现以避免本网站的随机选择。</p>
+        <p>所有参与随机选择的国家，将会有指定数量的国家被设置为 <strong>总是出现</strong>，而没被选到的国家将会被设置为 <strong>随机出现</strong>。</p>
+        <br />
+        <p>请在此处选择你的存档文件: <input id="saveFile" type="file" accept=".txt" /></p>
+        <br />
+        <p>点击下方 &quot;保存&quot; 按钮，将会下载随机生成好的存档文件，可以直接放到游戏目录下使用。</p>
+        <p>设置 <strong>总是出现</strong> 的国家数量 <input id="maxAlways" value="5" type="number" style="width: 64px;" /><button id="btn" onclick="saveRandomized()" disabled>保存</button></p>
+        <br />
+        <p id="result"></p>
+        <br />
+        <p class="ANT">你的存档数据全部在本地处理，不会被上传到任何服务器或第三方。</p>
+    </div>
+    <script>
+        let saveContent;
+        let forceCountryCount = 5;
+        const loadedValue = {
+            total: null,
+            alwaysAndYes: null
+        };
+
+        cw("#saveFile").event("change", async event => {
+            const file = event.target.files[0];
+            saveContent = await file.text();
+
+            const results = getNonIndentedLines(saveContent).filter(line => !line.match(/({|})/)?.[0]);
+            const spawnEnabled = extractSpawnEnabledValues(saveContent);
+            loadedValue.total = results.length;
+            loadedValue.alwaysAndYes = spawnEnabled.getCountOf("always") + spawnEnabled.getCountOf("yes");
+
+            cw("#result").html = `已读取到以下 <span style="color: var(--orange)">${loadedValue.total}</span> 个国家:<br /><br /><table><tbody id="resultTable"><tr><th>国家名</th><th>spawn_enabled</th><th>解释</th></tr></tbody></table><br />`;
+            for (const i in results) {
+                cw("#resultTable").html += `<tr><td>${results[i].replaceAll("=", "").replaceAll("\"", "")}</td><th>${spawnEnabled[i] == "always" ? "<span style='color: var(--green)'>always</span>" : spawnEnabled[i] == "yes" ? "<span style='color: var(--blue)'>yes</span>" : "<span style='color: var(--red)'>no</span>"}</th><td>${spawnEnabled[i] == "always" ? "<span style='color: var(--green)'>总是出现, 参与随机</span>" : spawnEnabled[i] == "yes" ? "<span style='color: var(--blue)'>随机出现, 参与随机</span>" : "<span style='color: var(--red)'>不允许出现, 不参与随机</span>"}</td></tr>`;
+            }
+            cw("#result").html += `其中 <span id="display-count" style="color: var(--orange)">${loadedValue.alwaysAndYes}</span> 个国家参与本次随机<br />其中 <span id="display-always" style="color: var(--green)">${forceCountryCount}</span> 个将会被设置为 <strong>总是出现</strong>，剩下 <span id="display-yes" style="color: var(--blue)">${loadedValue.alwaysAndYes - forceCountryCount}</span> 个将会被设置为 <strong>随机出现</strong>`;
+            
+            updateCount();
+            cw("#btn").disabled = false;
+        });
+
+        cw("#maxAlways").event("input", updateCount);
+
+        function updateCount() {
+            forceCountryCount = (Number(cw("#maxAlways").value) || 0).toRange(0, loadedValue.alwaysAndYes);
+
+            if (cw("#display-always").el) {
+                cw("#display-always").text = forceCountryCount;
+                cw("#display-yes").text = loadedValue.alwaysAndYes - forceCountryCount;
+            }
+        }
+
+        function getNonIndentedLines(text) {
+            // 按行分割字符串
+            const lines = text.split("\n");
+
+            // 过滤出开头不是空白字符的行
+            const result = lines.filter(line => {
+                // 检查行是否为空或第一个非空白字符的位置不是0
+                // 即：如果第一个字符不是空白字符，则保留
+                return line.trim() !== "" && line.search(/\S/) === 0;
+            });
+
+            return result;
+        }
+
+        function saveRandomized() {
+            randomizedContent = randomReplace(saveContent.replaceAll("spawn_enabled=always", "spawn_enabled=yes"), "spawn_enabled=yes", "spawn_enabled=always", forceCountryCount);
+            save("user_empire_designs_v3.4.txt", randomizedContent);
+        }
+
+        function randomReplace(str, target, replace, x) {
+            // 特殊情况处理
+            if (!str || !target || x <= 0) {
+                return str;
+            }
+
+            // 查找所有目标子串的位置
+            const positions = [];
+            let startIndex = 0;
+
+            while (true) {
+                const index = str.indexOf(target, startIndex);
+                if (index === -1) { break; }
+                positions.push(index);
+                startIndex = index + target.length;
+            }
+
+            // 如果目标子串数量少于x，则全部替换
+            const replaceCount = Math.min(x, positions.length);
+
+            // 随机选择要替换的位置
+            const selectedPositions = [];
+            const availablePositions = [...positions];
+
+            for (let i = 0; i < replaceCount; i++) {
+                if (availablePositions.length === 0) { break; }
+
+                const randomIndex = Math.floor(Math.random() * availablePositions.length);
+                selectedPositions.push(availablePositions[randomIndex]);
+                availablePositions.splice(randomIndex, 1);
+            }
+
+            // 对选中的位置进行排序（从后往前替换，避免索引变化问题）
+            selectedPositions.sort((a, b) => b - a);
+
+            // 执行替换操作
+            let result = str;
+            for (const position of selectedPositions) {
+                result = result.slice(0, position) + replace + result.slice(position + target.length);
+            }
+
+            return result;
+        }
+
+        function extractKeyValues(str) {
+            const regex = /name=\r\n\t\{\r\n\t\tkey="([^"]+)"\r\n\t\}/g;
+            const matches = [];
+            let match;
+
+            while ((match = regex.exec(str)) !== null) {
+                matches.push(match[1]);
+            }
+
+            return matches.filter(item => !(/[a-z]/).test(item));
+        }
+
+        function extractSpawnEnabledValues(str) {
+            const results = [];
+
+            // 使用正则表达式匹配所有 spawn_enabled=xxx 的模式
+            // 正则解释：
+            // - spawn_enabled= - 精确匹配这个字符串
+            // ([^,\s]+) - 捕获组，匹配一个或多个非逗号、非空白字符
+            // - g - 全局匹配（找到所有匹配项）
+            const regex = /spawn_enabled=([^,\s]+)/g;
+
+            let match;
+            while ((match = regex.exec(str)) !== null) {
+                // - match[0] 是整个匹配的字符串
+                // - match[1] 是捕获组中的值（等号后面的部分）
+                results.push(match[1]);
+            }
+
+            return results;
+        }
+    </script>
+</div></body>
+
+</html>
