@@ -108,7 +108,7 @@ body {
 /* NORMAL ELEMENTS - TEXT */
 
 * {
-    font-family: "Lolita", sans-serif;
+    font-family: "Lolita", "DFFangYuanW7-GB", sans-serif;
     transition: all 0.1s var(--transit);
 }
 

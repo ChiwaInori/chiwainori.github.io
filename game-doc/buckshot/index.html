@@ -34,6 +34,32 @@
         .convertButton {
             height: 96px;
         }
+
+        .strikethrough-diagonal {
+            position: relative;
+            display: inline-block;
+            padding: 1px;
+        }
+
+          .strikethrough-diagonal::after {
+            --strikeColor: var(--lightRed);
+            content: "";
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                var(--angle),
+                transparent 0%,
+                transparent 46%,
+                var(--strikeColor) 46%,
+                var(--strikeColor) 54%,
+                transparent 54%,
+                transparent 100%
+                );
+            pointer-events: none;
+        }
     </style>
     <script src="/chiwa-functions.js"></script>
 </head>
@@ -46,8 +72,7 @@
     <div id="cw-content">
         <div id="welcome">
             <div id="startTxt">
-                <p>此页面可以帮助你记下 <a href="https://store.steampowered.com/app/2835570/" target="_blank">恶魔轮盘 (Buckshot Roulette)</a> 中的子弹情况。</p>
-                <p>本页面同样适用于多人模式。</p>
+                <p>此网页可以帮助你记下 <a href="https://store.steampowered.com/app/2835570/" target="_blank">恶魔轮盘 (Buckshot Roulette)</a> 中的子弹情况（支持多人模式）。</p>
                 <br />
             </div>
             <p>在开始前，请确认子弹类型及数量。</p>
@@ -63,15 +88,18 @@
         </div>
         <div id="gamePhase" hidden>
             <p>子弹已装填 - 请在你 / 庄家 (其他玩家) 每次射击 / 喝酒后，按下下方相应的按钮。</p>
+            <br />
             <p><img src="./Live_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="color: var(--live); font-size: 22px;"><strong>实弹</strong></span>&nbsp;&nbsp;<strong><span id="liveCountTxt" style="font-size: 32px; color: var(--live);"></span></strong></p>
             <p><img src="./Blank_Shell.webp" width="32" style="display: inline;" />&nbsp;&nbsp;<span style="font-size: 22px;"><strong>空弹</strong></span>&nbsp;&nbsp;<strong><span id="blankCountTxt" style="font-size: 32px;"></span></strong></p>
+            <br />
             <h2>下一次射击: <span style="color: var(--live)">实 <span id="liveChance" style="color: var(--live)"></span>%</span><span style="color: var(--textColor-400);"> <span id="advantage-live"></span><span id="advantage-blank"></span> </span><span>空 <span id="blankChance"></span>%</span> <span id="confirmed" style="display: none;">(已通过电话确认)</span><span id="changed" style="color: var(--gray); display: none;">(电话已更改概率)</span></h3>
             <h4>子弹顺序: <strong id="bulletLine"></strong></h4>
+            <br />
             <h5>
                 电话: 第
                 <select id="telephoneOrder"></select>
                 发子弹 ... 
-                &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 0px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 0px;" />空&gt; 弹。
+                &lt;<input type="radio" name="telephoneType" id="telephoneLive" type="checkbox" style="margin-left: 1px; margin-right: 2px;" checked="true" /><span style="color: var(--live)">实</span> / <input type="radio" name="telephoneType" id="telephoneBlank" type="checkbox" style="margin-left: 1px; margin-right: 2px;" />空&gt; 弹。
                 <button id="telephoneButton" onclick="telephone()">确认</button>
                 <span id="telephone-alreadySet"></span>
             </h5>
@@ -283,10 +311,19 @@
             }
 
             const nowSelect = Number(cw("#telephoneOrder").value);
+            const absTarget = nowSelect + nowRound - 1;
 
-            if (nowSelect + nowRound - 1 in bullets.hints) {
+            if (absTarget in bullets.hints) {
                 cw("#telephoneButton").disabled = true;
-                cw("#telephone-alreadySet").html = `接下来的第 ${nowSelect} 发 (本局第 ${nowSelect + nowRound - 1} 发) 子弹已被设置为 ${bullets.hints[nowSelect + nowRound - 1] ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}。`;
+                cw("#telephone-alreadySet").html = `接下来的第 ${nowSelect} 发 (本局第 ${absTarget} 发) 子弹已被电话确认为 ${bullets.hints[absTarget] ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}。`;
+            } else if (cw(`#line-${absTarget}`).color != "var(--unknown)") {
+                cw("#telephoneButton").disabled = false;
+                const isConfirmedLive = cw(`#line-${absTarget}`).color == "var(--live)";
+                cw("#telephone-alreadySet").html = `根据已知信息，接下来的第 ${nowSelect} 发 (本局第 ${absTarget} 发) 子弹确认是 ${isConfirmedLive ? "<span style='color: var(--live);'>实弹</span>" : "<span style='color: var(--blank);'>空弹</span>"}。`;
+                cw("#telephoneLive").disabled = !isConfirmedLive;
+                cw("#telephoneLive").checked = isConfirmedLive;
+                cw("#telephoneBlank").disabled = isConfirmedLive;
+                cw("#telephoneBlank").checked = !isConfirmedLive;
             } else {
                 cw("#telephoneButton").disabled = false;
                 cw("#telephone-alreadySet").html = "";
@@ -306,10 +343,12 @@
             if (converted) { cw(`#line-${nowRound}`).html += `<span style="color: var(--convert)">&gt;${type == "blank" ? "<span style='color: var(--live)'>L</span>" : "<span style='color: var(--blank)'>B</span>"}</span>`; }
 
             cw("#bulletLine").html = cw("#bulletLine").html.replaceAll(/NEXT/g, "");
+            cw(`#line-${nowRound}`).style.setProperty("--angle", `${rand(0.6, 1.1, true)}rad`);
+            cw(`#line-${nowRound}`).el.classList.add("strikethrough-diagonal");
             if (nowRound + 1 <= bullets.total) {
                 cw(`#line-${nowRound + 1}`).html = `<ruby>${cw(`#line-${nowRound + 1}`).html}<rt style="color: var(--red)">NEXT</rt></ruby>`;
             } else {
-                cw("#bulletLine").html += "<span style='color: var(--green);'>&lt;FIN&gt;</span>";
+                cw("#bulletLine").html += "<span style='color: var(--red);'>已打完</span>";
             }
         }
 
