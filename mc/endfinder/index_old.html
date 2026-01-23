@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Minecraft 末地传送门查找器 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        #x1, #z1, #x2, #z2 {
+            margin-left: 4px;
+            margin-right: 16px;
+            width: 64px;
+        }
+
+        #r1, #r2 {
+            margin-left: 4px;
+            margin-right: 16px;
+            width: 48px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div class="IFB-Green"><p><strong>此页有更新版本</strong></p><p>这表示此页不再被使用. 你应该前往更新页面. 请点击导航栏中 @ 前面的链接.</p></div><div id="cw-main">
+    <div id="cw-title">
+        <h1>Minecraft 末地传送门查找器</h1>
+    </div>
+    <div id="cw-nav">
+        <h6><a href="../../">ChiwaInori.top</a> &gt; <a href="../">Minecraft</a> &gt; <strong>Minecraft 末地传送门查找器</strong></h6>
+
+    </div>
+    <div id="cw-content">
+        <p>在两个不同的位置投出末影之眼，并输入 (或在游戏中按下 <strong>F3 + C</strong> 并选择 &quot;从剪切板中读取&quot; <span style="font-size: 10px;">(1.13 18w11a 及以上)</span>) 投掷时的位置和末影之眼飞行的方向。(本网页全版本可用)</p>
+        <h5>要尽力减小人为误差，我们推荐你使用 OptiFine 的放大功能，并将准星对准空中的末影之眼的垂直中心线 (不必对准水平中心线).</h5>
+        <br />
+        <h3>#1</h3>
+        <p><strong>X<input id="x1" /> Z<input id="z1" /> R<input id="r1" style="margin-right: 0px;" />°&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="copy1()">从剪切板中读取</button></strong></p>
+        <br />
+        <h3>#2</h3>
+        <p><strong>X<input id="x2" /> Z<input id="z2" /> R<input id="r2" style="margin-right: 0px;" />°&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="copy2()">从剪切板中读取</button></strong></p>
+        <br />
+        <button onclick="find()">查找</button>
+        <br />
+        <h4 id="final1"></h4>
+        <h6 id="final2"></h6>
+        <br />
+        <h5 id="ok" style="color: #00dd00;"></h5>
+        <h6 id="oksub" style=" color: #00dd00; display: none;">注意: 即使计算误差较小 (使用 /locate 指令查找通常只差几个方块), 但你仍可能因为要塞较深、正好距离墙壁差一两格而与要塞擦肩而过的可能。建议在附近多进行挖掘。</h6>
+        <h5 id="alert1" style="color: #ffa800;"></h5>
+        <h5 id="alert2" style="color: #dd0000;"></h5>
+        <h5 id="fatal_alert" style="color: #aa0000;"></h5>
+    </div>
+    <script>
+        function copy1() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    var matches = text.match(/(?:[^ ]* ){6}([^ ]*)/); // 剪切板中第 6, 7 个空格之间的内容
+                    if (matches && matches[1]) {
+                      var extractedContent = matches[1];
+                      document.getElementById("x1").value = extractedContent;
+                    }
+
+                    var matches = text.match(/(?:[^ ]* ){8}([^ ]*)/);
+                    if (matches && matches[1]) {
+                      var extractedContent = matches[1];
+                      document.getElementById("z1").value = extractedContent;
+                    }
+
+                    var matches = text.match(/(?:[^ ]* ){9}([^ ]*)/);
+                    if (matches && matches[1]) {
+                      var extractedContent = matches[1];
+                      document.getElementById("r1").value = extractedContent;
+                    }
+                });
+        }
+
+        function copy2() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    var matches = text.match(/(?:[^ ]* ){6}([^ ]*)/);
+                    if (matches && matches[1]) {
+                      var extractedContent = matches[1];
+                      document.getElementById("x2").value = extractedContent;
+                    }
+
+                    var matches = text.match(/(?:[^ ]* ){8}([^ ]*)/);
+                    if (matches && matches[1]) {
+                      var extractedContent = matches[1];
+                      document.getElementById("z2").value = extractedContent;
+                    }
+
+                    var matches = text.match(/(?:[^ ]* ){9}([^ ]*)/);
+                    if (matches && matches[1]) {
+                      var extractedContent = matches[1];
+                      document.getElementById("r2").value = extractedContent;
+                    }
+                });
+        }
+
+        function find() {
+            document.getElementById("fatal_alert").style = "display: none;";
+            document.getElementById("ok").style.display = "block";
+            document.getElementById("oksub").style.display = "block";
+            document.getElementById("final1").style.display = "block";
+            document.getElementById("final2").style.display = "block";
+            document.getElementById("alert1").style.display = "block";
+            document.getElementById("alert2").style.display = "block";
+
+            var x1 = document.getElementById("x1").value;
+            var z1 = document.getElementById("z1").value;
+            var r1 = document.getElementById("r1").value;
+            var x2 = document.getElementById("x2").value;
+            var z2 = document.getElementById("z2").value;
+            var r2 = document.getElementById("r2").value;
+            if (r1 < 0) {
+                var r1 = 0 - r1;
+            } else {
+                var r1 = 360 - r1;
+            }
+            if (r2 < 0) {
+                var r2 = 0 - r2;
+            } else {
+                var r2 = 360 - r2;
+            }
+            while (r1 >= 360) {
+              r1 -= 360;
+            }
+            while (r2 >= 360) {
+              r2 -= 360;
+            }
+            var r1 = 90 - r1;
+            var r2 = 90 - r2;
+            var r1 = r1 * Math.PI / 180;
+            var r2 = r2 * Math.PI / 180;
+
+            var k1 = Math.tan(r1);
+            var b1 = z1 - x1 * k1;
+            var k2 = Math.tan(r2);
+            var b2 = z2 - x2 * k2;
+            console.log("y1 = " + k1 + "x + " + b1);
+            console.log("y2 = " + k2 + "x + " + b2);
+            
+            var final_x = parseInt((b2 - b1) / (k1 - k2));
+            var final_z = parseInt(final_x * k1 + b1);
+
+            document.getElementById("final1").innerHTML = "要塞的位置大约在 [" + final_x + ", " + final_z + "] 附近";
+            document.getElementById("final2").innerHTML = "/tp @s " + final_x + " ~ " + final_z;
+
+            var diff1 = parseInt(Math.sqrt((x1 - x2) ** 2 + (z1 - z2) ** 2));
+            var diff2 = parseInt(Math.sqrt((final_x - x2) ** 2 + (final_z - z2) ** 2));
+            
+            if (diff1 >= 20 && diff2 < 1000) {
+                document.getElementById("ok").style = "display: block; color: #00dd00;";
+                document.getElementById("ok").innerHTML = "该要塞位置的误差较小";
+                document.getElementById("oksub").style = "display: block; color: #00dd00;";
+                document.getElementById("alert1").style = "display: none;";
+                document.getElementById("alert2").style = "display: none;";
+            } else {
+                document.getElementById("oksub").style = "display: none;";
+                document.getElementById("ok").style = "display: none;";
+                document.getElementById("ok").innerHTML = " ";
+            }
+
+            document.getElementById("alert1").style = "display: block; color: #00dd00;";
+            document.getElementById("alert2").style = "display: block; color: #00dd00;";
+            document.getElementById("alert1").innerHTML = "你的两次投掷位置间隔 " + diff1 + "m, 在精确范围内";
+            document.getElementById("alert2").innerHTML = "该要塞位置距离你大约有 " + diff2 + "m 的距离, 在精确范围内";
+
+            if (diff1 < 20) {
+                document.getElementById("alert1").style = "display: block; color: #ffa800;";
+                document.getElementById("alert1").innerHTML = "[!] 你的两次投掷位置仅间隔 " + diff1 + "m, 这可能会导致误差较大。建议在合理范围内间隔一定距离进行投掷。";
+            }
+            if (diff1 > 200) {
+                document.getElementById("alert1").style = "display: block; color: #ffa800;";
+                document.getElementById("alert1").innerHTML = "[!] 你的两次投掷位置间隔了 " + diff1 + "m, 这可能会因为两次投掷指向不同的要塞，从而计算出一个根本不存在的要塞。建议在合理范围内进行投掷。";
+            }
+
+            if (diff2 >= 1000) {
+                document.getElementById("alert2").style = "display: block; color: #dd0000;";
+                document.getElementById("alert2").innerHTML = "[!] 该要塞位置距离你大约有 " + diff2 + "m 的距离。建议到达该位置后再进行一次查找以减小误差。";
+            }
+
+            console.log("DISTANCE TO STRONGHOLD: " + diff2);
+
+            var r1 = r1 / Math.PI * 180;
+            var r2 = r2 / Math.PI * 180;
+            var r1 = 90 - r1;
+            var r2 = 90 - r2;
+            var diff_x1 = final_x - x1;
+            while (r1 < 0) {
+                var r1 = r1 + 360;
+            }
+            while (r2 < 0) {
+                var r2 = r2 + 360;
+            }
+            console.log("r1: " + r1 + " || diff_x1: " + diff_x1 + " ")
+            if (r1 >= 0 && r1 <= 180 && diff_x1 < 0 || r1 > 180 && r1 <= 360 && diff_x1 > 0) {
+                document.getElementById("fatal_alert").style = "display: block; color: #aa0000;";
+                document.getElementById("fatal_alert").innerHTML = "[!!] 该两点无法确定要塞的位置，因为这两组数据似乎指向不同的要塞。";
+                document.getElementById("ok").style = "display: none;";
+                document.getElementById("oksub").style = "display: none;";
+                document.getElementById("final1").style = "display: none;";
+                document.getElementById("final2").style = "display: none;";
+                document.getElementById("alert1").style = "display: none;";
+                document.getElementById("alert2").style = "display: none;";
+            }
+        }
+    </script>
+</div></body>
+
+</html>
