@@ -45,7 +45,7 @@
     </div>
     <script>
         const DEBUG = false;
-        const DEBUG_COORD = [-5019.21, -9999.9, -102.94, -5014.6, -9965.87, -104.54];
+        const DEBUG_COORD = [433.01, 291.51, 33.34, 461.11, 311.96, 33.35];
 
         async function copy(ord) {
             try {
@@ -219,7 +219,7 @@
         }
 
         function getReliability(dTwoPos, dPlayer, toRingDistance, r1, r2) {
-            let reliability = 1.1;
+            let reliability = 1;
 
             if (dTwoPos < 20) {
                 reliability *= dTwoPos.percentage(0, 20).transit(0.6, 0.97);
@@ -240,9 +240,9 @@
             } else if (dPlayer < 1000) {
                 reliability *= dPlayer.percentage(500, 1000).transit(0.98, 0.65);
             } else if (dPlayer < 2000) {
-                reliability *= dPlayer.percentage(1000, 2000).transit(0.65, 0.2);
+                reliability *= dPlayer.percentage(1000, 2000).transit(0.65, 0.3);
             } else {
-                reliability *= dPlayer.percentage(2000, 3000).transit(0.2, 0.02);
+                reliability *= dPlayer.percentage(2000, 3000).transit(0.3, 0.05);
             }
 
             // [deprecated] Angle modifier
@@ -264,7 +264,7 @@
             } else if (toRingDistance < 100) {
                 reliability *= toRingDistance.percentage(1, 100).transit(0.9, 0.2);
             } else if (toRingDistance < 200) {
-                reliability *= toRingDistance.percentage(1, 100).transit(0.2, 0.02);
+                reliability *= toRingDistance.percentage(1, 100).transit(0.2, 0.01);
             } else {
                 reliability *= 0;
             }
