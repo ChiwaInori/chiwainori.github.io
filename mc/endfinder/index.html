@@ -116,7 +116,7 @@
             cw("#result").html = "";
 
             if (dPlayerOrigin >= 5e4) {
-                cw("#result").html += `<h5>如果你正在游玩 Java 版: <span style="color: var(--red);">要塞会刷新在距离世界原点 24320 格的范围内</span> (1.9 版本以下则是约 1200 格内). 你距离世界原点 ${dPlayerOrigin.keep(0)} 格，远超出要塞的刷新位置。在这里进行定位没有意义。</h5>`;
+                cw("#result").html += `<h5>如果你正在游玩 Java 版: <span style="color: var(--red);">要塞会刷新在距离世界原点 24320 格的范围内</span> (1.9 版本以下则是约 1200 格内). 你距离世界原点 ${parseInt(dPlayerOrigin)} 格，远超出要塞的刷新位置。在这里进行定位没有意义。</h5>`;
             }
             if ((theta1 - theta2) % 180 == 0) { // Parallel line
                 cw("#result").html += `<h2 style="color: var(--red);">无法找到要塞坐标，因为两条直线平行。</h2><h5 style="color: var(--red);">这通常是人为操作的误差造成的，请再试一次。</h5>`;
@@ -143,34 +143,34 @@
                     log({ dTwoPos, dPlayer });
 
                     // Stronghold Rings
-                    const [toRingDistance, ringOrder, strongholdCount, innerBorder, outerBorder] = getRing(dStrongholdOrigin.keep(0));
+                    const [toRingDistance, ringOrder, strongholdCount, innerBorder, outerBorder] = getRing(parseInt(dStrongholdOrigin));
 
                     // Reliability
                     const reliability = getReliability(dTwoPos, dPlayer, toRingDistance, r1, r2);
                     const color = reliability > 0.9 ? "--darkGreen" : reliability > 0.8 ? "--green" : reliability > 0.6 ? "--yellow" : reliability > 0.4 ? "--orange" : "--red";
 
-                    cw("#result").html += `<h4>根据三角定位，此要塞的坐标为:</h4><h2 style="color: var(${color})">(${strongholdX.keep(0)}, y, ${strongholdZ.keep(0)})</h2><p>预估可信度: <strong style="color: var(${color})">${(reliability * 100).keep(1)}%</strong><br />传送到此位置: /tp @s ${strongholdX.keep(0)} ~ ${strongholdZ.keep(0)}<br />定位最近的要塞: /locate structure minecraft:stronghold</p>`;
+                    cw("#result").html += `<h4>根据三角定位，此要塞的坐标为:</h4><h2 style="color: var(${color})">(${parseInt(strongholdX)}, y, ${parseInt(strongholdZ)})</h2><p>预估可信度: <strong style="color: var(${color})">${(reliability * 100).keep(1)}%</strong><br />传送到此位置: /tp @s ${parseInt(strongholdX)} ~ ${parseInt(strongholdZ)}<br />定位最近的要塞: /locate Stronghold <span class="STX">(1.11 ~ 1.12)</span>, /locate stronghold <span class="STX">(1.13 ~ 1.18)</span>, /locate structure minecraft:stronghold <span class="STX">(1.19+)</span></p>`;
 
                     if (toRingDistance > 0) {
-                        cw("#result").html += `<br /><p>此要塞<strong style="color: var(--red);">不位于任何一个要塞分布环内</strong>，距离最近环 <strong style="color: var(--red);">${toRingDistance}</strong> 格。如果你正在游玩的是 Java 1.9 版及以上，这意味着<strong style="color: var(--red);">要塞定位错误或误差过大</strong>。<br />此要塞最靠近<strong style="color: var(--orange);">第 ${ringOrder} 个要塞分布环</strong>，一共有 <span style="color: var(--orange);">${strongholdCount}</span> 座要塞分布在此环内。<br />此环范围为距离世界原点 <span style="color: var(--red);">${innerBorder} ~ ${outerBorder}</span> 格范围，而定位到的要塞距离世界原点 <span style="color: var(--red);">${dStrongholdOrigin.keep(0)}</span> 格。</p>`;
+                        cw("#result").html += `<br /><p>此要塞<strong style="color: var(--red);">不位于任何一个要塞分布环内</strong>，距离最近环 <strong style="color: var(--red);">${toRingDistance}</strong> 格。如果你正在游玩的是 Java 1.9 版及以上，这意味着<strong style="color: var(--red);">要塞定位错误或误差过大</strong>。<br />此要塞最靠近<strong style="color: var(--orange);">第 ${ringOrder} 个要塞分布环</strong>，一共有 <span style="color: var(--orange);">${strongholdCount}</span> 座要塞分布在此环内。<br />此环范围为距离世界原点 <span style="color: var(--red);">${innerBorder} ~ ${outerBorder}</span> 格范围，而定位到的要塞距离世界原点 <span style="color: var(--red);">${parseInt(dStrongholdOrigin)}</span> 格。</p>`;
                     } else {
-                        cw("#result").html += `<br /><p>此要塞位于<strong style="color: var(--green);">第 ${ringOrder} 个要塞分布环</strong>内，一共有 <span style="color: var(--green);">${strongholdCount}</span> 座要塞分布在此环内。<br />此环范围为距离世界原点 <span style="color: var(--green);">${innerBorder} ~ ${outerBorder}</span> 格范围，而定位到的要塞距离世界原点 <span style="color: var(--green);">${dStrongholdOrigin.keep(0)}</span> 格。</p>`;
+                        cw("#result").html += `<br /><p>此要塞位于<strong style="color: var(--green);">第 ${ringOrder} 个要塞分布环</strong>内，一共有 <span style="color: var(--green);">${strongholdCount}</span> 座要塞分布在此环内。<br />此环范围为距离世界原点 <span style="color: var(--green);">${innerBorder} ~ ${outerBorder}</span> 格范围，而定位到的要塞距离世界原点 <span style="color: var(--green);">${parseInt(dStrongholdOrigin)}</span> 格。</p>`;
                     }
                     
                     if (dTwoPos < 20) {
-                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--red);">${dTwoPos.keep(0)}</strong> 格。<strong style="color: var(--red);">间隔过近</strong>可能会导致两次投掷指向的方向夹角过小，进而导致<strong style="color: var(--red);">误差增大</strong>。建议控制两次投掷间隔在 <strong style="color: var(--orange);">20 ~ 200 格内</strong>。</p>`;
+                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--red);">${parseInt(dTwoPos)}</strong> 格。<strong style="color: var(--red);">间隔过近</strong>可能会导致两次投掷指向的方向夹角过小，进而导致<strong style="color: var(--red);">误差增大</strong>。建议控制两次投掷间隔在 <strong style="color: var(--orange);">20 ~ 200 格内</strong>。</p>`;
                     } else if (dTwoPos <= 200) {
-                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--green);">${dTwoPos.keep(0)}</strong> 格。通常认为此间隔是合适的，可控制误差在合理范围内。</p>`;
+                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--green);">${parseInt(dTwoPos)}</strong> 格。通常认为此间隔是合适的，可控制误差在合理范围内。</p>`;
                     } else if (dTwoPos <= 1000) {
-                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--orange);">${dTwoPos.keep(0)}</strong> 格。<strong style="color: var(--orange);">间隔过远</strong>可能会导致两次投掷<strong style="color: var(--red);">指向不同的要塞</strong>，进而指向错误的位置。建议控制两次投掷间隔在 <strong style="color: var(--orange);">20 ~ 200 格内</strong>。</p>`;
+                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--orange);">${parseInt(dTwoPos)}</strong> 格。<strong style="color: var(--orange);">间隔过远</strong>可能会导致两次投掷<strong style="color: var(--red);">指向不同的要塞</strong>，进而指向错误的位置。建议控制两次投掷间隔在 <strong style="color: var(--orange);">20 ~ 200 格内</strong>。</p>`;
                     } else {
-                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--red);">${dTwoPos.keep(0)}</strong> 格。两次投掷的<strong style="color: var(--red);">间隔十分大</strong>，这导致两次投掷<strong style="color: var(--red);">极有可能指向不同的要塞</strong>。建议控制两次投掷间隔在 <strong style="color: var(--orange);">20 ~ 200 格内</strong>。</p>`;
+                        cw("#result").html += `<p>你的两次投掷位置间隔 <strong style="color: var(--red);">${parseInt(dTwoPos)}</strong> 格。两次投掷的<strong style="color: var(--red);">间隔十分大</strong>，这导致两次投掷<strong style="color: var(--red);">极有可能指向不同的要塞</strong>。建议控制两次投掷间隔在 <strong style="color: var(--orange);">20 ~ 200 格内</strong>。</p>`;
                     }
 
                     if (dPlayer <= 1000) {
-                        cw("#result").html += `<p>此要塞距离你 <strong style="color: var(--green);">${dPlayer.keep(0)}</strong> 格。由于此要塞<strong style="color: var(--green);">相对较近</strong>，你可以直接从此位置挖掘，一般情况下会到达要塞的旋转楼梯处。</p>`;
+                        cw("#result").html += `<p>此要塞距离你 <strong style="color: var(--green);">${parseInt(dPlayer)}</strong> 格。由于此要塞<strong style="color: var(--green);">相对较近</strong>，你可以直接从此位置挖掘，一般情况下会到达要塞的旋转楼梯处。</p>`;
                     } else {
-                        cw("#result").html += `<p>此要塞距离你 <strong style="color: var(--orange);">${dPlayer.keep(0)}</strong> 格。由于此要塞<strong style="color: var(--orange);">相对较远</strong>，建议到达该位置后再次进行一次定位。</p>`;
+                        cw("#result").html += `<p>此要塞距离你 <strong style="color: var(--orange);">${parseInt(dPlayer)}</strong> 格。由于此要塞<strong style="color: var(--orange);">相对较远</strong>，建议到达该位置后再次进行一次定位。</p>`;
                     }
                 }
             }
