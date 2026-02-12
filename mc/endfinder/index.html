@@ -124,7 +124,7 @@
                 const dir1 = (-(x2 - x1) * Math.sin(theta2) + (z2 - z1) * Math.cos(theta2)) / Math.sin(theta1 - theta2);
                 const dir2 = ((z2 - z1) * Math.cos(theta1) - (x2 - x1) * Math.sin(theta1)) / Math.sin(theta1 - theta2);
                 if (dir1 < 0 || dir2 < 0) { // Wrong direction
-                    cw("#result").html += `<h2 style="color: var(--red);">无法找到要塞坐标，因为两次射线方向指向不同的要塞。</h2><h5 style="color: var(--red);">这说明你的两次投掷位置间隔过远，导致定位到了不同的要塞；或者距离要塞过远，导致人为误差过大。请缩短投掷间隔并再试一次。</h5>`;
+                    cw("#result").html += `<h2 style="color: var(--red);">无法找到要塞坐标，因为两次射线方向指向不同的要塞。</h2><h5 style="color: var(--red);">这说明你的两次投掷位置间隔过远，导致定位到了不同的要塞；或者距离要塞过远，导致人为误差过大。请增大投掷间隔并再试一次。</h5>`;
                 } else {
                     const [A, B, C, D, E, F] = [eq1[0], eq1[1], eq1[2], eq2[0], eq2[1], eq2[2]];
                     
@@ -132,6 +132,11 @@
                     const strongholdZ = (C * D - A * F) / (A * E - B * D);
                     
                     log({ strongholdX, strongholdZ });
+
+                    const strongholdNetherX = strongholdX / 8;
+                    const strongholdNetherZ = strongholdZ / 8;
+
+                    log({ strongholdNetherX, strongholdNetherZ });
 
                     // Distance to origin (stronghold)
                     const dStrongholdOrigin = Math.sqrt(strongholdX ** 2 + strongholdZ ** 2);
@@ -149,7 +154,7 @@
                     const reliability = getReliability(dTwoPos, dPlayer, toRingDistance, r1, r2);
                     const color = reliability > 0.9 ? "--darkGreen" : reliability > 0.8 ? "--green" : reliability > 0.6 ? "--yellow" : reliability > 0.4 ? "--orange" : "--red";
 
-                    cw("#result").html += `<h4>根据三角定位，此要塞的坐标为:</h4><h2 style="color: var(${color})">(${parseInt(strongholdX)}, y, ${parseInt(strongholdZ)})</h2><p>预估可信度: <strong style="color: var(${color})">${(reliability * 100).keep(1)}%</strong><br />传送到此位置: /tp @s ${parseInt(strongholdX)} ~ ${parseInt(strongholdZ)}<br />定位最近的要塞: /locate Stronghold <span class="STX">(1.11 ~ 1.12)</span>, /locate stronghold <span class="STX">(1.13 ~ 1.18)</span>, /locate structure minecraft:stronghold <span class="STX">(1.19+)</span></p>`;
+                    cw("#result").html += `<h4>根据三角定位，此要塞的坐标为:</h4><p><strong style="color: var(${color}); font-size: 36px;">(${parseInt(strongholdX)}, y, ${parseInt(strongholdZ)})</strong>&nbsp;&nbsp;&nbsp;(下界: <strong style="color: var(${color}); font-size: 16px;">(${parseInt(strongholdNetherX)}, y, ${parseInt(strongholdNetherZ)})</strong>)</p><p>预估可信度: <strong style="color: var(${color})">${(reliability * 100).keep(1)}%</strong><br />传送到此位置: /tp @s ${parseInt(strongholdX)} ~ ${parseInt(strongholdZ)}<br />定位最近的要塞: /locate Stronghold <span class="STX">(1.11 ~ 1.12)</span>, /locate stronghold <span class="STX">(1.13 ~ 1.18)</span>, /locate structure minecraft:stronghold <span class="STX">(1.19+)</span></p>`;
 
                     if (toRingDistance > 0) {
                         cw("#result").html += `<br /><p>此要塞<strong style="color: var(--red);">不位于任何一个要塞分布环内</strong>，距离最近环 <strong style="color: var(--red);">${toRingDistance}</strong> 格。如果你正在游玩的是 Java 1.9 版及以上，这意味着<strong style="color: var(--red);">要塞定位错误或误差过大</strong>。<br />此要塞最靠近<strong style="color: var(--orange);">第 ${ringOrder} 个要塞分布环</strong>，一共有 <span style="color: var(--orange);">${strongholdCount}</span> 座要塞分布在此环内。<br />此环范围为距离世界原点 <span style="color: var(--red);">${innerBorder} ~ ${outerBorder}</span> 格范围，而定位到的要塞距离世界原点 <span style="color: var(--red);">${parseInt(dStrongholdOrigin)}</span> 格。</p>`;
@@ -238,11 +243,11 @@
             if (dPlayer < 500) {
                 reliability *= dPlayer.percentage(0, 500).transit(1, 0.98);
             } else if (dPlayer < 1000) {
-                reliability *= dPlayer.percentage(500, 1000).transit(0.98, 0.65);
+                reliability *= dPlayer.percentage(500, 1000).transit(0.98, 0.8);
             } else if (dPlayer < 2000) {
-                reliability *= dPlayer.percentage(1000, 2000).transit(0.65, 0.3);
+                reliability *= dPlayer.percentage(1000, 2000).transit(0.8, 0.35);
             } else {
-                reliability *= dPlayer.percentage(2000, 3000).transit(0.3, 0.05);
+                reliability *= dPlayer.percentage(2000, 3000).transit(0.35, 0.1);
             }
 
             // [deprecated] Angle modifier
