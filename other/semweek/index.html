@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>学期周计算 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style></style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>学期周计算</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <h1 id="now-semester-week" style="margin-left: 34%;"></h1>
+        <h4 id="now-date" style="margin-left: 37%;"></h4>
+        <p style="color: var(--pink);">注意：该网站设计为<strong>自用</strong>，可能不适用于所有人；或者说对几乎所有人都不准确。</p>
+        <p>学期周 (Semester Week) 为从学期开始的一种计周法，格式为 "年份后两位+A表示秋季期/S表示春季期+周数", 一周从星期日开始计算。例如 "23A4" 表示 "2023年秋季期第4周". 用 V 来表示假期期间，例如 "26SV" 表示2026年春季期结束后的假期。</p>
+        <p>V 结尾的假期周精确到一天而不是一周，因此一周可以同时有数字周的日期和假期周的日期。</p>
+        <p>支持全初中阶段 (2020.9.3 ~ 2023.6.26 ~ 2023.8.26), 全高中阶段 (2023.8.27 ~ 2026.6.9 ~ 2026.9.1).</p>
+        <hr />
+        <p>在下方选择一个日期，计算该日期所在的学期周。</p>
+        <p><input id="input-date" type="date" /><button id="btn" onclick="calc()" disabled>计算</button></p>
+        <br />
+        <p id="result">&nbsp;</p>
+        <hr />
+        <p>在下方输入一个学期周，查询所有属于该学期周的日期。</p>
+        <p><input id="input-week" style="width: 64px;" /><button id="btn-week" onclick="calcDays()" disabled>计算</button></p>
+        <br />
+        <p id="result-sem">&nbsp;</p>
+        <hr />
+        <p>下面列出了应用的所有学期周。学期周兼容单双周课程（某节课仅在学校单周/双周安排，例如 23A4 上的是双周课程），包括 25A 的负周。</p>
+        <p>2020年秋季期 共 19 周，包括 20A1 ~ 20A19. 不过，学期周是在 21S 启用的，这意味着 20A 的学期周只是计算日期，并无相关资料。</p>
+        <p>2021年春季期 共 18 周，包括 21S1 ~ 21S18.</p>
+        <p>2021年秋季期 共 20 周，包括 21A1 ~ 21A20.</p>
+        <p>2022年春季期 共 19 周，包括 22S1 ~ 22S19.</p>
+        <p>2022年秋季期 共 19 周，包括 22A1 ~ 22A19.</p>
+        <p>2023年春季期 共 22 周，包括 23S1 ~ 23S22.</p>
+        <p>2023年秋季期 共 22 周，包括 23A1 ~ 23A22.</p>
+        <p>2024年春季期 共 19 周，包括 24S1 ~ 24S19.</p>
+        <p>2024年秋季期 共 19 周，包括 24A1 ~ 24A19.</p>
+        <p>2025年春季期 共 21 周，包括 25S1 ~ 25S21.</p>
+        <p>2025年秋季期 共 27 周，包括 25A-3 ~ 25A23. 注意前四周因高三提前开学，在高一高二开学前的学期周被记为负周 (包括 25A0). 要转换成高三的校历表需要把周数加 4, 高一高二的校历表不需要转换。</p>
+        <p>2026年春季期 共 16 周，包括 26S1 ~ 26S16.</p>
+    </div>
+    <script>
+        const semesterList = [
+            // 其中 startDate, vacationDate 包括开学当天（晚上回校），放假当天（当天早上、中午或下午回家）；endDate 为了不和 startDate 重合，在回校当晚的前一天。
+            { identifier: [20, "A"], startDate: "2020/9/3", vacationDate: "2021/1/9", endDate: "2021/2/27" },
+            { identifier: [21, "S"], startDate: "2021/2/28", vacationDate: "2021/6/30", endDate: "2021/8/29" },
+            { identifier: [21, "A"], startDate: "2021/8/30", vacationDate: "2022/1/13", endDate: "2022/2/19" },
+            { identifier: [22, "S"], startDate: "2022/2/20", vacationDate: "2022/6/30", endDate: "2022/9/3" },
+            { identifier: [22, "A"], startDate: "2022/9/4", vacationDate: "2023/1/12", endDate: "2023/1/29" },
+            { identifier: [23, "S"], startDate: "2023/1/30", vacationDate: "2023/6/26", endDate: "2023/8/26" },
+            { identifier: [23, "A"], startDate: "2023/8/27", vacationDate: "2024/1/28", endDate: "2024/2/24" },
+            { identifier: [24, "S"], startDate: "2024/2/25", vacationDate: "2024/7/6", endDate: "2024/8/31" },
+            { identifier: [24, "A"], startDate: "2024/9/1", vacationDate: "2025/1/7", endDate: "2025/2/8" },
+            { identifier: [25, "S"], startDate: "2025/2/9", vacationDate: "2025/7/4", endDate: "2025/8/2" },
+            { identifier: [25, "A"], startDate: "2025/8/3", vacationDate: "2026/2/6", endDate: "2026/2/23" },
+            { identifier: [26, "S"], startDate: "2026/2/24", vacationDate: "2026/6/9", endDate: "2026/9/1" }
+        ];
+
+        function calc() {
+            const inputDate = cw("#input-date").value;
+            const semester = findSegment(inputDate);
+
+            let week = getWeekNumber(semester.startDate, inputDate);
+            const negativeWeeks = week <= 0;
+            if (new Date(inputDate).setHours(0, 0, 0) >= new Date(semester.vacationDate).setHours(0, 0, 0)) { week = "V"; }
+            cw("#result").html = `${semester.identifier[0]}${semester.identifier[1]}${week} : 20${semester.identifier[0]}年${semester.identifier[1] == "A" ? "秋" : "春"}季期${week == "V" ? "假期" : `第${week}周`}${negativeWeeks ? "<br />2025年秋季期高三提前开学，在高一、高二开学前的学期周被记为负周。" : ""}`;
+        }
+
+        function apiCalc(targetDate) {
+            const semester = findSegment(targetDate);
+
+            let week = getWeekNumber(semester.startDate, targetDate);
+            const negativeWeeks = week <= 0;
+            if (new Date(targetDate).setHours(0, 0, 0) >= new Date(semester.vacationDate).setHours(0, 0, 0)) { week = "V"; }
+            return `${semester.identifier.join("")}${week}`;
+        }
+
+        /**
+         * 计算目标日期是第几周（以起始日期所在周为第一周，周日为一周开始）
+         * @param {string} startDateStr - 起始日期，格式如 "2011/1/1"
+         * @param {string} targetDateStr - 目标日期，格式如 "2024/5/20"
+         * @returns {number} - 目标日期所在的周数（从1开始）
+         * @throws {Error} - 如果目标日期早于起始日期
+         */
+        function getWeekNumber(startDateStr, targetDateStr) {
+            const startDate = parseDate(startDateStr);
+            const targetDate = parseDate(targetDateStr);
+        
+            // 校验目标日期是否早于起始日期
+            if (targetDate < startDate) {
+                throw new Error("目标日期不能早于起始日期");
+            }
+        
+            // 获取起始日期所在周的第一天（星期日）
+            const startDayOfWeek = startDate.getDay(); // 0=周日, 1=周一, ..., 6=周六
+            const firstDayOfStartWeek = new Date(startDate);
+            // 减去 (startDayOfWeek) 天，得到起始日期所在周的周日
+            firstDayOfStartWeek.setDate(startDate.getDate() - startDayOfWeek);
+        
+            // 如果起始日期本身就是周日，则 startDayOfWeek = 0，上面减法不影响
+        
+            // 获取目标日期所在周的第一天（星期日）
+            const targetDayOfWeek = targetDate.getDay();
+            const firstDayOfTargetWeek = new Date(targetDate);
+            firstDayOfTargetWeek.setDate(targetDate.getDate() - targetDayOfWeek);
+        
+            // 计算两个周日之间的天数差，然后除以7得到周数差
+            const diffTime = firstDayOfTargetWeek.getTime() - firstDayOfStartWeek.getTime();
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+            let weekOffset = Math.floor(diffDays / 7);
+
+            // 25S negative weeks
+            if (startDateStr == "2025/8/3") { weekOffset -= 4; }
+        
+            // 起始日期所在周为第1周，所以目标日期所在周 = 偏移量 + 1
+            return weekOffset + 1;
+        }
+
+        /**
+         * 解析日期字符串为 Date 对象（与 getWeekNumber 内部逻辑保持一致）
+         */
+        function parseDate(dateStr) {
+            const normalizedDateStr = dateStr.replace(/[-.]/g, "/");
+            const parts = normalizedDateStr.split("/");
+            const year = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const day = parseInt(parts[2], 10);
+            return new Date(year, month, day);
+        }
+
+        /**
+         * 根据目标日期查找所属的时间段
+         * @param {string} targetDateStr - 目标日期字符串
+         * @returns {object|null} - 匹配的时间段对象，如果没有找到返回 null
+         */
+        function findSegment(targetDateStr) {
+            const targetDate = parseDate(targetDateStr);
+            
+            for (const segment of semesterList) {
+                const startDate = parseDate(segment.startDate);
+                const endDate = parseDate(segment.endDate);
+                
+                // 检查目标日期是否在当前时间段内（包含边界）
+                if (targetDate >= startDate && targetDate <= endDate) {
+                    return segment;
+                }
+            }
+            
+            return null; // 没有找到匹配的时间段
+        }
+
+        /**
+         * 获取起止日期之间的所有日期（包括起止日期）
+         * @param {string} startDateStr - 起始日期，格式如 "2011/1/1" 或 "2021-01-01" 或 "2021.1.1"
+         * @param {string} endDateStr - 结束日期，格式同上
+         * @returns {string[]} - 日期字符串数组，格式与输入格式保持一致（统一转换为 "年/月/日" 格式）
+         * @throws {Error} - 如果起始日期晚于结束日期
+         */
+        function getDateRange(startDateStr, endDateStr) {
+            // 格式化日期为 "年/月/日" 格式
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1; // 月份从0开始，需要+1
+                const day = date.getDate();
+                return `${year}/${month}/${day}`;
+            }
+
+            const startDate = parseDate(startDateStr);
+            const endDate = parseDate(endDateStr);
+
+            // 校验起始日期是否晚于结束日期
+            if (startDate > endDate) {
+                throw new Error("起始日期不能晚于结束日期");
+            }
+
+            const dateArray = [];
+            const currentDate = new Date(startDate);
+
+            // 循环直到当前日期超过结束日期
+            while (currentDate <= endDate) { // eslint-disable-line no-unmodified-loop-condition
+                dateArray.push(formatDate(currentDate));
+                // 增加一天
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            return dateArray;
+        }
+
+        function calcDays() {
+            const target = cw("#input-week").value;
+            const allDays = getDateRange("2020/9/3", "2026/9/1");
+            
+            const matchedDays = [];
+            for (const day of allDays) {
+                if (apiCalc(day) == target) { matchedDays.push(day); }
+            }
+
+            cw("#result-sem").text = `${matchedDays.length > 0 ? `找到属于 ${target} 的日期 (${matchedDays[0]} ~ ${matchedDays[matchedDays.length - 1]}), 包括: ${matchedDays.join(", ")}.` : `未找到属于 ${target} 的任何日期`}`;
+        }
+
+        cw("#input-date").event("input", function () {
+            if (this.value == "" || new Date(this.value).setHours(0, 0, 0) < new Date("2020/9/3").setHours(0, 0, 0) || new Date(this.value).setHours(0, 0, 0) > new Date("2026/9/1").setHours(0, 0, 0)) {
+                cw("#btn").disabled = true;
+                cw("#result").html = "<span style='color: var(--red);'>日期不在有效学期周范围内</span>";
+            } else {
+                cw("#btn").disabled = false;
+                cw("#result").html = "&nbsp;";
+            }
+        });
+
+        cw("#input-week").event("input", function () {
+            if (!(/^2[0-6][AS]([1-9]|[1-2][0-9]|V)$/g).test(this.value) && !(/25A(-[1-3]|0)/).test(this.value)) {
+                cw("#btn-week").disabled = true;
+                cw("#result-sem").html = "<span style='color: var(--red);'>无效学期周格式</span>";
+            } else {
+                cw("#btn-week").disabled = false;
+                cw("#result-sem").html = "&nbsp;";
+            }
+        });
+
+        async function updateTime() {
+            const nowDate = new Date();
+            try {
+                cw("#now-semester-week").text = `${apiCalc(`${nowDate.getFullYear()}/${nowDate.getMonth() + 1}/${nowDate.getDate()}`)}-${["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"][nowDate.getDay()]} ${nowDate.getHours()}:${String(nowDate.getMinutes()).padStart(2, "0")}:${String(nowDate.getSeconds()).padStart(2, "0")}`;
+            } catch {
+                cw("#now-semester-week").text = `26SV-${["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"][nowDate.getDay()]} ${nowDate.getHours()}:${String(nowDate.getMinutes()).padStart(2, "0")}:${String(nowDate.getSeconds()).padStart(2, "0")}`;
+            }
+            cw("#now-date").text = `${nowDate.getFullYear()}.${nowDate.getMonth() + 1}.${nowDate.getDate()}`;
+            await sleep(1000);
+            updateTime();
+        }
+        updateTime();
+    </script>
+</div></body>
+
+</html>
