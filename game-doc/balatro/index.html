@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>小丑牌 筹码计算 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        input {
+            width: 64px;
+        }
+
+        .chips {
+            color: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .mult {
+            color: var(--lightRed);
+            border-color: var(--lightRed);
+        }
+
+        .multPlus {
+            color: var(--white-f);
+            background-color: var(--lightRed);
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>小丑牌 筹码计算</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6><!-- After finishing creating a site, add the directory name to /dir.json to make navigation bar, and remove this line. --></div>
+    <div id="cw-content">
+        <p>此网页可以帮助你记下 <a href="https://store.steampowered.com/app/2379780/" target="_blank">小丑牌 (Balatro)</a> 中，你的小丑牌对筹码的增益能让你到达哪一个关卡。</p>
+        <br />
+        <p>牌型基本数值 <span class="chips">筹码</span><input id="input-baseChips" class="chips" type="number" value="20" /> X <span class="mult">倍率</span><input id="input-baseMult" class="mult" type="number" value="2" /></p>
+        <p class="STX">在此处填写你要打出的牌型的基本<span class="chips">筹码</span>和<span class="mult">倍率</span>。</p>
+        <br />
+        <p>出牌次数 <input id="input-hands" type="number" value="4" /></p>
+        <p class="STX">在此处填写你可以出牌的次数。</p>
+        <br />
+        <p>平均牌<span class="chips">筹码</span> <input id="input-averageChips" class="chips" type="number" value="30" /></p>
+        <p class="STX">在此处填写你打出的有效牌 (参与计分的牌) 的<span class="chips">筹码</span>和的期望数值。</p>
+        <br />
+        <p>小丑牌加成 <input id="input-joker" style="width: 256px;" placeholder="+50c,+10m,x1.5m" /></p>
+        <p id="joker-error" style="color: var(--red);" hidden></p>
+        <p><table><tbody>
+            <tr><th>填写内容</th><th>含义</th></tr>
+            <tr><td>+50c</td><td><span class="chips">+50</span> 筹码</td></tr>
+            <tr><td>+10m</td><td><span class="mult">+10</span> 倍率</td></tr>
+            <tr><td>x1.5m</td><td><span class="multPlus">X1.5</span> 倍率</td></tr>
+            <tr><td>,</td><td>使用逗号分隔</td></tr>
+        </tbody></table></p>
+        <p class="STX">在此处按照顺序填写你的小丑牌能给你的牌型多少加成。</p>
+        <br />
+        <p>选择赌注颜色: <input id="stake-1" type="radio" name="stake" checked /><span style="color: var(--white-a);">白注</span>, <span style="color: var(--red);">红注</span> || <input id="stake-2" type="radio" name="stake" /><span style="color: var(--green);">绿注</span>, <span style="color: var(--white-0);">黑注</span>, <span style="color: var(--blue);">蓝注</span> || <input id="stake-3" type="radio" name="stake" /><span style="color: var(--darkPurple);">紫注</span>及以上</p>
+        <br />
+        <p><button onclick="calc()">计算</button></p>
+        <br />
+        <div id="resultDiv" hidden>
+            <h3>最大总分期望: <strong id="result-maxScore"></strong></h3>
+            <p><table><tbody id="result"></tbody></table></p>
+            <div id="explain">
+                <p><table><tbody>
+                    <tr><th>颜色</th><th>含义</th></tr>
+                    <tr><td style="color: var(--blue);">蓝色</td><td>一次出牌即可通关</td></tr>
+                    <tr><td style="color: var(--darkGreen);">深绿色</td><td>总分数 &gt;= 要求分数 * 2</td></tr>
+                    <tr><td style="color: var(--green);">绿色</td><td>总分数 &gt;= 要求分数 * 1.5</td></tr>
+                    <tr><td style="color: var(--yellow);">黄色</td><td>总分数 &gt;= 要求分数 * 1.1</td></tr>
+                    <tr><td style="color: var(--orange);">橙色</td><td>总分数 &gt;= 要求分数 * 0.9</td></tr>
+                    <tr><td style="color: var(--red);">红色</td><td>总分数 &gt;= 要求分数 * 0.75</td></tr>
+                    <tr><td style="color: var(--darkRed);">深红色</td><td>总分数 &lt; 要求分数 * 0.75</td></tr>
+                </tbody></table></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const jokerReg = /(\+([0-9]|\.)+c|[+x]([0-9]|\.)+m)/;
+        const blindReq = [
+            [100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000], // White - Red
+            [100, 300, 900, 2600, 8000, 20000, 36000, 60000, 100000], // Green - Blue
+            [100, 300, 1000, 3200, 9000, 25000, 60000, 110000, 200000] // Purple +
+        ];
+        const blindMult = [1, 1.5, 2];
+        let baseChips = 0;
+        let baseMult = 0;
+        let hands = 0;
+        let averageChips = 0;
+        let joker = "";
+        let jokerSplit = [""];
+        let stake = 0;
+
+        function calc() {
+            updateVar();
+            checkJoker();
+            
+            const expectation = [baseChips, baseMult];
+            expectation[0] += averageChips;
+
+            for (const jokerEffect of jokerSplit) {
+                const jokerOperation = [jokerEffect[0], Number(jokerEffect.slice(1, jokerEffect.length - 1)), jokerEffect[jokerEffect.length - 1]];
+                if (jokerOperation[0] == "+" && jokerOperation[2] == "c") { expectation[0] += jokerOperation[1]; }
+                if (jokerOperation[0] == "+" && jokerOperation[2] == "m") { expectation[1] += jokerOperation[1]; }
+                if (jokerOperation[0] == "x" && jokerOperation[2] == "m") { expectation[1] *= jokerOperation[1]; }
+            }
+
+            const score = expectation[0] * expectation[1];
+            const totalScore = score * hands;
+            log({ expectation, score, totalScore });
+            cw("#result-maxScore").text = totalScore;
+
+            let returnStr = "<tr><th>底注</th><th>|</th><th>小盲注</th><th>大盲注</th><th>Boss 盲注</th></tr>";
+
+            for (let ante = 0; ante <= 8; ante++) {
+                returnStr += `<tr><th>${ante}</th><th>|</th>`;
+                for (let blind = 1; blind <= 3; blind++) {
+                    const req = blindReq[stake - 1][ante] * blindMult[blind - 1];
+                    const color = getColor(score, totalScore, req);
+                    returnStr += `<th style="color: ${color};">${req}</th>`;
+                }
+                returnStr += `</tr>`;
+            }
+
+            cw("#result").html = returnStr;
+        }
+
+        function updateVar() {
+            baseChips = Number(cw("#input-baseChips").value);
+            baseMult = Number(cw("#input-baseMult").value);
+            hands = Number(cw("#input-hands").value);
+            averageChips = Number(cw("#input-averageChips").value);
+            joker = cw("#input-joker").value;
+            jokerSplit = joker.split(",");
+            if (cw("#stake-1").checked) { stake = 1; }
+            if (cw("#stake-2").checked) { stake = 2; }
+            if (cw("#stake-3").checked) { stake = 3; }
+
+            log({ baseChips, baseMult, averageChips, joker, jokerSplit, stake });
+        }
+
+        function checkJoker() {
+            let err = "";
+
+            for (const jokerEffect of jokerSplit) {
+                const check = jokerReg.test(jokerEffect);
+                if (!check) {
+                    err = jokerEffect;
+                    break;
+                }
+            }
+
+            cw("#joker-error").toggleDisplay(err);
+            cw("#resultDiv").toggleDisplay(!err);
+            if (err) {
+                cw("#joker-error").text = `小丑牌效果错误: 检查 ${err} 的格式`;
+            }
+        }
+
+        function getColor(singleScore, totalScore, req) {
+            if (singleScore >= req) { return "var(--blue)"; }
+            if (totalScore >= req * 2) { return "var(--darkGreen)"; }
+            if (totalScore >= req * 1.5) { return "var(--green)"; }
+            if (totalScore >= req * 1.1) { return "var(--yellow)"; }
+            if (totalScore >= req * 0.9) { return "var(--orange)"; }
+            if (totalScore >= req * 0.75) { return "var(--red)"; }
+            return "var(--darkRed)";
+        }
+    </script>
+</div></body>
+
+</html>
