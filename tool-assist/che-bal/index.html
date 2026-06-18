@@ -46,6 +46,7 @@
         <p class="ANT">上述数据仅供参照，实际运算速度由你的设备的硬件决定。</p>
         <table id="table" hidden>
             <caption style="width: 256px;">配平尝试详细信息</caption>
+            <caption style="width: 256px;">计算速度: <strong id="cps">-</strong> 次/s</caption>
             <tbody id="result-panel"></tbody>
         </table>
         <br />
@@ -318,7 +319,7 @@
                         if (cw(`#panel-${nowMax - 1}-value`).text.includes("/")) { cw(`#panel-${nowMax - 1}-value`).text = cw(`#panel-${nowMax - 1}-value`).text.split("/")[0]; }
                         const calTimes = cw(`#panel-${nowMax - 1}-value`).text;
                         
-                        timePredictRatio = timeDiff / calTimes;
+                        timePredictRatio = timeDiff / calTimes; // How much time is costed for 1 calculation in millisecond
                         let index = nowMax;
                         
                         while (cw(`#panel-${index}-value`).el) {
@@ -328,9 +329,12 @@
                             cw(`#panel-${index}-time`).color = "var(--gray)";
                             index++;
                         }
-
+                        
                         cw(`#panel-${nowMax}-result`).text = "计算";
                         cw(`#panel-${nowMax}-result`).color = "var(--textColor-500)";
+
+                        const calculationPerSec = (1000 / timePredictRatio).keep(0);
+                        cw("#cps").text = calculationPerSec;
 
                         await sleep(1);
                     }
@@ -351,6 +355,9 @@
                                     cw(`#panel-${index}-time`).color = "var(--gray)";
                                     index++;
                                 }
+
+                                const calculationPerSec = (1000 / timePredictRatio).keep(0);
+                                cw("#cps").text = calculationPerSec;
                             }
                             if (calInSlowMode <= 100) { calInSlowMode++; }
                         }
