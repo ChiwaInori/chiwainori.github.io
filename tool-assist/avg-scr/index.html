@@ -38,7 +38,7 @@
             avg.except = score.except / (count - 1);
             avg.delta = avg.real - avg.except;
 
-            cw("#result").html = `你对平均分的影响值为 <strong>${avg.delta > 0 ? "+" : delta < 0 ? "-" : ""} ${Math.abs(avg.delta).keep(5)}</strong> 分`;
+            cw("#result").html = `你对平均分的影响值为 <strong>${avg.delta > 0 ? "+" : avg.delta < 0 ? "-" : ""} ${Math.abs(avg.delta).keep(5)}</strong> 分`;
             cw("#result").color = avg.delta > 0 ? "var(--green)" : avg.delta < 0 ? "var(--red)" : "var(--textColor-500)";
 
             log(score, avg, count);

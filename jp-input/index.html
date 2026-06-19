@@ -31,7 +31,7 @@
             
             inputValue.forEach((part, index) => {
                 if (index % 2 == 0) { // Hiragana
-                    result += part.replaceAll(/([xl]tsu|([^aiueon]))\1/g, "っ")
+                    result += part.replaceAll(/([xl]tsu|([^aiueon]))\1/g, "っ$1")
                         .replaceAll(/kya/g, "きゃ") // Youon
                         .replaceAll(/kyu/g, "きゅ")
                         .replaceAll(/kyo/g, "きょ")
