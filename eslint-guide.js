@@ -121,7 +121,7 @@ if (a) {
     }
 }
 
-// Error: no-new-symbol
+// Error: no-new-native-nonconstructor
 a = new BigInt("1");
 
 // Error: no-obj-calls
@@ -146,6 +146,7 @@ if (a == a) {
 a, a + 1;
 
 // Error: no-setter-return
+// eslint-disable-next-line accessor-pairs
 Object.defineProperty(A.prototype, "value", {
     set: () => { return 1; }
 });
@@ -176,13 +177,8 @@ class E extends A {
     }
 }
 
-// Error: no-unreachable-loop
-for (let i = 0; i < 2; i++) {
-    break;
-}
-
 // Error: no-unmodified-loop-condition
-while (a > 1) {
+while (c > 1) {
     console.log(true);
 }
 
@@ -190,6 +186,11 @@ while (a > 1) {
 function example() {
     return;
     console.log(true);
+}
+
+// Error: no-unreachable-loop
+for (let i = 0; i < 2; i++) {
+    break;
 }
 
 // Error: no-unsafe-negation
@@ -208,6 +209,7 @@ class F {
 
 // Error: nonblock-statement-body-position
 if (a)
+    // eslint-disable-next-line curly
     a = 1;
 
 // Error: prefer-template
@@ -226,6 +228,11 @@ if (a == NaN) { // NaN compares with everything is false
 if (typeof a == "Number") { // The type of a is "number", not "Number"
     console.log(true);
 }
+
+// Error: warp-iife
+const hello1 = (function () { return "Hello"; })();
+const hello2 = function () { return "Hello"; }();
+const hello3 = (function () { return "Hello"; }());
 
 // Warn: array-bracket-spacing
 const arr = [ 1 ];
@@ -265,11 +272,11 @@ const list2 = {
     , yaml: false
 };
 
-// Warn: curly
-if (a > 0) console.log(true);
-
 // Warn: computed-property-spacing
 console.log(a[ 1 ]);
+
+// Warn: curly
+if (a > 0) console.log(true);
 
 // Warn: dot-location
 a = a.
@@ -428,7 +435,7 @@ function restSpread(... args) {
 a = 9
 
 // Warn: semi-spacing
-a = 10 ; 
+a = 10 ;
 
 // Warn: semi-style
 a = 11
@@ -452,7 +459,7 @@ a ++;
 //No spaces after //
 
 // Warn: template-curly-spacing
-const numLine = `The number is ${ a }`;
+const numLine = `The number is ${a}`;
 
 // Warn: wrap-regex
 a = /regex/.test("regex");

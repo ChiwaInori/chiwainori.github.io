@@ -53,6 +53,7 @@ const ruleList = {
     "space-infix-ops": "error",
     "use-isnan": "error",
     "valid-typeof": "error",
+    "wrap-iife": ["error", "inside"],
     
     "array-bracket-spacing": ["warn", "never"],
     "arrow-parens": ["warn", "as-needed"],
@@ -111,7 +112,6 @@ const ruleList = {
     "space-unary-ops": "warn",
     "spaced-comment": "warn",
     "template-curly-spacing": "warn",
-    "wrap-iife": "warn",
     "wrap-regex": "warn",
     "yoda": "warn"
 };
