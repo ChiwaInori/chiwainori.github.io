@@ -1351,7 +1351,7 @@ class ChiwaSet {
      * @param {function} listener - The event function
      * @example { ChiwaSet }.event("input", update) // Add a event listener "input" and update()
      * @since 25-3-22
-     * @version 25-3-22-2
+     * @version 26-6-20-1
      */
     event = (e, listener) => {
         _type(e, "string");
