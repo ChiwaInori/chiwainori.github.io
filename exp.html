@@ -291,6 +291,20 @@
     log("simplify -> expUp 6 -> simplify", num.simplify().expUp(6).simplify());
     log("simplify -> add (5, 3)", num.add(new Decimal(5, 3)));
 
+    Math.gcd = (a, b) => { // 辗转相除法
+        let result;
+        while (true) {
+            result = a % b;
+            if (result == 0) {
+                return b;
+            }
+            [a, b] = [b, result];
+        }
+    };
+
+    Math.lcm = (a, b) => {
+        return a * b / gcd(a, b);
+    };
 </script>
 
 <script>
