@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>月度零花钱计算 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        input {
+            width: 64px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>月度零花钱计算</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <p>欢迎使用月度零花钱计算工具！</p>
+        <p>在下方进行相应操作，可追踪您本月的零花钱使用情况。</p>
+        <br />
+        <h4>目前: <span id="now-text"></span></h4>
+        <h2 id="money-result-current"></h2>
+        <h4 id="money-result-month"></h4>
+        <br />
+        <p><strong>设置月度<span style="color: var(--red)">收入</span></strong> <input id="income-set" type="number" /> <button onclick="inputAction('incomeSet')">确认</button></p>
+        <p>增加<strong>月度<span style="color: var(--red)">收入</span></strong> <input id="income-add" type="number" /> <button onclick="inputAction('incomeAdd')">确认</button></p>
+        <p><strong>设置月度<span style="color: var(--darkGreen)">支出</span></strong> <input id="expense-set" type="number" /> <button onclick="inputAction('expenseSet')">确认</button></p>
+        <p>增加<strong>月度<span style="color: var(--darkGreen)">支出</span></strong> <input id="expense-add" type="number" /> <button onclick="inputAction('expenseAdd')">确认</button></p>
+    </div>
+    <script>
+        const nowMonth = new Date().getMonth() + 1;
+        const nowDate = new Date().getDate();
+        let lastModifiedMonth, monthIncome, monthExpense;
+
+        function init() {
+            lastModifiedMonth = Number(storage.get("lastModified"));
+            
+            if (lastModifiedMonth != nowMonth) {
+                storage.set("lastModified", nowMonth);
+                storage.set("monthIncome", 0);
+                storage.set("monthExpense", 0);
+            }
+            monthIncome = Number(storage.get("monthIncome"));
+            monthExpense = Number(storage.get("monthExpense"));
+
+            cw("#now-text").text = `${nowMonth} 月 ${nowDate} 日`;
+
+            updateCost();
+        }
+        window.onload = init;
+
+        function inputAction(action) {
+            if (action == "incomeSet") {
+                monthIncome = Number(cw("#income-set").value);
+            } else if (action == "incomeAdd") {
+                monthIncome += Number(cw("#income-add").value);
+            } else if (action == "expenseSet") {
+                monthExpense = Number(cw("#expense-set").value);
+            } else if (action == "expenseAdd") {
+                monthExpense += Number(cw("#expense-add").value);
+            }
+
+            storage.set("monthIncome", monthIncome);
+            storage.set("monthExpense", monthExpense);
+
+            updateCost();
+        }
+
+        function updateCost() {
+            const nowDay = new Date().getDate();
+            const totalDays = getDaysInMonth();
+
+            const nowIncome = (monthIncome * nowDay / totalDays).keep(2);
+
+            const nowBalance = nowIncome - monthExpense;
+            const monthBalance = monthIncome - monthExpense;
+
+            cw("#money-result-current").html = `目前${nowBalance >= 0 ? "<span style='color: var(--red)'>结余" : "<span style='color: var(--darkGreen)'>超支"} ${Math.abs(nowBalance).keep(2)} 元</span>`;
+            cw("#money-result-month").html = `目前累计到账 ${nowIncome} 元 (${nowDay}/${totalDays}) | 本月${monthBalance >= 0 ? "<span style='color: var(--red)'>结余" : "<span style='color: var(--darkGreen)'>超支"} ${Math.abs(monthBalance).keep(2)} 元</span>`;
+        }
+
+        function getDaysInMonth() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth(); // 0-11
+            // 下个月的第 0 天 = 本月最后一天
+            return new Date(year, month + 1, 0).getDate();
+        }
+    </script>
+</div></body>
+
+</html>
