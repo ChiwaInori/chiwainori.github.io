@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>DeepSeek Harness 价格计算 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        input {
+            width: 64px;
+        }
+
+        td {
+            padding: 2px 8px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>DeepSeek Harness 价格计算</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <p style="color: var(--red);">声明：本网站仅用于估算在给定 token 的情况下使用 DeepSeek Harness 的花费。实际开销请以 <a href="https://platform.deepseek.com/usage" target="_blank">DeepSeek 开放平台</a> 上显示的结果为准。</p>
+        <br />
+        <p>请在下方输入 token 使用情况，计算结果将会自动显示。</p>
+        <table id="table-input">
+            <tbody>
+                <tr>
+                    <td>未缓存输入</td>
+                    <td><input id="input-uncached" type="number" value="0" /> tok</td>
+                </tr>
+                <tr>
+                    <td>缓存读取</td>
+                    <td><input id="input-cached" type="number" value="0" /> tok</td>
+                </tr>
+                <tr>
+                    <td>输出</td>
+                    <td><input id="input-output" type="number" value="0" /> tok</td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table id="table-result" class="BRT">
+            <tbody>
+                <tr>
+                    <td>使用模型</td>
+                    <td style="color: var(--red)">高峰时段</td>
+                    <td style="color: var(--darkGreen)">空闲时段</td>
+                </tr>
+                <tr>
+                    <td>deepseek-flash</td>
+                    <td id="flash-peak" style="color: var(--red);"></td>
+                    <td id="flash-offPeak" style="color: var(--darkGreen);"></td>
+                </tr>
+                <tr>
+                    <td>deepseek-v4-pro</td>
+                    <td id="pro-peak" style="color: var(--red);"></td>
+                    <td id="pro-offPeak" style="color: var(--darkGreen);"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <p class="ANT">本页面上次更新: 2026.9.30</p>
+    </div>
+    <script>
+        function calculate() {
+            const token = {};
+            [token.uncached, token.cached, token.output] = [Number(cw("#input-uncached").value), Number(cw("#input-cached").value), Number(cw("#input-output").value)];
+
+            const cost = [];
+            cost[0] = (2 * token.uncached + 0.04 * token.cached + 8 * token.output) / 1e6;
+            cost[1] = cost[0] / 2;
+            cost[2] = (9 * token.uncached + 0.3 * token.cached + 27 * token.output) / 1e6;
+            cost[3] = cost[2] / 2;
+
+            cw("#flash-peak").text = `¥${cost[0].keep(2)}`;
+            cw("#flash-offPeak").text = `¥${cost[1].keep(2)}`;
+            cw("#pro-peak").text = `¥${cost[2].keep(2)}`;
+            cw("#pro-offPeak").text = `¥${cost[3].keep(2)}`;
+        }
+        calculate();
+
+        cw("#input-uncached").event("input", calculate);
+        cw("#input-cached").event("input", calculate);
+        cw("#input-output").event("input", calculate);
+    </script>
+</div></body>
+
+</html>
