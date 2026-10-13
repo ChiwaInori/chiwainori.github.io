@@ -27,7 +27,8 @@
     <div id="cw-content">
         <p style="color: var(--red);">声明：本网站仅用于估算在给定 token 的情况下使用 DeepSeek Harness 的花费。实际开销请以 <a href="https://platform.deepseek.com/usage" target="_blank">DeepSeek 开放平台</a> 上显示的结果为准。</p>
         <br />
-        <p>请在下方输入 token 使用情况，计算结果将会自动显示。</p>
+        <p>请在下方输入 token 使用情况，或者点击按钮 <button onclick="readClipboard()">读取剪切板</button>，计算结果将会自动显示。</p>
+        <p id="err" style="color: var(--red);" hidden>剪切板读取失败：请检查剪切板内容。</p>
         <table id="table-input">
             <tbody>
                 <tr>
@@ -88,6 +89,31 @@
         cw("#input-uncached").event("input", calculate);
         cw("#input-cached").event("input", calculate);
         cw("#input-output").event("input", calculate);
+        
+        async function readClipboard() {
+            try {
+                const regex = /(?:未缓存输入|缓存读取|输出)\s*([0-9,]+)\s*tok/g;
+                const clip = await navigator.clipboard.readText();
+                const matchText = [...clip.matchAll(regex)];
+
+                const token = {
+                    cacheMiss: Number(matchText[0][1].replaceAll(/,/g, "")),
+                    cacheHit: Number(matchText[1][1].replaceAll(/,/g, "")),
+                    output: Number(matchText[2][1].replaceAll(/,/g, ""))
+                };
+                log(token);
+
+                cw("#input-uncached").value = token.cacheMiss;
+                cw("#input-cached").value = token.cacheHit;
+                cw("#input-output").value = token.output;
+
+                calculate();
+            } catch (e) {
+                cw("#err").unhide();
+                throw e;
+            }
+            cw("#err").hide();
+        }
     </script>
 </div></body>
 

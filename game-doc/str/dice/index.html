@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>Stellaris 掷骰模拟 - ChiwaInori.top</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/type-normal.css" />
+    <style>
+        input {
+            width: 64px;
+        }
+
+        #result, #result > * {
+            display: inline-block;
+        }
+
+        #result {
+            background-color: #8746b0;
+            padding: 0px 32px;
+            border: 4px var(--darkPurple) solid;
+            margin: auto auto 32px auto;
+        }
+
+        #result > *:is(h3, h4) {
+            color: var(--white-e);
+        }
+
+        #result > h4 {
+            margin: auto 24px 8px;
+        }
+    </style>
+    <script src="/chiwa-functions.js"></script>
+</head>
+
+<body><div id="cw-main">
+    <div id="cw-title">
+        <h1>Stellaris 掷骰模拟</h1>
+    </div>
+    <div id="cw-nav"><h6>&nbsp;</h6></div>
+    <div id="cw-content">
+        <p>
+            选择行动类别:
+            <select id="selection">
+                <option value="firstContact">第一次接触 (90天)</option>
+                <option value="spyAction" selected>间谍行动 (30天)</option>
+            </select>
+            <button onclick="dice()">掷骰</button>
+            <span id="time-spent-line">已用时 <span id="time-spent">0</span> 天</span>
+        </p>
+        <br />
+        <div id="result">
+            <h3>突破几率</h3><br />
+            <h4 id="chance">100%</h4>
+        </div>
+        <br />
+        <table>
+            <tbody>
+                <tr>
+                    <td>难度</td>
+                    <td><input id="difficulty" type="number" value="3" /></td>
+                    <td id="difficulty-text"></td>
+                </tr>
+                <tr>
+                    <td>技能加成</td>
+                    <td><input id="skills" type="number" value="0" /></td>
+                </tr>
+                <tr>
+                    <td>线索</td>
+                    <td><input id="clues" type="number" value="0" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <div id="result-list"></div>
+    </div>
+    <script>
+        let days = 30;
+
+        function changeMode(mode) {
+            if (mode == "firstContact") {
+                days = 90;
+                cw("#result").style.backgroundColor = "var(--lightBlue)";
+                cw("#result").style.border = "4px var(--blue) solid";
+            }
+            if (mode == "spyAction") {
+                days = 30;
+                cw("#result").style.backgroundColor = "#8746b0";
+                cw("#result").style.border = "4px var(--darkPurple) solid";
+            }
+            getPercentage();
+        }
+
+        function difficultyText() {
+            const difficulty = Number(cw("#difficulty").value) || 0;
+
+            if (difficulty.range(3, 5)) { cw("#difficulty-text").text = "地狱"; cw("#difficulty-text").color = "var(--red)"; }
+            if (difficulty == 6) { cw("#difficulty-text").text = "地狱+"; cw("#difficulty-text").color = "var(--red)"; }
+            if (difficulty == 7) { cw("#difficulty-text").text = "地狱++"; cw("#difficulty-text").color = "var(--red)"; }
+            if (difficulty == 8) { cw("#difficulty-text").text = "地狱+++"; cw("#difficulty-text").color = "var(--red)"; }
+            if (difficulty == 9) { cw("#difficulty-text").text = "地狱++++"; cw("#difficulty-text").color = "var(--red)"; }
+            if (difficulty == 10) { cw("#difficulty-text").text = "地狱+++++"; cw("#difficulty-text").color = "var(--red)"; }
+
+            getPercentage();
+        }
+
+        cw("#selection").event("change", () => changeMode(cw("#selection").value));
+        changeMode(cw("#selection").value);
+        cw("#difficulty").event("input", difficultyText);
+        difficultyText();
+
+        function dice() {
+            let diceValue = rand(1, 10);
+            diceValue += Number(cw("#skills").value);
+            diceValue += Number(cw("#clues").value);
+            diceValue -= Number(cw("#difficulty").value);
+
+            if (diceValue >= 14) {
+                log("success!");
+                cw("button").disabled = true;
+                cw("#time-spent-line").color = "var(--green)";
+            } else if (diceValue >= 9) {
+                log("clue + 2");
+                cw("#clues").value = Number(cw("#clues").value) + 2;
+            } else if (diceValue >= 2) {
+                log("clue + 1");
+                cw("#clues").value = Number(cw("#clues").value) + 1;
+            } else {
+                log("nothing");
+            }
+
+            getPercentage();
+            cw("#time-spent").text = Number(cw("#time-spent").text) + days;
+
+            cw("#result-list").html = `<p style="color: var(${diceValue >= 14 ? "--green" : diceValue >= 9 ? "--green" : diceValue >= 2 ? "--orange" : "--red"});">${diceValue >= 14 ? "成功" : diceValue >= 9 ? "取得进展" : diceValue >= 2 ? "取得进展" : "失败"} : 掷骰 ${diceValue} | 线索 ${cw("#clues").value}</p>${cw("#result-list").html}`;
+        }
+
+        function getPercentage() {
+            const diceRange = [1];
+            diceRange[0] += Number(cw("#skills").value);
+            diceRange[0] += Number(cw("#clues").value);
+            diceRange[0] -= Number(cw("#difficulty").value);
+
+            diceRange[1] = diceRange[0] + 1;
+            diceRange[2] = diceRange[1] + 1;
+            diceRange[3] = diceRange[2] + 1;
+            diceRange[4] = diceRange[3] + 1;
+            diceRange[5] = diceRange[4] + 1;
+            diceRange[6] = diceRange[5] + 1;
+            diceRange[7] = diceRange[6] + 1;
+            diceRange[8] = diceRange[7] + 1;
+            diceRange[9] = diceRange[8] + 1;
+
+            const chance = [0, 0, 0, 0];
+
+            for (const diceValue of diceRange) {
+                if (diceValue >= 14) {
+                    chance[3] += 10;
+                } else if (diceValue >= 9) {
+                    chance[2] += 10;
+                } else if (diceValue >= 2) {
+                    chance[1] += 10;
+                } else {
+                    chance[0] += 10;
+                }
+            }
+
+            cw("#chance").text = `${chance[3]}%`;
+            log(chance);
+        }
+    </script>
+</div></body>
+
+</html>
